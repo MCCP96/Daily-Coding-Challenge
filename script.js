@@ -968,5 +968,67 @@ console.log(bestPracticeFindNb(91716553919377));
 
 // All together satisfied with my solution, leaving it as is. */
 
-console.log(`Hello GitHub!`);
-console.log(`Push Test`);
+// Integers: Recreation One       7/3/2021
+
+// 1, 246, 2, 123, 3, 82, 6, 41 are the divisors of number 246. Squaring these divisors we get: 1, 60516, 4, 15129, 9, 6724, 36, 1681. The sum of these squares is 84100 which is 290 * 290.
+
+// Task
+// Find all integers between m and n (m and n integers with 1 <= m <= n) such that the sum of their squared divisors is itself a square.
+
+// We will return an array of subarrays or of tuples (in C an array of Pair) or a string. The subarrays (or tuples or Pairs) will have two elements: first the number the squared divisors of which is a square and then the sum of the squared divisors.
+
+// list_squared(1, 250) --> [[1, 1], [42, 2500], [246, 84100]]
+// list_squared(42, 250) --> [[42, 2500], [246, 84100]]
+
+function listSquared(m, n) {
+  let squaredSquare = [];
+  for (m; m <= n; m++) {
+    let divs = [];
+    for (let i = 1; i <= m; i++) {
+      (m / i) % 1 == 0 ? divs.push(i) : false;
+    }
+    let totDivs = divs.map((x) => x ** 2).reduce((a, b) => a + b, 0);
+    if (Math.sqrt(totDivs) % 1 == 0) {
+      squaredSquare.push([m, totDivs]);
+    }
+  }
+  return squaredSquare;
+}
+console.log(listSquared(1, 250));
+console.log(listSquared(42, 250));
+console.log(listSquared(1, 246));
+
+// Notes: This one was more difficult mainly due to comprehension
+//        Programming wise, there's no new pieces implemented here nor in the 'best practice' solution
+
+function bestPracticeListSquared(m, n) {
+  var matches = [];
+
+  for (var i = m; i <= n; ++i) {
+    var sum = getDivisors(i).reduce((sum, n) => sum + n * n, 0);
+    var ok = Number.isInteger(Math.sqrt(sum));
+    if (ok) {
+      matches.push([i, sum]);
+    }
+  }
+  return matches;
+}
+
+function getDivisors(n) {
+  var divisors = [];
+  for (var i = 1; i <= n / 2; ++i) {
+    if (n % i) {
+      continue;
+    }
+    divisors.push(i);
+  }
+  return divisors.concat([n]);
+}
+console.log(bestPracticeListSquared(1, 250));
+console.log(bestPracticeListSquared(42, 250));
+console.log(bestPracticeListSquared(1, 246));
+
+// Honestly proud of my solution and believe it's more compact than the 'best practice'
+// However, I do see how it's more readable than mine...
+
+// My first 5 kyu kata!
