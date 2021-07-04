@@ -969,7 +969,7 @@ console.log(bestPracticeFindNb(91716553919377));
 // All together satisfied with my solution, leaving it as is. */
 
 // Integers: Recreation One       7/3/2021
-
+/* 
 // 1, 246, 2, 123, 3, 82, 6, 41 are the divisors of number 246. Squaring these divisors we get: 1, 60516, 4, 15129, 9, 6724, 36, 1681. The sum of these squares is 84100 which is 290 * 290.
 
 // Task
@@ -1031,4 +1031,41 @@ console.log(bestPracticeListSquared(1, 246));
 // Honestly proud of my solution and believe it's more compact than the 'best practice'
 // However, I do see how it's more readable than mine...
 
-// My first 5 kyu kata!
+// My first 5 kyu kata! */
+
+//  Break camelCase         7/4/2021
+
+// Complete the solution so that the function will break up camel casing, using a space between words.
+
+// Example
+// "camelCasing"  =>  "camel Casing"
+// "identifier"   =>  "identifier"
+// ""             =>  ""
+
+function solution(str) {
+  return str.split(/(?=[A-Z])/).join(` `);
+}
+console.log(solution(`camelCasingTest`));
+console.log(solution(`identifier`));
+console.log(solution(``));
+
+// Had to learn about REGEX lookaheads
+// ?= finds the capital letter and splits accordingly
+
+function bestPracticeSolution(str) {
+  return str.replace(/([A-Z])/g, ` $1`);
+}
+console.log(bestPracticeSolution(`camelCasingTest`));
+console.log(bestPracticeSolution(`identifier`));
+console.log(bestPracticeSolution(``));
+
+// I like best practice here
+// $1 represents the returned REGEX in () which is then given a space before
+
+function regexTest() {
+  let str = `John Smith`;
+  console.log(str.replace(/(\w+)\s(\w+)/, `$2, $1`));
+}
+regexTest();
+
+// $n is great to influence the surroundings of the returned REGEXs
