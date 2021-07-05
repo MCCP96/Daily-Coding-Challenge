@@ -1034,7 +1034,7 @@ console.log(bestPracticeListSquared(1, 246));
 // My first 5 kyu kata! */
 
 //  Break camelCase         7/4/2021
-
+/* 
 // Complete the solution so that the function will break up camel casing, using a space between words.
 
 // Example
@@ -1068,4 +1068,78 @@ function regexTest() {
 }
 regexTest();
 
-// $n is great to influence the surroundings of the returned REGEXs
+// $n is great to influence the surroundings of the returned REGEXs */
+
+// Who likes it?        7/5/2021
+
+// You probably know the "like" system from Facebook and other pages. People can "like" blog posts, pictures or other items. We want to create the text that should be displayed next to such an item.
+
+// Implement a function likes :: [String] -> String, which must take in input array, containing the names of people who like an item. It must return the display text as shown in the examples:
+
+// likes [] -- must be "no one likes this"
+// likes ["Peter"] -- must be "Peter likes this"
+// likes ["Jacob", "Alex"] -- must be "Jacob and Alex like this"
+// likes ["Max", "John", "Mark"] -- must be "Max, John and Mark like this"
+// likes ["Alex", "Jacob", "Mark", "Max"] -- must be "Alex, Jacob and 2 others like this"
+// For 4 or more names, the number in and 2 others simply increases.
+
+function likes(names) {
+  if (names.length == 0) return `no one likes this`;
+  else if (names.length == 1) return names + " likes this";
+  else if (names.length > 1 && names.length < 4)
+    return (
+      names.reduce((prev, cur, i, arr) => {
+        if (i == 0) return cur;
+        else if (i == arr.length - 1) return prev + ` and ` + cur;
+        else return prev + `, ` + cur;
+      }, ``) + ` like this`
+    );
+  else {
+    let str = ``;
+    for (var i = 0; i < 2; i++) {
+      if (i == 0) str += names[i] + `, `;
+      else str += names[i];
+    }
+    return str + ` and ${names.length - i} others like this`;
+  }
+}
+console.log(likes([])); // no one likes this
+console.log(likes(["Peter"])); // Peter likes this
+console.log(likes(["Jacob", "Alex"])); // Jacob and Alex like this
+console.log(likes(["Max", "John", "Mark"])); // Max, John and Mark like this
+console.log(likes(["Alex", "Jacob", "Mark", "Max"])); //Alex, Jacob and 2 others like this
+
+// In a bit of a rush today and didnt have time to clean it up
+// Have to study for physics!
+
+function bestPracticeLikes(names) {
+  names = names || [];
+  switch (names.length) {
+    case 0:
+      return `no ones likes this`;
+      break;
+    case 1:
+      return `${names[0]} likes this`;
+      break;
+    case 2:
+      return `${names[0]} and ${names[1]} likes this`;
+      break;
+    case 3:
+      return `${names[0]}, ${names[1]} and ${names[2]} likes this`;
+      break;
+    default:
+      return `${names[0]}, ${names[1]} and ${
+        names.length - 2
+      } others likes this`;
+      break;
+  }
+}
+
+console.log(bestPracticeLikes([])); // no one likes this
+console.log(bestPracticeLikes(["Peter"])); // Peter likes this
+console.log(bestPracticeLikes(["Jacob", "Alex"])); // Jacob and Alex like this
+console.log(bestPracticeLikes(["Max", "John", "Mark"])); // Max, John and Mark like this
+console.log(bestPracticeLikes(["Alex", "Jacob", "Mark", "Max"])); //Alex, Jacob and 2 others like this
+
+// Honestly thought there'd be a more dynamic way of doing this, but this makes total sense
+// Simpler is better...
