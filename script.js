@@ -1071,7 +1071,7 @@ regexTest();
 // $n is great to influence the surroundings of the returned REGEXs */
 
 // Who likes it?        7/5/2021
-
+/* 
 // You probably know the "like" system from Facebook and other pages. People can "like" blog posts, pictures or other items. We want to create the text that should be displayed next to such an item.
 
 // Implement a function likes :: [String] -> String, which must take in input array, containing the names of people who like an item. It must return the display text as shown in the examples:
@@ -1142,4 +1142,55 @@ console.log(bestPracticeLikes(["Max", "John", "Mark"])); // Max, John and Mark l
 console.log(bestPracticeLikes(["Alex", "Jacob", "Mark", "Max"])); //Alex, Jacob and 2 others like this
 
 // Honestly thought there'd be a more dynamic way of doing this, but this makes total sense
-// Simpler is better...
+// Simpler is better... */
+
+//String incrementer        7/6/2021
+
+// Your job is to write a function which increments a string, to create a new string.
+
+// If the string already ends with a number, the number should be incremented by 1.
+// If the string does not end with a number. the number 1 should be appended to the new string.
+// Examples:
+
+// foo -> foo1
+// foobar23 -> foobar24
+// foo0042 -> foo0043
+// foo9 -> foo10
+// foo099 -> foo100
+
+// Attention: If the number has leading zeros the amount of digits should be considered.
+
+function bestPracticeIncrementString(str) {
+  if (isNaN(parseInt(str[str.length - 1]))) return str + `1`;
+  return str.replace(/(0*)([0-9]+$)/, (match, p1, p2) => {
+    let up = parseInt(p2) + 1;
+    return up.toString().length > p2.length ? p1.slice(0, -1) + up : p1 + up;
+  });
+}
+console.log(bestPracticeIncrementString(`foo`));
+console.log(bestPracticeIncrementString(`foobar23`));
+console.log(bestPracticeIncrementString(`foo0042`));
+console.log(bestPracticeIncrementString(`foo9`));
+console.log(bestPracticeIncrementString(`foo099`));
+console.log(bestPracticeIncrementString(`foo000`));
+
+// Ended up looking at the solution
+
+// isNan is a clever way to see if str has no numbers whatsoever (`foo`)
+// .replace finds the numbers and splits them into trailing 0s (p1) and the num (p2)
+// using .replace's replacerFunction, we're able to:
+//    - increment the number (p2)
+//    - check if the p2++ lead to a new digit (ex: 9 to 10)
+//          - if so: remove a trailing 0 from p1, append p2 to p1 and return
+//          - if not: append p2 to p1 and return
+
+// Notes: .replace's replacerFunction has some powerful parameters
+
+console.log(``);
+`test360number`.replace(/([0-9]+)(\w+)/g, (match, p1, p2, offset, str) => {
+  console.log(match);
+  console.log(p1);
+  console.log(p2);
+  console.log(offset); // t:0, e:1, s:2, t:3, 3:4
+  console.log(str);
+});
