@@ -1145,7 +1145,7 @@ console.log(bestPracticeLikes(["Alex", "Jacob", "Mark", "Max"])); //Alex, Jacob 
 // Simpler is better... */
 
 //String incrementer        7/6/2021
-
+/* 
 // Your job is to write a function which increments a string, to create a new string.
 
 // If the string already ends with a number, the number should be incremented by 1.
@@ -1184,7 +1184,7 @@ console.log(bestPracticeIncrementString(`foo000`));
 //          - if so: remove a trailing 0 from p1, append p2 to p1 and return
 //          - if not: append p2 to p1 and return
 
-// Notes: .replace's replacerFunction has some powerful parameters
+// Notes: .replace's replacerFunction has some useful parameters
 
 console.log(``);
 `test360number`.replace(/([0-9]+)(\w+)/g, (match, p1, p2, offset, str) => {
@@ -1193,4 +1193,57 @@ console.log(``);
   console.log(p2);
   console.log(offset); // t:0, e:1, s:2, t:3, 3:4
   console.log(str);
-});
+}); */
+
+// Word a10n (abbreviation)       7/7/2021
+
+// The word i18n is a common abbreviation of internationalization in the developer community, used instead of typing the whole word and trying to spell it correctly. Similarly, a11y is an abbreviation of accessibility.
+
+// Write a function that takes a string and turns any and all "words" (see below) within that string of length 4 or greater into an abbreviation, following these rules:
+
+// A "word" is a sequence of alphabetical characters. By this definition, any other character like a space or hyphen (eg. "elephant-ride") will split up a series of letters into two words (eg. "elephant" and "ride").
+
+// The abbreviated version of the word should have the first letter, then the number of removed characters, then the last letter (eg. "elephant ride" => "e6t r2e").
+
+// abbreviate("elephant-rides are really fun!")
+//          ^^^^^^^^*^^^^^*^^^*^^^^^^*^^^*
+// words (^):   "elephant" "rides" "are" "really" "fun"
+//                123456     123     1     1234     1
+// ignore short words:               X              X
+
+// abbreviate:    "e6t"     "r3s"  "are"  "r4y"   "fun"
+// all non-word characters (*) remain in place
+//                     "-"      " "    " "     " "     "!"
+// === "e6t-r3s are r4y fun!"
+
+function abbreviate(str) {
+  return str.split(/([-\s!,])/g).reduce((acc, cur, i, arr) => {
+    cur.length > 3 ? (cur = cur[0] + (cur.length - 2) + cur.slice(-1)) : cur;
+    return (acc += cur);
+  }, ``);
+}
+console.log(abbreviate("internationalization"));
+console.log(abbreviate("elephant-rides are really fun!"));
+console.log(
+  abbreviate("You need, need not want, to complete this code-wars mission")
+);
+
+// Managed to do a one-liner
+// My solution is solid, however there is cleaner
+
+function bestPracticeAbbreviate(str) {
+  return str.replace(/\w{4,}/g, (word) => {
+    return word[0] + (word.length - 2) + word.slice(-1);
+  });
+}
+console.log(bestPracticeAbbreviate("internationalization"));
+console.log(bestPracticeAbbreviate("elephant-rides are really fun!"));
+console.log(
+  bestPracticeAbbreviate(
+    "You need, need not want, to complete this code-wars mission"
+  )
+);
+
+// Instead of chopping everything into an array and reassembling it with .reduce(), this solution uses the regexp to really target the individual words in the string; .replace takes care of the rest
+
+// Altogether, can't be mad at my solution, but I do like the best practice one
