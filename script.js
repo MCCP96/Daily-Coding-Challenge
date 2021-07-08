@@ -1196,7 +1196,7 @@ console.log(``);
 }); */
 
 // Word a10n (abbreviation)       7/7/2021
-
+/* 
 // The word i18n is a common abbreviation of internationalization in the developer community, used instead of typing the whole word and trying to spell it correctly. Similarly, a11y is an abbreviation of accessibility.
 
 // Write a function that takes a string and turns any and all "words" (see below) within that string of length 4 or greater into an abbreviation, following these rules:
@@ -1246,4 +1246,93 @@ console.log(
 
 // Instead of chopping everything into an array and reassembling it with .reduce(), this solution uses the regexp to really target the individual words in the string; .replace takes care of the rest
 
-// Altogether, can't be mad at my solution, but I do like the best practice one
+// Altogether, can't be mad at my solution, but I do like the best practice one */
+
+// Maximum subarray sum         7/8/2021
+
+// The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
+
+// maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])
+// should be 6: [4, -1, 2, 1]
+
+// Easy case is when the list is made up of only positive numbers and the maximum sum is the sum of the whole array. If the list is made up of only negative numbers, return 0 instead.
+
+// Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
+
+function maxSequence(a) {
+  let largest = 0;
+
+  a.reduce((acc, cur, i, arr) => {
+    acc += cur;
+
+    if (acc < 0) {
+      acc = 0;
+      largest = 0;
+    } else if (acc > largest) {
+      largest = acc;
+    }
+    return acc;
+  }, 0);
+  return largest;
+}
+console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+
+// My solution above passed initial tests, but not all
+
+function googledMaxSequence(a) {
+  var size = a.length;
+  var lastMax = 0;
+  var curMax = 0;
+
+  for (var i = 0; i < size; i++) {
+    curMax = curMax + a[i];
+    if (lastMax < curMax) lastMax = curMax;
+    if (curMax < 0) curMax = 0;
+  }
+
+  return lastMax;
+}
+console.log(googledMaxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+
+// Top comment:
+
+//    The description of this test is bad because it was copy+pasted from another place
+//    which actually had further instructions to makes things clearer.
+
+//    If someone still want to solve it here some far better explanations:
+//    https://www.youtube.com/watch?v=jnoVtCKECmQ&ab_channel=NickWhite
+
+//    Don't feel bad.
+//    It's an easy test but the explanation is terrible.
+
+function cleverestMaxSequence(a) {
+  var min = 0,
+    ans = 0,
+    i,
+    sum = 0;
+
+  for (i = 0; i < a.length; ++i) {
+    sum += a[i];
+    min = Math.min(sum, min);
+    ans = Math.max(ans, sum - min);
+  }
+  return ans;
+}
+console.log(cleverestMaxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+
+// This ones tricky. Known as Kadane's algorithm.
+// After watching the explanation linked above, I came up with the following:
+
+function myMaxSequence(a) {
+  let ans = 0;
+  a.reduce((acc, cur) => {
+    acc += cur;
+    if (ans < acc) ans = acc;
+    if (acc < 0) acc = 0;
+    return acc;
+  }, 0);
+  return ans;
+}
+console.log(myMaxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+
+// Makes perfect sense once the logic is understood.
