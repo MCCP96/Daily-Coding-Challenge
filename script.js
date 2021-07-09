@@ -1249,7 +1249,7 @@ console.log(
 // Altogether, can't be mad at my solution, but I do like the best practice one */
 
 // Maximum subarray sum         7/8/2021
-
+/* 
 // The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
 
 // maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])
@@ -1320,7 +1320,7 @@ function cleverestMaxSequence(a) {
 }
 console.log(cleverestMaxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 
-// This ones tricky. Known as Kadane's algorithm.
+// This one's tricky. Known as Kadane's algorithm.
 // After watching the explanation linked above, I came up with the following:
 
 function myMaxSequence(a) {
@@ -1335,4 +1335,24 @@ function myMaxSequence(a) {
 }
 console.log(myMaxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 
-// Makes perfect sense once the logic is understood.
+// Makes perfect sense once the logic is understood. */
+
+// Find the odd int       7/9/2021
+
+// Given an array of integers, find the one that appears an odd number of times.
+// There will always be only one integer that appears an odd number of times.
+
+function findOdd(a) {
+  let ans = 0;
+  a.forEach((el) => {
+    let count = a.filter((x) => x == el);
+    count.length % 2 == 1 ? (ans = count[0]) : false;
+  });
+  return ans;
+}
+
+console.log(findOdd([20, 1, -1, 2, -2, 3, 3, 5, 5, 1, 2, 4, 20, 4, -1, -2, 5])); // 5
+console.log(findOdd([1, 1, 2, -2, 5, 2, 4, 4, -1, -2, 5])); // 1
+
+// Great answer that holds up against the voted best practice
+// Leaving it at that
