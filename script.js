@@ -1338,7 +1338,7 @@ console.log(myMaxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 // Makes perfect sense once the logic is understood. */
 
 // Find the odd int       7/9/2021
-
+/* 
 // Given an array of integers, find the one that appears an odd number of times.
 // There will always be only one integer that appears an odd number of times.
 
@@ -1356,3 +1356,14 @@ console.log(findOdd([1, 1, 2, -2, 5, 2, 4, 4, -1, -2, 5])); // 1
 
 // Great answer that holds up against the voted best practice
 // Leaving it at that
+ */
+
+// Multiplication table         7/10/2021
+// Your task, is to create NxN multiplication table, of size provided in parameter.
+
+// for example, when given size is 3:
+
+// 1 2 3
+// 2 4 6
+// 3 6 9
+// for given example, the return value should be: [[1,2,3],[2,4,6],[3,6,9]]
