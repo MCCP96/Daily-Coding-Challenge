@@ -1359,6 +1359,7 @@ console.log(findOdd([1, 1, 2, -2, 5, 2, 4, 4, -1, -2, 5])); // 1
  */
 
 // Multiplication table         7/10/2021
+/* 
 // Your task, is to create NxN multiplication table, of size provided in parameter.
 
 // for example, when given size is 3:
@@ -1367,3 +1368,76 @@ console.log(findOdd([1, 1, 2, -2, 5, 2, 4, 4, -1, -2, 5])); // 1
 // 2 4 6
 // 3 6 9
 // for given example, the return value should be: [[1,2,3],[2,4,6],[3,6,9]]
+
+function multiplicationTable(size) {
+  let result = [];
+  for (let i = 0; i < size; i++) {
+    result[i] = [];
+    for (let j = 0; j < size; j++) {
+      result[i][j] = (i + 1) * (j + 1);
+    }
+  }
+  return result;
+}
+console.log(multiplicationTable(3));
+
+// Nested for loop */
+
+// The Vowel Code         7/11/2021
+
+// Step 1: Create a function called encode() to replace all the lowercase vowels in a given string with numbers according to the following pattern:
+
+// a -> 1
+// e -> 2
+// i -> 3
+// o -> 4
+// u -> 5
+// For example, encode("hello") would return "h2ll4". There is no need to worry about uppercase vowels in this kata.
+
+let vowels = [`a`, `e`, `i`, `o`, `u`];
+
+function encode(str) {
+  return str.split(``).reduce((acc, cur) => {
+    if (vowels.includes(cur)) cur = vowels.indexOf(cur) + 1;
+    return (acc += cur);
+  }, ``);
+}
+console.log(encode("How are you today?")); // H4w 1r2 y45 t4d1y?
+console.log(encode("ots4f445ysgb3")); // 4ts4f445ysgb3
+
+// Step 2: Now create a function called decode() to turn the numbers back into vowels according to the same pattern shown above.
+
+// For example, decode("h3 th2r2") would return "hi there".
+
+// For the sake of simplicity, you can assume that any numbers passed into the function will correspond to vowels.
+
+function decode(str) {
+  return str.split(``).reduce((acc, cur) => {
+    if (cur > 0 && cur < 6) cur = vowels[cur - 1];
+    return (acc += cur);
+  }, ``);
+}
+console.log(decode(`h2ll4`));
+console.log(decode(`h3 th2r2`));
+
+// Fair solution, very readable.
+// Best practice is simpler:
+
+function bestEncode(str) {
+  return str.replace(/[aeiou]/g, (x) => {
+    return `_aeiou`.indexOf(x);
+  });
+}
+console.log(encode("How are you today?")); // H4w 1r2 y45 t4d1y?
+console.log(encode("ots4f445ysgb3")); // 4ts4f445ysgb3
+
+function bestDecode(str) {
+  return str.replace(/[1-5]/g, (x) => {
+    return `_aeiou`.charAt(x);
+  });
+}
+console.log(decode(`h2ll4`));
+console.log(decode(`h3 th2r2`));
+
+// Can't forget about .replace()
+// Made for a very clean, very logical and readable one-liner solution
