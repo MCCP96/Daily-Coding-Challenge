@@ -1639,7 +1639,7 @@ for (let i = 3; i <= square; i += 2) {}
 // Fun kata! */
 
 // Take a Number And Sum Its Digits Raised To The Consecutive Powers And ....¡Eureka!!          7/14/2021
-
+/* 
 // The number 89 is the first integer with more than one digit that fulfills the property partially introduced in the title of this kata. What's the use of saying "Eureka"? Because this sum gives the same number.
 // In effect: 89 = 8^1 + 9^2
 
@@ -1693,4 +1693,33 @@ function bestPracticeSumDigPow(a, b) {
 console.log(bestPracticeSumDigPow(88, 135));
 
 // Seems I used all the correct steps.
-// Nice 👍
+// Nice 👍 */
+
+// Kebabize         7/15/2021
+
+// Modify the kebabize function so that it converts a camel case string into a kebab case.
+
+// kebabize('camelsHaveThreeHumps') // camels-have-three-humps
+// kebabize('camelsHave3Humps') // camels-have-humps
+// Notes:
+
+// the returned string should only contain lowercase letters
+
+function kebabize(str) {
+  return (
+    str
+      .replace(/\d|-/g, ``)
+      .split(/(?=[A-Z])/g)
+      .join(`-`)
+      // .reduce((acc, cur) => acc + `-` + cur)
+      .toLowerCase()
+  );
+}
+console.log(kebabize("camelsHaveThreeHumps"));
+console.log(kebabize("camelsHave3Humps"));
+console.log(kebabize("-eog"));
+
+// Works great, could probably do with less methods
+
+// Looking at all 'best practice' solutions, 4 methods seems to be the minimum
+// My solution is on par with them.
