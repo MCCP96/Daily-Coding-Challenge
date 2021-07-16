@@ -1696,7 +1696,7 @@ console.log(bestPracticeSumDigPow(88, 135));
 // Nice 👍 */
 
 // Kebabize         7/15/2021
-
+/* 
 // Modify the kebabize function so that it converts a camel case string into a kebab case.
 
 // kebabize('camelsHaveThreeHumps') // camels-have-three-humps
@@ -1722,4 +1722,54 @@ console.log(kebabize("-eog"));
 // Works great, could probably do with less methods
 
 // Looking at all 'best practice' solutions, 4 methods seems to be the minimum
-// My solution is on par with them.
+// My solution is on par with them. */
+
+// Decipher this!         7/16/2021
+
+// You are given a secret message you need to decipher. Here are the things you need to know to decipher it:
+
+// For each word:
+
+// the second and the last letter is switched (e.g. Hello becomes Holle)
+// the first letter is replaced by its character code (e.g. H becomes 72)
+// Note: there are no special characters used, only letters and spaces
+
+// Examples
+
+// decipherThis('72olle 103doo 100ya'); // 'Hello good day'
+// decipherThis('82yade 115te 103o'); // 'Ready set go'
+
+function decipherThis(str) {
+  return str
+    .split(` `)
+    .map((word) =>
+      word.split(/(\d+)/).reduce((acc, cur, i) => {
+        if (i == 1) cur = String.fromCharCode(cur);
+        if (i == 2) cur = cur.replace(/^(\w)?(.+)(\w)$/, `$3$2$1`);
+        return acc + cur;
+      }, ``)
+    )
+    .join(` `);
+}
+console.log(decipherThis(`72olle 103doo 100ya`));
+console.log(decipherThis(`82yade 115te 103o`));
+
+// Feels overly complex, but works
+
+function bestPracticeDecipherThis(str) {
+  return str
+    .split(` `)
+    .map((w) =>
+      w
+        .replace(/^\d+/, (c) => String.fromCharCode(c))
+        .replace(/^(.)(.)(.*)(.)$/, `$1$4$3$2`)
+    )
+    .join(` `);
+}
+console.log(bestPracticeDecipherThis(`72olle 103doo 100ya`));
+console.log(bestPracticeDecipherThis(`82yade 115te 103o`));
+
+// Ah, much cleaner
+// Wasn't too far off, basically could've avoided the .reduce by using an extra .replace
+
+// I have a tendency of using .reduce too often... it's too good, it works everywhere
