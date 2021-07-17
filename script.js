@@ -1725,7 +1725,7 @@ console.log(kebabize("-eog"));
 // My solution is on par with them. */
 
 // Decipher this!         7/16/2021
-
+/* 
 // You are given a secret message you need to decipher. Here are the things you need to know to decipher it:
 
 // For each word:
@@ -1772,4 +1772,40 @@ console.log(bestPracticeDecipherThis(`82yade 115te 103o`));
 // Ah, much cleaner
 // Wasn't too far off, basically could've avoided the .reduce by using an extra .replace
 
-// I have a tendency of using .reduce too often... it's too good, it works everywhere
+// I have a tendency of using .reduce too often... it's too good, it works everywhere */
+
+// Extract the domain name from a URL         7/17/2021
+
+// Write a function that when given a URL as a string, parses out just the domain name and returns it as a string. For example:
+
+// domainName("http://github.com/carbonfive/raygun") == "github"
+// domainName("http://www.zombie-bites.com") == "zombie-bites"
+// domainName("https://www.cnet.com") == "cnet"
+
+function domainName(url) {
+  for (const a of url.split(/\.|\/\//)) {
+    if (/http|www/.test(a)) {
+      continue;
+    } else return a;
+  }
+}
+console.log(domainName("http://github.com/carbonfive/raygun"));
+console.log(domainName("http://www.zombie-bites.com"));
+console.log(domainName("https://www.cnet.com"));
+console.log(domainName("www.xakep.ru"));
+
+// Clean and concise, gets the job done
+
+function bestPracticeDomainName(url) {
+  url = url.replace(`https://`, ``);
+  url = url.replace(`http://`, ``);
+  url = url.replace(`www.`, ``);
+  return url.split(`.`)[0];
+}
+console.log(bestPracticeDomainName("http://github.com/carbonfive/raygun"));
+console.log(bestPracticeDomainName("http://www.zombie-bites.com"));
+console.log(bestPracticeDomainName("https://www.cnet.com"));
+console.log(bestPracticeDomainName("www.xakep.ru"));
+
+// I see the appeal, very easy and readable
+// I personally prefer my solution
