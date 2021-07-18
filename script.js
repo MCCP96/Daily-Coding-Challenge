@@ -1775,7 +1775,7 @@ console.log(bestPracticeDecipherThis(`82yade 115te 103o`));
 // I have a tendency of using .reduce too often... it's too good, it works everywhere */
 
 // Extract the domain name from a URL         7/17/2021
-
+/* 
 // Write a function that when given a URL as a string, parses out just the domain name and returns it as a string. For example:
 
 // domainName("http://github.com/carbonfive/raygun") == "github"
@@ -1808,4 +1808,47 @@ console.log(bestPracticeDomainName("https://www.cnet.com"));
 console.log(bestPracticeDomainName("www.xakep.ru"));
 
 // I see the appeal, very easy and readable
-// I personally prefer my solution
+// I personally prefer my solution */
+
+// Permutations         7/18/2021
+
+// In this kata you have to create all permutations of an input string and remove duplicates, if present. This means, you have to shuffle all letters from the input in all possible orders.
+
+// Examples:
+
+// permutations('a'); // ['a']
+// permutations('ab'); // ['ab', 'ba']
+// permutations('aabb'); // ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa']
+
+function bestPracticePermutations(str) {
+  return str.length <= 1
+    ? [str]
+    : Array.from(
+        new Set(
+          str
+            .split("")
+            .map((char, i) =>
+              bestPracticePermutations(
+                str.substr(0, i) + str.substr(i + 1)
+              ).map((p) => char + p)
+            )
+            .reduce((acc, cur) => acc.concat(cur), [])
+        )
+      );
+}
+console.log(bestPracticePermutations("a"));
+console.log(bestPracticePermutations("ab"));
+console.log(bestPracticePermutations("aabb"));
+
+// Struggled at first, ended up looking at solution
+
+// Functionality:
+//    - if string is 1 char long, return the only possible permutation.
+//    - else return an Array built from a new Set (avoids duplicates)
+//        - the Set is constructed by splitting the array
+//        - each char in the array is seperated while the remainder is fed back in
+//        - the chars fed back in, undergo the same process until they're a single char
+//        - the char is attached after each combination
+//        - .reduce turns them back into a string
+
+// This was my first 4kyu kata, definitely an increase in difficulty compared to yesterday
