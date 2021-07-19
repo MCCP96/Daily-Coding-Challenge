@@ -1811,7 +1811,7 @@ console.log(bestPracticeDomainName("www.xakep.ru"));
 // I personally prefer my solution */
 
 // Permutations         7/18/2021
-
+/* 
 // In this kata you have to create all permutations of an input string and remove duplicates, if present. This means, you have to shuffle all letters from the input in all possible orders.
 
 // Examples:
@@ -1851,4 +1851,61 @@ console.log(bestPracticePermutations("aabb"));
 //        - the char is attached after each combination
 //        - .reduce turns them back into a string
 
-// This was my first 4kyu kata, definitely an increase in difficulty compared to yesterday
+// This was my first 4kyu kata, definitely an increase in difficulty compared to yesterday */
+
+// Calculating with Functions         7/19/2021
+
+// This time we want to write calculations using functions and get the results. Let's have a look at some examples:
+
+// seven(times(five())); // must return 35
+// four(plus(nine())); // must return 13
+// eight(minus(three())); // must return 5
+// six(dividedBy(two())); // must return 3
+// Requirements:
+
+// There must be a function for each number from 0 ("zero") to 9 ("nine")
+// There must be a function for each of the following mathematical operations: plus, minus, times, dividedBy (divided_by in Ruby and Python)
+// Each calculation consist of exactly one operation and two numbers
+// The most outer function represents the left operand, the most inner function represents the right operand
+// Division should be integer division. For example, this should return 2, not 2.666666...:
+// eight(dividedBy(three()));
+
+const n = (digit) => (op) => op ? op(digit) : digit;
+
+const zero = n(0);
+const one = n(1);
+const two = n(2);
+const three = n(3);
+const four = n(4);
+const five = n(5);
+const six = n(6);
+const seven = n(7);
+const eight = n(8);
+const nine = n(9);
+
+const plus = (r) => (l) => l + r;
+const minus = (r) => (l) => l - r;
+const times = (r) => (l) => l * r;
+const dividedBy = (r) => (l) => l / r;
+
+console.log(seven(times(five()))); // 35
+console.log(four(plus(nine()))); // 13
+console.log(eight(minus(three()))); // 5
+console.log(six(dividedBy(two()))); // 3
+
+// Functions inside functions
+// Haven't practiced these too much
+
+const str = (word) => (phrase) => phrase ? phrase(word) : word;
+
+const wolf = str(`wolf`);
+const dog = str(`dog`);
+const frog = str(`frog`);
+
+const and = (lastWord) => (firstWord) => `${firstWord} and ${lastWord}`;
+const or = (lastWord) => (firstWord) => `${firstWord} or ${lastWord}`;
+
+console.log(wolf(and(frog)));
+console.log(frog(or(dog)));
+
+// Will need to study multi function interactions
