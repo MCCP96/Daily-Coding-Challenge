@@ -1033,7 +1033,7 @@ console.log(bestPracticeListSquared(1, 246));
 
 // My first 5 kyu kata! */
 
-//  Break camelCase         7/4/2021
+// Break camelCase         7/4/2021
 /* 
 // Complete the solution so that the function will break up camel casing, using a space between words.
 
@@ -1911,7 +1911,7 @@ console.log(frog(or(dog)));
 // Will need to study multi function interactions */
 
 // Mod4 Regex         7/20/2021
-
+/* 
 // You are to write a Regular Expression that matches any string with at least one number divisible by 4 (with no remainder). In most languages, you could do this easily by using number % 4 == 0. How would you do it with Regex?
 
 // A number will start with [ and end with ]. They may (or may not) include a plus or minus symbol at the start; this should be taken into account. Leading zeros may be present, and should be ignored (no octals here ;P). There may be other text in the string, outside of the number; this should also be ignored. Also, all numbers will be integers; any floats should be ignored.
@@ -1964,4 +1964,143 @@ console.log(bestPracticeMod4.test("[+05620]"));
 //    "[02468][048]|" +   // - the second-to-last digit is even, followed by 0, 4 or 8
 //    "[13579][26]" +     // - the second-to-last digit is odd, followed by 2 or 6
 
-// Fun practice!
+// Fun practice! */
+
+// First Variation on Caesar Cipher         7/21/2021
+
+// The action of a Caesar cipher is to replace each plaintext letter (plaintext letters are from 'a' to 'z' or from 'A' to 'Z') with a different one a fixed number of places up or down the alphabet.
+
+// This program performs a variation of the Caesar shift. The shift increases by 1 for each character (on each iteration).
+
+// If the shift is initially 1, the first character of the message to be encoded will be shifted by 1, the second character will be shifted by 2, etc...
+
+// Coding: Parameters and return of function "movingShift"
+//    s:      a string to be coded
+//    shift:  an integer giving the initial shift
+
+// The function "movingShift" first codes the entire string and then returns an array of strings containing the coded string in 5 parts (five parts because, to avoid more risks, the coded message will be given to five runners, one piece for each runner).
+
+// If possible the message will be equally divided by message length between the five runners. If this is not possible, parts 1 to 5 will have subsequently non-increasing lengths, such that parts 1 to 4 are at least as long as when evenly divided, but at most 1 longer. If the last part is the empty string this empty string must be shown in the resulting array.
+
+// For example:
+
+// if the coded message has a length of 17 the five parts will have lengths of 4, 4, 4, 4, 1. The parts 1, 2, 3, 4 are evenly split and the last part of length 1 is shorter.
+
+// If the length is 16 the parts will be of lengths 4, 4, 4, 4, 0. Parts 1, 2, 3, 4 are evenly split and the fifth runner will stay at home since his part is the empty string.
+
+// If the length is 11, equal parts would be of length 2.2, hence parts will be of lengths 3, 3, 3, 2, 0.
+
+// You will also implement a "demovingShift" function with two parameters
+
+// Decoding: parameters and return of function "demovingShift"
+//    an array of strings: s (possibly resulting from "movingShift", with 5 strings)
+//    an int shift
+//    "demovingShift" returns a string.
+
+// Example:
+// u = "I should have known that you would have a perfect answer for me!!!"
+
+// movingShift(u, 1) returns :
+// v = ["J vltasl rlhr ", "zdfog odxr ypw", " atasl rlhr p ", "gwkzzyq zntyhv", " lvz wp!!!"]
+
+// (quotes added in order to see the strings and the spaces, your program won't write these quotes, see Example Test Cases)
+
+// and demovingShift(v, 1) returns u. #Ref:
+
+// Caesar Cipher : http://en.wikipedia.org/wiki/Caesar_cipher
+
+const alphabet = `abcdefghijklmnopqrstuvwxyz`;
+
+function movingShift(s, shift) {
+  shift--;
+  s = s
+    .split("")
+    .map((cur) => {
+      shift++;
+      if (/^((?!(\w)).)*$/.test(cur)) return cur;
+      if (/\d/.test(cur)) return cur;
+
+      let pos = alphabet.indexOf(cur.toLowerCase()) + shift;
+      if (pos > alphabet.length - 1) pos = pos % alphabet.length;
+
+      return /[A-Z]/.test(cur) ? alphabet[pos].toUpperCase() : alphabet[pos];
+    })
+    .join(``);
+
+  let strSize = s.length;
+  let size = Math.ceil(strSize / 5);
+  let lastSize = strSize % size;
+
+  s = s.split("");
+
+  return [
+    s.splice(0, size).join(""),
+    s.splice(0, size).join(""),
+    s.splice(0, size).join(""),
+    s.splice(0, size).join(""),
+    s.join(""),
+  ];
+}
+
+function demovingShift(arr, shift) {
+  arr = arr.join(``);
+  shift--;
+
+  return arr
+    .split("")
+    .map((cur) => {
+      shift++;
+      if (/^((?!(\w)).)*$/.test(cur)) return cur;
+
+      let pos = alphabet.indexOf(cur.toLowerCase()) - shift;
+      while (pos < 0) {
+        pos = alphabet.length + pos;
+      }
+
+      return /[A-Z]/.test(cur) ? alphabet[pos].toUpperCase() : alphabet[pos];
+    })
+    .join(``);
+}
+
+const u = "I should have known that you would have a perfect answer for me!!!";
+const v = movingShift(u, 1);
+console.log(v);
+console.log(demovingShift(v, 1));
+
+// Tough one... not a fan of my solution, but do find it readable
+// That being said, definetly not optimized
+
+function encode(str, shift) {
+  var code, char, sum;
+  var sign = Math.sign(shift);
+  return str.replace(/[a-z]/gi, (s, i) => {
+    code = s.charCodeAt(0);
+    char = s.toUpperCase() === s ? 65 : 97;
+    sum = code - char + (shift + ((sign * i) % 26) + 26);
+    return String.fromCharCode((sum % 26) + char);
+  });
+}
+
+function bestPracticeMovingShift(str, shift) {
+  var pos;
+  var code = encode(str, shift);
+  var size = Math.ceil(str.length / 5);
+  return Array.from({ length: 5 }, (_, i) => {
+    pos = size * i;
+    return code.slice(pos, size + pos);
+  });
+}
+
+function bestPracticeDemovingShift(arr, shift) {
+  return encode(arr.join(``), -shift);
+}
+
+console.log(bestPracticeMovingShift(u, 1));
+console.log(bestPracticeDemovingShift(v, 1));
+
+// Smart to create the shared .encode function
+// Just now learning about Math.sign and seeing why this is a great use case for it
+
+// I'd learnt about the .charCodeAt trick previously (6/29/2021), but struggled to implement it today. the alphabet string just feels much more readable.
+
+// Lots of optimization here and great use of parameter functions (as seen with .replace)
