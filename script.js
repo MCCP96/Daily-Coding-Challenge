@@ -1967,7 +1967,7 @@ console.log(bestPracticeMod4.test("[+05620]"));
 // Fun practice! */
 
 // First Variation on Caesar Cipher         7/21/2021
-
+/* 
 // The action of a Caesar cipher is to replace each plaintext letter (plaintext letters are from 'a' to 'z' or from 'A' to 'Z') with a different one a fixed number of places up or down the alphabet.
 
 // This program performs a variation of the Caesar shift. The shift increases by 1 for each character (on each iteration).
@@ -2103,4 +2103,83 @@ console.log(bestPracticeDemovingShift(v, 1));
 
 // I'd learnt about the .charCodeAt trick previously (6/29/2021), but struggled to implement it today. the alphabet string just feels much more readable.
 
-// Lots of optimization here and great use of parameter functions (as seen with .replace)
+// Lots of optimization here and great use of parameter functions (as seen with .replace) */
+
+// Sum of pairs         7/22/2021
+
+// Given a list of integers and a single sum value, return the first two values (parse from the left please) in order of appearance that add up to form the sum.
+
+// sum_pairs([11, 3, 7, 5],         10)
+// #              ^--^      3 + 7 = 10
+// == [3, 7]
+
+// sum_pairs([4, 3, 2, 3, 4],         6)
+// #          ^-----^         4 + 2 = 6, indices: 0, 2 *
+// #             ^-----^      3 + 3 = 6, indices: 1, 3
+// #                ^-----^   2 + 4 = 6, indices: 2, 4
+// #  * entire pair is earlier, and therefore is the correct answer
+// == [4, 2]
+
+// sum_pairs([0, 0, -2, 3], 2)
+// #  there are no pairs of values that can be added to produce 2.
+// == None/nil/undefined (Based on the language)
+
+// sum_pairs([10, 5, 2, 3, 7, 5],         10)
+// #              ^-----------^   5 + 5 = 10, indices: 1, 5
+// #                    ^--^      3 + 7 = 10, indices: 3, 4 *
+// #  * entire pair is earlier, and therefore is the correct answer
+// == [3, 7]
+// Negative numbers and duplicate numbers can and will appear.
+
+// NOTE: There will also be lists tested of lengths upwards of 10,000,000 elements. Be sure your code doesn't time out.
+
+function sumPairs(ints, s) {
+  let ans = [];
+  let pairEnd = Number.MAX_SAFE_INTEGER;
+
+  for (let i = 0; i < pairEnd && i < ints.length; i++) {
+    let num = s - ints[i];
+    let numIndex = ints.slice(i + 1).indexOf(num);
+
+    if (numIndex != -1) numIndex += i;
+    else continue;
+
+    if (numIndex < pairEnd) {
+      ans = [ints[i], num];
+      pairEnd = numIndex;
+    }
+  }
+
+  return ans.length == 0 ? undefined : ans;
+}
+console.log(sumPairs([11, 3, 7, 5], 10));
+console.log(sumPairs([4, 3, 2, 3, 4], 6));
+console.log(sumPairs([0, 0, -2, 3], 2));
+console.log(sumPairs([10, 5, 2, 3, 7, 5], 10));
+console.log(sumPairs([1, 2, 3, 4, 1, 0], 2));
+console.log(``);
+
+// Got it working with nested loops, but would timeout
+// Comments said to get it working with a single loop, but still timed out
+// Had to look at solution
+
+function bestPracticeSumPairs(ints, s) {
+  var seen = {};
+  for (var i = 0; i < ints.length; i++) {
+    if (seen[s - ints[i]]) return [s - ints[i], ints[i]];
+    seen[ints[i]] = true;
+  }
+}
+console.log(bestPracticeSumPairs([11, 3, 7, 5], 10));
+console.log(bestPracticeSumPairs([4, 3, 2, 3, 4], 6));
+console.log(bestPracticeSumPairs([0, 0, -2, 3], 2));
+console.log(bestPracticeSumPairs([10, 5, 2, 3, 7, 5], 10));
+console.log(bestPracticeSumPairs([1, 2, 3, 4, 1, 0], 2));
+
+// Frustrating when the solution ends up being so simple and optimized
+
+// The seen object works the problem in reverse.
+// Basically instead of testing every number to the rest of the array, this solution tests every number to the previous numbers.
+// Once seen[s - ints[i]] is true, meaning the number was previously seen in the array, the solution is determined and the array is returned
+
+// Such a different solution than what I had in mind, very clever
