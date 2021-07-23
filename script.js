@@ -2106,7 +2106,7 @@ console.log(bestPracticeDemovingShift(v, 1));
 // Lots of optimization here and great use of parameter functions (as seen with .replace) */
 
 // Sum of pairs         7/22/2021
-
+/* 
 // Given a list of integers and a single sum value, return the first two values (parse from the left please) in order of appearance that add up to form the sum.
 
 // sum_pairs([11, 3, 7, 5],         10)
@@ -2168,13 +2168,14 @@ function bestPracticeSumPairs(ints, s) {
   for (var i = 0; i < ints.length; i++) {
     if (seen[s - ints[i]]) return [s - ints[i], ints[i]];
     seen[ints[i]] = true;
+    console.log(seen);
   }
 }
-console.log(bestPracticeSumPairs([11, 3, 7, 5], 10));
-console.log(bestPracticeSumPairs([4, 3, 2, 3, 4], 6));
-console.log(bestPracticeSumPairs([0, 0, -2, 3], 2));
-console.log(bestPracticeSumPairs([10, 5, 2, 3, 7, 5], 10));
-console.log(bestPracticeSumPairs([1, 2, 3, 4, 1, 0], 2));
+// console.log(bestPracticeSumPairs([11, 3, 7, 5], 10));
+// console.log(bestPracticeSumPairs([4, 3, 2, 3, 4], 6));
+// console.log(bestPracticeSumPairs([0, 0, -2, 3], 2));
+// console.log(bestPracticeSumPairs([10, 5, 2, 3, 7, 5], 10));
+// console.log(bestPracticeSumPairs([1, 2, 3, 4, 1, 0], 2));
 
 // Frustrating when the solution ends up being so simple and optimized
 
@@ -2182,4 +2183,37 @@ console.log(bestPracticeSumPairs([1, 2, 3, 4, 1, 0], 2));
 // Basically instead of testing every number to the rest of the array, this solution tests every number to the previous numbers.
 // Once seen[s - ints[i]] is true, meaning the number was previously seen in the array, the solution is determined and the array is returned
 
-// Such a different solution than what I had in mind, very clever
+// Such a different solution than what I had in mind, very clever */
+
+// Sort - one, three, two         7/23/2021
+
+// Hey You !
+// Sort these integers for me, by name
+
+// Input
+//    Range is 0-999
+//    There may be duplicates
+//    The array may be empty
+
+// Example
+//    Input: 1, 2, 3, 4
+//    Equivalent names: "one", "two", "three", "four"
+//    Sorted by name: "four", "one", "three", "two"
+//    Output: 4, 1, 3, 2
+
+// Notes
+// Don't pack words together:
+//    e.g. 99 may be "ninety nine" or "ninety-nine"; but not "ninetynine"
+//    e.g 101 may be "one hundred one" or "one hundred and one"; but not "onehundredone"
+
+// Don't fret about formatting rules, because if rules are consistently applied it has no effect anyway:
+// e.g. "one hundred one", "one hundred two"; is same order as "one hundred and one", "one hundred and two"
+// e.g. "ninety eight", "ninety nine"; is same order as "ninety-eight", "ninety-nine"
+
+function sortByName(arr) {
+  arr.map((cur, i) => {});
+}
+
+Test.assertSimilar(sortByName([8, 8, 9, 9, 10, 10]), [8, 8, 9, 9, 10, 10]);
+Test.assertSimilar(sortByName([1, 2, 3, 4]), [4, 1, 3, 2]);
+Test.assertSimilar(sortByName([9, 99, 999]), [9, 999, 99]);
