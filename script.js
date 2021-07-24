@@ -2211,9 +2211,79 @@ function bestPracticeSumPairs(ints, s) {
 // e.g. "ninety eight", "ninety nine"; is same order as "ninety-eight", "ninety-nine"
 
 function sortByName(arr) {
-  arr.map((cur, i) => {});
+  return arr.sort((a, b) => num2word(a).localeCompare(num2word(b)));
 }
 
-Test.assertSimilar(sortByName([8, 8, 9, 9, 10, 10]), [8, 8, 9, 9, 10, 10]);
-Test.assertSimilar(sortByName([1, 2, 3, 4]), [4, 1, 3, 2]);
-Test.assertSimilar(sortByName([9, 99, 999]), [9, 999, 99]);
+function num2word(n) {
+  let a = [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+  ];
+  let b = [
+    "twenty",
+    "thirty",
+    "forty",
+    "fifty",
+    "sixty",
+    "seventy",
+    "eighty",
+    "ninety",
+  ];
+  if (n >= 0 && n < 20) return a[n];
+  if (n >= 20 && n < 100)
+    return b[Math.floor(n / 10) - 2] + (n % 10 ? "-" + a[n % 10] : "");
+  if (n >= 100 && n < 1000)
+    return (
+      a[Math.floor(n / 100)] +
+      " hundred" +
+      (n % 100 ? " " + num2word(n % 100) : "")
+    );
+}
+
+console.log(sortByName([8, 8, 9, 9, 10, 10])); // 8, 8, 9, 9, 10, 10
+console.log(sortByName([1, 2, 3, 4])); // 4, 1, 3, 2
+console.log(sortByName([9, 99, 999])); // 9, 999, 99
+
+// Land perimeter         7/24/2021
+
+// Task:
+
+// Given an array arr of strings complete the function landPerimeter by calculating the total perimeter of all the islands. Each piece of land will be marked with 'X' while the water fields are represented as 'O'. Consider each tile being a perfect 1 x 1piece of land. Some examples for better visualization:
+
+// ['XOOXO',
+//  'XOOXO',
+//  'OOOXO',
+//  'XXOXO',
+//  'OXOOO']
+// or
+
+// should return: "Total land perimeter: 24",
+// while
+
+// ['XOOO',
+//  'XOXO',
+//  'XOXO',
+//  'OOXX',
+//  'OOOO']
+
+// should return: "Total land perimeter: 18"
+
+function landPerimeter(arr) {}
