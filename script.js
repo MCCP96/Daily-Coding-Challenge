@@ -2186,7 +2186,7 @@ function bestPracticeSumPairs(ints, s) {
 // Such a different solution than what I had in mind, very clever */
 
 // Sort - one, three, two         7/23/2021
-
+/* 
 // Hey You !
 // Sort these integers for me, by name
 
@@ -2260,10 +2260,10 @@ function num2word(n) {
 
 console.log(sortByName([8, 8, 9, 9, 10, 10])); // 8, 8, 9, 9, 10, 10
 console.log(sortByName([1, 2, 3, 4])); // 4, 1, 3, 2
-console.log(sortByName([9, 99, 999])); // 9, 999, 99
+console.log(sortByName([9, 99, 999])); // 9, 999, 99 */
 
 // Land perimeter         7/24/2021
-
+/* 
 // Task:
 
 // Given an array arr of strings complete the function landPerimeter by calculating the total perimeter of all the islands. Each piece of land will be marked with 'X' while the water fields are represented as 'O'. Consider each tile being a perfect 1 x 1piece of land. Some examples for better visualization:
@@ -2286,4 +2286,44 @@ console.log(sortByName([9, 99, 999])); // 9, 999, 99
 
 // should return: "Total land perimeter: 18"
 
-function landPerimeter(arr) {}
+function landPerimeter(arr) {
+  let n = arr.length - 1,
+    m = arr[0].length - 1,
+    p = 0;
+
+  for (let i = 0; i <= n; i++) {
+    for (let j = 0; j <= m; j++) {
+      if (arr[i][j] === `X`) {
+        p += i === 0 || arr[i - 1][j] === "O";
+        p += j === 0 || arr[i][j - 1] === "O";
+        p += i === n || arr[i + 1][j] === "O";
+        p += j === m || arr[i][j + 1] === "O";
+      }
+    }
+  }
+
+  return "Total land perimeter: " + p;
+} */
+
+// Which x for that sum?          7/25/2021
+
+// Consider the sequence U(n, x) = x + 2x**2 + 3x**3 + .. + nx**n where x is a real number and n a positive integer.
+
+// When n goes to infinity and x has a correct value (ie x is in its domain of convergence D), U(n, x) goes to a finite limit m depending on x.
+
+// Usually given x we try to find m. Here we will try to find x (x real, 0 < x < 1) when m is given (m real, m > 0).
+
+// Let us call solve the function solve(m) which returns x such as U(n, x) goes to m when n goes to infinity.
+
+// Examples:
+// solve(2.0) returns 0.5 since U(n, 0.5) goes to 2 when n goes to infinity.
+
+// solve(8.0) returns 0.7034648345913732 since U(n, 0.7034648345913732) goes to 8 when n goes to infinity.
+
+// Note:
+// You pass the tests if abs(actual - expected) <= 1e-12
+
+function solve(m) {
+  (m) => 1 - ((4 * m + 1) ** 0.5 - 1) / (2 * m);
+}
+console.log(solve(2.0));
