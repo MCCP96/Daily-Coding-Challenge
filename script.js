@@ -2443,7 +2443,7 @@ function deNico(key, m) {
 } */
 
 // Reverse Integer            7/28/2021
-
+/* 
 // Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1], then return 0.
 
 // Assume the environment does not allow you to store 64-bit integers (signed or unsigned).
@@ -2485,4 +2485,71 @@ console.log(reverse(1534236469));
 
 // Solutions seem less concise than what codewars users were producing
 
-// Overall solid solution with far less complexity than the recommended answer.
+// Overall solid solution with far less complexity than the recommended answer. */
+
+// Palindrome Number          7/29/2021
+
+// Given an integer x, return true if x is palindrome integer.
+
+// An integer is a palindrome when it reads the same backward as forward. For example, 121 is palindrome while 123 is not.
+
+// Example 1:
+//    Input: x = 121
+//    Output: true
+
+// Example 2:
+//    Input: x = -121
+//    Output: false
+// Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+// Example 3:
+//    Input: x = 10
+//    Output: false
+// Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+// Example 4:
+//    Input: x = -101
+//    Output: false
+
+// Constraints:
+// -2^31 <= x <= 2^31 - 1
+
+// Follow up: Could you solve it without converting the integer to a string?
+
+const isPalindrome = function (x) {
+  if (x < 0 && x > 2 ** 31 - 1) return false;
+
+  x = String(x);
+  for (let i = 0; i < x.length / 2; i++) {
+    if (x[i] != x[x.length - i - 1]) return false;
+  }
+
+  return true;
+};
+
+console.log(isPalindrome(121));
+console.log(isPalindrome(-121));
+console.log(isPalindrome(10));
+console.log(isPalindrome(30));
+console.log(isPalindrome(-101));
+
+// Works great!
+
+var bestPracticeIsPalindrome = function (x) {
+  if (x < 0) return false;
+
+  let rev = 0;
+  for (let i = x; i >= 1; i = Math.floor(i / 10)) {
+    rev = rev * 10 + (i % 10);
+  }
+  return rev === x;
+};
+
+console.log(bestPracticeIsPalindrome(121));
+console.log(bestPracticeIsPalindrome(-121));
+console.log(bestPracticeIsPalindrome(10));
+console.log(bestPracticeIsPalindrome(30));
+console.log(bestPracticeIsPalindrome(-101));
+
+// Basically chops it in half, switches them around then compares to original
+// Smart way to avoid using a string
