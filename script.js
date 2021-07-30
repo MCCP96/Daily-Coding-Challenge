@@ -2488,7 +2488,7 @@ console.log(reverse(1534236469));
 // Overall solid solution with far less complexity than the recommended answer. */
 
 // Palindrome Number          7/29/2021
-
+/* 
 // Given an integer x, return true if x is palindrome integer.
 
 // An integer is a palindrome when it reads the same backward as forward. For example, 121 is palindrome while 123 is not.
@@ -2552,4 +2552,99 @@ console.log(bestPracticeIsPalindrome(30));
 console.log(bestPracticeIsPalindrome(-101));
 
 // Basically chops it in half, switches them around then compares to original
-// Smart way to avoid using a string
+// Smart way to avoid using a string */
+
+// Roman to Integer         7/30/2021
+
+// Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+// Symbol       Value
+// I             1
+// V             5
+// X             10
+// L             50
+// C             100
+// D             500
+// M             1000
+
+// For example, 2 is written as II in Roman numeral, just two one's added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+// Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+// I can be placed before V (5) and X (10) to make 4 and 9.
+// X can be placed before L (50) and C (100) to make 40 and 90.
+// C can be placed before D (500) and M (1000) to make 400 and 900.
+// Given a roman numeral, convert it to an integer.
+
+// Example 4:
+//      Input: s = "LVIII"
+//      Output: 58
+//      Explanation: L = 50, V= 5, III = 3.
+
+// Example 5:
+//      Input: s = "MCMXCIV"
+//      Output: 1994
+//      Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+// Constraints:
+//      1 <= s.length <= 15
+//      s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M').
+//      It is guaranteed that s is a valid roman numeral in the range [1, 3999].
+
+let table = {
+  I: 1,
+  IV: 4,
+  V: 5,
+  IX: 9,
+  X: 10,
+  XL: 40,
+  L: 50,
+  XC: 90,
+  C: 100,
+  CD: 400,
+  D: 500,
+  CM: 900,
+  M: 1000,
+};
+
+var romanToInt = function (s) {
+  console.log(s);
+  return s.split(``).reduce((acc, cur, i, arr) => {
+    if (table[`${cur}${arr[i + 1]}`]) {
+      cur = `${cur}${arr[i + 1]}`;
+      arr.splice(i, 1);
+    }
+    return (acc += table[cur]);
+  }, 0);
+};
+
+console.log(romanToInt(`III`)); // 3
+console.log(romanToInt(`IV`)); // 4
+console.log(romanToInt(`IX`)); // 9
+console.log(romanToInt(`LVIII`)); // 58
+console.log(romanToInt(`MCMXCIV`)); // 1994
+
+// Great solution, first time really using an object like this
+
+symbols = {
+  I: 1,
+  V: 5,
+  X: 10,
+  L: 50,
+  C: 100,
+  D: 500,
+  M: 1000,
+};
+
+var topVotedRomanToInt = function (s) {
+  value = 0;
+  for (let i = 0; i < s.length; i += 1) {
+    symbols[s[i]] < symbols[s[i + 1]]
+      ? (value -= symbols[s[i]])
+      : (value += symbols[s[i]]);
+  }
+  return value;
+};
+
+// Similar workings but without .reduce function
+// I'm satisfied with my solution, faster runtime than 80% of submissions!
