@@ -2555,7 +2555,7 @@ console.log(bestPracticeIsPalindrome(-101));
 // Smart way to avoid using a string */
 
 // Roman to Integer         7/30/2021
-
+/* 
 // Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
 
 // Symbol       Value
@@ -2647,4 +2647,61 @@ var topVotedRomanToInt = function (s) {
 };
 
 // Similar workings but without .reduce function
-// I'm satisfied with my solution, faster runtime than 80% of submissions!
+// I'm satisfied with my solution, faster runtime than 80% of submissions! */
+
+// Longest Common Prefix          7/31/2021
+
+// Write a function to find the longest common prefix string amongst an array of strings.
+
+// If there is no common prefix, return an empty string "".
+
+// Example 1:
+//    Input: strs = ["flower","flow","flight"]
+//    Output: "fl"
+
+// Example 2:
+//    Input: strs = ["dog","racecar","car"]
+//    Output: ""
+// Explanation: There is no common prefix among the input strings.
+
+// Constraints:
+//    1 <= strs.length <= 200
+//    0 <= strs[i].length <= 200
+//    strs[i] consists of only lower-case English letters.
+
+const longestCommonPrefix = function (strs) {
+  let ans = "";
+  for (let i = 1; i <= strs[0].length; i++) {
+    const prefix = strs[0].slice(0, i);
+    let doAllMatch = true;
+    strs.slice(1).forEach((word) => {
+      if (!word.startsWith(prefix)) doAllMatch = false;
+    });
+    if (doAllMatch) ans = prefix;
+  }
+  return ans;
+};
+console.log(longestCommonPrefix(["flower", "flow", "flight"]));
+console.log(longestCommonPrefix(["dog", "racecar", "car"]));
+
+// Probably not the simplest solution out there. Not the best runtime either.
+
+const topVotedLongestCommonPrefix = function (strs) {
+  if (strs === undefined || strs.length === 0) return "";
+  return strs.reduce((prev, next) => {
+    let i = 0;
+    console.log(prev, next);
+    while (prev[i] && next[i] && prev[i] === next[i]) i++;
+    return prev.slice(0, i);
+  });
+};
+console.log(topVotedLongestCommonPrefix(["flower", "flow", "flight"]));
+console.log(topVotedLongestCommonPrefix(["dog", "racecar", "car"]));
+
+// Very concise
+// The whole solution comes from the while loop
+//    Compares the first two words
+//    loops over them until they no longer share common prefix
+//    Passes on longest common prefix
+//    does the same with next word
+//    repeat
