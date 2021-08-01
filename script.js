@@ -2650,7 +2650,7 @@ var topVotedRomanToInt = function (s) {
 // I'm satisfied with my solution, faster runtime than 80% of submissions! */
 
 // Longest Common Prefix          7/31/2021
-
+/* 
 // Write a function to find the longest common prefix string amongst an array of strings.
 
 // If there is no common prefix, return an empty string "".
@@ -2690,7 +2690,6 @@ const topVotedLongestCommonPrefix = function (strs) {
   if (strs === undefined || strs.length === 0) return "";
   return strs.reduce((prev, next) => {
     let i = 0;
-    console.log(prev, next);
     while (prev[i] && next[i] && prev[i] === next[i]) i++;
     return prev.slice(0, i);
   });
@@ -2704,4 +2703,71 @@ console.log(topVotedLongestCommonPrefix(["dog", "racecar", "car"]));
 //    loops over them until they no longer share common prefix
 //    Passes on longest common prefix
 //    does the same with next word
-//    repeat
+//    repeat */
+
+// Valid Parentheses          8/1/2021
+
+// Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+// An input string is valid if:
+
+// Open brackets must be closed by the same type of brackets.
+// Open brackets must be closed in the correct order.
+
+// Example 1:
+//    Input: s = "()"
+//    Output: true
+
+// Example 2:
+//    Input: s = "()[]{}"
+//    Output: true
+
+// Example 3:
+//    Input: s = "(]"
+//    Output: false
+
+// Example 4:
+//    Input: s = "([)]"
+//    Output: false
+
+// Example 5:
+//    Input: s = "{[]}"
+//    Output: true
+
+// Constraints:
+//    1 <= s.length <= 104
+//    s consists of parentheses only '()[]{}'.
+
+const topVotedIsValid = function (s) {
+  const stack = [];
+  for (let i = 0; i < s.length; i++) {
+    let c = s.charAt(i);
+    switch (c) {
+      case `(`:
+        stack.push(`)`);
+        break;
+      case `[`:
+        stack.push(`]`);
+        break;
+      case `{`:
+        stack.push(`}`);
+        break;
+
+      default:
+        if (c !== stack.pop()) return false;
+    }
+  }
+  return stack.length === 0;
+};
+console.log(isValid(`()`));
+console.log(isValid(`()[]{}`));
+console.log(isValid(`(]`));
+console.log(isValid(`([)]`));
+console.log(isValid(`{[]}`));
+
+// Had to use solution for this one
+
+// Solution is adding to an array, then ensuring the correct closing bracket is being used
+// The default in the switch statement cleverly removes the closing bracket while testing it
+
+// If the array is empty, all opened brackets have been closed
