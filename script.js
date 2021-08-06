@@ -2942,7 +2942,7 @@ console.log(removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2));
 // While .indexOf still returns an index (not -1), splice said value */
 
 // Implement strStr()         8/5/2021
-
+/* 
 // Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
 // Clarification:
@@ -2977,4 +2977,34 @@ console.log(strStr("", ""));
 // Simple and easy, faster than 95% of submissions
 
 // Reading discussion, people were attempting to solve without using built-in methods
-// Their 3-layer deep nested for loops proved to have slower runtime and higher memory usage
+// Their 3-layer deep nested for loops proved to have slower runtime and higher memory usage */
+
+// Search Insert Position         8/6/2021
+
+// Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+// You must write an algorithm with O(log n) runtime complexity.
+
+// Constraints:
+//    1 <= nums.length <= 104
+//    -104 <= nums[i] <= 104
+//    nums contains distinct values sorted in ascending order.
+//    -104 <= target <= 104
+
+const searchInsert = function (nums, target) {
+  if (nums[nums.length - 1] < target) return nums.length;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] == target) return i;
+    if (nums[i] > target) return i;
+  }
+};
+console.log(searchInsert([1, 3, 5, 6], 5)); // 2
+console.log(searchInsert([1, 3, 5, 6], 2)); // 1
+console.log(searchInsert([1, 3, 5, 6], 7)); // 4
+console.log(searchInsert([1, 3, 5, 6], 0)); // 0
+console.log(searchInsert([1], 0)); // 0
+
+// Given the runtime complexity limitation, using a loop was the best solution
+// .indexOf could've easily been used, but given we had to return the integer's 'supposed' position, the loop better
+
+// Better runtime than 75%, top 30% lowest memory usage
