@@ -2980,7 +2980,7 @@ console.log(strStr("", ""));
 // Their 3-layer deep nested for loops proved to have slower runtime and higher memory usage */
 
 // Search Insert Position         8/6/2021
-
+/* 
 // Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
 
 // You must write an algorithm with O(log n) runtime complexity.
@@ -3005,6 +3005,69 @@ console.log(searchInsert([1, 3, 5, 6], 0)); // 0
 console.log(searchInsert([1], 0)); // 0
 
 // Given the runtime complexity limitation, using a loop was the best solution
-// .indexOf could've easily been used, but given we had to return the integer's 'supposed' position, the loop better
+// .indexOf could've easily been used, but given we had to return the integer's 'supposed' position, the loop is best
 
-// Better runtime than 75%, top 30% lowest memory usage
+// Better runtime than 75%, top 30% lowest memory usage */
+
+// Maximum Subarray         8/7/2021
+
+// Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+// A subarray is a contiguous part of an array.
+
+// Example 1:
+//    Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+//    Output: 6
+//    Explanation: [4,-1,2,1] has the largest sum = 6.
+
+// Example 2:
+//    Input: nums = [1]
+//    Output: 1
+
+// Example 3:
+//    Input: nums = [5,4,-1,7,8]
+//    Output: 23
+
+// Constraints:
+//    1 <= nums.length <= 3 * 104
+//    -105 <= nums[i] <= 105
+
+const maxSubArray = function (nums) {
+  let ans = 0;
+  nums.reduce((acc, cur) => {
+    acc += cur;
+    if (ans < acc) ans = acc;
+    if (acc < 0) acc = 0;
+    return acc;
+  }, 0);
+  return ans;
+};
+console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+console.log(maxSubArray([1]));
+console.log(maxSubArray([-1]));
+console.log(maxSubArray([5, 4, -1, 7, 8]));
+
+// I remembered this one from a previous challenge (7/8/2021). Kadane's algorithm.
+// Seems negative values break my previous solution
+
+const topVotedMaxSubArray = function (nums) {
+  let prev = 0;
+  let max = -Number.MAX_VALUE;
+
+  for (let i = 0; i < nums.length; i++) {
+    prev = Math.max(prev + nums[i], nums[i]);
+    max = Math.max(max, prev);
+  }
+  return max;
+};
+console.log(topVotedMaxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+console.log(topVotedMaxSubArray([1]));
+console.log(topVotedMaxSubArray([-1]));
+console.log(topVotedMaxSubArray([5, 4, -1, 7, 8]));
+
+// Seems that for the length of the array:
+//    - prev picks the maximum between previous values and the current value
+//    - max then compares which is biggest between the current leader and prev
+//    - return max
+
+// I like this solution
