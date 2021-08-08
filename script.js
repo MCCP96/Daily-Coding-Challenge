@@ -3010,7 +3010,7 @@ console.log(searchInsert([1], 0)); // 0
 // Better runtime than 75%, top 30% lowest memory usage */
 
 // Maximum Subarray         8/7/2021
-
+/* 
 // Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
 
 // A subarray is a contiguous part of an array.
@@ -3070,4 +3070,27 @@ console.log(topVotedMaxSubArray([5, 4, -1, 7, 8]));
 //    - max then compares which is biggest between the current leader and prev
 //    - return max
 
-// I like this solution
+// I like this solution */
+
+// Length of Last Word          8/8/2021
+
+// Given a string s consists of some words separated by some number of spaces, return the length of the last word in the string.
+
+// A word is a maximal substring consisting of non-space characters only.
+
+// Constraints:
+//    1 <= s.length <= 104
+//    s consists of only English letters and spaces ' '.
+//    There will be at most one word in s.
+
+const lengthOfLastWord = function (s) {
+  return s.trim().split(` `).pop().length;
+};
+console.log(lengthOfLastWord("Hello World")); // 5
+console.log(lengthOfLastWord("   fly me   to   the moon  ")); // 4
+console.log(lengthOfLastWord("luffy is still joyboy")); // 6
+
+// Easy one-liner
+// Faster runtime than 90% of submitted results, top 30% lowest memory usage
+
+// Top voted is identical to my solution
