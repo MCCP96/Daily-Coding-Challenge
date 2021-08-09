@@ -3073,7 +3073,7 @@ console.log(topVotedMaxSubArray([5, 4, -1, 7, 8]));
 // I like this solution */
 
 // Length of Last Word          8/8/2021
-
+/* 
 // Given a string s consists of some words separated by some number of spaces, return the length of the last word in the string.
 
 // A word is a maximal substring consisting of non-space characters only.
@@ -3093,4 +3093,64 @@ console.log(lengthOfLastWord("luffy is still joyboy")); // 6
 // Easy one-liner
 // Faster runtime than 90% of submitted results, top 30% lowest memory usage
 
-// Top voted is identical to my solution
+// Top voted is identical to my solution */
+
+// Plus One         8/9/2021
+
+// Given a non-empty array of decimal digits representing a non-negative integer, increment one to the integer.
+
+// The digits are stored such that the most significant digit is at the head of the list, and each element in the array contains a single digit.
+
+// You may assume the integer does not contain any leading zero, except the number 0 itself.
+
+// Constraints:
+//    1 <= digits.length <= 100
+//    0 <= digits[i] <= 9
+
+const plusOne = function (digits) {
+  let increment = false;
+  digits = digits
+    .reverse()
+    .map((cur, i) => {
+      if (increment) {
+        increment = false;
+        cur++;
+      }
+      if (i == 0) cur++;
+      if (cur > 9) {
+        increment = true;
+        cur = 0;
+      }
+      return cur;
+    })
+    .reverse();
+  if (increment) digits.unshift(1);
+  return digits;
+};
+console.log(plusOne([1, 2, 3])); // [1,2,4]
+console.log(plusOne([4, 3, 2, 1])); // [4,3,2,2]
+console.log(plusOne([0])); // [1]
+console.log(plusOne([9])); // [1,0]
+console.log(plusOne([1, 9, 9])); // [2,0,0]
+
+// Not my best code I'll admit
+// Beats 50% of submissions somehow
+
+const topVotedPlusOne = function (digits) {
+  for (let i = digits.length - 1; i >= 0; i--) {
+    digits[i]++;
+    if (digits[i] > 9) digits[i] = 0;
+    else return digits;
+  }
+  digits.unshift(1);
+  return digits;
+};
+console.log(topVotedPlusOne([1, 2, 3])); // [1,2,4]
+console.log(topVotedPlusOne([4, 3, 2, 1])); // [4,3,2,2]
+console.log(topVotedPlusOne([0])); // [1]
+console.log(topVotedPlusOne([9])); // [1,0]
+console.log(topVotedPlusOne([1, 9, 9])); // [2,0,0]
+
+// This makes much more sense
+// I was stuck trying to use .map and .reverse when a decrementing for loop was much more obvious
+// Simpler is better.
