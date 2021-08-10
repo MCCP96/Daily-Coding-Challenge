@@ -3096,7 +3096,7 @@ console.log(lengthOfLastWord("luffy is still joyboy")); // 6
 // Top voted is identical to my solution */
 
 // Plus One         8/9/2021
-
+/* 
 // Given a non-empty array of decimal digits representing a non-negative integer, increment one to the integer.
 
 // The digits are stored such that the most significant digit is at the head of the list, and each element in the array contains a single digit.
@@ -3153,4 +3153,49 @@ console.log(topVotedPlusOne([1, 9, 9])); // [2,0,0]
 
 // This makes much more sense
 // I was stuck trying to use .map and .reverse when a decrementing for loop was much more obvious
-// Simpler is better.
+// Simpler is better. */
+
+// Add Binary         8/10/2021
+
+// Given two binary strings a and b, return their sum as a binary string.
+
+// Constraints:
+//    1 <= a.length, b.length <= 104
+//    a and b consist only of '0' or '1' characters.
+//    Each string does not contain leading zeros except for the zero itself.
+
+const topVotedAddBinary = function (a, b) {
+  const aBin = `0b${a}`;
+  const bBin = `0b${b}`;
+  const sum = BigInt(aBin) + BigInt(bBin);
+  return sum.toString(2);
+};
+console.log(topVotedAddBinary(`11`, `1`)); // 100
+console.log(topVotedAddBinary(`1010`, `1011`)); // 10101
+
+// "The idea is to use inputs, a and b to build two binary literals. Calculating the sum is done by calling the BigInt function on our binary literals, adding them together and returning the sum with a call to the toString method with 2 as the argument, since we are working with binary numbers."
+
+// Newer versions of JavaScript -- specifically ECMAScript 6 -- have added support for binary (prefix 0b), octal (prefix 0o) and hexadecimal (prefix: 0x) numeric literals:
+
+// var bin = 0b1111;    // bin will be set to 15
+// var oct = 0o17;      // oct will be set to 15
+// var hex = 0xF;       // hex will be set to 15
+
+// Ended up using the top voted solution
+// This is a feature I'd never heard about: binary, octal and hex support
+
+const hexOctBinAdditionTest = function (a, b, c) {
+  const aHex = `0x${a}`;
+  const bOct = `0o${b}`;
+  const cBin = `0b${c}`;
+  const sum = BigInt(aHex) + BigInt(bOct) + BigInt(cBin);
+  return sum.toString(10);
+};
+//                                HEX  OCTAL  BINARY
+console.log(hexOctBinAdditionTest(`F`, `17`, `1111`)); // F=15, 17=15, 1111=15 = 45
+console.log(hexOctBinAdditionTest(`A`, `33`, `11`)); // A=10, 33=27, 11=3 = 40
+
+// BigInt can recognize the different numeric literals and work accordingly
+// .toString can then convert to any number base requested (2, 8, 10, or anything else)
+
+// This is new to me, very cool!
