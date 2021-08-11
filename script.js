@@ -3156,7 +3156,7 @@ console.log(topVotedPlusOne([1, 9, 9])); // [2,0,0]
 // Simpler is better. */
 
 // Add Binary         8/10/2021
-
+/* 
 // Given two binary strings a and b, return their sum as a binary string.
 
 // Constraints:
@@ -3198,4 +3198,28 @@ console.log(hexOctBinAdditionTest(`A`, `33`, `11`)); // A=10, 33=27, 11=3 = 40
 // BigInt can recognize the different numeric literals and work accordingly
 // .toString can then convert to any number base requested (2, 8, 10, or anything else)
 
-// This is new to me, very cool!
+// This is new to me, very cool! */
+
+// Sqrt(x)          8/11/2021
+
+// Given a non-negative integer x, compute and return the square root of x.
+
+// Since the return type is an integer, the decimal digits are truncated, and only the integer part of the result is returned.
+
+// Note: You are not allowed to use any built-in exponent function or operator, such as pow(x, 0.5) or x ** 0.5.
+
+// Example:
+//    Input: x = 8
+//    Output: 2
+//  Explanation: The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned.
+
+const mySqrt = function (x) {
+  let ans = 1;
+  while (ans * ans <= x) ans++;
+  return --ans;
+};
+console.log(mySqrt(4)); // 2
+console.log(mySqrt(8)); // 2
+
+// No need for decimal points or rounding make this solution a lot simpler
+// Basically loop over and over until x has been passed, then decrement once
