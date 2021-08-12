@@ -3201,7 +3201,7 @@ console.log(hexOctBinAdditionTest(`A`, `33`, `11`)); // A=10, 33=27, 11=3 = 40
 // This is new to me, very cool! */
 
 // Sqrt(x)          8/11/2021
-
+/* 
 // Given a non-negative integer x, compute and return the square root of x.
 
 // Since the return type is an integer, the decimal digits are truncated, and only the integer part of the result is returned.
@@ -3222,4 +3222,62 @@ console.log(mySqrt(4)); // 2
 console.log(mySqrt(8)); // 2
 
 // No need for decimal points or rounding make this solution a lot simpler
-// Basically loop over and over until x has been passed, then decrement once
+// Basically loop over and over until x has been passed, then decrement once */
+
+// Climbing Stairs          8/12/2021
+
+// You are climbing a staircase. It takes n steps to reach the top.
+
+// Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+// Example 1:
+//    Input: n = 2
+//    Output: 2
+//  Explanation: There are two ways to climb to the top.
+//  1. 1 step + 1 step
+//  2. 2 steps
+
+// Example 2:
+//    Input: n = 3
+//    Output: 3
+//  Explanation: There are three ways to climb to the top.
+//  1. 1 step + 1 step + 1 step
+//  2. 1 step + 2 steps
+//  3. 2 steps + 1 step
+
+// Constraints:
+//   1 <= n <= 45
+
+const topVotedClimbStairs = function (n) {
+  // First two pointers store the first two numbers of the Fibonacci sequence
+  let prev = 0;
+  let cur = 1;
+  // Our third pointer is used to store one side while we update the above two pointers.
+  let temp;
+
+  // We use a for loop to iterate from 1 up to our number n with our constraints  being: 1 <= n <= 45
+  for (let i = 1; i <= n; i++) {
+    // We store one side in our third pointer
+    temp = prev;
+    // We then update that side to be equal to the other pointer
+    // This is because the next number is equal to the sum of the previous two numbers.
+    prev = cur;
+    // Next we add temp which now holds our lower number to cur which holds our upper number to get our next number.
+    cur += temp;
+  }
+  // Outside of our loop we return cur which stored our cumulative total while we iterated.
+  return cur;
+};
+console.log(topVotedClimbStairs(2)); // 2
+console.log(topVotedClimbStairs(3)); // 3
+
+// Known as Fibonacci solution, ended up looking at solution
+// Number grows exponentially:
+//    1 + 1 = 2
+//    1 + 2 = 3
+//    2 + 3 = 5
+//    3 + 5 = 8
+//    5 + 8 = 13
+//    ...
+
+// Not the most obvious thing to me, but obviously Fibonacci sequence was designed to tackle this.
