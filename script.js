@@ -3283,7 +3283,7 @@ console.log(topVotedClimbStairs(3)); // 3
 // Not the most obvious thing to me, but obviously Fibonacci sequence was designed to tackle this. */
 
 // Remove Duplicates from Sorted List         8/13/2021
-
+/* 
 // Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
 
 // Example 1:
@@ -3342,4 +3342,68 @@ console.log(topVotedDeleteDuplicates([1, 1, 2, 3, 3]));
 // LeetCode accepts it, but browser shows error...
 // Must be the verification process that's denying my results
 
-// I prefer the first solution provided. Very clear, very simple.
+// I prefer the first solution provided. Very clear, very simple. */
+
+// Merge Sorted Array         8/14/2021
+
+// You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+
+// Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+// The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+
+// Example 1:
+//    Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+//    Output: [1,2,2,3,5,6]
+//  Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
+//  The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
+
+// Example 2:
+//    Input: nums1 = [1], m = 1, nums2 = [], n = 0
+//    Output: [1]
+//  Explanation: The arrays we are merging are [1] and [].
+//  The result of the merge is [1].
+
+// Example 3:
+//    Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+//    Output: [1]
+//  Explanation: The arrays we are merging are [] and [1].
+//  The result of the merge is [1].
+// Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
+
+// Constraints:
+//    nums1.length == m + n
+//    nums2.length == n
+//    0 <= m, n <= 200
+//    1 <= m + n <= 200
+//    -109 <= nums1[i], nums2[j] <= 109
+
+// Follow up: Can you come up with an algorithm that runs in O(m + n) time?
+
+const merge = function (nums1, m, nums2, n) {
+  return [...nums1.splice(0, m), ...nums2.splice(0, n)].sort((a, b) => a - b);
+};
+console.log(merge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3)); // [1,2,2,3,5,6]
+console.log(merge([1], 1, [], 0)); // [1]
+console.log(merge([0], 0, [1], 1)); // [1]
+
+// LeetCode doesn't seem to encourage one-liners
+// Yesterday I ran into the same issue where this solution works in the browser yet not on the website
+
+const topVotedMerge = function (nums1, m, nums2, n) {
+  let insertPos = m + n - 1;
+  m--;
+  n--;
+  while (n >= 0) {
+    nums1[insertPos--] = nums1[m] > nums2[n] ? nums1[m--] : nums2[n--];
+  }
+};
+console.log(topVotedMerge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3)); // [1,2,2,3,5,6]
+console.log(topVotedMerge([1], 1, [], 0)); // [1]
+console.log(topVotedMerge([0], 0, [1], 1)); // [1]
+
+// A return statement wasn't needed in order to succeed
+// I'm guessing LeetCode is evaluating the looping process more than the output
+
+// This solution has a slower runtime than 50% and higher memory usage than 95%
+// I prefer my answer...
