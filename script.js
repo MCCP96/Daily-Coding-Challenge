@@ -3345,7 +3345,7 @@ console.log(topVotedDeleteDuplicates([1, 1, 2, 3, 3]));
 // I prefer the first solution provided. Very clear, very simple. */
 
 // Merge Sorted Array         8/14/2021
-
+/* 
 // You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
 
 // Merge nums1 and nums2 into a single array sorted in non-decreasing order.
@@ -3406,4 +3406,37 @@ console.log(topVotedMerge([0], 0, [1], 1)); // [1]
 // I'm guessing LeetCode is evaluating the looping process more than the output
 
 // This solution has a slower runtime than 50% and higher memory usage than 95%
-// I prefer my answer...
+// I prefer my answer... */
+
+// Binary Tree Inorder Traversal          8/15/2021
+
+// Given the root of a binary tree, return the inorder traversal of its nodes' values.
+
+// Constraints:
+//    The number of nodes in the tree is in the range [0, 100].
+//    -100 <= Node.val <= 100
+
+// Follow up: Recursive solution is trivial, could you do it iteratively?
+
+const inorderTraversal = function (root) {
+  const stack = [];
+  const res = [];
+
+  while (root || stack.length) {
+    if (root) {
+      stack.push(root);
+      root = root.left;
+    } else {
+      root = stack.pop();
+      res.push(root.val);
+      root = root.right;
+    }
+  }
+
+  return res;
+};
+console.log(inOrderTraversal([1, null, 2, 3])); // [1,3,2]
+console.log(inOrderTraversal([])); // []
+console.log(inOrderTraversal([1])); // [1]
+console.log(inOrderTraversal([1, 2])); // [2,1]
+console.log(inOrderTraversal([1, null, 2])); // [1,2]
