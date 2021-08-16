@@ -3409,7 +3409,7 @@ console.log(topVotedMerge([0], 0, [1], 1)); // [1]
 // I prefer my answer... */
 
 // Binary Tree Inorder Traversal          8/15/2021
-
+/* 
 // Given the root of a binary tree, return the inorder traversal of its nodes' values.
 
 // Constraints:
@@ -3439,4 +3439,39 @@ console.log(inOrderTraversal([1, null, 2, 3])); // [1,3,2]
 console.log(inOrderTraversal([])); // []
 console.log(inOrderTraversal([1])); // [1]
 console.log(inOrderTraversal([1, 2])); // [2,1]
-console.log(inOrderTraversal([1, null, 2])); // [1,2]
+console.log(inOrderTraversal([1, null, 2])); // [1,2] */
+
+// Same Tree          8/16/2021
+
+// Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+// Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+// Constraints:
+//    The number of nodes in both trees is in the range [0, 100].
+//    -104 <= Node.val <= 104
+
+const isSameTree = function (p, q) {
+  if (p.length != q.length) return false;
+  for (let i = 0; i < p.length; i++) {
+    if (p[i] !== q[i]) return false;
+  }
+  return true;
+};
+console.log(isSameTree([1, 2, 3], [1, 2, 3])); // true
+console.log(isSameTree([1, 2], [1, null, 2])); // false
+console.log(isSameTree([1, 2, 1], [1, 1, 2])); // false
+
+// LeetCode claims isSameTree([1, 2], [1, null, 2]) gives a 'true' output, while the browser returns 'false'
+
+function topVotedIsSameTree(p, q) {
+  if (!p && !q) return true;
+  if (!p || !q || p.val !== q.val) return false;
+
+  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+}
+console.log(topVotedIsSameTree([1, 2, 3], [1, 2, 3])); // true
+console.log(topVotedIsSameTree([1, 2], [1, null, 2])); // false
+console.log(topVotedIsSameTree([1, 2, 1], [1, 1, 2])); // false
+
+// I need to study binary tree questions...
