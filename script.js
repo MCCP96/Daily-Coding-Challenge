@@ -3418,7 +3418,7 @@ console.log(topVotedMerge([0], 0, [1], 1)); // [1]
 
 // Follow up: Recursive solution is trivial, could you do it iteratively?
 
-const inorderTraversal = function (root) {
+const inOrderTraversal = function (root) {
   const stack = [];
   const res = [];
 
@@ -3442,7 +3442,7 @@ console.log(inOrderTraversal([1, 2])); // [2,1]
 console.log(inOrderTraversal([1, null, 2])); // [1,2] */
 
 // Same Tree          8/16/2021
-
+/* 
 // Given the roots of two binary trees p and q, write a function to check if they are the same or not.
 
 // Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
@@ -3468,10 +3468,54 @@ function topVotedIsSameTree(p, q) {
   if (!p && !q) return true;
   if (!p || !q || p.val !== q.val) return false;
 
-  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+  return (
+    topVotedIsSameTree(p.left, q.left) && topVotedIsSameTree(p.right, q.right)
+  );
 }
 console.log(topVotedIsSameTree([1, 2, 3], [1, 2, 3])); // true
 console.log(topVotedIsSameTree([1, 2], [1, null, 2])); // false
 console.log(topVotedIsSameTree([1, 2, 1], [1, 1, 2])); // false
 
-// I need to study binary tree questions...
+// I need to study binary tree questions... */
+
+// Symmetric Tree         8/17/2021
+
+// Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+// Constraints:
+//    The number of nodes in the tree is in the range [1, 1000].
+//    -100 <= Node.val <= 100
+
+// Follow up: Could you solve it both recursively and iteratively?
+
+// Definition for a binary tree node.
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+
+const topVotedIsSymmetric = function (root) {
+  if (root == null) return true;
+  return symmetryChecker(root.left, root.right);
+};
+
+function symmetryChecker(left, right) {
+  if (left == null && right == null) return true;
+  if (left == null || right == null) return false;
+  if (left.val !== right.val) return false;
+
+  return (
+    symmetryChecker(left.left, right.right) &&
+    symmetryChecker(left.right, right.left)
+  );
+}
+console.log(topVotedIsSymmetric([1, 2, 2, 3, 4, 4, 3])); // true
+console.log(topVotedIsSymmetric([1, 2, 2, null, 3, null, 3])); // false
+
+// Another binary tree question that works in LeetCode, but not browser
+// Will be skipping next one.
