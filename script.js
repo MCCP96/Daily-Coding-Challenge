@@ -3479,7 +3479,7 @@ console.log(topVotedIsSameTree([1, 2, 1], [1, 1, 2])); // false
 // I need to study binary tree questions... */
 
 // Symmetric Tree         8/17/2021
-
+/* 
 // Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
 
 // Constraints:
@@ -3487,17 +3487,6 @@ console.log(topVotedIsSameTree([1, 2, 1], [1, 1, 2])); // false
 //    -100 <= Node.val <= 100
 
 // Follow up: Could you solve it both recursively and iteratively?
-
-// Definition for a binary tree node.
-function TreeNode(val, left, right) {
-  this.val = val === undefined ? 0 : val;
-  this.left = left === undefined ? null : left;
-  this.right = right === undefined ? null : right;
-}
-/**
- * @param {TreeNode} root
- * @return {boolean}
- */
 
 const topVotedIsSymmetric = function (root) {
   if (root == null) return true;
@@ -3518,4 +3507,30 @@ console.log(topVotedIsSymmetric([1, 2, 2, 3, 4, 4, 3])); // true
 console.log(topVotedIsSymmetric([1, 2, 2, null, 3, null, 3])); // false
 
 // Another binary tree question that works in LeetCode, but not browser
-// Will be skipping next one.
+// Will be skipping next one. */
+
+// Pascal's Triangle          8/18/2021
+
+// Given an integer numRows, return the first numRows of Pascal's triangle.
+
+// In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+
+// Constraints:
+//    1 <= numRows <= 30
+
+const generate = function (numRows) {
+  let ans = [];
+  for (let i = 0; i < numRows; i++) {
+    ans[i] = [];
+    ans[i][0] = 1;
+    for (let j = 1; j < i; j++) {
+      ans[i][j] = ans[i - 1][j - 1] + ans[i - 1][j];
+    }
+    ans[i][i] = 1;
+  }
+  return ans;
+};
+console.log(generate(5)); // [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+console.log(generate(1)); // [[1]]
+
+// Doesn't feel very dynamic, but works.
