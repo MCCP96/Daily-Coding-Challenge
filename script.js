@@ -3510,7 +3510,7 @@ console.log(topVotedIsSymmetric([1, 2, 2, null, 3, null, 3])); // false
 // Will be skipping next one. */
 
 // Pascal's Triangle          8/18/2021
-
+/* 
 // Given an integer numRows, return the first numRows of Pascal's triangle.
 
 // In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
@@ -3533,4 +3533,31 @@ const generate = function (numRows) {
 console.log(generate(5)); // [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
 console.log(generate(1)); // [[1]]
 
-// Doesn't feel very dynamic, but works.
+// Doesn't feel very dynamic, but works. */
+
+// Pascal's Triangle II         8/19/2021
+
+// Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
+
+// In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+
+// Constraints:
+//    0 <= rowIndex <= 33
+
+const getRow = function (rowIndex) {
+  let ans = [];
+  for (let i = 0; i <= rowIndex; i++) {
+    ans[i] = [];
+    ans[i][0] = 1;
+    for (let j = 1; j < i; j++) {
+      ans[i][j] = ans[i - 1][j - 1] + ans[i - 1][j];
+    }
+    ans[i][i] = 1;
+  }
+  return ans[rowIndex];
+};
+console.log(getRow(3)); // [1,3,3,1]
+console.log(getRow(0)); // [1]
+console.log(getRow(1)); // [1,1]
+
+// Same solution as yesterday, but only return a single row
