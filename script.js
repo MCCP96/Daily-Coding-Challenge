@@ -3536,7 +3536,7 @@ console.log(generate(1)); // [[1]]
 // Doesn't feel very dynamic, but works. */
 
 // Pascal's Triangle II         8/19/2021
-
+/* 
 // Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
 
 // In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
@@ -3560,4 +3560,58 @@ console.log(getRow(3)); // [1,3,3,1]
 console.log(getRow(0)); // [1]
 console.log(getRow(1)); // [1,1]
 
-// Same solution as yesterday, but only return a single row
+// Same solution as yesterday, but only return a single row */
+
+// Best Time to Buy and Sell Stock          8/20/2021
+
+// You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+// You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+// Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+// Example 1:
+//    Input: prices = [7,1,5,3,6,4]
+//    Output: 5
+//  Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+//  Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+
+// Example 2:
+//    Input: prices = [7,6,4,3,1]
+//    Output: 0
+//  Explanation: In this case, no transactions are done and the max profit = 0.
+
+// Constraints:
+//    1 <= prices.length <= 105W
+//    0 <= prices[i] <= 104
+
+const maxProfit = function (prices) {
+  let profit = 0;
+  for (let i = 0; i < prices.length; i++) {
+    for (let j = 1; j < prices.length - i; j++) {
+      if (prices[j + i] - prices[i] > profit)
+        profit = prices[j + i] - prices[i];
+    }
+  }
+  return profit;
+};
+console.log(maxProfit([7, 1, 5, 3, 6, 4])); // 5
+console.log(maxProfit([7, 6, 4, 3, 1])); // 0
+console.log(maxProfit([2, 1, 4])); // 3
+
+// Works, but times out
+
+const topVotedMaxProfit = function (prices) {
+  let min = Number.MAX_SAFE_INTEGER;
+  let max = 0;
+  for (let i = 0; i < prices.length; i++) {
+    min = Math.min(min, prices[i]);
+    max = Math.max(max, prices[i] - min);
+  }
+  return max;
+};
+console.log(topVotedMaxProfit([7, 1, 5, 3, 6, 4])); // 5
+console.log(topVotedMaxProfit([7, 6, 4, 3, 1])); // 0
+console.log(topVotedMaxProfit([2, 1, 4])); // 3
+
+// Only has to loop once, drastically reducing runtime
