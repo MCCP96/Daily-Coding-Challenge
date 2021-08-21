@@ -3563,7 +3563,7 @@ console.log(getRow(1)); // [1,1]
 // Same solution as yesterday, but only return a single row */
 
 // Best Time to Buy and Sell Stock          8/20/2021
-
+/* 
 // You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
 // You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
@@ -3614,4 +3614,45 @@ console.log(topVotedMaxProfit([7, 1, 5, 3, 6, 4])); // 5
 console.log(topVotedMaxProfit([7, 6, 4, 3, 1])); // 0
 console.log(topVotedMaxProfit([2, 1, 4])); // 3
 
-// Only has to loop once, drastically reducing runtime
+// Only has to loop once, drastically reducing runtime */
+
+// Valid Palindrome         8/21/2021
+
+// Given a string s, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+// Example 1:
+//    Input: s = "A man, a plan, a canal: Panama"
+//    Output: true
+//  Explanation: "amanaplanacanalpanama" is a palindrome.
+
+// Example 2:
+//    Input: s = "race a car"
+//    Output: false
+//  Explanation: "raceacar" is not a palindrome.
+
+// Constraints:
+//    1 <= s.length <= 2 * 105
+//    s consists only of printable ASCII characters.
+
+const isPalindrome = function (s) {
+  s = s.toLowerCase().replace(/[^a-zA-Z0-9]/g, ``);
+  return s === s.split(``).reverse().join(``) ? true : false;
+};
+console.log(isPalindrome("A man, a plan, a canal: Panama")); // true
+console.log(isPalindrome("race a car")); // false
+console.log(isPalindrome("0P")); // false
+console.log(isPalindrome("ab_a")); // true
+
+const topVotedIsPalindrome = function (s) {
+  var strippedString = s.replace(/\W/g, "");
+  var reversedString = strippedString.split("").reverse().join("");
+
+  return strippedString.toLowerCase() == reversedString.toLowerCase();
+};
+console.log(topVotedIsPalindrome("A man, a plan, a canal: Panama")); // true
+console.log(topVotedIsPalindrome("race a car")); // false
+console.log(topVotedIsPalindrome("0P")); // false
+console.log(topVotedIsPalindrome("ab_a")); // true
+
+// Solution's REGEX didnt work with underscores
+// Was on the right track, but REGEX needed some tweaking
