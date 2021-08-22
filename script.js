@@ -3617,7 +3617,7 @@ console.log(topVotedMaxProfit([2, 1, 4])); // 3
 // Only has to loop once, drastically reducing runtime */
 
 // Valid Palindrome         8/21/2021
-
+/* 
 // Given a string s, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
 // Example 1:
@@ -3655,4 +3655,45 @@ console.log(topVotedIsPalindrome("0P")); // false
 console.log(topVotedIsPalindrome("ab_a")); // true
 
 // Solution's REGEX didnt work with underscores
-// Was on the right track, but REGEX needed some tweaking
+// Was on the right track, but REGEX needed some tweaking */
+
+// Single Number          8/22/2021
+
+// Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+
+// You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+// Constraints:
+//    1 <= nums.length <= 3 * 104
+//    -3 * 104 <= nums[i] <= 3 * 104
+//    Each element in the array appears twice except for one element which appears only once.
+
+const singleNumber = function (nums) {
+  const SeenOnce = {};
+  nums.forEach((num) => {
+    if (!SeenOnce[num]) SeenOnce[num] = true;
+    else SeenOnce[num] = false;
+  });
+  let ans;
+  Object.keys(SeenOnce).forEach((num) => {
+    if (SeenOnce[num]) ans = num;
+  });
+  return Number(ans);
+};
+console.log(singleNumber([2, 2, 1])); // 1
+console.log(singleNumber([4, 1, 2, 1, 2])); // 4
+console.log(singleNumber([1])); // 1
+
+// Not the cleanest, wish I'd found a way to avoid using 'ans', but solution worked
+
+const topVotedSingleNumber = function (nums) {
+  return nums.reduce((acc, cur) => {
+    // console.log(`${acc} ^ ${cur} = ${acc ^ cur}`);
+    return acc ^ cur;
+  });
+};
+console.log(topVotedSingleNumber([2, 2, 1])); // 1
+console.log(topVotedSingleNumber([4, 1, 2, 1, 2])); // 4
+console.log(topVotedSingleNumber([1])); // 1
+
+// Clever solution that takes a more mathematical approach.
