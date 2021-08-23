@@ -3658,7 +3658,7 @@ console.log(topVotedIsPalindrome("ab_a")); // true
 // Was on the right track, but REGEX needed some tweaking */
 
 // Single Number          8/22/2021
-
+/* 
 // Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
 
 // You must implement a solution with a linear runtime complexity and use only constant extra space.
@@ -3696,4 +3696,32 @@ console.log(topVotedSingleNumber([2, 2, 1])); // 1
 console.log(topVotedSingleNumber([4, 1, 2, 1, 2])); // 4
 console.log(topVotedSingleNumber([1])); // 1
 
-// Clever solution that takes a more mathematical approach.
+// Clever solution that takes a more mathematical approach. */
+
+// Majority Element         8/23/2021
+
+// Given an array nums of size n, return the majority element.
+
+// The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+// Constraints:
+//    n == nums.length
+//    1 <= n <= 5 * 104
+//    -231 <= nums[i] <= 231 - 1
+
+// Follow-up: Could you solve the problem in linear time and in O(1) space?
+// Accepted
+
+const majorityElement = function (nums) {
+  let Count = {};
+  nums.forEach((num) => (Count[num] ? Count[num]++ : (Count[num] = 1)));
+  return +Object.keys(Count).reduce((acc, cur) =>
+    Count[cur] > Count[acc] ? cur : acc
+  );
+};
+console.log(majorityElement([3, 2, 3])); // 3
+console.log(majorityElement([2, 2, 1, 1, 1, 2, 2])); // 2
+console.log(majorityElement([3, 3, 4])); // 3
+
+// Faster runtime than 95%, less memory usage than 82%
+// Clean and readable solution
