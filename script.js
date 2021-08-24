@@ -3699,7 +3699,7 @@ console.log(topVotedSingleNumber([1])); // 1
 // Clever solution that takes a more mathematical approach. */
 
 // Majority Element         8/23/2021
-
+/* 
 // Given an array nums of size n, return the majority element.
 
 // The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
@@ -3724,4 +3724,65 @@ console.log(majorityElement([2, 2, 1, 1, 1, 2, 2])); // 2
 console.log(majorityElement([3, 3, 4])); // 3
 
 // Faster runtime than 95%, less memory usage than 82%
-// Clean and readable solution
+// Clean and readable solution */
+
+// Excel Sheet Column Number          8/24/2021
+
+// Given a string columnTitle that represents the column title as appear in an Excel sheet, return its corresponding column number.
+
+// For example:
+//    A -> 1
+//    B -> 2
+//    C -> 3
+//    ...
+//    Z -> 26
+//    AA -> 27
+//    AB -> 28
+//    ...
+
+// Constraints:
+//    1 <= columnTitle.length <= 7
+//    columnTitle consists only of uppercase English letters.
+//    columnTitle is in the range ["A", "FXSHRXW"].
+
+const topVotedTitleToNumber = function (s) {
+  const charCodeBase = `A`.charCodeAt(0) - 1;
+  const n = s.length;
+  let ans = 0;
+
+  // Think of it as base 26. For example,
+  // Column number of "AB" = 1 * 26^1 + 2 * 26^0
+
+  for (let i = 0; i < n; i++) {
+    ans += (s.charCodeAt(i) - charCodeBase) * Math.pow(26, n - i - 1);
+  }
+  return ans;
+};
+console.log(topVotedTitleToNumber(`A`)); // 1
+console.log(topVotedTitleToNumber(`AB`)); // 28
+console.log(topVotedTitleToNumber(`ZY`)); // 701
+console.log(topVotedTitleToNumber(`FXSHRXW`)); // 2147483647
+
+// Ended up studying top voted solution
+// Got very close, but could not figure out Math.pow(26, n - i - 1)
+
+const titleToNumber = function (s) {
+  const alphabet = `_ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+
+  return s
+    .split(``)
+    .reduce(
+      (acc, cur, i) =>
+        (acc += alphabet.indexOf(cur) * Math.pow(26, s.length - i - 1)),
+      0
+    );
+};
+console.log(titleToNumber(`A`)); // 1
+console.log(titleToNumber(`AB`)); // 28
+console.log(titleToNumber(`ZY`)); // 701
+console.log(titleToNumber(`FXSHRXW`)); // 2147483647
+
+// I've encountered the `charCodeAt` replacement for alphabet before, but personally prefer the hardcoded's readability
+
+// Submitted both solutions and they return the exact same runtime and memory usage
+// Faster than 85%, less memory usage than 91%
