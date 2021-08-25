@@ -3727,7 +3727,7 @@ console.log(majorityElement([3, 3, 4])); // 3
 // Clean and readable solution */
 
 // Excel Sheet Column Number          8/24/2021
-
+/* 
 // Given a string columnTitle that represents the column title as appear in an Excel sheet, return its corresponding column number.
 
 // For example:
@@ -3785,4 +3785,67 @@ console.log(titleToNumber(`FXSHRXW`)); // 2147483647
 // I've encountered the `charCodeAt` replacement for alphabet before, but personally prefer the hardcoded's readability
 
 // Submitted both solutions and they return the exact same runtime and memory usage
-// Faster than 85%, less memory usage than 91%
+// Faster than 85%, less memory usage than 91% */
+
+// Factorial Trailing Zeroes          8/25/2021
+
+// Given an integer n, return the number of trailing zeroes in n!.
+
+// Follow up: Could you write a solution that works in logarithmic time complexity?
+
+// Example 1:
+//    Input: n = 3
+//    Output: 0
+//    Explanation: 3! = 6, no trailing zero.
+
+// Example 2:
+//    Input: n = 5
+//    Output: 1
+//    Explanation: 5! = 120, one trailing zero.
+
+// Example 3:
+//    Input: n = 0
+//    Output: 0
+
+// Constraints:
+//    0 <= n <= 104
+
+const trailingZeroes = function (n) {
+  if (n == 0) return 0;
+
+  let ans = 1;
+  for (let i = 1; i <= n; i++) {
+    ans *= i;
+  }
+
+  return String(ans).length - String(ans).replace(/[0]+$/g, ``).length;
+};
+console.log(trailingZeroes(3)); // 0
+console.log(trailingZeroes(5)); // 1
+console.log(trailingZeroes(0)); // 0
+console.log(trailingZeroes(20)); // 4
+console.log(trailingZeroes(30)); // 7
+
+// Not the nicest solution. Not a fan of String casting in this situation
+// Also breaks when scientific notation is applied (n=30)
+
+// Surely there's a clever alternative
+
+const topVotedTrailingZeroes = function (n) {
+  let numZeroes = 0;
+  for (let i = 5; i <= n; i *= 5) {
+    numZeroes += Math.floor(n / i);
+  }
+  return numZeroes;
+};
+console.log(topVotedTrailingZeroes(3)); // 0
+console.log(topVotedTrailingZeroes(5)); // 1
+console.log(topVotedTrailingZeroes(0)); // 0
+console.log(topVotedTrailingZeroes(20)); // 4
+console.log(topVotedTrailingZeroes(30)); // 7
+
+// Mathematical solution/explanation:
+// https://leetcode.com/problems/factorial-trailing-zeroes/discuss/355808/JavaScript-solution-with-explanation
+
+// Basically, whenever there's a multiple of 5 (2*5), a trailing 0 is generated
+// This loop tests while n's factorial is being calculated, not at the end
