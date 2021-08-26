@@ -3788,7 +3788,7 @@ console.log(titleToNumber(`FXSHRXW`)); // 2147483647
 // Faster than 85%, less memory usage than 91% */
 
 // Factorial Trailing Zeroes          8/25/2021
-
+/* 
 // Given an integer n, return the number of trailing zeroes in n!.
 
 // Follow up: Could you write a solution that works in logarithmic time complexity?
@@ -3831,21 +3831,56 @@ console.log(trailingZeroes(30)); // 7
 
 // Surely there's a clever alternative
 
-const topVotedTrailingZeroes = function (n) {
+const topVotedTrailingZeros = function (n) {
   let numZeroes = 0;
   for (let i = 5; i <= n; i *= 5) {
     numZeroes += Math.floor(n / i);
   }
   return numZeroes;
 };
-console.log(topVotedTrailingZeroes(3)); // 0
-console.log(topVotedTrailingZeroes(5)); // 1
-console.log(topVotedTrailingZeroes(0)); // 0
-console.log(topVotedTrailingZeroes(20)); // 4
-console.log(topVotedTrailingZeroes(30)); // 7
+console.log(topVotedTrailingZeros(3)); // 0
+console.log(topVotedTrailingZeros(5)); // 1
+console.log(topVotedTrailingZeros(0)); // 0
+console.log(topVotedTrailingZeros(20)); // 4
+console.log(topVotedTrailingZeros(30)); // 7
 
-// Mathematical solution/explanation:
+// Mathematical solution:
 // https://leetcode.com/problems/factorial-trailing-zeroes/discuss/355808/JavaScript-solution-with-explanation
 
 // Basically, whenever there's a multiple of 5 (2*5), a trailing 0 is generated
-// This loop tests while n's factorial is being calculated, not at the end
+// This loop tests  n's factorial is being calculated, not at the end */
+
+// First Unique Character in a String         8/26/2021
+
+// Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s consists of only lowercase English letters.
+
+const firstUniqChar = function (s) {
+  const rest = s.split(``);
+  let past = [];
+  for (let i = 0; i < s.length; i++) {
+    past.push(rest.shift());
+    if (!rest.includes(s[i]) && !past.slice(0, i).includes(s[i])) return i;
+  }
+  return -1;
+};
+console.log(firstUniqChar("leetcode")); // 0
+console.log(firstUniqChar("loveleetcode")); // 2
+console.log(firstUniqChar("aabb")); // -1
+
+// Not my best code and definitely not my best runtime and memory usage...
+
+const topVotedFirstUniqChar = function (s) {
+  for (let i = 0; i < s.length; i++)
+    if (s.indexOf(s[i]) === s.lastIndexOf(s[i])) return i;
+  return -1;
+};
+console.log(topVotedFirstUniqChar("leetcode")); // 0
+console.log(topVotedFirstUniqChar("loveleetcode")); // 2
+console.log(topVotedFirstUniqChar("aabb")); // -1
+
+// First time seeing .lastIndexOf
+// Makes total sense. If the first and lastIndex of a char are different, it appears more than once in the string
