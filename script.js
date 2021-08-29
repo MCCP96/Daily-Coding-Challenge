@@ -3937,7 +3937,7 @@ console.log(topVotedFindTheDifference("ae", "aea")); // a
 // Very clever usage of .charCodeAt */
 
 // Is Subsequence         8/28/2021
-
+/* 
 // Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
 
 // A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
@@ -3957,4 +3957,35 @@ console.log(isSubsequence("abc", "ahbgdc")); // true
 console.log(isSubsequence("axc", "ahbgdc")); // false
 
 // Simple and readable
-// Top voted is very similar
+// Top voted is very similar */
+
+// Longest Palindrome          8/29/2021
+
+// Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+// Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
+
+// Example 1:
+//    Input: s = "abccccdd"
+//    Output: 7
+//  Explanation:
+//    One longest palindrome that can be built is "dccaccd", whose length is 7.
+
+// Constraints:
+//    1 <= s.length <= 2000
+//    s consists of lowercase and/or uppercase English letters only.
+
+const topVotedLongestPalindrome = function (s) {
+  let ans = 0;
+  let keys = {};
+
+  for (let char of s) {
+    keys[char] = (keys[char] || 0) + 1;
+    if (keys[char] % 2 == 0) ans += 2;
+  }
+
+  return s.length > ans ? ans + 1 : ans;
+};
+console.log(topVotedLongestPalindrome("abccccdd")); // 7
+console.log(topVotedLongestPalindrome("a")); // 1
+console.log(topVotedLongestPalindrome("bb")); // 2
