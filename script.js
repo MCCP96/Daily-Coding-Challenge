@@ -3960,7 +3960,7 @@ console.log(isSubsequence("axc", "ahbgdc")); // false
 // Top voted is very similar */
 
 // Longest Palindrome          8/29/2021
-
+/* 
 // Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
 
 // Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
@@ -3988,4 +3988,45 @@ const topVotedLongestPalindrome = function (s) {
 };
 console.log(topVotedLongestPalindrome("abccccdd")); // 7
 console.log(topVotedLongestPalindrome("a")); // 1
-console.log(topVotedLongestPalindrome("bb")); // 2
+console.log(topVotedLongestPalindrome("bb")); // 2 */
+
+// Fizz Buzz          8/30/2021
+
+// Given an integer n, return a string array answer (1-indexed) where:
+
+// answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
+// answer[i] == "Fizz" if i is divisible by 3.
+// answer[i] == "Buzz" if i is divisible by 5.
+// answer[i] == i if non of the above conditions are true.
+
+// Constraints:
+//    1 <= n <= 104
+
+const fizzBuzz = function (n) {
+  let ans = [];
+  for (let i = 1; i <= n; i++) ans.push(i);
+
+  return ans.map((num) => {
+    let fix = ``;
+    if (num % 3 === 0) fix += `Fizz`;
+    if (num % 5 === 0) fix += `Buzz`;
+    return fix.length > 0 ? fix : String(num);
+  });
+};
+console.log(fizzBuzz(3)); // ["1","2","Fizz"]
+console.log(fizzBuzz(5)); // ["1","2","Fizz","4","Buzz"]
+console.log(fizzBuzz(15)); // ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+
+// Very OK solution, nothing crazy about it
+
+const topVotedFizzBuzz = function (n) {
+  return new Array(n)
+    .fill(0)
+    .map((a, i) => (++i % 3 ? "" : "Fizz") + (i % 5 ? "" : "Buzz") || "" + i);
+};
+console.log(topVotedFizzBuzz(3)); // ["1","2","Fizz"]
+console.log(topVotedFizzBuzz(5)); // ["1","2","Fizz","4","Buzz"]
+console.log(topVotedFizzBuzz(15)); // ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+
+// Pretty much exactly what I did but as a one-liner
+// Clever to use new Array(n).fill(0) and go from there
