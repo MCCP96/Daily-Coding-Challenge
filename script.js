@@ -3991,7 +3991,7 @@ console.log(topVotedLongestPalindrome("a")); // 1
 console.log(topVotedLongestPalindrome("bb")); // 2 */
 
 // Fizz Buzz          8/30/2021
-
+/* 
 // Given an integer n, return a string array answer (1-indexed) where:
 
 // answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
@@ -4029,4 +4029,46 @@ console.log(topVotedFizzBuzz(5)); // ["1","2","Fizz","4","Buzz"]
 console.log(topVotedFizzBuzz(15)); // ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
 
 // Pretty much exactly what I did but as a one-liner
-// Clever to use new Array(n).fill(0) and go from there
+// Clever to use new Array(n).fill(0) and go from there */
+
+// Third Maximum Number         8/31/2021
+
+// Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.
+
+// Constraints:
+//    1 <= nums.length <= 104
+//    -231 <= nums[i] <= 231 - 1
+
+const thirdMax = function (nums) {
+  let arr = nums;
+  for (let i = 0; i < 2; i++) {
+    arr = arr.filter((num) => num < Math.max(...arr));
+  }
+  return arr.length > 0 ? Math.max(...arr) : Math.max(...nums);
+};
+console.log(thirdMax([3, 2, 1])); // 1
+console.log(thirdMax([1, 2])); // 2
+// The third distinct maximum does not exist, so the maximum (2) is returned instead.
+console.log(thirdMax([2, 2, 3, 1])); // 1
+// The second distinct maximum is 2 (both 2's are counted together since they have the same value).
+
+// Great memory usage, not the best runtime.
+
+const topVotedThirdMax = function (nums) {
+  if (nums.length < 3) return Math.max(...nums);
+  let u = new Set(nums);
+  if (u.size < 3) return Math.max(...u);
+
+  for (let i = 0; i < 2; i++) {
+    u.delete(Math.max(...u));
+  }
+  return Math.max(...u);
+};
+console.log(thirdMax([3, 2, 1])); // 1
+console.log(thirdMax([1, 2])); // 2
+console.log(thirdMax([2, 2, 3, 1])); // 1
+
+// I personally love this solution
+// The use of guard clauses to check arr/Set lengths promise a faster runtime
+
+// Apart from that, very similar to my solution
