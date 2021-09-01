@@ -1,6 +1,8 @@
-These are my daily codewars katas
+## Daily Coding Challenges
 
-For readability, I suggest collapsing all regions then uncommenting the individual challenge
+These are my daily coding challenges
+
+Consider visiting my [website](https://mccp.netlify.app/) for a more readable timeline
 
 "Success is the product of daily habit - not once-in-a-lifetime transformations."
 

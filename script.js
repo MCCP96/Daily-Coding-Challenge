@@ -4032,7 +4032,7 @@ console.log(topVotedFizzBuzz(15)); // ["1","2","Fizz","4","Buzz","Fizz","7","8",
 // Clever to use new Array(n).fill(0) and go from there */
 
 // Third Maximum Number         8/31/2021
-
+/* 
 // Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.
 
 // Constraints:
@@ -4071,4 +4071,38 @@ console.log(thirdMax([2, 2, 3, 1])); // 1
 // I personally love this solution
 // The use of guard clauses to check arr/Set lengths promise a faster runtime
 
-// Apart from that, very similar to my solution
+// Apart from that, very similar to my solution */
+
+// Add Strings          9/1/2021
+
+// Given two non-negative integers, num1 and num2 represented as string, return the sum of num1 and num2 as a string.
+
+// You must solve the problem without using any built-in library for handling large integers (such as BigInteger). You must also not convert the inputs to integers directly.
+
+// Constraints:
+//    1 <= num1.length, num2.length <= 104
+//    num1 and num2 consist of only digits.
+//    num1 and num2 don't have any leading zeros except for the zero itself.
+
+const topVotedAddStrings = function (num1, num2) {
+  let i = num1.length - 1;
+  let j = num2.length - 1;
+  let carry = 0;
+  let sum = "";
+
+  for (; i >= 0 || j >= 0 || carry > 0; i--, j--) {
+    const digit1 = i < 0 ? 0 : num1.charAt(i) - "0";
+    const digit2 = j < 0 ? 0 : num2.charAt(j) - "0";
+    const digitSum = digit1 + digit2 + carry;
+    sum = `${digitSum % 10}${sum}`;
+    carry = Math.floor(digitSum / 10);
+  }
+
+  return sum;
+};
+console.log(topVotedAddStrings("11", "123")); // 134
+console.log(topVotedAddStrings("456", "77")); // 533
+console.log(topVotedAddStrings("0", "0")); // 0
+
+// Basically a very bare-bones addition
+// Even the carry has to be taken into account
