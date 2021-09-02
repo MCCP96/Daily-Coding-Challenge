@@ -4074,7 +4074,7 @@ console.log(thirdMax([2, 2, 3, 1])); // 1
 // Apart from that, very similar to my solution */
 
 // Add Strings          9/1/2021
-
+/* 
 // Given two non-negative integers, num1 and num2 represented as string, return the sum of num1 and num2 as a string.
 
 // You must solve the problem without using any built-in library for handling large integers (such as BigInteger). You must also not convert the inputs to integers directly.
@@ -4105,4 +4105,48 @@ console.log(topVotedAddStrings("456", "77")); // 533
 console.log(topVotedAddStrings("0", "0")); // 0
 
 // Basically a very bare-bones addition
-// Even the carry has to be taken into account
+// Even the carry has to be taken into account */
+
+// Number of Segments in a String         9/2/2021
+
+// You are given a string s, return the number of segments in the string.
+
+// A segment is defined to be a contiguous sequence of non-space characters.
+
+// Constraints:
+//    0 <= s.length <= 300
+//    s consists of lower-case and upper-case English letters, digits or one of the following characters "!@#$%^&*()_+-=',.:".
+//    The only space character in s is ' '.
+
+const countSegments = function (s) {
+  s = s.split(/\s+/g).filter((word) => word !== "");
+  return s.length > 0 ? s.length : 0;
+};
+console.log(countSegments("Hello, my name is John")); // 5
+console.log(countSegments("Hello")); // 1
+console.log(countSegments("love live! mu'sic forever")); // 4
+console.log(countSegments("")); // 0
+console.log(countSegments("        ")); // 0
+
+// "          " got me on first submission
+// filtering out all empty strings did the trick
+
+// Decent runtime & memory usage
+
+const topVotedCountSegments = function (s) {
+  return s.split(" ").filter(Boolean).length;
+};
+console.log(topVotedCountSegments("Hello, my name is John")); // 5
+console.log(topVotedCountSegments("Hello")); // 1
+console.log(topVotedCountSegments("love live! mu'sic forever")); // 4
+console.log(topVotedCountSegments("")); // 0
+console.log(topVotedCountSegments("        ")); // 0
+
+// First time seeing .filter(Boolean)
+
+// "The filter(Boolean) step does the following:
+//    - Passes each item in the array to the Boolean() object
+//    - The Boolean() object coerces each item to true or false depending on whether it's truthy or falsy
+//    - If the item is truthy, we keep it"
+
+// Clean trick to keep in mind!
