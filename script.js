@@ -4108,7 +4108,7 @@ console.log(topVotedAddStrings("0", "0")); // 0
 // Even the carry has to be taken into account */
 
 // Number of Segments in a String         9/2/2021
-
+/* 
 // You are given a string s, return the number of segments in the string.
 
 // A segment is defined to be a contiguous sequence of non-space characters.
@@ -4149,4 +4149,43 @@ console.log(topVotedCountSegments("        ")); // 0
 //    - The Boolean() object coerces each item to true or false depending on whether it's truthy or falsy
 //    - If the item is truthy, we keep it"
 
-// Clean trick to keep in mind!
+// Clean trick to keep in mind! */
+
+// Arranging Coins          9/3/2021
+
+// You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.
+
+// Given the integer n, return the number of complete rows of the staircase you will build.
+
+// Example 1:
+//    Input: n = 5
+//    Output: 2
+//  Explanation: Because the 3rd row is incomplete, we return 2.
+//    *
+//    **
+//    **_
+
+// Example 2:
+//    Input: n = 8
+//    Output: 3
+//  Explanation: Because the 4th row is incomplete, we return 3.
+
+// Constraints:
+//    1 <= n <= 231 - 1
+
+const arrangeCoins = function (n) {
+  let rows = 0;
+  while (n > 0) {
+    rows++;
+    n -= rows;
+  }
+  return n === 0 ? rows : --rows;
+};
+console.log(arrangeCoins(1)); // 1
+console.log(arrangeCoins(5)); // 2
+console.log(arrangeCoins(8)); // 3
+
+// Simple and logical
+// Better runtime & less memory usage than most
+
+// Top voted is identical to my solution
