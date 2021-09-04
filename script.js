@@ -4152,7 +4152,7 @@ console.log(topVotedCountSegments("        ")); // 0
 // Clean trick to keep in mind! */
 
 // Arranging Coins          9/3/2021
-
+/* 
 // You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.
 
 // Given the integer n, return the number of complete rows of the staircase you will build.
@@ -4188,4 +4188,29 @@ console.log(arrangeCoins(8)); // 3
 // Simple and logical
 // Better runtime & less memory usage than most
 
-// Top voted is identical to my solution
+// Top voted is identical to my solution */
+
+// Find All Numbers Disappeared in an Array         9/4/2021
+
+// Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums.
+
+// Constraints:
+//    n == nums.length
+//    1 <= n <= 105
+//    1 <= nums[i] <= n
+
+// Follow up: Could you do it without extra space and in O(n) runtime? You may assume the returned list does not count as extra space.
+
+const findDisappearedNumbers = function (nums) {
+  let numsUnique = new Set(nums);
+  let ans = [];
+  for (let i = 1; i <= nums.length; i++) {
+    if (!numsUnique.has(i)) ans.push(i);
+  }
+  return ans;
+};
+console.log(findDisappearedNumbers([4, 3, 2, 7, 8, 2, 3, 1])); // [5,6]
+console.log(findDisappearedNumbers([1, 1])); // [2]
+
+// Very OK code, nothing special
+// Great situation to use Sets
