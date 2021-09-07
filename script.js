@@ -4264,7 +4264,7 @@ console.log(topVotedMinMoves([1, 1, 1])); // 0
 //    which is the minimum  moves." */
 
 // Assign Cookies         9/6/2021
-
+/* 
 // Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie.
 
 // Each child i has a greed factor g[i], which is the minimum size of a cookie that the child will be content with; and each cookie j has a size s[j]. If s[j] >= g[i], we can assign the cookie j to the child i, and the child i will be content. Your goal is to maximize the number of your content children and output the maximum number.
@@ -4320,4 +4320,49 @@ const topVotedFindContentChildren = function (g, s) {
 
 // Sorts both arrays then finds the lowest possible answer
 
-// Not a big fan of this question...
+// Not a big fan of this question... */
+
+// Repeated Substring Pattern         9/7/2021
+
+// Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
+
+// Example 1:
+//    Input: s = "abab"
+//    Output: true
+//  Explanation: It is the substring "ab" twice.
+
+// Example 2:
+//    Input: s = "aba"
+//    Output: false
+
+// Example 3:
+//    Input: s = "abcabcabcabc"
+//    Output: true
+//  Explanation: It is the substring "abc" four times or the substring "abcabc" twice.
+
+// Constraints:
+//    1 <= s.length <= 104
+//    s consists of lowercase English letters.
+
+const repeatedSubstringPattern = function (s) {
+  for (let i = 1; i <= s.length / 2; i++) {
+    const cur = s.slice(0, i);
+    if (s.match(new RegExp(cur, "g")).length == s.length / i) return true;
+  }
+  return false;
+};
+console.log(repeatedSubstringPattern("abab")); // true
+console.log(repeatedSubstringPattern("aba")); // false
+console.log(repeatedSubstringPattern("abcabcabcabc")); // true
+
+// Not the fastest, but works.
+
+const topVotedRepeatedSubstringPattern = function (s) {
+  return s.repeat(2).slice(1, -1).includes(s);
+};
+console.log(topVotedRepeatedSubstringPattern("abab")); // true
+console.log(topVotedRepeatedSubstringPattern("aba")); // false
+console.log(topVotedRepeatedSubstringPattern("abcabcabcabc")); // true
+
+// Damn that's clever
+// First time seeing .repeat used in this way
