@@ -4323,7 +4323,7 @@ const topVotedFindContentChildren = function (g, s) {
 // Not a big fan of this question... */
 
 // Repeated Substring Pattern         9/7/2021
-
+/* 
 // Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
 
 // Example 1:
@@ -4365,4 +4365,53 @@ console.log(topVotedRepeatedSubstringPattern("aba")); // false
 console.log(topVotedRepeatedSubstringPattern("abcabcabcabc")); // true
 
 // Damn that's clever
-// First time seeing .repeat used in this way
+// First time seeing .repeat used in this way */
+
+// Hamming Distance         9/8/2021
+
+// The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
+
+// Given two integers x and y, return the Hamming distance between them.
+
+// Example 1:
+//    Input: x = 1, y = 4
+//    Output: 2
+//  Explanation:
+// 1   (0 0 0 1)
+// 4   (0 1 0 0)
+//        ↑   ↑
+// The above arrows point to positions where the corresponding bits are different.
+
+// Example 2:
+//    Input: x = 3, y = 1
+//    Output: 1
+//  Explanation:
+// 3   (0 0 1 1)
+// 1   (0 0 0 1)
+//          ↑
+
+// Constraints:
+//    0 <= x, y <= 231 - 1
+
+const hammingDistance = function (x, y) {
+  const xBin = x.toString(2);
+  const yBin = y.toString(2);
+  return x > y ? xBin.length - yBin.length : yBin.length - xBin.length;
+};
+console.log(hammingDistance(1, 4)); // 2
+console.log(hammingDistance(3, 1)); // 1
+console.log(hammingDistance(93, 73)); // 2
+
+// 93, 73 doesn't work in my solution
+
+const topVotedHammingDistance = function (x, y) {
+  return (x ^ y).toString(2).replace(/0/g, "").length;
+};
+console.log(topVotedHammingDistance(1, 4)); // 2
+console.log(topVotedHammingDistance(3, 1)); // 1
+console.log(topVotedHammingDistance(93, 73)); // 2
+
+// "(x^y):
+// Does XOR between the two numbers to turn all the differing bits into 1's and the same bits into 0's"
+
+// Smart.
