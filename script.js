@@ -4368,7 +4368,7 @@ console.log(topVotedRepeatedSubstringPattern("abcabcabcabc")); // true
 // First time seeing .repeat used in this way */
 
 // Hamming Distance         9/8/2021
-
+/* 
 // The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
 
 // Given two integers x and y, return the Hamming distance between them.
@@ -4414,4 +4414,102 @@ console.log(topVotedHammingDistance(93, 73)); // 2
 // "(x^y):
 // Does XOR between the two numbers to turn all the differing bits into 1's and the same bits into 0's"
 
-// Smart.
+// Smart. */
+
+// Island Perimeter         9/9/2021
+
+// You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water.
+
+// Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells)
+
+// The island doesn't have "lakes", meaning the water inside isn't connected to the water around the island. One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
+
+// Example 1:
+//    Input: grid = [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]
+//    Output: 16
+//  Explanation: The perimeter is the 16 yellow stripes as seen https://assets.leetcode.com/uploads/2018/10/12/island.png
+
+// Example 2:
+//    Input: grid = [[1]]
+//    Output: 4
+
+// Example 3:
+//    Input: grid = [[1,0]]
+//    Output: 4
+
+// Constraints:
+//    row == grid.length
+//    col == grid[i].length
+//    1 <= row, col <= 100
+//    grid[i][j] is 0 or 1.
+
+const topVotedIslandPerimeter = function (grid) {
+  const rows = grid.length;
+  const cols = grid[0].length;
+
+  var perimeter = 0;
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      if (!grid[row][col]) continue;
+
+      perimeter += 4;
+      // abstract the number of adjacent islands
+      if (row > 0 && grid[row - 1][col]) perimeter--;
+      if (row > 0 && grid[row][col - 1]) perimeter--;
+      if (row < rows - 1 && grid[row + 1][col]) perimeter--;
+      if (col < cols - 1 && grid[row][col + 1]) perimeter--;
+    }
+  }
+
+  return perimeter;
+};
+console.log(
+  topVotedIslandPerimeter([
+    [0, 1, 0, 0],
+    [1, 1, 1, 0],
+    [0, 1, 0, 0],
+    [1, 1, 0, 0],
+  ])
+); // 16
+console.log(topVotedIslandPerimeter([[1]])); // 4
+console.log(topVotedIslandPerimeter([[1, 0]])); // 4
+
+// Couldn't figure it out, so opted to save time and study the solution instead
+
+// I expected some clever solution, but really it's very bare bones
+// If the current box contains a 1, perimeter + 4
+// Then checks surrounding boxes and substracts accordingly
+
+const islandPerimeter = function (grid) {
+  let numRows = grid.length; // num of rows
+  let numCols = grid[0].length; // num of cols
+
+  let perimeter = 0;
+
+  for (let i = 0; i < numRows; i++) {
+    for (let j = 0; j < numCols; j++) {
+      if (!grid[i][j]) continue;
+      perimeter += 4;
+
+      if (i > 0 && grid[i - 1][j]) perimeter--; // above
+      if (j > 0 && grid[i][j - 1]) perimeter--; // left
+      if (j < numCols - 1 && grid[i][j + 1]) perimeter--; // right
+      if (i < numRows - 1 && grid[i + 1][j]) perimeter--; // below
+    }
+  }
+
+  return perimeter;
+};
+console.log(
+  islandPerimeter([
+    [0, 1, 0, 0],
+    [1, 1, 1, 0],
+    [0, 1, 0, 0],
+    [1, 1, 0, 0],
+  ])
+); // 16
+console.log(islandPerimeter([[1]])); // 4
+console.log(islandPerimeter([[1, 0]])); // 4
+
+// OK, makes sense
