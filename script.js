@@ -4417,7 +4417,7 @@ console.log(topVotedHammingDistance(93, 73)); // 2
 // Smart. */
 
 // Island Perimeter         9/9/2021
-
+/* 
 // You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water.
 
 // Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells)
@@ -4512,4 +4512,57 @@ console.log(
 console.log(islandPerimeter([[1]])); // 4
 console.log(islandPerimeter([[1, 0]])); // 4
 
-// OK, makes sense
+// OK, makes sense */
+
+// Number Complement          9/10/2021
+
+// The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
+
+// For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
+// Given an integer num, return its complement.
+
+// Example 1:
+//    Input: num = 5
+//    Output: 2
+//  Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
+
+// Example 2:
+//    Input: num = 1
+//    Output: 0
+//  Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+
+// Constraints:
+//    1 <= num < 231
+
+const findComplement = function (num) {
+  return +BigInt(
+    `0b${num
+      .toString(2)
+      .split("")
+      .reduce((acc, cur) => (cur == 1 ? (acc += 0) : (acc += 1)), "")}`
+  ).toString(10);
+};
+console.log(findComplement(5)); // 2
+console.log(findComplement(1)); // 0
+
+// Got a one-liner
+// Ok runtime, great memory usage
+
+// "Add Binary 8/10/2021" challenge has been my go-to for converting binary
+
+const topVotedFindComplement = function (num) {
+  let d = 2;
+  while (d <= num) {
+    d *= 2;
+  }
+  return d - num - 1;
+};
+console.log(topVotedFindComplement(5)); // 2
+console.log(topVotedFindComplement(1)); // 0
+
+// "Let's look to rundom binary number, for example: 10011.
+// Reverse of this number = 01100.
+// Look, it's equal: 100000 - 10011 - 1.
+// Idea: find the minimum nearest number greater than num (power of 2)"
+
+// Clever trick
