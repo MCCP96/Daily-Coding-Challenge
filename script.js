@@ -4515,7 +4515,7 @@ console.log(islandPerimeter([[1, 0]])); // 4
 // OK, makes sense */
 
 // Number Complement          9/10/2021
-
+/* 
 // The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
 
 // For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
@@ -4565,4 +4565,86 @@ console.log(topVotedFindComplement(1)); // 0
 // Look, it's equal: 100000 - 10011 - 1.
 // Idea: find the minimum nearest number greater than num (power of 2)"
 
-// Clever trick
+// Clever trick */
+
+// License Key Formatting         9/11/2021
+
+// You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.
+
+// We want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
+
+// Return the reformatted license key.
+
+// Example 1:
+//    Input: s = "5F3Z-2e-9-w", k = 4
+//    Output: "5F3Z-2E9W"
+//  Explanation: The string s has been split into two parts, each part has 4 characters.
+// Note that the two extra dashes are not needed and can be removed.
+
+// Example 2:
+//    Input: s = "2-5g-3-J", k = 2
+//    Output: "2-5G-3J"
+//  Explanation: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s consists of English letters, digits, and dashes '-'.
+//    1 <= k <=10^4
+
+const licenseKeyFormatting = function (s, k) {
+  s = s.toUpperCase().replaceAll(`-`, ``);
+  let ans = s.length % k > 0 ? s.slice(0, s.length % k) + `-` : ``;
+  let count = 0;
+  for (let i = s.length % k; i < s.length; i++) {
+    if (count === k) {
+      count = 0;
+      ans += `-`;
+    }
+    ans += s.substring(i, i + 1);
+    count++;
+  }
+  return ans;
+};
+
+console.log(licenseKeyFormatting("5F3Z-2e-9-w", 4)); // 5F3Z-2E9W
+console.log(licenseKeyFormatting("335F3Z-2e-9-w", 4)); // 33-5F3Z-2E9W
+console.log(licenseKeyFormatting("2-5g-3-J", 2)); // 2-5G-3J
+
+// Not my proudest solution, too bulky
+
+const topVotedLicenseKeyFormatting = function (s, k) {
+  const newStr = s.replaceAll(`-`, ``).toUpperCase();
+  let arr = newStr.split(``);
+
+  for (let i = arr.length - 1 - k; i >= 0; i -= k) {
+    arr[i] = arr[i] + `-`;
+  }
+
+  return arr.join(``);
+};
+console.log(topVotedLicenseKeyFormatting("5F3Z-2e-9-w", 4)); // 5F3Z-2E9W
+console.log(topVotedLicenseKeyFormatting("335F3Z-2e-9-w", 4)); // 33-5F3Z-2E9W
+console.log(topVotedLicenseKeyFormatting("2-5g-3-J", 2)); // 2-5G-3J
+console.log(topVotedLicenseKeyFormatting("2", 2)); // 2
+
+// I was stuck trying to do it with strings when I should've just converted to array
+
+const myLicenseKeyFormatting = function (s, k) {
+  const newStr = s.replaceAll(`-`, ``).toUpperCase();
+  let arr = newStr.split(``);
+
+  let count = arr.length % k;
+  return arr.reduce((acc, cur) => {
+    if (count === k) {
+      acc += `-`;
+      count = 0;
+    }
+    count++;
+    return (acc += cur);
+  }, ``);
+};
+console.log(``);
+console.log(myLicenseKeyFormatting("5F3Z-2e-9-w", 4)); // 5F3Z-2E9W
+console.log(myLicenseKeyFormatting("335F3Z-2e-9-w", 4)); // 33-5F3Z-2E9W
+console.log(myLicenseKeyFormatting("2-5g-3-J", 2)); // 2-5G-3J
+console.log(myLicenseKeyFormatting("2", 2)); // 2
