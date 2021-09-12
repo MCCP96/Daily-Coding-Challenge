@@ -4568,7 +4568,7 @@ console.log(topVotedFindComplement(1)); // 0
 // Clever trick */
 
 // License Key Formatting         9/11/2021
-
+/* 
 // You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.
 
 // We want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
@@ -4647,4 +4647,29 @@ console.log(``);
 console.log(myLicenseKeyFormatting("5F3Z-2e-9-w", 4)); // 5F3Z-2E9W
 console.log(myLicenseKeyFormatting("335F3Z-2e-9-w", 4)); // 33-5F3Z-2E9W
 console.log(myLicenseKeyFormatting("2-5g-3-J", 2)); // 2-5G-3J
-console.log(myLicenseKeyFormatting("2", 2)); // 2
+console.log(myLicenseKeyFormatting("2", 2)); // 2 */
+
+// Max Consecutive Ones         9/12/2021
+
+// Given a binary array nums, return the maximum number of consecutive 1's in the array.
+
+// Constraints:
+//    1 <= nums.length <= 105
+//    nums[i] is either 0 or 1.
+
+const findMaxConsecutiveOnes = function (nums) {
+  let max = 0;
+  let cur = 0;
+  for (let i = 0; i <= nums.length; i++) {
+    if (nums[i]) cur++;
+    else {
+      if (cur > max) max = cur;
+      cur = 0;
+    }
+  }
+  return max;
+};
+console.log(findMaxConsecutiveOnes([1, 1, 0, 1, 1, 1])); // 3
+console.log(findMaxConsecutiveOnes([1, 0, 1, 1, 0, 1])); // 2
+
+// Nothing fancy
