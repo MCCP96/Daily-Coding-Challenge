@@ -4768,7 +4768,7 @@ const findPoisonedDuration = function (timeSeries, duration) {
 // Good to have a guard clause for empty timeSeries array */
 
 // Next Greater Element I         9/15/2021
-
+/* 
 // The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
 
 // You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
@@ -4828,4 +4828,66 @@ const topVotedNextGreaterElement = function (findNums, nums) {
   });
 };
 console.log(topVotedNextGreaterElement([4, 1, 2], [1, 3, 4, 2])); // [-1,3,-1]
-console.log(topVotedNextGreaterElement([2, 4], [1, 2, 3, 4])); // [3,-1]
+console.log(topVotedNextGreaterElement([2, 4], [1, 2, 3, 4])); // [3,-1] */
+
+// Keyboard Row         9/16/2021
+
+// Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
+
+// In the American keyboard:
+
+// the first row consists of the characters "qwertyuiop",
+// the second row consists of the characters "asdfghjkl", and
+// the third row consists of the characters "zxcvbnm".
+
+// Constraints:
+//    1 <= words.length <= 20
+//    1 <= words[i].length <= 100
+//    words[i] consists of English letters (both lowercase and uppercase).
+
+const findWords = function (words) {
+  const rows = ["qwertyuiopQWERTYUIOP", "asdfghjklASDFGHJKL", "zxcvbnmZXCVBNM"];
+  let ans = [];
+  words.forEach((word) => {
+    for (let i = 0; i < rows.length; i++) {
+      if (!rows[i].includes(word.substring(0, 1))) continue;
+      else {
+        for (let j = 1; j <= word.length; j++) {
+          if (!rows[i].includes(word.substring(j - 1, j))) break;
+          if (j == word.length) ans.push(word);
+        }
+        break;
+      }
+    }
+  });
+  return ans;
+};
+console.log(findWords(["Hello", "Alaska", "Dad", "Peace"])); // ["Alaska","Dad"]
+console.log(findWords(["omk"])); // []
+console.log(findWords(["adsdf", "sfd"])); // ["adsdf","sfd"]
+console.log(findWords(["a", "b"])); // ["a","s"]
+console.log(findWords(["abdfs", "cccd", "a", "qwwewm"])); // ["a"]
+
+// Not my cleanest, but lower memory usage than most
+
+const topVotedFindWords = function (words) {
+  return words.filter((w) => {
+    // remove word from array if it fails matching all three rows
+    if (
+      !/^[qwertyuiop]*$/i.test(w) &&
+      !/^[asdfghjkl]*$/i.test(w) &&
+      !/^[zxcvbnm]*$/i.test(w)
+    )
+      return false;
+
+    return true;
+  });
+};
+console.log(topVotedFindWords(["Hello", "Alaska", "Dad", "Peace"])); // ["Alaska","Dad"]
+console.log(topVotedFindWords(["omk"])); // []
+console.log(topVotedFindWords(["adsdf", "sfd"])); // ["adsdf","sfd"]
+console.log(topVotedFindWords(["a", "b"])); // ["a","s"]
+console.log(topVotedFindWords(["abdfs", "cccd", "a", "qwwewm"])); // ["a"]
+
+// Of course I should've used filter!
+// VERY nice solution
