@@ -4831,7 +4831,7 @@ console.log(topVotedNextGreaterElement([4, 1, 2], [1, 3, 4, 2])); // [-1,3,-1]
 console.log(topVotedNextGreaterElement([2, 4], [1, 2, 3, 4])); // [3,-1] */
 
 // Keyboard Row         9/16/2021
-
+/* 
 // Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
 
 // In the American keyboard:
@@ -4851,13 +4851,11 @@ const findWords = function (words) {
   words.forEach((word) => {
     for (let i = 0; i < rows.length; i++) {
       if (!rows[i].includes(word.substring(0, 1))) continue;
-      else {
-        for (let j = 1; j <= word.length; j++) {
-          if (!rows[i].includes(word.substring(j - 1, j))) break;
-          if (j == word.length) ans.push(word);
-        }
-        break;
+      for (let j = 1; j <= word.length; j++) {
+        if (!rows[i].includes(word.substring(j - 1, j))) break;
+        if (j == word.length) ans.push(word);
       }
+      break;
     }
   });
   return ans;
@@ -4890,4 +4888,20 @@ console.log(topVotedFindWords(["a", "b"])); // ["a","s"]
 console.log(topVotedFindWords(["abdfs", "cccd", "a", "qwwewm"])); // ["a"]
 
 // Of course I should've used filter!
-// VERY nice solution
+// VERY nice solution */
+
+// Base 7         9/17/2021
+
+// Given an integer num, return a string of its base 7 representation.
+
+// Constraints:
+//    -107 <= num <= 107
+
+const convertToBase7 = function (num) {
+  return num.toString(7);
+};
+console.log(convertToBase7(100)); // 202
+console.log(convertToBase7(-7)); // -10
+
+// That was probably the easiest one to date
+// Identical to top voted
