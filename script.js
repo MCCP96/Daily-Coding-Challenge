@@ -4907,7 +4907,7 @@ console.log(convertToBase7(-7)); // -10
 // Identical to top voted */
 
 // Relative Ranks         9/18/2021
-
+/* 
 // You are given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.
 
 // The athletes are placed based on their scores, where the 1st place athlete has the highest score, the 2nd place athlete has the 2nd highest score, and so on. The placement of each athlete determines their rank:
@@ -4970,4 +4970,74 @@ const topVotedFindRelativeRanks = function (nums) {
 console.log(topVotedFindRelativeRanks([5, 4, 3, 2, 1])); // ["Gold Medal","Silver Medal","Bronze Medal","4","5"]
 console.log(topVotedFindRelativeRanks([10, 3, 8, 9, 4])); // ["Gold Medal","5","Bronze Medal","Silver Medal","4"]
 
-// This makes so much more sense...
+// This makes so much more sense... */
+
+// Perfect Number         9/19/2021
+
+// A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. A divisor of an integer x is an integer that can divide x evenly.
+
+// Given an integer n, return true if n is a perfect number, otherwise return false.
+
+// Example 1:
+//    Input: num = 28
+//    Output: true
+// Explanation: 28 = 1 + 2 + 4 + 7 + 14
+// 1, 2, 4, 7, and 14 are all divisors of 28.
+
+// Example 2:
+//    Input: num = 6
+//    Output: true
+
+// Example 3:
+//    Input: num = 496
+//    Output: true
+
+// Example 4:
+//    Input: num = 8128
+//    Output: true
+
+// Example 5:
+// Input: num = 2
+// Output: false
+
+// Constraints:
+// 1 <= num <= 108
+
+const checkPerfectNumber = function (num) {
+  let divisors = 0;
+  for (let i = 0; i <= num / 2; i++) {
+    if (num % i === 0) divisors += i;
+  }
+  return divisors === num;
+};
+console.log(checkPerfectNumber(28)); // true
+console.log(checkPerfectNumber(6)); // true
+console.log(checkPerfectNumber(496)); // true
+console.log(checkPerfectNumber(8128)); // true
+console.log(checkPerfectNumber(2)); // false
+
+// Great memory usage, not best runtime
+
+const topVotedCheckPerfectNumber = function (num) {
+  if (num <= 1) {
+    return false;
+  }
+  let divisorsSum = 0;
+  for (let i = 1; i <= Math.floor(Math.sqrt(num)); i++) {
+    if (num % i === 0) {
+      divisorsSum += i + num / i;
+    }
+  }
+
+  return divisorsSum === 2 * num ? true : false;
+};
+console.log(checkPerfectNumber(28)); // true
+console.log(checkPerfectNumber(6)); // true
+console.log(checkPerfectNumber(496)); // true
+console.log(checkPerfectNumber(8128)); // true
+console.log(checkPerfectNumber(2)); // false
+
+// Great use of guard clause
+// Better to use Math.floor(Math.sqrt(num)) to start the loop than my num/2
+
+// All minor adjustments for better runtime
