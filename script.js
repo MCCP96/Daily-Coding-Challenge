@@ -4973,7 +4973,7 @@ console.log(topVotedFindRelativeRanks([10, 3, 8, 9, 4])); // ["Gold Medal","5","
 // This makes so much more sense... */
 
 // Perfect Number         9/19/2021
-
+/* 
 // A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. A divisor of an integer x is an integer that can divide x evenly.
 
 // Given an integer n, return true if n is a perfect number, otherwise return false.
@@ -4984,24 +4984,8 @@ console.log(topVotedFindRelativeRanks([10, 3, 8, 9, 4])); // ["Gold Medal","5","
 // Explanation: 28 = 1 + 2 + 4 + 7 + 14
 // 1, 2, 4, 7, and 14 are all divisors of 28.
 
-// Example 2:
-//    Input: num = 6
-//    Output: true
-
-// Example 3:
-//    Input: num = 496
-//    Output: true
-
-// Example 4:
-//    Input: num = 8128
-//    Output: true
-
-// Example 5:
-// Input: num = 2
-// Output: false
-
 // Constraints:
-// 1 <= num <= 108
+//    1 <= num <= 108
 
 const checkPerfectNumber = function (num) {
   let divisors = 0;
@@ -5040,4 +5024,45 @@ console.log(checkPerfectNumber(2)); // false
 // Great use of guard clause
 // Better to use Math.floor(Math.sqrt(num)) to start the loop than my num/2
 
-// All minor adjustments for better runtime
+// All minor adjustments for better runtime */
+
+// Fibonacci Number           9/20/2021
+
+// The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
+
+// F(0) = 0, F(1) = 1
+// F(n) = F(n - 1) + F(n - 2), for n > 1.
+// Given n, calculate F(n).
+
+// Example 1:
+//    Input: n = 2
+//    Output: 1
+// Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1.
+
+// Example 2:
+//    Input: n = 3
+//    Output: 2
+// Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2.
+
+// Example 3:
+//    Input: n = 4
+//    Output: 3
+// Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3.
+
+// Constraints:
+//    0 <= n <= 30
+
+const topVotedFib = function (n) {
+  let sqrt5 = Math.sqrt(5);
+  return (
+    (Math.pow(1 + sqrt5, n) - Math.pow(1 - sqrt5, n)) / Math.pow(2, n) / sqrt5
+  );
+};
+console.log(topVotedFib(2));
+console.log(topVotedFib(3));
+console.log(topVotedFib(4));
+
+// Binet's formula for the n'th Fibonacci number:
+// https://wikimedia.org/api/rest_v1/media/math/render/svg/57459135cb5773799fab490a49311b3725df94fd
+
+// This formula can compute the solution in O(1) time as well as O(1) space.
