@@ -5027,7 +5027,7 @@ console.log(checkPerfectNumber(2)); // false
 // All minor adjustments for better runtime */
 
 // Fibonacci Number           9/20/2021
-
+/* 
 // The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
 
 // F(0) = 0, F(1) = 1
@@ -5065,4 +5065,36 @@ console.log(topVotedFib(4));
 // Binet's formula for the n'th Fibonacci number:
 // https://wikimedia.org/api/rest_v1/media/math/render/svg/57459135cb5773799fab490a49311b3725df94fd
 
-// This formula can compute the solution in O(1) time as well as O(1) space.
+// This formula can compute the solution in O(1) time as well as O(1) space. */
+
+// Detect Capital         9/21/2021
+
+// We define the usage of capitals in a word to be right when one of the following cases holds:
+
+// All letters in this word are capitals, like "USA".
+// All letters in this word are not capitals, like "leetcode".
+// Only the first letter in this word is capital, like "Google".
+// Given a string word, return true if the usage of capitals in it is right.
+
+// Example 1:
+//    Input: word = "USA"
+//    Output: true
+
+// Example 2:
+//    Input: word = "FlaG"
+//    Output: false
+
+// Constraints:
+//    1 <= word.length <= 100
+//    word consists of lowercase and uppercase English letters.
+
+const detectCapitalUse = function (word) {
+  return /^[A-Z]+$|^[a-z]+$|^[A-Z][a-z]+$/.test(word) ? true : false;
+};
+console.log(detectCapitalUse("USA")); // true
+console.log(detectCapitalUse("FlaG")); // false
+console.log(detectCapitalUse("leetcode")); // true
+console.log(detectCapitalUse("Google")); // true
+
+// Simple and better than most
+// Same as top voted
