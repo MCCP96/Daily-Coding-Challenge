@@ -5100,7 +5100,7 @@ console.log(detectCapitalUse("Google")); // true
 // Same as top voted */
 
 // Longest Uncommon Subsequence I         9/22/2021
-
+/* 
 // Given two strings a and b, return the length of the longest uncommon subsequence between a and b. If the longest uncommon subsequence does not exist, return -1.
 
 // An uncommon subsequence between two strings is a string that is a subsequence of one but not the other.
@@ -5138,4 +5138,68 @@ console.log(topVotedFindLUSlength("aaa", "aaa")); // -1
 
 // Took top voted and turned into one-liner
 
-// I see. As soon as they're not directly equal to one another, the longest input is immediately the longest uncommon substring
+// I see. As soon as they're not directly equal to one another, the longest input is immediately the longest uncommon substring */
+
+// Reverse String II          9/23/2021
+
+// Given a string s and an integer k, reverse the first k characters for every 2k characters counting from the start of the string.
+
+// If there are fewer than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and left the other as original.
+
+// Constraints:
+//    1 <= s.length <= 104
+//    s consists of only lowercase English letters.
+//    1 <= k <= 104
+
+const reverseStr = function (s, k) {
+  let ans = "";
+  let count = k;
+  for (let i = 0; i < s.length; i++, count++) {
+    if (count == k) {
+      ans += [...s.substring(i, i + k)].reverse().join(``);
+      i += k;
+      count = 0;
+    }
+    ans += s.substring(i, i + 1);
+  }
+  return ans;
+};
+console.log(reverseStr("abcdefg", 2)); // "bacdfeg"
+console.log(reverseStr("abcd", 2)); // "bacd"
+
+// Not terrible, faster than most
+
+const topVotedReverseStr = function (s, k) {
+  if (k > s.length) return s.split("").reverse().join("");
+
+  const split = s.split("");
+
+  // reverse the segment and put it back
+  for (let i = 0; i < s.length; i += 2 * k) {
+    const reverse = split.splice(i, k).reverse();
+    split.splice(i, 0, ...reverse);
+  }
+
+  return split.join("");
+};
+console.log(topVotedReverseStr("abcdefg", 2)); // "bacdfeg"
+console.log(topVotedReverseStr("abcd", 2)); // "bacd"
+
+// Clever for loop increments to skip middle portions where letters dont need to be reversed
+// The use of arrays allows him to avoid variables like ans & count
+
+// Great use of the guard clause... I always forget those
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// Day 100!
+// Thought I'd share some thoughts on my Daily Coding Challenges:
+
+// Over the past few months, these challenges along with Jonas Schmedtmann's Udemy courses have drastically improved my coding ability. Looking back at even my first challenges on Codewars, I remember having to google the simplest things that now seem so obvious. Common methods like .map & .reduce were so foreign and arrow notation didn't make sense.
+
+// Even though I'm doing easy challenges nowadays and limiting myself to 30 mins so I don't spend all day on this, It's more about taking the time daily. The effort really keeps the ball rolling, and whether I solve the challenge or study a top voted one, I take something away from every challenge.
+
+// Thoughts going forward:
+// I haven't missed a singular day in the past 100! This is insane to me and although I'll do my best to keep the streak going, there may come a day where I miss a git push. I'm going camping in roughly a week, we'll see if they have data out there... lol
+
+// Here's to 100 more days 🍻
