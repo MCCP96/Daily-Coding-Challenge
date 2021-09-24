@@ -5141,7 +5141,7 @@ console.log(topVotedFindLUSlength("aaa", "aaa")); // -1
 // I see. As soon as they're not directly equal to one another, the longest input is immediately the longest uncommon substring */
 
 // Reverse String II          9/23/2021
-
+/* 
 // Given a string s and an integer k, reverse the first k characters for every 2k characters counting from the start of the string.
 
 // If there are fewer than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and left the other as original.
@@ -5202,4 +5202,45 @@ console.log(topVotedReverseStr("abcd", 2)); // "bacd"
 // Thoughts going forward:
 // I haven't missed a singular day in the past 100! This is insane to me and although I'll do my best to keep the streak going, there may come a day where I miss a git push. I'm going camping in roughly a week, we'll see if they have data out there... lol
 
-// Here's to 100 more days 🍻
+// Here's to 100 more days 🍻 */
+
+// Student Attendance Record I          9/24/2021
+
+// You are given a string s representing an attendance record for a student where each character signifies whether the student was absent, late, or present on that day. The record only contains the following three characters:
+
+// 'A': Absent.
+// 'L': Late.
+// 'P': Present.
+// The student is eligible for an attendance award if they meet both of the following criteria:
+
+// The student was absent ('A') for strictly fewer than 2 days total.
+// The student was never late ('L') for 3 or more consecutive days.
+// Return true if the student is eligible for an attendance award, or false otherwise.
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s[i] is either 'A', 'L', or 'P'
+
+const checkRecord = function (s) {
+  let attendance = {};
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] !== `L`) attendance[`L`] = 0;
+    attendance[s[i]] ? attendance[s[i]]++ : (attendance[s[i]] = 1);
+    if (attendance[`A`] > 1 || attendance[`L`] == 3) return false;
+  }
+  return true;
+};
+console.log(checkRecord("PPALLP")); // true
+console.log(checkRecord("PPALLL")); // false
+console.log(checkRecord("AA")); // false
+
+// Better runtime & memory usage than 80%
+
+const topVotedCheckRecord = function (s) {
+  return !/^.*(A.*A|L{3,}).*$/.test(s);
+};
+console.log(topVotedCheckRecord("PPALLP")); // true
+console.log(topVotedCheckRecord("PPALLL")); // false
+console.log(topVotedCheckRecord("AA")); // false
+
+// Definitely a good problem for Regex
