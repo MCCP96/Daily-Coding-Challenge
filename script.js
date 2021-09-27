@@ -5279,7 +5279,7 @@ console.log(reverseWords(`God Ding`)); // "doG gniD"
 // Similar to top voted except they use .map */
 
 // Array Partition I          9/26/2021
-
+/* 
 // Given an integer array nums of 2n integers, group these integers into n pairs (a1, b1), (a2, b2), ..., (an, bn) such that the sum of min(ai, bi) for all i is maximized. Return the maximized sum.
 
 // Example 1:
@@ -5323,8 +5323,56 @@ const topVotedArrayPairSum = function (nums) {
     .sort((a, b) => a - b)
     .reduce((sum, cur, i) => (i % 2 === 0 ? (sum += cur) : sum), 0);
 };
-console.log(arrayPairSum([1, 4, 3, 2])); // 4
-console.log(arrayPairSum([6, 2, 6, 5, 1, 2])); // 9
+console.log(topVotedArrayPairSum([1, 4, 3, 2])); // 4
+console.log(topVotedArrayPairSum([6, 2, 6, 5, 1, 2])); // 9
 
 // Ah, similar to what I did, but all under a single .reduce
-// Very clean
+// Very clean */
+
+// Distribute Candies         9/27/2021
+
+// Alice has n candies, where the ith candy is of type candyType[i]. Alice noticed that she started to gain weight, so she visited a doctor.
+
+// The doctor advised Alice to only eat n / 2 of the candies she has (n is always even). Alice likes her candies very much, and she wants to eat the maximum number of different types of candies while still following the doctor's advice.
+
+// Given the integer array candyType of length n, return the maximum number of different types of candies she can eat if she only eats n / 2 of them.
+
+// Example 1:
+//    Input: candyType = [1,1,2,2,3,3]
+//    Output: 3
+// Explanation: Alice can only eat 6 / 2 = 3 candies. Since there are only 3 types, she can eat one of each type.
+
+// Example 2:
+//    Input: candyType = [1,1,2,3]
+//    Output: 2
+// Explanation: Alice can only eat 4 / 2 = 2 candies. Whether she eats types [1,2], [1,3], or [2,3], she still can only eat 2 different types.
+
+// Example 3:
+//    Input: candyType = [6,6,6,6]
+//    Output: 1
+// Explanation: Alice can only eat 4 / 2 = 2 candies. Even though she can eat 2 candies, she only has 1 type.
+
+// Constraints:
+//    n == candyType.length
+//    2 <= n <= 104
+//    n is even.
+//    -105 <= candyType[i] <= 105
+
+const distributeCandies = function (candyType) {
+  let types = new Set(candyType);
+  return types.size < candyType.length / 2 ? types.size : candyType.length / 2;
+};
+console.log(distributeCandies([1, 1, 2, 2, 3, 3])); // 3
+console.log(distributeCandies([1, 1, 2, 3])); // 2
+console.log(distributeCandies([6, 6, 6, 6])); //1
+
+// Better runtime than 99.75% and less memory usage than 90%
+
+const topVotedDistributeCandies = function (candies) {
+  return Math.min(new Set(candies).size, candies.length / 2);
+};
+console.log(topVotedDistributeCandies([1, 1, 2, 2, 3, 3])); // 3
+console.log(topVotedDistributeCandies([1, 1, 2, 3])); // 2
+console.log(topVotedDistributeCandies([6, 6, 6, 6])); //1
+
+// Top voted fit the same logic in a one-liner
