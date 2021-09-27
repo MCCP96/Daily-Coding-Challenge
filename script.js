@@ -5246,7 +5246,7 @@ console.log(topVotedCheckRecord("AA")); // false
 // Definitely a good problem for Regex */
 
 // Reverse Words in a String III          9/25/2021
-
+/* 
 // Given a string s, reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
 
 // Example 1:
@@ -5276,4 +5276,55 @@ console.log(reverseWords(`God Ding`)); // "doG gniD"
 // Pretty ok
 // Better runtime/memory usage than 60%
 
-// Similar to top voted except they use .map
+// Similar to top voted except they use .map */
+
+// Array Partition I          9/26/2021
+
+// Given an integer array nums of 2n integers, group these integers into n pairs (a1, b1), (a2, b2), ..., (an, bn) such that the sum of min(ai, bi) for all i is maximized. Return the maximized sum.
+
+// Example 1:
+//    Input: nums = [1,4,3,2]
+//    Output: 4
+// Explanation: All possible pairings (ignoring the ordering of elements) are:
+//    1. (1, 4), (2, 3) -> min(1, 4) + min(2, 3) = 1 + 2 = 3
+//    2. (1, 3), (2, 4) -> min(1, 3) + min(2, 4) = 1 + 2 = 3
+//    3. (1, 2), (3, 4) -> min(1, 2) + min(3, 4) = 1 + 3 = 4
+// So the maximum possible sum is 4.
+
+// Example 2:
+//    Input: nums = [6,2,6,5,1,2]
+//    Output: 9
+// Explanation: The optimal pairing is (2, 1), (2, 5), (6, 6). min(2, 1) + min(2, 5) + min(6, 6) = 1 + 2 + 6 = 9.
+
+// Constraints:
+//    1 <= n <= 104
+//    nums.length == 2 * n
+//    -104 <= nums[i] <= 104
+
+const arrayPairSum = function (nums) {
+  nums.sort((a, b) => a - b);
+  let ans = [];
+  while (nums.length > 0) {
+    ans.push([
+      ...nums.splice(nums.length - 1, nums.length),
+      ...nums.splice(nums.length - 1, nums.length),
+    ]);
+  }
+  return ans.reduce((acc, cur) => (acc += Math.min(cur[0], cur[1])), 0);
+};
+console.log(arrayPairSum([1, 4, 3, 2])); // 4
+console.log(arrayPairSum([6, 2, 6, 5, 1, 2])); // 9
+
+// Not the greatest runtime, but gets the job done
+
+const topVotedArrayPairSum = function (nums) {
+  // sort and sum up the minimum of the pairs
+  return nums
+    .sort((a, b) => a - b)
+    .reduce((sum, cur, i) => (i % 2 === 0 ? (sum += cur) : sum), 0);
+};
+console.log(arrayPairSum([1, 4, 3, 2])); // 4
+console.log(arrayPairSum([6, 2, 6, 5, 1, 2])); // 9
+
+// Ah, similar to what I did, but all under a single .reduce
+// Very clean
