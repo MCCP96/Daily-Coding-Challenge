@@ -5330,7 +5330,7 @@ console.log(topVotedArrayPairSum([6, 2, 6, 5, 1, 2])); // 9
 // Very clean */
 
 // Distribute Candies         9/27/2021
-
+/* 
 // Alice has n candies, where the ith candy is of type candyType[i]. Alice noticed that she started to gain weight, so she visited a doctor.
 
 // The doctor advised Alice to only eat n / 2 of the candies she has (n is always even). Alice likes her candies very much, and she wants to eat the maximum number of different types of candies while still following the doctor's advice.
@@ -5375,4 +5375,40 @@ console.log(topVotedDistributeCandies([1, 1, 2, 2, 3, 3])); // 3
 console.log(topVotedDistributeCandies([1, 1, 2, 3])); // 2
 console.log(topVotedDistributeCandies([6, 6, 6, 6])); //1
 
-// Top voted fit the same logic in a one-liner
+// Top voted fit the same logic in a one-liner */
+
+// Longest Harmonious Subsequence         9/28/2021
+
+// We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.
+
+// Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
+
+// A subsequence of array is a sequence that can be derived from the array by deleting some or no elements without changing the order of the remaining elements.
+
+// Example 1:
+//    Input: nums = [1,3,2,2,5,2,3,7]
+//    Output: 5
+// Explanation: The longest harmonious subsequence is [3,2,2,2,3].
+
+// Constraints:
+//    1 <= nums.length <= 2 * 104
+//    -109 <= nums[i] <= 109
+
+const topVotedFindLHS = function (nums) {
+  let map = {},
+    res = 0;
+  for (let n of nums) map[n] = ~~map[n] + 1; // map[n] ? map[n]++ : (map[n] = 1);
+  for (let n in map) if (map[+n + 1]) res = Math.max(res, map[n] + map[+n + 1]);
+  return res;
+};
+console.log(topVotedFindLHS([1, 3, 2, 2, 5, 2, 3, 7])); // 5
+console.log(topVotedFindLHS([1, 2, 3, 4])); // 2
+console.log(topVotedFindLHS([1, 1, 1, 1])); // 0
+
+// First time seeing ~~ operator, serves to fill object by counting ints in this scenario
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_NOT
+
+// Personally prefer the more readable "map[n] ? map[n]++ : (map[n] = 1);" but online suggests better runtime.
+
+// The 2nd for loop checks if there's an object element that's +1
+// If so, add them together and compare to the current leader (res), returning largest num
