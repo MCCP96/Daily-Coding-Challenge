@@ -5378,7 +5378,7 @@ console.log(topVotedDistributeCandies([6, 6, 6, 6])); //1
 // Top voted fit the same logic in a one-liner */
 
 // Longest Harmonious Subsequence         9/28/2021
-
+/* 
 // We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.
 
 // Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
@@ -5411,4 +5411,78 @@ console.log(topVotedFindLHS([1, 1, 1, 1])); // 0
 // Personally prefer the more readable "map[n] ? map[n]++ : (map[n] = 1);" but online suggests better runtime.
 
 // The 2nd for loop checks if there's an object element that's +1
-// If so, add them together and compare to the current leader (res), returning largest num
+// If so, add them together and compare to the current leader (res), returning largest num */
+
+// Range Addition II          9/29/2021
+
+// You are given an m x n matrix M initialized with all 0's and an array of operations ops, where ops[i] = [ai, bi] means M[x][y] should be incremented by one for all 0 <= x < ai and 0 <= y < bi.
+
+// Count and return the number of maximum integers in the matrix after performing all the operations.
+
+// Example 1: https://assets.leetcode.com/uploads/2020/10/02/ex1.jpg
+//    Input: m = 3, n = 3, ops = [[2,2],[3,3]]
+//    Output: 4
+// Explanation: The maximum integer in M is 2, and there are four of it in M. So return 4.
+
+// Example 2:
+//    Input: m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]
+//    Output: 4
+
+// Example 3:
+//    Input: m = 3, n = 3, ops = []
+//    Output: 9
+
+// Constraints:
+//    1 <= m, n <= 4 * 104
+//    0 <= ops.length <= 104
+//    ops[i].length == 2
+//    1 <= ai <= m
+//    1 <= bi <= n
+
+const maxCount = function (m, n, ops) {
+  if (ops.length < 1) return m * n;
+  let map = {};
+  for (let add of ops) {
+    for (let i = 1; i <= m; i++) {
+      if (i > add[0]) continue;
+      for (let j = 1; j <= n; j++) {
+        if (j > add[1]) continue;
+        map[`${i}${j}`] = ~~map[`${i}${j}`] + 1;
+      }
+    }
+  }
+  return Object.values(map).filter((x) => x == Math.max(...Object.values(map)))
+    .length;
+};
+// prettier-ignore
+console.log(maxCount(3, 3, [[2, 2],[3, 3]])); // 4
+// prettier-ignore
+console.log(maxCount(3, 3, [[2, 2],[3, 3],[3, 3],[3, 3],[2, 2],[3, 3],[3, 3],[3, 3],[2, 2],[3, 3],[3, 3],[3, 3],])); // 4
+console.log(maxCount(3, 3, [])); // 9
+
+// Works but couldn't meet runtime expectations
+// Probably requires single loop
+
+const topVotedMaxCount = function (m, n, ops) {
+  let minRow = m;
+  let minCol = n;
+
+  // find overlap operator
+  for (const op of ops) {
+    minRow = Math.min(minRow, op[0]);
+    minCol = Math.min(minCol, op[1]);
+  }
+
+  return minRow * minCol;
+};
+// prettier-ignore
+console.log(topVotedMaxCount(3, 3, [[2, 2],[3, 3]])); // 4
+// prettier-ignore
+console.log(topVotedMaxCount(3, 3, [[2, 2],[3, 3],[3, 3],[3, 3],[2, 2],[3, 3],[3, 3],[3, 3],[2, 2],[3, 3],[3, 3],[3, 3],])); // 4
+console.log(topVotedMaxCount(3, 3, [])); // 9
+
+// I struggled to understand this solution at first, but seems I didn't fully grasp the prompt
+
+// The fact that the row and col of ops must originate from the top-left corner of the grid means the largest possible solution will always be the smallest row & col provided
+
+// For example, I was expecting ops to increment the center of the grid, which is impossible
