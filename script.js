@@ -5414,7 +5414,7 @@ console.log(topVotedFindLHS([1, 1, 1, 1])); // 0
 // If so, add them together and compare to the current leader (res), returning largest num */
 
 // Range Addition II          9/29/2021
-
+/* 
 // You are given an m x n matrix M initialized with all 0's and an array of operations ops, where ops[i] = [ai, bi] means M[x][y] should be incremented by one for all 0 <= x < ai and 0 <= y < bi.
 
 // Count and return the number of maximum integers in the matrix after performing all the operations.
@@ -5485,4 +5485,89 @@ console.log(topVotedMaxCount(3, 3, [])); // 9
 
 // The fact that the row and col of ops must originate from the top-left corner of the grid means the largest possible solution will always be the smallest row & col provided
 
-// For example, I was expecting ops to increment the center of the grid, which is impossible
+// For example, I was expecting ops to increment the center of the grid, which is impossible */
+
+// Minimum Index Sum of Two Lists         9/30/2021
+
+// Suppose Andy and Doris want to choose a restaurant for dinner, and they both have a list of favorite restaurants represented by strings.
+
+// You need to help them find out their common interest with the least list index sum. If there is a choice tie between answers, output all of them with no order requirement. You could assume there always exists an answer.
+
+// Example 1:
+//    Input: list1 = ["Shogun","Tapioca Express","Burger King","KFC"], list2 = ["Piatti","The Grill at Torrey Pines","Hungry Hunter Steakhouse","Shogun"]
+//    Output: ["Shogun"]
+// Explanation: The only restaurant they both like is "Shogun".
+
+// Example 2:
+//    Input: list1 = ["Shogun","Tapioca Express","Burger King","KFC"], list2 = ["KFC","Shogun","Burger King"]
+//    Output: ["Shogun"]
+// Explanation: The restaurant they both like and have the least index sum is "Shogun" with index sum 1 (0+1).
+
+// Constraints:
+//    1 <= list1.length, list2.length <= 1000
+//    1 <= list1[i].length, list2[i].length <= 30
+//    list1[i] and list2[i] consist of spaces ' ' and English letters.
+//    All the stings of list1 are unique.
+//    All the stings of list2 are unique.
+
+const findRestaurant = function (list1, list2) {
+  const l1 = new Set(list1);
+
+  let shared = {};
+  for (let resto of list2) {
+    if (l1.has(resto))
+      shared[resto] = list1.indexOf(resto) + list2.indexOf(resto);
+  }
+  if (Object.keys(shared).length == 1) return Object.keys(shared);
+
+  let curLeader = 1001;
+  let ans = [];
+
+  for (let resto in shared) {
+    if (shared[resto] == curLeader) {
+      ans.push(resto);
+      continue;
+    }
+    if (shared[resto] < curLeader) {
+      curLeader = shared[resto];
+      ans = [];
+      ans.push(resto);
+    }
+  }
+  return ans;
+};
+console.log(findRestaurant(["KFC"], ["KFC"])); // ["KFC"]
+// prettier-ignore
+console.log(findRestaurant(["Shogun","Tapioca Express","Burger King","KFC"],
+["Piatti","The Grill at Torrey Pines","Hungry Hunter Steakhouse","Shogun"])); // ["Shogun"]
+console.log(
+  findRestaurant(
+    ["Shogun", "Tapioca Express", "Burger King", "KFC"],
+    ["KFC", "Shogun", "Burger King"]
+  )
+); // ["Shogun"]
+// prettier-ignore
+console.log(findRestaurant(["Shogun","Tapioca Express","Burger King","KFC"], 
+["KFC","Burger King","Tapioca Express","Shogun"])); // ["KFC","Burger King","Tapioca Express","Shogun"]
+
+// As far as I could get. Doesn't work
+
+function topVotedFindRestaurant(list1, list2) {
+  const map = new Map();
+  let ret = [];
+  let min = Infinity;
+  for (let i = 0; i < list1.length; ++i) {
+    map.set(list1[i], i);
+  }
+  for (let i = 0; i < list2.length; ++i) {
+    if (map.has(list2[i])) {
+      let index1 = map.get(list2[i]);
+      let index2 = i;
+      ret.push({ val: list2[i], index: index1 + index2 });
+      min = Math.min(min, index1 + index2);
+    }
+  }
+  // Basically ret should be map as well instead of array
+  // so we don't have to filter it (it will be faster).
+  return ret.filter((item) => item.index === min).map((item) => item.val);
+}
