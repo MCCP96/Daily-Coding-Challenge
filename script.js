@@ -5488,7 +5488,7 @@ console.log(topVotedMaxCount(3, 3, [])); // 9
 // For example, I was expecting ops to increment the center of the grid, which is impossible */
 
 // Minimum Index Sum of Two Lists         9/30/2021
-
+/* 
 // Suppose Andy and Doris want to choose a restaurant for dinner, and they both have a list of favorite restaurants represented by strings.
 
 // You need to help them find out their common interest with the least list index sum. If there is a choice tie between answers, output all of them with no order requirement. You could assume there always exists an answer.
@@ -5570,4 +5570,43 @@ function topVotedFindRestaurant(list1, list2) {
   // Basically ret should be map as well instead of array
   // so we don't have to filter it (it will be faster).
   return ret.filter((item) => item.index === min).map((item) => item.val);
-}
+} */
+
+// Can Place Flowers            10/1/2021
+
+// You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+
+// Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule.
+
+// Example 1:
+//    Input: flowerbed = [1,0,0,0,1], n = 1
+//    Output: true
+
+// Example 2:
+//    Input: flowerbed = [1,0,0,0,1], n = 2
+//    Output: false
+
+// Constraints:
+//    1 <= flowerbed.length <= 2 * 104
+//    flowerbed[i] is 0 or 1.
+//    There are no two adjacent flowers in flowerbed.
+//    0 <= n <= flowerbed.length
+
+const topVotedCanPlaceFlowers = function (flowerbed, n) {
+  let current = 0;
+  const size = flowerbed.length;
+  for (var i = 0; i <= size; i++) {
+    if (i < size && flowerbed[i] == 0) {
+      current++;
+      if (i == 0) current++;
+      if (i == size - 1) current++;
+    } else {
+      n -= Math.trunc((current - 1) / 2);
+      if (n <= 0) return true;
+      current = 0;
+    }
+  }
+  return false;
+};
+console.log(topVotedCanPlaceFlowers([1, 0, 0, 0, 1], 1)); // true
+console.log(topVotedCanPlaceFlowers([1, 0, 0, 0, 1], 2)); // false
