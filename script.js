@@ -5573,7 +5573,7 @@ function topVotedFindRestaurant(list1, list2) {
 } */
 
 // Can Place Flowers            10/1/2021
-
+/* 
 // You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
 
 // Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule.
@@ -5609,4 +5609,31 @@ const topVotedCanPlaceFlowers = function (flowerbed, n) {
   return false;
 };
 console.log(topVotedCanPlaceFlowers([1, 0, 0, 0, 1], 1)); // true
-console.log(topVotedCanPlaceFlowers([1, 0, 0, 0, 1], 2)); // false
+console.log(topVotedCanPlaceFlowers([1, 0, 0, 0, 1], 2)); // false */
+
+// Maximum Product of Three Numbers         10/3/2021
+
+// Given an integer array nums, find three numbers whose product is maximum and return the maximum product.
+
+// Constraints:
+//    3 <= nums.length <= 104
+//    -1000 <= nums[i] <= 1000
+
+const topVotedMaximumProduct = function (nums) {
+  let sorted = nums.sort((a, b) => a - b),
+    len = nums.length;
+  let res1 = sorted[0] * sorted[1] * sorted[len - 1],
+    res2 = sorted[len - 1] * sorted[len - 2] * sorted[len - 3];
+  return Math.max(res1, res2);
+};
+console.log(topVotedMaximumProduct([1, 2, 3])); // 6
+console.log(topVotedMaximumProduct([1, 2, 3, 4])); // 24
+console.log(topVotedMaximumProduct([-1, -2, -3])); // -6
+
+// Clean solution
+// Sorts, multiplies maxes and negatives, then compares both and returns largest
+
+// Unfortunately had to miss yesterday's coding challenge
+// As predicted on Day 100, I went camping and had no signal whatsoever lol
+
+// Oh well, the point of these challenges is to code actively, the streak is just a byproduct. Let's start another!
