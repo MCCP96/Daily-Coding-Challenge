@@ -5612,7 +5612,7 @@ console.log(topVotedCanPlaceFlowers([1, 0, 0, 0, 1], 1)); // true
 console.log(topVotedCanPlaceFlowers([1, 0, 0, 0, 1], 2)); // false */
 
 // Maximum Product of Three Numbers         10/3/2021
-
+/* 
 // Given an integer array nums, find three numbers whose product is maximum and return the maximum product.
 
 // Constraints:
@@ -5636,4 +5636,43 @@ console.log(topVotedMaximumProduct([-1, -2, -3])); // -6
 // Unfortunately had to miss yesterday's coding challenge
 // As predicted on Day 100, I went camping and had no signal whatsoever lol
 
-// Oh well, the point of these challenges is to code actively, the streak is just a byproduct. Let's start another!
+// Oh well, the point of these challenges is to code actively, the streak is just a byproduct. Let's start another! */
+
+// Maximum Average Subarray I         10/4/2021
+
+// You are given an integer array nums consisting of n elements, and an integer k.
+
+// Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.
+
+// Example 1:
+//    Input: nums = [1,12,-5,-6,50,3], k = 4
+//    Output: 12.75000
+//    Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+
+// Constraints:
+//    n == nums.length
+//    1 <= k <= n <= 105
+//    -104 <= nums[i] <= 104
+
+const topVotedFindMaxAverage = function (nums, k) {
+  let sum = 0;
+  for (let i = 0; i < k; i++) {
+    sum += nums[i];
+  }
+
+  let max = sum;
+  for (let i = k; i < nums.length; i++) {
+    sum = sum - nums[i - k] + nums[i];
+    max = Math.max(max, sum);
+  }
+
+  return max / k;
+};
+console.log(topVotedFindMaxAverage([1, 12, -5, -6, 50, 3], 4)); // 12.75
+console.log(topVotedFindMaxAverage([5], 1)); // 5.0
+
+// Unfortunately don't have much time today so will be studying solution
+
+// Basically adds up the first k elements, removes first/adds next, and compares
+// If the new sequence is larger, a new max is set
+// Once the loop is complete, return max/k
