@@ -5639,7 +5639,7 @@ console.log(topVotedMaximumProduct([-1, -2, -3])); // -6
 // Oh well, the point of these challenges is to code actively, the streak is just a byproduct. Let's start another! */
 
 // Maximum Average Subarray I         10/4/2021
-
+/* 
 // You are given an integer array nums consisting of n elements, and an integer k.
 
 // Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.
@@ -5675,4 +5675,38 @@ console.log(topVotedFindMaxAverage([5], 1)); // 5.0
 
 // Basically adds up the first k elements, removes first/adds next, and compares
 // If the new sequence is larger, a new max is set
-// Once the loop is complete, return max/k
+// Once the loop is complete, return max/k */
+
+// Set Mismatch         10/5/2021
+
+// You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
+
+// You are given an integer array nums representing the data status of this set after the error.
+
+// Find the number that occurs twice and the number that is missing and return them in the form of an array.
+
+// Constraints:
+//    2 <= nums.length <= 104
+//    1 <= nums[i] <= 104
+
+const topVotedFindErrorNums = function (nums) {
+  let len = nums.length;
+  // Formula to calculate sum of Airthmetic series
+  let sum = (len * (len + 1)) / 2;
+  // Now, just doing the other calculations required
+  let s = 0,
+    act = 0;
+  let obj = {};
+  for (let i of nums) {
+    if (obj[i]) {
+      act = i;
+    } else {
+      obj[i] = true;
+      s += i;
+    }
+  }
+  return [act, sum - s];
+};
+console.log(topVotedFindErrorNums([1, 2, 2, 4])); // [2,3]
+console.log(topVotedFindErrorNums([1, 1])); // [1,2]
+console.log(topVotedFindErrorNums([2, 2, 3])); // [2,1]
