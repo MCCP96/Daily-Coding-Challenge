@@ -5712,7 +5712,7 @@ console.log(topVotedFindErrorNums([1, 1])); // [1,2]
 console.log(topVotedFindErrorNums([2, 2, 3])); // [2,1] */
 
 // Robot Return to Origin         10/6/2021
-
+/* 
 // There is a robot starting at the position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.
 
 // You are given a string moves that represents the move sequence of the robot where moves[i] represents its ith move. Valid moves are 'R' (right), 'L' (left), 'U' (up), and 'D' (down).
@@ -5747,4 +5747,44 @@ console.log(judgeCircle("RRDD")); // false
 console.log(judgeCircle("LDRRLRUULR")); // false
 
 // Easy read, very simple
-// Same as top voted
+// Same as top voted */
+
+// Longest Continuous Increasing Subsequence          10/7/2021
+
+// Given an unsorted array of integers nums, return the length of the longest continuous increasing subsequence (i.e. subarray). The subsequence must be strictly increasing.
+
+// A continuous increasing subsequence is defined by two indices l and r (l < r) such that it is [nums[l], nums[l + 1], ..., nums[r - 1], nums[r]] and for each l <= i < r, nums[i] < nums[i + 1].
+
+// Example 1:
+//    Input: nums = [1,3,5,4,7]
+//    Output: 3
+// Explanation: The longest continuous increasing subsequence is [1,3,5] with length 3.
+// Even though [1,3,5,7] is an increasing subsequence, it is not continuous as elements 5 and 7 are separated by element
+// 4.
+
+// Example 2:
+//    Input: nums = [2,2,2,2,2]
+//    Output: 1
+// Explanation: The longest continuous increasing subsequence is [2] with length 1. Note that it must be strictly
+// increasing.
+
+// Constraints:
+//    1 <= nums.length <= 104
+//    -109 <= nums[i] <= 109
+
+const findLengthOfLCIS = function (nums) {
+  if (nums.length == 1) return 1;
+
+  let max = 0;
+  return nums.reduce((acc, cur, i, arr) => {
+    cur > arr[i - 1] ? max++ : (max = 1);
+    return max > acc ? max : acc;
+  }, 0);
+};
+console.log(findLengthOfLCIS([1, 3, 5, 4, 7])); // 3
+console.log(findLengthOfLCIS([2, 2, 2, 2, 2])); // 1
+
+// Pretty ok, faster & better memory usage than 90%
+
+// Top voted aren't as clean
+// Keeping mine
