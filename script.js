@@ -5750,7 +5750,7 @@ console.log(judgeCircle("LDRRLRUULR")); // false
 // Same as top voted */
 
 // Longest Continuous Increasing Subsequence          10/7/2021
-
+/* 
 // Given an unsorted array of integers nums, return the length of the longest continuous increasing subsequence (i.e. subarray). The subsequence must be strictly increasing.
 
 // A continuous increasing subsequence is defined by two indices l and r (l < r) such that it is [nums[l], nums[l + 1], ..., nums[r - 1], nums[r]] and for each l <= i < r, nums[i] < nums[i + 1].
@@ -5787,4 +5787,53 @@ console.log(findLengthOfLCIS([2, 2, 2, 2, 2])); // 1
 // Pretty ok, faster & better memory usage than 90%
 
 // Top voted aren't as clean
-// Keeping mine
+// Keeping mine */
+
+// Valid Palindrome II          10/8/2021
+
+// Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+
+// Example 1:
+//    Input: s = "aba"
+//    Output: true
+
+// Example 2:
+//    Input: s = "abca"
+//    Output: true
+// Explanation: You could delete the character 'c'.
+
+// Example 3:
+//    Input: s = "abc"
+//    Output: false
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s consists of lowercase English letters.
+
+const isPalindrome = (s, start, end) => {
+  let l = start;
+  let r = end;
+
+  while (l < r) {
+    if (s[l] !== s[r]) return [false, l, r];
+    l++;
+    r--;
+  }
+
+  return [true, l, r];
+};
+
+const validPalindrome = (s) => {
+  let [result, start, end] = isPalindrome(s, 0, s.length - 1);
+
+  if (!result) {
+    const [lResult] = isPalindrome(s, start + 1, end);
+    const [rResult] = isPalindrome(s, start, end - 1);
+    result = lResult || rResult;
+  }
+
+  return result;
+};
+console.log(validPalindrome("aba")); // true
+console.log(validPalindrome("abca")); // true
+console.log(validPalindrome("abc")); // false
