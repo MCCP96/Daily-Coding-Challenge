@@ -5790,7 +5790,7 @@ console.log(findLengthOfLCIS([2, 2, 2, 2, 2])); // 1
 // Keeping mine */
 
 // Valid Palindrome II          10/8/2021
-
+/*
 // Given a string s, return true if the s can be palindrome after deleting at most one character from it.
 
 // Example 1:
@@ -5836,4 +5836,83 @@ const validPalindrome = (s) => {
 };
 console.log(validPalindrome("aba")); // true
 console.log(validPalindrome("abca")); // true
-console.log(validPalindrome("abc")); // false
+console.log(validPalindrome("abc")); // false */
+
+// Baseball Game          10/9/2021
+
+// You are keeping score for a baseball game with strange rules. The game consists of several rounds, where the scores of past rounds may affect future rounds' scores.
+
+// At the beginning of the game, you start with an empty record. You are given a list of strings ops, where ops[i] is the ith operation you must apply to the record and is one of the following:
+
+// An integer x - Record a new score of x.
+// "+" - Record a new score that is the sum of the previous two scores. It is guaranteed there will always be two previous scores.
+// "D" - Record a new score that is double the previous score. It is guaranteed there will always be a previous score.
+// "C" - Invalidate the previous score, removing it from the record. It is guaranteed there will always be a previous score.
+// Return the sum of all the scores on the record.
+
+// Example 1:
+//    Input: ops = ["5","2","C","D","+"]
+//    Output: 30
+// Explanation:
+// "5" - Add 5 to the record, record is now [5].
+// "2" - Add 2 to the record, record is now [5, 2].
+// "C" - Invalidate and remove the previous score, record is now [5].
+// "D" - Add 2 * 5 = 10 to the record, record is now [5, 10].
+// "+" - Add 5 + 10 = 15 to the record, record is now [5, 10, 15].
+// The total sum is 5 + 10 + 15 = 30.
+
+// Example 3:
+//    Input: ops = ["1"]
+//    Output: 1
+
+// Constraints:
+//    1 <= ops.length <= 1000
+//    ops[i] is "C", "D", "+", or a string representing an integer in the range [-3 * 104, 3 * 104].
+//    For operation "+", there will always be at least two previous scores on the record.
+//    For operations "C" and "D", there will always be at least one previous score on the record.
+
+const calPoints = function (ops) {
+  let record = [];
+  for (let op of ops) {
+    switch (op) {
+      case `C`:
+        record.pop();
+        break;
+      case `D`:
+        record.push(2 * record[record.length - 1]);
+        break;
+      case `+`:
+        record.push(record[record.length - 1] + record[record.length - 2]);
+        break;
+      default:
+        record.push(+op);
+    }
+  }
+  return record.reduce((acc, cur) => (acc += cur));
+};
+console.log(calPoints(["5", "2", "C", "D", "+"])); // 30
+console.log(calPoints(["5", "-2", "4", "C", "D", "9", "+", "+"])); // 27
+console.log(calPoints(["1"])); // 1
+
+// Decent runtime, not great memory usage. Very readable.
+
+const topVotedCalPoints = function (ops) {
+  let arr = [];
+  for (let i = 0; i < ops.length; i++) {
+    if (ops[i] === "+") {
+      arr.push(arr[arr.length - 1] + arr[arr.length - 2]);
+    } else if (ops[i] === "D") {
+      arr.push(arr[arr.length - 1] * 2);
+    } else if (ops[i] === "C") {
+      arr.pop();
+    } else {
+      arr.push(parseInt(ops[i]));
+    }
+  }
+  return arr.reduce((acc, current) => acc + current);
+};
+console.log(topVotedCalPoints(["5", "2", "C", "D", "+"])); // 30
+console.log(topVotedCalPoints(["5", "-2", "4", "C", "D", "9", "+", "+"])); // 27
+console.log(topVotedCalPoints(["1"])); // 1
+
+// Identical but uses if/else statements
