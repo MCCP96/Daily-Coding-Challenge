@@ -5839,7 +5839,7 @@ console.log(validPalindrome("abca")); // true
 console.log(validPalindrome("abc")); // false */
 
 // Baseball Game          10/9/2021
-
+/* 
 // You are keeping score for a baseball game with strange rules. The game consists of several rounds, where the scores of past rounds may affect future rounds' scores.
 
 // At the beginning of the game, you start with an empty record. You are given a list of strings ops, where ops[i] is the ith operation you must apply to the record and is one of the following:
@@ -5915,4 +5915,49 @@ console.log(topVotedCalPoints(["5", "2", "C", "D", "+"])); // 30
 console.log(topVotedCalPoints(["5", "-2", "4", "C", "D", "9", "+", "+"])); // 27
 console.log(topVotedCalPoints(["1"])); // 1
 
-// Identical but uses if/else statements
+// Identical but uses if/else statements */
+
+// Degree of an Array         10/10/2021
+
+// Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
+
+// Your task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.
+
+// Example 1:
+// Input: nums = [1,2,2,3,1]
+// Output: 2
+// Explanation:
+// The input array has a degree of 2 because both elements 1 and 2 appear twice.
+// Of the subarrays that have the same degree:
+// [1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]
+// The shortest length is 2. So return 2.
+
+// Example 2:
+// Input: nums = [1,2,2,3,1,4,2]
+// Output: 6
+// Explanation:
+// The degree is 3 because the element 2 is repeated 3 times.
+// So [2,2,3,1,4,2] is the shortest subarray, therefore returning 6.
+
+// Constraints:
+// nums.length will be between 1 and 50,000.
+// nums[i] will be an integer between 0 and 49,999.
+
+const topVotedFindShortestSubArray = function (nums) {
+  let freqs = {};
+  let degree = 0;
+  nums.forEach((n) => {
+    freqs[n] = (freqs[n] ?? 0) + 1;
+    degree = freqs[n] > degree ? freqs[n] : degree;
+  });
+  let mostCommon = Object.keys(freqs).filter((n) => freqs[n] == degree);
+  let sublengths = mostCommon.map(
+    (n) => nums.lastIndexOf(parseInt(n)) - nums.indexOf(parseInt(n)) + 1
+  );
+  return Math.min(...sublengths);
+};
+console.log(topVotedFindShortestSubArray([1, 2, 2, 3, 1])); // 2
+console.log(topVotedFindShortestSubArray([1, 2, 2, 3, 1, 4, 2])); // 6
+
+// No time today
+// Clean solution!
