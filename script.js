@@ -5918,7 +5918,7 @@ console.log(topVotedCalPoints(["1"])); // 1
 // Identical but uses if/else statements */
 
 // Degree of an Array         10/10/2021
-
+/* 
 // Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
 
 // Your task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.
@@ -5960,4 +5960,21 @@ console.log(topVotedFindShortestSubArray([1, 2, 2, 3, 1])); // 2
 console.log(topVotedFindShortestSubArray([1, 2, 2, 3, 1, 4, 2])); // 6
 
 // No time today
-// Clean solution!
+// Clean solution! */
+
+// To Lower Case          10/11/2021
+
+// Given a string s, return the string after replacing every uppercase letter with the same lowercase letter.
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s consists of printable ASCII characters.
+
+const toLowerCase = function (s) {
+  return s.toLowerCase();
+};
+console.log(toLowerCase(`Hello`));
+console.log(toLowerCase(`here`));
+console.log(toLowerCase(`LOVELY`));
+
+// As easy as they get
