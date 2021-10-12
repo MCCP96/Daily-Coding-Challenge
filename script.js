@@ -5963,7 +5963,7 @@ console.log(topVotedFindShortestSubArray([1, 2, 2, 3, 1, 4, 2])); // 6
 // Clean solution! */
 
 // To Lower Case          10/11/2021
-
+/* 
 // Given a string s, return the string after replacing every uppercase letter with the same lowercase letter.
 
 // Constraints:
@@ -5977,4 +5977,38 @@ console.log(toLowerCase(`Hello`));
 console.log(toLowerCase(`here`));
 console.log(toLowerCase(`LOVELY`));
 
-// As easy as they get
+// As easy as they get */
+
+// 1-bit and 2-bit Characters         10/12/2021
+
+// We have two special characters:
+
+// The first character can be represented by one bit 0.
+// The second character can be represented by two bits (10 or 11).
+// Given a binary array bits that ends with 0, return true if the last character must be a one-bit character.
+
+// Example 1:
+//    Input: bits = [1,0,0]
+//    Output: true
+// Explanation: The only way to decode it is two-bit character and one-bit character.
+// So the last character is one-bit character.
+
+// Example 2:
+//    Input: bits = [1,1,1,0]
+//    Output: false
+// Explanation: The only way to decode it is two-bit character and two-bit character.
+// So the last character is not one-bit character.
+
+// Constraints:
+//    1 <= bits.length <= 1000
+//    bits[i] is either 0 or 1.
+
+const isOneBitCharacter = function (bits) {
+  return bits
+    .slice(0, bits.length - 1)
+    .reduce((acc, cur) => (acc ? !cur : true), true);
+};
+console.log(isOneBitCharacter([1, 0, 0])); // true
+console.log(isOneBitCharacter([1, 1, 1, 0])); // false
+
+// Identical to top voted
