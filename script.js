@@ -6167,7 +6167,7 @@ var topVotedSelfDividingNumbers = function (left, right) {
 // Perfect use case for this method */
 
 // Flood Fill         10/15/2021
-
+/* 
 // An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image.
 
 // You are also given three integers sr, sc, and newColor. You should perform a flood fill on the image starting from the pixel image[sr][sc].
@@ -6222,4 +6222,42 @@ console.log(floodFill([[1,1,1],[1,1,0],[1,0,1]], 1,  1,  2)); // [[2,2,2],[2,2,0
 console.log(floodFill([[0,0,0],[0,0,0]],  0,  0,  2)); // [[2,2,2],[2,2,2]]
 
 // dfs function seems to test all surrounding squares and adjust accordingly
-// Not the fastest, but very good memory usage
+// Not the fastest, but very good memory usage */
+
+// Find Smallest Letter Greater Than Target         10/16/2021
+
+// Given a characters array letters that is sorted in non-decreasing order and a character target, return the smallest character in the array that is larger than target.
+
+// Note that the letters wrap around.
+
+// For example, if target == 'z' and letters == ['a', 'b'], the answer is 'a'.
+
+// Constraints:
+//    2 <= letters.length <= 104
+//    letters[i] is a lowercase English letter.
+//    letters is sorted in non-decreasing order.
+//    letters contains at least two different characters.
+//    target is a lowercase English letter.
+
+const nextGreatestLetter = function (letters, target) {
+  for (let l of letters) {
+    if (l.charCodeAt(0) > target.charCodeAt(0)) return l;
+  }
+  return letters[0];
+};
+console.log(nextGreatestLetter(["c", "f", "j"], "a")); // c
+console.log(nextGreatestLetter(["c", "f", "j"], "c")); // f
+console.log(nextGreatestLetter(["c", "f", "j"], "d")); // f
+console.log(nextGreatestLetter(["c", "f", "j"], "g")); // j
+console.log(nextGreatestLetter(["c", "f", "j"], "j")); // c
+
+// Decent runtime, memory usage better than 95%
+
+const topVotedNextGreatestLetter = function (letters, target) {
+  return (
+    letters.filter((x) => x.charCodeAt(0) > target.charCodeAt(0))[0] ||
+    letters[0]
+  );
+};
+
+// Same thing as a one-liner essentially
