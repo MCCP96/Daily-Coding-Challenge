@@ -6295,7 +6295,7 @@ console.log(
 ); // 6 */
 
 // Largest Number At Least Twice of Others          10/18/2021
-
+/* 
 // You are given an integer array nums where the largest integer is unique.
 
 // Determine whether the largest element in the array is at least twice as much as every other number in the array. If it is, return the index of the largest element, or return -1 otherwise.
@@ -6343,4 +6343,99 @@ const topVotedDominantIndex = (nums) => {
     }
   }
   return indexMax;
+}; */
+
+// Shortest Completing Word         10/19/2021
+
+// Given a string licensePlate and an array of strings words, find the shortest completing word in words.
+
+// A completing word is a word that contains all the letters in licensePlate. Ignore numbers and spaces in licensePlate, and treat letters as case insensitive. If a letter appears more than once in licensePlate, then it must appear in the word the same number of times or more.
+
+// For example, if licensePlate = "aBc 12c", then it contains letters 'a', 'b' (ignoring case), and 'c' twice. Possible completing words are "abccdef", "caaacab", and "cbca".
+
+// Return the shortest completing word in words. It is guaranteed an answer exists. If there are multiple shortest completing words, return the first one that occurs in words.
+
+// Example 1:
+//    Input: licensePlate = "1s3 PSt", words = ["step","steps","stripe","stepple"]
+//    Output: "steps"
+// Explanation: licensePlate contains letters 's', 'p', 's' (ignoring case), and 't'.
+// "step" contains 't' and 'p', but only contains 1 's'.
+// "steps" contains 't', 'p', and both 's' characters.
+// "stripe" is missing an 's'.
+// "stepple" is missing an 's'.
+// Since "steps" is the only word containing all the letters, that is the answer.
+
+// Example 2:
+//    Input: licensePlate = "1s3 456", words = ["looks","pest","stew","show"]
+//    Output: "pest"
+// Explanation: licensePlate only contains the letter 's'. All the words contain 's', but among these "pest", "stew", and "show" are shortest. The answer is "pest" because it is the word that appears earliest of the 3.
+
+// Example 3:
+//    Input: licensePlate = "Ah71752", words = ["suggest","letter","of","husband","easy","education","drug","prevent","writer","old"]
+//    Output: "husband"
+
+// Example 4:
+//    Input: licensePlate = "OgEu755", words = ["enough","these","play","wide","wonder","box","arrive","money","tax","thus"]
+//    Output: "enough"
+
+// Example 5:
+//    Input: licensePlate = "iMSlpe4", words = ["claim","consumer","student","camera","public","never","wonder","simple","thought","use"]
+//    Output: "simple"
+
+// Constraints:
+//    1 <= licensePlate.length <= 7
+//    licensePlate contains digits, letters (uppercase or lowercase), or space ' '.
+//    1 <= words.length <= 1000
+//    1 <= words[i].length <= 15
+//    words[i] consists of lower case English letters.
+
+const shortestCompletingWord = function (licensePlate, words) {
+  let letters = licensePlate
+    .toLowerCase()
+    .split(``)
+    .filter((char) => /[a-z]/.test(char));
+
+  let ans = `                `; // 16 chars due to constraints
+  for (let word of words) {
+    let l = letters.slice();
+    for (let char of word.split(``)) {
+      let index = l.indexOf(char);
+      if (index != -1) l[index] = 1;
+    }
+    if (l.every((x) => x == 1) && word.length < ans.length) ans = word;
+  }
+  return ans;
 };
+// prettier-ignore
+console.log(shortestCompletingWord("1s3 PSt", ["step", "steps", "stripe", "stepple"])); // steps
+// prettier-ignore
+console.log(shortestCompletingWord("1s3 456", ["looks", "pest", "stew", "show"])); // pest
+// prettier-ignore
+console.log(shortestCompletingWord("Ah71752", ["suggest","letter","of","husband","easy","education","drug","prevent","writer","old"])); // husband
+// prettier-ignore
+console.log(shortestCompletingWord("OgEu755", ["enough","these","play","wide","wonder","box","arrive","money","tax","thus"])); // enough
+// prettier-ignore
+console.log(shortestCompletingWord("iMSlpe4", ["claim","consumer","student","camera","public","never","wonder","simple","thought","use"])); // simple
+
+// Somehow didn't exceed runtime limit
+// Not a fan of my solution but better than half for runtime & memory it seems
+
+var topVotedShortestCompletingWord = function (licensePlate, words) {
+  let filtered = licensePlate.replace(/[^a-z]/gi, "");
+  let res = "";
+  for (let word of words) {
+    let toReplace = filtered.slice();
+    for (let char of word) {
+      var regex = new RegExp(`[${char}]`, "i");
+      toReplace = toReplace.replace(regex, "");
+    }
+    if (toReplace === "") {
+      if (res === "") res = word;
+      else if (res.length > word.length) res = word;
+    }
+  }
+  return res;
+};
+
+// Seems top voted is also a cluster
+// I do like how they got their filtered license plate
