@@ -6346,7 +6346,7 @@ const topVotedDominantIndex = (nums) => {
 }; */
 
 // Shortest Completing Word         10/19/2021
-
+/* 
 // Given a string licensePlate and an array of strings words, find the shortest completing word in words.
 
 // A completing word is a word that contains all the letters in licensePlate. Ignore numbers and spaces in licensePlate, and treat letters as case insensitive. If a letter appears more than once in licensePlate, then it must appear in the word the same number of times or more.
@@ -6438,4 +6438,71 @@ var topVotedShortestCompletingWord = function (licensePlate, words) {
 };
 
 // Seems top voted is also a cluster
-// I do like how they got their filtered license plate
+// I do like how they got their filtered license plate */
+
+// Prime Number of Set Bits in Binary Representation          10/20/2021
+
+// Given two integers left and right, return the count of numbers in the inclusive range [left, right] having a prime number of set bits in their binary representation.
+
+// Recall that the number of set bits an integer has is the number of 1's present when written in binary.
+
+// For example, 21 written in binary is 10101, which has 3 set bits.
+
+// Example 1:
+//    Input: left = 6, right = 10
+//    Output: 4
+//  Explanation:
+// 6  -> 110 (2 set bits, 2 is prime)
+// 7  -> 111 (3 set bits, 3 is prime)
+// 8  -> 1000 (1 set bit, 1 is not prime)
+// 9  -> 1001 (2 set bits, 2 is prime)
+// 10 -> 1010 (2 set bits, 2 is prime)
+// 4 numbers have a prime number of set bits.
+
+// Example 2:
+//    Input: left = 10, right = 15
+//    Output: 5
+// Explanation:
+// 10 -> 1010 (2 set bits, 2 is prime)
+// 11 -> 1011 (3 set bits, 3 is prime)
+// 12 -> 1100 (2 set bits, 2 is prime)
+// 13 -> 1101 (3 set bits, 3 is prime)
+// 14 -> 1110 (3 set bits, 3 is prime)
+// 15 -> 1111 (4 set bits, 4 is not prime)
+// 5 numbers have a prime number of set bits.
+
+// Constraints:
+//    1 <= left <= right <= 106
+//    0 <= right - left <= 104
+
+const countPrimeSetBits = function (l, r) {
+  function isPrime(x) {
+    for (let i = 2; i * i <= x; i++) {
+      if (x % i == 0) return false;
+    }
+    return x == 1 ? false : true;
+  }
+
+  let ans = 0;
+  for (l; l <= r; l++) {
+    if (isPrime(l.toString(2).replaceAll(`0`, ``).length)) ans++;
+  }
+  return ans;
+};
+console.log(countPrimeSetBits(6, 10)); // 4
+console.log(countPrimeSetBits(10, 15)); // 5
+
+// Gets the job done
+
+var topVotedCountPrimeSetBits = function (L, R) {
+  let set = new Set([2, 3, 5, 7, 11, 13, 17, 19]);
+  let countPrime = 0;
+
+  for (let i = L; i <= R; i++) {
+    if (set.has(i.toString(2).replace(/0/g, "").length)) countPrime++;
+  }
+
+  return countPrime;
+};
+
+// This solution breaks past 19
