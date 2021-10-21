@@ -6441,7 +6441,7 @@ var topVotedShortestCompletingWord = function (licensePlate, words) {
 // I do like how they got their filtered license plate */
 
 // Prime Number of Set Bits in Binary Representation          10/20/2021
-
+/* 
 // Given two integers left and right, return the count of numbers in the inclusive range [left, right] having a prime number of set bits in their binary representation.
 
 // Recall that the number of set bits an integer has is the number of 1's present when written in binary.
@@ -6505,4 +6505,56 @@ var topVotedCountPrimeSetBits = function (L, R) {
   return countPrime;
 };
 
-// This solution breaks past 19
+// This solution breaks past 19 */
+
+// Toeplitz Matrix          10/21/2021
+
+// Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return false.
+
+// A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same elements.
+
+// Example 1:
+//    Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]
+//    Output: true
+// Explanation:
+// In the above grid, the diagonals are:
+// "[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]".
+// In each diagonal all elements are the same, so the answer is True.
+
+// Example 2:
+//    Input: matrix = [[1,2],[2,2]]
+//    Output: false
+// Explanation:
+// The diagonal "[1, 2]" has different elements.
+
+// Constraints:
+//    m == matrix.length
+//    n == matrix[i].length
+//    1 <= m, n <= 20
+//    0 <= matrix[i][j] <= 99
+
+const topVotedIsToeplitzMatrix = (matrix) => {
+  for (let i = 0, len = matrix.length - 1; i < len; i++) {
+    const thisRow = matrix[i].slice(0, -1);
+    const nextRow = matrix[i + 1].slice(1);
+    const isEqual = thisRow.every((v, j) => v === nextRow[j]);
+    if (!isEqual) return false;
+  }
+  return true;
+};
+console.log(
+  topVotedIsToeplitzMatrix([
+    [1, 2, 3, 4],
+    [5, 1, 2, 3],
+    [9, 5, 1, 2],
+  ])
+); // true
+console.log(
+  topVotedIsToeplitzMatrix([
+    [1, 2],
+    [2, 2],
+  ])
+); // false
+
+// Cleverly compares slice to slice for each row
+// Not individual elements at a time
