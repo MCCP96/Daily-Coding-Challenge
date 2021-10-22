@@ -6508,7 +6508,7 @@ var topVotedCountPrimeSetBits = function (L, R) {
 // This solution breaks past 19 */
 
 // Toeplitz Matrix          10/21/2021
-
+/* 
 // Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return false.
 
 // A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same elements.
@@ -6557,4 +6557,43 @@ console.log(
 ); // false
 
 // Cleverly compares slice to slice for each row
-// Not individual elements at a time
+// Not individual elements at a time */
+
+// Jewels and Stones          10/22/2021
+
+// You're given strings jewels representing the types of stones that are jewels, and stones representing the stones you have. Each character in stones is a type of stone you have. You want to know how many of the stones you have are also jewels.
+
+// Letters are case sensitive, so "a" is considered a different type of stone from "A".
+
+// Example 1:
+//    Input: jewels = "aA", stones = "aAAbbbb"
+//    Output: 3
+
+// Example 2:
+//    Input: jewels = "z", stones = "ZZ"
+//    Output: 0
+
+// Constraints:
+//    1 <= jewels.length, stones.length <= 50
+//    jewels and stones consist of only English letters.
+//    All the characters of jewels are unique.
+
+const numJewelsInStones = function (jewels, stones) {
+  jewels = new Set(jewels.split(``));
+  return stones.split(``).reduce((acc, cur) => {
+    if (jewels.has(cur)) acc++;
+    return acc;
+  }, 0);
+};
+console.log(numJewelsInStones("aA", "aAAbbbb")); // 3
+console.log(numJewelsInStones("z", "ZZ")); // 0
+
+// Easy solution
+
+const topVotedNumJewelsInStones = function (jewels, stones) {
+  var sum = 0;
+  for (let i = 0; i < jewels.length; i++) {
+    sum += stones.split(jewels.charAt(i)).length - 1;
+  }
+  return sum;
+};
