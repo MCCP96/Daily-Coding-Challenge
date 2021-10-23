@@ -6560,7 +6560,7 @@ console.log(
 // Not individual elements at a time */
 
 // Jewels and Stones          10/22/2021
-
+/* 
 // You're given strings jewels representing the types of stones that are jewels, and stones representing the stones you have. Each character in stones is a type of stone you have. You want to know how many of the stones you have are also jewels.
 
 // Letters are case sensitive, so "a" is considered a different type of stone from "A".
@@ -6596,4 +6596,32 @@ const topVotedNumJewelsInStones = function (jewels, stones) {
     sum += stones.split(jewels.charAt(i)).length - 1;
   }
   return sum;
+}; */
+
+// Rotate String            10/23/2021
+
+// Given two strings s and goal, return true if and only if s can become goal after some number of shifts on s.
+
+// A shift on s consists of moving the leftmost character of s to the rightmost position.
+
+// For example, if s = "abcde", then it will be "bcdea" after one shift.
+
+// Example 1:
+//    Input: s = "abcde", goal = "cdeab"
+//    Output: true
+
+// Example 2:
+//    Input: s = "abcde", goal = "abced"
+//    Output: false
+
+// Constraints:
+//    1 <= s.length, goal.length <= 100
+//    s and goal consist of lowercase English letters.
+
+const rotateString = function (s, goal) {
+  return s.length == goal.length && `${s}${s}`.includes(goal) ? true : false;
 };
+console.log(rotateString("abcde", "cdeab")); // true
+console.log(rotateString("abcde", "abced")); // false
+
+// Turned top voted into a one-liner
