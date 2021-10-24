@@ -6599,7 +6599,7 @@ const topVotedNumJewelsInStones = function (jewels, stones) {
 }; */
 
 // Rotate String            10/23/2021
-
+/* 
 // Given two strings s and goal, return true if and only if s can become goal after some number of shifts on s.
 
 // A shift on s consists of moving the leftmost character of s to the rightmost position.
@@ -6624,4 +6624,59 @@ const rotateString = function (s, goal) {
 console.log(rotateString("abcde", "cdeab")); // true
 console.log(rotateString("abcde", "abced")); // false
 
-// Turned top voted into a one-liner
+// Turned top voted into a one-liner */
+
+// Unique Morse Code Words          10/24/2024
+
+// International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows:
+
+// For convenience, the full table for the 26 letters of the English alphabet is given below:
+
+// [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+
+// Given an array of strings words where each word can be written as a concatenation of the Morse code of each letter.
+
+// For example, "cab" can be written as "-.-..--...", which is the concatenation of "-.-.", ".-", and "-...". We will call such a concatenation the transformation of a word.
+
+// Return the number of different transformations among all words we have.
+
+// Example 1:
+//    Input: words = ["gin","zen","gig","msg"]
+//    Output: 2
+// Explanation: The transformation of each word is:
+// "gin" -> "--...-."
+// "zen" -> "--...-."
+// "gig" -> "--...--."
+// "msg" -> "--...--."
+// There are 2 different transformations: "--...-." and "--...--.".
+
+// Example 2:
+//    Input: words = ["a"]
+//    Output: 1
+
+// Constraints:
+//    1 <= words.length <= 100
+//    1 <= words[i].length <= 12
+//    words[i] consists of lowercase English letters.
+
+const uniqueMorseRepresentations = function (words) {
+  // prettier-ignore
+  const morseCode = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+
+  let inMorse = new Set();
+  for (let word of words) {
+    inMorse.add(
+      word
+        .split(``)
+        .reduce((acc, cur) => (acc += morseCode[cur.charCodeAt(0) - 97]), ``)
+    );
+  }
+  return inMorse.size;
+};
+console.log(uniqueMorseRepresentations(["gin", "zen", "gig", "msg"])); // 2
+console.log(uniqueMorseRepresentations(["a"])); // 1
+
+// Less memory usage than 98%, not greatest runtime
+
+// Similar to top voted except I save memory by using .charCodeAt
+// Solid solution
