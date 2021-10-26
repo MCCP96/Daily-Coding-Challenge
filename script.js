@@ -6682,7 +6682,7 @@ console.log(uniqueMorseRepresentations(["a"])); // 1
 // Solid solution */
 
 // Number of Lines To Write String          10/25/2021
-
+/* 
 // You are given a string s of lowercase English letters and an array widths denoting how many pixels wide each lowercase English letter is. Specifically, widths[0] is the width of 'a', widths[1] is the width of 'b', and so on.
 
 // You are trying to write s across several lines, where each line is no longer than 100 pixels. Starting at the beginning of s, write as many letters on the first line such that the total width does not exceed 100 pixels. Then, from where you stopped in s, continue writing as many letters as you can on the second line. Continue this process until you have written all of s.
@@ -6751,4 +6751,57 @@ const topVotedNumberOfLines = (widths, s) =>
     );
 
 // Sheeeeesh, very clean
-// Same process but optimized to the absolute max
+// Same process but optimized to the absolute max */
+
+// Largest Triangle Area          10/26/2021
+
+// Given an array of points on the X-Y plane points where points[i] = [xi, yi], return the area of the largest triangle that can be formed by any three different points. Answers within 10-5 of the actual answer will be accepted.
+
+// Example 1:
+//    Input: points = [[0,0],[0,1],[1,0],[0,2],[2,0]]
+//    Output: 2.00000
+// Explanation: The five points are shown in the above figure. The red triangle is the largest. https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/04/1027.png
+
+// Example 2:
+//    Input: points = [[1,0],[0,0],[0,1]]
+//    Output: 0.50000
+
+// Constraints:
+//    3 <= points.length <= 50
+//    -50 <= xi, yi <= 50
+//    All the given points are unique.
+
+const topVotedLargestTriangleArea = function (points) {
+  const n = points.length;
+  let maxArea = 0;
+
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      for (let k = j + 1; k < n; k++) {
+        const area = calcArea(points[i], points[j], points[k]);
+        maxArea = Math.max(maxArea, area);
+      }
+    }
+  }
+
+  return maxArea;
+};
+
+function calcArea(coordA, coordB, coordC) {
+  const [xCoordA, yCoordA] = coordA;
+  const [xCoordB, yCoordB] = coordB;
+  const [xCoordC, yCoordC] = coordC;
+
+  const sideA = xCoordA * (yCoordB - yCoordC);
+  const sideB = xCoordB * (yCoordC - yCoordA);
+  const sideC = xCoordC * (yCoordA - yCoordB);
+
+  return Math.abs((sideA + sideB + sideC) / 2);
+}
+// prettier-ignore
+console.log(topVotedLargestTriangleArea([[0,0],[0,1],[1,0],[0,2],[2,0]])); // 2
+// prettier-ignore
+console.log(topVotedLargestTriangleArea([[1,0],[0,0],[0,1]])); // 0.5
+
+// Wasn't sure how to go about it
+// Seems he just loops through all possibilities using Math.max to get the largest
