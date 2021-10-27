@@ -6754,7 +6754,7 @@ const topVotedNumberOfLines = (widths, s) =>
 // Same process but optimized to the absolute max */
 
 // Largest Triangle Area          10/26/2021
-
+/* 
 // Given an array of points on the X-Y plane points where points[i] = [xi, yi], return the area of the largest triangle that can be formed by any three different points. Answers within 10-5 of the actual answer will be accepted.
 
 // Example 1:
@@ -6804,4 +6804,75 @@ console.log(topVotedLargestTriangleArea([[0,0],[0,1],[1,0],[0,2],[2,0]])); // 2
 console.log(topVotedLargestTriangleArea([[1,0],[0,0],[0,1]])); // 0.5
 
 // Wasn't sure how to go about it
-// Seems he just loops through all possibilities using Math.max to get the largest
+// Seems he just loops through all possibilities using Math.max to get the largest */
+
+// Most Common Word         10/27/2021
+
+// Given a string paragraph and a string array of the banned words banned, return the most frequent word that is not banned. It is guaranteed there is at least one word that is not banned, and that the answer is unique.
+
+// The words in paragraph are case-insensitive and the answer should be returned in lowercase.
+
+// Example 1:
+//    Input: paragraph = "Bob hit a ball, the hit BALL flew far after it was hit.", banned = ["hit"]
+//    Output: "ball"
+// Explanation:
+// "hit" occurs 3 times, but it is a banned word.
+// "ball" occurs twice (and no other word does), so it is the most frequent non-banned word in the paragraph.
+// Note that words in the paragraph are not case sensitive,
+// that punctuation is ignored (even if adjacent to words, such as "ball,"),
+// and that "hit" isn't the answer even though it occurs more because it is banned.
+
+// Example 2:
+//    Input: paragraph = "a.", banned = []
+//    Output: "a"
+
+// Constraints:
+//    1 <= paragraph.length <= 1000
+//    paragraph consists of English letters, space ' ', or one of the symbols: "!?',;.".
+//    0 <= banned.length <= 100
+//    1 <= banned[i].length <= 10
+//    banned[i] consists of only lowercase English letters.
+
+const mostCommonWord = function (paragraph, banned) {
+  let count = {};
+  for (let word of paragraph
+    .toLowerCase()
+    .replace(/[^a-z ]/g, ``)
+    .split(/\s/)) {
+    !count[word] ? (count[word] = 1) : count[word]++;
+  }
+
+  let ans;
+  for (let word in count) {
+    if (!count[ans]) count[ans] = 0;
+    if (count[word] > count[ans] && !banned.includes(word)) ans = word;
+  }
+
+  return ans;
+};
+// prettier-ignore
+console.log(mostCommonWord("Bob hit a ball, the hit BALL flew far after it was hit.",  ["hit"])); // ball
+console.log(mostCommonWord("a.", [])); // a
+
+const topVotedMostCommonWord = function (paragraph, banned) {
+  const bannedSet = new Set(banned);
+  const words = paragraph.toLowerCase().split(/\W+/);
+
+  const map = {};
+  let frequentWord;
+  let maxCount = 0;
+
+  for (const word of words) {
+    if (word && !bannedSet.has(word)) {
+      map[word] = (map[word] || 0) + 1;
+      if (map[word] > maxCount) {
+        maxCount = map[word];
+        frequentWord = word;
+      }
+    }
+  }
+
+  return frequentWord;
+};
+
+// Same logic, but his actually passes all test cases
