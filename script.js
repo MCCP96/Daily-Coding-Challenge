@@ -6878,7 +6878,7 @@ const topVotedMostCommonWord = function (paragraph, banned) {
 // Same logic, but his actually passes all test cases */
 
 // Shortest Distance to a Character         10/28/2021
-
+/* 
 // Given a string s and a character c that occurs in s, return an array of integers answer where answer.length == s.length and answer[i] is the distance from index i to the closest occurrence of character c in s.
 
 // The distance between two indices i and j is abs(i - j), where abs is the absolute value function.
@@ -6923,4 +6923,49 @@ console.log(topVotedShortestToChar("aaab", "b")); // [3,2,1,0]
 // Ended up studying top voted
 
 // Iterates over the string from both left and right at same time
-// Adding the smallest distance to the ans array
+// Adding the smallest distance to the ans array */
+
+// Goat Latin         10/29/2021
+
+// You are given a string sentence that consist of words separated by spaces. Each word consists of lowercase and uppercase letters only.
+
+// We would like to convert the sentence to "Goat Latin" (a made-up language similar to Pig Latin.) The rules of Goat Latin are as follows:
+
+// If a word begins with a vowel ('a', 'e', 'i', 'o', or 'u'), append "ma" to the end of the word.
+// For example, the word "apple" becomes "applema".
+// If a word begins with a consonant (i.e., not a vowel), remove the first letter and append it to the end, then add "ma".
+// For example, the word "goat" becomes "oatgma".
+// Add one letter 'a' to the end of each word per its word index in the sentence, starting with 1.
+// For example, the first word gets "a" added to the end, the second word gets "aa" added to the end, and so on.
+// Return the final sentence representing the conversion from sentence to Goat Latin.
+
+// Example 1:
+//    Input: sentence = "I speak Goat Latin"
+//    Output: "Imaa peaksmaaa oatGmaaaa atinLmaaaaa"
+
+// Example 2:
+//    Input: sentence = "The quick brown fox jumped over the lazy dog"
+//    Output: "heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa"
+
+// Constraints:
+//    1 <= sentence.length <= 150
+//    sentence consists of English letters and spaces.
+//    sentence has no leading or trailing spaces.
+//    All the words in sentence are separated by a single space.
+
+const toGoatLatin = function (sentence) {
+  let words = sentence.split(" "),
+    append = "a",
+    vowels = ["a", "e", "i", "o", "u"];
+  for (let i = 0; i < words.length; i++) {
+    if (vowels.includes(words[i].charAt(0).toLowerCase())) {
+      words[i] = words[i] + "ma" + append;
+    } else {
+      words[i] = words[i].substring(1) + words[i].charAt(0) + "ma" + append;
+    }
+    append += "a";
+  }
+  return words.join(" ");
+};
+console.log(toGoatLatin("I speak Goat Latin")); // "Imaa peaksmaaa oatGmaaaa atinLmaaaaa"
+console.log(toGoatLatin("The quick brown fox jumped over the lazy dog")); // "heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa"
