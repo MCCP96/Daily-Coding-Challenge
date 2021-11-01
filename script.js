@@ -6971,7 +6971,7 @@ console.log(toGoatLatin("I speak Goat Latin")); // "Imaa peaksmaaa oatGmaaaa ati
 console.log(toGoatLatin("The quick brown fox jumped over the lazy dog")); // "heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa" */
 
 // Positions of Large Groups          10/30/2021
-
+/* 
 // In a string s of lowercase letters, these letters form consecutive groups of the same character.
 
 // For example, a string like s = "abbxxxxzyy" has the groups "a", "bb", "xxxx", "z", and "yy".
@@ -7022,4 +7022,55 @@ console.log(largeGroupPositions("abcdddeeeeaabbbcd")); // [[3,5],[6,9],[12,14]]
 console.log(largeGroupPositions("aba")); // []
 
 // Quickly studied some top voteds to get my strategy straight
-// This runtime was better than 100% of submissions!
+// This runtime was better than 100% of submissions! */
+
+// Flipping an Image          10/31/2021
+
+// Given an n x n binary matrix image, flip the image horizontally, then invert it, and return the resulting image.
+
+// To flip an image horizontally means that each row of the image is reversed.
+
+// For example, flipping [1,1,0] horizontally results in [0,1,1].
+// To invert an image means that each 0 is replaced by 1, and each 1 is replaced by 0.
+
+// For example, inverting [0,1,1] results in [1,0,0].
+
+// Example 1:
+//    Input: image = [[1,1,0],[1,0,1],[0,0,0]]
+//    Output: [[1,0,0],[0,1,0],[1,1,1]]
+// Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].
+// Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]
+
+// Example 2:
+//    Input: image = [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
+//    Output: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+// Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].
+// Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+
+// Constraints:
+//    n == image.length
+//    n == image[i].length
+//    1 <= n <= 20
+//    images[i][j] is either 0 or 1.
+
+const flipAndInvertImage = function (image) {
+  return image.reduce((acc, cur) => {
+    let ans = [];
+    for (let val of cur.reverse()) val ? ans.push(0) : ans.push(1);
+    return [...acc, ans];
+  }, []);
+};
+// prettier-ignore
+console.log(flipAndInvertImage([[1,1,0],[1,0,1],[0,0,0]])); // [[1,0,0],[0,1,0],[1,1,1]]
+// prettier-ignore
+console.log(flipAndInvertImage([[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]])) // [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+
+// Faster than 70%, better memory than 90%
+// Seems that .reduce should be used to boil down an array to a singular value rather than building a new array, but I like the immediate return it provides here
+
+const topVotedFlipAndInvertImage = function (image) {
+  return image.map((im, i) => im.reverse().map((rev) => (rev ? 0 : 1)));
+};
+
+// This is what I was shooting for
+// Very nice!
