@@ -7076,7 +7076,7 @@ const topVotedFlipAndInvertImage = function (image) {
 // Very nice! */
 
 // Rectangle Overlap          11/1/2021
-
+/* 
 // An axis-aligned rectangle is represented as a list [x1, y1, x2, y2], where (x1, y1) is the coordinate of its bottom-left corner, and (x2, y2) is the coordinate of its top-right corner. Its top and bottom edges are parallel to the X-axis, and its left and right edges are parallel to the Y-axis.
 
 // Two rectangles overlap if the area of their intersection is positive. To be clear, two rectangles that only touch at the corner or edges do not overlap.
@@ -7113,4 +7113,53 @@ console.log(isRectangleOverlap([0, 0, 1, 1], [2, 2, 3, 3])); // false
 // Hmm, surprised this actually did the trick
 // Better runtime than 80% and very low memory usage
 
-// All other user posted solutions seem to be less clean equivalents of what I have here
+// All other user posted solutions seem to be less clean equivalents of what I have here */
+
+// Backspace String Compare         11/2/2021
+
+// Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
+
+// Note that after backspacing an empty text, the text will continue empty.
+
+// Example 1:
+//    Input: s = "ab#c", t = "ad#c"
+//    Output: true
+// Explanation: Both s and t become "ac".
+
+// Example 2:
+//    Input: s = "ab##", t = "c#d#"
+//    Output: true
+// Explanation: Both s and t become "".
+
+// Example 3:
+//    Input: s = "a##c", t = "#a#c"
+//    Output: true
+// Explanation: Both s and t become "c".
+
+// Example 4:
+//    Input: s = "a#c", t = "b"
+//    Output: false
+// Explanation: s becomes "c" while t becomes "b".
+
+// Constraints:
+//    1 <= s.length, t.length <= 200
+//    s and t only contain lowercase letters and '#' characters.
+
+const backspaceCompare = function (s, t) {
+  const backspaces = (str) =>
+    str
+      .split(`#`)
+      .reduce((acc, cur) => acc.substring(0, acc.length - 1) + cur, ``);
+
+  return backspaces(s) === backspaces(t);
+};
+console.log(backspaceCompare("ab#c", "ad#c")); // true
+console.log(backspaceCompare("ab##", "c#d#")); // true
+console.log(backspaceCompare("a##c", "#a#c")); // true
+console.log(backspaceCompare("a#c", "b")); // false
+
+// Better runtime than 97%, better memory than 70%
+// Pretty happy with this solution
+
+// Top voteds are all very large For loops
+// Much prefer the readability here
