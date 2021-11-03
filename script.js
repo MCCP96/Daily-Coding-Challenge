@@ -7116,7 +7116,7 @@ console.log(isRectangleOverlap([0, 0, 1, 1], [2, 2, 3, 3])); // false
 // All other user posted solutions seem to be less clean equivalents of what I have here */
 
 // Backspace String Compare         11/2/2021
-
+/* 
 // Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
 
 // Note that after backspacing an empty text, the text will continue empty.
@@ -7162,4 +7162,50 @@ console.log(backspaceCompare("a#c", "b")); // false
 // Pretty happy with this solution
 
 // Top voteds are all very large For loops
-// Much prefer the readability here
+// Much prefer the readability here */
+
+// Peak Index in a Mountain Array         11/3/2021
+
+// Let's call an array arr a mountain if the following properties hold:
+
+// arr.length >= 3
+// There exists some i with 0 < i < arr.length - 1 such that:
+// arr[0] < arr[1] < ... arr[i-1] < arr[i]
+// arr[i] > arr[i+1] > ... > arr[arr.length - 1]
+// Given an integer array arr that is guaranteed to be a mountain, return any i such that arr[0] < arr[1] < ... arr[i - 1] < arr[i] > arr[i + 1] > ... > arr[arr.length - 1].
+
+// Example 1:
+// Input: arr = [0,1,0]
+// Output: 1
+
+// Example 5:
+// Input: arr = [24,69,100,99,79,78,67,36,26,19]
+// Output: 2
+
+// Constraints:
+// 3 <= arr.length <= 104
+// 0 <= arr[i] <= 106
+// arr is guaranteed to be a mountain array.
+
+const peakIndexInMountainArray = function (arr) {
+  return arr.reduce((ans, cur, i, arr) => (cur > arr[ans] ? i : ans), 0);
+};
+console.log(peakIndexInMountainArray([0, 1, 0])); // 1
+console.log(peakIndexInMountainArray([0, 2, 1, 0])); // 1
+console.log(peakIndexInMountainArray([0, 10, 5, 2])); // 1
+console.log(peakIndexInMountainArray([3, 4, 5, 1])); // 2
+console.log(
+  peakIndexInMountainArray([24, 69, 100, 99, 79, 78, 67, 36, 26, 19])
+); // 2
+
+// Better runtime than 83%, better memory than 94%
+// Very simple & efficient
+
+const topVotedPeakIndexInMountainArray = function (arr) {
+  return arr.indexOf(Math.max(...arr));
+};
+
+// This is even simpler haha
+// Runtime better than 94%, but 78% better memory
+
+// I prefer his solution over mine tho
