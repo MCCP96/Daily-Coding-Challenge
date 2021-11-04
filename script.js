@@ -7165,7 +7165,7 @@ console.log(backspaceCompare("a#c", "b")); // false
 // Much prefer the readability here */
 
 // Peak Index in a Mountain Array         11/3/2021
-
+/* 
 // Let's call an array arr a mountain if the following properties hold:
 
 // arr.length >= 3
@@ -7208,4 +7208,56 @@ const topVotedPeakIndexInMountainArray = function (arr) {
 // This is even simpler haha
 // Runtime better than 94%, but 78% better memory
 
-// I prefer his solution over mine tho
+// I prefer his solution over mine tho */
+
+// Buddy Strings            11/4/2021
+
+// Given two strings s and goal, return true if you can swap two letters in s so the result is equal to goal, otherwise, return false.
+
+// Swapping letters is defined as taking two indices i and j (0-indexed) such that i != j and swapping the characters at s[i] and s[j].
+
+// For example, swapping at indices 0 and 2 in "abcd" results in "cbad".
+
+// Example 1:
+//    Input: s = "ab", goal = "ba"
+//    Output: true
+// Explanation: You can swap s[0] = 'a' and s[1] = 'b' to get "ba", which is equal to goal.
+
+// Example 2:
+//    Input: s = "ab", goal = "ab"
+//    Output: false
+// Explanation: The only letters you can swap are s[0] = 'a' and s[1] = 'b', which results in "ba" != goal.
+
+// Example 3:
+//    Input: s = "aa", goal = "aa"
+//    Output: true
+// Explanation: You can swap s[0] = 'a' and s[1] = 'a' to get "aa", which is equal to goal.
+
+// Example 4:
+//    Input: s = "aaaaaaabc", goal = "aaaaaaacb"
+//    Output: true
+
+// Constraints:
+//    1 <= s.length, goal.length <= 2 * 104
+//    s and goal consist of lowercase letters.
+
+const topVotedBuddyStrings = function (A, B) {
+  if (A.length != B.length) return false;
+  const diff = [];
+
+  for (let i = 0; i < A.length; i++) {
+    if (A[i] != B[i]) diff.push(i);
+    if (diff.length > 2) return false;
+  }
+
+  if (!diff.length) return A.length != [...new Set(A)].length;
+  const [i, j] = diff;
+  return A[i] == B[j] && B[i] == A[j];
+};
+console.log(topVotedBuddyStrings("ab", "ba")); // true
+console.log(topVotedBuddyStrings("ab", "ab")); // false
+console.log(topVotedBuddyStrings("aa", "aa")); // true
+console.log(topVotedBuddyStrings("aaaaaaabc", "aaaaaaacb")); // true
+
+// Starts with guard clauses for string not being same length or having 2 different elements
+// Then confirms the differences between the strings work
