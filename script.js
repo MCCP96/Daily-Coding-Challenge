@@ -7211,7 +7211,7 @@ const topVotedPeakIndexInMountainArray = function (arr) {
 // I prefer his solution over mine tho */
 
 // Buddy Strings            11/4/2021
-
+/* 
 // Given two strings s and goal, return true if you can swap two letters in s so the result is equal to goal, otherwise, return false.
 
 // Swapping letters is defined as taking two indices i and j (0-indexed) such that i != j and swapping the characters at s[i] and s[j].
@@ -7260,4 +7260,117 @@ console.log(topVotedBuddyStrings("aa", "aa")); // true
 console.log(topVotedBuddyStrings("aaaaaaabc", "aaaaaaacb")); // true
 
 // Starts with guard clauses for string not being same length or having 2 different elements
-// Then confirms the differences between the strings work
+// Then confirms the differences between the strings work */
+
+// Lemonade Change          11/5/2021
+
+// At a lemonade stand, each lemonade costs $5. Customers are standing in a queue to buy from you, and order one at a time (in the order specified by bills). Each customer will only buy one lemonade and pay with either a $5, $10, or $20 bill. You must provide the correct change to each customer so that the net transaction is that the customer pays $5.
+
+// Note that you don't have any change in hand at first.
+
+// Given an integer array bills where bills[i] is the bill the ith customer pays, return true if you can provide every customer with correct change, or false otherwise.
+
+// Example 1:
+//    Input: bills = [5,5,5,10,20]
+//    Output: true
+// Explanation:
+// From the first 3 customers, we collect three $5 bills in order.
+// From the fourth customer, we collect a $10 bill and give back a $5.
+// From the fifth customer, we give a $10 bill and a $5 bill.
+// Since all customers got correct change, we output true.
+
+// Example 2:
+//    Input: bills = [5,5,10,10,20]
+//    Output: false
+// Explanation:
+// From the first two customers in order, we collect two $5 bills.
+// For the next two customers in order, we collect a $10 bill and give back a $5 bill.
+// For the last customer, we can not give change of $15 back because we only have two $10 bills.
+// Since not every customer received correct change, the answer is false.
+
+// Example 3:
+//    Input: bills = [5,5,10]
+//    Output: true
+
+// Example 4:
+//    Input: bills = [10,10]
+//    Output: false
+
+// Constraints:
+//    1 <= bills.length <= 105
+//    bills[i] is either 5, 10, or 20.
+
+const lemonadeChange = function (bills) {
+  if (bills[0] > 5) return false;
+
+  let count = [];
+  return bills.reduce((acc, cur, _, arr) => {
+    if (cur == 5) {
+      count.push(5);
+      return true;
+    }
+    if (cur == 10 && count.includes(5)) {
+      count.splice(count.indexOf(5), 1);
+      count.push(10);
+      return true;
+    }
+    if ((cur == 20 && count.includes(5)) || count.includes(10)) {
+      if (count.includes(10) && count.includes(5)) {
+        count.splice(count.indexOf(10), 1);
+        count.splice(count.indexOf(5), 1);
+        return true;
+      } else {
+        if (count.filter((x) => x == 5).length < 3) {
+          arr.splice(1);
+          return false;
+        }
+        count.splice(count.indexOf(5), 1);
+        count.splice(count.indexOf(5), 1);
+        count.splice(count.indexOf(5), 1);
+        return true;
+      }
+    }
+
+    arr.splice(1);
+    return false;
+  }, false);
+};
+console.log(lemonadeChange([5, 5, 5, 10, 20])); // true
+console.log(lemonadeChange([5, 5, 10, 10, 20])); // false
+console.log(lemonadeChange([5, 5, 10])); // true
+console.log(lemonadeChange([10, 10])); // false
+console.log(lemonadeChange([5, 5, 5, 5, 20, 20, 5, 5, 20, 5])); // false
+
+// Wow this has to be some of the worst code I've written in a while...
+// terrible runtime, but better memory than 93% of submissions somehow
+
+// Not a fan of the multiple if statements, the early .reduce exits using arr.splice(1), nor the repeating code
+
+// Let's see what others did
+
+const topVotedLemonadeChange = function (bills) {
+  let fives = 0;
+  let tens = 0;
+
+  for (const bill of bills) {
+    if (bill === 5) fives++;
+    else if (bill === 10) {
+      tens++;
+      fives--;
+    } else {
+      if (tens > 0) {
+        tens--;
+        fives--;
+      } else fives -= 3;
+    }
+    if (fives < 0 || tens < 0) return false;
+  }
+  return true;
+};
+
+// Much smarter to create 'fives' and 'tens' variables to ++/-- instead of reading an array
+// Wow, this seems so obvious now
+
+// For some reason I had the .reduce in mind when a for loop would've really simplified things
+
+// I'm off to study chem, maybe this midterm is taking over my mental RAM... lol
