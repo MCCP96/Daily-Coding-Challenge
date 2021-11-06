@@ -7263,7 +7263,7 @@ console.log(topVotedBuddyStrings("aaaaaaabc", "aaaaaaacb")); // true
 // Then confirms the differences between the strings work */
 
 // Lemonade Change          11/5/2021
-
+/* 
 // At a lemonade stand, each lemonade costs $5. Customers are standing in a queue to buy from you, and order one at a time (in the order specified by bills). Each customer will only buy one lemonade and pay with either a $5, $10, or $20 bill. You must provide the correct change to each customer so that the net transaction is that the customer pays $5.
 
 // Note that you don't have any change in hand at first.
@@ -7373,4 +7373,51 @@ const topVotedLemonadeChange = function (bills) {
 
 // For some reason I had the .reduce in mind when a for loop would've really simplified things
 
-// I'm off to study chem, maybe this midterm is taking over my mental RAM... lol
+// I'm off to study chem, maybe this midterm is taking over my mental RAM... lol */
+
+// Uncommon Words from Two Sentences          11/6/2021
+
+// A sentence is a string of single-space separated words where each word consists only of lowercase letters.
+
+// A word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.
+
+// Given two sentences s1 and s2, return a list of all the uncommon words. You may return the answer in any order.
+
+// Example 1:
+//    Input: s1 = "this apple is sweet", s2 = "this apple is sour"
+//    Output: ["sweet","sour"]
+
+// Example 2:
+//    Input: s1 = "apple apple", s2 = "banana"
+//    Output: ["banana"]
+
+// Constraints:
+//    1 <= s1.length, s2.length <= 200
+//    s1 and s2 consist of lowercase English letters and spaces.
+//    s1 and s2 do not have leading or trailing spaces.
+//    All the words in s1 and s2 are separated by a single space.
+
+const uncommonFromSentences = function (s1, s2) {
+  let s1s2 = [...s1.split(` `), ...s2.split(` `)];
+  let ans = [];
+
+  for (let word of s1s2) {
+    if (s1s2.indexOf(word) == s1s2.lastIndexOf(word)) ans.push(word);
+  }
+  return ans;
+};
+console.log(uncommonFromSentences("this apple is sweet", "this apple is sour")); // ["sweet","sour"]
+console.log(uncommonFromSentences("apple apple", "banana")); // ["banana"]
+console.log(uncommonFromSentences("abcd def abcd xyz", "ijk def ijk")); // ["xyz"]
+
+// Decent
+
+const topVotedUncommonFromSentences = (a, b) =>
+  `${a} ${b}`
+    .split(" ")
+    .filter((word, _, arr) => arr.indexOf(word) === arr.lastIndexOf(word));
+
+// Same idea but with plenty of optimization
+// Very clean
+
+// Tested them both and mine returned much better runtime somehow
