@@ -7423,7 +7423,7 @@ const topVotedUncommonFromSentences = (a, b) =>
 // Tested them both and mine returned much better runtime somehow */
 
 // Fair Candy Swap          11/7/2021
-
+/* 
 // Alice and Bob have a different total number of candies. You are given two integer arrays aliceSizes and bobSizes where aliceSizes[i] is the number of candies of the ith box of candy that Alice has and bobSizes[j] is the number of candies of the jth box of candy that Bob has.
 
 // Since they are friends, they would like to exchange one candy box each so that after the exchange, they both have the same total amount of candy. The total amount of candy a person has is the sum of the number of candies in each box they have.
@@ -7485,4 +7485,73 @@ const topVotedFairCandySwap = function (A, B) {
 // 'Right shift (>>)'
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Right_shift
 
-// Weird, I prefer my count(a) - count(b)) / 2
+// Weird, I prefer my count(a) - count(b)) / 2 */
+
+// Surface Area of 3D Shapes          11/8/2021
+
+// You are given an n x n grid where you have placed some 1 x 1 x 1 cubes. Each value v = grid[i][j] represents a tower of v cubes placed on top of cell (i, j).
+
+// After placing these cubes, you have decided to glue any directly adjacent cubes to each other, forming several irregular 3D shapes.
+
+// Return the total surface area of the resulting shapes.
+
+// Note: The bottom face of each shape counts toward its surface area.
+
+// Example 1:
+//    Input: grid = [[2]]
+//    Output: 10
+// https://assets.leetcode.com/uploads/2021/01/08/tmp-grid1.jpg
+
+// Example 2:
+//    Input: grid = [[1,2],[3,4]]
+//    Output: 34
+// https://assets.leetcode.com/uploads/2021/01/08/tmp-grid2.jpg
+
+// Example 3:
+//    Input: grid = [[1,0],[0,2]]
+//    Output: 16
+// https://assets.leetcode.com/uploads/2021/01/08/tmp-grid3.jpg
+
+// Example 4:
+//    Input: grid = [[1,1,1],[1,0,1],[1,1,1]]
+//    Output: 32
+// https://assets.leetcode.com/uploads/2021/01/08/tmp-grid4.jpg
+
+// Example 5:
+//    Input: grid = [[2,2,2],[2,1,2],[2,2,2]]
+//    Output: 46
+// https://assets.leetcode.com/uploads/2021/01/08/tmp-grid5.jpg
+
+// Constraints:
+//    n == grid.length
+//    n == grid[i].length
+//    1 <= n <= 50
+//    0 <= grid[i][j] <= 50
+
+const topVotedSurfaceArea = function (grid) {
+  const height = grid.length;
+  const width = grid[0].length;
+  let sum = 0;
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      if (grid[i][j] > 0) sum += grid[i][j] * 4 + 2;
+      if (i > 0) sum -= 2 * Math.min(grid[i - 1][j], grid[i][j]);
+      if (j > 0) sum -= 2 * Math.min(grid[i][j - 1], grid[i][j]);
+    }
+  }
+  return sum;
+};
+console.log(topVotedSurfaceArea([[2]])); // 10
+// prettier-ignore
+console.log(topVotedSurfaceArea([[1,2],[3,4]])); // 34
+// prettier-ignore
+console.log(topVotedSurfaceArea([[1,0],[0,2]])); // 16
+// prettier-ignore
+console.log(topVotedSurfaceArea([[1,1,1],[1,0,1],[1,1,1]])); // 32
+// prettier-ignore
+console.log(topVotedSurfaceArea([[2,2,2],[2,1,2],[2,2,2]])); // 46
+
+// Didn't know how to go about this so decided to study top voted
+
+// Seems they go through the coordinates one-by-one, adding 6 per increment
+// 6 would be the max, therefore they check for adjacent blocks and decrement accordingly
