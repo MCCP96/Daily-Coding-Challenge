@@ -7488,7 +7488,7 @@ const topVotedFairCandySwap = function (A, B) {
 // Weird, I prefer my count(a) - count(b)) / 2 */
 
 // Surface Area of 3D Shapes          11/8/2021
-
+/* 
 // You are given an n x n grid where you have placed some 1 x 1 x 1 cubes. Each value v = grid[i][j] represents a tower of v cubes placed on top of cell (i, j).
 
 // After placing these cubes, you have decided to glue any directly adjacent cubes to each other, forming several irregular 3D shapes.
@@ -7554,4 +7554,58 @@ console.log(topVotedSurfaceArea([[2,2,2],[2,1,2],[2,2,2]])); // 46
 // Didn't know how to go about this so decided to study top voted
 
 // Seems they go through the coordinates one-by-one, adding 6 per increment
-// 6 would be the max, therefore they check for adjacent blocks and decrement accordingly
+// 6 would be the max, therefore they check for adjacent blocks and decrement accordingly */
+
+// Monotonic Array          11/9/2021
+
+// An array is monotonic if it is either monotone increasing or monotone decreasing.
+
+// An array nums is monotone increasing if for all i <= j, nums[i] <= nums[j]. An array nums is monotone decreasing if for all i <= j, nums[i] >= nums[j].
+
+// Given an integer array nums, return true if the given array is monotonic, or false otherwise.
+
+// Constraints:
+// 1 <= nums.length <= 105
+// -105 <= nums[i] <= 105
+
+const isMonotonic = function (nums) {
+  if (nums.length == 1) return true;
+
+  let isIncreasing = true;
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] < nums[i - 1]) {
+      isIncreasing = false;
+      break;
+    }
+  }
+  if (isIncreasing) return true;
+
+  let isDecreasing = true;
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] > nums[i - 1]) {
+      isDecreasing = false;
+      break;
+    }
+  }
+  return isDecreasing;
+};
+console.log(isMonotonic([1, 2, 2, 3])); // true
+console.log(isMonotonic([6, 5, 4, 4])); // true
+console.log(isMonotonic([1, 3, 2])); // false
+console.log(isMonotonic([1, 2, 4, 5])); // true
+console.log(isMonotonic([1, 1, 1])); // true
+
+// Tried to stick to simple for loops for this one
+// Faster runtime than 98%
+
+const topVotedIsMonotonic = function (A) {
+  return (
+    A.every((v, i) => i === 0 || v <= A[i - 1]) ||
+    A.every((v, i) => i === 0 || v >= A[i - 1])
+  );
+};
+
+// Much cleaner, but only better than 73% runtimes
+// I prefer his solution, but it's interesting to see the comparisons in runtime even though mine is so much bulkier
+
+// It's probably due to my breaks and the fact that I return half-way if increasing is true
