@@ -7557,7 +7557,7 @@ console.log(topVotedSurfaceArea([[2,2,2],[2,1,2],[2,2,2]])); // 46
 // 6 would be the max, therefore they check for adjacent blocks and decrement accordingly */
 
 // Monotonic Array          11/9/2021
-
+/* 
 // An array is monotonic if it is either monotone increasing or monotone decreasing.
 
 // An array nums is monotone increasing if for all i <= j, nums[i] <= nums[j]. An array nums is monotone decreasing if for all i <= j, nums[i] >= nums[j].
@@ -7608,4 +7608,40 @@ const topVotedIsMonotonic = function (A) {
 // Much cleaner, but only better than 73% runtimes
 // I prefer his solution, but it's interesting to see the comparisons in runtime even though mine is so much bulkier
 
-// It's probably due to my breaks and the fact that I return half-way if increasing is true
+// It's probably due to my breaks and the fact that I return half-way if increasing is true */
+
+// Sort Array By Parity         11/10/2021
+
+//  Given an integer array nums, move all the even integers at the beginning of the array followed by all the odd integers.
+
+// Return any array that satisfies this condition.
+
+// Example 1:
+//    Input: nums = [3,1,2,4]
+//    Output: [2,4,3,1]
+// Explanation: The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.
+
+// Constraints:
+//    1 <= nums.length <= 5000
+//    0 <= nums[i] <= 5000
+
+const sortArrayByParity = function (nums) {
+  if (nums.length == 1) return nums;
+
+  let ans = [];
+  for (let i = 0; i < nums.length; i++) {
+    nums[i] % 2 == 0 ? ans.unshift(nums[i]) : ans.push(nums[i]);
+  }
+  return ans;
+};
+console.log(sortArrayByParity([3, 1, 2, 4])); // [2,4,3,1]
+console.log(sortArrayByParity([0])); // [0]
+
+// Works, 50% runtime 50% memory, easy logic
+
+const topVotedSortArrayByParity = function (A) {
+  return [...A.filter((v) => v % 2 === 0), ...A.filter((v) => v % 2 !== 0)];
+};
+
+// Thought about this, but imagined it would have bad runtime given double .filter use
+// Better runtime than 74%, great memory
