@@ -7647,7 +7647,7 @@ const topVotedSortArrayByParity = function (A) {
 // Better runtime than 74%, great memory */
 
 // Smallest Range I         11/11/2021
-
+/* 
 // You are given an integer array nums and an integer k.
 
 // In one operation, you can choose any index i where 0 <= i < nums.length and change nums[i] to nums[i] + x where x is an integer from the range [-k, k]. You can apply this operation at most once for each index i.
@@ -7687,4 +7687,63 @@ console.log(smallestRangeI([1, 3, 6], 3)); // 0
 // Struggled with prompt at first, but ended up being pretty simple
 // Better runtime than 90%
 
-// Top voteds are all similar variations of this same logic
+// Top voteds are all similar variations of this same logic */
+
+// X of a Kind in a Deck of Cards         11/12/2021
+
+// In a deck of cards, each card has an integer written on it.
+
+// Return true if and only if you can choose X >= 2 such that it is possible to split the entire deck into 1 or more groups of cards, where:
+
+// Each group has exactly X cards.
+// All the cards in each group have the same integer.
+
+// Example 1:
+//    Input: deck = [1,2,3,4,4,3,2,1]
+//    Output: true
+// Explanation: Possible partition [1,1],[2,2],[3,3],[4,4].
+
+// Example 2:
+//    Input: deck = [1,1,1,2,2,2,3,3]
+//    Output: false
+// Explanation: No possible partition.
+
+// Example 3:
+//    Input: deck = [1]
+//    Output: false
+// Explanation: No possible partition.
+
+// Example 4:
+//    Input: deck = [1,1]
+//    Output: true
+// Explanation: Possible partition [1,1].
+
+// Example 5:
+//    Input: deck = [1,1,2,2,2,2]
+//    Output: true
+// Explanation: Possible partition [1,1],[2,2],[2,2].
+
+// Constraints:
+//    1 <= deck.length <= 104
+//    0 <= deck[i] < 104
+
+const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+const topVotedHasGroupsSizeX = (deck) => {
+  const cnt = {};
+  for (const c of deck) {
+    if (!cnt[c]) cnt[c] = 0;
+    cnt[c]++;
+  }
+  const vals = Object.values(cnt);
+  return vals.reduce(gcd) > 1;
+};
+console.log(topVotedHasGroupsSizeX([1, 2, 3, 4, 4, 3, 2, 1])); // true
+console.log(topVotedHasGroupsSizeX([1, 1, 1, 2, 2, 2, 3, 3])); // false
+console.log(topVotedHasGroupsSizeX([1])); // false
+console.log(topVotedHasGroupsSizeX([1, 1])); // true
+console.log(topVotedHasGroupsSizeX([1, 1, 2, 2, 2, 2])); // true
+console.log(topVotedHasGroupsSizeX([0, 0, 0, 1, 1, 1, 2, 2, 2])); // true
+
+// My solution wasn't passing all tests
+
+// gcd function is very clever!
