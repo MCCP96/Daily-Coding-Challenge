@@ -7749,7 +7749,7 @@ console.log(topVotedHasGroupsSizeX([0, 0, 0, 1, 1, 1, 2, 2, 2])); // true
 // gcd function is very clever! */
 
 // Reverse Only Letters         11/13/2021
-
+/* 
 // Given a string s, reverse the string according to the following rules:
 
 // All the characters that are not English letters remain in the same position.
@@ -7775,4 +7775,56 @@ console.log(reverseOnlyLetters("Test1ng-Leet=code-Q!")); // "Qedo1ct-eeLg=ntse-T
 // Got soooo close to solving it with Regex, but ended up referring to top voted
 // Great solution, optimized above top voted
 
-// 90% runtime & memory
+// 90% runtime & memory */
+
+// Sort Array By Parity II          11/14/2021
+
+// Given an array of integers nums, half of the integers in nums are odd, and the other half are even.
+
+// Sort the array so that whenever nums[i] is odd, i is odd, and whenever nums[i] is even, i is even.
+
+// Return any answer array that satisfies this condition.
+
+// Example 1:
+//    Input: nums = [4,2,5,7]
+//    Output: [4,5,2,7]
+// Explanation: [4,7,2,5], [2,5,4,7], [2,7,4,5] would also have been accepted.
+
+// Constraints:
+//    2 <= nums.length <= 2 * 104
+//    nums.length is even.
+//    Half of the integers in nums are even.
+//    0 <= nums[i] <= 1000
+
+const sortArrayByParityII = function (nums) {
+  let odd = nums.filter((x) => x % 2);
+  let even = nums.filter((x) => !(x % 2));
+
+  let ans = [];
+  for (let i = 0; i < nums.length; i++) {
+    i % 2 ? ans.push(odd.pop()) : ans.push(even.pop());
+  }
+  return ans;
+};
+console.log(sortArrayByParityII([4, 2, 5, 7])); // [4,5,2,7]
+console.log(sortArrayByParityII([2, 3])); // [2,3]
+
+// Nothing crazy, I'm sure there's much more optimal
+
+var topVotedSortArrayByParityII = function (nums) {
+  const [odds, evens] = [
+    nums.filter((n) => n % 2 === 1),
+    nums.filter((n) => n % 2 === 0),
+  ];
+
+  let res = [];
+  for (let i = 0; i < nums.length / 2; i++) {
+    res.push(evens[i], odds[i]);
+  }
+  return res;
+};
+console.log(topVotedSortArrayByParityII([4, 2, 5, 7])); // [4,5,2,7]
+console.log(topVotedSortArrayByParityII([2, 3])); // [2,3]
+
+// Mixed 2 solutions to get this one
+// Seems this is the most common logic so I wasn't far off at all
