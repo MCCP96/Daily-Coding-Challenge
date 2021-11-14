@@ -7690,7 +7690,7 @@ console.log(smallestRangeI([1, 3, 6], 3)); // 0
 // Top voteds are all similar variations of this same logic */
 
 // X of a Kind in a Deck of Cards         11/12/2021
-
+/* 
 // In a deck of cards, each card has an integer written on it.
 
 // Return true if and only if you can choose X >= 2 such that it is possible to split the entire deck into 1 or more groups of cards, where:
@@ -7746,4 +7746,33 @@ console.log(topVotedHasGroupsSizeX([0, 0, 0, 1, 1, 1, 2, 2, 2])); // true
 
 // My solution wasn't passing all tests
 
-// gcd function is very clever!
+// gcd function is very clever! */
+
+// Reverse Only Letters         11/13/2021
+
+// Given a string s, reverse the string according to the following rules:
+
+// All the characters that are not English letters remain in the same position.
+// All the English letters (lowercase or uppercase) should be reversed.
+// Return s after reversing it.
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s consists of characters with ASCII values in the range [33, 122].
+//    s does not contain '\"' or '\\'.
+
+const reverseOnlyLetters = function (s) {
+  let w = s.match(/[a-zA-Z]/g);
+  return s
+    .split(``)
+    .map((cur) => (cur.match(/[a-zA-Z]/) ? w.pop() : cur))
+    .join(``);
+};
+console.log(reverseOnlyLetters("ab-cd")); // "dc-ba"
+console.log(reverseOnlyLetters("a-bC-dEf-ghIj")); // "j-Ih-gfE-dCba"
+console.log(reverseOnlyLetters("Test1ng-Leet=code-Q!")); // "Qedo1ct-eeLg=ntse-T!"
+
+// Got soooo close to solving it with Regex, but ended up referring to top voted
+// Great solution, optimized above top voted
+
+// 90% runtime & memory
