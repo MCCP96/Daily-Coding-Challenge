@@ -7778,7 +7778,7 @@ console.log(reverseOnlyLetters("Test1ng-Leet=code-Q!")); // "Qedo1ct-eeLg=ntse-T
 // 90% runtime & memory */
 
 // Sort Array By Parity II          11/14/2021
-
+/* 
 // Given an array of integers nums, half of the integers in nums are odd, and the other half are even.
 
 // Sort the array so that whenever nums[i] is odd, i is odd, and whenever nums[i] is even, i is even.
@@ -7827,4 +7827,39 @@ console.log(topVotedSortArrayByParityII([4, 2, 5, 7])); // [4,5,2,7]
 console.log(topVotedSortArrayByParityII([2, 3])); // [2,3]
 
 // Mixed 2 solutions to get this one
-// Seems this is the most common logic so I wasn't far off at all
+// Seems this is the most common logic so I wasn't far off at all */
+
+// Long Pressed Name          11/15/2021
+
+// Your friend is typing his name into a keyboard. Sometimes, when typing a character c, the key might get long pressed, and the character will be typed 1 or more times.
+
+// You examine the typed characters of the keyboard. Return True if it is possible that it was your friends name, with some characters (possibly none) being long pressed.
+
+// Example 1:
+//    Input: name = "alex", typed = "aaleex"
+//    Output: true
+// Explanation: 'a' and 'e' in 'alex' were long pressed.
+
+// Example 2:
+//    Input: name = "saeed", typed = "ssaaedd"
+//    Output: false
+// Explanation: 'e' must have been pressed twice, but it wasn't in the typed output.
+
+// Constraints:
+//    1 <= name.length <= 1000
+//    1 <= typed.length <= 1000
+//    name and typed contain only lowercase English letters.
+
+const topVotedIsLongPressedName = function (name, typed) {
+  for (var i = 0, j = 0; i < typed.length && j <= name.length; i++) {
+    if (typed[i] == name[j]) j++;
+    else if (typed[i] != name[j - 1]) return false;
+  }
+  return i == typed.length && j == name.length;
+};
+console.log(topVotedIsLongPressedName("alex", "aaleex")); // true
+console.log(topVotedIsLongPressedName("saeed", "ssaaedd")); // false
+console.log(topVotedIsLongPressedName("leelee", "lleeelee")); // true
+console.log(topVotedIsLongPressedName("laiden", "laiden")); // true
+
+// Very clean
