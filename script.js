@@ -7830,7 +7830,7 @@ console.log(topVotedSortArrayByParityII([2, 3])); // [2,3]
 // Seems this is the most common logic so I wasn't far off at all */
 
 // Long Pressed Name          11/15/2021
-
+/* 
 // Your friend is typing his name into a keyboard. Sometimes, when typing a character c, the key might get long pressed, and the character will be typed 1 or more times.
 
 // You examine the typed characters of the keyboard. Return True if it is possible that it was your friends name, with some characters (possibly none) being long pressed.
@@ -7862,4 +7862,65 @@ console.log(topVotedIsLongPressedName("saeed", "ssaaedd")); // false
 console.log(topVotedIsLongPressedName("leelee", "lleeelee")); // true
 console.log(topVotedIsLongPressedName("laiden", "laiden")); // true
 
-// Very clean
+// Very clean */
+
+// Unique Email Addresses         11/16/2021
+
+// Every valid email consists of a local name and a domain name, separated by the '@' sign. Besides lowercase letters, the email may contain one or more '.' or '+'.
+
+// For example, in "alice@leetcode.com", "alice" is the local name, and "leetcode.com" is the domain name.
+// If you add periods '.' between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. Note that this rule does not apply to domain names.
+
+// For example, "alice.z@leetcode.com" and "alicez@leetcode.com" forward to the same email address.
+// If you add a plus '+' in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered. Note that this rule does not apply to domain names.
+
+// For example, "m.y+name@email.com" will be forwarded to "my@email.com".
+// It is possible to use both of these rules at the same time.
+
+// Given an array of strings emails where we send one email to each email[i], return the number of different addresses that actually receive mails.
+
+// Example 1:
+//    Input: emails = ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]
+//    Output: 2
+// Explanation: "testemail@leetcode.com" and "testemail@lee.tcode.com" actually receive mails.
+
+// Example 2:
+//    Input: emails = ["a@leetcode.com","b@leetcode.com","c@leetcode.com"]
+//    Output: 3
+
+// Constraints:
+//    1 <= emails.length <= 100
+//    1 <= emails[i].length <= 100
+//    email[i] consist of lowercase English letters, '+', '.' and '@'.
+//    Each emails[i] contains exactly one '@' character.
+//    All local and domain names are non-empty.
+//    Local names do not start with a '+' character.
+
+const numUniqueEmails = function (emails) {
+  let ans = new Set();
+  for (let email of emails) {
+    email = email.split(`@`);
+    ans.add(`${email[0].split(`+`)[0].replaceAll(`.`, ``)}@${email[1]}`);
+  }
+  return ans.size;
+};
+// prettier-ignore
+console.log(numUniqueEmails(["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"])); // 2
+// prettier-ignore
+console.log(numUniqueEmails(["a@leetcode.com", "b@leetcode.com", "c@leetcode.com"])); // 3
+// prettier-ignore
+console.log(numUniqueEmails(["test.email+alex@leetcode.com","test.email.leet+alex@code.com"])); // 2
+
+// Decent scores, faster than most
+
+var topVotedNumUniqueEmails = function (emails) {
+  return new Set(
+    emails.map((email) => {
+      const [local, domain] = email.split("@");
+      return local.split("+").shift().split(".").join("") + "@" + domain;
+    })
+  ).size;
+};
+
+// This is what I was shooting for when writing my code
+// Small optimizations everywhere leads to slightly faster code
