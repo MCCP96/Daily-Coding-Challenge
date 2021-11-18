@@ -7926,7 +7926,7 @@ var topVotedNumUniqueEmails = function (emails) {
 // Small optimizations everywhere leads to slightly faster code */
 
 // Number of Recent Calls         11/17/2021
-
+/* 
 // You have a RecentCounter class which counts the number of recent requests within a certain time frame.
 
 // Implement the RecentCounter class:
@@ -7972,4 +7972,56 @@ console.log(obj.ping([3001])); // 3
 console.log(obj.ping([3002])); // 3
 
 // This is the top voted solution
-// Not too sure how to deal with these yet
+// Not too sure how to deal with these yet */
+
+// Reorder Data in Log Files          11/18/2021
+
+// You are given an array of logs. Each log is a space-delimited string of words, where the first word is the identifier.
+
+// There are two types of logs:
+
+// Letter-logs: All words (except the identifier) consist of lowercase English letters.
+// Digit-logs: All words (except the identifier) consist of digits.
+// Reorder these logs so that:
+
+// The letter-logs come before all digit-logs.
+// The letter-logs are sorted lexicographically by their contents. If their contents are the same, then sort them lexicographically by their identifiers.
+// The digit-logs maintain their relative ordering.
+// Return the final order of the logs.
+
+// Example 1:
+//    Input: logs = ["dig1 8 1 5 1","let1 art can","dig2 3 6","let2 own kit dig","let3 art zero"]
+//    Output: ["let1 art can","let3 art zero","let2 own kit dig","dig1 8 1 5 1","dig2 3 6"]
+// Explanation:
+// The letter-log contents are all different, so their ordering is "art can", "art zero", "own kit dig".
+// The digit-logs have a relative order of "dig1 8 1 5 1", "dig2 3 6".
+
+// Example 2:
+//    Input: logs = ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo"]
+//    Output: ["g1 act car","a8 act zoo","ab1 off key dog","a1 9 2 3 1","zo4 4 7"]
+
+// Constraints:
+//    1 <= logs.length <= 100
+//    3 <= logs[i].length <= 100
+//    All the tokens of logs[i] are separated by a single space.
+//    logs[i] is guaranteed to have an identifier and at least one word after the identifier.
+
+const topVotedReorderLogFiles = function (logs) {
+  return logs
+    .filter((log) => /[a-z]$/.test(log))
+    .sort((a, b) =>
+      ((aId, aWords, _, bId, bWords) =>
+        aWords.localeCompare(bWords) || aId.localeCompare(bId))(
+        ...a.split(/\s(.+)/),
+        ...b.split(/\s(.+)/)
+      )
+    )
+    .concat(logs.filter((log) => /\d$/.test(log)));
+};
+// prettier-ignore
+console.log(topVotedReorderLogFiles(["dig1 8 1 5 1","let1 art can","dig2 3 6","let2 own kit dig","let3 art zero"])); // ["let1 art can","let3 art zero","let2 own kit dig","dig1 8 1 5 1","dig2 3 6"]
+// prettier-ignore
+console.log(topVotedReorderLogFiles(["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo"])); // ["g1 act car","a8 act zoo","ab1 off key dog","a1 9 2 3 1","zo4 4 7"]
+
+// No time today
+// Very nice use of ".sort((a, b) => ((aId, aWords, _, bId, bWords) => { }"
