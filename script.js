@@ -7975,7 +7975,7 @@ console.log(obj.ping([3002])); // 3
 // Not too sure how to deal with these yet */
 
 // Reorder Data in Log Files          11/18/2021
-
+/* 
 // You are given an array of logs. Each log is a space-delimited string of words, where the first word is the identifier.
 
 // There are two types of logs:
@@ -8024,4 +8024,78 @@ console.log(topVotedReorderLogFiles(["dig1 8 1 5 1","let1 art can","dig2 3 6","l
 console.log(topVotedReorderLogFiles(["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo"])); // ["g1 act car","a8 act zoo","ab1 off key dog","a1 9 2 3 1","zo4 4 7"]
 
 // No time today
-// Very nice use of ".sort((a, b) => ((aId, aWords, _, bId, bWords) => { }"
+// Very nice use of ".sort((a, b) => ((aId, aWords, _, bId, bWords) => { }" */
+
+// Valid Mountain Array         11/19/2021
+
+// Given an array of integers arr, return true if and only if it is a valid mountain array.
+
+// Recall that arr is a mountain array if and only if:
+//    arr.length >= 3
+//    There exists some i with 0 < i < arr.length - 1 such that:
+//    arr[0] < arr[1] < ... < arr[i - 1] < arr[i]
+//    arr[i] > arr[i + 1] > ... > arr[arr.length - 1]
+
+// Example 1:
+//    Input: arr = [2,1]
+//    Output: false
+
+// Example 2:
+//    Input: arr = [3,5,5]
+//    Output: false
+
+// Example 3:
+//    Input: arr = [0,3,2,1]
+//    Output: true
+
+// Constraints:
+//    1 <= arr.length <= 104
+//    0 <= arr[i] <= 104
+
+const validMountainArray = function (arr) {
+  if (arr.length < 3) return false;
+
+  let peakIndex = arr.indexOf(Math.max(...arr));
+  if (
+    peakIndex == 0 ||
+    peakIndex == arr.length - 1 ||
+    arr.lastIndexOf(Math.max(...arr)) != peakIndex
+  )
+    return false;
+
+  for (let i = 0; i < arr.length; i++) {
+    if (i < peakIndex && arr[i] <= arr[i - 1]) return false;
+    if (i > peakIndex && arr[i] <= arr[i + 1]) return false;
+  }
+  return true;
+};
+console.log(validMountainArray([2, 1])); // false
+console.log(validMountainArray([3, 5, 5])); // false
+console.log(validMountainArray([0, 3, 2, 1])); // true
+console.log(validMountainArray([9, 8, 7, 6, 5, 4, 3, 2, 1, 0])); // false
+console.log(validMountainArray([0, 1, 2, 4, 2, 1])); // true
+console.log(validMountainArray([1, 1, 1, 1, 1, 1, 1, 2, 1])); // false
+
+// Took me more refused submissions than I'd wanted, but eventually got there
+// Faster than 75% of submissions and less memory than 99%!
+
+const topVotedValidMountainArray = function (A) {
+  const n = A.length;
+  if (n < 3) return false;
+  let i = 1;
+  let rise = false;
+  let drop = false;
+  while (A[i - 1] < A[i]) {
+    i++;
+    rise = true;
+  }
+  if (A[i - 1] === A[i]) return false;
+  while (A[i - 1] > A[i]) {
+    i++;
+    drop = true;
+  }
+  return i === n && rise && drop;
+};
+
+// Much cleaner than mine, but much worst performance (33% runtime/20% memory)
+// I think most of my performance comes from the list of guard clauses I made
