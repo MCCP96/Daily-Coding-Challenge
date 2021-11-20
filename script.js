@@ -8027,7 +8027,7 @@ console.log(topVotedReorderLogFiles(["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 of
 // Very nice use of ".sort((a, b) => ((aId, aWords, _, bId, bWords) => { }" */
 
 // Valid Mountain Array         11/19/2021
-
+/* 
 // Given an array of integers arr, return true if and only if it is a valid mountain array.
 
 // Recall that arr is a mountain array if and only if:
@@ -8098,4 +8098,60 @@ const topVotedValidMountainArray = function (A) {
 };
 
 // Much cleaner than mine, but much worst performance (33% runtime/20% memory)
-// I think most of my performance comes from the list of guard clauses I made
+// I think most of my performance comes from the list of guard clauses I made */
+
+// DI String Match          11/20/2021
+
+// A permutation perm of n + 1 integers of all the integers in the range [0, n] can be represented as a string s of length n where:
+
+// s[i] == 'I' if perm[i] < perm[i + 1], and
+// s[i] == 'D' if perm[i] > perm[i + 1].
+// Given a string s, reconstruct the permutation perm and return it. If there are multiple valid permutations perm, return any of them.
+
+// Example 1:
+//    Input: s = "IDID"
+//    Output: [0,4,1,3,2]
+
+// Example 2:
+//    Input: s = "III"
+//    Output: [0,1,2,3]
+
+// Example 3:
+//    Input: s = "DDI"
+//    Output: [3,2,0,1]
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s[i] is either 'I' or 'D'.
+
+const topVotedDiStringMatch = (S) => {
+  let num = [];
+  let inc = 0;
+  let dec = S.length;
+  let i = 0;
+  while (num.length !== S.length + 1) {
+    num[i] = S[i] === "D" ? dec-- : inc++;
+    i++;
+  }
+  return num;
+};
+console.log(topVotedDiStringMatch(`IDID`)); // [0,4,1,3,2]
+console.log(topVotedDiStringMatch(`III`)); // [0,1,2,3]
+console.log(topVotedDiStringMatch(`DDI`)); // [3,2,0,1]
+
+// Couldn't quite grasp the prompt on this one, decided to study solution
+
+// The solution seems very straight forward
+// 'I's start from 0 and increment, while 'D's start from the input's length and decrement
+
+const diStringMatch = function (s) {
+  let inc = 0,
+    dec = s.length;
+  return [...s.split(``).map((_, i) => (s[i] === "I" ? inc++ : dec--)), inc];
+};
+console.log(diStringMatch(`IDID`)); // [0,4,1,3,2]
+console.log(diStringMatch(`III`)); // [0,1,2,3]
+console.log(diStringMatch(`DDI`)); // [3,2,0,1]
+
+// Came up with this
+// Same runtime, but much better memory
