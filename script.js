@@ -8157,7 +8157,7 @@ console.log(diStringMatch(`DDI`)); // [3,2,0,1]
 // Same runtime, but much better memory */
 
 // Delete Columns to Make Sorted          11/21/2021
-
+/* 
 // You are given an array of n strings strs, all of the same length.
 
 // The strings can be arranged such that there is one on each line, making a grid. For example, strs = ["abc", "bce", "cae"] can be arranged as:
@@ -8217,4 +8217,68 @@ console.log(minDeletionSize(["cba", "daf", "ghi"])); // 1
 console.log(minDeletionSize(["a", "b"])); // 0
 console.log(minDeletionSize(["zyx", "wvu", "tsr"])); // 3
 
-// Matched top voted
+// Matched top voted */
+
+// Verifying an Alien Dictionary          11/22/2021
+
+// In an alien language, surprisingly, they also use English lowercase letters, but possibly in a different order. The order of the alphabet is some permutation of lowercase letters.
+
+// Given a sequence of words written in the alien language, and the order of the alphabet, return true if and only if the given words are sorted lexicographically in this alien language.
+
+// Example 1:
+//    Input: words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
+//    Output: true
+// Explanation: As 'h' comes before 'l' in this language, then the sequence is sorted.
+
+// Example 2:
+//    Input: words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
+//    Output: false
+// Explanation: As 'd' comes after 'l' in this language, then words[0] > words[1], hence the sequence is unsorted.
+
+// Example 3:
+//    Input: words = ["apple","app"], order = "abcdefghijklmnopqrstuvwxyz"
+//    Output: false
+// Explanation: The first three characters "app" match, and the second string is shorter (in size.) According to lexicographical rules "apple" > "app", because 'l' > '∅', where '∅' is defined as the blank character which is less than any other character (More info).
+
+// Constraints:
+//    1 <= words.length <= 100
+//    1 <= words[i].length <= 20
+//    order.length == 26
+//    All characters in words[i] and order are English lowercase letters.
+
+const isAlienSorted = function (words, order) {
+  for (let i = 0; i < words.length - 1; i++) {
+    for (let j = 0; j < words[i].length; j++) {
+      let charA = words[i].substring(j, j + 1),
+        charB = words[i + 1].substring(j, j + 1);
+      if (order.indexOf(charA) < order.indexOf(charB)) break;
+      if (order.indexOf(charA) > order.indexOf(charB) || charB.length < 1)
+        return false;
+    }
+  }
+  return true;
+};
+console.log(isAlienSorted(["hello", "leetcode"], "hlabcdefgijkmnopqrstuvwxyz")); // true
+// prettier-ignore
+console.log(isAlienSorted(["word","world","row"], "worldabcefghijkmnpqstuvxyz")); // false
+console.log(isAlienSorted(["apple", "app"], "abcdefghijklmnopqrstuvwxyz")); // false
+console.log(isAlienSorted(["aa", "a"], "abqwertyuioplkjhgfdszxcvnm")); // false
+
+// Great memory, not so great runtime
+
+var topVotedIsAlienSorted = function (words, order) {
+  return (
+    [...words]
+      .sort((a, b) => {
+        for (let i = 0; i < a.length; i++) {
+          if (a[i] === b[i]) continue;
+          if (order.indexOf(a[i]) > order.indexOf(b[i])) return 1;
+          if (order.indexOf(a[i]) < order.indexOf(b[i])) return -1;
+        }
+        return a.length - b.length;
+      })
+      .join("") === words.join("")
+  );
+};
+
+// Knew the .sort could do it, but wasn't sure how
