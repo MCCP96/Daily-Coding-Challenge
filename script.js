@@ -8220,7 +8220,7 @@ console.log(minDeletionSize(["zyx", "wvu", "tsr"])); // 3
 // Matched top voted */
 
 // Verifying an Alien Dictionary          11/22/2021
-
+/* 
 // In an alien language, surprisingly, they also use English lowercase letters, but possibly in a different order. The order of the alphabet is some permutation of lowercase letters.
 
 // Given a sequence of words written in the alien language, and the order of the alphabet, return true if and only if the given words are sorted lexicographically in this alien language.
@@ -8281,4 +8281,39 @@ var topVotedIsAlienSorted = function (words, order) {
   );
 };
 
-// Knew the .sort could do it, but wasn't sure how
+// Knew the .sort could do it, but wasn't sure how */
+
+// N-Repeated Element in Size 2N Array          11/23/2021
+
+// You are given an integer array nums with the following properties:
+
+// nums.length == 2 * n.
+// nums contains n + 1 unique elements.
+// Exactly one element of nums is repeated n times.
+// Return the element that is repeated n times.
+
+// Constraints:
+//    2 <= n <= 5000
+//    nums.length == 2 * n
+//    0 <= nums[i] <= 104
+//    nums contains n + 1 unique elements and one of them is repeated exactly n times.a
+
+const repeatedNTimes = function (nums) {
+  for (let num of nums) {
+    if (nums.indexOf(num) != nums.lastIndexOf(num)) return num;
+  }
+};
+console.log(repeatedNTimes([1, 2, 3, 3])); // 3
+console.log(repeatedNTimes([2, 1, 2, 5, 3, 2])); // 2
+console.log(repeatedNTimes([5, 1, 5, 2, 5, 3, 5, 4])); // 5
+
+// Given that all other elements are unique, if there is more than one occurance of a num, it is our desired output
+
+var topVotedRepeatedNTimes = function (nums) {
+  return nums.find((a) => nums.filter((n) => n === a).length > 1);
+};
+console.log(topVotedRepeatedNTimes([1, 2, 3, 3])); // 3
+console.log(topVotedRepeatedNTimes([2, 1, 2, 5, 3, 2])); // 2
+console.log(topVotedRepeatedNTimes([5, 1, 5, 2, 5, 3, 5, 4])); // 5
+
+// I'm a fan of the one-liner, but worst performance than mine
