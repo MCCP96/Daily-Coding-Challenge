@@ -8284,7 +8284,7 @@ var topVotedIsAlienSorted = function (words, order) {
 // Knew the .sort could do it, but wasn't sure how */
 
 // N-Repeated Element in Size 2N Array          11/23/2021
-
+/* 
 // You are given an integer array nums with the following properties:
 
 // nums.length == 2 * n.
@@ -8316,4 +8316,31 @@ console.log(topVotedRepeatedNTimes([1, 2, 3, 3])); // 3
 console.log(topVotedRepeatedNTimes([2, 1, 2, 5, 3, 2])); // 2
 console.log(topVotedRepeatedNTimes([5, 1, 5, 2, 5, 3, 5, 4])); // 5
 
-// I'm a fan of the one-liner, but worst performance than mine
+// I'm a fan of the one-liner, but worst performance than mine */
+
+// Largest Perimeter Triangle         11/24/2021
+
+// Given an integer array nums, return the largest perimeter of a triangle with a non-zero area, formed from three of these lengths. If it is impossible to form any triangle of a non-zero area, return 0.
+
+// Constraints:
+//    3 <= nums.length <= 104
+//    1 <= nums[i] <= 106
+
+const topVotedLargestPerimeter = function (A) {
+  A.sort((a, b) => b - a);
+  const N = A.length - 2;
+  for (let i = 0; i < N; i++) {
+    console.log(A[i], `<`, A[i + 1], `+`, A[i + 2]);
+    if (A[i] < A[i + 1] + A[i + 2]) return A[i] + A[i + 1] + A[i + 2];
+  }
+  return 0;
+};
+console.log(topVotedLargestPerimeter([2, 1, 2])); // 5
+console.log(topVotedLargestPerimeter([1, 2, 1])); // 0
+console.log(topVotedLargestPerimeter([3, 2, 3, 4])); // 10
+console.log(topVotedLargestPerimeter([3, 6, 2, 3])); // 8
+
+// Added the console.log line to help visualize a little
+// Makes sense
+
+// Terrible runtime, decent memory
