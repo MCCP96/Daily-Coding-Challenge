@@ -8346,7 +8346,7 @@ console.log(topVotedLargestPerimeter([3, 6, 2, 3])); // 8
 // Terrible runtime, decent memory */
 
 // Squares of a Sorted Array          11/25/2021
-
+/* 
 // Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
 
 // Example 1:
@@ -8372,4 +8372,59 @@ console.log(sortedSquares([-7, -3, 2, 3, 11])); // [4,9,9,49,121]
 // Clean one-liner
 
 // Tested with both cur*cur and Math.pow(cur,2)
-// Math.pow gave better runtime but poorer memory
+// Math.pow gave better runtime but poorer memory */
+
+// Add to Array-Form of Integer         11/26/2021
+
+// The array-form of an integer num is an array representing its digits in left to right order.
+
+// For example, for num = 1321, the array form is [1,3,2,1].
+// Given num, the array-form of an integer, and an integer k, return the array-form of the integer num + k.
+
+// Example 1:
+//    Input: num = [1,2,0,0], k = 34
+//    Output: [1,2,3,4]
+// Explanation: 1200 + 34 = 1234
+
+// Example 4:
+//    Input: num = [9,9,9,9,9,9,9,9,9,9], k = 1
+//    Output: [1,0,0,0,0,0,0,0,0,0,0]
+// Explanation: 9999999999 + 1 = 10000000000
+
+// Constraints:
+//    1 <= num.length <= 104
+//    0 <= num[i] <= 9
+//    num does not contain any leading zeros except for the zero itself.
+//    1 <= k <= 104
+
+const addToArrayForm = (num, k) => [...(BigInt(num.join(``)) + BigInt(k) + ``)];
+console.log(addToArrayForm([1, 2, 0, 0], 34)); // [1,2,3,4]
+console.log(addToArrayForm([2, 7, 4], 181)); // [4,5,5]
+console.log(addToArrayForm([2, 1, 5], 806)); // [1,0,2,1]
+console.log(addToArrayForm([9, 9, 9, 9, 9, 9, 9, 9, 9, 9], 1)); // [1,0,0,0,0,0,0,0,0,0,0]
+// prettier-ignore
+console.log(addToArrayForm([1, 2, 6, 3, 0, 7, 1, 7, 1, 9, 7, 5, 6, 6, 4, 4, 0, 0, 6, 3],516)); // [1,2,6,3,0,7,1,7,1,9,7,5,6,6,4,4,0,5,7,9]
+
+// Pretty terrible runtime, but gets the job done simply
+// Also noticed the array is chars and not ints. Still passes tho.
+
+// Tested arrow and normal function notation, arrow notation has worse runtime.
+
+const topVotedAddToArrayForm = function (A, K) {
+  let flag = A.length - 1;
+  while (K) {
+    if (flag < 0) {
+      A.unshift(K % 10);
+    } else {
+      K += A[flag];
+      A[flag--] = K % 10;
+    }
+    K = Math.floor(K / 10);
+  }
+  return A;
+};
+// prettier-ignore
+console.log(topVotedAddToArrayForm([1, 2, 6, 3, 0, 7, 1, 7, 1, 9, 7, 5, 6, 6, 4, 4, 0, 0, 6, 3],516)); // [1,2,6,3,0,7,1,7,1,9,7,5,6,6,4,4,0,5,7,9]
+
+// MUCH much better runtime
+// This solution felt tedious, but really does it in terms of performance
