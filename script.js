@@ -8375,7 +8375,7 @@ console.log(sortedSquares([-7, -3, 2, 3, 11])); // [4,9,9,49,121]
 // Math.pow gave better runtime but poorer memory */
 
 // Add to Array-Form of Integer         11/26/2021
-
+/* 
 // The array-form of an integer num is an array representing its digits in left to right order.
 
 // For example, for num = 1321, the array form is [1,3,2,1].
@@ -8427,4 +8427,50 @@ const topVotedAddToArrayForm = function (A, K) {
 console.log(topVotedAddToArrayForm([1, 2, 6, 3, 0, 7, 1, 7, 1, 9, 7, 5, 6, 6, 4, 4, 0, 0, 6, 3],516)); // [1,2,6,3,0,7,1,7,1,9,7,5,6,6,4,4,0,5,7,9]
 
 // MUCH much better runtime
-// This solution felt tedious, but really does it in terms of performance
+// This solution felt tedious, but really does it in terms of performance */
+
+// Find the Town Judge          11/27/2021
+
+// In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
+
+// If the town judge exists, then:
+
+// The town judge trusts nobody.
+// Everybody (except for the town judge) trusts the town judge.
+// There is exactly one person that satisfies properties 1 and 2.
+// You are given an array trust where trust[i] = [ai, bi] representing that the person labeled ai trusts the person labeled bi.
+
+// Return the label of the town judge if the town judge exists and can be identified, or return -1 otherwise.
+
+// Constraints:
+//    1 <= n <= 1000
+//    0 <= trust.length <= 104
+//    trust[i].length == 2
+//    All the pairs of trust are unique.
+//    ai != bi
+//    1 <= ai, bi <= n
+
+const topVotedFindJudge = function (n, trust) {
+  let count = Array(n).fill(0);
+
+  for (let [p, trustedP] of trust) {
+    count[trustedP - 1]++;
+    count[p - 1]--;
+  }
+
+  return count.includes(n - 1) ? count.indexOf(n - 1) + 1 : -1;
+};
+console.log(topVotedFindJudge(2, [[1, 2]])); // 2
+// prettier-ignore
+console.log(topVotedFindJudge(3, [[1,3],[2,3]])); // 3
+// prettier-ignore
+console.log(topVotedFindJudge(3, [[1,3],[2,3],[3,1]])); // -1
+// prettier-ignore
+console.log(topVotedFindJudge(3, [[1,2],[2,3]])); // -1
+// prettier-ignore
+console.log(topVotedFindJudge(4, [[1,3],[1,4],[2,3],[2,4],[4,3]])); // 3
+
+// Messed around with 'Array(n).fill(0)' but couldn't get it working, seems I was on the right track
+
+// Top voted was a bit messy, but cleaned it up and got what's above
+// Great runtime & memory
