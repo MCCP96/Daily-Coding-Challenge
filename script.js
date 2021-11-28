@@ -8430,7 +8430,7 @@ console.log(topVotedAddToArrayForm([1, 2, 6, 3, 0, 7, 1, 7, 1, 9, 7, 5, 6, 6, 4,
 // This solution felt tedious, but really does it in terms of performance */
 
 // Find the Town Judge          11/27/2021
-
+/* 
 // In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
 
 // If the town judge exists, then:
@@ -8473,4 +8473,132 @@ console.log(topVotedFindJudge(4, [[1,3],[1,4],[2,3],[2,4],[4,3]])); // 3
 // Messed around with 'Array(n).fill(0)' but couldn't get it working, seems I was on the right track
 
 // Top voted was a bit messy, but cleaned it up and got what's above
-// Great runtime & memory
+// Great runtime & memory */
+
+// Available Captures for Rook          11/28/2021
+
+// On an 8 x 8 chessboard, there is exactly one white rook 'R' and some number of white bishops 'B', black pawns 'p', and empty squares '.'.
+
+// When the rook moves, it chooses one of four cardinal directions (north, east, south, or west), then moves in that direction until it chooses to stop, reaches the edge of the board, captures a black pawn, or is blocked by a white bishop. A rook is considered attacking a pawn if the rook can capture the pawn on the rook's turn. The number of available captures for the white rook is the number of pawns that the rook is attacking.
+
+// Return the number of available captures for the white rook.
+
+// Example 1:
+// Input: board = [[".",".",".",".",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".","R",".",".",".","p"],[".",".",".",".",".",".",".","."],[".",".",".",".",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".",".",".",".",".","."],[".",".",".",".",".",".",".","."]]
+// https://assets.leetcode.com/uploads/2019/02/20/1253_example_1_improved.PNG
+//    Output: 3
+// Explanation: In this example, the rook is attacking all the pawns.
+
+// Example 2:
+// Input: board = [[".",".",".",".",".",".",".","."],[".","p","p","p","p","p",".","."],[".","p","p","B","p","p",".","."],[".","p","B","R","B","p",".","."],[".","p","p","B","p","p",".","."],[".","p","p","p","p","p",".","."],[".",".",".",".",".",".",".","."],[".",".",".",".",".",".",".","."]]
+// https://assets.leetcode.com/uploads/2019/02/19/1253_example_2_improved.PNG
+//    Output: 0
+// Explanation: The bishops are blocking the rook from attacking any of the pawns.
+
+// Example 3:
+// Input: board = [[".",".",".",".",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".","p",".",".",".","."],["p","p",".","R",".","p","B","."],[".",".",".",".",".",".",".","."],[".",".",".","B",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".",".",".",".",".","."]]
+// https://assets.leetcode.com/uploads/2019/02/20/1253_example_3_improved.PNG
+//    Output: 3
+// Explanation: The rook is attacking the pawns at positions b5, d6, and f5.
+
+// Constraints:
+//    board.length == 8
+//    board[i].length == 8
+//    board[i][j] is either 'R', '.', 'B', or 'p'
+//    There is exactly one cell with board[i][j] == 'R'
+
+const topVotedNumRookCaptures = function (b) {
+  let p = [];
+  let R = [];
+  let B = [];
+  let res = 0;
+  for (let q = 0; q < 8; q++) {
+    for (let w = 0; w < 8; w++) {
+      if (b[q][w] == "p") p.push([q, w]);
+      if (b[q][w] == "R") R.push(q, w);
+      if (b[q][w] == "B") B.push([q, w]);
+    }
+  }
+
+  //go up
+  if (
+    p.some(
+      (x) =>
+        x[1] == R[1] &&
+        x[0] < R[0] &&
+        !B.some((y) => y[1] == R[1] && y[0] < R[0] && y[0] > x[0])
+    )
+  )
+    res++;
+  //go down
+  if (
+    p.some(
+      (x) =>
+        x[1] == R[1] &&
+        x[0] > R[0] &&
+        !B.some((y) => y[1] == R[1] && y[0] > R[0] && y[0] < x[0])
+    )
+  )
+    res++;
+  //go left
+  if (
+    p.some(
+      (x) =>
+        x[0] == R[0] &&
+        x[1] < R[1] &&
+        !B.some((y) => y[0] == R[0] && y[1] < R[1] && y[1] > x[1])
+    )
+  )
+    res++;
+  //go right
+  if (
+    p.some(
+      (x) =>
+        x[0] == R[0] &&
+        x[1] > R[1] &&
+        !B.some((y) => y[0] == R[0] && y[1] > R[1] && y[1] < x[1])
+    )
+  )
+    res++;
+
+  return res;
+};
+console.log(
+  topVotedNumRookCaptures([
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    [".", ".", ".", "R", ".", ".", ".", "p"],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+  ])
+); // 3
+console.log(
+  topVotedNumRookCaptures([
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", "p", "p", "p", "p", "p", ".", "."],
+    [".", "p", "p", "B", "p", "p", ".", "."],
+    [".", "p", "B", "R", "B", "p", ".", "."],
+    [".", "p", "p", "B", "p", "p", ".", "."],
+    [".", "p", "p", "p", "p", "p", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+  ])
+); // 0
+console.log(
+  topVotedNumRookCaptures([
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    ["p", "p", ".", "R", ".", "p", "B", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", "B", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+  ])
+); // 3
+
+// Had something going along these lines, but couldn't get the 'if's quite right
+// Makes sense, just very tedious
