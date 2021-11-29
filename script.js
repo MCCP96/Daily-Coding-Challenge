@@ -8476,7 +8476,7 @@ console.log(topVotedFindJudge(4, [[1,3],[1,4],[2,3],[2,4],[4,3]])); // 3
 // Great runtime & memory */
 
 // Available Captures for Rook          11/28/2021
-
+/* 
 // On an 8 x 8 chessboard, there is exactly one white rook 'R' and some number of white bishops 'B', black pawns 'p', and empty squares '.'.
 
 // When the rook moves, it chooses one of four cardinal directions (north, east, south, or west), then moves in that direction until it chooses to stop, reaches the edge of the board, captures a black pawn, or is blocked by a white bishop. A rook is considered attacking a pawn if the rook can capture the pawn on the rook's turn. The number of available captures for the white rook is the number of pawns that the rook is attacking.
@@ -8601,4 +8601,50 @@ console.log(
 ); // 3
 
 // Had something going along these lines, but couldn't get the 'if's quite right
-// Makes sense, just very tedious
+// Makes sense, just very tedious */
+
+// Find Common Characters         11/29/2021
+
+// Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). You may return the answer in any order.
+
+// Constraints:
+//    1 <= words.length <= 100
+//    1 <= words[i].length <= 100
+//    words[i] consists of lowercase English letters.
+
+const commonChars = function (words) {
+  let ans = [];
+  for (let c of words[0].split(``)) {
+    let existsInAll = true;
+    for (let i = 1; i < words.length; i++) {
+      if (!words[i].includes(c)) {
+        existsInAll = false;
+        break;
+      }
+      words[i] =
+        words[i].slice(0, words[i].indexOf(c)) +
+        words[i].slice(words[i].indexOf(c) + 1);
+    }
+    if (existsInAll) ans.push(c);
+  }
+  return ans;
+};
+console.log(commonChars(["bella", "label", "roller"])); // ["e","l","l"]
+console.log(commonChars(["cool", "lock", "cook"])); // ["c","o"]
+
+// Not a fan of it, but no time today
+// Still pretty decent runtime & memory
+
+var topVotedCommonChars = function (A) {
+  let res = [...A[0]];
+  for (let i = 1; i < A.length; i++) {
+    res = res.filter((c) => {
+      const l = A[i].length;
+      A[i] = A[i].replace(c, "");
+      return l > A[i].length;
+    });
+  }
+  return res;
+};
+
+// This one has much better runtime
