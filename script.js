@@ -8604,7 +8604,7 @@ console.log(
 // Makes sense, just very tedious */
 
 // Find Common Characters         11/29/2021
-
+/* 
 // Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). You may return the answer in any order.
 
 // Constraints:
@@ -8647,4 +8647,54 @@ var topVotedCommonChars = function (A) {
   return res;
 };
 
-// This one has much better runtime
+// This one has much better runtime */
+
+// Maximize Sum Of Array After K Negations          11/30/2021
+
+// Given an integer array nums and an integer k, modify the array in the following way:
+
+// choose an index i and replace nums[i] with -nums[i].
+// You should apply this process exactly k times. You may choose the same index i multiple times.
+
+// Return the largest possible sum of the array after modifying it in this way.
+
+// Example 2:
+//    Input: nums = [3,-1,0,2], k = 3
+//    Output: 6
+// Explanation: Choose indices (1, 2, 2) and nums becomes [3,1,0,2].
+
+// Constraints:
+//    1 <= nums.length <= 104
+//    -100 <= nums[i] <= 100
+//    1 <= k <= 104
+
+const largestSumAfterKNegations = function (nums, k) {
+  nums = nums.sort((a, b) => a - b);
+  let ans = 0;
+  for (k; k > 0; k--)
+    nums[0] < 0 && k < nums.filter((x) => x < 0).length
+      ? (ans += -nums.shift())
+      : (nums[0] = -nums[0]);
+  return (ans += nums.reduce((acc, cur) => (acc += cur)));
+};
+console.log(largestSumAfterKNegations([4, 2, 3], 1)); // 5
+console.log(largestSumAfterKNegations([3, -1, 0, 2], 3)); // 6
+console.log(largestSumAfterKNegations([2, -3, -1, 5, -4], 2)); // 13
+console.log(largestSumAfterKNegations([1, 3, 2, 6, 7, 9], 3)); // 26
+
+// Doesn't work for all test cases
+
+var topVotedLargestSumAfterKNegations = function (A, K) {
+  while (K > 0) {
+    let v = Math.min(...A);
+    let i = A.indexOf(v);
+    A[i] = -A[i];
+    K--;
+  }
+
+  return A.reduce((a, c) => a + c, 0);
+};
+console.log(topVotedLargestSumAfterKNegations([2, -3, -1, 5, -4], 2)); // 13
+console.log(topVotedLargestSumAfterKNegations([1, 3, 2, 6, 7, 9], 3)); // 26
+
+// Still pretty bad runtime
