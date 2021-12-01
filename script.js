@@ -8650,7 +8650,7 @@ var topVotedCommonChars = function (A) {
 // This one has much better runtime */
 
 // Maximize Sum Of Array After K Negations          11/30/2021
-
+/* 
 // Given an integer array nums and an integer k, modify the array in the following way:
 
 // choose an index i and replace nums[i] with -nums[i].
@@ -8697,4 +8697,42 @@ var topVotedLargestSumAfterKNegations = function (A, K) {
 console.log(topVotedLargestSumAfterKNegations([2, -3, -1, 5, -4], 2)); // 13
 console.log(topVotedLargestSumAfterKNegations([1, 3, 2, 6, 7, 9], 3)); // 26
 
-// Still pretty bad runtime
+// Still pretty bad runtime */
+
+// Complement of Base 10 Integer          12/1/2021
+
+// The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
+
+// For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
+// Given an integer n, return its complement.
+
+// Example 1:
+//    Input: n = 5
+//    Output: 2
+// Explanation: 5 is "101" in binary, with complement "010" in binary, which is 2 in base-10.
+
+// Constraints:
+//    0 <= n < 109
+
+const bitwiseComplement = (n) =>
+  parseInt(
+    n
+      .toString(2)
+      .split(``)
+      .reduce((acc, x) => `${acc}${x == 1 ? 0 : 1}`, ``),
+    2
+  );
+console.log(bitwiseComplement(5)); // 2
+console.log(bitwiseComplement(7)); // 0
+console.log(bitwiseComplement(10)); // 5
+
+// Decent solution
+
+var topVotedBitwiseComplement = function (N) {
+  return parseInt(
+    N.toString(2).replace(/[0-1]/g, (v) => (v === "1" ? 0 : 1)),
+    2
+  );
+};
+
+// A bit better runtime, but I am a fan of using regex
