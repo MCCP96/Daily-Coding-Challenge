@@ -8700,7 +8700,7 @@ console.log(topVotedLargestSumAfterKNegations([1, 3, 2, 6, 7, 9], 3)); // 26
 // Still pretty bad runtime */
 
 // Complement of Base 10 Integer          12/1/2021
-
+/* 
 // The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
 
 // For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
@@ -8735,4 +8735,67 @@ var topVotedBitwiseComplement = function (N) {
   );
 };
 
-// A bit better runtime, but I am a fan of using regex
+// A bit better runtime, but I am a fan of using regex */
+
+// Partition Array Into Three Parts With Equal Sum          12/2/2021
+
+// Given an array of integers arr, return true if we can partition the array into three non-empty parts with equal sums.
+
+// Formally, we can partition the array if we can find indexes i + 1 < j with (arr[0] + arr[1] + ... + arr[i] == arr[i + 1] + arr[i + 2] + ... + arr[j - 1] == arr[j] + arr[j + 1] + ... + arr[arr.length - 1])
+
+// Example 1:
+//    Input: arr = [0,2,1,-6,6,-7,9,1,2,0,1]
+//    Output: true
+// Explanation: 0 + 2 + 1 = -6 + 6 - 7 + 9 + 1 = 2 + 0 + 1
+
+// Example 2:
+//    Input: arr = [0,2,1,-6,6,7,9,-1,2,0,1]
+//    Output: false
+
+// Example 3:
+//    Input: arr = [3,3,6,5,-2,2,5,1,-9,4]
+//    Output: true
+// Explanation: 3 + 3 = 6 = 5 - 2 + 2 + 5 + 1 - 9 + 4
+
+// Constraints:
+//    3 <= arr.length <= 5 * 104
+//    -104 <= arr[i] <= 104
+
+const canThreePartsEqualSum = function (arr) {
+  let first = 0;
+  for (let i = 0; i < arr.length; i++) {
+    first += arr[i];
+    let second = 0;
+    for (let j = i + 1; j < arr.length; j++) {
+      second += arr[j];
+      if (
+        first == second &&
+        second == arr.slice(j + 1).reduce((acc, cur) => (acc += cur))
+      )
+        return true;
+    }
+  }
+  return false;
+};
+console.log(canThreePartsEqualSum([0, 2, 1, -6, 6, -7, 9, 1, 2, 0, 1])); // true
+console.log(canThreePartsEqualSum([0, 2, 1, -6, 6, 7, 9, -1, 2, 0, 1])); // false
+console.log(canThreePartsEqualSum([3, 3, 6, 5, -2, 2, 5, 1, -9, 4])); // true
+
+// Works but encounter runtime error on LeetCode; Too slow.
+
+var topVotedCanThreePartsEqualSum = function (A) {
+  let sum = A.reduce((acc, cur) => acc + cur) / 3;
+  let s = 0,
+    count = 0;
+  for (let num of A) {
+    s += num;
+    if (s === sum) {
+      count++;
+      s = 0;
+    }
+  }
+  return count >= 3;
+};
+
+// Clever math solution
+// Finds average and works from there
