@@ -8738,7 +8738,7 @@ var topVotedBitwiseComplement = function (N) {
 // A bit better runtime, but I am a fan of using regex */
 
 // Partition Array Into Three Parts With Equal Sum          12/2/2021
-
+/* 
 // Given an array of integers arr, return true if we can partition the array into three non-empty parts with equal sums.
 
 // Formally, we can partition the array if we can find indexes i + 1 < j with (arr[0] + arr[1] + ... + arr[i] == arr[i + 1] + arr[i + 2] + ... + arr[j - 1] == arr[j] + arr[j + 1] + ... + arr[arr.length - 1])
@@ -8798,4 +8798,53 @@ var topVotedCanThreePartsEqualSum = function (A) {
 };
 
 // Clever math solution
-// Finds average and works from there
+// Finds average and works from there */
+
+// Remove Outermost Parentheses         12/3/2021
+
+// A valid parentheses string is either empty "", "(" + A + ")", or A + B, where A and B are valid parentheses strings, and + represents string concatenation.
+
+// For example, "", "()", "(())()", and "(()(()))" are all valid parentheses strings.
+// A valid parentheses string s is primitive if it is nonempty, and there does not exist a way to split it into s = A + B, with A and B nonempty valid parentheses strings.
+
+// Given a valid parentheses string s, consider its primitive decomposition: s = P1 + P2 + ... + Pk, where Pi are primitive valid parentheses strings.
+
+// Return s after removing the outermost parentheses of every primitive string in the primitive decomposition of s.
+
+// Example 1:
+//    Input: s = "(()())(())"
+//    Output: "()()()"
+// Explanation:
+// The input string is "(()())(())", with primitive decomposition "(()())" + "(())".
+// After removing outer parentheses of each part, this is "()()" + "()" = "()()()".
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s[i] is either '(' or ')'.
+//    s is a valid parentheses string.
+
+const topVotedRemoveOuterParentheses = function (S) {
+  let parenthesCount = 0;
+  let result = "";
+
+  for (const letter of S) {
+    if (letter === "(") {
+      if (parenthesCount) {
+        result += letter;
+      }
+      parenthesCount++;
+    } else {
+      parenthesCount--;
+      if (parenthesCount) {
+        result += letter;
+      }
+    }
+  }
+
+  return result;
+};
+console.log(removeOuterParentheses("(()())(())")); // "()()()"
+console.log(removeOuterParentheses("(()())(())(()(()))")); // "()()()()(())"
+console.log(removeOuterParentheses("()()")); // ""
+
+// Better than 95% runtime
