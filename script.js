@@ -8850,7 +8850,7 @@ console.log(removeOuterParentheses("()()")); // ""
 // Better than 95% runtime */
 
 // Divisor Game         12/4/2021
-
+/* 
 // Alice and Bob take turns playing a game, with Alice starting first.
 
 // Initially, there is a number n on the chalkboard. On each player's turn, that player makes a move consisting of:
@@ -8879,4 +8879,22 @@ console.log(divisorGame(2)); // true
 console.log(divisorGame(3)); // false
 
 // The description tries to complicate it, but this is all there is to it
-// Better runtime than 90%
+// Better runtime than 90% */
+
+// Valid Boomerang          12/5/2021
+
+// Given an array points where points[i] = [xi, yi] represents a point on the X-Y plane, return true if these points are a boomerang.
+
+// A boomerang is a set of three points that are all distinct and not in a straight line.
+
+// Constraints:
+//    points.length == 3
+//    points[i].length == 2
+//    0 <= xi, yi <= 100
+
+var topVotedIsBoomerang = ([[ax, ay], [bx, by], [cx, cy]]) =>
+  (by - ay) * (cx - bx) !== (cy - by) * (bx - ax);
+// prettier-ignore
+console.log(topVotedIsBoomerang([[1,1],[2,3],[3,2]]) ); // true
+// prettier-ignore
+console.log(topVotedIsBoomerang([[1,1],[2,2],[3,3]])); // false
