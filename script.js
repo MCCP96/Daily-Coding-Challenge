@@ -8900,7 +8900,7 @@ console.log(topVotedIsBoomerang([[1,1],[2,3],[3,2]]) ); // true
 console.log(topVotedIsBoomerang([[1,1],[2,2],[3,3]])); // false */
 
 // Last Stone Weight          12/6/2021
-
+/* 
 //  You are given an array of integers stones where stones[i] is the weight of the ith stone.
 
 // We are playing a game with the stones. On each turn, we choose the heaviest two stones and smash them together. Suppose the heaviest two stones have weights x and y with x <= y. The result of this smash is:
@@ -8932,4 +8932,47 @@ console.log(lastStoneWeight([2, 7, 4, 1, 8, 1])); // 1
 console.log(lastStoneWeight([1])); // 1
 
 // Inspired by top voted
-// Clever to call back function to sort after every substraction
+// Clever to call back function to sort after every substraction */
+
+// Remove All Adjacent Duplicates In String         12/7/2021
+
+// You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing two adjacent and equal letters and removing them.
+
+// We repeatedly make duplicate removals on s until we no longer can.
+
+// Return the final string after all such duplicate removals have been made. It can be proven that the answer is unique.
+
+// Example 1:
+//    Input: s = "abbaca"
+//    Output: "ca"
+// Explanation:
+// For example, in "abbaca" we could remove "bb" since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is "aaca", of which only "aa" is possible, so the final string is "ca".
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s consists of lowercase English letters.
+
+const removeDuplicates = function (s) {
+  while (/(.)\1/gi.test(s)) s = s.replace(/(.)\1/gi, ``);
+  return s;
+};
+console.log(removeDuplicates("abbaca")); // ca
+console.log(removeDuplicates("azxxzy")); // ay
+
+// Exceed runtime limit
+// Saw other top voted solutions similar to this, but they didn't seem to work either
+
+var topVotedRemoveDuplicates = function (S) {
+  let res = [];
+  for (let i = 0; i < S.length; i++) {
+    if (S[i] !== res[res.length - 1]) {
+      res.push(S[i]);
+    } else {
+      res.pop();
+    }
+  }
+  return res.join("");
+};
+
+// Pretty terrible runtime and memory...
+// I prefer my solution, but it unfortunately doesn't work with leetcode
