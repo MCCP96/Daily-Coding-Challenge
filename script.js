@@ -9029,7 +9029,7 @@ console.log(heightChecker([1, 2, 3, 4, 5])); // 0
 // No time today, finals season! */
 
 // Greatest Common Divisor of Strings         12/9/2021
-
+/* 
 // For two strings s and t, we say "t divides s" if and only if s = t + ... + t  (t concatenated with itself 1 or more times)
 
 // Given two strings str1 and str2, return the largest string x such that x divides both str1 and str2.
@@ -9063,4 +9063,38 @@ const gcdOfStrings = function (str1, str2) {
 console.log(gcdOfStrings("ABCABC", "ABC")); // "ABC"
 console.log(gcdOfStrings("ABABAB", "ABAB")); // "AB"
 console.log(gcdOfStrings("LEET", "CODE")); // ""
-console.log(gcdOfStrings("ABCDEF", "ABC")); // ""
+console.log(gcdOfStrings("ABCDEF", "ABC")); // "" */
+
+// Occurrences After Bigram         12/10/2021
+
+// Given two strings first and second, consider occurrences in some text of the form "first second third", where second comes immediately after first, and third comes immediately after second.
+
+// Return an array of all the words third for each occurrence of "first second third".
+
+// Example 1:
+//    Input: text = "alice is a good girl she is a good student", first = "a", second = "good"
+//    Output: ["girl","student"]
+
+// Example 2:
+//    Input: text = "we will we will rock you", first = "we", second = "will"
+//    Output: ["we","rock"]
+
+// Constraints:
+//    1 <= text.length <= 1000
+//    text consists of lowercase English letters and spaces.
+//    All the words in text a separated by a single space.
+//    1 <= first.length, second.length <= 10
+//    first and second consist of lowercase English letters.
+
+const findOcurrences = (text, first, second) =>
+  text
+    .split(" ")
+    .filter((_, i, arr) => arr[i - 2] === first && arr[i - 1] === second);
+
+console.log(
+  findOcurrences("alice is a good girl she is a good student", "a", "good")
+); // ["girl","student"]
+console.log(findOcurrences("we will we will rock you", "we", "will")); // ["we","rock"]
+
+// Better runtime than 85%, decent memory
+// Same as top voted
