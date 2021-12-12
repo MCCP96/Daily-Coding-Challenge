@@ -9100,7 +9100,7 @@ console.log(findOcurrences("we will we will rock you", "we", "will")); // ["we",
 // Same as top voted */
 
 // Duplicate Zeros          12/11/2021
-
+/* 
 // Given a fixed-length integer array arr, duplicate each occurrence of zero, shifting the remaining elements to the right.
 
 // Note that elements beyond the length of the original array are not written. Do the above modifications to the input array in place and do not return anything.
@@ -9122,4 +9122,74 @@ console.log(duplicateZeros([1, 0, 2, 3, 0, 4, 5, 0])); // [1,0,0,2,3,0,0,4]
 console.log(duplicateZeros([1, 2, 3])); // [1,2,3]
 
 // Ok runtime, great memory
-// Same as top voted
+// Same as top voted */
+
+// Distribute Candies to People           12/12/2021
+
+// We distribute some number of candies, to a row of n = num_people people in the following way:
+
+// We then give 1 candy to the first person, 2 candies to the second person, and so on until we give n candies to the last person.
+
+// Then, we go back to the start of the row, giving n + 1 candies to the first person, n + 2 candies to the second person, and so on until we give 2 * n candies to the last person.
+
+// This process repeats (with us giving one more candy each time, and moving to the start of the row after we reach the end) until we run out of candies.  The last person will receive all of our remaining candies (not necessarily one more than the previous gift).
+
+// Return an array (of length num_people and sum candies) that represents the final distribution of candies.
+
+// Example 1:
+//    Input: candies = 7, num_people = 4
+//    Output: [1,2,3,1]
+// Explanation:
+// On the first turn, ans[0] += 1, and the array is [1,0,0,0].
+// On the second turn, ans[1] += 2, and the array is [1,2,0,0].
+// On the third turn, ans[2] += 3, and the array is [1,2,3,0].
+// On the fourth turn, ans[3] += 1 (because there is only one candy left), and the final array is [1,2,3,1].
+
+// Example 2:
+//    Input: candies = 10, num_people = 3
+//    Output: [5,2,3]
+
+// Constraints:
+//    1 <= candies <= 10^9
+//    1 <= num_people <= 1000
+
+const distributeCandies = (candies, num_people) => {
+  let ans = Array(num_people).fill(0);
+
+  let i = 0,
+    prev = 0;
+  while (candies > 0) {
+    if (i > ans.length - 1) i = 0;
+
+    if (candies - (prev + 1) > 0) {
+      ans[i] = prev + 1;
+      prev = ans[i];
+    } else {
+      ans[i] += candies;
+      break;
+    }
+    candies -= prev;
+    i++;
+  }
+  return ans;
+};
+console.log(distributeCandies(7, 4)); // [1,2,3,1]
+console.log(distributeCandies(10, 3)); // [5,2,3]
+
+// Doesn't work for all test cases
+
+const topVotedDistributeCandies = (candies, numOfPeople) => {
+  const res = new Array(numOfPeople).fill(0);
+  let count = 0;
+  while (candies > 0) {
+    const idx = count++ % numOfPeople;
+    const temp = Math.min(count, candies);
+    res[idx] += temp;
+    candies -= temp;
+  }
+  return res;
+};
+console.log(topVotedDistributeCandies(7, 4)); // [1,2,3,1]
+console.log(topVotedDistributeCandies(10, 3)); // [5,2,3]
+
+// Clean math solution, very good logic
