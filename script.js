@@ -9125,7 +9125,7 @@ console.log(duplicateZeros([1, 2, 3])); // [1,2,3]
 // Same as top voted */
 
 // Distribute Candies to People           12/12/2021
-
+/* 
 // We distribute some number of candies, to a row of n = num_people people in the following way:
 
 // We then give 1 candy to the first person, 2 candies to the second person, and so on until we give n candies to the last person.
@@ -9192,4 +9192,24 @@ const topVotedDistributeCandies = (candies, numOfPeople) => {
 console.log(topVotedDistributeCandies(7, 4)); // [1,2,3,1]
 console.log(topVotedDistributeCandies(10, 3)); // [5,2,3]
 
-// Clean math solution, very good logic
+// Clean math solution, very good logic */
+
+// Defanging an IP Address          12/13/2021
+
+// Given a valid (IPv4) IP address, return a defanged version of that IP address.
+
+// A defanged IP address replaces every period "." with "[.]".
+
+// Example 1:
+//    Input: address = "1.1.1.1"
+//    Output: "1[.]1[.]1[.]1"
+
+// Constraints:
+//    The given address is a valid IPv4 address.
+
+const defangIPaddr = (a) => a.replaceAll(`.`, `[.]`);
+console.log(defangIPaddr("1.1.1.1")); // "1[.]1[.]1[.]1"
+console.log(defangIPaddr("255.100.50.0")); // "255[.]100[.]50[.]0"
+
+// Easiest one in a while
+// Better than 90% runtime
