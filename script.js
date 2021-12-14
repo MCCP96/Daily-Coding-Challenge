@@ -9195,7 +9195,7 @@ console.log(topVotedDistributeCandies(10, 3)); // [5,2,3]
 // Clean math solution, very good logic */
 
 // Defanging an IP Address          12/13/2021
-
+/* 
 // Given a valid (IPv4) IP address, return a defanged version of that IP address.
 
 // A defanged IP address replaces every period "." with "[.]".
@@ -9212,4 +9212,47 @@ console.log(defangIPaddr("1.1.1.1")); // "1[.]1[.]1[.]1"
 console.log(defangIPaddr("255.100.50.0")); // "255[.]100[.]50[.]0"
 
 // Easiest one in a while
-// Better than 90% runtime
+// Better than 90% runtime */
+
+// Relative Sort Array          12/14/2021
+
+// Given two arrays arr1 and arr2, the elements of arr2 are distinct, and all elements in arr2 are also in arr1.
+
+// Sort the elements of arr1 such that the relative ordering of items in arr1 are the same as in arr2. Elements that do not appear in arr2 should be placed at the end of arr1 in ascending order.
+
+// Constraints:
+//    1 <= arr1.length, arr2.length <= 1000
+//    0 <= arr1[i], arr2[i] <= 1000
+//    All the elements of arr2 are distinct.
+//    Each arr2[i] is in arr1.
+
+const relativeSortArray = function (arr1, arr2) {
+  let ans = [];
+  for (let a of arr2) ans.push(...arr1.filter((b) => b == a));
+  return [
+    ...ans,
+    ...arr1.filter((x) => !arr2.includes(x)).sort((a, b) => a - b),
+  ];
+};
+console.log(
+  relativeSortArray([2, 3, 1, 3, 2, 4, 6, 7, 9, 2, 19], [2, 1, 4, 3, 9, 6])
+); // [2,2,2,1,4,3,3,9,6,7,19]
+console.log(relativeSortArray([28, 6, 22, 8, 44, 17], [22, 28, 8, 6])); // [22,28,8,6,17,44]
+
+// Not great runtime, Ok memory
+
+var topVotedRelativeSortArray = function (arr1, arr2) {
+  const lookup = new Map();
+  const N = arr2.length;
+  arr2.forEach((a, i) => {
+    lookup.set(a, i);
+  });
+  return arr1.sort((a, b) => {
+    a = lookup.has(a) ? lookup.get(a) : N + a;
+    b = lookup.has(b) ? lookup.get(b) : N + b;
+    return a - b;
+  });
+};
+
+// Hm, clever use of Map() and N
+// Worst runtime than my solution, but much better memory
