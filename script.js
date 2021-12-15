@@ -9215,7 +9215,7 @@ console.log(defangIPaddr("255.100.50.0")); // "255[.]100[.]50[.]0"
 // Better than 90% runtime */
 
 // Relative Sort Array          12/14/2021
-
+/* 
 // Given two arrays arr1 and arr2, the elements of arr2 are distinct, and all elements in arr2 are also in arr1.
 
 // Sort the elements of arr1 such that the relative ordering of items in arr1 are the same as in arr2. Elements that do not appear in arr2 should be placed at the end of arr1 in ascending order.
@@ -9255,4 +9255,34 @@ var topVotedRelativeSortArray = function (arr1, arr2) {
 };
 
 // Hm, clever use of Map() and N
-// Worst runtime than my solution, but much better memory
+// Worst runtime than my solution, but much better memory */
+
+// Number of Equivalent Domino Pairs          12/15/2021
+
+// Given a list of dominoes, dominoes[i] = [a, b] is equivalent to dominoes[j] = [c, d] if and only if either (a == c and b == d), or (a == d and b == c) - that is, one domino can be rotated to be equal to another domino.
+
+// Return the number of pairs (i, j) for which 0 <= i < j < dominoes.length, and dominoes[i] is equivalent to dominoes[j].
+
+// Constraints:
+//    1 <= dominoes.length <= 4 * 104
+//    dominoes[i].length == 2
+//    1 <= dominoes[i][j] <= 9
+
+const topVotedNumEquivDominoPairs = (dominoes) => {
+  const seen = new Map();
+  let count = 0;
+
+  dominoes.forEach((domino) => {
+    domino.sort((a, b) => a - b);
+    const str = domino.join("");
+    if (seen.get(str)) {
+      count += seen.get(str);
+      seen.set(str, seen.get(str) + 1);
+    } else seen.set(str, 1);
+  });
+  return count;
+};
+// prettier-ignore
+console.log(numEquivDominoPairs([[1,2],[2,1],[3,4],[5,6]])); // 1
+// prettier-ignore
+console.log(numEquivDominoPairs([[1,2],[1,2],[1,1],[1,2],[2,2]])); // 3
