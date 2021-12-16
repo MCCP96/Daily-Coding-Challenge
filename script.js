@@ -9258,7 +9258,7 @@ var topVotedRelativeSortArray = function (arr1, arr2) {
 // Worst runtime than my solution, but much better memory */
 
 // Number of Equivalent Domino Pairs          12/15/2021
-
+/* 
 // Given a list of dominoes, dominoes[i] = [a, b] is equivalent to dominoes[j] = [c, d] if and only if either (a == c and b == d), or (a == d and b == c) - that is, one domino can be rotated to be equal to another domino.
 
 // Return the number of pairs (i, j) for which 0 <= i < j < dominoes.length, and dominoes[i] is equivalent to dominoes[j].
@@ -9285,4 +9285,30 @@ const topVotedNumEquivDominoPairs = (dominoes) => {
 // prettier-ignore
 console.log(numEquivDominoPairs([[1,2],[2,1],[3,4],[5,6]])); // 1
 // prettier-ignore
-console.log(numEquivDominoPairs([[1,2],[1,2],[1,1],[1,2],[2,2]])); // 3
+console.log(numEquivDominoPairs([[1,2],[1,2],[1,1],[1,2],[2,2]])); // 3 */
+
+// N-th Tribonacci Number         12/16/2021
+
+// The Tribonacci sequence Tn is defined as follows:
+// T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n >= 0.
+// Given n, return the value of Tn.
+
+// Example 1:
+//    Input: n = 4
+//    Output: 4
+// Explanation:
+// T_3 = 0 + 1 + 1 = 2
+// T_4 = 1 + 1 + 2 = 4
+
+// Constraints:
+//    0 <= n <= 37
+//    The answer is guaranteed to fit within a 32-bit integer, ie. answer <= 2^31 - 1.
+
+const tribonacci = (n) => {
+  let arr = [0, 1, 1];
+  if (n < 3) return arr[n];
+  for (let i = 3; i <= n; i++) arr.push(arr[i - 3] + arr[i - 2] + arr[i - 1]);
+  return arr[n];
+};
+console.log(tribonacci(4)); // 4
+console.log(tribonacci(25)); // 1389537
