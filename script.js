@@ -9288,7 +9288,7 @@ console.log(numEquivDominoPairs([[1,2],[2,1],[3,4],[5,6]])); // 1
 console.log(numEquivDominoPairs([[1,2],[1,2],[1,1],[1,2],[2,2]])); // 3 */
 
 // N-th Tribonacci Number         12/16/2021
-
+/* 
 // The Tribonacci sequence Tn is defined as follows:
 // T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n >= 0.
 // Given n, return the value of Tn.
@@ -9311,4 +9311,28 @@ const tribonacci = (n) => {
   return arr[n];
 };
 console.log(tribonacci(4)); // 4
-console.log(tribonacci(25)); // 1389537
+console.log(tribonacci(25)); // 1389537 */
+
+// Day of the Year          12/17/2021
+
+// Given a string date representing a Gregorian calendar date formatted as YYYY-MM-DD, return the day number of the year.
+
+// Example 1:
+//    Input: date = "2019-01-09"
+//    Output: 9
+// Explanation: Given date is the 9th day of the year in 2019.
+
+// Constraints:
+//    date.length == 10
+//    date[4] == date[7] == '-', and all other date[i]'s are digits
+//    date represents a calendar date between Jan 1st, 1900 and Dec 31, 2019.
+
+const dayOfYear = (date) =>
+  (new Date(date) - new Date(date.slice(0, 4))) / 1000 / 60 / 60 / 24 + 1;
+console.log(dayOfYear("2019-01-09")); // 9
+console.log(dayOfYear("2019-02-10")); // 41
+console.log(dayOfYear("2003-03-01")); // 60
+console.log(dayOfYear("2004-03-01")); // 61
+
+// 100% memory, not greatest runtime
+// Date element works great here
