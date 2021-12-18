@@ -9314,7 +9314,7 @@ console.log(tribonacci(4)); // 4
 console.log(tribonacci(25)); // 1389537 */
 
 // Day of the Year          12/17/2021
-
+/* 
 // Given a string date representing a Gregorian calendar date formatted as YYYY-MM-DD, return the day number of the year.
 
 // Example 1:
@@ -9335,4 +9335,43 @@ console.log(dayOfYear("2003-03-01")); // 60
 console.log(dayOfYear("2004-03-01")); // 61
 
 // 100% memory, not greatest runtime
-// Date element works great here
+// Date element works great here */
+
+// Find Words That Can Be Formed by Characters          12/18/2021
+
+// You are given an array of strings words and a string chars.
+
+// A string is good if it can be formed by characters from chars (each character can only be used once).
+
+// Return the sum of lengths of all good strings in words.
+
+// Example 1:
+//    Input: words = ["cat","bt","hat","tree"], chars = "atach"
+//    Output: 6
+// Explanation: The strings that can be formed are "cat" and "hat" so the answer is 3 + 3 = 6.
+
+// Example 2:
+//    Input: words = ["hello","world","leetcode"], chars = "welldonehoneyr"
+//    Output: 10
+// Explanation: The strings that can be formed are "hello" and "world" so the answer is 5 + 5 = 10.
+
+// Constraints:
+//    1 <= words.length <= 1000
+//    1 <= words[i].length, chars.length <= 100
+//    words[i] and chars consist of lowercase English letters
+
+const topVotedCountCharacters = (words, chars) =>
+  words.reduce((acc, cur, i) => {
+    for (const c of chars) cur = cur.replace(c, "");
+    return acc + (0 === cur.length ? words[i].length : 0);
+  }, 0);
+console.log(topVotedCountCharacters(["cat", "bt", "hat", "tree"], "atach")); // 6
+console.log(
+  topVotedCountCharacters(["hello", "world", "leetcode"], "welldonehoneyr")
+); // 10
+
+// Wasn't sure whether other chars were allowed or not
+// Ended up looking at top voted
+
+// Seems like other chars are not allowed
+// Clean solution
