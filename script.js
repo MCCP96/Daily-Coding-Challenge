@@ -9338,7 +9338,7 @@ console.log(dayOfYear("2004-03-01")); // 61
 // Date element works great here */
 
 // Find Words That Can Be Formed by Characters          12/18/2021
-
+/* 
 // You are given an array of strings words and a string chars.
 
 // A string is good if it can be formed by characters from chars (each character can only be used once).
@@ -9374,4 +9374,53 @@ console.log(
 // Ended up looking at top voted
 
 // Seems like other chars are not allowed
-// Clean solution
+// Clean solution */
+
+// Prime Arrangements           12/19/2021
+
+// Return the number of permutations of 1 to n so that prime numbers are at prime indices (1-indexed.)
+
+// (Recall that an integer is prime if and only if it is greater than 1, and cannot be written as a product of two positive integers both smaller than it.)
+
+// Since the answer may be large, return the answer modulo 10^9 + 7.
+
+// Example 1:
+//    Input: n = 5
+//    Output: 12
+// Explanation: For example [1,2,5,4,3] is a valid permutation, but [5,2,3,4,1] is not because the prime number 5 is at index 1.
+
+// Example 2:
+//    Input: n = 100
+//    Output: 682289015
+
+// Constraints:
+//    1 <= n <= 100
+
+const topVotedNumPrimeArrangements = function (n) {
+  var isPrime = (n) => {
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    let i = 2;
+    while (i <= Math.sqrt(n)) {
+      if (n % i == 0) return false;
+      i++;
+    }
+    return true;
+  };
+
+  const mod = 10 ** 9 + 7;
+  let primes = 0,
+    nonPrimes = 0;
+  let res = 1;
+  for (let i = 1; i <= n; i++) {
+    if (isPrime(i)) res *= ++primes;
+    else res *= ++nonPrimes;
+    res = res % mod;
+  }
+  return res;
+};
+console.log(topVotedNumPrimeArrangements(5)); // 12
+console.log(topVotedNumPrimeArrangements(100)); // 682289015
+
+// No time today!
+// Final tomorrow
