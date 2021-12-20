@@ -9377,7 +9377,7 @@ console.log(
 // Clean solution */
 
 // Prime Arrangements           12/19/2021
-
+/* 
 // Return the number of permutations of 1 to n so that prime numbers are at prime indices (1-indexed.)
 
 // (Recall that an integer is prime if and only if it is greater than 1, and cannot be written as a product of two positive integers both smaller than it.)
@@ -9423,4 +9423,53 @@ console.log(topVotedNumPrimeArrangements(5)); // 12
 console.log(topVotedNumPrimeArrangements(100)); // 682289015
 
 // No time today!
-// Final tomorrow
+// Final tomorrow */
+
+// Distance Between Bus Stops         12/20/2021
+
+// A bus has n stops numbered from 0 to n - 1 that form a circle. We know the distance between all pairs of neighboring stops where distance[i] is the distance between the stops number i and (i + 1) % n.
+
+// The bus goes along both directions i.e. clockwise and counterclockwise.
+
+// Return the shortest distance between the given start and destination stops.
+
+// Example 1:
+//    Input: distance = [1,2,3,4], start = 0, destination = 1
+//    Output: 1
+// Explanation: Distance between 0 and 1 is 1 or 9, minimum is 1.
+
+// Example 2:
+//    Input: distance = [1,2,3,4], start = 0, destination = 3
+//    Output: 4
+// Explanation: Distance between 0 and 3 is 6 or 4, minimum is 4.
+
+// Constraints:
+//    1 <= n <= 10^4
+//    distance.length == n
+//    0 <= start, destination < n
+//    0 <= distance[i] <= 10^4
+
+const distanceBetweenBusStops = function (dist, s, d) {
+  const count = (arr) => arr.reduce((acc, cur) => (acc += cur));
+  return Math.min(
+    count(dist.slice(s, d)),
+    count([...dist.slice(0, s), ...dist.slice(d)])
+  );
+};
+console.log(distanceBetweenBusStops([1, 2, 3, 4], 0, 1)); // 1
+console.log(distanceBetweenBusStops([1, 2, 3, 4], 0, 2)); // 3
+console.log(distanceBetweenBusStops([1, 2, 3, 4], 0, 3)); // 4
+
+// Doesn't pass all tests
+
+var topVotedDistanceBetweenBusStops = function (distance, start, destination) {
+  if (start > destination) [start, destination] = [destination, start];
+  const total = distance.reduce((acc, cur) => acc + cur);
+  const route = distance
+    .slice(start, destination)
+    .reduce((acc, cur) => acc + cur);
+  return Math.min(route, total - route);
+};
+
+// Smart, does the normal incremental then substracts that from total for the other direction
+// Returns shortest of the two
