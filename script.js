@@ -9426,7 +9426,7 @@ console.log(topVotedNumPrimeArrangements(100)); // 682289015
 // Final tomorrow */
 
 // Distance Between Bus Stops         12/20/2021
-
+/* 
 // A bus has n stops numbered from 0 to n - 1 that form a circle. We know the distance between all pairs of neighboring stops where distance[i] is the distance between the stops number i and (i + 1) % n.
 
 // The bus goes along both directions i.e. clockwise and counterclockwise.
@@ -9472,4 +9472,38 @@ var topVotedDistanceBetweenBusStops = function (distance, start, destination) {
 };
 
 // Smart, does the normal incremental then substracts that from total for the other direction
-// Returns shortest of the two
+// Returns shortest of the two */
+
+// Day of the Week          12/21/2021
+
+// Given a date, return the corresponding day of the week for that date.
+
+// The input is given as three integers representing the day, month and year respectively.
+
+// Return the answer as one of the following values {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}.
+
+// Example 1:
+//    Input: day = 31, month = 8, year = 2019
+//    Output: "Saturday"
+
+// Constraints:
+// The given dates are valid dates between the years 1971 and 2100.
+
+const dayOfTheWeek = (d, m, y) => {
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return weekday[new Date(y, m - 1, d).getDay()];
+};
+console.log(dayOfTheWeek(31, 8, 2019)); // Saturday
+console.log(dayOfTheWeek(18, 7, 1999)); // Sunday
+console.log(dayOfTheWeek(15, 8, 1993)); // Sunday
+
+// Decent runtime
+// Same as all top voted submissions
