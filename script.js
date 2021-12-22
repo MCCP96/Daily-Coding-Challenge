@@ -9475,7 +9475,7 @@ var topVotedDistanceBetweenBusStops = function (distance, start, destination) {
 // Returns shortest of the two */
 
 // Day of the Week          12/21/2021
-
+/* 
 // Given a date, return the corresponding day of the week for that date.
 
 // The input is given as three integers representing the day, month and year respectively.
@@ -9506,4 +9506,66 @@ console.log(dayOfTheWeek(18, 7, 1999)); // Sunday
 console.log(dayOfTheWeek(15, 8, 1993)); // Sunday
 
 // Decent runtime
-// Same as all top voted submissions
+// Same as all top voted submissions */
+
+// Maximum Number of Balloons         12/22/2021
+
+// Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible.
+
+// You can use each character in text at most once. Return the maximum number of instances that can be formed.
+
+// Constraints:
+//    1 <= text.length <= 104
+//    text consists of lower case English letters only.
+
+const maxNumberOfBalloons = (text) => {
+  let count = {};
+  for (let c of text) count[c] ? count[c]++ : (count[c] = 1);
+
+  let min = Number.MAX_SAFE_INTEGER;
+  for (let c of `balon`) {
+    if (c == "l" || c == "o") {
+      min = Math.min(min, Math.floor(count[c] / 2));
+      continue;
+    }
+    min = Math.min(min, count[c]);
+  }
+
+  return min ? min : 0;
+};
+console.log(maxNumberOfBalloons("nlaebolko")); // 1
+console.log(maxNumberOfBalloons("loonbalxballpoon")); // 2
+console.log(maxNumberOfBalloons("leetcode")); // 0
+console.log(maxNumberOfBalloons("ballon")); // 0
+
+// OK runtime and memory
+
+const topVotedMaxNumberOfBalloons = (text) => {
+  let obj = {},
+    balloonCount = 0;
+  for (let el of text) {
+    obj[el] = (obj[el] || 0) + 1;
+  }
+  while (
+    obj["a"] > 0 &&
+    obj["b"] > 0 &&
+    obj["l"] > 1 &&
+    obj["n"] > 0 &&
+    obj["o"] > 1
+  ) {
+    balloonCount++;
+    obj["a"]--;
+    obj["b"]--;
+    obj["l"] -= 2;
+    obj["n"]--;
+    obj["o"] -= 2;
+  }
+  return balloonCount;
+};
+console.log(topVotedMaxNumberOfBalloons("nlaebolko")); // 1
+console.log(topVotedMaxNumberOfBalloons("loonbalxballpoon")); // 2
+console.log(topVotedMaxNumberOfBalloons("leetcode")); // 0
+console.log(topVotedMaxNumberOfBalloons("ballon")); // 0
+
+// Same idea, different execution
+// Much better runtime
