@@ -9509,7 +9509,7 @@ console.log(dayOfTheWeek(15, 8, 1993)); // Sunday
 // Same as all top voted submissions */
 
 // Maximum Number of Balloons         12/22/2021
-
+/* 
 // Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible.
 
 // You can use each character in text at most once. Return the maximum number of instances that can be formed.
@@ -9568,4 +9568,48 @@ console.log(topVotedMaxNumberOfBalloons("leetcode")); // 0
 console.log(topVotedMaxNumberOfBalloons("ballon")); // 0
 
 // Same idea, different execution
-// Much better runtime
+// Much better runtime */
+
+// Minimum Absolute Difference          12/23/2021
+
+// Given an array of distinct integers arr, find all pairs of elements with the minimum absolute difference of any two elements.
+
+// Return a list of pairs in ascending order(with respect to pairs), each pair [a, b] follows
+
+// a, b are from arr
+// a < b
+// b - a equals to the minimum absolute difference of any two elements in arr
+
+// Example 1:
+//    Input: arr = [4,2,1,3]
+//    Output: [[1,2],[2,3],[3,4]]
+// Explanation: The minimum absolute difference is 1. List all pairs with difference equal to 1 in ascending order.
+
+// Example 2:
+//    Input: arr = [1,3,6,10,15]
+//    Output: [[1,3]]
+
+// Constraints:
+//    2 <= arr.length <= 10^5
+//    -10^6 <= arr[i] <= 10^6
+
+const minimumAbsDifference = function (arr) {
+  arr = arr.sort((a, b) => a - b);
+
+  let smallestDif = Number.MAX_SAFE_INTEGER;
+  for (let i = 1; i < arr.length; i++)
+    smallestDif = Math.min(smallestDif, Math.abs(arr[i - 1] - arr[i]));
+
+  let ans = [];
+  for (let i = 1; i < arr.length; i++)
+    if (Math.abs(arr[i - 1] - arr[i]) == smallestDif)
+      ans.push([arr[i - 1], arr[i]]);
+
+  return ans;
+};
+console.log(minimumAbsDifference([4, 2, 1, 3])); // [[1,2],[2,3],[3,4]]
+console.log(minimumAbsDifference([1, 3, 6, 10, 15])); // [[1,3]]
+console.log(minimumAbsDifference([3, 8, -10, 23, 19, -4, -14, 27])); // [[-14,-10],[19,23],[23,27]]
+
+// Faster than 90% of submissions and better memory usage than 97%
+// Same as top voted, but faster
