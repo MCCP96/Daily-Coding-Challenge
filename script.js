@@ -9571,7 +9571,7 @@ console.log(topVotedMaxNumberOfBalloons("ballon")); // 0
 // Much better runtime */
 
 // Minimum Absolute Difference          12/23/2021
-
+/* 
 // Given an array of distinct integers arr, find all pairs of elements with the minimum absolute difference of any two elements.
 
 // Return a list of pairs in ascending order(with respect to pairs), each pair [a, b] follows
@@ -9612,4 +9612,50 @@ console.log(minimumAbsDifference([1, 3, 6, 10, 15])); // [[1,3]]
 console.log(minimumAbsDifference([3, 8, -10, 23, 19, -4, -14, 27])); // [[-14,-10],[19,23],[23,27]]
 
 // Faster than 90% of submissions and better memory usage than 97%
-// Same as top voted, but faster
+// Same as top voted, but faster */
+
+// Unique Number of Occurrences         12/24/2021
+
+//  Given an array of integers arr, return true if the number of occurrences of each value in the array is unique, or false otherwise.
+
+// Example 1:
+//    Input: arr = [1,2,2,1,1,3]
+//    Output: true
+// Explanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of occurrences.
+
+// Constraints:
+//    1 <= arr.length <= 1000
+//    -1000 <= arr[i] <= 1000
+
+const uniqueOccurrences = function (arr) {
+  let count = {};
+  for (let x of arr) count[x] = (count[x] || 0) + 1;
+
+  return [...Object.values(count)].length == new Set(Object.values(count)).size;
+};
+console.log(uniqueOccurrences([1, 2, 2, 1, 1, 3])); // true
+console.log(uniqueOccurrences([1, 2])); // false
+console.log(uniqueOccurrences([-3, 0, 1, -3, 1, 1, 1, -3, 10, 0])); // true
+
+// Not greatest runtime
+
+const topVotedUniqueOccurrences = function (arr) {
+  let myMap = new Map();
+
+  for (let num of arr) {
+    if (myMap.has(num)) {
+      myMap.set(num, myMap.get(num) + 1);
+    } else {
+      myMap.set(num, 1);
+    }
+  }
+
+  let mySet = new Set();
+  for (const val of myMap.values()) {
+    if (mySet.has(val)) return false;
+    mySet.add(val);
+  }
+  return true;
+};
+
+// Same idea, better runtime, longer code
