@@ -9615,7 +9615,7 @@ console.log(minimumAbsDifference([3, 8, -10, 23, 19, -4, -14, 27])); // [[-14,-1
 // Same as top voted, but faster */
 
 // Unique Number of Occurrences         12/24/2021
-
+/* 
 //  Given an array of integers arr, return true if the number of occurrences of each value in the array is unique, or false otherwise.
 
 // Example 1:
@@ -9658,4 +9658,51 @@ const topVotedUniqueOccurrences = function (arr) {
   return true;
 };
 
-// Same idea, better runtime, longer code
+// Same idea, better runtime, longer code */
+
+// Minimum Cost to Move Chips to The Same Position          12/25/2021
+
+// We have n chips, where the position of the ith chip is position[i].
+
+// We need to move all the chips to the same position. In one step, we can change the position of the ith chip from position[i] to:
+
+// position[i] + 2 or position[i] - 2 with cost = 0.
+// position[i] + 1 or position[i] - 1 with cost = 1.
+// Return the minimum cost needed to move all the chips to the same position.
+
+// Example 1:
+//    Input: position = [1,2,3]
+//    Output: 1
+// Explanation: First step: Move the chip at position 3 to position 1 with cost = 0.
+// Second step: Move the chip at position 2 to position 1 with cost = 1.
+// Total cost is 1.
+
+// Example 2:
+//    Input: position = [2,2,2,3,3]
+//    Output: 2
+// Explanation: We can move the two chips at position  3 to position 2. Each move has cost = 1. The total cost = 2.
+
+// Example 3:
+//    Input: position = [1,1000000000]
+//    Output: 1
+
+// Constraints:
+//    1 <= position.length <= 100
+//    1 <= position[i] <= 10^9
+
+const topVotedMinCostToMoveChips = function (chips) {
+  let odd = 0,
+    even = 0;
+  chips.map((x) => (x % 2 ? (odd += 1) : (even += 1)));
+  return Math.min(odd, even);
+};
+console.log(topVotedMinCostToMoveChips([1, 2, 3])); // 1
+console.log(topVotedMinCostToMoveChips([2, 2, 2, 3, 3])); // 2
+console.log(topVotedMinCostToMoveChips([1, 1000000000])); // 1
+
+// Taking a break today, but very clever solution
+
+// Merry Christmas 🎄🎅
+
+// Omnicron variant is splintering half the families I know this year
+// I'm thankful for the little christmas we're having and understand that not everyone can be so lucky
