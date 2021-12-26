@@ -9661,7 +9661,7 @@ const topVotedUniqueOccurrences = function (arr) {
 // Same idea, better runtime, longer code */
 
 // Minimum Cost to Move Chips to The Same Position          12/25/2021
-
+/* 
 // We have n chips, where the position of the ith chip is position[i].
 
 // We need to move all the chips to the same position. In one step, we can change the position of the ith chip from position[i] to:
@@ -9705,4 +9705,45 @@ console.log(topVotedMinCostToMoveChips([1, 1000000000])); // 1
 // Merry Christmas 🎄🎅
 
 // Omnicron variant is splintering half the families I know this year
-// I'm thankful for the little christmas we're having and understand that not everyone can be so lucky
+// I'm thankful for the little christmas we're having and understand that not everyone can be so lucky */
+
+// Split a String in Balanced Strings         12/26/2021
+
+// Balanced strings are those that have an equal quantity of 'L' and 'R' characters.
+
+// Given a balanced string s, split it in the maximum amount of balanced strings.
+
+// Return the maximum amount of split balanced strings.
+
+// Example 1:
+//    Input: s = "RLRRLLRLRL"
+//    Output: 4
+// Explanation: s can be split into "RL", "RRLL", "RL", "RL", each substring contains same number of 'L' and 'R'.
+
+// Example 2:
+//    Input: s = "RLLLLRRRLR"
+//    Output: 3
+// Explanation: s can be split into "RL", "LLLRRR", "LR", each substring contains same number of 'L' and 'R'.
+
+// Example 3:
+//    Input: s = "LLLLRRRR"
+//    Output: 1
+// Explanation: s can be split into "LLLLRRRR".
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s[i] is either 'L' or 'R'.
+//    s is a balanced string.
+
+const balancedStringSplit = function (s) {
+  let count = 1,
+    results = 0;
+  for (let i = 1; i < s.length; i++) {
+    s[i] == s[0] ? count++ : count--;
+    if (count == 0) results++;
+  }
+  return results;
+};
+console.log(balancedStringSplit("RLRRLLRLRL")); // 4
+console.log(balancedStringSplit("RLLLLRRRLR")); // 3
+console.log(balancedStringSplit("LLLLRRRR")); // 1
