@@ -9708,7 +9708,7 @@ console.log(topVotedMinCostToMoveChips([1, 1000000000])); // 1
 // I'm thankful for the little christmas we're having and understand that not everyone can be so lucky */
 
 // Split a String in Balanced Strings         12/26/2021
-
+/* 
 // Balanced strings are those that have an equal quantity of 'L' and 'R' characters.
 
 // Given a balanced string s, split it in the maximum amount of balanced strings.
@@ -9746,4 +9746,41 @@ const balancedStringSplit = function (s) {
 };
 console.log(balancedStringSplit("RLRRLLRLRL")); // 4
 console.log(balancedStringSplit("RLLLLRRRLR")); // 3
-console.log(balancedStringSplit("LLLLRRRR")); // 1
+console.log(balancedStringSplit("LLLLRRRR")); // 1 */
+
+// Check If It Is a Straight Line         12/27/2021
+
+// You are given an array coordinates, coordinates[i] = [x, y], where [x, y] represents the coordinate of a point. Check if these points make a straight line in the XY plane.
+
+// Constraints:
+//    2 <= coordinates.length <= 1000
+//    coordinates[i].length == 2
+//    -10^4 <= coordinates[i][0], coordinates[i][1] <= 10^4
+//    coordinates contains no duplicate point.
+
+const topVotedCheckStraightLine = (coords) => {
+  const n = coords.length;
+
+  for (let i = 0; i < n - 2; i++) {
+    const area = Math.abs(
+      0.5 *
+        (coords[i][0] * coords[i + 1][1] +
+          coords[i + 1][0] * coords[i + 2][1] +
+          coords[i + 2][0] * coords[i][1] -
+          (coords[i][1] * coords[i + 1][0] +
+            coords[i + 1][1] * coords[i + 2][0] +
+            coords[i + 2][1] * coords[i][0]))
+    );
+
+    if (area > 0) return false;
+  }
+
+  return true;
+};
+// prettier-ignore
+console.log(topVotedCheckStraightLine([[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]])); // true
+// prettier-ignore
+console.log(topVotedCheckStraightLine([[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]])); // false
+
+// Clever solution
+// Smart use of area
