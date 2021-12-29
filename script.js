@@ -9786,7 +9786,7 @@ console.log(topVotedCheckStraightLine([[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]])); /
 // Smart use of area */
 
 // Cells with Odd Values in a Matrix          12/28/2021
-
+/* 
 // There is an m x n matrix that is initialized to all 0's. There is also a 2D array indices where each indices[i] = [ri, ci] represents a 0-indexed location to perform some increment operations on the matrix.
 
 // For each location indices[i], do both of the following:
@@ -9844,4 +9844,63 @@ const topVotedOddCells = (row, column, indices) => {
   return oddRow * column + oddColumn * row - 2 * oddRow * oddColumn;
 };
 
-// Clever math solution
+// Clever math solution */
+
+// Shift 2D Grid          12/29/2021
+
+// Given a 2D grid of size m x n and an integer k. You need to shift the grid k times.
+
+// In one shift operation:
+
+// Element at grid[i][j] moves to grid[i][j + 1].
+// Element at grid[i][n - 1] moves to grid[i + 1][0].
+// Element at grid[m - 1][n - 1] moves to grid[0][0].
+// Return the 2D grid after applying shift operation k times.
+
+// Example 1:
+//    Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+//    Output: [[9,1,2],[3,4,5],[6,7,8]]
+
+// Constraints:
+//    m == grid.length
+//    n == grid[i].length
+//    1 <= m <= 50
+//    1 <= n <= 50
+//    -1000 <= grid[i][j] <= 1000
+//    0 <= k <= 100
+
+const shiftGrid = function (grid, k) {
+  const m = grid.length;
+  const n = grid[0].length;
+
+  while (k >= m * n) k -= m * n;
+
+  if (k > 0) {
+    let nums = grid.flat();
+    for (let i = 0; i < k; i++) nums = [nums.pop(), ...nums];
+    for (let j = 0; j < m; j++) grid[j] = nums.splice(0, n);
+  }
+
+  return grid;
+};
+// prettier-ignore
+console.log(shiftGrid([[1,2,3],[4,5,6],[7,8,9]], 1)); // [[9,1,2],[3,4,5],[6,7,8]]
+// prettier-ignore
+console.log(shiftGrid([[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], 4)); // [[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]
+// prettier-ignore
+console.log(shiftGrid([[1,2,3],[4,5,6],[7,8,9]], 9)); // [[1,2,3],[4,5,6],[7,8,9]]
+
+// Terrible runtime as expected due to double for loop, but easy logic
+
+var topVotedShiftGrid = function (grid, k) {
+  var arr = grid.flat(),
+    n = grid[0].length,
+    res = [];
+
+  while (k--) arr.unshift(arr.pop());
+  while (arr.length) res.push(arr.splice(0, n));
+
+  return res;
+};
+
+// So much cleaner... I love it
