@@ -39,7 +39,7 @@ var topVotedSubtractProductAndSum = function (n) {
 // Same idea, cleaner code */
 
 // Element Appearing More Than 25% In Sorted Array          1/2/2021
-
+/* 
 // Given an integer array sorted in non-decreasing order, there is exactly one integer in the array that occurs more than 25% of the time, return that integer.
 
 // Constraints:
@@ -66,4 +66,34 @@ var topVotedFindSpecialInteger = function (arr) {
 };
 
 // Much better
-// Great memory, not great runtime
+// Great memory, not great runtime */
+
+// Find Numbers with Even Number of Digits          1/3/2021
+
+// Given an array nums of integers, return how many of them contain an even number of digits.
+
+// Example 1:
+//    Input: nums = [12,345,2,6,7896]
+//    Output: 2
+// Explanation:
+//    12 contains 2 digits (even number of digits).
+//    345 contains 3 digits (odd number of digits).
+//    2 contains 1 digit (odd number of digits).
+//    6 contains 1 digit (odd number of digits).
+//    7896 contains 4 digits (even number of digits).
+// Therefore only 12 and 7896 contain an even number of digits.
+
+// Constraints:
+//    1 <= nums.length <= 500
+//    1 <= nums[i] <= 105
+
+const findNumbers = (nums) =>
+  nums.reduce((acc, cur) => {
+    if (!(String(cur).length % 2)) acc++;
+    return acc;
+  }, 0);
+console.log(findNumbers([12, 345, 2, 6, 7896])); // 2
+console.log(findNumbers([555, 901, 482, 1771])); // 1
+
+// Decent runtime & memory
+// Definitely a one-liner possible here
