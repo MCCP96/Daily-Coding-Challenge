@@ -38,7 +38,7 @@ var topVotedSubtractProductAndSum = function (n) {
 
 // Same idea, cleaner code */
 
-// Element Appearing More Than 25% In Sorted Array          1/2/2021
+// Element Appearing More Than 25% In Sorted Array          1/2/2022
 /* 
 // Given an integer array sorted in non-decreasing order, there is exactly one integer in the array that occurs more than 25% of the time, return that integer.
 
@@ -68,7 +68,7 @@ var topVotedFindSpecialInteger = function (arr) {
 // Much better
 // Great memory, not great runtime */
 
-// Find Numbers with Even Number of Digits          1/3/2021
+// Find Numbers with Even Number of Digits          1/3/2022
 /* 
 // Given an array nums of integers, return how many of them contain an even number of digits.
 
@@ -98,8 +98,8 @@ console.log(findNumbers([555, 901, 482, 1771])); // 1
 // Decent runtime & memory
 // Definitely a one-liner possible here */
 
-// Replace Elements with Greatest Element on Right Side         1/4/2021
-
+// Replace Elements with Greatest Element on Right Side         1/4/2022
+/* 
 // Given an array arr, replace every element in that array with the greatest element among the elements to its right, and replace the last element with -1.
 
 // After doing so, return the array.
@@ -145,4 +145,34 @@ const topVotedReplaceElements = (arr) => {
   return result;
 };
 
-// Bit better runtime/memory
+// Bit better runtime/memory */
+
+// Find N Unique Integers Sum up to Zero          1/5/2022
+
+//  Given an integer n, return any array containing n unique integers such that they add up to 0.
+
+// Example 1:
+//    Input: n = 5
+//    Output: [-7,-1,1,3,4]
+// Explanation: These arrays also are accepted [-5,-1,1,2,3] , [-3,-1,2,-2,4].
+
+// Constraints:
+//    1 <= n <= 1000
+
+var topVotedSumZero = function (n) {
+  var num = Math.floor(n / 2);
+  var res = [];
+
+  for (var i = 1; i <= num; i++) res.push(i, -i);
+
+  if (n % 2 !== 0) res.push(0);
+
+  return res;
+};
+console.log(topVotedSumZero(5)); // [-5,-1,1,2,3]
+console.log(topVotedSumZero(3)); // [-1,0,1]
+console.log(topVotedSumZero(1)); // [0]
+
+// Tried for a bit, but no time today
+
+// Very clean & straightforward solution
