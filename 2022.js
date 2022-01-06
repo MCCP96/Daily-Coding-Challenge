@@ -148,7 +148,7 @@ const topVotedReplaceElements = (arr) => {
 // Bit better runtime/memory */
 
 // Find N Unique Integers Sum up to Zero          1/5/2022
-
+/* 
 //  Given an integer n, return any array containing n unique integers such that they add up to 0.
 
 // Example 1:
@@ -175,4 +175,35 @@ console.log(topVotedSumZero(1)); // [0]
 
 // Tried for a bit, but no time today
 
-// Very clean & straightforward solution
+// Very clean & straightforward solution */
+
+// Decrypt String from Alphabet to Integer Mapping          1/6/2022
+
+// You are given a string s formed by digits and '#'. We want to map s to English lowercase characters as follows:
+
+// Characters ('a' to 'i') are represented by ('1' to '9') respectively.
+// Characters ('j' to 'z') are represented by ('10#' to '26#') respectively.
+// Return the string formed after mapping.
+
+// The test cases are generated so that a unique mapping will always exist.
+
+// Example 1:
+//    Input: s = "10#11#12"
+//    Output: "jkab"
+// Explanation: "j" -> "10#" , "k" -> "11#" , "a" -> "1" , "b" -> "2".
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s consists of digits and the '#' letter.
+//    s will be a valid string such that mapping is always possible.
+
+const topVotedFreqAlphabets = (s) =>
+  s
+    .match(/\d{2}(?=#)|\d/g)
+    .map((num) => String.fromCharCode(96 + +num))
+    .join("");
+
+console.log(topVotedFreqAlphabets("10#11#12")); // jkab
+console.log(topVotedFreqAlphabets("1326#")); // acz
+
+// Perfect Regex use case
