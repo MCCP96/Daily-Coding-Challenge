@@ -178,7 +178,7 @@ console.log(topVotedSumZero(1)); // [0]
 // Very clean & straightforward solution */
 
 // Decrypt String from Alphabet to Integer Mapping          1/6/2022
-
+/* 
 // You are given a string s formed by digits and '#'. We want to map s to English lowercase characters as follows:
 
 // Characters ('a' to 'i') are represented by ('1' to '9') respectively.
@@ -206,4 +206,47 @@ const topVotedFreqAlphabets = (s) =>
 console.log(topVotedFreqAlphabets("10#11#12")); // jkab
 console.log(topVotedFreqAlphabets("1326#")); // acz
 
-// Perfect Regex use case
+// Perfect Regex use case */
+
+// Decompress Run-Length Encoded List         1/7/2022
+
+// We are given a list nums of integers representing a list compressed with run-length encoding.
+
+// Consider each adjacent pair of elements [freq, val] = [nums[2*i], nums[2*i+1]] (with i >= 0).  For each such pair, there are freq elements with value val concatenated in a sublist. Concatenate all the sublists from left to right to generate the decompressed list.
+
+// Return the decompressed list.
+
+// Example 1:
+//    Input: nums = [1,2,3,4]
+//    Output: [2,4,4,4]
+// Explanation:
+// The first pair [1,2] means we have freq = 1 and val = 2 so we generate the array [2].
+// The second pair [3,4] means we have freq = 3 and val = 4 so we generate [4,4,4].
+// At the end the concatenation [2] + [4,4,4] is [2,4,4,4].
+
+// Constraints:
+//    2 <= nums.length <= 100
+//    nums.length % 2 == 0
+//    1 <= nums[i] <= 100
+
+const decompressRLElist = (nums) => {
+  let ans = [];
+  for (let i = 0; i < nums.length; i += 2)
+    ans.push(Array(nums[i]).fill(nums[i + 1]));
+  return ans.flat();
+};
+console.log(decompressRLElist([1, 2, 3, 4])); // [2,4,4,4]
+console.log(decompressRLElist([1, 1, 2, 3])); // [1,3,3]
+
+// Top 1% memory, not so great runtime
+// Clean, simple code
+
+var topVotedDecompressRLElist = (nums) =>
+  nums.reduce(
+    (acc, cur, i, arr) =>
+      i % 2 ? [...acc, ...Array(arr[i - 1]).fill(cur)] : acc,
+    []
+  );
+
+// Was thinking of how to do this using .reduce, but i+=2 seemed simpler
+// Much worst runtime & memory
