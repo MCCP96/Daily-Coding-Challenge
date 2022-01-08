@@ -209,7 +209,7 @@ console.log(topVotedFreqAlphabets("1326#")); // acz
 // Perfect Regex use case */
 
 // Decompress Run-Length Encoded List         1/7/2022
-
+/* 
 // We are given a list nums of integers representing a list compressed with run-length encoding.
 
 // Consider each adjacent pair of elements [freq, val] = [nums[2*i], nums[2*i+1]] (with i >= 0).  For each such pair, there are freq elements with value val concatenated in a sublist. Concatenate all the sublists from left to right to generate the decompressed list.
@@ -249,4 +249,38 @@ var topVotedDecompressRLElist = (nums) =>
   );
 
 // Was thinking of how to do this using .reduce, but i+=2 seemed simpler
-// Much worst runtime & memory
+// Much worst runtime & memory */
+
+// Convert Integer to the Sum of Two No-Zero Integers         1/8/2022
+
+// No-Zero integer is a positive integer that does not contain any 0 in its decimal representation.
+
+// Given an integer n, return a list of two integers [A, B] where:
+
+// A and B are No-Zero integers.
+// A + B = n
+// The test cases are generated so that there is at least one valid solution. If there are many valid solutions you can return any of them.
+
+// Example 1:
+//    Input: n = 2
+//    Output: [1,1]
+// Explanation: A = 1, B = 1. A + B = n and both A and B do not contain any 0 in their decimal representation.
+
+// Constraints:
+//    2 <= n <= 104
+
+const getNoZeroIntegers = (n) => [1, n - 1];
+console.log(getNoZeroIntegers(2)); // [1,1]
+console.log(getNoZeroIntegers(11)); // [1,10]
+console.log(getNoZeroIntegers(10000)); // [1,9999]
+
+// Not sure why this isn't working
+
+var topVotedGetNoZeroIntegers = function (n) {
+  for (let i = 0; i < n; i++) {
+    if (!i.toString().includes("0") && !(n - i).toString().includes("0")) 
+      return [i, n - i];
+  return [];
+};
+
+// 'does not contain any 0 in its decimal representation', I see.
