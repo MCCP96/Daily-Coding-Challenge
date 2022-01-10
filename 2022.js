@@ -286,7 +286,7 @@ var topVotedGetNoZeroIntegers = function (n) {
 // 'does not contain any 0 in its decimal representation', I see. */
 
 // Maximum 69 Number          1/9/2022
-
+/* 
 // You are given a positive integer num consisting only of digits 6 and 9.
 
 // Return the maximum number you can get by changing at most one digit (6 becomes 9, and 9 becomes 6).
@@ -313,4 +313,46 @@ console.log(maximum69Number(9999)); // 9999
 // Perfect
 // Better runtime than 99.5%, top 50% memory
 
-// Identical to top voted
+// Identical to top voted */
+
+// Rank Transform of an Array         1/10/2022
+
+// Given an array of integers arr, replace each element with its rank.
+
+// The rank represents how large the element is. The rank has the following rules:
+
+// Rank is an integer starting from 1.
+// The larger the element, the larger the rank. If two elements are equal, their rank must be the same.
+// Rank should be as small as possible.
+
+// Example 1:
+//    Input: arr = [40,10,20,30]
+//    Output: [4,1,2,3]
+// Explanation: 40 is the largest element. 10 is the smallest. 20 is the second smallest. 30 is the third smallest.
+
+// Example 2:
+//    Input: arr = [100,100,100]
+//    Output: [1,1,1]
+// Explanation: Same elements share the same rank.
+
+// Constraints:
+//    0 <= arr.length <= 105
+//    -109 <= arr[i] <= 109
+
+const topVotedArrayRankTransform = function (arr) {
+  [...new Set(arr)]
+    .sort((a, b) => a - b)
+    .map((cur, i) => {
+      Map[cur] = i + 1;
+    });
+  return [...arr.map((cur) => Map[cur])];
+};
+console.log(topVotedArrayRankTransform([40, 10, 20, 30])); // [4,1,2,3]
+console.log(topVotedArrayRankTransform([100, 100, 100])); // [1,1,1]
+console.log(topVotedArrayRankTransform([37, 12, 28, 9, 100, 56, 80, 5, 12])); // [5,3,4,2,8,6,7,1,3]
+
+// No time today, first day of class
+
+// Great use of Maps, I seem to overlook them a lot
+
+// "The Map object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value."
