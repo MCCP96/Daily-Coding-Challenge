@@ -358,7 +358,7 @@ console.log(topVotedArrayRankTransform([37, 12, 28, 9, 100, 56, 80, 5, 12])); //
 // "The Map object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value." */
 
 // Remove Palindromic Subsequences          1/11/2022
-
+/* 
 // You are given a string s consisting only of letters 'a' and 'b'. In a single step you can remove one palindromic subsequence from s.
 
 // Return the minimum number of steps to make the given string empty.
@@ -403,4 +403,98 @@ console.log(removePalindromeSub("baabb")); // 2
 const topVotedRemovePalindromeSub = (s) =>
   s.length === 0 ? 0 : s.split("").reverse().join("") === s ? 1 : 2;
 
-// Also not the greatest runtime
+// Also not the greatest runtime */
+
+// The K Weakest Rows in a Matrix         1/12/2022
+
+// You are given an m x n binary matrix mat of 1's (representing soldiers) and 0's (representing civilians). The soldiers are positioned in front of the civilians. That is, all the 1's will appear to the left of all the 0's in each row.
+
+// A row i is weaker than a row j if one of the following is true:
+
+// The number of soldiers in row i is less than the number of soldiers in row j.
+// Both rows have the same number of soldiers and i < j.
+// Return the indices of the k weakest rows in the matrix ordered from weakest to strongest.
+
+// Example 1:
+//    Input: mat =
+//    [[1,1,0,0,0],
+//     [1,1,1,1,0],
+//     [1,0,0,0,0],
+//     [1,1,0,0,0],
+//     [1,1,1,1,1]],
+//    k = 3
+// Output: [2,0,3]
+// Explanation:
+// The number of soldiers in each row is:
+// - Row 0: 2
+// - Row 1: 4
+// - Row 2: 1
+// - Row 3: 2
+// - Row 4: 5
+// The rows ordered from weakest to strongest are [2,0,3,1,4].
+
+// Example 2:
+//    Input: mat =
+//    [[1,0,0,0],
+//     [1,1,1,1],
+//     [1,0,0,0],
+//     [1,0,0,0]],
+//    k = 2
+// Output: [0,2]
+// Explanation:
+// The number of soldiers in each row is:
+// - Row 0: 1
+// - Row 1: 4
+// - Row 2: 1
+// - Row 3: 1
+// The rows ordered from weakest to strongest are [0,2,3,1].
+
+// Constraints:
+//    m == mat.length
+//    n == mat[i].length
+//    2 <= n, m <= 100
+//    1 <= k <= m
+//    matrix[i][j] is either 0 or 1
+
+const kWeakestRows = function (mat, k) {
+  let rank = mat.map((row) => row.join(``).match(/[1]/g).length);
+
+  let ans = [];
+  for (let i = 0; i < k; i++) {
+    let index = rank.indexOf(Math.min(...rank));
+    rank[index] = Number.MAX_SAFE_INTEGER;
+    ans.push(index);
+  }
+  return ans;
+};
+// prettier-ignore
+console.log(kWeakestRows(
+  [[1,1,0,0,0],
+  [1,1,1,1,0],
+  [1,0,0,0,0],
+  [1,1,0,0,0],
+  [1,1,1,1,1]], 3)); // [2,0,3]
+// prettier-ignore
+console.log(kWeakestRows(
+  [[1,0,0,0],
+   [1,1,1,1],
+   [1,0,0,0],
+   [1,0,0,0]], 2)); // [0,2]
+
+//  Returns correct answer, however leetcode returns runtime error
+
+var topVotedKWeakestRows = function (mat, k) {
+  return (
+    mat
+      .map((e, i) => [i, e.reduce((acc, cur) => acc + cur, 0)])
+      //turn the array into [index, sum of soilders] form
+      .sort((a, b) => (a[1] == b[1] ? a[0] - b[0] : a[1] - b[1]))
+      //sort the array: if the number of soilders is equal then sort with the index of the row
+      .map((x) => x[0])
+      //take of the row index of the sorted result
+      .slice(0, k)
+  );
+  //slice the result according to k number
+};
+
+// Nice!
