@@ -538,8 +538,8 @@ const topVotedNumberOfSteps = (num, steps = 0) =>
 
 // Clever */
 
-// Check If N and Its Double Exist          1/14/2021
-
+// Check If N and Its Double Exist          1/14/2022
+/* 
 // Given an array arr of integers, check if there exists two integers N and M such that N is the double of M ( i.e. N = 2 * M).
 
 // More formally check if there exists two indices i and j such that :
@@ -608,4 +608,31 @@ var topVoted2CheckIfExist = function (A) {
 };
 // Map solution
 
-// I'm a fan of the set solution, very simple and straightforward
+// I'm a fan of the set solution, very simple and straightforward */
+
+// Count Negative Numbers in a Sorted Matrix          1/15/2022
+
+// Given a m x n matrix grid which is sorted in non-increasing order both row-wise and column-wise, return the number of negative numbers in grid.
+
+// Example 1:
+//    Input: grid = [[4,3,2,-1],[3,2,1,-1],[1,1,-1,-2],[-1,-1,-2,-3]]
+//    Output: 8
+// Explanation: There are 8 negatives number in the matrix.
+
+// Constraints:
+//    m == grid.length
+//    n == grid[i].length
+//    1 <= m, n <= 100
+//    -100 <= grid[i][j] <= 100
+
+// Follow up: Could you find an O(n + m) solution?
+
+const countNegatives = (grid) => grid.flat().filter((x) => x < 0).length;
+
+// prettier-ignore
+console.log(countNegatives([[4,3,2,-1],[3,2,1,-1],[1,1,-1,-2],[-1,-1,-2,-3]])); // 8
+// prettier-ignore
+console.log(countNegatives([[3,2],[1,0]])); // 0
+
+// Clean one-liner
+// Same as top voted
