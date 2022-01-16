@@ -611,7 +611,7 @@ var topVoted2CheckIfExist = function (A) {
 // I'm a fan of the set solution, very simple and straightforward */
 
 // Count Negative Numbers in a Sorted Matrix          1/15/2022
-
+/* 
 // Given a m x n matrix grid which is sorted in non-increasing order both row-wise and column-wise, return the number of negative numbers in grid.
 
 // Example 1:
@@ -635,4 +635,67 @@ console.log(countNegatives([[4,3,2,-1],[3,2,1,-1],[1,1,-1,-2],[-1,-1,-2,-3]])); 
 console.log(countNegatives([[3,2],[1,0]])); // 0
 
 // Clean one-liner
-// Same as top voted
+// Same as top voted */
+
+// Sort Integers by The Number of 1 Bits          1/16/2022
+
+// You are given an integer array arr. Sort the integers in the array in ascending order by the number of 1's in their binary representation and in case of two or more integers have the same number of 1's you have to sort them in ascending order.
+
+// Return the array after sorting it.
+
+// Example 1:
+//    Input: arr = [0,1,2,3,4,5,6,7,8]
+//    Output: [0,1,2,4,8,3,5,6,7]
+// Explantion: [0] is the only integer with 0 bits.
+// [1,2,4,8] all have 1 bit.
+// [3,5,6] have 2 bits.
+// [7] has 3 bits.
+// The sorted array by bits is [0,1,2,4,8,3,5,6,7]
+
+// Example 2:
+//    Input: arr = [1024,512,256,128,64,32,16,8,4,2,1]
+//    Output: [1,2,4,8,16,32,64,128,256,512,1024]
+// Explantion: All integers have 1 bit in the binary representation, you should just sort them in ascending order.
+
+// Constraints:
+//    1 <= arr.length <= 500
+//    0 <= arr[i] <= 104
+
+const sortByBits = function (arr) {
+  arr = arr.sort((a, b) => a - b);
+  let pos = new Map();
+
+  arr.map((x) => {
+    const count = x.toString(2).replaceAll(0, "").length;
+    pos.set(x, count);
+  });
+
+  return [...pos.entries()].sort((a, b) => a[1] - b[1]).map((x) => x[0]);
+};
+console.log(sortByBits([0, 1, 2, 3, 4, 5, 6, 7, 8])); // [0,1,2,4,8,3,5,6,7]
+console.log(sortByBits([1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1])); // [1,2,4,8,16,32,64,128,256,512,1024]
+console.log(sortByBits([10000, 10000])); // [10000,10000]
+
+// Map unfortunately doesn't take into account identical values (as seen in last test case)
+// I need to practice my Maps more
+
+const topVotedSortByBits = function (arr) {
+  return arr.sort((a, b) => bitCount(a) - bitCount(b) || a - b);
+};
+
+const bitCount = (num) => {
+  let sum = 0;
+  while (num) {
+    sum += num & 1;
+    num = num >> 1;
+  }
+  return sum;
+};
+
+// Clean
+
+const newSortByBits = (arr) =>
+  arr.sort((a, b) => bitCount(a) - bitCount(b) || a - b);
+const newBitCount = (num) => num.toString(2).replaceAll(0, "").length;
+
+// A little mix of both solutions
