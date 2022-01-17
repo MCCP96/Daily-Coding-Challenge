@@ -638,7 +638,7 @@ console.log(countNegatives([[3,2],[1,0]])); // 0
 // Same as top voted */
 
 // Sort Integers by The Number of 1 Bits          1/16/2022
-
+/* 
 // You are given an integer array arr. Sort the integers in the array in ascending order by the number of 1's in their binary representation and in case of two or more integers have the same number of 1's you have to sort them in ascending order.
 
 // Return the array after sorting it.
@@ -698,4 +698,27 @@ const newSortByBits = (arr) =>
   arr.sort((a, b) => bitCount(a) - bitCount(b) || a - b);
 const newBitCount = (num) => num.toString(2).replaceAll(0, "").length;
 
-// A little mix of both solutions
+// A little mix of both solutions */
+
+// Number of Days Between Two Dates         1/17/2022
+
+// Write a program to count the number of days between two dates.
+
+// The two dates are given as strings, their format is YYYY-MM-DD as shown in the examples.
+
+// Example 1:
+//    Input: date1 = "2019-06-29", date2 = "2019-06-30"
+//    Output: 1
+
+// Constraints:
+//    The given dates are valid dates between the years 1971 and 2100.
+
+const daysBetweenDates = (date1, date2) =>
+  Math.round(
+    Math.abs(new Date(date1) - new Date(date2)) / (24 * 60 * 60 * 1000)
+  );
+console.log(daysBetweenDates("2019-06-29", "2019-06-30")); // 1
+console.log(daysBetweenDates("2020-01-15", "2019-12-31")); // 15
+
+// Better runtime than 90%
+// Same as top voted
