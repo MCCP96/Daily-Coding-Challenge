@@ -724,7 +724,7 @@ console.log(daysBetweenDates("2020-01-15", "2019-12-31")); // 15
 // Same as top voted */
 
 // How Many Numbers Are Smaller Than the Current Number         1/18/2022
-
+/* 
 // Given the array nums, for each nums[i] find out how many numbers in the array are smaller than it. That is, for each nums[i] you have to count the number of valid j's such that j != i and nums[j] < nums[i].
 
 // Return the answer in an array.
@@ -756,4 +756,54 @@ var topVotedSmallerNumbersThanCurrent = function (nums) {
   return nums.map((num) => sorted.indexOf(num));
 };
 
-// Clever, but much worse runtime
+// Clever, but much worse runtime */
+
+// Increasing Decreasing String         1/19/2022
+
+// You are given a string s. Reorder the string using the following algorithm:
+
+// Pick the smallest character from s and append it to the result.
+// Pick the smallest character from s which is greater than the last appended character to the result and append it.
+// Repeat step 2 until you cannot pick more characters.
+// Pick the largest character from s and append it to the result.
+// Pick the largest character from s which is smaller than the last appended character to the result and append it.
+// Repeat step 5 until you cannot pick more characters.
+// Repeat the steps from 1 to 6 until you pick all characters from s.
+// In each step, If the smallest or the largest character appears more than once you can choose any occurrence and append it to the result.
+
+// Return the result string after sorting s with this algorithm.
+
+// Example 1:
+//    Input: s = "aaaabbbbcccc"
+//    Output: "abccbaabccba"
+// Explanation: After steps 1, 2 and 3 of the first iteration, result = "abc"
+// After steps 4, 5 and 6 of the first iteration, result = "abccba"
+// First iteration is done. Now s = "aabbcc" and we go back to step 1
+// After steps 1, 2 and 3 of the second iteration, result = "abccbaabc"
+// After steps 4, 5 and 6 of the second iteration, result = "abccbaabccba"
+
+// Example 2:
+//    Input: s = "rat"
+//    Output: "art"
+// Explanation: The word "rat" becomes "art" after re-ordering it with the mentioned algorithm.
+
+// Constraints:
+//    1 <= s.length <= 500
+//    s consists of only lowercase English letters.
+
+const topVotedSortString = (s) => {
+  s = s.split``.sort().join``;
+  let result = "";
+  while (s.length) {
+    result += s.match(/([a-z])(?!\1)/gi).join``;
+    s = s.replace(/([a-z])(?!\1)/gi, "");
+    result += (s.match(/([a-z])(?!\1)/gi) || []).reverse().join``;
+    s = s.replace(/([a-z])(?!\1)/gi, "");
+  }
+  return result;
+};
+console.log(topVotedSortString("aaaabbbbcccc")); // "abccbaabccba"
+console.log(topVotedSortString("rat")); // "art"
+
+// Messed with it a bit, but couldn't get anything going
+// This is along the lines I was going
