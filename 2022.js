@@ -759,7 +759,7 @@ var topVotedSmallerNumbersThanCurrent = function (nums) {
 // Clever, but much worse runtime */
 
 // Increasing Decreasing String         1/19/2022
-
+/* 
 // You are given a string s. Reorder the string using the following algorithm:
 
 // Pick the smallest character from s and append it to the result.
@@ -807,3 +807,44 @@ console.log(topVotedSortString("rat")); // "art"
 
 // Messed with it a bit, but couldn't get anything going
 // This is along the lines I was going
+ */
+
+// Generate a String With Characters That Have Odd Counts         1/20/2022
+
+// Given an integer n, return a string with n characters such that each character in such string occurs an odd number of times.
+
+// The returned string must contain only lowercase English letters. If there are multiples valid strings, return any of them.
+
+// Example 1:
+//    Input: n = 4
+//    Output: "pppz"
+// Explanation: "pppz" is a valid string since the character 'p' occurs three times and the character 'z' occurs once. Note that there are many other valid strings such as "ohhh" and "love".
+
+// Example 2:
+//    Input: n = 2
+//    Output: "xy"
+// Explanation: "xy" is a valid string since the characters 'x' and 'y' occur once. Note that there are many other valid strings such as "ag" and "ur".
+
+// Constraints:
+//    1 <= n <= 500
+
+const generateTheString = (n) =>
+  !(n % 2)
+    ? Array(n - 1)
+        .fill("a")
+        .join("") + "b"
+    : Array(n).fill("a").join("");
+
+console.log(generateTheString(4)); // pppz
+console.log(generateTheString(2)); // xy
+console.log(generateTheString(7)); // holasss
+
+// Top 15% runtime, pretty simple
+
+const topVotedGenerateTheString = (n) =>
+  n % 2 === 0 ? `${"a".repeat(n - 1)}b` : "a".repeat(n);
+
+// This is what I was looking for, I was trying to avoid using Array
+// Same logic as mine, but using '.repeat'
+
+// Somehow bottom 5% runtime
