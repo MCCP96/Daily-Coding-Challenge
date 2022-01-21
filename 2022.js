@@ -810,7 +810,7 @@ console.log(topVotedSortString("rat")); // "art"
  */
 
 // Generate a String With Characters That Have Odd Counts         1/20/2022
-
+/* 
 // Given an integer n, return a string with n characters such that each character in such string occurs an odd number of times.
 
 // The returned string must contain only lowercase English letters. If there are multiples valid strings, return any of them.
@@ -847,4 +847,82 @@ const topVotedGenerateTheString = (n) =>
 // This is what I was looking for, I was trying to avoid using Array
 // Same logic as mine, but using '.repeat'
 
-// Somehow bottom 5% runtime
+// Somehow bottom 5% runtime */
+
+// Lucky Numbers in a Matrix          1/21/2022
+
+// Given an m x n matrix of distinct numbers, return all lucky numbers in the matrix in any order.
+
+// A lucky number is an element of the matrix such that it is the minimum element in its row and maximum in its column.
+
+// Example 1:
+//    Input: matrix = [[3,7,8],[9,11,13],[15,16,17]]
+//    Output: [15]
+// Explanation: 15 is the only lucky number since it is the minimum in its row and the maximum in its column.
+
+// Example 2:
+//    Input: matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]
+//    Output: [12]
+// Explanation: 12 is the only lucky number since it is the minimum in its row and the maximum in its column.
+
+// Example 3:
+//    Input: matrix = [[7,8],[1,2]]
+//    Output: [7]
+// Explanation: 7 is the only lucky number since it is the minimum in its row and the maximum in its column.
+
+// Constraints:
+//    m == mat.length
+//    n == mat[i].length
+//    1 <= n, m <= 50
+//    1 <= matrix[i][j] <= 105.
+//    All elements in the matrix are distinct.
+
+const luckyNumbers = function (matrix) {
+  let ans = [];
+  for (let row of matrix) {
+    const index = row.indexOf(Math.min(...row));
+
+    let isMax = true;
+    for (let i = 0; i < matrix.length; i++)
+      if (row[index] < matrix[i][index]) isMax = false;
+
+    if (isMax) ans.push(row[index]);
+  }
+  return ans;
+};
+console.log(
+  luckyNumbers([
+    [3, 7, 8],
+    [9, 11, 13],
+    [15, 16, 17],
+  ])
+); // [15]
+console.log(
+  luckyNumbers([
+    [1, 10, 4, 2],
+    [9, 3, 8, 7],
+    [15, 16, 17, 12],
+  ])
+); // [12]
+console.log(
+  luckyNumbers([
+    [7, 8],
+    [1, 2],
+  ])
+); // [7]
+
+// Ok solution, pretty bad runtime due to nested loop
+
+var topVotedLuckyNumbers = function (matrix) {
+  for (let i = 0; i < matrix.length; i++) {
+    let min = Math.min(...matrix[i]),
+      idx = matrix[i].indexOf(min);
+
+    if (matrix.every((arr) => arr[idx] <= min)) return [min];
+  }
+
+  return [];
+};
+
+// Not familiar with '.every'
+// Avoids the nested loop
