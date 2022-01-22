@@ -850,7 +850,7 @@ const topVotedGenerateTheString = (n) =>
 // Somehow bottom 5% runtime */
 
 // Lucky Numbers in a Matrix          1/21/2022
-
+/* 
 // Given an m x n matrix of distinct numbers, return all lucky numbers in the matrix in any order.
 
 // A lucky number is an element of the matrix such that it is the minimum element in its row and maximum in its column.
@@ -925,4 +925,53 @@ var topVotedLuckyNumbers = function (matrix) {
 };
 
 // Not familiar with '.every'
-// Avoids the nested loop
+// Avoids the nested loop */
+
+// Find the Distance Value Between Two Arrays         1/22/2022
+
+// Given two integer arrays arr1 and arr2, and the integer d, return the distance value between the two arrays.
+
+// The distance value is defined as the number of elements arr1[i] such that there is not any element arr2[j] where |arr1[i]-arr2[j]| <= d.
+
+// Example 1:
+//    Input: arr1 = [4,5,8], arr2 = [10,9,1,8], d = 2
+//    Output: 2
+// Explanation:
+//    For arr1[0]=4 we have:
+//        |4-10|=6 > d=2
+//        |4-9|=5 > d=2
+//        |4-1|=3 > d=2
+//        |4-8|=4 > d=2
+//    For arr1[1]=5 we have:
+//        |5-10|=5 > d=2
+//        |5-9|=4 > d=2
+//        |5-1|=4 > d=2
+//        |5-8|=3 > d=2
+//    For arr1[2]=8 we have:
+//        |8-10|=2 <= d=2
+//        |8-9|=1 <= d=2
+//        |8-1|=7 > d=2
+//        |8-8|=0 <= d=2
+
+// Constraints:
+//    1 <= arr1.length, arr2.length <= 500
+//    -1000 <= arr1[i], arr2[j] <= 1000
+//    0 <= d <= 100
+
+const findTheDistanceValue = (arr1, arr2, d) =>
+  arr1.reduce((acc, cur, i) => {
+    for (let num of arr2) if (Math.abs(cur - num) <= d) return acc;
+    return ++acc;
+  }, 0);
+
+console.log(findTheDistanceValue([4, 5, 8], [10, 9, 1, 8], 2)); // 2
+console.log(findTheDistanceValue([1, 4, 2, 3], [-4, -3, 6, 10, 20, 30], 3)); // 2
+console.log(findTheDistanceValue([2, 1, 100, 3], [-5, -2, 10, -3, 7], 6)); // 1
+
+// I like this solution
+// Great memory, ok runtime
+
+var topVotedFindTheDistanceValue = (arr1, arr2, d) =>
+  arr1.filter((n1) => arr2.every((n2) => Math.abs(n1 - n2) > d)).length;
+
+// '.every' again, I should try to implement it instead of 'for (let x of y)'
