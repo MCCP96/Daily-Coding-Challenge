@@ -928,7 +928,7 @@ var topVotedLuckyNumbers = function (matrix) {
 // Avoids the nested loop */
 
 // Find the Distance Value Between Two Arrays         1/22/2022
-
+/* 
 // Given two integer arrays arr1 and arr2, and the integer d, return the distance value between the two arrays.
 
 // The distance value is defined as the number of elements arr1[i] such that there is not any element arr2[j] where |arr1[i]-arr2[j]| <= d.
@@ -974,4 +974,68 @@ console.log(findTheDistanceValue([2, 1, 100, 3], [-5, -2, 10, -3, 7], 6)); // 1
 var topVotedFindTheDistanceValue = (arr1, arr2, d) =>
   arr1.filter((n1) => arr2.every((n2) => Math.abs(n1 - n2) > d)).length;
 
-// '.every' again, I should try to implement it instead of 'for (let x of y)'
+// '.every' again, I should try to implement it instead of 'for (let x of y)' */
+
+// Create Target Array in the Given Order         1/23/2022
+
+// Given two arrays of integers nums and index. Your task is to create target array under the following rules:
+
+// Initially target array is empty.
+// From left to right read nums[i] and index[i], insert at index index[i] the value nums[i] in target array.
+// Repeat the previous step until there are no elements to read in nums and index.
+// Return the target array.
+
+// It is guaranteed that the insertion operations will be valid.
+
+// Example 1:
+//    Input: nums = [0,1,2,3,4], index = [0,1,2,2,1]
+//    Output: [0,4,1,3,2]
+// Explanation:
+//    nums       index     target
+//    0            0        [0]
+//    1            1        [0,1]
+//    2            2        [0,1,2]
+//    3            2        [0,1,3,2]
+//    4            1        [0,4,1,3,2]
+
+// Example 2:
+//    Input: nums = [1,2,3,4,0], index = [0,1,2,3,0]
+//    Output: [0,1,2,3,4]
+// Explanation:
+//    nums       index     target
+//    1            0        [1]
+//    2            1        [1,2]
+//    3            2        [1,2,3]
+//    4            3        [1,2,3,4]
+//    0            0        [0,1,2,3,4]
+
+// Constraints:
+//    1 <= nums.length, index.length <= 100
+//    nums.length == index.length
+//    0 <= nums[i] <= 100
+//    0 <= index[i] <= i
+
+const createTargetArray = function (nums, index) {
+  let ans = [];
+  for (let i = 0; i < index.length; i++)
+    !isNaN(ans[index[i]])
+      ? (ans = [...ans.slice(0, index[i]), nums[i], ...ans.slice(index[i])])
+      : ans.push(nums[i]);
+
+  return ans;
+};
+console.log(createTargetArray([0, 1, 2, 3, 4], [0, 1, 2, 2, 1])); // [0,4,1,3,2]
+console.log(createTargetArray([1, 2, 3, 4, 0], [0, 1, 2, 3, 0])); // [0,1,2,3,4]
+console.log(createTargetArray([1], [0])); // [1]
+console.log(createTargetArray([0, 1, 0], [0, 1, 0])); // [0,0,1]
+
+// Pretty terrible runtime/memory, but it works
+
+const topVotedCreateTargetArray = (nums, idx) => {
+  let target = [];
+  for (const i in nums) target.splice(idx[i], 0, nums[i]);
+  return target;
+};
+
+// Cleaner version of what I was trying to achieve
+// Just now learning that '.splice' has a third element to insert into array
