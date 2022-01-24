@@ -977,7 +977,7 @@ var topVotedFindTheDistanceValue = (arr1, arr2, d) =>
 // '.every' again, I should try to implement it instead of 'for (let x of y)' */
 
 // Create Target Array in the Given Order         1/23/2022
-
+/* 
 // Given two arrays of integers nums and index. Your task is to create target array under the following rules:
 
 // Initially target array is empty.
@@ -1038,4 +1038,55 @@ const topVotedCreateTargetArray = (nums, idx) => {
 };
 
 // Cleaner version of what I was trying to achieve
-// Just now learning that '.splice' has a third element to insert into array
+// Just now learning that '.splice' has a third element to insert into array */
+
+// Find Lucky Integer in an Array         1/24/2022
+
+// Given an array of integers arr, a lucky integer is an integer that has a frequency in the array equal to its value.
+
+// Return the largest lucky integer in the array. If there is no lucky integer return -1.
+
+// Example 1:
+//    Input: arr = [2,2,3,4]
+//    Output: 2
+// Explanation: The only lucky number in the array is 2 because frequency[2] == 2.
+
+// Example 2:
+//    Input: arr = [1,2,2,3,3,3]
+//    Output: 3
+// Explanation: 1, 2 and 3 are all lucky numbers, return the largest of them.
+
+// Example 3:
+//    Input: arr = [2,2,2,3,3]
+//    Output: -1
+// Explanation: There are no lucky numbers in the array.
+
+// Constraints:
+//    1 <= arr.length <= 500
+//    1 <= arr[i] <= 500
+
+const findLucky = function (arr) {
+  let count = new Map();
+
+  for (let a of arr.sort((a, b) => b - a)) {
+    if (count.get(a) == undefined) count.set(a, 0);
+    count.set(a, count.get(a) + 1);
+  }
+
+  for (let [key, val] of count) if (key == val) return key;
+
+  return -1;
+};
+console.log(findLucky([2, 2, 3, 4])); // 2
+console.log(findLucky([1, 2, 2, 3, 3, 3])); // 3
+console.log(findLucky([2, 2, 2, 3, 3])); // -1
+
+// Decent memory, not greatest runtime
+
+var topVotedFindLucky = function (arr) {
+  const map = new Map();
+  for (x of arr) map.has(x) ? map.set(x, map.get(x) + 1) : map.set(x, 1);
+  return Math.max(...arr.filter((e) => map.get(e) === e), -1);
+};
+
+// Similar, but better runtime
