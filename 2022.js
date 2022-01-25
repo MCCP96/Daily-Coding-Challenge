@@ -1041,7 +1041,7 @@ const topVotedCreateTargetArray = (nums, idx) => {
 // Just now learning that '.splice' has a third element to insert into array */
 
 // Find Lucky Integer in an Array         1/24/2022
-
+/* 
 // Given an array of integers arr, a lucky integer is an integer that has a frequency in the array equal to its value.
 
 // Return the largest lucky integer in the array. If there is no lucky integer return -1.
@@ -1089,4 +1089,59 @@ var topVotedFindLucky = function (arr) {
   return Math.max(...arr.filter((e) => map.get(e) === e), -1);
 };
 
-// Similar, but better runtime
+// Similar, but better runtime */
+
+// Count Largest Group          1/25/2022
+
+// You are given an integer n.
+
+// Each number from 1 to n is grouped according to the sum of its digits.
+
+// Return the number of groups that have the largest size.
+
+// Example 1:
+//    Input: n = 13
+//    Output: 4
+// Explanation: There are 9 groups in total, they are grouped according sum of its digits of numbers from 1 to 13:
+// [1,10], [2,11], [3,12], [4,13], [5], [6], [7], [8], [9].
+// There are 4 groups with largest size.
+
+// Example 2:
+//    Input: n = 2
+//    Output: 2
+// Explanation: There are 2 groups [1], [2] of size 1.
+
+// Constraints:
+//    1 <= n <= 104
+
+const countLargestGroup = function (n) {
+  let count = new Map();
+
+  for (let i = 1; i < n + 1; i++) {
+    //prettier-ignore
+    const val = i > 9 ? i.toString(10).split("").reduce((acc, cur) => (acc += +cur), 0): i;
+    count.has(val) ? count.set(val, count.get(val) + 1) : count.set(val, 1);
+  }
+
+  const largest = Math.max(...count.values());
+  return [...count.values()].filter((x) => x == largest).length;
+};
+console.log(countLargestGroup(13)); // 4
+console.log(countLargestGroup(2)); // 2
+
+// Gets the job done, but feels very bulky
+// Wish I'd found a better way of calculating 'val'
+
+const topVotedCountLargestGroup = (n) => {
+  let map = {},
+    max = 1;
+  for (let i = 1; i <= n; i++) {
+    let sum = [...`${i}`].reduce((a, c) => a + +c, 0);
+    map[sum] ? map[sum]++ : (map[sum] = 1);
+    max = Math.max(max, map[sum]);
+  }
+  return Object.values(map).filter((x) => x === max).length;
+};
+
+// This is a much better method of calculating 'sum'
+// much better runtime
