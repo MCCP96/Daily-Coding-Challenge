@@ -1147,7 +1147,7 @@ const topVotedCountLargestGroup = (n) => {
 // much better runtime */
 
 // Minimum Subsequence in Non-Increasing Order          1/26/2022
-
+/* 
 // Given the array nums, obtain a subsequence of the array whose sum of elements is strictly greater than the sum of the non included elements in such subsequence.
 
 // If there are multiple solutions, return the subsequence with minimum size and if there still exist multiple solutions, return the subsequence with the maximum total sum of all its elements. A subsequence of an array can be obtained by erasing some (possibly zero) elements from the array.
@@ -1183,4 +1183,46 @@ console.log(minSubsequence([4, 4, 7, 6, 7])); // [7,7,6]
 console.log(minSubsequence([6])); // [6]
 
 // Top 1% memory, not so good runtime
-// Cleaner than top voted
+// Cleaner than top voted */
+
+// String Matching in an Array          1/27/2022
+
+// Given an array of string words. Return all strings in words which is substring of another word in any order.
+
+// String words[i] is substring of words[j], if can be obtained removing some characters to left and/or right side of words[j].
+
+// Example 1:
+//    Input: words = ["mass","as","hero","superhero"]
+//    Output: ["as","hero"]
+// Explanation: "as" is substring of "mass" and "hero" is substring of "superhero".
+// ["hero","as"] is also a valid answer.
+
+// Example 2:
+//    Input: words = ["leetcode","et","code"]
+//    Output: ["et","code"]
+// Explanation: "et", "code" are substring of "leetcode".
+
+// Constraints:
+//    1 <= words.length <= 100
+//    1 <= words[i].length <= 30
+//    words[i] contains only lowercase English letters.
+//    It's guaranteed that words[i] will be unique.
+
+const stringMatching = (words) =>
+  words
+    .map((cur, _, arr) => {
+      for (let w of arr) if (w.includes(cur) && w != cur) return cur;
+    })
+    .filter((n) => n);
+
+console.log(stringMatching(["mass", "as", "hero", "superhero"])); // ["as","hero"]
+console.log(stringMatching(["leetcode", "et", "code"])); // ["et","code"]
+console.log(stringMatching(["blue", "green", "bu"])); // []
+
+// Ok runtime, terrible memory
+
+const topVotedStringMatching = (words) =>
+  words.filter((n) => words.some((h) => h !== n && h.includes(n)));
+
+// Very nice!
+// Same logic as mine but managed to avoid .map & the for loop
