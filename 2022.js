@@ -1186,7 +1186,7 @@ console.log(minSubsequence([6])); // [6]
 // Cleaner than top voted */
 
 // String Matching in an Array          1/27/2022
-
+/* 
 // Given an array of string words. Return all strings in words which is substring of another word in any order.
 
 // String words[i] is substring of words[j], if can be obtained removing some characters to left and/or right side of words[j].
@@ -1225,4 +1225,81 @@ const topVotedStringMatching = (words) =>
   words.filter((n) => words.some((h) => h !== n && h.includes(n)));
 
 // Very nice!
-// Same logic as mine but managed to avoid .map & the for loop
+// Same logic as mine but managed to avoid .map & the for loop */
+
+// Minimum Value to Get Positive Step by Step Sum         1/28/2022
+
+// Given an array of integers nums, you start with an initial positive value startValue.
+
+// In each iteration, you calculate the step by step sum of startValue plus elements in nums (from left to right).
+
+// Return the minimum positive value of startValue such that the step by step sum is never less than 1.
+
+// Example 1:
+//    Input: nums = [-3,2,-3,4,2]
+//    Output: 5
+// Explanation: If you choose startValue = 4, in the third iteration your step by step sum is less than 1.
+// step by step sum
+// startValue = 4 | startValue = 5 | nums
+//   (4 -3 ) = 1  | (5 -3 ) = 2    |  -3
+//   (1 +2 ) = 3  | (2 +2 ) = 4    |   2
+//   (3 -3 ) = 0  | (4 -3 ) = 1    |  -3
+//   (0 +4 ) = 4  | (1 +4 ) = 5    |   4
+//   (4 +2 ) = 6  | (5 +2 ) = 7    |   2
+
+// Example 2:
+//    Input: nums = [1,2]
+//    Output: 1
+// Explanation: Minimum start value should be positive.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    -100 <= nums[i] <= 100
+
+const minStartValue = function (nums) {
+  let startValue = 0;
+
+  while (true) {
+    startValue++;
+    let acc = startValue + nums[0];
+
+    for (let i = 1; i < nums.length; i++) {
+      if (acc < 1) break;
+      acc += nums[i];
+    }
+
+    if (acc < 1) continue;
+    return startValue;
+  }
+};
+console.log(minStartValue([-3, 2, -3, 4, 2])); // 5
+console.log(minStartValue([1, 2])); // 1
+console.log(minStartValue([1, -2, -3])); // 5
+
+// Ok runtime
+
+var topVotedMinStartValue = function (nums) {
+  var min = 1;
+  var sum = 0;
+
+  for (var i = 0; i < nums.length; i++) {
+    sum += nums[i];
+    min = Math.min(min, sum);
+  }
+
+  if (min == 1) return min;
+
+  // add 1 to negative of min value obtained to keep the sum always positive
+  return -1 * min + 1;
+};
+
+// Ahh, didn't think of this
+// Basically finds how much is missing by tracking min
+// If by the end of looping it's less than 1, that's how much is missing to make this work
+
+// I prefer this code but somehow it has worse runtime/memory than mine...
+
+oneLinerMinStartValue = (A) =>
+  -A.reduce(([s, m], n) => [s + n, Math.min(m, n + s)], [0, 0])[1] + 1;
+
+// 👀
