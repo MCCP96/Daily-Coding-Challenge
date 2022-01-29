@@ -1228,7 +1228,7 @@ const topVotedStringMatching = (words) =>
 // Same logic as mine but managed to avoid .map & the for loop */
 
 // Minimum Value to Get Positive Step by Step Sum         1/28/2022
-
+/* 
 // Given an array of integers nums, you start with an initial positive value startValue.
 
 // In each iteration, you calculate the step by step sum of startValue plus elements in nums (from left to right).
@@ -1302,4 +1302,63 @@ var topVotedMinStartValue = function (nums) {
 oneLinerMinStartValue = (A) =>
   -A.reduce(([s, m], n) => [s + n, Math.min(m, n + s)], [0, 0])[1] + 1;
 
-// 👀
+// 👀 */
+
+// Reformat The String          1/29/2022
+
+// You are given an alphanumeric string s. (Alphanumeric string is a string consisting of lowercase English letters and digits).
+
+// You have to find a permutation of the string where no letter is followed by another letter and no digit is followed by another digit. That is, no two adjacent characters have the same type.
+
+// Return the reformatted string or return an empty string if it is impossible to reformat the string.
+
+// Example 1:
+//    Input: s = "a0b1c2"
+//    Output: "0a1b2c"
+// Explanation: No two adjacent characters have the same type in "0a1b2c". "a0b1c2", "0a1b2c", "0c2a1b" are also valid permutations.
+
+// Example 2:
+//    Input: s = "leetcode"
+//    Output: ""
+// Explanation: "leetcode" has only characters so we cannot separate them by digits.
+
+// Example 3:
+//    Input: s = "1229857369"
+//    Output: ""
+// Explanation: "1229857369" has only digits so we cannot separate them by characters.
+
+// Constraints:
+//    1 <= s.length <= 500
+//    s consists of only lowercase English letters and/or digits.
+
+const reformat = function (s) {
+  let a = [],
+    b = [];
+
+  for (let c of s) /\d/.test(c) ? b.push(c) : a.push(c);
+
+  if (a.length < b.length) [a, b] = [b, a];
+
+  return a.length - b.length <= 1
+    ? a.map((x, i) => x + (b[i] ? b[i] : "")).join("")
+    : "";
+};
+console.log(reformat("a0b1c2")); // "0a1b2c"
+console.log(reformat("leetcode")); // ""
+console.log(reformat("1229857369")); // ""
+console.log(reformat("ab123")); // "1a2b3"
+
+// Heavily inspired by top voted
+
+var topVotedReformat = function (s) {
+  let a = [...s.matchAll(/[a-z]/g)],
+    b = [...s.matchAll(/\d/g)];
+
+  if (a.length < b.length) [a, b] = [b, a];
+
+  return a.length - b.length <= 1
+    ? a.map((val, i) => (b[i] ? val + b[i] : val)).join("")
+    : "";
+};
+
+// I like the use of regex to get a and b right off the bat
