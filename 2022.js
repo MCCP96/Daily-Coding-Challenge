@@ -1422,7 +1422,7 @@ var topVotedMaxScore = function (s) {
 // Very similar */
 
 // Kids With the Greatest Number of Candies         1/31/2022
-
+/* 
 // There are n kids with candies. You are given an integer array candies, where each candies[i] represents the number of candies the ith kid has, and an integer extraCandies, denoting the number of extra candies that you have.
 
 // Return a boolean array result of length n, where result[i] is true if, after giving the ith kid all the extraCandies, they will have the greatest number of candies among all the kids, or false otherwise.
@@ -1460,4 +1460,51 @@ console.log(kidsWithCandies([4, 2, 1, 1, 2], 1)); // [true,false,false,false,fal
 console.log(kidsWithCandies([12, 1, 12], 10)); // [true,false,true]
 
 // Very good runtime
-// Same as top voted
+// Same as top voted */
+
+// Destination City         2/1/2022
+
+// You are given the array paths, where paths[i] = [cityAi, cityBi] means there exists a direct path going from cityAi to cityBi. Return the destination city, that is, the city without any path outgoing to another city.
+
+// It is guaranteed that the graph of paths forms a line without any loop, therefore, there will be exactly one destination city.
+
+// Example 1:
+//    Input: paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]
+//    Output: "Sao Paulo"
+// Explanation: Starting at "London" city you will reach "Sao Paulo" city which is the destination city. Your trip consist of: "London" -> "New York" -> "Lima" -> "Sao Paulo".
+
+// Example 2:
+//    Input: paths = [["B","C"],["D","B"],["C","A"]]
+//    Output: "A"
+// Explanation: All possible trips are:
+//    "D" -> "B" -> "C" -> "A".
+//    "B" -> "C" -> "A".
+//    "C" -> "A".
+//    "A".
+//    Clearly the destination city is "A".
+
+// Example 3:
+// Input: paths = [["A","Z"]]
+// Output: "Z"
+
+// Constraints:
+//    1 <= paths.length <= 100
+//    paths[i].length == 2
+//    1 <= cityAi.length, cityBi.length <= 10
+//    cityAi != cityBi
+//    All strings consist of lowercase and uppercase English letters and the space character.
+
+const topVotedDestCity = (paths) => {
+  let map = new Map(paths);
+  for (const path of paths) if (!map.has(path[1])) return path[1];
+};
+// prettier-ignore
+console.log(topVotedDestCity([["B", "C"],["D", "B"],["C", "A"]])); // "A"
+// prettier-ignore
+console.log(topVotedDestCity([["London", "New York"],["New York", "Lima"],["Lima", "Sao Paulo"]])); // "Sao Paulo"
+console.log(topVotedDestCity([["A", "Z"]])); // "Z"
+// prettier-ignore
+console.log(topVotedDestCity([["pYyNGfBYbm", "wxAscRuzOl"],["kzwEQHfwce", "pYyNGfBYbm"]])); // "wxAscRuzOl"
+
+// Couldn't manage a solution here
+// Very clean top voted
