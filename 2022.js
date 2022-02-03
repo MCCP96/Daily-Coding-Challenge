@@ -1510,7 +1510,7 @@ console.log(topVotedDestCity([["pYyNGfBYbm", "wxAscRuzOl"],["kzwEQHfwce", "pYyNG
 // Very clean top voted */
 
 // Build an Array With Stack Operations         2/2/2022
-
+/* 
 // You are given an array target and an integer n.
 // In each iteration, you will read a number from list = [1, 2, 3, ..., n].
 // Build the target array using the following operations:
@@ -1555,4 +1555,49 @@ console.log(buildArray([1, 2, 3], 3)); // ["Push","Push","Push"]
 console.log(buildArray([1, 2], 4)); // ["Push","Push"]
 
 // Ok runtime, terrible memory
-// Same as top voted
+// Same as top voted */
+
+// Consecutive Characters         2/3/2022
+
+// The power of the string is the maximum length of a non-empty substring that contains only one unique character.
+
+// Given a string s, return the power of s.
+
+// Example 1:
+//    Input: s = "leetcode"
+//    Output: 2
+// Explanation: The substring "ee" is of length 2 with the character 'e' only.
+
+// Example 2:
+//    Input: s = "abbcccddddeeeeedcba"
+//    Output: 5
+// Explanation: The substring "eeeee" is of length 5 with the character 'e' only.
+
+// Constraints:
+//    1 <= s.length <= 500
+//    s consists of only lowercase English letters.
+
+const maxPower = function (s) {
+  let max = 0;
+  return s
+    .split("")
+    .reduce(
+      (a, c, i, arr) => Math.max(a, c == arr[i - 1] ? ++max : (max = 1)),
+      0
+    );
+};
+console.log(maxPower("leetcode")); // 2
+console.log(maxPower("abbcccddddeeeeedcba")); // 5
+
+// Not greatest runtime
+
+var topVotedMaxPower = function (s) {
+  let maxStr = 1;
+  let accum = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === s[i + 1]) maxStr += 1;
+    else maxStr = 1;
+    if (maxStr > accum) accum = maxStr;
+  }
+  return accum;
+};
