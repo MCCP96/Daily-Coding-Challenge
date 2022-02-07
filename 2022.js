@@ -1700,7 +1700,7 @@ const topVotedIsPrefixOfWord = (sentence, searchWord) => {
 }; */
 
 // Make Two Arrays Equal by Reversing Sub-arrays          2/6/2022
-
+/* 
 // You are given two integer arrays of equal length target and arr. In one step, you can select any non-empty sub-array of arr and reverse it. You are allowed to make any number of steps.
 
 // Return true if you can make arr equal to target or false otherwise.
@@ -1738,4 +1738,44 @@ console.log(canBeEqual([7], [7])); // true
 console.log(canBeEqual([3, 7, 9], [3, 7, 11])); // false
 
 // Super easy way to compare them
-// Same as top voted
+// Same as top voted */
+
+// Maximum Product of Two Elements in an Array          2/7/2022
+
+// Given the array of integers nums, you will choose two different indices i and j of that array. Return the maximum value of (nums[i]-1)*(nums[j]-1).
+
+// Example 1:
+//    Input: nums = [3,4,5,2]
+//    Output: 12
+// Explanation: If you choose the indices i=1 and j=2 (indexed from 0), you will get the maximum value, that is, (nums[1]-1)*(nums[2]-1) = (4-1)*(5-1) = 3*4 = 12.
+
+// Example 2:
+//    Input: nums = [1,5,4,5]
+//    Output: 16
+// Explanation: Choosing the indices i=1 and j=3 (indexed from 0), you will get the maximum value of (5-1)*(5-1) = 16.
+
+// Constraints:
+//    2 <= nums.length <= 500
+//    1 <= nums[i] <= 10^3
+
+const maxProduct = (nums) =>
+  nums
+    .sort((a, b) => a - b)
+    .slice(nums.length - 2)
+    .reduce((a, c) => a * (c - 1), 1);
+
+console.log(maxProduct([3, 4, 5, 2])); // 12
+console.log(maxProduct([1, 5, 4, 5])); // 16
+console.log(maxProduct([3, 7])); // 12
+console.log(maxProduct([10, 2, 5, 2])); // 36
+
+// Decent one-liner
+
+const topVotedMaxProduct = (nums) =>
+  nums
+    .sort((a, b) => a - b)
+    .splice(-2)
+    .reduce((i, j) => (i - 1) * (j - 1));
+
+// Same idea
+// Some minor changes but the logic is cleaner here
