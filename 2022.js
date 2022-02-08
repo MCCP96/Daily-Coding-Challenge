@@ -1741,7 +1741,7 @@ console.log(canBeEqual([3, 7, 9], [3, 7, 11])); // false
 // Same as top voted */
 
 // Maximum Product of Two Elements in an Array          2/7/2022
-
+/* 
 // Given the array of integers nums, you will choose two different indices i and j of that array. Return the maximum value of (nums[i]-1)*(nums[j]-1).
 
 // Example 1:
@@ -1778,4 +1778,65 @@ const topVotedMaxProduct = (nums) =>
     .reduce((i, j) => (i - 1) * (j - 1));
 
 // Same idea
-// Some minor changes but the logic is cleaner here
+// Some minor changes but the logic is cleaner here */
+
+// Shuffle the Array          2/8/2022
+
+// Given the array nums consisting of 2n elements in the form [x1,x2,...,xn,y1,y2,...,yn].
+// Return the array in the form [x1,y1,x2,y2,...,xn,yn].
+
+// Example 1:
+// Input: nums = [2,5,1,3,4,7], n = 3
+// Output: [2,3,5,4,1,7]
+// Explanation: Since x1=2, x2=5, x3=1, y1=3, y2=4, y3=7 then the answer is [2,3,5,4,1,7].
+
+// Example 2:
+// Input: nums = [1,2,3,4,4,3,2,1], n = 4
+// Output: [1,4,2,3,3,2,4,1]
+
+// Example 3:
+// Input: nums = [1,1,2,2], n = 2
+// Output: [1,2,1,2]
+
+// Constraints:
+// 1 <= n <= 500
+// nums.length == 2n
+// 1 <= nums[i] <= 10^3 */
+
+const shuffle = function (nums, n) {
+  const half = Math.ceil(nums.length / 2);
+  let x = nums.slice(0, half);
+  let y = nums.slice(-half);
+
+  let ans = [];
+  for (let i = 0; i < n; i++) ans.push(x.shift()) && ans.push(y.shift());
+  return ans;
+};
+console.log(shuffle([2, 5, 1, 3, 4, 7], 3)); // [2,3,5,4,1,7]
+console.log(shuffle([1, 2, 3, 4, 4, 3, 2, 1], 4)); // [1,4,2,3,3,2,4,1]
+console.log(shuffle([1, 1, 2, 2], 2)); // [1,2,1,2]
+
+// Ok, nothing crazy here
+
+const topVotedShuffle = function (nums, n) {
+  let i = n - 1;
+  for (let j = nums.length - 1; j >= n; j--) {
+    nums[j] <<= 10;
+    nums[j] |= nums[i];
+    i--;
+  }
+
+  i = 0;
+  for (let j = n; j < nums.length; j++) {
+    const num1 = nums[j] & 1023;
+    const num2 = nums[j] >> 10;
+    nums[i] = num1;
+    nums[i + 1] = num2;
+    i += 2;
+  }
+
+  return nums;
+};
+
+// In-Place O(n) Time O(1) Space
+// Top 10% runtime
