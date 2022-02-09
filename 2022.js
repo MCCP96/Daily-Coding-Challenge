@@ -1781,7 +1781,7 @@ const topVotedMaxProduct = (nums) =>
 // Some minor changes but the logic is cleaner here */
 
 // Shuffle the Array          2/8/2022
-
+/* 
 // Given the array nums consisting of 2n elements in the form [x1,x2,...,xn,y1,y2,...,yn].
 // Return the array in the form [x1,y1,x2,y2,...,xn,yn].
 
@@ -1801,7 +1801,7 @@ const topVotedMaxProduct = (nums) =>
 // Constraints:
 // 1 <= n <= 500
 // nums.length == 2n
-// 1 <= nums[i] <= 10^3 */
+// 1 <= nums[i] <= 10^3
 
 const shuffle = function (nums, n) {
   const half = Math.ceil(nums.length / 2);
@@ -1839,4 +1839,54 @@ const topVotedShuffle = function (nums, n) {
 };
 
 // In-Place O(n) Time O(1) Space
-// Top 10% runtime
+// Top 10% runtime */
+
+// Final Prices With a Special Discount in a Shop         2/9/2022
+
+// Given the array prices where prices[i] is the price of the ith item in a shop. There is a special discount for items in the shop, if you buy the ith item, then you will receive a discount equivalent to prices[j] where j is the minimum index such that j > i and prices[j] <= prices[i], otherwise, you will not receive any discount at all.
+
+// Return an array where the ith element is the final price you will pay for the ith item of the shop considering the special discount.
+
+// Example 1:
+//    Input: prices = [8,4,6,2,3]
+//    Output: [4,2,4,2,3]
+// Explanation:
+// For item 0 with price[0]=8 you will receive a discount equivalent to prices[1]=4, therefore, the final price you will pay is 8 - 4 = 4.
+// For item 1 with price[1]=4 you will receive a discount equivalent to prices[3]=2, therefore, the final price you will pay is 4 - 2 = 2.
+// For item 2 with price[2]=6 you will receive a discount equivalent to prices[3]=2, therefore, the final price you will pay is 6 - 2 = 4.
+// For items 3 and 4 you will not receive any discount at all.
+
+// Example 2:
+//    Input: prices = [1,2,3,4,5]
+//    Output: [1,2,3,4,5]
+// Explanation: In this case, for all items, you will not receive any discount at all.
+
+// Constraints:
+//    1 <= prices.length <= 500
+//    1 <= prices[i] <= 10^3
+
+const finalPrices = (prices) =>
+  prices.map((c, i, arr) => {
+    const p = arr.slice(i + 1);
+    for (let i = 0; i < p.length; i++) if (p[i] <= c) return c - p[i];
+    return c;
+  }, 0);
+console.log(finalPrices([8, 4, 6, 2, 3])); // [4,2,4,2,3]
+console.log(finalPrices([1, 2, 3, 4, 5])); // [1,2,3,4,5]
+console.log(finalPrices([10, 1, 1, 6])); // [9,0,1,6]
+
+// Ok runtime
+// Fairly concise
+
+var topVotedFinalPrices = function (prices) {
+  let adjPrices = [];
+  while (prices.length) {
+    let currentPrice = prices[0];
+    prices.shift();
+    let lowerPrice = prices.find((a) => a <= currentPrice);
+    adjPrices.push(lowerPrice ? currentPrice - lowerPrice : currentPrice);
+  }
+  return adjPrices;
+};
+
+// Slower runtime, however avoids the use of 'p' array
