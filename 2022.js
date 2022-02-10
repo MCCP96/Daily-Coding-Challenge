@@ -1842,7 +1842,7 @@ const topVotedShuffle = function (nums, n) {
 // Top 10% runtime */
 
 // Final Prices With a Special Discount in a Shop         2/9/2022
-
+/* 
 // Given the array prices where prices[i] is the price of the ith item in a shop. There is a special discount for items in the shop, if you buy the ith item, then you will receive a discount equivalent to prices[j] where j is the minimum index such that j > i and prices[j] <= prices[i], otherwise, you will not receive any discount at all.
 
 // Return an array where the ith element is the final price you will pay for the ith item of the shop considering the special discount.
@@ -1889,4 +1889,57 @@ var topVotedFinalPrices = function (prices) {
   return adjPrices;
 };
 
-// Slower runtime, however avoids the use of 'p' array
+// Slower runtime, however avoids the use of 'p' array */
+
+// Running Sum of 1d Array          2/10/2022
+
+// Given an array nums. We define a running sum of an array as runningSum[i] = sum(nums[0]…nums[i]).
+
+// Return the running sum of nums.
+
+// Example 1:
+//    Input: nums = [1,2,3,4]
+//    Output: [1,3,6,10]
+// Explanation: Running sum is obtained as follows: [1, 1+2, 1+2+3, 1+2+3+4].
+
+// Example 2:
+//    Input: nums = [1,1,1,1,1]
+//    Output: [1,2,3,4,5]
+// Explanation: Running sum is obtained as follows: [1, 1+1, 1+1+1, 1+1+1+1, 1+1+1+1+1].
+
+// Constraints:
+//    1 <= nums.length <= 1000
+//    -10^6 <= nums[i] <= 10^6
+
+const runningSum = (nums) =>
+  nums.map((c, i, arr) => {
+    i == 0 ? c : (c += arr.slice(0, i).reduce((a, c) => (a += c)));
+    return c;
+  });
+
+console.log(runningSum([1, 2, 3, 4])); // [1,3,6,10]
+console.log(runningSum([1, 1, 1, 1, 1])); // [1,2,3,4,5]
+console.log(runningSum([3, 1, 2, 10, 1])); // [3,4,6,16,17]
+
+// Did a one-liner of this, but this format had better runtime
+
+const accRunningSum = (nums) => {
+  let acc = nums[0];
+  return nums.map((c, i) => {
+    if (i == 0) return c;
+    c += acc;
+    acc = c;
+    return c;
+  });
+};
+
+// Was curious if the 'acc' var would improve runtime by avoiding '.reduce'
+// No change however
+
+const topVotedRunningSum = (nums) => {
+  nums.reduce((a, c, i, arr) => (arr[i] += a));
+  return nums;
+};
+
+// Didn't think of this
+// I automatically defaulted to '.map' due to output being an array
