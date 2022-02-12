@@ -1945,7 +1945,7 @@ const topVotedRunningSum = (nums) => {
 // I automatically defaulted to '.map' due to output being an array */
 
 // XOR Operation in an Array          2/11/2022
-
+/* 
 // You are given an integer n and an integer start.
 
 // Define an array nums where nums[i] = start + 2 * i (0-indexed) and n == nums.length.
@@ -1986,4 +1986,41 @@ var topVotedXorOperation = function (n, start) {
   return xor;
 };
 
-// Very nice, amazing Runtime!
+// Very nice, amazing Runtime! */
+
+// Check If All 1's Are at Least Length K Places Away         2/12/2022
+
+// Given an binary array nums and an integer k, return true if all 1's are at least k places away from each other, otherwise return false.
+
+// Example 1:
+//    Input: nums = [1,0,0,0,1,0,0,1], k = 2
+//    Output: true
+// Explanation: Each of the 1s are at least 2 places away from each other.
+
+// Example 2:
+//    Input: nums = [1,0,0,1,0,1], k = 2
+//    Output: false
+// Explanation: The second 1 and third 1 are only one apart from each other.
+
+// Constraints:
+//    1 <= nums.length <= 105
+//    0 <= k <= nums.length
+//    nums[i] is 0 or 1
+
+const kLengthApart = (nums, k) => {
+  let count = k;
+  for (const n of nums) {
+    if (n === 0) {
+      count++;
+      continue;
+    }
+    if (count < k) return false;
+    count = 0;
+  }
+  return true;
+};
+console.log(kLengthApart([1, 0, 0, 0, 1, 0, 0, 1], 2)); // true
+console.log(kLengthApart([1, 0, 0, 1, 0, 1], 2)); // false
+
+// Ok runtime
+// Identical to top voted
