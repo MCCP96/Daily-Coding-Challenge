@@ -1989,7 +1989,7 @@ var topVotedXorOperation = function (n, start) {
 // Very nice, amazing Runtime! */
 
 // Check If All 1's Are at Least Length K Places Away         2/12/2022
-
+/* 
 // Given an binary array nums and an integer k, return true if all 1's are at least k places away from each other, otherwise return false.
 
 // Example 1:
@@ -2023,4 +2023,53 @@ console.log(kLengthApart([1, 0, 0, 0, 1, 0, 0, 1], 2)); // true
 console.log(kLengthApart([1, 0, 0, 1, 0, 1], 2)); // false
 
 // Ok runtime
-// Identical to top voted
+// Identical to top voted */
+
+// Average Salary Excluding the Minimum and Maximum Salary          2/13/2022
+
+// You are given an array of unique integers salary where salary[i] is the salary of the ith employee.
+
+// Return the average salary of employees excluding the minimum and maximum salary. Answers within 10-5 of the actual answer will be accepted.
+
+// Example 1:
+//    Input: salary = [4000,3000,1000,2000]
+//    Output: 2500.00000
+// Explanation: Minimum salary and maximum salary are 1000 and 4000 respectively.
+// Average salary excluding minimum and maximum salary is (2000+3000) / 2 = 2500
+
+// Example 2:
+//    Input: salary = [1000,2000,3000]
+//    Output: 2000.00000
+// Explanation: Minimum salary and maximum salary are 1000 and 3000 respectively.
+// Average salary excluding minimum and maximum salary is (2000) / 1 = 2000
+
+// Constraints:
+//    3 <= salary.length <= 100
+//    1000 <= salary[i] <= 106
+//    All the integers of salary are unique.
+
+const average = function (salary) {
+  let arr = salary.sort((a, b) => a - b).slice(1, -1);
+  return arr.reduce((a, c) => a + c) / arr.length;
+};
+console.log(average([4000, 3000, 1000, 2000])); // 2500.00000
+console.log(average([1000, 2000, 3000])); // 2000.00000
+console.log(
+  average([
+    25000, 48000, 57000, 86000, 33000, 10000, 42000, 3000, 54000, 29000, 79000,
+    40000,
+  ])
+); // 41700.00000
+
+// Readable code, nothing fancy
+
+const topVotedAverage = function (salary) {
+  salary.sort((a, b) => a - b);
+
+  salary.shift();
+  salary.pop();
+
+  return salary.reduce((a, b) => a + b) / salary.length;
+};
+
+// At first glance I'd assume this is much slower, but it has very good runtime
