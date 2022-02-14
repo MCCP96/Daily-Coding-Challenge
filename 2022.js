@@ -2026,7 +2026,7 @@ console.log(kLengthApart([1, 0, 0, 1, 0, 1], 2)); // false
 // Identical to top voted */
 
 // Average Salary Excluding the Minimum and Maximum Salary          2/13/2022
-
+/* 
 // You are given an array of unique integers salary where salary[i] is the salary of the ith employee.
 
 // Return the average salary of employees excluding the minimum and maximum salary. Answers within 10-5 of the actual answer will be accepted.
@@ -2072,4 +2072,45 @@ const topVotedAverage = function (salary) {
   return salary.reduce((a, b) => a + b) / salary.length;
 };
 
-// At first glance I'd assume this is much slower, but it has very good runtime
+// At first glance I'd assume this is much slower, but it has very good runtime */
+
+// Path Crossing          2/14/2022
+
+// Given a string path, where path[i] = 'N', 'S', 'E' or 'W', each representing moving one unit north, south, east, or west, respectively. You start at the origin (0, 0) on a 2D plane and walk on the path specified by path.
+
+// Return true if the path crosses itself at any point, that is, if at any time you are on a location you have previously visited. Return false otherwise.
+
+// Example 1:
+//    Input: path = "NES"
+//    Output: false
+// Explanation: Notice that the path doesn't cross any point more than once.
+
+// Example 2:
+//    Input: path = "NESWW"
+//    Output: true
+// Explanation: Notice that the path visits the origin twice.
+
+// Constraints:
+//    1 <= path.length <= 104
+//    path[i] is either 'N', 'S', 'E', or 'W'.
+
+var topVotedIsPathCrossing = function (path) {
+  const direction = { N: 1, S: -1, E: 1, W: -1 };
+  const pos = { x: 0, y: 0 };
+  const location = new Set(["0,0"]);
+
+  for (const move of path) {
+    const direct = move === "N" || move === "S" ? "y" : "x";
+    pos[direct] += direction[move];
+
+    const nowPos = `${pos["x"]},${pos["y"]}`;
+    if (location.has(nowPos)) return true;
+    location.add(nowPos);
+  }
+  return false;
+};
+console.log(topVotedIsPathCrossing("NES")); // false
+console.log(topVotedIsPathCrossing("NESWW")); // true
+
+// No time today, decided to study top voted
+// Pretty creative solution, great runtime
