@@ -2075,7 +2075,7 @@ const topVotedAverage = function (salary) {
 // At first glance I'd assume this is much slower, but it has very good runtime */
 
 // Path Crossing          2/14/2022
-
+/* 
 // Given a string path, where path[i] = 'N', 'S', 'E' or 'W', each representing moving one unit north, south, east, or west, respectively. You start at the origin (0, 0) on a 2D plane and walk on the path specified by path.
 
 // Return true if the path crosses itself at any point, that is, if at any time you are on a location you have previously visited. Return false otherwise.
@@ -2113,4 +2113,48 @@ console.log(topVotedIsPathCrossing("NES")); // false
 console.log(topVotedIsPathCrossing("NESWW")); // true
 
 // No time today, decided to study top voted
-// Pretty creative solution, great runtime
+// Pretty creative solution, great runtime */
+
+// Can Make Arithmetic Progression From Sequence          2/15/2022
+
+// A sequence of numbers is called an arithmetic progression if the difference between any two consecutive elements is the same.
+
+// Given an array of numbers arr, return true if the array can be rearranged to form an arithmetic progression. Otherwise, return false.
+
+// Example 1:
+//    Input: arr = [3,5,1]
+//    Output: true
+// Explanation: We can reorder the elements as [1,3,5] or [5,3,1] with differences 2 and -2 respectively, between each consecutive elements.
+
+// Example 2:
+//    Input: arr = [1,2,4]
+//    Output: false
+// Explanation: There is no way to reorder the elements to obtain an arithmetic progression.
+
+// Constraints:
+//    2 <= arr.length <= 1000
+//    -106 <= arr[i] <= 106
+
+const canMakeArithmeticProgression = function (arr) {
+  arr = arr.sort((a, b) => a - b);
+  const diff = arr[1] - arr[0];
+  for (let i = 2; i < arr.length; i++) {
+    if (arr[i] - arr[i - 1] !== diff) return false;
+  }
+  return true;
+};
+console.log(canMakeArithmeticProgression([3, 5, 1])); // true
+console.log(canMakeArithmeticProgression([1, 2, 4])); // false
+
+// Straightforward solution
+
+const topVotedCanMakeArithmeticProgression = (arr) => {
+  arr.sort((a, b) => a - b);
+  for (let diff = arr[1] - arr[0], i = 2; i < arr.length; ++i) {
+    if (arr[i] - arr[i - 1] !== diff) return false;
+  }
+  return true;
+};
+
+// Same as mine, but she includes 'diff' in for loop definition
+// Clean
