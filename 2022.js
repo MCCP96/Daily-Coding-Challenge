@@ -2116,7 +2116,7 @@ console.log(topVotedIsPathCrossing("NESWW")); // true
 // Pretty creative solution, great runtime */
 
 // Can Make Arithmetic Progression From Sequence          2/15/2022
-
+/* 
 // A sequence of numbers is called an arithmetic progression if the difference between any two consecutive elements is the same.
 
 // Given an array of numbers arr, return true if the array can be rearranged to form an arithmetic progression. Otherwise, return false.
@@ -2157,4 +2157,45 @@ const topVotedCanMakeArithmeticProgression = (arr) => {
 };
 
 // Same as mine, but she includes 'diff' in for loop definition
-// Clean
+// Clean */
+
+// Reformat Date          2/16/2022
+
+// Given a date string in the form Day Month Year, where:
+
+// Day is in the set {"1st", "2nd", "3rd", "4th", ..., "30th", "31st"}.
+// Month is in the set {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}.
+// Year is in the range [1900, 2100].
+// Convert the date string to the format YYYY-MM-DD, where:
+
+// YYYY denotes the 4 digit year.
+// MM denotes the 2 digit month.
+// DD denotes the 2 digit day.
+
+// Constraints:
+//    The given dates are guaranteed to be valid, so no error handling is necessary.
+
+const reformatDate = function (date) {
+  let d = new Date(date.split(/th|nd|st|rd/));
+  const oneDigit = (num) => (num < 10 ? `0${num}` : num);
+
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1;
+  const day = d.getDate();
+
+  return `${year}-${oneDigit(month)}-${oneDigit(day)}`;
+};
+console.log(reformatDate("20th Oct 2052")); // "2052-10-20"
+console.log(reformatDate("6th Jun 1933")); // "1933-06-06"
+console.log(reformatDate("26th May 1960")); // "1960-05-26"
+console.log(reformatDate("22nd Apr 2023")); // "2023-04-22"
+
+// Terrible runtime
+
+function topVotedReformatDate(date) {
+  return new Date(Date.parse(date.replace(/.. /, "")))
+    .toISOString()
+    .slice(0, 10);
+}
+
+// Very nice, this is what I had in mind but didn't know how to execute
