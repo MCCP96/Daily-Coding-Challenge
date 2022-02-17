@@ -2160,7 +2160,7 @@ const topVotedCanMakeArithmeticProgression = (arr) => {
 // Clean */
 
 // Reformat Date          2/16/2022
-
+/* 
 // Given a date string in the form Day Month Year, where:
 
 // Day is in the set {"1st", "2nd", "3rd", "4th", ..., "30th", "31st"}.
@@ -2198,4 +2198,68 @@ function topVotedReformatDate(date) {
     .slice(0, 10);
 }
 
-// Very nice, this is what I had in mind but didn't know how to execute
+// Very nice, this is what I had in mind but didn't know how to execute */
+
+// Number of Good Pairs         2/17/2022
+
+// Given an array of integers nums, return the number of good pairs.
+// A pair (i, j) is called good if nums[i] == nums[j] and i < j.
+
+// Example 1:
+//    Input: nums = [1,2,3,1,1,3]
+//    Output: 4
+// Explanation: There are 4 good pairs (0,3), (0,4), (3,4), (2,5) 0-indexed.
+
+// Example 2:
+//    Input: nums = [1,1,1,1]
+//    Output: 6
+// Explanation: Each pair in the array are good.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    1 <= nums[i] <= 100
+
+const numIdenticalPairs = function (nums) {
+  nums = nums
+    .sort((a, b) => a - b)
+    .join("")
+    .match(/(\d)\1+/g);
+  if (!nums) return 0;
+
+  let ans = 0;
+  for (const num of nums) {
+    ans += (num.split("").length * (num.split("").length - 1)) / 2; // n(n-1)/2
+  }
+  return ans;
+};
+console.log(numIdenticalPairs([1, 2, 3, 1, 1, 3])); // 4
+console.log(numIdenticalPairs([1, 1, 1, 1])); // 6
+console.log(numIdenticalPairs([1, 2, 3])); // 0
+
+// Took me a while to get the 'n(n-1)/2' logic figured out
+// Doesn't work for all test cases
+
+var topVotedNumIdenticalPairs = function (nums) {
+  let count = 0;
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] === nums[j]) {
+        count++;
+      }
+    }
+  }
+  return count;
+};
+
+// I think I was overcomplicating it a bit
+// Very nice solution
+
+function cleverNumIdenticalPairs(nums) {
+  const map = nums.reduce(
+    (m, n, i) => m.set(n, (m.get(n) || 0) + 1),
+    new Map()
+  );
+  return [...map.values()].reduce((num, n) => num + (n * (n - 1)) / 2, 0);
+}
+
+// This logic was more what I was shooting for
