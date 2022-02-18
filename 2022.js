@@ -2201,7 +2201,7 @@ function topVotedReformatDate(date) {
 // Very nice, this is what I had in mind but didn't know how to execute */
 
 // Number of Good Pairs         2/17/2022
-
+/* 
 // Given an array of integers nums, return the number of good pairs.
 // A pair (i, j) is called good if nums[i] == nums[j] and i < j.
 
@@ -2262,4 +2262,53 @@ function cleverNumIdenticalPairs(nums) {
   return [...map.values()].reduce((num, n) => num + (n * (n - 1)) / 2, 0);
 }
 
-// This logic was more what I was shooting for
+// This logic was more what I was shooting for */
+
+// Water Bottles          2/18/2022
+
+// There are numBottles water bottles that are initially full of water. You can exchange numExchange empty water bottles from the market with one full water bottle.
+
+// The operation of drinking a full water bottle turns it into an empty bottle.
+
+// Given the two integers numBottles and numExchange, return the maximum number of water bottles you can drink.
+
+// Example 1:
+//    Input: numBottles = 9, numExchange = 3
+//    Output: 13
+// Explanation: You can exchange 3 empty bottles to get 1 full water bottle.
+// Number of water bottles you can drink: 9 + 3 + 1 = 13.
+
+// Example 2:
+//    Input: numBottles = 15, numExchange = 4
+//    Output: 19
+// Explanation: You can exchange 4 empty bottles to get 1 full water bottle.
+// Number of water bottles you can drink: 15 + 3 + 1 = 19.
+
+// Constraints:
+//    1 <= numBottles <= 100
+//    2 <= numExchange <= 100
+
+var topVotedNumWaterBottles = function (numBottles, numExchange) {
+  let drink = numBottles;
+
+  while (numBottles >= numExchange) {
+    const fullWater = ~~(numBottles / numExchange);
+
+    drink += fullWater;
+    numBottles = fullWater + (numBottles % numExchange);
+  }
+  return drink;
+};
+console.log(topVotedNumWaterBottles(9, 3)); // 13
+console.log(topVotedNumWaterBottles(15, 4)); // 19
+console.log(topVotedNumWaterBottles(5, 5)); // 6
+console.log(topVotedNumWaterBottles(2, 3)); // 2
+
+// Couldn't seem to get it going so decided to study top voted
+
+const oneLinerNumWaterBottles = (f, m, e = 0, i = 0) =>
+  f + e >= m
+    ? oneLinerNumWaterBottles(~~((f + e) / m), m, (f + e) % m, i + f)
+    : i + f;
+
+// 👀
