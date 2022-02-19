@@ -2265,7 +2265,7 @@ function cleverNumIdenticalPairs(nums) {
 // This logic was more what I was shooting for */
 
 // Water Bottles          2/18/2022
-
+/* 
 // There are numBottles water bottles that are initially full of water. You can exchange numExchange empty water bottles from the market with one full water bottle.
 
 // The operation of drinking a full water bottle turns it into an empty bottle.
@@ -2311,4 +2311,39 @@ const oneLinerNumWaterBottles = (f, m, e = 0, i = 0) =>
     ? oneLinerNumWaterBottles(~~((f + e) / m), m, (f + e) % m, i + f)
     : i + f;
 
-// 👀
+// 👀 */
+
+// Count Odd Numbers in an Interval Range         2/19/2022
+
+// Given two non-negative integers low and high. Return the count of odd numbers between low and high (inclusive).
+
+// Example 1:
+//    Input: low = 3, high = 7
+//    Output: 3
+// Explanation: The odd numbers between 3 and 7 are [3,5,7].
+
+// Example 2:
+//    Input: low = 8, high = 10
+//    Output: 1
+// Explanation: The odd numbers between 8 and 10 are [9].
+
+// Constraints:
+//    0 <= low <= high <= 10^9
+
+const countOdds = (low, high) => {
+  for (var count = 0; low <= high; low++) if (low % 2) count++;
+  return count;
+};
+console.log(countOdds(3, 7)); // 3
+console.log(countOdds(8, 10)); // 1
+
+// Nothing fancy
+
+function topVotedCountOdds(low, high) {
+  let res;
+  if (low % 2 === 0 && high % 2 === 0) res = Math.floor((high - low) / 2);
+  else res = Math.floor((high - low) / 2) + 1;
+  return res;
+}
+
+// Much better runtime, very nice
