@@ -1,8 +1,6 @@
 ## Daily Coding Challenges
 
-These are my daily coding challenges
-
-Consider visiting my [website](https://mccp.netlify.app/) for a more readable timeline
+These are my [daily coding challenges](https://mccp.netlify.app/)
 
 "Success is the product of daily habit - not once-in-a-lifetime transformations."
 
