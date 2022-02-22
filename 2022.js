@@ -2384,7 +2384,7 @@ console.log(restoreString("abc", [0, 1, 2])); // "abc"
 // Same as top voted */
 
 // Count Good Triplets          2/21/2022
-
+/* 
 // Given an array of integers arr, and three integers a, b and c. You need to find the number of good triplets.
 
 // A triplet (arr[i], arr[j], arr[k]) is good if the following conditions are true:
@@ -2432,4 +2432,56 @@ console.log(countGoodTriplets([1, 1, 2, 2, 3], 0, 0, 1)); // 0
 // Better than 100% of runtimes!
 
 // Not a fan of solution but seems to be the standard
-// Same as top voted
+// Same as top voted */
+
+// Kth Missing Positive Number          2/22/2022
+
+// Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
+
+// Find the kth positive integer that is missing from this array.
+
+// Example 1:
+//    Input: arr = [2,3,4,7,11], k = 5
+//    Output: 9
+// Explanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The 5th missing positive integer is 9.
+
+// Example 2:
+//    Input: arr = [1,2,3,4], k = 2
+//    Output: 6
+// Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing positive integer is 6.
+
+// Constraints:
+//    1 <= arr.length <= 1000
+//    1 <= arr[i] <= 1000
+//    1 <= k <= 1000
+//    arr[i] < arr[j] for 1 <= i < j <= arr.length
+
+const findKthPositive = function (arr, k) {
+  let missing = Array(arr[arr.length - 1])
+    .fill(0)
+    .map((_, i) => i + 1)
+    .filter((x) => !arr.includes(x));
+  return missing[k - 1]
+    ? missing[k - 1]
+    : arr[arr.length - 1] + (k - missing.length);
+};
+console.log(findKthPositive([2, 3, 4, 7, 11], 5)); // 9
+console.log(findKthPositive([1, 2, 3, 4], 2)); // 6
+console.log(findKthPositive([2], 1)); // 1
+
+// Very good runtime
+// Im sure there's a for loop you can early break from to improve runtime
+
+var findKthPositive = function (arr, k) {
+  let prev = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    const diff = arr[i] - prev - 1;
+    if (k > diff) k -= diff;
+    else return prev + k;
+    prev = arr[i];
+  }
+  return prev + k;
+};
+
+// There it is
