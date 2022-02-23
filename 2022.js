@@ -2435,7 +2435,7 @@ console.log(countGoodTriplets([1, 1, 2, 2, 3], 0, 0, 1)); // 0
 // Same as top voted */
 
 // Kth Missing Positive Number          2/22/2022
-
+/* 
 // Given an array arr of positive integers sorted in a strictly increasing order, and an integer k.
 
 // Find the kth positive integer that is missing from this array.
@@ -2461,9 +2461,7 @@ const findKthPositive = function (arr, k) {
     .fill(0)
     .map((_, i) => i + 1)
     .filter((x) => !arr.includes(x));
-  return missing[k - 1]
-    ? missing[k - 1]
-    : arr[arr.length - 1] + (k - missing.length);
+  return missing[k - 1] || arr[arr.length - 1] + (k - missing.length);
 };
 console.log(findKthPositive([2, 3, 4, 7, 11], 5)); // 9
 console.log(findKthPositive([1, 2, 3, 4], 2)); // 6
@@ -2472,7 +2470,7 @@ console.log(findKthPositive([2], 1)); // 1
 // Very good runtime
 // Im sure there's a for loop you can early break from to improve runtime
 
-var findKthPositive = function (arr, k) {
+var topVotedFindKthPositive = function (arr, k) {
   let prev = 0;
 
   for (let i = 0; i < arr.length; i++) {
@@ -2484,4 +2482,66 @@ var findKthPositive = function (arr, k) {
   return prev + k;
 };
 
-// There it is
+// There it is */
+
+// Make The String Great          2/23/2022
+
+// Given a string s of lower and upper case English letters.
+
+// A good string is a string which doesn't have two adjacent characters s[i] and s[i + 1] where:
+
+// 0 <= i <= s.length - 2
+// s[i] is a lower-case letter and s[i + 1] is the same letter but in upper-case or vice-versa.
+// To make the string good, you can choose two adjacent characters that make the string bad and remove them. You can keep doing this until the string becomes good.
+
+// Return the string after making it good. The answer is guaranteed to be unique under the given constraints.
+
+// Notice that an empty string is also good.
+
+// Example 1:
+//    Input: s = "leEeetcode"
+//    Output: "leetcode"
+// Explanation: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
+
+// Example 2:
+//    Input: s = "abBAcC"
+//    Output: ""
+// Explanation: We have many possible scenarios, and all lead to the same answer. For example:
+// "abBAcC" --> "aAcC" --> "cC" --> ""
+// "abBAcC" --> "abBA" --> "aA" --> ""
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s contains only lower and upper case English letters.
+
+const makeGood = function (s) {
+  for (let i = 0; i < s.length - 1; i++)
+    if (
+      (s[i + 1] == s[i].toUpperCase() || s[i] == s[i + 1].toUpperCase()) &&
+      s[i] !== s[i + 1]
+    )
+      return makeGood(s.substring(0, i) + s.substring(i + 2));
+  return s;
+};
+console.log(makeGood("leEeetcode")); // "leetcode"
+console.log(makeGood("abBAcC")); // ""
+console.log(makeGood("s")); // "s"
+console.log(makeGood("kkdsFuqUfSDKK")); // "kkdsFuqUfSDKK"
+
+// Decent runtime
+
+var topVotedMakeGood = function (s) {
+  return [...s].reduce((acc, curr, index, arr) => {
+    for (let j = 0; j < acc.length - 1; j++) {
+      const check = Math.abs(acc.charCodeAt(j) - acc.charCodeAt(j + 1)) === 32;
+
+      if (check) {
+        acc = acc.substring(0, j) + acc.substring(j + 2);
+        break;
+      } else j === acc.length - 2 && arr.splice(index);
+    }
+    return acc;
+  }, s);
+};
+
+// Bit better runtime, but less readable in my opinion
