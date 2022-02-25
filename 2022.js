@@ -2547,7 +2547,7 @@ var topVotedMakeGood = function (s) {
 // Bit better runtime, but less readable in my opinion */
 
 // Three Consecutive Odds         2/24/2022
-
+/* 
 // Given an integer array arr, return true if there are three consecutive odd numbers in the array. Otherwise, return false.
 
 // Example 1:
@@ -2583,4 +2583,30 @@ var topVotedThreeConsecutiveOdds = (arr) =>
   /\d*[13579](,\d*[13579]){2}/.test(arr);
 
 // I knew regex would work here, but didn't want to go on a googling treasure hunt to make it
-// Very nice solution!
+// Very nice solution! */
+
+// Thousand Separator         2/25/2022
+
+// Given an integer n, add a dot (".") as the thousands separator and return it in string format.
+
+// Constraints:
+//    0 <= n <= 231 - 1
+
+const thousandSeparator = function (n) {
+  n = n.toString();
+  let arr = [];
+  for (let i = n.length - 1; i >= 0; i--) {
+    if ((n.length - i) % 3 == 0 && i != 0) arr.push(n[i], ".");
+    else arr.push(n[i]);
+  }
+  return arr.reverse().join("");
+};
+console.log(thousandSeparator(987)); // "987"
+console.log(thousandSeparator(1234)); // "1.234"
+console.log(thousandSeparator(123456789)); // "123.456.789"
+
+// Struggled and ended patching bugs with a posted solution
+
+const topVotedThousandSeparator = (n) => n.toLocaleString("de-DE");
+
+// Hah, nice hack
