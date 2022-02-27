@@ -2612,7 +2612,7 @@ const topVotedThousandSeparator = (n) => n.toLocaleString("de-DE");
 // Hah, nice hack */
 
 // Most Visited Sector in a Circular Track          2/26/2022
-
+/* 
 // Given an integer n and an integer array rounds. We have a circular track which consists of n sectors labeled from 1 to n. A marathon will be held on this track, the marathon consists of m rounds. The ith round starts at sector rounds[i - 1] and ends at sector rounds[i]. For example, round 1 starts at sector rounds[0] and ends at sector rounds[1]
 
 // Return an array of the most visited sectors sorted in ascending order.
@@ -2651,4 +2651,49 @@ console.log(topVotedMostVisited(2, [2, 1, 2, 1, 2, 1, 2, 1, 2])); // [2]
 console.log(topVotedMostVisited(7, [1, 3, 5, 7])); // [1,2,3,4,5,6,7]
 
 // No time today
-// Nice solution, better than 100% of runtimes
+// Nice solution, better than 100% of runtimes */
+
+// Detect Pattern of Length M Repeated K or More Times          2/27/2022
+
+// Given an array of positive integers arr, find a pattern of length m that is repeated k or more times.
+
+// A pattern is a subarray (consecutive sub-sequence) that consists of one or more values, repeated multiple times consecutively without overlapping. A pattern is defined by its length and the number of repetitions.
+
+// Return true if there exists a pattern of length m that is repeated k or more times, otherwise return false.
+
+// Example 1:
+//    Input: arr = [1,2,4,4,4,4], m = 1, k = 3
+//    Output: true
+// Explanation: The pattern (4) of length 1 is repeated 4 consecutive times. Notice that pattern can be repeated k or more times but not less.
+
+// Example 2:
+//    Input: arr = [1,2,1,2,1,1,1,3], m = 2, k = 2
+//    Output: true
+// Explanation: The pattern (1,2) of length 2 is repeated 2 consecutive times. Another valid pattern (2,1) is also repeated 2 times.
+
+// Example 3:
+//    Input: arr = [1,2,1,2,1,3], m = 2, k = 3
+//    Output: false
+// Explanation: The pattern (1,2) is of length 2 but is repeated only 2 times. There is no pattern of length 2 that is repeated 3 or more times.
+
+// Constraints:
+//    2 <= arr.length <= 100
+//    1 <= arr[i] <= 100
+//    1 <= m <= 100
+//    2 <= k <= 100
+
+var topVotedContainsPattern = function (arr, m, k) {
+  for (let i = m, cnt = 0; i < arr.length; i++) {
+    if (arr[i] != arr[i - m]) cnt = 0;
+    else if (++cnt == m * (k - 1)) return true;
+  }
+  return false;
+};
+console.log(topVotedContainsPattern([1, 2, 4, 4, 4, 4], 1, 3)); // true
+console.log(topVotedContainsPattern([1, 2, 1, 2, 1, 1, 1, 3], 2, 2)); // true
+console.log(topVotedContainsPattern([1, 2, 1, 2, 1, 3], 2, 3)); // false
+
+// Struggled with regex for a while, ended up studying top voted
+// '(++cnt == m * (k - 1))' is confusing, but clever
+
+// Better than 100% runtimes
