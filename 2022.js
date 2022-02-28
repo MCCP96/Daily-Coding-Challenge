@@ -2654,7 +2654,7 @@ console.log(topVotedMostVisited(7, [1, 3, 5, 7])); // [1,2,3,4,5,6,7]
 // Nice solution, better than 100% of runtimes */
 
 // Detect Pattern of Length M Repeated K or More Times          2/27/2022
-
+/* 
 // Given an array of positive integers arr, find a pattern of length m that is repeated k or more times.
 
 // A pattern is a subarray (consecutive sub-sequence) that consists of one or more values, repeated multiple times consecutively without overlapping. A pattern is defined by its length and the number of repetitions.
@@ -2696,4 +2696,62 @@ console.log(topVotedContainsPattern([1, 2, 1, 2, 1, 3], 2, 3)); // false
 // Struggled with regex for a while, ended up studying top voted
 // '(++cnt == m * (k - 1))' is confusing, but clever
 
-// Better than 100% runtimes
+// Better than 100% runtimes */
+
+// Matrix Diagonal Sum          2/28/2022
+
+// Given a square matrix mat, return the sum of the matrix diagonals.
+
+// Only include the sum of all the elements on the primary diagonal and all the elements on the secondary diagonal that are not part of the primary diagonal.
+
+// Example 1:
+//    Input: mat = [[1,2,3],
+//                  [4,5,6],
+//                  [7,8,9]]
+//    Output: 25
+// Explanation: Diagonals sum: 1 + 5 + 9 + 3 + 7 = 25
+// Notice that element mat[1][1] = 5 is counted only once.
+
+// Example 2:
+//    Input: mat = [[1,1,1,1],
+//                  [1,1,1,1],
+//                  [1,1,1,1],
+//                  [1,1,1,1]]
+//    Output: 8
+
+// Constraints:
+//    n == mat.length == mat[i].length
+//    1 <= n <= 100
+//    1 <= mat[i][j] <= 100
+
+const diagonalSum = function (mat) {
+  let ans = 0;
+  const n = mat[0].length - 1;
+
+  for (let row = 0, i = 0, j = n; row <= n; row++, i++, j--) {
+    if (i === j) ans += mat[row][i];
+    else ans += mat[row][i] + mat[row][j];
+  }
+  return ans;
+};
+// prettier-ignore
+console.log(diagonalSum([[1,2,3], [4,5,6], [7,8,9]])); // 25
+// prettier-ignore
+console.log(diagonalSum([[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]])); // 8
+// prettier-ignore
+console.log(diagonalSum([[5]])); // 5
+
+// Average runtime, pretty cluttered for loop, but the logic feels clear
+
+const topVotedDiagonalSum = (mat) => {
+  let sum = 0;
+  let j = mat[0].length - 1;
+
+  for (let i = 0; i < mat.length; i++, j--) {
+    if (i !== j) sum += mat[i][j];
+    sum += mat[i][i];
+  }
+  return sum;
+};
+
+// Same logic but cleaner
