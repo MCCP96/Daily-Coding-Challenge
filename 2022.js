@@ -2699,7 +2699,7 @@ console.log(topVotedContainsPattern([1, 2, 1, 2, 1, 3], 2, 3)); // false
 // Better than 100% runtimes */
 
 // Matrix Diagonal Sum          2/28/2022
-
+/* 
 // Given a square matrix mat, return the sum of the matrix diagonals.
 
 // Only include the sum of all the elements on the primary diagonal and all the elements on the secondary diagonal that are not part of the primary diagonal.
@@ -2754,4 +2754,60 @@ const topVotedDiagonalSum = (mat) => {
   return sum;
 };
 
-// Same logic but cleaner
+// Same logic but cleaner */
+
+// Replace All ?'s to Avoid Consecutive Repeating Characters          3/1/2022
+
+// Given a string s containing only lowercase English letters and the '?' character, convert all the '?' characters into lowercase letters such that the final string does not contain any consecutive repeating characters. You cannot modify the non '?' characters.
+
+// It is guaranteed that there are no consecutive repeating characters in the given string except for '?'.
+
+// Return the final string after all the conversions (possibly zero) have been made. If there is more than one solution, return any of them. It can be shown that an answer is always possible with the given constraints.
+
+// Example 1:
+//    Input: s = "?zs"
+//    Output: "azs"
+// Explanation: There are 25 solutions for this problem. From "azs" to "yzs", all are valid. Only "z" is an invalid modification as the string will consist of consecutive repeating characters in "zzs".
+
+// Example 2:
+//    Input: s = "ubv?w"
+//    Output: "ubvaw"
+// Explanation: There are 24 solutions for this problem. Only "v" and "w" are invalid modifications as the strings will consist of consecutive repeating characters in "ubvvw" and "ubvww".
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s consist of lowercase English letters and '?'.
+
+const modifyString = function (s) {
+  const index = s.indexOf("?");
+  const incChar = (i) =>
+    s.substring(0, index) + String.fromCharCode(i) + s.substring(index + 1);
+
+  let i = 97; // a = 97 to z = 122
+  s = incChar(i);
+  while (/(?!\?)(.)\1/.test(s)) s = incChar(++i);
+  if (s.indexOf("?") !== -1) return modifyString(s);
+
+  return s;
+};
+console.log(modifyString("?zs")); // "azs"
+console.log(modifyString("ubv?w")); // "ubvaw"
+console.log(modifyString("j?qg??b")); // "jaqgacb"
+
+// Doesn't work for singular chars
+
+const convertChar = (arr, i) => {
+  if (arr[i] !== "?") return arr[i];
+  if (arr[i - 1] !== "a" && arr[i + 1] !== "a") return "a";
+  if (arr[i - 1] !== "b" && arr[i + 1] !== "b") return "b";
+  return "c";
+};
+
+const topVotedModifyString = function (s) {
+  const arr = s.split("");
+  for (let i = 0; i < s.length; i++) arr[i] = convertChar(arr, i);
+  return arr.join("");
+};
+
+// Keep it simple.
+// This top voted was titled as easy as 'abc' lol, love the logic
