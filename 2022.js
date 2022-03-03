@@ -2813,7 +2813,7 @@ const topVotedModifyString = function (s) {
 // This top voted was titled as easy as 'abc' lol, love the logic */
 
 // Special Positions in a Binary Matrix         3/2/2022
-
+/* 
 // Given an m x n binary matrix mat, return the number of special positions in mat.
 
 // A position (i, j) is called special if mat[i][j] == 1 and all other elements in row i and column j are 0 (rows and columns are 0-indexed).
@@ -2856,4 +2856,57 @@ console.log(numSpecial([[1,0,0],[0,1,0],[0,0,1]])); // 3
 
 // Great runtime, feels like a very standard solution
 
-// All top voted answers are much much larger, sticking with mine
+// All top voted answers are much much larger, sticking with mine */
+
+// Sum of All Odd Length Subarrays          3/3/2022
+
+// Given an array of positive integers arr, calculate the sum of all possible odd-length subarrays.
+
+// A subarray is a contiguous subsequence of the array.
+
+// Return the sum of all odd-length subarrays of arr.
+
+// Example 1:
+//    Input: arr = [1,4,2,5,3]
+//    Output: 58
+// Explanation: The odd-length subarrays of arr and their sums are:
+// [1] = 1
+// [4] = 4
+// [2] = 2
+// [5] = 5
+// [3] = 3
+// [1,4,2] = 7
+// [4,2,5] = 11
+// [2,5,3] = 10
+// [1,4,2,5,3] = 15
+// If we add all these together we get 1 + 4 + 2 + 5 + 3 + 7 + 11 + 10 + 15 = 58
+
+// Example 2:
+//    Input: arr = [1,2]
+//    Output: 3
+// Explanation: There are only 2 subarrays of odd length, [1] and [2]. Their sum is 3.
+
+// Constraints:
+//    1 <= arr.length <= 100
+//    1 <= arr[i] <= 1000
+
+var topVotedSumOddLengthSubarrays = function (arr) {
+  let sum = 0,
+    N = arr.length;
+  for (let i = 0; i < arr.length; i++) {
+    let total = i * (N - i) + (N - i);
+    sum += Math.ceil(total / 2) * arr[i];
+  }
+  return sum;
+};
+console.log(topVotedSumOddLengthSubarrays([1, 4, 2, 5, 3])); // 58
+console.log(topVotedSumOddLengthSubarrays([1, 2])); // 3
+console.log(topVotedSumOddLengthSubarrays([10, 11, 12])); // 66
+
+// Struggled with .reduce for a while
+// Ended up studying top voted
+
+// Knew there was a trick to it, but couldn't figure it out:
+//    let total = i * (N - i) + (N - i);
+//    sum += Math.ceil(total / 2) * arr[i];
+// Very nice
