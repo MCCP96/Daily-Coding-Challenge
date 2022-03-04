@@ -2859,7 +2859,7 @@ console.log(numSpecial([[1,0,0],[0,1,0],[0,0,1]])); // 3
 // All top voted answers are much much larger, sticking with mine */
 
 // Sum of All Odd Length Subarrays          3/3/2022
-
+/* 
 // Given an array of positive integers arr, calculate the sum of all possible odd-length subarrays.
 
 // A subarray is a contiguous subsequence of the array.
@@ -2909,4 +2909,58 @@ console.log(topVotedSumOddLengthSubarrays([10, 11, 12])); // 66
 // Knew there was a trick to it, but couldn't figure it out:
 //    let total = i * (N - i) + (N - i);
 //    sum += Math.ceil(total / 2) * arr[i];
-// Very nice
+// Very nice */
+
+// Rearrange Spaces Between Words         3/4/2022
+
+// You are given a string text of words that are placed among some number of spaces. Each word consists of one or more lowercase English letters and are separated by at least one space. It's guaranteed that text contains at least one word.
+
+// Rearrange the spaces so that there is an equal number of spaces between every pair of adjacent words and that number is maximized. If you cannot redistribute all the spaces equally, place the extra spaces at the end, meaning the returned string should be the same length as text.
+
+// Return the string after rearranging the spaces.
+
+// Example 1:
+//    Input: text = "  this   is  a sentence "
+//    Output: "this   is   a   sentence"
+// Explanation: There are a total of 9 spaces and 4 words. We can evenly divide the 9 spaces between the words: 9 / (4-1) = 3 spaces.
+
+// Example 2:
+//    Input: text = " practice   makes   perfect"
+//    Output: "practice   makes   perfect "
+// Explanation: There are a total of 7 spaces and 3 words. 7 / (3-1) = 3 spaces plus 1 extra space. We place this extra space at the end of the string.
+
+// Constraints:
+//    1 <= text.length <= 100
+//    text consists of lowercase English letters and ' '.
+//    text contains at least one word.
+
+const reorderSpaces = function (text) {
+  const words = text.trim().split(/\s+/);
+  const numSpaces = text.split(/\w+/).join("").length;
+
+  if (words.length <= 1) return [...words] + " ".repeat(numSpaces);
+  return (
+    words.join(" ".repeat(Math.floor(numSpaces / (words.length - 1)))) +
+    " ".repeat(numSpaces % (words.length - 1))
+  );
+};
+console.log(reorderSpaces("  this   is  a sentence ")); // "this   is   a   sentence"
+console.log(reorderSpaces(" practice   makes   perfect")); // "practice   makes   perfect "
+console.log(reorderSpaces("  hello"));
+
+// Decent runtime, not my best code
+
+const topVotedReorderSpaces = function (text) {
+  let arr = text.split(" ");
+  let totalSpace = arr.length - 1;
+  arr = arr.filter((w) => w !== "");
+
+  let spaceBetween =
+    arr.length > 1 ? Math.floor(totalSpace / (arr.length - 1)) : 0;
+  let spaceLeftOver =
+    arr.length > 1 ? totalSpace % (arr.length - 1) : totalSpace;
+
+  return arr.join(" ".repeat(spaceBetween)) + " ".repeat(spaceLeftOver);
+};
+
+// Same logic
