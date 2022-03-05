@@ -2912,7 +2912,7 @@ console.log(topVotedSumOddLengthSubarrays([10, 11, 12])); // 66
 // Very nice */
 
 // Rearrange Spaces Between Words         3/4/2022
-
+/* 
 // You are given a string text of words that are placed among some number of spaces. Each word consists of one or more lowercase English letters and are separated by at least one space. It's guaranteed that text contains at least one word.
 
 // Rearrange the spaces so that there is an equal number of spaces between every pair of adjacent words and that number is maximized. If you cannot redistribute all the spaces equally, place the extra spaces at the end, meaning the returned string should be the same length as text.
@@ -2963,4 +2963,73 @@ const topVotedReorderSpaces = function (text) {
   return arr.join(" ".repeat(spaceBetween)) + " ".repeat(spaceLeftOver);
 };
 
-// Same logic
+// Same logic */
+
+// Crawler Log Folder         3/5/2022
+
+// The Leetcode file system keeps a log each time some user performs a change folder operation.
+
+// The operations are described below:
+
+// "../" : Move to the parent folder of the current folder. (If you are already in the main folder, remain in the same folder).
+// "./" : Remain in the same folder.
+// "x/" : Move to the child folder named x (This folder is guaranteed to always exist).
+// You are given a list of strings logs where logs[i] is the operation performed by the user at the ith step.
+
+// The file system starts in the main folder, then the operations in logs are performed.
+
+// Return the minimum number of operations needed to go back to the main folder after the change folder operations.
+
+// Example 1:
+//    Input: logs = ["d1/","d2/","../","d21/","./"]
+//    Output: 2
+// Explanation: Use this change folder operation "../" 2 times and go back to the main folder.
+
+// Example 2:
+// Input: logs = ["d1/","d2/","./","d3/","../","d31/"]
+// Output: 3
+
+// Example 3:
+// Input: logs = ["d1/","../","../","../"]
+// Output: 0
+
+// Constraints:
+//    1 <= logs.length <= 103
+//    2 <= logs[i].length <= 10
+//    logs[i] contains lowercase English letters, digits, '.', and '/'.
+//    logs[i] follows the format described in the statement.
+//    Folder names consist of lowercase English letters and digits.
+
+const minOperations = (logs) =>
+  logs.reduce((a, c) => {
+    if (/^(?!(\.))/.test(c)) return ++a;
+    return c.length == 2 ? a : a > 0 ? --a : a;
+  }, 0);
+
+console.log(minOperations(["d1/", "d2/", "../", "d21/", "./"])); // 2
+console.log(minOperations(["d1/", "d2/", "./", "d3/", "../", "d31/"])); // 3
+console.log(minOperations(["d1/", "../", "../", "../"])); // 0
+console.log(minOperations(["./", "ho3/", "tl8/"])); // 2
+console.log(minOperations(["1/"])); // 1
+
+// Not great runtime
+// Feels clunky
+
+var topVotedMinOperations = function (logs) {
+  let count = 0;
+  for (let log of logs) {
+    count += log == "../" ? (count <= 0 ? 0 : -1) : log == "./" ? 0 : 1;
+  }
+  return count;
+};
+
+// Same logic but as for loop
+// I could've saved some effort and avoided the Regex by doing child folders last
+
+const oneLinerMinOperations = (logs) =>
+  logs.reduce(
+    (a, c) => (c == "./" ? a : c == "../" ? (a > 0 ? --a : a) : ++a),
+    0
+  );
+
+// Made a one-liner out of both our solutions
