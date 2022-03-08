@@ -3076,7 +3076,7 @@ console.log(ex1.addCar(1), ex1.addCar(2), ex1.addCar(3), ex1.addCar(1)); // [tru
 // The logic makes sense, but they always catch me off guard */
 
 // Special Array With X Elements Greater Than or Equal X          3/7/2022
-
+/* 
 // You are given an array nums of non-negative integers. nums is considered special if there exists a number x such that there are exactly x numbers in nums that are greater than or equal to x.
 
 // Notice that x does not have to be an element in nums.
@@ -3128,4 +3128,63 @@ const topVotedSpecialArray = (nums) => {
 };
 
 // Much better runtime
-// Same logic, but uses for loop rather than .filter
+// Same logic, but uses for loop rather than .filter */
+
+// Maximum Nesting Depth of the Parentheses         3/8/2022
+
+// A string is a valid parentheses string (denoted VPS) if it meets one of the following:
+
+// It is an empty string "", or a single character not equal to "(" or ")",
+// It can be written as AB (A concatenated with B), where A and B are VPS's, or
+// It can be written as (A), where A is a VPS.
+// We can similarly define the nesting depth depth(S) of any VPS S as follows:
+
+// depth("") = 0
+// depth(C) = 0, where C is a string with a single character not equal to "(" or ")".
+// depth(A + B) = max(depth(A), depth(B)), where A and B are VPS's.
+// depth("(" + A + ")") = 1 + depth(A), where A is a VPS.
+// For example, "", "()()", and "()(()())" are VPS's (with nesting depths 0, 1, and 2), and ")(" and "(()" are not VPS's.
+
+// Given a VPS represented as string s, return the nesting depth of s.
+
+// Example 1:
+//    Input: s = "(1+(2*3)+((8)/4))+1"
+//    Output: 3
+// Explanation: Digit 8 is inside of 3 nested parentheses in the string.
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s consists of digits 0-9 and characters '+', '-', '*', '/', '(', and ')'.
+//    It is guaranteed that parentheses expression s is a VPS.
+
+const maxDepth = function (s) {
+  let max = 0,
+    count = 0;
+  for (let c of s) {
+    if (c === "(") {
+      count++;
+      max = Math.max(count, max);
+    }
+    if (c === ")") count--;
+  }
+  return max;
+};
+console.log(maxDepth("(1+(2*3)+((8)/4))+1")); // 3
+console.log(maxDepth("(1)+((2))+(((3)))")); // 3
+
+// Great runtime, very straightforward code
+
+const topVotedMaxDepth = (s) => {
+  let str = s.match(/[()]/g, "");
+  let balance = 0;
+
+  if (!str) return 0;
+
+  return str.reduce((depth, c) => {
+    c === "(" ? balance++ : balance--;
+    return Math.max(balance, depth);
+  }, 0);
+};
+
+// Most top voted submissions were identical to mine
+// I was initially trying to improve runtime using regex, like this one
