@@ -3131,7 +3131,7 @@ const topVotedSpecialArray = (nums) => {
 // Same logic, but uses for loop rather than .filter */
 
 // Maximum Nesting Depth of the Parentheses         3/8/2022
-
+/* 
 // A string is a valid parentheses string (denoted VPS) if it meets one of the following:
 
 // It is an empty string "", or a single character not equal to "(" or ")",
@@ -3187,4 +3187,53 @@ const topVotedMaxDepth = (s) => {
 };
 
 // Most top voted submissions were identical to mine
-// I was initially trying to improve runtime using regex, like this one
+// I was initially trying to improve runtime using regex, like this one */
+
+// Mean of Array After Removing Some Elements         3/9/2022
+
+// Given an integer array arr, return the mean of the remaining integers after removing the smallest 5% and the largest 5% of the elements.
+
+// Answers within 10-5 of the actual answer will be considered accepted.
+
+// Example 1:
+//    Input: arr = [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3]
+//    Output: 2.00000
+// Explanation: After erasing the minimum and the maximum values of this array, all elements are equal to 2, so the mean is 2.
+
+// Constraints:
+//    20 <= arr.length <= 1000
+//    arr.length is a multiple of 20.
+//    0 <= arr[i] <= 105
+
+const trimMean = function (arr) {
+  arr.sort((a, b) => a - b);
+  for (let i = 0; i <= arr.length * 0.05; i++) arr.pop() && arr.shift();
+  return arr.reduce((a, c) => (a += c)) / arr.length;
+};
+console.log(
+  trimMean([1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3])
+); // 2.00000
+console.log(
+  trimMean([6, 2, 7, 5, 1, 2, 0, 3, 10, 2, 5, 0, 5, 5, 0, 8, 7, 6, 8, 0])
+); // 4.00000
+console.log(
+  trimMean([
+    6, 0, 7, 0, 7, 5, 7, 8, 3, 4, 0, 7, 8, 1, 6, 8, 1, 1, 2, 4, 8, 1, 9, 5, 4,
+    3, 8, 5, 10, 8, 6, 6, 1, 0, 6, 10, 8, 2, 3, 4,
+  ])
+); // 4.77778
+
+// Doesn't pass all test cases
+
+var topVotedTrimMean = function (arr) {
+  let n = arr.length,
+    k = 0.05 * n;
+  arr.sort((a, b) => a - b);
+  let sum = 0;
+  for (let i = k; i < n - k; i++) {
+    sum += arr[i];
+  }
+  return sum / (n - 2 * k);
+};
+
+// Not amazing runtime, but very readable
