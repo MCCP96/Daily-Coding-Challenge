@@ -3190,7 +3190,7 @@ const topVotedMaxDepth = (s) => {
 // I was initially trying to improve runtime using regex, like this one */
 
 // Mean of Array After Removing Some Elements         3/9/2022
-
+/* 
 // Given an integer array arr, return the mean of the remaining integers after removing the smallest 5% and the largest 5% of the elements.
 
 // Answers within 10-5 of the actual answer will be considered accepted.
@@ -3236,4 +3236,46 @@ var topVotedTrimMean = function (arr) {
   return sum / (n - 2 * k);
 };
 
-// Not amazing runtime, but very readable
+// Not amazing runtime, but very readable */
+
+// Largest Substring Between Two Equal Characters         3/10/2022
+
+// Given a string s, return the length of the longest substring between two equal characters, excluding the two characters. If there is no such substring return -1.
+
+// A substring is a contiguous sequence of characters within a string.
+
+// Example 1:
+//    Input: s = "aa"
+//    Output: 0
+// Explanation: The optimal substring here is an empty substring between the two 'a's.
+
+// Example 2:
+//    Input: s = "abca"
+//    Output: 2
+// Explanation: The optimal substring here is "bc".
+
+// Example 3:
+//    Input: s = "cbzxy"
+//    Output: -1
+// Explanation: There are no characters that appear twice in s.
+
+// Constraints:
+//    1 <= s.length <= 300
+//    s contains only lowercase English letters.
+
+const topVotedMaxLengthBetweenEqualCharacters = function (s) {
+  const map = new Map();
+  let max = -1;
+  for (let i = 0; i < s.length; i++) {
+    map.has(s[i])
+      ? (max = Math.max(max, i - (map.get(s[i]) + 1)))
+      : map.set(s[i], i);
+  }
+  return max;
+};
+console.log(topVotedMaxLengthBetweenEqualCharacters("aa")); // 0
+console.log(topVotedMaxLengthBetweenEqualCharacters("abca")); // 2
+console.log(topVotedMaxLengthBetweenEqualCharacters("cbzxy")); // -1
+
+// No time today!
+// Great use of Map here
