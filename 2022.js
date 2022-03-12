@@ -3281,7 +3281,7 @@ console.log(topVotedMaxLengthBetweenEqualCharacters("cbzxy")); // -1
 // Great use of Map here */
 
 // Slowest Key          3/11/2022
-
+/* 
 //  A newly designed keypad was tested, where a tester pressed a sequence of n keys, one at a time.
 
 // You are given a string keysPressed of length n, where keysPressed[i] was the ith key pressed in the testing sequence, and a sorted list releaseTimes, where releaseTimes[i] was the time the ith key was released. Both arrays are 0-indexed. The 0th key was pressed at the time 0, and every subsequent key was pressed at the exact time the previous key was released.
@@ -3355,4 +3355,59 @@ const topVotedSlowestKey = function (releaseTimes, keysPressed) {
   return char;
 };
 
-// Decent runtime, very logical code
+// Decent runtime, very logical code */
+
+// Sort Array by Increasing Frequency         3/12/2022
+
+// Given an array of integers nums, sort the array in increasing order based on the frequency of the values. If multiple values have the same frequency, sort them in decreasing order.
+
+// Return the sorted array.
+
+// Example 1:
+//    Input: nums = [1,1,2,2,2,3]
+//    Output: [3,1,1,2,2,2]
+// Explanation: '3' has a frequency of 1, '1' has a frequency of 2, and '2' has a frequency of 3.
+
+// Example 2:
+//    Input: nums = [2,3,1,3,2]
+//    Output: [1,3,3,2,2]
+// Explanation: '2' and '3' both have a frequency of 2, so they are sorted in decreasing order.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    -100 <= nums[i] <= 100
+
+const frequencySort = function (nums) {
+  let map = new Map();
+  for (let i = 0; i < nums.length; i++)
+    map.has(nums[i])
+      ? map.set(nums[i], map.get(nums[i]) + 1)
+      : map.set(nums[i], 1);
+
+  map = new Map(
+    [...map.entries()].sort((a, b) =>
+      a[1] === b[1] ? b[0] - a[0] : a[1] - b[1]
+    )
+  );
+
+  let ans = [];
+  for (let [num, count] of map) ans.push(...Array(count).fill(num));
+  return ans;
+};
+console.log(frequencySort([1, 1, 2, 2, 2, 3])); // [3,1,1,2,2,2]
+console.log(frequencySort([2, 3, 1, 3, 2])); // [1,3,3,2,2]
+console.log(frequencySort([-1, 1, -6, 4, 5, -6, 1, 4, 1])); // [5,-1,4,4,-6,-6,1,1,1]
+
+// The sloppiest code ever, idk what I was thinking here 😬
+// Pretty OK runtime somehow
+
+const topVotedFrequencySort = function (nums) {
+  const map = new Map();
+  for (let n of nums) {
+    map.set(n, map.get(n) + 1 || 1);
+  }
+  return nums.sort((a, b) => map.get(a) - map.get(b) || b - a);
+};
+
+// Same idea, MUCH better code
+// Same runtime as my submission lol
