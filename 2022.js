@@ -3358,7 +3358,7 @@ const topVotedSlowestKey = function (releaseTimes, keysPressed) {
 // Decent runtime, very logical code */
 
 // Sort Array by Increasing Frequency         3/12/2022
-
+/* 
 // Given an array of integers nums, sort the array in increasing order based on the frequency of the values. If multiple values have the same frequency, sort them in decreasing order.
 
 // Return the sorted array.
@@ -3410,4 +3410,67 @@ const topVotedFrequencySort = function (nums) {
 };
 
 // Same idea, MUCH better code
-// Same runtime as my submission lol
+// Same runtime as my submission lol */
+
+// Check Array Formation Through Concatenation          3/13/2022
+
+// You are given an array of distinct integers arr and an array of integer arrays pieces, where the integers in pieces are distinct. Your goal is to form arr by concatenating the arrays in pieces in any order. However, you are not allowed to reorder the integers in each array pieces[i].
+
+// Return true if it is possible to form the array arr from pieces. Otherwise, return false.
+
+// Example 1:
+//    Input: arr = [15,88], pieces = [[88],[15]]
+//    Output: true
+// Explanation: Concatenate [15] then [88]
+
+// Example 2:
+//    Input: arr = [49,18,16], pieces = [[16,18,49]]
+//    Output: false
+// Explanation: Even though the numbers match, we cannot reorder pieces[0].
+
+// Example 3:
+//    Input: arr = [91,4,64,78], pieces = [[78],[4,64],[91]]
+//    Output: true
+// Explanation: Concatenate [91] then [4,64] then [78]
+
+// Constraints:
+//    1 <= pieces.length <= arr.length <= 100
+//    sum(pieces[i].length) == arr.length
+//    1 <= pieces[i].length <= arr.length
+//    1 <= arr[i], pieces[i][j] <= 100
+//    The integers in arr are distinct.
+//    The integers in pieces are distinct (i.e., If we flatten pieces in a 1D array, all the integers in this array are distinct).
+
+const canFormArray = function (arr, pieces) {
+  const cantReorder = pieces.filter((x) => x.length > 1);
+  if (cantReorder.length === 0) return true;
+
+  for (let i = 0; i < cantReorder.length; i++)
+    if (
+      !(
+        `${arr.filter((x) => cantReorder[i].includes(x))}` ===
+        `${cantReorder[i]}`
+      )
+    )
+      return false;
+
+  return true;
+};
+console.log(canFormArray([15, 88], [[88], [15]])); // true
+console.log(canFormArray([49, 18, 16], [[16, 18, 49]])); // false
+console.log(canFormArray([91, 4, 64, 78], [[78], [4, 64], [91]])); // true
+
+// Doesn't pass all test cases
+
+const topVotedCanFormArray = function (arr, pieces) {
+  let total = "";
+  arr = arr.join("");
+  for (let i = 0; i < pieces.length; i++) {
+    pieces[i] = pieces[i].join("");
+    total += pieces[i];
+    if (arr.indexOf(pieces[i]) == -1) return false;
+  }
+  return total.length == arr.length;
+};
+
+// Much better & decent runtime
