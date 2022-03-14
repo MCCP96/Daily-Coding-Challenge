@@ -3413,7 +3413,7 @@ const topVotedFrequencySort = function (nums) {
 // Same runtime as my submission lol */
 
 // Check Array Formation Through Concatenation          3/13/2022
-
+/* 
 // You are given an array of distinct integers arr and an array of integer arrays pieces, where the integers in pieces are distinct. Your goal is to form arr by concatenating the arrays in pieces in any order. However, you are not allowed to reorder the integers in each array pieces[i].
 
 // Return true if it is possible to form the array arr from pieces. Otherwise, return false.
@@ -3473,4 +3473,72 @@ const topVotedCanFormArray = function (arr, pieces) {
   return total.length == arr.length;
 };
 
-// Much better & decent runtime
+// Much better & decent runtime */
+
+// Get Maximum in Generated Array         3/14/2022
+
+// You are given an integer n. A 0-indexed integer array nums of length n + 1 is generated in the following way:
+
+// nums[0] = 0
+// nums[1] = 1
+// nums[2 * i] = nums[i] when 2 <= 2 * i <= n
+// nums[2 * i + 1] = nums[i] + nums[i + 1] when 2 <= 2 * i + 1 <= n
+// Return the maximum integer in the array nums​​​.
+
+// Example 1:
+//    Input: n = 7
+//    Output: 3
+// Explanation: According to the given rules:
+//   nums[0] = 0
+//   nums[1] = 1
+//   nums[(1 * 2) = 2] = nums[1] = 1
+//   nums[(1 * 2) + 1 = 3] = nums[1] + nums[2] = 1 + 1 = 2
+//   nums[(2 * 2) = 4] = nums[2] = 1
+//   nums[(2 * 2) + 1 = 5] = nums[2] + nums[3] = 1 + 2 = 3
+//   nums[(3 * 2) = 6] = nums[3] = 2
+//   nums[(3 * 2) + 1 = 7] = nums[3] + nums[4] = 2 + 1 = 3
+// Hence, nums = [0,1,1,2,1,3,2,3], and the maximum is max(0,1,1,2,1,3,2,3) = 3.
+
+// Example 2:
+//    Input: n = 2
+//    Output: 1
+// Explanation: According to the given rules, nums = [0,1,1]. The maximum is max(0,1,1) = 1.
+
+// Example 3:
+//    Input: n = 3
+//    Output: 2
+// Explanation: According to the given rules, nums = [0,1,1,2]. The maximum is max(0,1,1,2) = 2.
+
+// Constraints:
+//    0 <= n <= 100
+
+const getMaximumGenerated = function (n) {
+  if (n <= 1) return n;
+  const arr = [0, 1];
+  for (let i = 2; i <= n; i++)
+    arr.push(
+      i % 2 === 0 ? arr[i / 2] : arr[(i - 1) / 2] + arr[(i - 1) / 2 + 1]
+    );
+  return Math.max(...arr);
+};
+console.log(getMaximumGenerated(7)); // 3
+console.log(getMaximumGenerated(2)); // 1
+console.log(getMaximumGenerated(3)); // 2
+
+// Not great runtime
+
+const topVotedGetMaximumGenerated = function (n) {
+  let memo = [0, 1];
+  let max = 1;
+  if (n === 0 || n === 1) return memo[n];
+  for (let i = 2; i <= n; i++) {
+    if (i % 2 === 0) {
+      memo.push(memo[i / 2]);
+    } else {
+      let v = memo[(i - 1) / 2] + memo[(i + 1) / 2];
+      memo.push(v);
+      if (v > max) max = v;
+    }
+  }
+  return max;
+};
