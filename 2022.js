@@ -3476,7 +3476,7 @@ const topVotedCanFormArray = function (arr, pieces) {
 // Much better & decent runtime */
 
 // Get Maximum in Generated Array         3/14/2022
-
+/* 
 // You are given an integer n. A 0-indexed integer array nums of length n + 1 is generated in the following way:
 
 // nums[0] = 0
@@ -3541,4 +3541,82 @@ const topVotedGetMaximumGenerated = function (n) {
     }
   }
   return max;
+}; */
+
+// Defuse the Bomb          3/15/2022
+
+// You have a bomb to defuse, and your time is running out! Your informer will provide you with a circular array code of length of n and a key k.
+
+// To decrypt the code, you must replace every number. All the numbers are replaced simultaneously.
+
+// If k > 0, replace the ith number with the sum of the next k numbers.
+// If k < 0, replace the ith number with the sum of the previous k numbers.
+// If k == 0, replace the ith number with 0.
+// As code is circular, the next element of code[n-1] is code[0], and the previous element of code[0] is code[n-1].
+
+// Given the circular array code and an integer key k, return the decrypted code to defuse the bomb!
+
+// Example 1:
+//    Input: code = [5,7,1,4], k = 3
+//    Output: [12,10,16,13]
+// Explanation: Each number is replaced by the sum of the next 3 numbers. The decrypted code is [7+1+4, 1+4+5, 4+5+7, 5+7+1]. Notice that the numbers wrap around.
+
+// Example 2:
+//    Input: code = [1,2,3,4], k = 0
+//    Output: [0,0,0,0]
+// Explanation: When k is zero, the numbers are replaced by 0.
+
+// Example 3:
+//    Input: code = [2,4,9,3], k = -2
+//    Output: [12,5,6,13]
+// Explanation: The decrypted code is [3+9, 2+3, 4+2, 9+4]. Notice that the numbers wrap around again. If k is negative, the sum is of the previous numbers.
+
+// Constraints:
+//    n == code.length
+//    1 <= n <= 100
+//    1 <= code[i] <= 100
+//    -(n - 1) <= k <= n - 1
+
+const decrypt = (code, k) =>
+  code.map((_, i, arr) => {
+    let acc = 0;
+    for (let j = 1; j <= k; j++) acc += arr[(i + j) % code.length];
+    return acc;
+  });
+
+console.log(decrypt([5, 7, 1, 4], 3)); // [12,10,16,13]
+console.log(decrypt([1, 2, 3, 4], 0)); // [0,0,0,0]
+console.log(decrypt([2, 4, 9, 3], -2)); // [12,5,6,13]
+
+// Doesn't work for negative values of k
+
+var topVotedDecrypt = function (code, k) {
+  var res = new Array(code.length).fill(0);
+  if (k > 0) {
+    for (var i = 0; i < code.length; i++) {
+      var count = 0;
+      var j = i + 1;
+      while (count < k) {
+        if (j === code.length) j = 0;
+        res[i] += code[j];
+        count = count + 1;
+        j++;
+      }
+    }
+  }
+  if (k < 0) {
+    for (var i = 0; i < code.length; i++) {
+      var count = 0;
+      var j = i - 1;
+      while (count > k) {
+        if (j === -1) j = code.length - 1;
+        res[i] += code[j];
+        count = count - 1;
+        j--;
+      }
+    }
+  }
+  return res;
 };
+
+// Basically just made a seperate if statement for negative k values
