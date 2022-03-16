@@ -3544,7 +3544,7 @@ const topVotedGetMaximumGenerated = function (n) {
 }; */
 
 // Defuse the Bomb          3/15/2022
-
+/* 
 // You have a bomb to defuse, and your time is running out! Your informer will provide you with a circular array code of length of n and a key k.
 
 // To decrypt the code, you must replace every number. All the numbers are replaced simultaneously.
@@ -3619,4 +3619,34 @@ var topVotedDecrypt = function (code, k) {
   return res;
 };
 
-// Basically just made a seperate if statement for negative k values
+// Basically just made a seperate if statement for negative k values */
+
+// Check If Two String Arrays are Equivalent         3/16/2022
+
+// Given two string arrays word1 and word2, return true if the two arrays represent the same string, and false otherwise.
+
+// A string is represented by an array if the array elements concatenated in order forms the string.
+
+// Example 1:
+//    Input: word1 = ["ab", "c"], word2 = ["a", "bc"]
+//    Output: true
+// Explanation:
+// word1 represents string "ab" + "c" -> "abc"
+// word2 represents string "a" + "bc" -> "abc"
+// The strings are the same, so return true.
+
+// Constraints:
+//    1 <= word1.length, word2.length <= 103
+//    1 <= word1[i].length, word2[i].length <= 103
+//    1 <= sum(word1[i].length), sum(word2[i].length) <= 103
+//    word1[i] and word2[i] consist of lowercase letters.
+
+const arrayStringsAreEqual = (word1, word2) =>
+  word1.join("") === word2.join("");
+
+console.log(arrayStringsAreEqual(["ab", "c"], ["a", "bc"])); // true
+console.log(arrayStringsAreEqual(["a", "cb"], ["ab", "c"])); // false
+console.log(arrayStringsAreEqual(["abc", "d", "defg"], ["abcddefg"])); // true
+
+// Better runtime than 95% of submissions
+// Same as top voted
