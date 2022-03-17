@@ -3622,7 +3622,7 @@ var topVotedDecrypt = function (code, k) {
 // Basically just made a seperate if statement for negative k values */
 
 // Check If Two String Arrays are Equivalent         3/16/2022
-
+/* 
 // Given two string arrays word1 and word2, return true if the two arrays represent the same string, and false otherwise.
 
 // A string is represented by an array if the array elements concatenated in order forms the string.
@@ -3649,4 +3649,48 @@ console.log(arrayStringsAreEqual(["a", "cb"], ["ab", "c"])); // false
 console.log(arrayStringsAreEqual(["abc", "d", "defg"], ["abcddefg"])); // true
 
 // Better runtime than 95% of submissions
-// Same as top voted
+// Same as top voted */
+
+// Maximum Repeating Substring          3/17/2022
+
+// For a string sequence, a string word is k-repeating if word concatenated k times is a substring of sequence. The word's maximum k-repeating value is the highest value k where word is k-repeating in sequence. If word is not a substring of sequence, word's maximum k-repeating value is 0.
+
+// Given strings sequence and word, return the maximum k-repeating value of word in sequence.
+
+// Example 1:
+//    Input: sequence = "ababc", word = "ab"
+//    Output: 2
+// Explanation: "abab" is a substring in "ababc".
+
+// Example 2:
+//    Input: sequence = "ababc", word = "ba"
+//    Output: 1
+// Explanation: "ba" is a substring in "ababc". "baba" is not a substring in "ababc".
+
+// Example 3:
+//    Input: sequence = "ababc", word = "ac"
+//    Output: 0
+// Explanation: "ac" is not a substring in "ababc".
+
+// Constraints:
+//    1 <= sequence.length <= 100
+//    1 <= word.length <= 100
+//    sequence and word contains only lowercase English letters.
+
+const maxRepeating = (sequence, word) => sequence.split(word).length - 1;
+console.log(maxRepeating("ababc", "ab")); // 2
+console.log(maxRepeating("ababc", "ba")); // 1
+console.log(maxRepeating("ababc", "ac")); // 0
+
+// Doesn't work for all test cases
+
+const topVotedMaxRepeating = function (sequence, word) {
+  let result = 0;
+  while (sequence.includes(word.repeat(result + 1))) {
+    result += 1;
+  }
+  return result;
+};
+
+// Top 5% runtime
+// Very clean
