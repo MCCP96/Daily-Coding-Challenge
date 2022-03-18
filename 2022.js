@@ -3652,7 +3652,7 @@ console.log(arrayStringsAreEqual(["abc", "d", "defg"], ["abcddefg"])); // true
 // Same as top voted */
 
 // Maximum Repeating Substring          3/17/2022
-
+/* 
 // For a string sequence, a string word is k-repeating if word concatenated k times is a substring of sequence. The word's maximum k-repeating value is the highest value k where word is k-repeating in sequence. If word is not a substring of sequence, word's maximum k-repeating value is 0.
 
 // Given strings sequence and word, return the maximum k-repeating value of word in sequence.
@@ -3693,4 +3693,65 @@ const topVotedMaxRepeating = function (sequence, word) {
 };
 
 // Top 5% runtime
-// Very clean
+// Very clean */
+
+// Richest Customer Wealth          3/18/2022
+
+// You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i​​​​​​​​​​​th​​​​ customer has in the j​​​​​​​​​​​th​​​​ bank. Return the wealth that the richest customer has.
+
+// A customer's wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.
+
+// Example 1:
+//    Input: accounts = [[1,2,3],[3,2,1]]
+//    Output: 6
+// Explanation:
+// 1st customer has wealth = 1 + 2 + 3 = 6
+// 2nd customer has wealth = 3 + 2 + 1 = 6
+// Both customers are considered the richest with a wealth of 6 each, so return 6.
+
+// Example 2:
+//    Input: accounts = [[1,5],[7,3],[3,5]]
+//    Output: 10
+// Explanation:
+// 1st customer has wealth = 6
+// 2nd customer has wealth = 10
+// 3rd customer has wealth = 8
+// The 2nd customer is the richest with a wealth of 10.
+
+// Constraints:
+//    m == accounts.length
+//    n == accounts[i].length
+//    1 <= m, n <= 50
+//    1 <= accounts[i][j] <= 100
+
+const maximumWealth = function (accounts) {
+  let max = 0;
+  for (let account of accounts)
+    max = Math.max(
+      account.reduce((a, c) => (a += c)),
+      max
+    );
+  return max;
+};
+// prettier-ignore
+console.log(maximumWealth([[1,2,3],[3,2,1]])); // 6
+// prettier-ignore
+console.log(maximumWealth([[1,5],[7,3],[3,5]])); // 10
+// prettier-ignore
+console.log(maximumWealth([[2,8,7],[7,1,3],[1,9,5]])); // 17
+
+// Simple, readable code
+
+var maximumWealth = function (accounts) {
+  var res = 0;
+  for (var i = 0; i < accounts.length; i++) {
+    var temp = 0;
+    for (var j = 0; j < accounts[i].length; j++) {
+      temp += accounts[i][j];
+    }
+    res = Math.max(res, temp);
+  }
+  return res;
+};
+
+// Same logic
