@@ -3696,7 +3696,7 @@ const topVotedMaxRepeating = function (sequence, word) {
 // Very clean */
 
 // Richest Customer Wealth          3/18/2022
-
+/* 
 // You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i​​​​​​​​​​​th​​​​ customer has in the j​​​​​​​​​​​th​​​​ bank. Return the wealth that the richest customer has.
 
 // A customer's wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.
@@ -3742,7 +3742,7 @@ console.log(maximumWealth([[2,8,7],[7,1,3],[1,9,5]])); // 17
 
 // Simple, readable code
 
-var maximumWealth = function (accounts) {
+var topVotedMaximumWealth = function (accounts) {
   var res = 0;
   for (var i = 0; i < accounts.length; i++) {
     var temp = 0;
@@ -3754,4 +3754,42 @@ var maximumWealth = function (accounts) {
   return res;
 };
 
-// Same logic
+// Same logic */
+
+// Goal Parser Interpretation         3/19/2022
+
+// You own a Goal Parser that can interpret a string command. The command consists of an alphabet of "G", "()" and/or "(al)" in some order. The Goal Parser will interpret "G" as the string "G", "()" as the string "o", and "(al)" as the string "al". The interpreted strings are then concatenated in the original order.
+
+// Given the string command, return the Goal Parser's interpretation of command.
+
+// Example 1:
+//    Input: command = "G()(al)"
+//    Output: "Goal"
+// Explanation: The Goal Parser interprets the command as follows:
+// G -> G
+// () -> o
+// (al) -> al
+// The final concatenated result is "Goal".
+
+// Constraints:
+//    1 <= command.length <= 100
+//    command consists of "G", "()", and/or "(al)" in some order.
+
+const interpret = function (command) {
+  command = command.replaceAll("()", "o");
+  command = command.replaceAll("(al)", "al");
+  return command;
+};
+console.log(interpret("G()(al)")); // "Goal"
+console.log(interpret("G()()()()(al)")); // "Gooooal"
+console.log(interpret("(al)G(al)()()G")); // "alGalooG"
+
+// Nothing fancy, top 10% runtime
+
+var topVotedInterpret = function (command) {
+  return command.split("()").join("o").split("(al)").join("al");
+};
+const oneLinerinterpret = (command) =>
+  command.replaceAll("()", "o").replaceAll("(al)", "al");
+
+// More elegant, but both have worse runtime
