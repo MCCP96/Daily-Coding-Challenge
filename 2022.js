@@ -3757,7 +3757,7 @@ var topVotedMaximumWealth = function (accounts) {
 // Same logic */
 
 // Goal Parser Interpretation         3/19/2022
-
+/* 
 // You own a Goal Parser that can interpret a string command. The command consists of an alphabet of "G", "()" and/or "(al)" in some order. The Goal Parser will interpret "G" as the string "G", "()" as the string "o", and "(al)" as the string "al". The interpreted strings are then concatenated in the original order.
 
 // Given the string command, return the Goal Parser's interpretation of command.
@@ -3792,4 +3792,58 @@ var topVotedInterpret = function (command) {
 const oneLinerinterpret = (command) =>
   command.replaceAll("()", "o").replaceAll("(al)", "al");
 
-// More elegant, but both have worse runtime
+// More elegant, but both have worse runtime */
+
+// Count the Number of Consistent Strings         3/20/2022
+
+// You are given a string allowed consisting of distinct characters and an array of strings words. A string is consistent if all characters in the string appear in the string allowed.
+
+// Return the number of consistent strings in the array words.
+
+// Example 1:
+//    Input: allowed = "ab", words = ["ad","bd","aaab","baa","badab"]
+//    Output: 2
+// Explanation: Strings "aaab" and "baa" are consistent since they only contain characters 'a' and 'b'.
+
+// Example 2:
+//    Input: allowed = "abc", words = ["a","b","c","ab","ac","bc","abc"]
+//    Output: 7
+// Explanation: All strings are consistent.
+
+// Example 3:
+//    Input: allowed = "cad", words = ["cc","acd","b","ba","bac","bad","ac","d"]
+//    Output: 4
+// Explanation: Strings "cc", "acd", "ac", and "d" are consistent.
+
+// Constraints:
+//    1 <= words.length <= 104
+//    1 <= allowed.length <= 26
+//    1 <= words[i].length <= 10
+//    The characters in allowed are distinct.
+//    words[i] and allowed contain only lowercase English letters.
+
+const countConsistentStrings = function (allowed, words) {
+  let count = 0;
+  for (let word of words) {
+    for (let char of allowed) word = word.replaceAll(char, "");
+    if (word === "") count++;
+  }
+  return count;
+};
+// prettier-ignore
+console.log(countConsistentStrings("ab",  ["ad","bd","aaab","baa","badab"])); // 2
+// prettier-ignore
+console.log(countConsistentStrings("abc",  ["a","b","c","ab","ac","bc","abc"])); // 7
+// prettier-ignore
+console.log(countConsistentStrings("cad",  ["cc","acd","b","ba","bac","bad","ac","d"])); // 4
+
+// Very simple code, terrible runtime
+
+const topVotedCountConsistentStrings = (allowed, words) => {
+  let set = new Set(allowed);
+  return words.reduce((a, w) => {
+    return w.split("").every((l) => set.has(l)) ? ++a : a;
+  }, 0);
+};
+
+// Nice, much better
