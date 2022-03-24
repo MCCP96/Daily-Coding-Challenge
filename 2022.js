@@ -3993,7 +3993,7 @@ const topVotedReformatNumber = function (number) {
 // Definitely an improvement */
 
 // Number of Students Unable to Eat Lunch         3/23/2022
-
+/* 
 // The school cafeteria offers circular and square sandwiches at lunch break, referred to by numbers 0 and 1 respectively. All students stand in a queue. Each student either prefers square or circular sandwiches.
 
 // The number of sandwiches in the cafeteria is equal to the number of students. The sandwiches are placed in a stack. At each step:
@@ -4054,4 +4054,56 @@ var topVotedCountStudents = function (students, sandwiches) {
 
 // Same logic
 // '.indexOf' compensates for my 'if(i===students.length-1)' and saves a for loop
-// Worse runtime somehow
+// Worse runtime somehow */
+
+// Determine if String Halves Are Alike         3/24/2022
+
+// You are given a string s of even length. Split this string into two halves of equal lengths, and let a be the first half and b be the second half.
+
+// Two strings are alike if they have the same number of vowels ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'). Notice that s contains uppercase and lowercase letters.
+
+// Return true if a and b are alike. Otherwise, return false.
+
+// Example 1:
+//    Input: s = "book"
+//    Output: true
+// Explanation: a = "bo" and b = "ok". a has 1 vowel and b has 1 vowel. Therefore, they are alike.
+
+// Example 2:
+//    Input: s = "textbook"
+//    Output: false
+// Explanation: a = "text" and b = "book". a has 1 vowel whereas b has 2. Therefore, they are not alike.
+// Notice that the vowel o is counted twice.
+
+// Constraints:
+//    2 <= s.length <= 1000
+//    s.length is even.
+//    s consists of uppercase and lowercase letters.
+
+const halvesAreAlike = function (s) {
+  const countVowels = (str) =>
+    str
+      .split("")
+      .reduce((a, c) => (/[aeiou]/.test(c.toLowerCase()) ? ++a : a), 0);
+
+  a = s.substring(0, s.length / 2);
+  b = s.substring(s.length / 2);
+
+  return countVowels(a) === countVowels(b);
+};
+console.log(halvesAreAlike("book")); // true
+console.log(halvesAreAlike("textbook")); // false
+
+// I like it
+// Decent runtime
+
+const vowels = "aeiouAEIOU";
+var toVotedHalvesAreAlike = function (S) {
+  let mid = S.length / 2,
+    ans = 0;
+  for (let i = 0, j = mid; i < mid; i++, j++)
+    ans += vowels.includes(S.charAt(i)) - vowels.includes(S.charAt(j));
+  return ans === 0;
+};
+
+// Definitely an improvement on runtime to test both 'a' and 'b' within the same for loop
