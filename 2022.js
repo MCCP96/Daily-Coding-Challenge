@@ -4109,7 +4109,7 @@ var toVotedHalvesAreAlike = function (S) {
 // Definitely an improvement on runtime to test both 'a' and 'b' within the same for loop */
 
 // Maximum Units on a Truck         3/25/2022
-
+/* 
 // You are assigned to put some amount of boxes onto one truck. You are given a 2D array boxTypes, where boxTypes[i] = [numberOfBoxesi, numberOfUnitsPerBoxi]:
 
 // numberOfBoxesi is the number of boxes of type i.
@@ -4170,4 +4170,58 @@ var topVotedMaximumUnits = function (B, T) {
 };
 
 // Slightly better runtime
-// Math.min instead of decrementing truckSize as I did
+// Math.min instead of decrementing truckSize as I did */
+
+// Calculate Money in Leetcode Bank         3/26/2022
+
+// Hercy wants to save money for his first car. He puts money in the Leetcode bank every day.
+
+// He starts by putting in $1 on Monday, the first day. Every day from Tuesday to Sunday, he will put in $1 more than the day before. On every subsequent Monday, he will put in $1 more than the previous Monday.
+// Given n, return the total amount of money he will have in the Leetcode bank at the end of the nth day.
+
+// Example 1:
+//    Input: n = 4
+//    Output: 10
+// Explanation: After the 4th day, the total is 1 + 2 + 3 + 4 = 10.
+
+// Example 2:
+//    Input: n = 10
+//    Output: 37
+// Explanation: After the 10th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4) = 37. Notice that on the 2nd Monday, Hercy only puts in $2.
+
+// Example 3:
+//    Input: n = 20
+//    Output: 96
+// Explanation: After the 20th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4 + 5 + 6 + 7 + 8) + (3 + 4 + 5 + 6 + 7 + 8) = 96.
+
+// Constraints:
+//    1 <= n <= 1000
+
+const totalMoney = function (n) {
+  let week = 0,
+    total = 0;
+  while (n > 0) {
+    for (let i = 1; i <= 7; i++) {
+      (total += i + week), n--;
+      if (n == 0) break;
+    }
+    week++;
+  }
+  return total;
+};
+
+console.log(totalMoney(4)); // 10
+console.log(totalMoney(10)); // 37
+console.log(totalMoney(20)); // 96
+
+// Nothing fancy
+// I'm sure there's a math solution to this
+
+function topVotedTotalMoney(n) {
+  const k = Math.floor(n / 7), // k = # full weeks
+    x = n % 7; // x = day of week
+  return (7 * k * (k + 7)) / 2 + (x * (2 * k + x + 1)) / 2;
+  // (sum of k weeks) + (sum of x days)
+}
+
+// Slower runtime
