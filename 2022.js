@@ -4318,7 +4318,7 @@ const topVotedCountGoodRectangles = function (rectangles) {
 }; */
 
 // Find the Highest Altitude         3/29/2022
-
+/* 
 // There is a biker going on a road trip. The road trip consists of n + 1 points at different altitudes. The biker starts his trip on point 0 with altitude equal 0.
 
 // You are given an integer array gain of length n where gain[i] is the net gain in altitude between points i​​​​​​ and i + 1 for all (0 <= i < n). Return the highest altitude of a point.
@@ -4360,4 +4360,51 @@ const topVotedLargestAltitude1 = (gain) => {
   return Math.max(...altitudes);
 };
 
-// Thought about this, but avoided the extra array to save memory/runtime
+// Thought about this, but avoided the extra array to save memory/runtime */
+
+// Latest Time by Replacing Hidden Digits         3/30/2022
+
+// You are given a string time in the form of hh:mm, where some of the digits in the string are hidden (represented by ?).
+
+// The valid times are those inclusively between 00:00 and 23:59.
+
+// Return the latest valid time you can get from time by replacing the hidden digits.
+
+// Example 1:
+//    Input: time = "2?:?0"
+//    Output: "23:50"
+// Explanation: The latest hour beginning with the digit '2' is 23 and the latest minute ending with the digit '0' is 50.
+
+// Constraints:
+//    time is in the format hh:mm.
+//    It is guaranteed that you can produce a valid time from the given string.
+
+const maximumTime = function (time) {
+  if (time[0] == "?") {
+    if (time[1] == "?") time = time.replace("?", "2");
+    else time = time[1] < 4 ? time.replace("?", "2") : time.replace("?", "1");
+  }
+  if (time[1] == "?")
+    time = time[0] < 2 ? time.replace("?", "9") : time.replace("?", "3");
+  if (time[3] == "?") time = time.replace("?", "5");
+  if (time[4] == "?") time = time.replace("?", "9");
+  return time;
+};
+console.log(maximumTime("2?:?0")); // "23:50"
+console.log(maximumTime("0?:3?")); // "09:39"
+console.log(maximumTime("1?:22")); // "19:22"
+console.log(maximumTime("?4:03")); // "14:03"
+console.log(maximumTime("??:3?")); // "??:3?"
+
+// Bit basic with the if statements, but straight to the point
+
+var topVotedMaximumTime = function (time) {
+  time = time.split("");
+  if (time[0] === "?") time[0] = time[1] > 3 ? "1" : "2";
+  if (time[1] === "?") time[1] = time[0] > 1 ? "3" : "9";
+  if (time[3] === "?") time[3] = "5";
+  if (time[4] === "?") time[4] = "9";
+  return time.join("");
+};
+
+// Same logic, much cleaner
