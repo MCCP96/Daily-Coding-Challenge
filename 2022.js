@@ -4410,7 +4410,7 @@ var topVotedMaximumTime = function (time) {
 // Same logic, much cleaner */
 
 // Maximum Number of Balls in a Box         3/31/2022
-
+/* 
 // You are working in a ball factory where you have n balls numbered from lowLimit up to highLimit inclusive (i.e., n == highLimit - lowLimit + 1), and an infinite number of boxes numbered from 1 to infinity.
 
 // Your job at this factory is to put each ball in the box with a number equal to the sum of digits of the ball's number. For example, the ball number 321 will be put in the box number 3 + 2 + 1 = 6 and the ball number 10 will be put in the box number 1 + 0 = 1.
@@ -4471,4 +4471,54 @@ const oneLinerCountBalls = (lowLimit, highLimit) =>
         new Map()
       )
       .values()
-  );
+  ); */
+
+// Sum of Unique Elements         4/1/2022
+
+// You are given an integer array nums. The unique elements of an array are the elements that appear exactly once in the array.
+
+// Return the sum of all the unique elements of nums.
+
+// Example 1:
+//    Input: nums = [1,2,3,2]
+//    Output: 4
+// Explanation: The unique elements are [1,3], and the sum is 4.
+
+// Example 2:
+//    Input: nums = [1,1,1,1,1]
+//    Output: 0
+// Explanation: There are no unique elements, and the sum is 0.
+
+// Example 3:
+//    Input: nums = [1,2,3,4,5]
+//    Output: 15
+// Explanation: The unique elements are [1,2,3,4,5], and the sum is 15.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    1 <= nums[i] <= 100
+
+const sumOfUnique = (nums) =>
+  nums
+    .filter((x) => nums.indexOf(x) == nums.lastIndexOf(x))
+    .reduce((a, c) => (a += c), 0);
+
+console.log(sumOfUnique([1, 2, 3, 2])); // 4
+console.log(sumOfUnique([1, 1, 1, 1, 1])); // 0
+console.log(sumOfUnique([1, 2, 3, 4, 5])); // 15
+
+// One-liner with great memory, but pretty terrible runtime
+
+const topVotedSumOfUnique = (nums) => {
+  let map = {},
+    calc = 0;
+
+  nums.forEach((item) => (map[item] = ~~map[item] + 1));
+  Object.keys(map)
+    .filter((key) => map[key] === 1)
+    .map((i) => (calc += +i));
+
+  return calc;
+};
+
+// Map was definitely an option
