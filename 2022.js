@@ -4588,7 +4588,7 @@ var topVotedCheck = function (nums) {
 // I was definitely overcomplicating it */
 
 // Minimum Changes To Make Alternating Binary String          4/3/2022
-
+/* 
 // You are given a string s consisting only of the characters '0' and '1'. In one operation, you can change any '0' to '1' or vice versa.
 
 // The string is called alternating if no two adjacent characters are equal. For example, the string "010" is alternating, while the string "0100" is not.
@@ -4638,4 +4638,98 @@ const topVotedMinOperations = function (s) {
   return Math.min(count, s.length - count);
 };
 
-// Much better
+// Much better */
+
+// Longest Nice Substring         4/4/2022
+
+// A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. For example, "abABB" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, "abA" is not because 'b' appears, but 'B' does not.
+
+// Given a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. If there are none, return an empty string.
+
+// Example 1:
+//    Input: s = "YazaAay"
+//    Output: "aAa"
+// Explanation: "aAa" is a nice string because 'A/a' is the only letter of the alphabet in s, and both 'A' and 'a' appear.
+// "aAa" is the longest nice substring.
+
+// Example 2:
+//    Input: s = "Bb"
+//    Output: "Bb"
+// Explanation: "Bb" is a nice string because both 'B' and 'b' appear. The whole string is a substring.
+
+// Example 3:
+//    Input: s = "c"
+//    Output: ""
+// Explanation: There are no nice substrings.
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s consists of uppercase and lowercase English letters.
+
+const longestNiceSubstring = function (s) {
+  s = s.split("");
+  let acc = [];
+
+  for (let i = 0; i < s.length - 1; i++)
+    if (s[i].toUpperCase() === s[i + 1].toUpperCase())
+      acc.push(s[i], s[i + 1]) && i++;
+
+  if (acc.length <= 1) return "";
+
+  let ans = "";
+  for (let i = 0; i < acc.length - 1; i++) {
+    if (/[a-z]/.test(acc[i]) && acc[i + 1] == acc[i].toUpperCase())
+      ans += acc[i] + acc[i + 1];
+    if (/[A-Z]/.test(acc[i]) && acc[i + 1] == acc[i].toLowerCase())
+      ans += acc[i] + acc[i + 1];
+  }
+
+  return ans;
+};
+console.log(longestNiceSubstring("YazaAay")); // "aAa"
+console.log(longestNiceSubstring("Bb")); // "Bb"
+console.log(longestNiceSubstring("c")); // ""
+
+// Couldn't get it working
+
+const mx = Math.max;
+const topVotedLongestNiceSubstring = (s) => {
+  let n = s.length;
+  let res = [];
+  let max = 0;
+  let se = new Set();
+  for (let i = 0; i < n; i++) {
+    for (let j = i; j < n; j++) {
+      let sub = s.slice(i, j + 1);
+      if (isNice(sub)) {
+        se.add(sub);
+        max = mx(max, j - i + 1);
+      }
+    }
+  }
+  for (const e of se) {
+    if (e.length == max) return e;
+  }
+  return "";
+};
+
+const isNice = (s) => {
+  let lower = new Set();
+  let upper = new Set();
+  for (const c of s) {
+    isLowerCaseLetter(c) ? lower.add(c) : upper.add(c);
+  }
+  for (const lo of lower) {
+    if (!upper.has(lo.toUpperCase())) return false;
+  }
+  for (const up of upper) {
+    if (!lower.has(up.toLowerCase())) return false;
+  }
+  return true;
+};
+
+const isLowerCaseLetter = (c) => {
+  return c.charCodeAt() >= 97 && c.charCodeAt() <= 122;
+};
+
+// All top voted results were very long
