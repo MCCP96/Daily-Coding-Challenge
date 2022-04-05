@@ -4641,7 +4641,7 @@ const topVotedMinOperations = function (s) {
 // Much better */
 
 // Longest Nice Substring         4/4/2022
-
+/* 
 // A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. For example, "abABB" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, "abA" is not because 'b' appears, but 'B' does not.
 
 // Given a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. If there are none, return an empty string.
@@ -4732,4 +4732,65 @@ const isLowerCaseLetter = (c) => {
   return c.charCodeAt() >= 97 && c.charCodeAt() <= 122;
 };
 
-// All top voted results were very long
+// All top voted results were very long */
+
+// Merge Strings Alternately          4/5/2022
+
+// You are given two strings word1 and word2. Merge the strings by adding letters in alternating order, starting with word1. If a string is longer than the other, append the additional letters onto the end of the merged string.
+
+// Return the merged string.
+
+// Example 1:
+//    Input: word1 = "abc", word2 = "pqr"
+//    Output: "apbqcr"
+// Explanation: The merged string will be merged as so:
+// word1:  a   b   c
+// word2:    p   q   r
+// merged: a p b q c r
+
+// Example 2:
+//    Input: word1 = "ab", word2 = "pqrs"
+//    Output: "apbqrs"
+// Explanation: Notice that as word2 is longer, "rs" is appended to the end.
+// word1:  a   b
+// word2:    p   q   r   s
+// merged: a p b q   r   s
+
+// Example 3:
+//    Input: word1 = "abcd", word2 = "pq"
+//    Output: "apbqcd"
+// Explanation: Notice that as word1 is longer, "cd" is appended to the end.
+// word1:  a   b   c   d
+// word2:    p   q
+// merged: a p b q c   d
+
+// Constraints:
+//    1 <= word1.length, word2.length <= 100
+//    word1 and word2 consist of lowercase English letters.
+
+const mergeAlternately = function (word1, word2) {
+  let ans = "";
+  for (let i = 0; i < word1.length; i++) {
+    if (word2[i]) ans += word1[i] + word2[i];
+    else return (ans += word1.substring(i));
+  }
+  return (ans += word2.substring(word1.length));
+};
+console.log(mergeAlternately("abc", "pqr")); // "apbqcr"
+console.log(mergeAlternately("ab", "pqrs")); // "apbqrs"
+console.log(mergeAlternately("abcd", "pq")); // "apbqcd"
+
+// Top 10% runtime
+
+const topVotedMergeAlternately = (a, b) => {
+  const maxLength = Math.max(a.length, b.length);
+  let result = "";
+  for (let i = 0; i < maxLength; i++) {
+    result += (a[i] ?? "") + (b[i] ?? "");
+  }
+  return result;
+};
+
+// Smart to using longest word and nullish coalescing operator
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator
