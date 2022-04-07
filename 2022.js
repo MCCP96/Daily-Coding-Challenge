@@ -4796,7 +4796,7 @@ const topVotedMergeAlternately = (a, b) => {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator */
 
 // Count Items Matching a Rule          4/6/2022
-
+/* 
 // You are given an array items, where each items[i] = [typei, colori, namei] describes the type, color, and name of the ith item. You are also given a rule represented by two strings, ruleKey and ruleValue.
 
 // The ith item is said to match the rule if one of the following is true:
@@ -4872,4 +4872,73 @@ const map = {
 const topVotedCountMatches = (items, key, value) =>
   items.filter((i) => i[map[key]] == value).length;
 
-// Clean
+// Clean */
+
+// Find Nearest Point That Has the Same X or Y Coordinate         4/7/2022
+
+// You are given two integers, x and y, which represent your current location on a Cartesian grid: (x, y). You are also given an array points where each points[i] = [ai, bi] represents that a point exists at (ai, bi). A point is valid if it shares the same x-coordinate or the same y-coordinate as your location.
+
+// Return the index (0-indexed) of the valid point with the smallest Manhattan distance from your current location. If there are multiple, return the valid point with the smallest index. If there are no valid points, return -1.
+
+// The Manhattan distance between two points (x1, y1) and (x2, y2) is abs(x1 - x2) + abs(y1 - y2).
+
+// Example 1:
+//    Input: x = 3, y = 4, points = [[1,2],[3,1],[2,4],[2,3],[4,4]]
+//    Output: 2
+// Explanation: Of all the points, only [3,1], [2,4] and [4,4] are valid. Of the valid points, [2,4] and [4,4] have the smallest Manhattan distance from your current location, with a distance of 1. [2,4] has the smallest index, so return 2.
+
+// Example 2:
+//    Input: x = 3, y = 4, points = [[3,4]]
+//    Output: 0
+// Explanation: The answer is allowed to be on the same location as your current location.
+
+// Example 3:
+//    Input: x = 3, y = 4, points = [[2,3]]
+//    Output: -1
+// Explanation: There are no valid points.
+
+// Constraints:
+//    1 <= points.length <= 104
+//    points[i].length == 2
+//    1 <= x, y, ai, bi <= 104
+
+const nearestValidPoint = function (x, y, points) {
+  if (points.filter((point) => point[0] == x || point[1] == y).length == 0)
+    return -1;
+
+  let diff = Number.MAX_SAFE_INTEGER;
+  let index;
+  points.forEach((point, i) => {
+    const [px, py] = point;
+    if (px == x && Math.abs(py - y) < diff)
+      (diff = Math.abs(py - y)), (index = i);
+    if (py == y && Math.abs(px - x) < diff)
+      (diff = Math.abs(px - x)), (index = i);
+
+    if (diff === 0) return i;
+  });
+  return index;
+};
+// prettier-ignore
+console.log(nearestValidPoint(3, 4, [[1,2],[3,1],[2,4],[2,3],[4,4]])); // 2
+console.log(nearestValidPoint(3, 4, [[3, 4]])); // 0
+console.log(nearestValidPoint(3, 4, [[2, 3]])); // -1
+
+// Works
+
+var topVotedNearestValidPoint = function (x, y, points) {
+  let min = Infinity;
+  let idx = -1;
+  points.forEach(([a, b], i) => {
+    if (a === x || b === y) {
+      const dist = Math.abs(x - a) + Math.abs(y - b);
+      if (dist < min) {
+        idx = i;
+        min = dist;
+      }
+    }
+  });
+  return idx;
+};
+
+// Same logic, cleaner solution
