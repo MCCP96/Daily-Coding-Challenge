@@ -4875,7 +4875,7 @@ const topVotedCountMatches = (items, key, value) =>
 // Clean */
 
 // Find Nearest Point That Has the Same X or Y Coordinate         4/7/2022
-
+/* 
 // You are given two integers, x and y, which represent your current location on a Cartesian grid: (x, y). You are also given an array points where each points[i] = [ai, bi] represents that a point exists at (ai, bi). A point is valid if it shares the same x-coordinate or the same y-coordinate as your location.
 
 // Return the index (0-indexed) of the valid point with the smallest Manhattan distance from your current location. If there are multiple, return the valid point with the smallest index. If there are no valid points, return -1.
@@ -4941,4 +4941,30 @@ var topVotedNearestValidPoint = function (x, y, points) {
   return idx;
 };
 
-// Same logic, cleaner solution
+// Same logic, cleaner solution */
+
+// Check if Binary String Has at Most One Segment of Ones         4/8/2022
+
+// Given a binary string s ​​​​​without leading zeros, return true​​​ if s contains at most one contiguous segment of ones. Otherwise, return false.
+
+// Example 1:
+//    Input: s = "1001"
+//    Output: false
+// Explanation: The ones do not form a contiguous segment.
+
+// Constraints:
+// 1 <= s.length <= 100
+// s[i]​​​​ is either '0' or '1'.
+// s[0] is '1'.
+
+const checkOnesSegment = (s) => (s === "1" ? true : /11/.test(s));
+
+console.log(checkOnesSegment("1001")); // false
+console.log(checkOnesSegment("110")); // true
+console.log(checkOnesSegment("1")); // true
+
+// Ok one-liner
+
+const topVotedCheckOnesSegment = (s) => s.indexOf("01") == -1;
+
+// Clever
