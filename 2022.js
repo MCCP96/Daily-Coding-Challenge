@@ -4944,7 +4944,7 @@ var topVotedNearestValidPoint = function (x, y, points) {
 // Same logic, cleaner solution */
 
 // Check if Binary String Has at Most One Segment of Ones         4/8/2022
-
+/* 
 // Given a binary string s ​​​​​without leading zeros, return true​​​ if s contains at most one contiguous segment of ones. Otherwise, return false.
 
 // Example 1:
@@ -4967,4 +4967,54 @@ console.log(checkOnesSegment("1")); // true
 
 const topVotedCheckOnesSegment = (s) => s.indexOf("01") == -1;
 
-// Clever
+// Clever */
+
+// Check if One String Swap Can Make Strings Equal          4/9/2022
+
+// You are given two strings s1 and s2 of equal length. A string swap is an operation where you choose two indices in a string (not necessarily different) and swap the characters at these indices.
+
+// Return true if it is possible to make both strings equal by performing at most one string swap on exactly one of the strings. Otherwise, return false.
+
+// Example 1:
+//    Input: s1 = "bank", s2 = "kanb"
+//    Output: true
+// Explanation: For example, swap the first character with the last character of s2 to make "bank".
+
+// Example 2:
+//    Input: s1 = "attack", s2 = "defend"
+//    Output: false
+// Explanation: It is impossible to make them equal with one string swap.
+
+// Example 3:
+//    Input: s1 = "kelb", s2 = "kelb"
+//    Output: true
+// Explanation: The two strings are already equal, so no string swap operation is required.
+
+// Constraints:
+//    1 <= s1.length, s2.length <= 100
+//    s1.length == s2.length
+//    s1 and s2 consist of only lowercase English letters.
+
+const areAlmostEqual = function (s1, s2) {
+  let missing = 0;
+  for (let i = 0; i < s1.length; i++) {
+    if (s1[i] !== s2[i]) missing++;
+    if (missing > 2) return false;
+  }
+  return [...s1].sort().join("") === [...s2].sort().join("");
+};
+console.log(areAlmostEqual("bank", "kanb")); // true
+console.log(areAlmostEqual("attack", "defend")); // false
+console.log(areAlmostEqual("kelb", "kelb")); // true
+console.log(areAlmostEqual("aa", "ac")); // false
+
+// Nothing fancy
+
+const topVotedAreAlmostEqual = function (s1, s2) {
+  if (s1 === s2) return true;
+  let res = "";
+  for (let i = 0; i < s1.length; i++) if (s1[i] !== s2[i]) res += s1[i] + s2[i];
+  return res.length === 4 && res[0] === res[3] && res[1] === res[2];
+};
+
+// Better runtime
