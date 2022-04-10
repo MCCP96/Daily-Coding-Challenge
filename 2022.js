@@ -4970,7 +4970,7 @@ const topVotedCheckOnesSegment = (s) => s.indexOf("01") == -1;
 // Clever */
 
 // Check if One String Swap Can Make Strings Equal          4/9/2022
-
+/* 
 // You are given two strings s1 and s2 of equal length. A string swap is an operation where you choose two indices in a string (not necessarily different) and swap the characters at these indices.
 
 // Return true if it is possible to make both strings equal by performing at most one string swap on exactly one of the strings. Otherwise, return false.
@@ -5017,4 +5017,46 @@ const topVotedAreAlmostEqual = function (s1, s2) {
   return res.length === 4 && res[0] === res[3] && res[1] === res[2];
 };
 
-// Better runtime
+// Better runtime */
+
+// Find Center of Star Graph          4/10/2022
+
+// There is an undirected star graph consisting of n nodes labeled from 1 to n. A star graph is a graph where there is one center node and exactly n - 1 edges that connect the center node with every other node.
+
+// You are given a 2D integer array edges where each edges[i] = [ui, vi] indicates that there is an edge between the nodes ui and vi. Return the center of the given star graph.
+
+// Example 1:
+//    Input: edges = [[1,2],[2,3],[4,2]]
+//    Output: 2
+// Explanation: As shown in the figure above, node 2 is connected to every other node, so 2 is the center.
+
+// Constraints:
+//    3 <= n <= 105
+//    edges.length == n - 1
+//    edges[i].length == 2
+//    1 <= ui, vi <= n
+//    ui != vi
+//    The given edges represent a valid star graph.
+
+const findCenter = function (edges) {
+  let max = 0;
+  return edges.reduce((a, c, i, arr) => {
+    const range = Math.abs(c[0] - c[1]);
+    if (range > max) {
+      max = range;
+      return i;
+    }
+    return a;
+  }, 0);
+};
+// prettier-ignore
+console.log(findCenter([[1, 2],[2, 3],[4, 2]])); // 2
+// prettier-ignore
+console.log(findCenter([[1, 2],[5, 1],[1, 3],[1, 4]])); // 1
+
+const topVotedFindCenter = (edges) => {
+  const [[a, b], [c, d]] = edges;
+  return a === c || b === c ? c : d;
+};
+
+// Very clean
