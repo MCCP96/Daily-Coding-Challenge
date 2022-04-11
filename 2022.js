@@ -5020,7 +5020,7 @@ const topVotedAreAlmostEqual = function (s1, s2) {
 // Better runtime */
 
 // Find Center of Star Graph          4/10/2022
-
+/* 
 // There is an undirected star graph consisting of n nodes labeled from 1 to n. A star graph is a graph where there is one center node and exactly n - 1 edges that connect the center node with every other node.
 
 // You are given a 2D integer array edges where each edges[i] = [ui, vi] indicates that there is an edge between the nodes ui and vi. Return the center of the given star graph.
@@ -5059,4 +5059,48 @@ const topVotedFindCenter = (edges) => {
   return a === c || b === c ? c : d;
 };
 
-// Very clean
+// Very clean */
+
+// Second Largest Digit in a String         4/11/2022
+
+// Given an alphanumeric string s, return the second largest numerical digit that appears in s, or -1 if it does not exist.
+
+// An alphanumeric string is a string consisting of lowercase English letters and digits.
+
+// Example 1:
+//    Input: s = "dfa12321afd"
+//    Output: 2
+// Explanation: The digits that appear in s are [1, 2, 3]. The second largest digit is 2.
+
+// Example 2:
+//    Input: s = "abc1111"
+//    Output: -1
+// Explanation: The digits that appear in s are [1]. There is no second largest digit.
+
+// Constraints:
+//    1 <= s.length <= 500
+//    s consists of only lowercase English letters and/or digits.
+
+const secondHighest = function (s) {
+  let nums = String(s.match(/\d+/g)).split("");
+  let filtered = nums.filter((x) => x < Math.max(...nums));
+  return filtered.length > 0 ? Math.max(...filtered) : -1;
+};
+console.log(secondHighest("dfa12321afd")); // 2
+console.log(secondHighest("abc1111")); // -1
+console.log(secondHighest("ck077")); // 0
+
+// Ok
+
+var topVotedSecondHighest = function (s) {
+  let intArr = new Set();
+  for (let val of s) {
+    if (!isNaN(val)) {
+      intArr.add(parseInt(val));
+    }
+  }
+  let sorted = Array.from(intArr).sort((a, b) => b - a);
+  return sorted.length <= 1 ? -1 : sorted[1];
+};
+
+// Top 5% runtimes
