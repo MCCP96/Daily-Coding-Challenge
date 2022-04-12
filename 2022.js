@@ -5062,7 +5062,7 @@ const topVotedFindCenter = (edges) => {
 // Very clean */
 
 // Second Largest Digit in a String         4/11/2022
-
+/* 
 // Given an alphanumeric string s, return the second largest numerical digit that appears in s, or -1 if it does not exist.
 
 // An alphanumeric string is a string consisting of lowercase English letters and digits.
@@ -5103,4 +5103,64 @@ var topVotedSecondHighest = function (s) {
   return sorted.length <= 1 ? -1 : sorted[1];
 };
 
-// Top 5% runtimes
+// Top 5% runtimes */
+
+// Maximum Ascending Subarray Sum         4/12/2022
+
+// Given an array of positive integers nums, return the maximum possible sum of an ascending subarray in nums.
+
+// A subarray is defined as a contiguous sequence of numbers in an array.
+
+// A subarray [numsl, numsl+1, ..., numsr-1, numsr] is ascending if for all i where l <= i < r, numsi < numsi+1. Note that a subarray of size 1 is ascending.
+
+// Example 1:
+//    Input: nums = [10,20,30,5,10,50]
+//    Output: 65
+// Explanation: [5,10,50] is the ascending subarray with the maximum sum of 65.
+
+// Example 2:
+//    Input: nums = [10,20,30,40,50]
+//    Output: 150
+// Explanation: [10,20,30,40,50] is the ascending subarray with the maximum sum of 150.
+
+// Example 3:
+//    Input: nums = [12,17,15,13,10,11,12]
+//    Output: 33
+// Explanation: [10,11,12] is the ascending subarray with the maximum sum of 33.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    1 <= nums[i] <= 100
+
+const maxAscendingSum = function (nums) {
+  let cur = 0,
+    max = 0;
+  for (let i = 0; i < nums.length; i++) {
+    cur += nums[i];
+    max = Math.max(cur, max);
+    if (nums[i] >= nums[i + 1]) cur = 0;
+  }
+  return max;
+};
+console.log(maxAscendingSum([10, 20, 30, 5, 10, 50])); // 65
+console.log(maxAscendingSum([10, 20, 30, 40, 50])); // 150
+console.log(maxAscendingSum([12, 17, 15, 13, 10, 11, 12])); // 33
+console.log(maxAscendingSum([3, 6, 10, 1, 8, 9, 9, 8, 9])); // 19
+
+// Decent runtime
+
+var topVotedMaxAscendingSum = function (nums) {
+  let max = nums[0],
+    sum = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    const curr = nums[i];
+    if (curr <= nums[i - 1]) {
+      sum = 0;
+    }
+    sum += curr;
+    max = Math.max(max, sum);
+  }
+  return max;
+};
+
+// Same logic, some optimizations
