@@ -5166,7 +5166,7 @@ var topVotedMaxAscendingSum = function (nums) {
 // Same logic, some optimizations */
 
 // Number of Different Integers in a String         4/13/2022
-
+/* 
 // You are given a string word that consists of digits and lowercase English letters.
 
 // You will replace every non-digit character with a space. For example, "a123bc34d8ef34" will become " 123  34 8  34". Notice that you are left with some integers that are separated by at least one space: "123", "34", "8", and "34".
@@ -5220,4 +5220,45 @@ var topVotedNumDifferentIntegers = function (word) {
     }
   }
   return numStrSet.size;
+}; */
+
+// Determine Color of a Chessboard Square         4/14/2022
+
+// You are given coordinates, a string that represents the coordinates of a square of the chessboard. Below is a chessboard for your reference.
+
+// https://assets.leetcode.com/uploads/2021/02/19/screenshot-2021-02-20-at-22159-pm.png
+
+// Return true if the square is white, and false if the square is black.
+
+// The coordinate will always represent a valid chessboard square. The coordinate will always have the letter first, and the number second.
+
+// Example 1:
+//    Input: coordinates = "a1"
+//    Output: false
+// Explanation: From the chessboard above, the square with coordinates "a1" is black, so return false.
+
+// Example 2:
+//    Input: coordinates = "h3"
+//    Output: true
+// Explanation: From the chessboard above, the square with coordinates "h3" is white, so return true.
+
+// Constraints:
+//    coordinates.length == 2
+//    'a' <= coordinates[0] <= 'h'
+//    '1' <= coordinates[1] <= '8'
+
+const squareIsWhite = (coords) =>
+  (["a", "b", "c", "d", "e", "f", "g", "h"].indexOf(coords[0]) + 1) % 2 !==
+  coords[1] % 2;
+
+console.log(squareIsWhite("a1")); // false
+console.log(squareIsWhite("h3")); // true
+console.log(squareIsWhite("c7")); // false
+
+// Decent one-liner, great runtime
+
+const topVotedSquareIsWhite = (coordinates) => {
+  return coordinates[0].charCodeAt(0) % 2 !== parseInt(coordinates[1]) % 2;
 };
+
+// Same logic but uses .charCodeAt instead of hardcodded array
