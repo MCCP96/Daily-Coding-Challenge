@@ -5264,7 +5264,7 @@ const topVotedSquareIsWhite = (coordinates) => {
 // Same logic but uses .charCodeAt instead of hardcodded array */
 
 // Truncate Sentence          4/15/2022
-
+/* 
 // A sentence is a list of words that are separated by a single space with no leading or trailing spaces. Each of the words consists of only uppercase and lowercase English letters (no punctuation).
 
 // For example, "Hello World", "HELLO", and "hello world hello world" are all sentences.
@@ -5307,4 +5307,53 @@ console.log(truncateSentence("chopper is not a tanuki", 5)); // "chopper is not 
 
 const topVotedTruncateSentence = (s, k) => s.split(" ", k).join(" ");
 
-// Today I learned that .split has a second input variable for count
+// Today I learned that .split has a second input variable for count */
+
+// Sign of the Product of an Array          4/16/2022
+
+// There is a function signFunc(x) that returns:
+
+// 1 if x is positive.
+// -1 if x is negative.
+// 0 if x is equal to 0.
+// You are given an integer array nums. Let product be the product of all values in the array nums.
+
+// Return signFunc(product).
+
+// Example 1:
+//    Input: nums = [-1,-2,-3,-4,3,2,1]
+//    Output: 1
+// Explanation: The product of all values in the array is 144, and signFunc(144) = 1
+
+// Example 2:
+//    Input: nums = [1,5,0,2,-3]
+//    Output: 0
+// Explanation: The product of all values in the array is 0, and signFunc(0) = 0
+
+// Example 3:
+//    Input: nums = [-1,1,-1,1,-1]
+//    Output: -1
+// Explanation: The product of all values in the array is -1, and signFunc(-1) = -1
+
+// Constraints:
+//    1 <= nums.length <= 1000
+//    -100 <= nums[i] <= 100
+
+const arraySign = (nums) => {
+  const tot = nums.reduce((a, c) => (a *= c));
+  return tot > 0 ? 1 : tot < 0 ? -1 : 0;
+};
+
+console.log(arraySign([-1, -2, -3, -4, 3, 2, 1])); // 1
+console.log(arraySign([1, 5, 0, 2, -3])); // 0
+console.log(arraySign([-1, 1, -1, 1, -1])); // -1
+
+// Top 10% runtime
+
+var topVotedArraySign = function (nums) {
+  let negativeCount = nums.filter((n) => n < 0).length;
+  if (nums.includes(0)) return 0;
+  return negativeCount % 2 === 0 ? 1 : -1;
+};
+
+// Different logic, more of a math approach
