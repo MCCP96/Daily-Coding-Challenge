@@ -5359,7 +5359,7 @@ var topVotedArraySign = function (nums) {
 // Different logic, more of a math approach */
 
 // Minimum Operations to Make the Array Increasing          4//17/2022
-
+/* 
 // You are given an integer array nums (0-indexed). In one operation, you can choose an element of the array and increment it by 1.
 
 // For example, if nums = [1,2,3], you can choose to increment nums[1] to make nums = [1,3,3].
@@ -5408,4 +5408,36 @@ var topVotedMinOperations = function (nums) {
   return count;
 };
 
-// Same idea
+// Same idea */
+
+// Check if the Sentence Is Pangram         4/18/2022
+
+// A pangram is a sentence where every letter of the English alphabet appears at least once.
+
+// Given a string sentence containing only lowercase English letters, return true if sentence is a pangram, or false otherwise.
+
+// Example 1:
+//    Input: sentence = "thequickbrownfoxjumpsoverthelazydog"
+//    Output: true
+// Explanation: sentence contains at least one of every letter of the English alphabet.
+
+// Constraints:
+//    1 <= sentence.length <= 1000
+//    sentence consists of lowercase English letters.
+
+const checkIfPangram = function (sentence) {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  for (let char of alphabet.split(""))
+    if (!sentence.includes(char)) return false;
+  return true;
+};
+console.log(checkIfPangram("thequickbrownfoxjumpsoverthelazydog")); // true
+console.log(checkIfPangram("leetcode")); // false
+
+// Great memory & runtime
+
+var topVotedCheckIfPangram = function (sentence) {
+  return new Set(sentence).size == 26;
+};
+
+// Nice
