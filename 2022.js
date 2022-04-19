@@ -5411,7 +5411,7 @@ var topVotedMinOperations = function (nums) {
 // Same idea */
 
 // Check if the Sentence Is Pangram         4/18/2022
-
+/* 
 // A pangram is a sentence where every letter of the English alphabet appears at least once.
 
 // Given a string sentence containing only lowercase English letters, return true if sentence is a pangram, or false otherwise.
@@ -5440,4 +5440,41 @@ var topVotedCheckIfPangram = function (sentence) {
   return new Set(sentence).size == 26;
 };
 
-// Nice
+// Nice */
+
+// Sum of Digits in Base K          4/19/2022
+
+// Given an integer n (in base 10) and a base k, return the sum of the digits of n after converting n from base 10 to base k.
+
+// After converting, each digit should be interpreted as a base 10 number, and the sum should be returned in base 10.
+
+// Example 1:
+//    Input: n = 34, k = 6
+//    Output: 9
+// Explanation: 34 (base 10) expressed in base 6 is 54. 5 + 4 = 9.
+
+// Example 2:
+//    Input: n = 10, k = 10
+//    Output: 1
+// Explanation: n is already in base 10. 1 + 0 = 1.
+
+// Constraints:
+//    1 <= n <= 100
+//    2 <= k <= 10
+
+const sumBase = (n, k) => [...n.toString(k)].reduce((a, c) => (a += +c), 0);
+console.log(sumBase(34, 6)); // 9
+console.log(sumBase(10, 10)); // 1
+
+// Decent one-liner
+
+var topVotedSumBase = function (n, k) {
+  let a = 0;
+  while (n) {
+    a += Math.trunc(n % k);
+    n = n / k;
+  }
+  return a;
+};
+
+// Top voteds were either my solution or using a while loop like this one
