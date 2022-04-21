@@ -5480,7 +5480,7 @@ var topVotedSumBase = function (n, k) {
 // Top voteds were either my solution or using a while loop like this one */
 
 // Replace All Digits with Characters         4/20/2022
-
+/* 
 // You are given a 0-indexed string s that has lowercase English letters in its even indices and digits in its odd indices.
 
 // There is a function shift(c, x), where c is a character and x is a digit, that returns the xth character after c.
@@ -5534,4 +5534,53 @@ var topVotedReplaceDigits = function (s) {
   return s;
 };
 
-// Nice
+// Nice */
+
+// Minimum Distance to the Target Element         4/21/2022
+
+// Given an integer array nums (0-indexed) and two integers target and start, find an index i such that nums[i] == target and abs(i - start) is minimized. Note that abs(x) is the absolute value of x.
+
+// Return abs(i - start).
+
+// It is guaranteed that target exists in nums.
+
+// Example 1:
+//    Input: nums = [1,2,3,4,5], target = 5, start = 3
+//    Output: 1
+// Explanation: nums[4] = 5 is the only value equal to target, so the answer is abs(4 - 3) = 1.
+
+// Example 2:
+//    Input: nums = [1], target = 1, start = 0
+//    Output: 0
+// Explanation: nums[0] = 1 is the only value equal to target, so the answer is abs(0 - 0) = 0.
+
+// Example 3:
+//    Input: nums = [1,1,1,1,1,1,1,1,1,1], target = 1, start = 0
+//    Output: 0
+// Explanation: Every value of nums is 1, but nums[0] minimizes abs(i - start), which is abs(0 - 0) = 0.
+
+// Constraints:
+//    1 <= nums.length <= 1000
+//    1 <= nums[i] <= 104
+//    0 <= start < nums.length
+//    target is in nums.
+
+const getMinDistance = (nums, target, start) =>
+  Math.abs(nums.indexOf(target) - start);
+
+console.log(getMinDistance([1, 2, 3, 4, 5], 5, 3)); // 1
+console.log(getMinDistance([1], 1, 0)); // 0
+console.log(getMinDistance([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 1, 0)); // 0
+
+// Doesn't work for all test cases
+// Not quite sure what the prompt is asking for here
+
+var topVotedGetMinDistance = function (nums, target, start) {
+  let min = Infinity;
+  for (let i = nums.indexOf(target); i < nums.length; i++) {
+    if (nums[i] === target) {
+      if (Math.abs(i - start) < min) min = Math.abs(i - start);
+    }
+  }
+  return min;
+};
