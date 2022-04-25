@@ -5682,7 +5682,7 @@ const topVotedSortSentence = function (s) {
 // Same idea, different code */
 
 // Sum of All Subset XOR Totals         4/24/2022
-
+/* 
 // The XOR total of an array is defined as the bitwise XOR of all its elements, or 0 if the array is empty.
 
 // For example, the XOR total of the array [2,5,6] is 2 XOR 5 XOR 6 = 1.
@@ -5744,4 +5744,71 @@ console.log(topVotedSubsetXORSum([5, 1, 6])); // 28
 console.log(topVotedSubsetXORSum([3, 4, 5, 6, 7, 8])); // 480
 
 // Couldn't get it working so studied top voted
-// Nice solution!
+// Nice solution! */
+
+// Longer Contiguous Segments of Ones than Zeros          4/25/2022
+
+// Given a binary string s, return true if the longest contiguous segment of 1's is strictly longer than the longest contiguous segment of 0's in s, or return false otherwise.
+
+// For example, in s = "110100010" the longest continuous segment of 1s has length 2, and the longest continuous segment of 0s has length 3.
+// Note that if there are no 0's, then the longest continuous segment of 0's is considered to have a length 0. The same applies if there is no 1's.
+
+// Example 1:
+//    Input: s = "1101"
+//    Output: true
+// Explanation:
+// The longest contiguous segment of 1s has length 2: "1101"
+// The longest contiguous segment of 0s has length 1: "1101"
+// The segment of 1s is longer, so return true.
+
+// Example 2:
+//    Input: s = "111000"
+//    Output: false
+// Explanation:
+// The longest contiguous segment of 1s has length 3: "111000"
+// The longest contiguous segment of 0s has length 3: "111000"
+// The segment of 1s is not longer, so return false.
+
+// Example 3:
+//    Input: s = "110100010"
+//    Output: false
+// Explanation:
+// The longest contiguous segment of 1s has length 2: "110100010"
+// The longest contiguous segment of 0s has length 3: "110100010"
+// The segment of 1s is not longer, so return false.
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s[i] is either '0' or '1'.
+
+const longest = (arr) => arr.reduce((a, b) => (a.length > b.length ? a : b));
+const checkZeroOnes = (s) =>
+  longest(s.split("0")).length > longest(s.split("1")).length;
+
+console.log(checkZeroOnes("1101")); // true
+console.log(checkZeroOnes("111000")); // false
+console.log(checkZeroOnes("110100010")); // false
+console.log(checkZeroOnes("011000111")); // false
+
+// Gets the job done
+
+var topVotedCheckZeroOnes = function (s) {
+  const longest = [0, 0];
+  let cur;
+  let curCount = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    if (cur === undefined) cur = s[i];
+    curCount += 1;
+    if (cur !== s[i + 1]) {
+      if (curCount > longest[cur]) longest[cur] = curCount;
+      curCount = 0;
+      cur = s[i + 1];
+    }
+  }
+
+  return longest[0] < longest[1];
+};
+
+// All top voted solutions were much longer
+// Slower runtime
