@@ -5747,7 +5747,7 @@ console.log(topVotedSubsetXORSum([3, 4, 5, 6, 7, 8])); // 480
 // Nice solution! */
 
 // Longer Contiguous Segments of Ones than Zeros          4/25/2022
-
+/* 
 // Given a binary string s, return true if the longest contiguous segment of 1's is strictly longer than the longest contiguous segment of 0's in s, or return false otherwise.
 
 // For example, in s = "110100010" the longest continuous segment of 1s has length 2, and the longest continuous segment of 0s has length 3.
@@ -5811,4 +5811,55 @@ var topVotedCheckZeroOnes = function (s) {
 };
 
 // All top voted solutions were much longer
-// Slower runtime
+// Slower runtime */
+
+// Substrings of Size Three with Distinct Characters          4/26/2022
+
+// A string is good if there are no repeated characters.
+
+// Given a string s​​​​​, return the number of good substrings of length three in s​​​​​​.
+
+// Note that if there are multiple occurrences of the same substring, every occurrence should be counted.
+
+// A substring is a contiguous sequence of characters in a string.
+
+// Example 1:
+//    Input: s = "xyzzaz"
+//    Output: 1
+// Explanation: There are 4 substrings of size 3: "xyz", "yzz", "zza", and "zaz".
+// The only good substring of length 3 is "xyz".
+
+// Example 2:
+//    Input: s = "aababcabc"
+//    Output: 4
+// Explanation: There are 7 substrings of size 3: "aab", "aba", "bab", "abc", "bca", "cab", and "abc".
+// The good substrings are "abc", "bca", "cab", and "abc".
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s​​​​​​ consists of lowercase English letters.
+
+const countGoodSubstrings = function (s) {
+  let count = 0;
+  for (let i = 0; i < s.length - 2; i++)
+    if (/^(?:([A-Za-z])(?!.*\1))*$/.test(s.slice(i, i + 3))) count++;
+  return count;
+};
+console.log(countGoodSubstrings("xyzzaz")); // 1
+console.log(countGoodSubstrings("aababcabc")); // 4
+
+// Googled the Regex
+// Clean solution
+
+var topVotedCountGoodSubstrings = function (s) {
+  let good = 0;
+  for (let index = 0; index < s.length - 2; index++) {
+    const subStr = s.slice(index, index + 3);
+    const set = new Set(subStr);
+    set.size === 3 && (good += 1);
+  }
+  return good;
+};
+
+// Thought about using a Set for this one
+// Would've been a good alternative to Regex
