@@ -5865,7 +5865,7 @@ var topVotedCountGoodSubstrings = function (s) {
 // Would've been a good alternative to Regex */
 
 // Check if Word Equals Summation of Two Words          4/27/2022
-
+/* 
 // The letter value of a letter is its position in the alphabet starting from 0 (i.e. 'a' -> 0, 'b' -> 1, 'c' -> 2, etc.).
 
 // The numerical value of some string of lowercase English letters s is the concatenation of the letter values of each letter in s, which is then converted into an integer.
@@ -5937,4 +5937,75 @@ var topVotedIsSumEqual = function (firstWord, secondWord, targetWord) {
   for (let char of secondWord) second += obj[char];
   for (let char of targetWord) target += obj[char];
   return parseInt(first) + parseInt(second) === parseInt(target);
+}; */
+
+// Determine Whether Matrix Can Be Obtained By Rotation         4/28/2022
+
+// Given two n x n binary matrices mat and target, return true if it is possible to make mat equal to target by rotating mat in 90-degree increments, or false otherwise.
+
+// Example 1:
+//    Input: mat = [[0,1],[1,0]], target = [[1,0],[0,1]]
+//    Output: true
+// Explanation: We can rotate mat 90 degrees clockwise to make mat equal target.
+// https://assets.leetcode.com/uploads/2021/05/20/grid3.png
+
+// Example 2:
+//    Input: mat = [[0,1],[1,1]], target = [[1,0],[0,1]]
+//    Output: false
+// Explanation: It is impossible to make mat equal to target by rotating mat.
+
+// Example 3:
+//    Input: mat = [[0,0,0],[0,1,0],[1,1,1]], target = [[1,1,1],[0,1,0],[0,0,0]]
+//    Output: true
+// Explanation: We can rotate mat 90 degrees clockwise two times to make mat equal target.
+
+// Constraints:
+//    n == mat.length == target.length
+//    n == mat[i].length == target[i].length
+//    1 <= n <= 10
+//    mat[i][j] and target[i][j] are either 0 or 1.
+
+var topVotedFindRotation = function (mat, target) {
+  let width = mat[0].length;
+  let height = mat.length;
+
+  let normal = true;
+  let rightOneTime = true;
+  let rightTwoTimes = true;
+  let rightThreeTimes = true;
+
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      // don't rotate mat
+      if (mat[i][j] !== target[i][j]) {
+        normal = false;
+      }
+      // rotate mat right 1 time
+      if (mat[i][j] !== target[j][width - 1 - i]) {
+        rightOneTime = false;
+      }
+      // rotate mat right 2 times
+      if (mat[i][j] !== target[height - 1 - i][width - 1 - j]) {
+        rightTwoTimes = false;
+      }
+      // rotate mat right 3 times
+      if (mat[i][j] !== target[height - 1 - j][i]) {
+        rightThreeTimes = false;
+      }
+    }
+  }
+  return normal || rightOneTime || rightTwoTimes || rightThreeTimes;
 };
+// prettier-ignore
+console.log(topVotedFindRotation([[0,1],[1,0]], [[1,0],[0,1]])); // true
+// prettier-ignore
+console.log(topVotedFindRotation([[0,1],[1,1]], [[1,0],[0,1]])); // false
+// prettier-ignore
+console.log(topVotedFindRotation([[0,0,0],[0,1,0],[1,1,1]], [[1,1,1],[0,1,0],[0,0,0]])); // true
+// prettier-ignore
+console.log(topVotedFindRotation([[0,0],[0,1]], [[0,0],[1,0]])); // true
+
+// Couldn't find an elegant solution for this one, studying top voted
+// Feels like overkill, but all top voted submissions look like this
+
+// Great runtime & memory
