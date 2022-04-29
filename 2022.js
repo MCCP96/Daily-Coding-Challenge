@@ -5940,7 +5940,7 @@ var topVotedIsSumEqual = function (firstWord, secondWord, targetWord) {
 }; */
 
 // Determine Whether Matrix Can Be Obtained By Rotation         4/28/2022
-
+/* 
 // Given two n x n binary matrices mat and target, return true if it is possible to make mat equal to target by rotating mat in 90-degree increments, or false otherwise.
 
 // Example 1:
@@ -6008,4 +6008,65 @@ console.log(topVotedFindRotation([[0,0],[0,1]], [[0,0],[1,0]])); // true
 // Couldn't find an elegant solution for this one, studying top voted
 // Feels like overkill, but all top voted submissions look like this
 
-// Great runtime & memory
+// Great runtime & memory */
+
+// Check if All the Integers in a Range Are Covered         4/29/2022
+
+// You are given a 2D integer array ranges and two integers left and right. Each ranges[i] = [starti, endi] represents an inclusive interval between starti and endi.
+
+// Return true if each integer in the inclusive range [left, right] is covered by at least one interval in ranges. Return false otherwise.
+
+// An integer x is covered by an interval ranges[i] = [starti, endi] if starti <= x <= endi.
+
+// Example 1:
+//    Input: ranges = [[1,2],[3,4],[5,6]], left = 2, right = 5
+//    Output: true
+// Explanation: Every integer between 2 and 5 is covered:
+// - 2 is covered by the first range.
+// - 3 and 4 are covered by the second range.
+// - 5 is covered by the third range.
+
+// Example 2:
+//    Input: ranges = [[1,10],[10,20]], left = 21, right = 21
+//    Output: false
+// Explanation: 21 is not covered by any range.
+
+// Constraints:
+//    1 <= ranges.length <= 50
+//    1 <= starti <= endi <= 50
+//    1 <= left <= right <= 50
+
+const isCovered = function (ranges, left, right) {
+  for (let i = 0; i < ranges.length; i++) {
+    if (
+      !(
+        (ranges[i][1] >= left && ranges[i][1] <= right) ||
+        (ranges[i][0] >= left && ranges[i][0] <= right)
+      )
+    )
+      return false;
+  }
+  return true;
+};
+// prettier-ignore
+console.log(isCovered([[1,2],[3,4],[5,6]], 2, 5)); // true
+// prettier-ignore
+console.log(isCovered([[1,10],[10,20]], 21, 21)); // false
+
+// Couldn't get it running
+
+var topVotedIsCovered = function (ranges, left, right) {
+  var map = new Map();
+  for (let i = left; i <= right; i++) {
+    map.set(i, 0);
+  }
+  for (let range of ranges) {
+    for (let i = range[0]; i <= range[1]; i++) {
+      map.set(i, 1);
+    }
+  }
+  for (let key of map.keys()) {
+    if (map.get(key) === 0) return false;
+  }
+  return true;
+};
