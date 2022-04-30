@@ -6011,7 +6011,7 @@ console.log(topVotedFindRotation([[0,0],[0,1]], [[0,0],[1,0]])); // true
 // Great runtime & memory */
 
 // Check if All the Integers in a Range Are Covered         4/29/2022
-
+/* 
 // You are given a 2D integer array ranges and two integers left and right. Each ranges[i] = [starti, endi] represents an inclusive interval between starti and endi.
 
 // Return true if each integer in the inclusive range [left, right] is covered by at least one interval in ranges. Return false otherwise.
@@ -6069,4 +6069,70 @@ var topVotedIsCovered = function (ranges, left, right) {
     if (map.get(key) === 0) return false;
   }
   return true;
+}; */
+
+// Redistribute Characters to Make All Strings Equal          4/30/2022
+
+// You are given an array of strings words (0-indexed).
+
+// In one operation, pick two distinct indices i and j, where words[i] is a non-empty string, and move any character from words[i] to any position in words[j].
+
+// Return true if you can make every string in words equal using any number of operations, and false otherwise.
+
+// Example 1:
+//    Input: words = ["abc","aabc","bc"]
+//    Output: true
+// Explanation: Move the first 'a' in words[1] to the front of words[2],
+// to make words[1] = "abc" and words[2] = "abc".
+// All the strings are now equal to "abc", so return true.
+
+// Example 2:
+//    Input: words = ["ab","a"]
+//    Output: false
+// Explanation: It is impossible to make all the strings equal using the operation.
+
+// Constraints:
+//    1 <= words.length <= 100
+//    1 <= words[i].length <= 100
+//    words[i] consists of lowercase English letters.
+
+const makeEqual = function (words) {
+  if (words.length == 2 && words[0] !== words[1]) return false;
+  words = [...new Set(words)].sort((a, b) => a.length - b.length);
+
+  if (words.length > 3) return false;
+  if (
+    words[0].length !== words[1].length - 1 ||
+    words[2].length !== words[1].length + 1
+  )
+    return false;
+
+  let missingChar = words[1].slice(0, words[1].indexOf(words[0]));
+  if (missingChar.length > 1) return false;
+
+  let extraChar = words[2].slice(0, words[2].indexOf(words[1]));
+  return missingChar === extraChar;
 };
+console.log(makeEqual(["abc", "aabc", "bc"])); // true
+console.log(makeEqual(["abc", "abc", "abc", "abc", "aabc", "bc"])); // true
+console.log(makeEqual(["ab", "a"])); // false
+
+// Oof, there must be a better way
+
+const topVotedMakeEqual = function (words) {
+  let length = words.length;
+
+  let map = {};
+  for (let word of words)
+    for (let ch of word) {
+      map[ch] = (map[ch] || 0) + 1;
+    }
+
+  for (let key of Object.keys(map)) {
+    if (map[key] % length != 0) return false;
+  }
+
+  return true;
+};
+
+// Map is definitely the way to go here
