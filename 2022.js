@@ -6072,7 +6072,7 @@ var topVotedIsCovered = function (ranges, left, right) {
 }; */
 
 // Redistribute Characters to Make All Strings Equal          4/30/2022
-
+/* 
 // You are given an array of strings words (0-indexed).
 
 // In one operation, pick two distinct indices i and j, where words[i] is a non-empty string, and move any character from words[i] to any position in words[j].
@@ -6135,4 +6135,55 @@ const topVotedMakeEqual = function (words) {
   return true;
 };
 
-// Map is definitely the way to go here
+// Map is definitely the way to go here */
+
+// Largest Odd Number in String         5/1/2022
+
+// You are given a string num, representing a large integer. Return the largest-valued odd integer (as a string) that is a non-empty substring of num, or an empty string "" if no odd integer exists.
+
+// A substring is a contiguous sequence of characters within a string.
+
+// Example 1:
+//    Input: num = "52"
+//    Output: "5"
+// Explanation: The only non-empty substrings are "5", "2", and "52". "5" is the only odd number.
+
+// Example 2:
+//    Input: num = "4206"
+//    Output: ""
+// Explanation: There are no odd numbers in "4206".
+
+// Example 3:
+//    Input: num = "35427"
+//    Output: "35427"
+// Explanation: "35427" is already an odd number.
+
+// Constraints:
+//    1 <= num.length <= 105
+//    num only consists of digits and does not contain any leading zeros.
+
+const largestOddNumber = (num) => {
+  if (num % 2) return num;
+  num = num.split(/(?=[0|2|4|6|8])/);
+  for (let i = num.length--; i > 0; i--) {
+    const x = num.slice(0, i).join("");
+    if (x % 2) return x;
+  }
+  return "";
+};
+
+console.log(largestOddNumber("52")); // "5"
+console.log(largestOddNumber("4206")); // ""
+console.log(largestOddNumber("35427")); // "35427"
+console.log(largestOddNumber("10133890")); // "1013389"
+
+// Doesn't work with BigInt
+
+const topVotedLargestOddNumber = function (num) {
+  for (let i = num.length - 1; i >= 0; i--) {
+    if (+num[i] % 2) return num.slice(0, i + 1);
+  }
+  return "";
+};
+
+// Same idea but actual working code
