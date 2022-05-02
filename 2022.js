@@ -6138,7 +6138,7 @@ const topVotedMakeEqual = function (words) {
 // Map is definitely the way to go here */
 
 // Largest Odd Number in String         5/1/2022
-
+/* 
 // You are given a string num, representing a large integer. Return the largest-valued odd integer (as a string) that is a non-empty substring of num, or an empty string "" if no odd integer exists.
 
 // A substring is a contiguous sequence of characters within a string.
@@ -6186,4 +6186,63 @@ const topVotedLargestOddNumber = function (num) {
   return "";
 };
 
-// Same idea but actual working code
+// Same idea but actual working code */
+
+// Remove One Element to Make the Array Strictly Increasing         5/2/2022
+
+// Given a 0-indexed integer array nums, return true if it can be made strictly increasing after removing exactly one element, or false otherwise. If the array is already strictly increasing, return true.
+
+// The array nums is strictly increasing if nums[i - 1] < nums[i] for each index (1 <= i < nums.length).
+
+// Example 1:
+//    Input: nums = [1,2,10,5,7]
+//    Output: true
+// Explanation: By removing 10 at index 2 from nums, it becomes [1,2,5,7].
+// [1,2,5,7] is strictly increasing, so return true.
+
+// Example 2:
+//    Input: nums = [2,3,1,2]
+//    Output: false
+// Explanation:
+// [3,1,2] is the result of removing the element at index 0.
+// [2,1,2] is the result of removing the element at index 1.
+// [2,3,2] is the result of removing the element at index 2.
+// [2,3,1] is the result of removing the element at index 3.
+// No resulting array is strictly increasing, so return false.
+
+// Example 3:
+//    Input: nums = [1,1,1]
+//    Output: false
+// Explanation: The result of removing any element is [1,1].
+// [1,1] is not strictly increasing, so return false.
+
+// Constraints:
+//    2 <= nums.length <= 1000
+//    1 <= nums[i] <= 1000
+
+const canBeIncreasing = function (nums) {
+  const l = nums.length;
+  for (let i = 0; i < nums.length; ) {
+    nums[i + 1] <= nums[i] ? nums.splice(i, 1) : i++;
+  }
+  return nums.length > l - 2;
+};
+console.log(canBeIncreasing([1, 2, 10, 5, 7])); // true
+console.log(canBeIncreasing([2, 3, 1, 2])); // false
+console.log(canBeIncreasing([1, 1, 1])); // false
+console.log(canBeIncreasing([105, 924, 32, 968])); // true
+
+// Close, but no time to troubleshoot today!
+
+var topVotedCanBeIncreasing = function (nums) {
+  for (let i = 1, used = false, prev = nums[0]; i < nums.length; i++) {
+    if (nums[i] > prev) {
+      prev = nums[i];
+      continue;
+    }
+    if (used) return false;
+    used = true;
+    (i === 1 || nums[i] > nums[i - 2]) && (prev = nums[i]);
+  }
+  return true;
+};
