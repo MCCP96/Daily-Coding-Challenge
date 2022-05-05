@@ -6285,7 +6285,7 @@ console.log(maxProductDifference([4, 2, 5, 9, 7, 4, 8])); // 64
 // Same as all top voted solutions */
 
 // Build Array from Permutation         5/4/2022
-
+/* 
 // Given a zero-based permutation nums (0-indexed), build an array ans of the same length where ans[i] = nums[nums[i]] for each 0 <= i < nums.length and return it.
 
 // A zero-based permutation nums is an array of distinct integers from 0 to nums.length - 1 (inclusive).
@@ -6316,4 +6316,38 @@ console.log(buildArray([0, 2, 1, 5, 3, 4])); // [0,1,2,4,5,3]
 console.log(buildArray([5, 0, 1, 2, 3, 4])); // [4,5,0,1,2,3]
 
 // Slow runtime compared to other submissions
-// Same as top voteds
+// Same as top voteds */
+
+// Count Square Sum Triples         5/5/2022
+
+// A square triple (a,b,c) is a triple where a, b, and c are integers and a2 + b2 = c2.
+
+// Given an integer n, return the number of square triples such that 1 <= a, b, c <= n.
+
+// Example 1:
+//    Input: n = 5
+//    Output: 2
+// Explanation: The square triples are (3,4,5) and (4,3,5).
+
+// Example 2:
+//    Input: n = 10
+//    Output: 4
+// Explanation: The square triples are (3,4,5), (4,3,5), (6,8,10), and (8,6,10).
+
+// Constraints:
+//    1 <= n <= 250
+
+const countTriples = function (n) {
+  let count = 0;
+  for (let a = 1; a <= n; a++)
+    for (let b = 1; b <= n; b++)
+      for (let c = 1; c <= n; c++) if (a * a + b * b === c * c) count++;
+  return count;
+};
+console.log(countTriples(5)); // 2
+console.log(countTriples(10)); // 4
+
+// Feels brute force, surely some optimization to be had
+// Terrible runtime
+
+// Same as all top voted submissions
