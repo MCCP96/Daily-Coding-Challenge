@@ -6353,7 +6353,7 @@ console.log(countTriples(10)); // 4
 // Same as all top voted submissions */
 
 // Concatenation of Array         5/6/2022
-
+/* 
 // Given an integer array nums of length n, you want to create an array ans of length 2n where ans[i] == nums[i] and ans[i + n] == nums[i] for 0 <= i < n (0-indexed).
 
 // Specifically, ans is the concatenation of two nums arrays.
@@ -6388,4 +6388,60 @@ console.log(getConcatenation([1, 3, 2, 1])); // [1,3,2,1,1,3,2,1]
 
 const topVotedGetConcatenation = (nums) => nums.concat(nums);
 
-// An alternative with better runtime
+// An alternative with better runtime */
+
+// Maximum Number of Words You Can Type         5/7/2022
+
+// There is a malfunctioning keyboard where some letter keys do not work. All other keys on the keyboard work properly.
+
+// Given a string text of words separated by a single space (no leading or trailing spaces) and a string brokenLetters of all distinct letter keys that are broken, return the number of words in text you can fully type using this keyboard.
+
+// Example 1:
+//    Input: text = "hello world", brokenLetters = "ad"
+//    Output: 1
+// Explanation: We cannot type "world" because the 'd' key is broken.
+
+// Example 2:
+//    Input: text = "leet code", brokenLetters = "lt"
+//    Output: 1
+// Explanation: We cannot type "leet" because the 'l' and 't' keys are broken.
+
+// Example 3:
+//    Input: text = "leet code", brokenLetters = "e"
+//    Output: 0
+// Explanation: We cannot type either word because the 'e' key is broken.
+
+// Constraints:
+//    1 <= text.length <= 104
+//    0 <= brokenLetters.length <= 26
+//    text consists of words separated by a single space without any leading or trailing spaces.
+//    Each word only consists of lowercase English letters.
+//    brokenLetters consists of distinct lowercase English letters.
+
+const canBeTypedWords = (text, brokenLetters) =>
+  text.split(" ").reduce((a, c) => {
+    for (let key of brokenLetters.split(""))
+      if (c.includes(key)) {
+        a--;
+        break;
+      }
+    return a;
+  }, text.split(" ").length);
+
+console.log(canBeTypedWords("hello world", "ad")); // 1
+console.log(canBeTypedWords("leet code", "lt")); // 1
+console.log(canBeTypedWords("leet code", "e")); // 0
+console.log(canBeTypedWords("a b c d e", "abcde")); // 0
+
+// I like it
+
+var topVotedCanBeTypedWords = function (text, brokenLetters) {
+  const textSplit = text.split(" ");
+  const brokenLetterSplit = brokenLetters.split("");
+
+  return textSplit.filter((word) => {
+    return brokenLetterSplit.every((broken) => !word.includes(broken));
+  }).length;
+};
+
+// Filter approach is very valid here too
