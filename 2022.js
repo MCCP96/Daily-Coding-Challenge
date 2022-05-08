@@ -6391,7 +6391,7 @@ const topVotedGetConcatenation = (nums) => nums.concat(nums);
 // An alternative with better runtime */
 
 // Maximum Number of Words You Can Type         5/7/2022
-
+/* 
 // There is a malfunctioning keyboard where some letter keys do not work. All other keys on the keyboard work properly.
 
 // Given a string text of words separated by a single space (no leading or trailing spaces) and a string brokenLetters of all distinct letter keys that are broken, return the number of words in text you can fully type using this keyboard.
@@ -6444,4 +6444,50 @@ var topVotedCanBeTypedWords = function (text, brokenLetters) {
   }).length;
 };
 
-// Filter approach is very valid here too
+// Filter approach is very valid here too */
+
+// Check if All Characters Have Equal Number of Occurrences         5/8/2022
+
+// Given a string s, return true if s is a good string, or false otherwise.
+
+// A string s is good if all the characters that appear in s have the same number of occurrences (i.e., the same frequency).
+
+// Example 1:
+//    Input: s = "abacbc"
+//    Output: true
+// Explanation: The characters that appear in s are 'a', 'b', and 'c'. All characters occur 2 times in s.
+
+// Example 2:
+//    Input: s = "aaabb"
+//    Output: false
+// Explanation: The characters that appear in s are 'a' and 'b'.
+// 'a' occurs 3 times while 'b' occurs 2 times, which is not the same number of times.
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s consists of lowercase English letters.
+
+const areOccurrencesEqual = (s) => {
+  const count = new Map();
+  s.split("").map((c) =>
+    count.has(c) ? count.set(c, count.get(c) + 1) : count.set(c, 1)
+  );
+  return [...count.values()].every((el, _, arr) => el === arr[0]);
+};
+console.log(areOccurrencesEqual("abacbc")); // true
+console.log(areOccurrencesEqual("aaabb")); // false
+
+// Great runtime, only 3 lines
+
+var topVotedAreOccurrencesEqual = (s) => {
+  let count = s.split("").reduce((obj, cur) => {
+    obj.hasOwnProperty(cur) ? (obj[cur] += 1) : (obj[cur] = 1);
+    return obj;
+  }, {});
+  return new Set(Object.values(count)).size === 1;
+};
+
+// Smart way of creating count here using .reduce
+// Using a Set to evaluate if all counts were the same too
+
+// Very nice
