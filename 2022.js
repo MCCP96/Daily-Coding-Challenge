@@ -6493,7 +6493,7 @@ var topVotedAreOccurrencesEqual = (s) => {
 // Very nice */
 
 // Sum of Digits of String After Convert          5/9/2022
-
+/* 
 // You are given a string s consisting of lowercase English letters, and an integer k.
 
 // First, convert s into an integer by replacing each letter with its position in the alphabet (i.e., replace 'a' with 1, 'b' with 2, ..., 'z' with 26). Then, transform the integer by replacing it with the sum of its digits. Repeat the transform operation k times in total.
@@ -6556,4 +6556,45 @@ const go = (s) => {
   return sum + "";
 };
 
-// Much slower runtime
+// Much slower runtime */
+
+// Three Divisors         5/10/2022
+
+// Given an integer n, return true if n has exactly three positive divisors. Otherwise, return false.
+
+// An integer m is a divisor of n if there exists an integer k such that n = k * m.
+
+// Example 1:
+//    Input: n = 2
+//    Output: false
+// Explantion: 2 has only two divisors: 1 and 2.
+
+// Example 2:
+//    Input: n = 4
+//    Output: true
+// Explantion: 4 has three divisors: 1, 2, and 4.
+
+// Constraints:
+//    1 <= n <= 104
+
+const isPrime = (num) => {
+  for (var i = 2; i < num; i++) if (num % i === 0) return false;
+  return num > 1;
+};
+const isThree = (n) => !isPrime(n) && !(n >= 6);
+
+console.log(isThree(2)); // false
+console.log(isThree(4)); // true
+console.log(isThree(12)); // false
+
+// Doesn't work for all test cases
+
+const topVotedIsThree = (n) => {
+  var set = new Set();
+  for (var i = 1; i <= Math.sqrt(n) && set.size <= 3; i++) {
+    if (n % i === 0) set.add(i).add(n / i);
+  }
+  return set.size === 3;
+};
+
+// Good idea to use a Set
