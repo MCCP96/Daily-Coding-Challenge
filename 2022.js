@@ -6559,7 +6559,7 @@ const go = (s) => {
 // Much slower runtime */
 
 // Three Divisors         5/10/2022
-
+/* 
 // Given an integer n, return true if n has exactly three positive divisors. Otherwise, return false.
 
 // An integer m is a divisor of n if there exists an integer k such that n = k * m.
@@ -6597,4 +6597,65 @@ const topVotedIsThree = (n) => {
   return set.size === 3;
 };
 
-// Good idea to use a Set
+// Good idea to use a Set */
+
+// Delete Characters to Make Fancy String         5/11/2022
+
+// A fancy string is a string where no three consecutive characters are equal.
+
+// Given a string s, delete the minimum possible number of characters from s to make it fancy.
+
+// Return the final string after the deletion. It can be shown that the answer will always be unique.
+
+// Example 1:
+//    Input: s = "leeetcode"
+//    Output: "leetcode"
+// Explanation:
+// Remove an 'e' from the first group of 'e's to create "leetcode".
+// No three consecutive characters are equal, so return "leetcode".
+
+// Example 2:
+//    Input: s = "aaabaaaa"
+//    Output: "aabaa"
+// Explanation:
+// Remove an 'a' from the first group of 'a's to create "aabaaaa".
+// Remove two 'a's from the second group of 'a's to create "aabaa".
+// No three consecutive characters are equal, so return "aabaa".
+
+// Example 3:
+//    Input: s = "aab"
+//    Output: "aab"
+// Explanation: No three consecutive characters are equal, so return "aab".
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s consists only of lowercase English letters.
+
+const makeFancyString = (s) => {
+  s = [...s];
+  for (let i = 2; i < s.length; i++)
+    if (s[i] === s[i - 1] && s[i] === s[i - 2]) {
+      s.splice(i, 1);
+      i--;
+    }
+  return s.join("");
+};
+console.log(makeFancyString("leeetcode")); // "leetcode"
+console.log(makeFancyString("aaabaaaa")); // "aabaa"
+console.log(makeFancyString("aab")); // "aab"
+console.log(makeFancyString("aabaabaabaa")); // "aabaabaabaa"
+
+// Doesn't work for all test cases
+
+var topVotedMakeFancyString = function (s) {
+  let string = s.slice(0, 2);
+  const length = s.length;
+  for (let i = 2; i < length; i++) {
+    if (s[i] !== s[i - 1] || s[i] !== s[i - 2]) {
+      string += s[i];
+    }
+  }
+  return string;
+};
+
+// Nice
