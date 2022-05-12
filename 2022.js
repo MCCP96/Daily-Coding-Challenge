@@ -6600,7 +6600,7 @@ const topVotedIsThree = (n) => {
 // Good idea to use a Set */
 
 // Delete Characters to Make Fancy String         5/11/2022
-
+/* 
 // A fancy string is a string where no three consecutive characters are equal.
 
 // Given a string s, delete the minimum possible number of characters from s to make it fancy.
@@ -6658,4 +6658,45 @@ var topVotedMakeFancyString = function (s) {
   return string;
 };
 
-// Nice
+// Nice */
+
+// Check If String Is a Prefix of Array         5/12/2022
+
+// Given a string s and an array of strings words, determine whether s is a prefix string of words.
+
+// A string s is a prefix string of words if s can be made by concatenating the first k strings in words for some positive k no larger than words.length.
+
+// Return true if s is a prefix string of words, or false otherwise.
+
+// Example 1:
+//    Input: s = "iloveleetcode", words = ["i","love","leetcode","apples"]
+//    Output: true
+// Explanation:
+// s can be made by concatenating "i", "love", and "leetcode" together.
+
+// Example 2:
+//    Input: s = "iloveleetcode", words = ["apples","i","love","leetcode"]
+//    Output: false
+// Explanation:
+// It is impossible to make s using a prefix of arr.
+
+// Constraints:
+//    1 <= words.length <= 100
+//    1 <= words[i].length <= 20
+//    1 <= s.length <= 1000
+//    words[i] and s consist of only lowercase English letters.
+
+const isPrefixString = (s, w) => {
+  let concat = "";
+  while (s.length > concat.length && w.length > 0) {
+    concat += w.shift();
+    if (s === concat) return true;
+  }
+  return false;
+};
+// prettier-ignore
+console.log(isPrefixString("iloveleetcode",  ["i","love","leetcode","apples"])); // true
+// prettier-ignore
+console.log(isPrefixString("iloveleetcode",  ["apples","i","love","leetcode"])); // false
+
+// Same as top voted
