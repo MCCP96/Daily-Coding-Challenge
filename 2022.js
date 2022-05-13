@@ -6661,7 +6661,7 @@ var topVotedMakeFancyString = function (s) {
 // Nice */
 
 // Check If String Is a Prefix of Array         5/12/2022
-
+/* 
 // Given a string s and an array of strings words, determine whether s is a prefix string of words.
 
 // A string s is a prefix string of words if s can be made by concatenating the first k strings in words for some positive k no larger than words.length.
@@ -6699,4 +6699,63 @@ console.log(isPrefixString("iloveleetcode",  ["i","love","leetcode","apples"]));
 // prettier-ignore
 console.log(isPrefixString("iloveleetcode",  ["apples","i","love","leetcode"])); // false
 
-// Same as top voted
+// Same as top voted */
+
+// Number of Strings That Appear as Substrings in Word          5/13/2022
+
+// Given an array of strings patterns and a string word, return the number of strings in patterns that exist as a substring in word.
+
+// A substring is a contiguous sequence of characters within a string.
+
+// Example 1:
+//    Input: patterns = ["a","abc","bc","d"], word = "abc"
+//    Output: 3
+// Explanation:
+// - "a" appears as a substring in "abc".
+// - "abc" appears as a substring in "abc".
+// - "bc" appears as a substring in "abc".
+// - "d" does not appear as a substring in "abc".
+// 3 of the strings in patterns appear as a substring in word.
+
+// Example 2:
+//    Input: patterns = ["a","b","c"], word = "aaaaabbbbb"
+//    Output: 2
+// Explanation:
+// - "a" appears as a substring in "aaaaabbbbb".
+// - "b" appears as a substring in "aaaaabbbbb".
+// - "c" does not appear as a substring in "aaaaabbbbb".
+// 2 of the strings in patterns appear as a substring in word.
+
+// Example 3:
+//    Input: patterns = ["a","a","a"], word = "ab"
+//    Output: 3
+// Explanation: Each of the patterns appears as a substring in word "ab".
+
+// Constraints:
+//    1 <= patterns.length <= 100
+//    1 <= patterns[i].length <= 100
+//    1 <= word.length <= 100
+//    patterns[i] and word consist of lowercase English letters.
+
+const numOfStrings = (patterns, word) =>
+  patterns.reduce((a, c) => (word.includes(c) ? ++a : a), 0);
+
+console.log(numOfStrings(["a", "abc", "bc", "d"], "abc")); // 3
+console.log(numOfStrings(["a", "b", "c"], "aaaaabbbbb")); // 2
+console.log(numOfStrings(["a", "a", "a"], "ab")); // 3
+
+// Clean lil one-liner
+
+var topVotedNumOfStrings = function (patterns, word) {
+  let result = 0;
+  for (let char of patterns) {
+    if (word.includes(char)) {
+      result++;
+    } else {
+      result += 0;
+    }
+  }
+  return result;
+};
+
+// Same logic
