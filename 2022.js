@@ -6702,7 +6702,7 @@ console.log(isPrefixString("iloveleetcode",  ["apples","i","love","leetcode"]));
 // Same as top voted */
 
 // Number of Strings That Appear as Substrings in Word          5/13/2022
-
+/* 
 // Given an array of strings patterns and a string word, return the number of strings in patterns that exist as a substring in word.
 
 // A substring is a contiguous sequence of characters within a string.
@@ -6754,8 +6754,90 @@ var topVotedNumOfStrings = function (patterns, word) {
     } else {
       result += 0;
     }
+    ("");
   }
   return result;
 };
 
-// Same logic
+// Same logic */
+
+// Minimum Time to Type Word Using Special Typewriter         5/14/2022
+
+// There is a special typewriter with lowercase English letters 'a' to 'z' arranged in a circle with a pointer. A character can only be typed if the pointer is pointing to that character. The pointer is initially pointing to the character 'a'.
+
+// Each second, you may perform one of the following operations:
+
+// Move the pointer one character counterclockwise or clockwise.
+// Type the character the pointer is currently on.
+// Given a string word, return the minimum number of seconds to type out the characters in word.
+
+// Example 1:
+//    Input: word = "abc"
+//    Output: 5
+// Explanation:
+// The characters are printed as follows:
+//    - Type the character 'a' in 1 second since the pointer is initially on 'a'.
+//    - Move the pointer clockwise to 'b' in 1 second.
+//    - Type the character 'b' in 1 second.
+//    - Move the pointer clockwise to 'c' in 1 second.
+//    - Type the character 'c' in 1 second.
+
+// Example 2:
+//    Input: word = "bza"
+//    Output: 7
+// Explanation:
+// The characters are printed as follows:
+//    - Move the pointer clockwise to 'b' in 1 second.
+//    - Type the character 'b' in 1 second.
+//    - Move the pointer counterclockwise to 'z' in 2 seconds.
+//    - Type the character 'z' in 1 second.
+//    - Move the pointer clockwise to 'a' in 1 second.
+//    - Type the character 'a' in 1 second.
+
+// Example 3:
+//    Input: word = "zjpc"
+//    Output: 34
+// Explanation:
+// The characters are printed as follows:
+//    - Move the pointer counterclockwise to 'z' in 1 second.
+//    - Type the character 'z' in 1 second.
+//    - Move the pointer clockwise to 'j' in 10 seconds.
+//    - Type the character 'j' in 1 second.
+//    - Move the pointer clockwise to 'p' in 6 seconds.
+//    - Type the character 'p' in 1 second.
+//    - Move the pointer counterclockwise to 'c' in 13 seconds.
+//    - Type the character 'c' in 1 second.
+
+// Constraints:
+//    1 <= word.length <= 100
+//    word consists of lowercase English letters.
+
+const minTimeToType = (word) => {
+  let [count, cur] = [0, "a"];
+
+  for (let i = 0; i < word.length; i++) {
+    const gap = Math.abs(cur.charCodeAt(0) - word[i].charCodeAt(0));
+    gap > 13 ? (count += 26 - gap) : (count += gap);
+    cur = word[i];
+  }
+
+  return (count += word.length);
+};
+console.log(minTimeToType("abc")); // 5
+console.log(minTimeToType("bza")); // 7
+console.log(minTimeToType("zjpc")); // 34
+
+// Got close, but had to peak at top voted to get it working
+
+const improvedMinTimeToType = (word, cur = "a") =>
+  [...word].reduce((a, c) => {
+    const gap = Math.abs(cur.charCodeAt(0) - c.charCodeAt(0));
+    cur = c;
+    return gap > 13 ? (a += 26 - gap) : (a += gap);
+  }, word.length);
+
+console.log(improvedMinTimeToType("abc")); // 5
+console.log(improvedMinTimeToType("bza")); // 7
+console.log(improvedMinTimeToType("zjpc")); // 34
+
+// Slower runtime, more compressed code
