@@ -6762,7 +6762,7 @@ var topVotedNumOfStrings = function (patterns, word) {
 // Same logic */
 
 // Minimum Time to Type Word Using Special Typewriter         5/14/2022
-
+/* 
 // There is a special typewriter with lowercase English letters 'a' to 'z' arranged in a circle with a pointer. A character can only be typed if the pointer is pointing to that character. The pointer is initially pointing to the character 'a'.
 
 // Each second, you may perform one of the following operations:
@@ -6840,4 +6840,58 @@ console.log(improvedMinTimeToType("abc")); // 5
 console.log(improvedMinTimeToType("bza")); // 7
 console.log(improvedMinTimeToType("zjpc")); // 34
 
-// Slower runtime, more compressed code
+// Slower runtime, more compressed code */
+
+// Find Greatest Common Divisor of Array          5/15/2022
+
+// Given an integer array nums, return the greatest common divisor of the smallest number and largest number in nums.
+
+// The greatest common divisor of two numbers is the largest positive integer that evenly divides both numbers.
+
+// Example 1:
+//    Input: nums = [2,5,6,9,10]
+//    Output: 2
+// Explanation:
+// The smallest number in nums is 2.
+// The largest number in nums is 10.
+// The greatest common divisor of 2 and 10 is 2.
+
+// Example 2:
+//    Input: nums = [7,5,6,8,3]
+//    Output: 1
+// Explanation:
+// The smallest number in nums is 3.
+// The largest number in nums is 8.
+// The greatest common divisor of 3 and 8 is 1.
+
+// Example 3:
+//    Input: nums = [3,3]
+//    Output: 3
+// Explanation:
+// The smallest number in nums is 3.
+// The largest number in nums is 3.
+// The greatest common divisor of 3 and 3 is 3.
+
+// Constraints:
+//    2 <= nums.length <= 1000
+//    1 <= nums[i] <= 1000
+
+const findGCD = (nums) =>
+  (Math.max(...nums) / Math.min(...nums)) % 1 === 0 ? Math.min(...nums) : 1;
+
+console.log(findGCD([2, 5, 6, 9, 10])); // 2
+console.log(findGCD([7, 5, 6, 8, 3])); // 1
+console.log(findGCD([3, 3])); // 3
+
+// For sure not taking into account all 'in between' divisors
+
+const gcd = (a, b) => (b == 0 ? a : gcd(b, a % b));
+const topvotedFindGCD = (a) => {
+  let max = Math.max.apply(Math, a);
+  let min = Math.min.apply(Math, a);
+  return gcd(min, max);
+};
+
+// gcd was the function I was missing
+
+// Google angel number 333 🙂
