@@ -6897,7 +6897,7 @@ const topvotedFindGCD = (a) => {
 // Google angel number 333 🙂 */
 
 // Minimum Difference Between Highest and Lowest of K Scores          5/16/2022
-
+/* 
 // You are given a 0-indexed integer array nums, where nums[i] represents the score of the ith student. You are also given an integer k.
 
 // Pick the scores of any k students from the array so that the difference between the highest and the lowest of the k scores is minimized.
@@ -6946,4 +6946,50 @@ var topVotedMinimumDifference = function (nums, k) {
     diff = Math.min(diff, nums[i] - nums[i - k + 1]);
   }
   return diff;
+}; */
+
+// Find the Middle Index in Array         5/17/2022
+
+// Given a 0-indexed integer array nums, find the leftmost middleIndex (i.e., the smallest amongst all the possible ones).
+
+// A middleIndex is an index where nums[0] + nums[1] + ... + nums[middleIndex-1] == nums[middleIndex+1] + nums[middleIndex+2] + ... + nums[nums.length-1].
+
+// If middleIndex == 0, the left side sum is considered to be 0. Similarly, if middleIndex == nums.length - 1, the right side sum is considered to be 0.
+
+// Return the leftmost middleIndex that satisfies the condition, or -1 if there is no such index.
+
+// Example 1:
+//    Input: nums = [2,3,-1,8,4]
+//    Output: 3
+// Explanation: The sum of the numbers before index 3 is: 2 + 3 + -1 = 4
+// The sum of the numbers after index 3 is: 4 = 4
+
+// Example 2:
+//    Input: nums = [1,-1,4]
+//    Output: 2
+// Explanation: The sum of the numbers before index 2 is: 1 + -1 = 0
+// The sum of the numbers after index 2 is: 0
+
+// Example 3:
+//    Input: nums = [2,5]
+//    Output: -1
+// Explanation: There is no valid middleIndex.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    -1000 <= nums[i] <= 1000
+
+const findMiddleIndex = (nums) => {
+  for (let i = 0; i < nums.length; i++) {
+    const l = nums.slice(0, i).reduce((a, c) => (a += c), 0);
+    const r = nums.slice(i + 1).reduce((a, c) => (a += c), 0);
+    if (l === r) return i;
+  }
+  return -1;
 };
+console.log(findMiddleIndex([2, 3, -1, 8, 4])); // 3
+console.log(findMiddleIndex([1, -1, 4])); // 2
+console.log(findMiddleIndex([2, 5])); // -1
+
+// Not great runtime, but works
+// Same as top voted
