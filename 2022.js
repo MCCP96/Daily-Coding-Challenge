@@ -6949,7 +6949,7 @@ var topVotedMinimumDifference = function (nums, k) {
 }; */
 
 // Find the Middle Index in Array         5/17/2022
-
+/* 
 // Given a 0-indexed integer array nums, find the leftmost middleIndex (i.e., the smallest amongst all the possible ones).
 
 // A middleIndex is an index where nums[0] + nums[1] + ... + nums[middleIndex-1] == nums[middleIndex+1] + nums[middleIndex+2] + ... + nums[nums.length-1].
@@ -6992,4 +6992,54 @@ console.log(findMiddleIndex([1, -1, 4])); // 2
 console.log(findMiddleIndex([2, 5])); // -1
 
 // Not great runtime, but works
-// Same as top voted
+// Same as top voted */
+
+// Count Special Quadruplets          5/18/2022
+
+// Given a 0-indexed integer array nums, return the number of distinct quadruplets (a, b, c, d) such that:
+
+// nums[a] + nums[b] + nums[c] == nums[d], and
+// a < b < c < d
+
+// Example 1:
+//    Input: nums = [1,2,3,6]
+//    Output: 1
+// Explanation: The only quadruplet that satisfies the requirement is (0, 1, 2, 3) because 1 + 2 + 3 == 6.
+
+// Example 2:
+//    Input: nums = [3,3,6,4,5]
+//    Output: 0
+// Explanation: There are no such quadruplets in [3,3,6,4,5].
+
+// Example 3:
+//    Input: nums = [1,1,1,3,5]
+//    Output: 4
+// Explanation: The 4 quadruplets that satisfy the requirement are:
+// - (0, 1, 2, 3): 1 + 1 + 1 == 3
+// - (0, 1, 3, 4): 1 + 1 + 3 == 5
+// - (0, 2, 3, 4): 1 + 1 + 3 == 5
+// - (1, 2, 3, 4): 1 + 1 + 3 == 5
+
+// Constraints:
+//    4 <= nums.length <= 50
+//    1 <= nums[i] <= 100
+
+const countQuadruplets = (nums) => {
+  let count = 0;
+  for (let a = 0; a < nums.length - 3; a++)
+    for (let b = a + 1; b < nums.length - 2; b++)
+      for (let c = b + 1; c < nums.length - 1; c++) {
+        const sum = nums[a] + nums[b] + nums[c];
+        const find = nums.slice(c + 1).filter((num) => num === sum);
+        count += find.length;
+      }
+  return count;
+};
+console.log(countQuadruplets([1, 2, 3, 6])); // 1
+console.log(countQuadruplets([3, 3, 6, 4, 5])); // 0
+console.log(countQuadruplets([1, 1, 1, 3, 5])); // 4
+
+// Ended up studying top voted for this one
+
+// Pretty straight forward after all
+// Not the greatest runtime
