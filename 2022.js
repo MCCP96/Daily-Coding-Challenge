@@ -7045,7 +7045,7 @@ console.log(countQuadruplets([1, 1, 1, 3, 5])); // 4
 // Not the greatest runtime */
 
 // Reverse Prefix of Word         5/19/2022
-
+/* 
 // Given a 0-indexed string word and a character ch, reverse the segment of word that starts at index 0 and ends at the index of the first occurrence of ch (inclusive). If the character ch does not exist in word, do nothing.
 
 // For example, if word = "abcdefd" and ch = "d", then you should reverse the segment that starts at 0 and ends at 3 (inclusive). The resulting string will be "dcbaefd".
@@ -7095,4 +7095,68 @@ var topVotedReversePrefix = function (word, ch) {
       .reverse()
       .join("") + word.substr(index + 1)
   );
+}; */
+
+// Count Number of Pairs With Absolute Difference K         5/20/2022
+
+// Given an integer array nums and an integer k, return the number of pairs (i, j) where i < j such that |nums[i] - nums[j]| == k.
+
+// The value of |x| is defined as:
+
+// x if x >= 0.
+// -x if x < 0.
+
+// Example 1:
+//    Input: nums = [1,2,2,1], k = 1
+//    Output: 4
+// Explanation: The pairs with an absolute difference of 1 are:
+// - [1,2,2,1]
+// - [1,2,2,1]
+// - [1,2,2,1]
+// - [1,2,2,1]
+
+// Example 2:
+//    Input: nums = [1,3], k = 3
+//    Output: 0
+// Explanation: There are no pairs with an absolute difference of 3.
+
+// Example 3:
+//    Input: nums = [3,2,1,5,4], k = 2
+//    Output: 3
+// Explanation: The pairs with an absolute difference of 2 are:
+// - [3,2,1,5,4]
+// - [3,2,1,5,4]
+// - [3,2,1,5,4]
+
+// Constraints:
+//    1 <= nums.length <= 200
+//    1 <= nums[i] <= 100
+//    1 <= k <= 99
+
+const countKDifference = (nums, k) => {
+  let count = 0;
+  for (let i = 0; i <= nums.length; i++) {
+    let arr = nums;
+    const val = arr.shift();
+    count += arr.reduce((a, c) => (Math.abs(val - c) === k ? ++a : a), 0);
+  }
+  return count;
 };
+console.log(countKDifference([1, 2, 2, 1], 1)); // 4
+console.log(countKDifference([1, 3], 3)); // 0
+console.log(countKDifference([3, 2, 1, 5, 4], 2)); // 3
+
+// Doesn't work for all test cases
+
+const topVotedCountKDifference = function (nums, k) {
+  nums = nums.sort((b, a) => b - a);
+  let count = 0;
+
+  for (let i = 0; i < nums.length; i++)
+    for (let j = i + 1; j < nums.length; j++)
+      if (Math.abs(nums[i] - nums[j]) == k) count++;
+
+  return count;
+};
+
+// This is the logic I had in mind but I guess j=i+1 is what I was missing
