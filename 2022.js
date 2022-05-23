@@ -7215,7 +7215,7 @@ console.log(finalValueAfterOperations(["X++", "++X", "--X", "X--"])); // 0
 // Same as top voted */
 
 // Maximum Difference Between Increasing Elements         5/22/2022
-
+/* 
 // Given a 0-indexed integer array nums of size n, find the maximum difference between nums[i] and nums[j] (i.e., nums[j] - nums[i]), such that 0 <= i < j < n and nums[i] < nums[j].
 
 // Return the maximum difference. If no such i and j exists, return -1.
@@ -7248,7 +7248,7 @@ const maximumDifference = (nums, max = 0) => {
   for (let i = 0; i < nums.length; i++)
     for (let j = i + 1; j < nums.length; j++)
       max = Math.max(max, nums[j] - nums[i]);
-  return max ? max : -1;
+  return max ? max:-1
 };
 console.log(maximumDifference([7, 1, 5, 4])); // 4
 console.log(maximumDifference([9, 4, 3, 2])); // -1
@@ -7274,4 +7274,63 @@ const topVotedMaximumDifference = (nums) => {
   return res;
 };
 
-// O(n) solution with much better runtime
+// O(n) solution with much better runtime */
+
+// Convert 1D Array Into 2D Array         5/23/2022
+
+// You are given a 0-indexed 1-dimensional (1D) integer array original, and two integers, m and n. You are tasked with creating a 2-dimensional (2D) array with m rows and n columns using all the elements from original.
+
+// The elements from indices 0 to n - 1 (inclusive) of original should form the first row of the constructed 2D array, the elements from indices n to 2 * n - 1 (inclusive) should form the second row of the constructed 2D array, and so on.
+
+// Return an m x n 2D array constructed according to the above procedure, or an empty 2D array if it is impossible.
+
+// Example 1:
+//    Input: original = [1,2,3,4], m = 2, n = 2
+//    Output: [[1,2],[3,4]]
+// Explanation: The constructed 2D array should contain 2 rows and 2 columns.
+// The first group of n=2 elements in original, [1,2], becomes the first row in the constructed 2D array.
+// The second group of n=2 elements in original, [3,4], becomes the second row in the constructed 2D array.
+
+// Example 2:
+//    Input: original = [1,2,3], m = 1, n = 3
+//    Output: [[1,2,3]]
+// Explanation: The constructed 2D array should contain 1 row and 3 columns.
+// Put all three elements in original into the first row of the constructed 2D array.
+
+// Example 3:
+//    Input: original = [1,2], m = 1, n = 1
+//    Output: []
+// Explanation: There are 2 elements in original.
+// It is impossible to fit 2 elements in a 1x1 2D array, so return an empty 2D array.
+
+// Constraints:
+//    1 <= original.length <= 5 * 104
+//    1 <= original[i] <= 105
+//    1 <= m, n <= 4 * 104
+
+const construct2DArray = (original, m, n) => {
+  if (m * n !== original.length) return [];
+  return Array(m)
+    .fill(0)
+    .map(() => original.splice(0, n));
+};
+console.log(construct2DArray([1, 2, 3, 4], 2, 2)); // [[1,2],[3,4]]
+console.log(construct2DArray([1, 2, 3], 1, 3)); // [[1,2,3]]
+console.log(construct2DArray([1, 2], 1, 1)); // []
+console.log(construct2DArray([3], 1, 2)); // []
+
+// Ok runtime, but works
+
+var topVotedConstruct2DArray = (original, m, n) => {
+  if (original.length !== m * n) return [];
+  let result = [];
+  let arr = [];
+  for (let i = 0; i < original.length; i++) {
+    arr.push(original[i]);
+    if (arr.length === n) {
+      result.push(arr);
+      arr = [];
+    }
+  }
+  return result;
+};
