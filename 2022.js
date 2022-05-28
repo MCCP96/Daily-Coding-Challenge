@@ -7498,7 +7498,7 @@ console.log(minMovesToSeat([2, 2, 6, 6], [1, 3, 2, 6])); // 4
 // Same as top voted */
 
 // Check if Numbers Are Ascending in a Sentence         5/27/2022
-
+/* 
 // A sentence is a list of tokens separated by a single space with no leading or trailing spaces. Every token is either a positive number consisting of digits 0-9 with no leading zeros, or a word consisting of lowercase English letters.
 
 // For example, "a puppy has 2 eyes 4 legs" is a sentence with seven tokens: "2" and "4" are numbers and the other tokens such as "puppy" are words.
@@ -7557,4 +7557,74 @@ const topVotedAreNumbersAscending = (s) => {
   return true;
 };
 
-// I prefer the simplicity of mine, but this has better runtime
+// I prefer the simplicity of mine, but this has better runtime */
+
+// Number of Valid Words in a Sentence          5/28/2022
+
+// A sentence consists of lowercase letters ('a' to 'z'), digits ('0' to '9'), hyphens ('-'), punctuation marks ('!', '.', and ','), and spaces (' ') only. Each sentence can be broken down into one or more tokens separated by one or more spaces ' '.
+
+// A token is a valid word if all three of the following are true:
+
+// It only contains lowercase letters, hyphens, and/or punctuation (no digits).
+// There is at most one hyphen '-'. If present, it must be surrounded by lowercase characters ("a-b" is valid, but "-ab" and "ab-" are not valid).
+// There is at most one punctuation mark. If present, it must be at the end of the token ("ab,", "cd!", and "." are valid, but "a!b" and "c.," are not valid).
+// Examples of valid words include "a-b.", "afad", "ba-c", "a!", and "!".
+
+// Given a string sentence, return the number of valid words in sentence.
+
+// Example 1:
+//    Input: sentence = "cat and  dog"
+//    Output: 3
+// Explanation: The valid words in the sentence are "cat", "and", and "dog".
+
+// Example 2:
+//    Input: sentence = "!this  1-s b8d!"
+//    Output: 0
+// Explanation: There are no valid words in the sentence.
+// "!this" is invalid because it starts with a punctuation mark.
+// "1-s" and "b8d" are invalid because they contain digits.
+
+// Example 3:
+//    Input: sentence = "alice and  bob are playing stone-game10"
+//    Output: 5
+// Explanation: The valid words in the sentence are "alice", "and", "bob", "are", and "playing".
+// "stone-game10" is invalid because it contains digits.
+
+// Constraints:
+//    1 <= sentence.length <= 1000
+//    sentence only contains lowercase English letters, digits, ' ', '-', '!', '.', and ','.
+//    There will be at least 1 token.
+
+const countValidWords = (sentence) =>
+  sentence
+    .split(" ")
+    .reduce(
+      (a, c) =>
+        /\d/.test(c) ||
+        c.indexOf("-") !== c.lastIndexOf("-") ||
+        (/-/.test(c) && c.indexOf("-") !== 0) ||
+        (/-/.test(c) && c.indexOf("-") !== c.length - 1) ||
+        !/[a-z]/.test(c) ||
+        c.split(/(?=[\.|!|,])/).length > 1 ||
+        (/[\.|!|,]/.test(c) && !/[\.|!|,]/.test(c[c.length - 1]))
+          ? a
+          : ++a,
+      0
+    );
+console.log(countValidWords("cat and  dog")); // 3
+console.log(countValidWords("!this  1-s b8d!")); // 0
+console.log(countValidWords("alice and  bob are playing stone-game10")); // 5
+
+// Today was a Regex exercise...
+// Doesn't work for all test cases
+
+const topVotedCountValidWords = (sentence) =>
+  sentence
+    .split(/\s+/)
+    .filter(
+      (word) =>
+        word.match(/^[a-z]+(-[a-z]+)?[\.!,]?$/) || word.match(/^[\.!,]$/)
+    ).length;
+
+// All top voted solutions used massive amounts of Regex
+// This was the slimmest
