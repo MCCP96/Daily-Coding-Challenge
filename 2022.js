@@ -7560,7 +7560,7 @@ const topVotedAreNumbersAscending = (s) => {
 // I prefer the simplicity of mine, but this has better runtime */
 
 // Number of Valid Words in a Sentence          5/28/2022
-
+/* 
 // A sentence consists of lowercase letters ('a' to 'z'), digits ('0' to '9'), hyphens ('-'), punctuation marks ('!', '.', and ','), and spaces (' ') only. Each sentence can be broken down into one or more tokens separated by one or more spaces ' '.
 
 // A token is a valid word if all three of the following are true:
@@ -7627,4 +7627,64 @@ const topVotedCountValidWords = (sentence) =>
     ).length;
 
 // All top voted solutions used massive amounts of Regex
-// This was the slimmest
+// This was the slimmest */
+
+// Kth Distinct String in an Array          5/29/2022
+
+// A distinct string is a string that is present only once in an array.
+
+// Given an array of strings arr, and an integer k, return the kth distinct string present in arr. If there are fewer than k distinct strings, return an empty string "".
+
+// Note that the strings are considered in the order in which they appear in the array.
+
+// Example 1:
+//    Input: arr = ["d","b","c","b","c","a"], k = 2
+//    Output: "a"
+// Explanation:
+// The only distinct strings in arr are "d" and "a".
+// "d" appears 1st, so it is the 1st distinct string.
+// "a" appears 2nd, so it is the 2nd distinct string.
+// Since k == 2, "a" is returned.
+
+// Example 2:
+//    Input: arr = ["aaa","aa","a"], k = 1
+//    Output: "aaa"
+// Explanation:
+// All strings in arr are distinct, so the 1st string "aaa" is returned.
+
+// Example 3:
+//    Input: arr = ["a","b","a"], k = 3
+//    Output: ""
+// Explanation:
+// The only distinct string is "b". Since there are fewer than 3 distinct strings, we return an empty string "".
+
+// Constraints:
+//    1 <= k <= arr.length <= 1000
+//    1 <= arr[i].length <= 5
+//    arr[i] consists of lowercase English letters.
+
+const kthDistinct = (arr, k) => {
+  const notDistinct = new Set(
+    arr.filter((x, _, arr) => arr.indexOf(x) !== arr.lastIndexOf(x))
+  );
+  return arr.filter((x) => !notDistinct.has(x))[k - 1] ?? "";
+};
+console.log(kthDistinct(["d", "b", "c", "b", "c", "a"], 2)); // "a"
+console.log(kthDistinct(["aaa", "aa", "a"], 1)); // "aaa"
+console.log(kthDistinct(["a", "b", "a"], 3)); // ""
+
+// Pretty terrible runtime, but concise
+
+const topVotedKthDistinct = function (arr, k) {
+  const map = {};
+  const distinctArr = [];
+
+  arr.forEach((letter) => (map[letter] = map[letter] + 1 || 1));
+
+  for (let [key, val] of Object.entries(map))
+    if (val == 1) distinctArr.push(key);
+
+  return distinctArr[k - 1] || "";
+};
+
+// Map is a good way to go about this
