@@ -7630,7 +7630,7 @@ const topVotedCountValidWords = (sentence) =>
 // This was the slimmest */
 
 // Kth Distinct String in an Array          5/29/2022
-
+/* 
 // A distinct string is a string that is present only once in an array.
 
 // Given an array of strings arr, and an integer k, return the kth distinct string present in arr. If there are fewer than k distinct strings, return an empty string "".
@@ -7687,4 +7687,57 @@ const topVotedKthDistinct = function (arr, k) {
   return distinctArr[k - 1] || "";
 };
 
-// Map is a good way to go about this
+// Map is a good way to go about this */
+
+// Smallest Index With Equal Value          5/30/2022
+
+// Given a 0-indexed integer array nums, return the smallest index i of nums such that i mod 10 == nums[i], or -1 if such index does not exist.
+
+// x mod y denotes the remainder when x is divided by y.
+
+// Example 1:
+//    Input: nums = [0,1,2]
+//    Output: 0
+// Explanation:
+// i=0: 0 mod 10 = 0 == nums[0].
+// i=1: 1 mod 10 = 1 == nums[1].
+// i=2: 2 mod 10 = 2 == nums[2].
+// All indices have i mod 10 == nums[i], so we return the smallest index 0.
+
+// Example 2:
+//    Input: nums = [4,3,2,1]
+//    Output: 2
+// Explanation:
+// i=0: 0 mod 10 = 0 != nums[0].
+// i=1: 1 mod 10 = 1 != nums[1].
+// i=2: 2 mod 10 = 2 == nums[2].
+// i=3: 3 mod 10 = 3 != nums[3].
+// 2 is the only index which has i mod 10 == nums[i].
+
+// Example 3:
+//    Input: nums = [1,2,3,4,5,6,7,8,9,0]
+//    Output: -1
+// Explanation: No index satisfies i mod 10 == nums[i].
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    0 <= nums[i] <= 9
+
+const smallestEqual = (nums) => {
+  const smallest = nums.reduce(
+    (a, c, i, arr) => Math.min(i % 10 == nums[i] ? c : a, a),
+    Number.MAX_SAFE_INTEGER
+  );
+  return smallest === Number.MAX_SAFE_INTEGER ? -1 : smallest;
+};
+
+console.log(smallestEqual([0, 1, 2])); // 0
+console.log(smallestEqual([4, 3, 2, 1])); // 2
+console.log(smallestEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])); // -1
+
+// Doesn't work for all test cases
+
+var topVotedSmallestEqual = (nums) => nums.findIndex((n, i) => i % 10 === n);
+
+// Very clean, I've kind of ignored .findIndex up to now
+// "A function to execute on each value in the array until the function returns true"
