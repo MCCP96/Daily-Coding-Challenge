@@ -7690,7 +7690,7 @@ const topVotedKthDistinct = function (arr, k) {
 // Map is a good way to go about this */
 
 // Smallest Index With Equal Value          5/30/2022
-
+/* 
 // Given a 0-indexed integer array nums, return the smallest index i of nums such that i mod 10 == nums[i], or -1 if such index does not exist.
 
 // x mod y denotes the remainder when x is divided by y.
@@ -7740,4 +7740,63 @@ console.log(smallestEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])); // -1
 var topVotedSmallestEqual = (nums) => nums.findIndex((n, i) => i % 10 === n);
 
 // Very clean, I've kind of ignored .findIndex up to now
-// "A function to execute on each value in the array until the function returns true"
+// "A function to execute on each value in the array until the function returns true" */
+
+// Count Vowel Substrings of a String         5/31/2022
+
+// A substring is a contiguous (non-empty) sequence of characters within a string.
+
+// A vowel substring is a substring that only consists of vowels ('a', 'e', 'i', 'o', and 'u') and has all five vowels present in it.
+
+// Given a string word, return the number of vowel substrings in word.
+
+// Example 1:
+//    Input: word = "aeiouu"
+//    Output: 2
+// Explanation: The vowel substrings of word are as follows (underlined):
+// - "aeiouu"
+// - "aeiouu"
+
+// Example 2:
+//    Input: word = "unicornarihan"
+//    Output: 0
+// Explanation: Not all 5 vowels are present, so there are no vowel substrings.
+
+// Example 3:
+//    Input: word = "cuaieuouac"
+//    Output: 7
+// Explanation: The vowel substrings of word are as follows (underlined):
+// - "cuaieuouac"
+// - "cuaieuouac"
+// - "cuaieuouac"
+// - "cuaieuouac"
+// - "cuaieuouac"
+// - "cuaieuouac"
+// - "cuaieuouac"
+
+// Constraints:
+//    1 <= word.length <= 100
+//    word consists of lowercase English letters only.
+
+const isVowel = (c) =>
+  c === "a" || c === "e" || c === "i" || c === "o" || c === "u";
+
+const topVotedCountVowelSubstrings = function (word) {
+  let vowelMap = new Map();
+  let total = 0;
+  let totalLen = word.length - 1;
+  for (let i = 0; i <= totalLen; i++) {
+    vowelMap.clear();
+    for (let j = i; j <= totalLen && isVowel(word[j]); j++) {
+      vowelMap.set(word[j], (vowelMap.get(word[j]) ?? 0) + 1);
+      if (vowelMap.size == 5) total++;
+    }
+  }
+  return total;
+};
+console.log(countVowelSubstrings("aeiouu")); // 2
+console.log(countVowelSubstrings("unicornarihan")); // 0
+console.log(countVowelSubstrings("cuaieuouac")); // 7
+
+// No time today
+// Map seems like the right move here
