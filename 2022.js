@@ -7743,7 +7743,7 @@ var topVotedSmallestEqual = (nums) => nums.findIndex((n, i) => i % 10 === n);
 // "A function to execute on each value in the array until the function returns true" */
 
 // Count Vowel Substrings of a String         5/31/2022
-
+/* 
 // A substring is a contiguous (non-empty) sequence of characters within a string.
 
 // A vowel substring is a substring that only consists of vowels ('a', 'e', 'i', 'o', and 'u') and has all five vowels present in it.
@@ -7799,4 +7799,89 @@ console.log(countVowelSubstrings("unicornarihan")); // 0
 console.log(countVowelSubstrings("cuaieuouac")); // 7
 
 // No time today
-// Map seems like the right move here
+// Map seems like the right move here */
+
+// Check Whether Two Strings are Almost Equivalent          6/1/2022
+
+// Two strings word1 and word2 are considered almost equivalent if the differences between the frequencies of each letter from 'a' to 'z' between word1 and word2 is at most 3.
+
+// Given two strings word1 and word2, each of length n, return true if word1 and word2 are almost equivalent, or false otherwise.
+
+// The frequency of a letter x is the number of times it occurs in the string.
+
+// Example 1:
+//    Input: word1 = "aaaa", word2 = "bccb"
+//    Output: false
+// Explanation: There are 4 'a's in "aaaa" but 0 'a's in "bccb".
+// The difference is 4, which is more than the allowed 3.
+
+// Example 2:
+//    Input: word1 = "abcdeef", word2 = "abaaacc"
+//    Output: true
+// Explanation: The differences between the frequencies of each letter in word1 and word2 are at most 3:
+// - 'a' appears 1 time in word1 and 4 times in word2. The difference is 3.
+// - 'b' appears 1 time in word1 and 1 time in word2. The difference is 0.
+// - 'c' appears 1 time in word1 and 2 times in word2. The difference is 1.
+// - 'd' appears 1 time in word1 and 0 times in word2. The difference is 1.
+// - 'e' appears 2 times in word1 and 0 times in word2. The difference is 2.
+// - 'f' appears 1 time in word1 and 0 times in word2. The difference is 1.
+
+// Example 3:
+//    Input: word1 = "cccddabba", word2 = "babababab"
+//    Output: true
+// Explanation: The differences between the frequencies of each letter in word1 and word2 are at most 3:
+// - 'a' appears 2 times in word1 and 4 times in word2. The difference is 2.
+// - 'b' appears 2 times in word1 and 5 times in word2. The difference is 3.
+// - 'c' appears 3 times in word1 and 0 times in word2. The difference is 3.
+// - 'd' appears 2 times in word1 and 0 times in word2. The difference is 2.
+
+// Constraints:
+//    n == word1.length == word2.length
+//    1 <= n <= 100
+//    word1 and word2 consist only of lowercase English letters.
+
+const count = (arr) =>
+  [...arr].reduce((a, c) => {
+    a[c] ? ++a[c] : (a[c] = 1);
+    return a;
+  }, {});
+
+const checkAlmostEquivalent = function (word1, word2) {
+  let [count1, count2] = [count(word1), count(word2)];
+
+  for (let char in count1) {
+    if (Math.abs(count1[char] - (isNaN(count2[char]) ? 0 : count2[char])) > 3)
+      return false;
+  }
+  for (let char in count2) {
+    if (Math.abs(count2[char] - (isNaN(count1[char]) ? 0 : count1[char])) > 3)
+      return false;
+  }
+
+  return true;
+};
+console.log(checkAlmostEquivalent("aaaa", "bccb")); // false
+console.log(checkAlmostEquivalent("abcdeef", "abaaacc")); // true
+console.log(checkAlmostEquivalent("cccddabba", "babababab")); // true
+
+// Better than 90% of runtimes
+// Bit redundant with the second for loop, but makes for an easy solution
+
+var topVotedCheckAlmostEquivalent = function (word1, word2) {
+  const hm = new Map();
+  const addToHm = (ch, add) => {
+    if (hm.has(ch)) hm.set(ch, hm.get(ch) + (add ? +1 : -1));
+    else hm.set(ch, add ? +1 : -1);
+  };
+
+  for (let i = 0; i < word1.length; i++) {
+    addToHm(word1[i], true);
+    addToHm(word2[i], false);
+  }
+
+  for (const val of hm.values()) if (Math.abs(val) > 3) return false;
+
+  return true;
+};
+
+// Same logic but using actual Map()
