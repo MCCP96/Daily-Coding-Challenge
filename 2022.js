@@ -7802,7 +7802,7 @@ console.log(countVowelSubstrings("cuaieuouac")); // 7
 // Map seems like the right move here */
 
 // Check Whether Two Strings are Almost Equivalent          6/1/2022
-
+/* 
 // Two strings word1 and word2 are considered almost equivalent if the differences between the frequencies of each letter from 'a' to 'z' between word1 and word2 is at most 3.
 
 // Given two strings word1 and word2, each of length n, return true if word1 and word2 are almost equivalent, or false otherwise.
@@ -7884,4 +7884,70 @@ var topVotedCheckAlmostEquivalent = function (word1, word2) {
   return true;
 };
 
-// Same logic but using actual Map()
+// Same logic but using actual Map() */
+
+// Time Needed to Buy Tickets         6/2/2022
+
+// There are n people in a line queuing to buy tickets, where the 0th person is at the front of the line and the (n - 1)th person is at the back of the line.
+
+// You are given a 0-indexed integer array tickets of length n where the number of tickets that the ith person would like to buy is tickets[i].
+
+// Each person takes exactly 1 second to buy a ticket. A person can only buy 1 ticket at a time and has to go back to the end of the line (which happens instantaneously) in order to buy more tickets. If a person does not have any tickets left to buy, the person will leave the line.
+
+// Return the time taken for the person at position k (0-indexed) to finish buying tickets.
+
+// Example 1:
+//    Input: tickets = [2,3,2], k = 2
+//    Output: 6
+// Explanation:
+// - In the first pass, everyone in the line buys a ticket and the line becomes [1, 2, 1].
+// - In the second pass, everyone in the line buys a ticket and the line becomes [0, 1, 0].
+// The person at position 2 has successfully bought 2 tickets and it took 3 + 3 = 6 seconds.
+
+// Example 2:
+//    Input: tickets = [5,1,1,1], k = 0
+//    Output: 8
+// Explanation:
+// - In the first pass, everyone in the line buys a ticket and the line becomes [4, 0, 0, 0].
+// - In the next 4 passes, only the person in position 0 is buying tickets.
+// The person at position 0 has successfully bought 5 tickets and it took 4 + 1 + 1 + 1 + 1 = 8 seconds.
+
+// Constraints:
+//    n == tickets.length
+//    1 <= n <= 100
+//    1 <= tickets[i] <= 100
+//    0 <= k < n
+
+const timeRequiredToBuy = function (tickets, k) {
+  let time = 0;
+  while (tickets[k] > 0) {
+    for (let i = 0; i < tickets.length; i++) {
+      if (tickets[i] < 1) continue;
+      tickets[i]-- && time++;
+      if (i === k && tickets[k] < 1) break;
+    }
+  }
+  return time;
+};
+console.log(timeRequiredToBuy([2, 3, 2], 2)); // 6
+console.log(timeRequiredToBuy([5, 1, 1, 1], 0)); // 8
+
+// Ok runtime
+
+var topVotedTimeRequiredToBuy = function (tickets, k) {
+  let ans = 0;
+  let i = 0;
+  while (tickets[k] !== 0) {
+    if (i === tickets.length) i = 0;
+
+    if (tickets[i] != 0) {
+      tickets[i] -= 1;
+      ans++;
+    }
+
+    i++;
+  }
+  return ans;
+};
+
+// Very similar
