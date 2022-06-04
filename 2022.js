@@ -7953,7 +7953,7 @@ var topVotedTimeRequiredToBuy = function (tickets, k) {
 // Very similar */
 
 // Two Furthest Houses With Different Colors          6/3/2022
-
+/* 
 // There are n houses evenly lined up on the street, and each house is beautifully painted. You are given a 0-indexed integer array colors of length n, where colors[i] represents the color of the ith house.
 
 // Return the maximum distance between two houses with different colors.
@@ -8020,4 +8020,66 @@ const topVotedMaxDistance = function (colors) {
     }
   }
   return max;
+}; */
+
+// Count Common Words With One Occurrence         6/4/2022
+
+// Given two string arrays words1 and words2, return the number of strings that appear exactly once in each of the two arrays.
+
+// Example 1:
+//    Input: words1 = ["leetcode","is","amazing","as","is"], words2 = ["amazing","leetcode","is"]
+//    Output: 2
+// Explanation:
+// - "leetcode" appears exactly once in each of the two arrays. We count this string.
+// - "amazing" appears exactly once in each of the two arrays. We count this string.
+// - "is" appears in each of the two arrays, but there are 2 occurrences of it in words1. We do not count this string.
+// - "as" appears once in words1, but does not appear in words2. We do not count this string.
+// Thus, there are 2 strings that appear exactly once in each of the two arrays.
+
+// Example 2:
+//    Input: words1 = ["b","bb","bbb"], words2 = ["a","aa","aaa"]
+//    Output: 0
+// Explanation: There are no strings that appear in each of the two arrays.
+
+// Example 3:
+//    Input: words1 = ["a","ab"], words2 = ["a","a","a","ab"]
+//    Output: 1
+// Explanation: The only string that appears exactly once in each of the two arrays is "ab".
+
+// Constraints:
+//    1 <= words1.length, words2.length <= 1000
+//    1 <= words1[i].length, words2[j].length <= 30
+//    words1[i] and words2[j] consists only of lowercase English letters.
+
+const countWords = (words1, words2) => {
+  const unique = (words) =>
+    words.filter((x, _, arr) => arr.indexOf(x) === arr.lastIndexOf(x));
+  unique2 = unique(words2);
+  return unique(words1).reduce((a, c) => (unique2.includes(c) ? ++a : a), 0);
 };
+// prettier-ignore
+console.log(countWords(["leetcode","is","amazing","as","is"], ["amazing","leetcode","is"])); // 2
+console.log(countWords(["b", "bb", "bbb"], ["a", "aa", "aaa"])); // 0
+console.log(countWords(["a", "ab"], ["a", "a", "a", "ab"])); // 1
+
+// Ok submission
+
+var topVotedCountWords = function (words1, words2) {
+  const map1 = new Map();
+  const map2 = new Map();
+  let count = 0;
+
+  for (const word of words1) {
+    map1.set(word, map1.get(word) + 1 || 1);
+  }
+  for (const word of words2) {
+    map2.set(word, map2.get(word) + 1 || 1);
+  }
+  for (const word of words1) {
+    if (map1.get(word) === 1 && map2.get(word) === 1) count++;
+  }
+
+  return count;
+};
+
+// All top voted submissions were hashmaps
