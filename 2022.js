@@ -8085,7 +8085,7 @@ var topVotedCountWords = function (words1, words2) {
 // All top voted submissions were hashmaps */
 
 // Find Target Indices After Sorting Array          6/5/2022
-
+/* 
 // You are given a 0-indexed integer array nums and a target element target.
 
 // A target index is an index i such that nums[i] == target.
@@ -8145,4 +8145,57 @@ var topVotedTargetIndices = function (nums, target) {
 
   binarySearch(result, nums, 0, nums.length - 1, target);
   return result.sort((a, b) => a - b);
+}; */
+
+// Finding 3-Digit Even Numbers          6/6/2022
+
+// You are given an integer array digits, where each element is a digit. The array may contain duplicates.
+
+// You need to find all the unique integers that follow the given requirements:	The integer consists of the concatenation of three elements from digits in any arbitrary order.	The integer does not have leading zeros.	The integer is even.
+
+// For example, if the given digits were [1, 2, 3], integers 132 and 312 follow the requirements.
+
+// Return a sorted array of the unique integers.
+
+// Example 1:
+//		 Input: digits = [2,1,3,0]
+//		 Output: [102,120,130,132,210,230,302,310,312,320]
+// Explanation: All the possible integers that follow the requirements are in the output array.
+// Notice that there are no odd integers or integers with leading zeros.
+
+// Example 2:
+//		 Input: digits = [2,2,8,8,2]
+//		 Output: [222,228,282,288,822,828,882]
+// Explanation: The same digit can be used as many times as it appears in digits.
+// In this example, the digit 8 is used twice each time in 288, 828, and 882.
+
+// Example 3:
+//		 Input: digits = [3,7,5]
+//		 Output: []
+// Explanation: No even integers can be formed using the given digits.
+
+// Constraints:
+//    3 <= digits.length <= 100
+//    0 <= digits[i] <= 9
+
+var topVotedFindEvenNumbers = function (digits) {
+  const di = digits,
+    n = di.length;
+
+  let ans = [];
+  for (let i = 0; i < n; i++)
+    if (di[i] !== 0)
+      for (let j = 0; j < n; j++)
+        if (i !== j)
+          for (let k = 0; k < n; k++)
+            if (i !== k && j !== k && di[k] % 2 === 0) {
+              ans.push(di[i] * 100 + di[j] * 10 + di[k]);
+            }
+  return [...new Set(ans.sort())];
 };
+console.log(findEvenNumbers([2, 1, 3, 0])); // [102,120,130,132,210,230,302,310,312,320]
+console.log(findEvenNumbers([2, 2, 8, 8, 2])); // [222,228,282,288,822,828,882]
+console.log(findEvenNumbers([3, 7, 5])); // []
+
+// Didn't know how to go about it, so decided to study top voted
+// Seems all top voted submissions just brute force it like this
