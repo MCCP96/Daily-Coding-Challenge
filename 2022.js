@@ -8148,7 +8148,7 @@ var topVotedTargetIndices = function (nums, target) {
 }; */
 
 // Finding 3-Digit Even Numbers          6/6/2022
-
+/* 
 // You are given an integer array digits, where each element is a digit. The array may contain duplicates.
 
 // You need to find all the unique integers that follow the given requirements:	The integer consists of the concatenation of three elements from digits in any arbitrary order.	The integer does not have leading zeros.	The integer is even.
@@ -8198,4 +8198,62 @@ console.log(findEvenNumbers([2, 2, 8, 8, 2])); // [222,228,282,288,822,828,882]
 console.log(findEvenNumbers([3, 7, 5])); // []
 
 // Didn't know how to go about it, so decided to study top voted
-// Seems all top voted submissions just brute force it like this
+// Seems all top voted submissions just brute force it like this */
+
+// Find Subsequence of Length K With the Largest Sum          6/7/2022
+
+// You are given an integer array nums and an integer k. You want to find a subsequence of nums of length k that has the largest sum.
+
+// Return any such subsequence as an integer array of length k.
+
+// A subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.
+
+// Example 1:
+//		 Input: nums = [2,1,3,3], k = 2
+//		 Output: [3,3]
+// Explanation:
+// The subsequence has the largest sum of 3 + 3 = 6.
+
+// Example 2:
+//		 Input: nums = [-1,-2,3,4], k = 3
+//		 Output: [-1,3,4]
+// Explanation:
+// The subsequence has the largest sum of -1 + 3 + 4 = 6.
+
+// Example 3:
+//		 Input: nums = [3,4,3,3], k = 2
+//		 Output: [3,4]
+// Explanation:
+// The subsequence has the largest sum of 3 + 4 = 7.
+// Another possible subsequence is [4, 3].
+
+// Constraints:
+//    1 <= nums.length <= 1000
+//    -10<sup>5</sup><= nums[i] <= 10<sup>5</sup>
+//    1 <= k <= nums.length
+
+const maxSubsequence = (nums, k) => {
+  let ans = [...nums].sort((a, b) => b - a).slice(0, k);
+  return nums.filter((x) => {
+    if (ans.includes(x)) {
+      ans = ans.slice(0, ans.indexOf(x)) + ans.slice(ans.indexOf(x) + 1);
+      return x;
+    }
+  });
+};
+console.log(maxSubsequence([2, 1, 3, 3], 2)); // [3,3]
+console.log(maxSubsequence([-1, -2, 3, 4], 3)); // [-1,3,4]
+console.log(maxSubsequence([3, 4, 3, 3], 2)); // [3,4]
+
+// Had a cleaner solution, but array has to be in order as provided
+
+var topVotedMaxSubsequence = function (nums, k) {
+  return nums
+    .map((v, i) => [v, i])
+    .sort((a, b) => a[0] - b[0])
+    .slice(-k)
+    .sort((a, b) => a[1] - b[1])
+    .map((x) => x[0]);
+};
+
+// Smart use of .map
