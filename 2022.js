@@ -8201,7 +8201,7 @@ console.log(findEvenNumbers([3, 7, 5])); // []
 // Seems all top voted submissions just brute force it like this */
 
 // Find Subsequence of Length K With the Largest Sum          6/7/2022
-
+/* 
 // You are given an integer array nums and an integer k. You want to find a subsequence of nums of length k that has the largest sum.
 
 // Return any such subsequence as an integer array of length k.
@@ -8256,4 +8256,72 @@ var topVotedMaxSubsequence = function (nums, k) {
     .map((x) => x[0]);
 };
 
-// Smart use of .map
+// Smart use of .map */
+
+// Rings and Rods          6/8/2022
+
+// There are n rings and each ring is either red, green, or blue. The rings are distributed across ten rods labeled from 0 to 9.
+
+// You are given a string rings of length 2n that describes the n rings that are placed onto the rods. Every two characters in rings forms a color-position pair that is used to describe each ring where:	The first character of the i<sup>th</sup> pair denotes the i<sup>th</sup> ring's color ('R', 'G', 'B').	The second character of the i<sup>th</sup> pair denotes the rod that the i<sup>th</sup> ring is placed on ('0' to '9').
+
+// For example, "R3G2B1" describes n == 3 rings: a red ring placed onto the rod labeled 3, a green ring placed onto the rod labeled 2, and a blue ring placed onto the rod labeled 1.
+
+// Return the number of rods that have all three colors of rings on them.
+
+// Example 1:
+// <img alt="" src="https://assets.leetcode.com/uploads/2021/11/23/ex1final.png" style="width: 258px; height: 130px;">
+//		 Input: rings = "B0B6G0R6R0R6G9"
+//		 Output: 1
+// Explanation:
+// - The rod labeled 0 holds 3 rings with all colors: red, green, and blue.
+// - The rod labeled 6 holds 3 rings, but it only has red and blue.
+// - The rod labeled 9 holds only a green ring.
+// Thus, the number of rods with all three colors is 1.
+
+// Example 2:
+// <img alt="" src="https://assets.leetcode.com/uploads/2021/11/23/ex2final.png" style="width: 266px; height: 130px;">
+//		 Input: rings = "B0R0G0R9R0B0G0"
+//		 Output: 1
+// Explanation:
+// - The rod labeled 0 holds 6 rings with all colors: red, green, and blue.
+// - The rod labeled 9 holds only a red ring.
+// Thus, the number of rods with all three colors is 1.
+
+// Example 3:
+//		 Input: rings = "G4"
+//		 Output: 0
+// Explanation:
+// Only one ring is given. Thus, no rods have all three colors.
+
+// Constraints:
+//    rings.length == 2 * n
+//    1 <= n <= 100
+//    rings[i] where i is even is either 'R', 'G', or 'B' (0-indexed).
+//    rings[i] where i is odd is a digit from '0' to '9' (0-indexed).
+
+const countPoints = (rings) =>
+  rings
+    .split(/(?<=\d)/)
+    .reduce((a, c) => {
+      let cur = new Set(a[c[1]]);
+      cur.add(c[0]);
+      a[c[1]] = cur;
+      return a;
+    }, Array(10).fill(new Set()))
+    .filter((x) => x.size === 3).length;
+
+console.log(countPoints("B0B6G0R6R0R6G9")); // 1
+console.log(countPoints("B0R0G0R9R0B0G0")); // 1
+console.log(countPoints("G4")); // 0
+
+// Pretty good runtime
+
+var topVotedCountPoints = function (rings) {
+  let rods = Array(10).fill("");
+  for (let i = 0; i < rings.length; i += 2) {
+    if (!rods[rings[i + 1]].includes(rings[i])) rods[rings[i + 1]] += rings[i];
+  }
+  return rods.filter((rod) => rod.length > 2).length;
+};
+
+// Same idea, much cleaner
