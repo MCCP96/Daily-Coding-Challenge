@@ -8259,7 +8259,7 @@ var topVotedMaxSubsequence = function (nums, k) {
 // Smart use of .map */
 
 // Rings and Rods          6/8/2022
-
+/* 
 // There are n rings and each ring is either red, green, or blue. The rings are distributed across ten rods labeled from 0 to 9.
 
 // You are given a string rings of length 2n that describes the n rings that are placed onto the rods. Every two characters in rings forms a color-position pair that is used to describe each ring where:	The first character of the i<sup>th</sup> pair denotes the i<sup>th</sup> ring's color ('R', 'G', 'B').	The second character of the i<sup>th</sup> pair denotes the rod that the i<sup>th</sup> ring is placed on ('0' to '9').
@@ -8324,4 +8324,41 @@ var topVotedCountPoints = function (rings) {
   return rods.filter((rod) => rod.length > 2).length;
 };
 
-// Same idea, much cleaner
+// Same idea, much cleaner */
+
+// Find First Palindromic String in the Array          6/9/2022
+
+// Given an array of strings words, return the first palindromic string in the array. If there is no such string, return an empty string "".
+
+// A string is palindromic if it reads the same forward and backward.
+
+// Example 1:
+//		 Input: words = ["abc","car","ada","racecar","cool"]
+//		 Output: "ada"
+// Explanation: The first string that is palindromic is "ada".
+// Note that "racecar" is also palindromic, but it is not the first.
+
+// Example 2:
+//		 Input: words = ["notapalindrome","racecar"]
+//		 Output: "racecar"
+// Explanation: The first and only string that is palindromic is "racecar".
+
+// Example 3:
+//		 Input: words = ["def","ghi"]
+//		 Output: ""
+// Explanation: There are no palindromic strings, so the empty string is returned.
+
+// Constraints:
+//    1 <= words.length <= 100
+//    1 <= words[i].length <= 100
+//    words[i] consists only of lowercase English letters.
+
+const firstPalindrome = (words) =>
+  words[words.findIndex((x) => x === [...x].reverse().join(""))] ?? "";
+
+console.log(firstPalindrome(["abc", "car", "ada", "racecar", "cool"])); // "ada"
+console.log(firstPalindrome(["notapalindrome", "racecar"])); // "racecar"
+console.log(firstPalindrome(["def", "ghi"])); // ""
+
+// One line, not amazing runtime
+// Same logic as top voted
