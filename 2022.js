@@ -8364,7 +8364,7 @@ console.log(firstPalindrome(["def", "ghi"])); // ""
 // Same logic as top voted */
 
 // Maximum Number of Words Found in Sentences          6/10/2022
-
+/* 
 // A sentence is a list of words that are separated by a single space with no leading or trailing spaces.
 
 // You are given an array of strings sentences, where each sentences[i] represents a single sentence.
@@ -8413,4 +8413,45 @@ const topVotedMostWordsFound = function (sentences) {
   return max;
 };
 
-// Same idea
+// Same idea */
+
+// A Number After a Double Reversal          6/11/2022
+
+// Reversing an integer means to reverse all its digits.	For example, reversing 2021 gives 1202. Reversing 12300 gives 321 as the leading zeros are not retained.
+
+// Given an integer num, reverse num to get reversed1, then reverse reversed1 to get reversed2. Return true if reversed2 equals num. Otherwise return false.
+
+// Example 1:
+//		 Input: num = 526
+//		 Output: true
+// Explanation: Reverse num to get 625, then reverse 625 to get 526, which equals num.
+
+// Example 2:
+//		 Input: num = 1800
+//		 Output: false
+// Explanation: Reverse num to get 81, then reverse 81 to get 18, which does not equal num.
+
+// Example 3:
+//		 Input: num = 0
+//		 Output: true
+// Explanation: Reverse num to get 0, then reverse 0 to get 0, which equals num.
+
+// Constraints:
+//    0 <= num <= 10<sup>6</sup>
+
+const isSameAfterReversals = (num) =>
+  +[...`${+[...`${num}`].reverse().join("")}`].reverse().join("") === num;
+
+console.log(isSameAfterReversals(526)); // true
+console.log(isSameAfterReversals(1800)); // false
+console.log(isSameAfterReversals(0)); // true
+
+// Terrible runtime
+
+var topVotedIsSameAfterReversals = function (num) {
+  if (num == 0) return true;
+  if (num % 10 == 0) return false;
+  return true;
+};
+
+// Much better
