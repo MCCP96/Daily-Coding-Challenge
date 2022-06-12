@@ -8416,7 +8416,7 @@ const topVotedMostWordsFound = function (sentences) {
 // Same idea */
 
 // A Number After a Double Reversal          6/11/2022
-
+/* 
 // Reversing an integer means to reverse all its digits.	For example, reversing 2021 gives 1202. Reversing 12300 gives 321 as the leading zeros are not retained.
 
 // Given an integer num, reverse num to get reversed1, then reverse reversed1 to get reversed2. Return true if reversed2 equals num. Otherwise return false.
@@ -8454,4 +8454,48 @@ var topVotedIsSameAfterReversals = function (num) {
   return true;
 };
 
-// Much better
+// Much better */
+
+// Check if All A's Appears Before All B's          6/12/2022
+
+// Given a string s consisting of only the characters 'a' and 'b', return true if every 'a' appears before every 'b' in the string. Otherwise, return false.
+
+// Example 1:
+//		 Input: s = "aaabbb"
+//		 Output: true
+// Explanation:
+// The 'a's are at indices 0, 1, and 2, while the 'b's are at indices 3, 4, and 5.
+// Hence, every 'a' appears before every 'b' and we return true.
+
+// Example 2:
+//		 Input: s = "abab"
+//		 Output: false
+// Explanation:
+// There is an 'a' at index 2 and a 'b' at index 1.
+// Hence, not every 'a' appears before every 'b' and we return false.
+
+// Example 3:
+//		 Input: s = "bbb"
+//		 Output: true
+// Explanation:
+// There are no 'a's, hence, every 'a' appears before every 'b' and we return true.
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s[i] is either 'a' or 'b'.
+
+const checkString = (s) => s.split("a").filter((x) => x !== "").length < 2;
+
+console.log(checkString("a")); // true
+console.log(checkString("aaabbb")); // true
+console.log(checkString("abab")); // false
+console.log(checkString("bbb")); // true
+
+// Doesn't work for all test cases
+
+var topVotedCheckString = function (s) {
+  let violation = "ba";
+  return s.indexOf(violation, 0) == -1;
+};
+
+// Very nice
