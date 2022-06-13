@@ -8457,7 +8457,7 @@ var topVotedIsSameAfterReversals = function (num) {
 // Much better */
 
 // Check if All A's Appears Before All B's          6/12/2022
-
+/* 
 // Given a string s consisting of only the characters 'a' and 'b', return true if every 'a' appears before every 'b' in the string. Otherwise, return false.
 
 // Example 1:
@@ -8498,4 +8498,58 @@ var topVotedCheckString = function (s) {
   return s.indexOf(violation, 0) == -1;
 };
 
-// Very nice
+// Very nice */
+
+// Capitalize the Title          6/13/2022
+
+// You are given a string title consisting of one or more words separated by a single space, where each word consists of English letters. Capitalize the string by changing the capitalization of each word such that:	If the length of the word is 1 or 2 letters, change all letters to lowercase.	Otherwise, change the first letter to uppercase and the remaining letters to lowercase.
+
+// Return the capitalized title.
+
+// Example 1:
+//		 Input: title = "capiTalIze tHe titLe"
+//		 Output: "Capitalize The Title"
+// Explanation:
+// Since all the words have a length of at least 3, the first letter of each word is uppercase, and the remaining letters are lowercase.
+
+// Example 2:
+//		 Input: title = "First leTTeR of EACH Word"
+//		 Output: "First Letter of Each Word"
+// Explanation:
+// The word "of" has length 2, so it is all lowercase.
+// The remaining words have a length of at least 3, so the first letter of each remaining word is uppercase, and the remaining letters are lowercase.
+
+// Example 3:
+//		 Input: title = "i lOve leetcode"
+//		 Output: "i Love Leetcode"
+// Explanation:
+// The word "i" has length 1, so it is lowercase.
+// The remaining words have a length of at least 3, so the first letter of each remaining word is uppercase, and the remaining letters are lowercase.
+
+// Constraints:
+//    1 <= title.length <= 100
+//    title consists of words separated by a single space without any leading or trailing spaces.
+//    Each word consists of uppercase and lowercase English letters and is non-empty.
+
+const capitalizeTitle = (title) =>
+  title
+    .toLowerCase()
+    .split(" ")
+    .map((c) => (c.length > 2 ? c[0].toUpperCase() + c.slice(1) : c))
+    .join(" ");
+
+console.log(capitalizeTitle("capiTalIze tHe titLe")); // "Capitalize The Title"
+console.log(capitalizeTitle("First leTTeR of EACH Word")); // "First Letter of Each Word"
+console.log(capitalizeTitle("i lOve leetcode")); // "i Love Leetcode"
+
+// Ok
+
+const topVotedCapitalizeTitle = function (title) {
+  const words = title.toLowerCase().split(" ");
+  for (let i = 0; i < words.length; i++)
+    if (words[i].length > 2)
+      words[i] = words[i][0].toUpperCase() + words[i].slice(1);
+  return words.join(" ");
+};
+
+// Same logic, different method
