@@ -8501,7 +8501,7 @@ var topVotedCheckString = function (s) {
 // Very nice */
 
 // Capitalize the Title          6/13/2022
-
+/* 
 // You are given a string title consisting of one or more words separated by a single space, where each word consists of English letters. Capitalize the string by changing the capitalization of each word such that:	If the length of the word is 1 or 2 letters, change all letters to lowercase.	Otherwise, change the first letter to uppercase and the remaining letters to lowercase.
 
 // Return the capitalized title.
@@ -8552,4 +8552,60 @@ const topVotedCapitalizeTitle = function (title) {
   return words.join(" ");
 };
 
-// Same logic, different method
+// Same logic, different method */
+
+// Check if Every Row and Column Contains All Numbers          6/14/2022
+
+// An n x n matrix is valid if every row and every column contains all the integers from 1 to n (inclusive).
+
+// Given an n x n integer matrix matrix, return true if the matrix is valid. Otherwise, return false.
+
+// Example 1:
+// <img alt="" src="https://assets.leetcode.com/uploads/2021/12/21/example1drawio.png" style="width: 250px; height: 251px;">
+//		 Input: matrix = [[1,2,3],[3,1,2],[2,3,1]]
+//		 Output: true
+// Explanation: In this case, n = 3, and every row and column contains the numbers 1, 2, and 3.
+// Hence, we return true.
+
+// Example 2:
+// <img alt="" src="https://assets.leetcode.com/uploads/2021/12/21/example2drawio.png" style="width: 250px; height: 251px;">
+//		 Input: matrix = [[1,1,1],[1,2,3],[1,2,3]]
+//		 Output: false
+// Explanation: In this case, n = 3, but the first row and the first column do not contain the numbers 2 or 3.
+// Hence, we return false.
+
+// Constraints:
+//    n == matrix.length == matrix[i].length
+//    1 <= n <= 100
+//    1 <= matrix[i][j] <= n
+
+const checkValid = (matrix) => {
+  for (let i = 0; i < matrix.length; i++)
+    for (let j = 1; j <= matrix.length; j++)
+      if (!matrix[i].includes(j)) return false;
+  return true;
+};
+// prettier-ignore
+console.log(checkValid([[1,2,3],[3,1,2],[2,3,1]])) // true
+// prettier-ignore
+console.log(checkValid([[1,1,1],[1,2,3],[1,2,3]])) // false
+
+// Doesn't work for all test cases
+
+const topVotedCheckValid = function (matrix) {
+  for (let i = 0; i < matrix.length; i++) {
+    const cols = new Set(),
+      rows = new Set(matrix[i]);
+
+    for (let j = 0; j < matrix.length; j++) {
+      if (matrix[j][i] > matrix.length) return false;
+      cols.add(matrix[j][i]);
+    }
+
+    if (cols.size < matrix.length || rows.size < matrix.length) return false;
+  }
+  return true;
+};
+
+// I wasn't taking columns into account
+// My bad, didn't fully read the prompt
