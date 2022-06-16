@@ -8611,7 +8611,7 @@ const topVotedCheckValid = function (matrix) {
 // My bad, didn't fully read the prompt */
 
 // Divide a String Into Groups of Size k          6/15/2022
-
+/* 
 // A string s can be partitioned into groups of size k using the following procedure:	The first group consists of the first k characters of the string, the second group consists of the next k characters of the string, and so on. Each character can be a part of exactly one group.	For the last group, if the string does not have k characters remaining, a character fill is used to complete the group.
 
 // Note that the partition is done so that after removing the fill character from the last group (if it exists) and concatenating all the groups in order, the resultant string should be s.
@@ -8670,4 +8670,85 @@ const topVotedDivideString = function (s, k, fill) {
   return ans;
 };
 
-// Same idea, different method
+// Same idea, different method */
+
+// Minimum Cost of Buying Candies With Discount          6/16/2022
+
+// A shop is selling candies at a discount. For every two candies sold, the shop gives a third candy for free.
+
+// The customer can choose any candy to take away for free as long as the cost of the chosen candy is less than or equal to the minimum cost of the two candies bought.	For example, if there are 4 candies with costs 1, 2, 3, and 4, and the customer buys candies with costs 2 and 3, theycan take the candy with cost 1 for free, but not the candy with cost 4.
+
+// Given a 0-indexed integer array cost, where cost[i] denotes the cost of the i^th candy, return the minimum cost of buying all the candies.
+
+// Example 1:
+//		 Input: cost = [1,2,3]
+//		 Output: 5
+// Explanation: We buy the candies with costs 2 and 3, and take the candy with cost 1 for free.
+// The total cost of buying all candies is 2 + 3 = 5. This is the only way we can buy the candies.
+// Note that we cannot buy candies with costs 1 and 3, and then take the candy with cost 2 for free.
+// The cost of the free candy has to be less than or equal to the minimum cost of the purchased candies.
+
+// Example 2:
+//		 Input: cost = [6,5,7,9,2,2]
+//		 Output: 23
+// Explanation: The way in which we can get the minimum cost is described below:
+// - Buy candies with costs 9 and 7
+// - Take the candy with cost 6 for free
+// - We buy candies with costs 5 and 2
+// - Take the last remaining candy with cost 2 for free
+// Hence, the minimum cost to buy all candies is 9 + 7 + 5 + 2 = 23.
+
+// Example 3:
+//		 Input: cost = [5,5]
+//		 Output: 10
+// Explanation: Since there are only 2 candies, we buy both of them. There is not a third candy we can take for free.
+// Hence, the minimum cost to buy all candies is 5 + 5 = 10.
+
+// Constraints:
+//    1 <= cost.length <= 100
+//    1 <= cost[i] <= 100
+
+const minimumCost = (cost) =>
+  cost
+    .sort((a, b) => b - a)
+    .reduce((a, c, i) => ((i + 1) % 3 !== 0 ? (a += c) : a));
+
+console.log(minimumCost([1, 2, 3])); // 5
+console.log(minimumCost([6, 5, 7, 9, 2, 2])); // 23
+console.log(minimumCost([5, 5])); // 10
+
+// Ok, one line
+
+const topVotedMinimumCost = function (cost) {
+  if (cost.length < 3) {
+    return cost.reduce((prev, cur) => prev + cur);
+  }
+
+  cost.sort((a, b) => b - a);
+  let count = 0;
+  let sum = 0;
+
+  for (const num of cost) {
+    if (count === 2) {
+      count = 0;
+      continue;
+    }
+    sum += num;
+    count++;
+  }
+
+  return sum;
+};
+
+// Much better runtime
+
+// DAY 365
+// Today marks one year of daily coding challenges.
+
+// Lots has changed this past year. I quit my job to go back to school, had prerequisites lacking to be admitted and had to spend a year getting those up to par. Finally, I was accepted to the Software Engineering program just a couple weeks ago.
+
+// One year is notable, but I'm just at the beginning of all this. I've got 3-4 years of university ahead of me and plan on keeping up this habit.
+
+// I have felt my coding improve and look forward to seeing where I'm at by day 730.
+
+// See you then.
