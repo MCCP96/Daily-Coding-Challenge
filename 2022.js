@@ -8673,7 +8673,7 @@ const topVotedDivideString = function (s, k, fill) {
 // Same idea, different method */
 
 // Minimum Cost of Buying Candies With Discount          6/16/2022
-
+/* 
 // A shop is selling candies at a discount. For every two candies sold, the shop gives a third candy for free.
 
 // The customer can choose any candy to take away for free as long as the cost of the chosen candy is less than or equal to the minimum cost of the two candies bought.	For example, if there are 4 candies with costs 1, 2, 3, and 4, and the customer buys candies with costs 2 and 3, theycan take the candy with cost 1 for free, but not the candy with cost 4.
@@ -8751,4 +8751,55 @@ const topVotedMinimumCost = function (cost) {
 
 // I have felt my coding improve and look forward to seeing where I'm at by day 730.
 
-// See you then.
+// See you then. */
+
+// Count Elements With Strictly Smaller and Greater Elements           6/17/2022
+
+// Given an integer array nums, return the number of elements that have both a strictly smaller and a strictly greater element appear in nums.
+
+// Example 1:
+//		 Input: nums = [11,7,2,15]
+//		 Output: 2
+// Explanation: The element 7 has the element 2 strictly smaller than it and the element 11 strictly greater than it.
+// Element 11 has element 7 strictly smaller than it and element 15 strictly greater than it.
+// In total there are 2 elements having both a strictly smaller and a strictly greater element appear in nums.
+
+// Example 2:
+//		 Input: nums = [-3,3,3,90]
+//		 Output: 2
+// Explanation: The element 3 has the element -3 strictly smaller than it and the element 90 strictly greater than it.
+// Since there are two elements with the value 3, in total there are 2 elements having both a strictly smaller and a strictly greater element appear in nums.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    -10^5 <= nums[i] <= 10^5
+
+const countElements = (nums) =>
+  nums
+    .sort((a, b) => a - b)
+    .filter((x, _, arr) => x > arr[0] && x < arr[arr.length - 1]).length;
+
+console.log(countElements([11, 7, 2, 15])); // 2
+console.log(countElements([-3, 3, 3, 90])); // 2
+
+// Works
+
+const topVotedCountElements = function (nums) {
+  let map = {},
+    total = 0;
+
+  for (let i of nums) map[i] ? map[i]++ : (map[i] = 1);
+
+  let newNums = [...new Set(nums)];
+
+  if (newNums.length < 3) return 0;
+
+  newNums
+    .sort((a, b) => a - b)
+    .slice(1, newNums.length - 1)
+    .forEach((num) => (total += map[num]));
+
+  return total;
+};
+
+// Much longer, much better runtime
