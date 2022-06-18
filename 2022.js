@@ -8754,7 +8754,7 @@ const topVotedMinimumCost = function (cost) {
 // See you then. */
 
 // Count Elements With Strictly Smaller and Greater Elements           6/17/2022
-
+/* 
 // Given an integer array nums, return the number of elements that have both a strictly smaller and a strictly greater element appear in nums.
 
 // Example 1:
@@ -8802,4 +8802,49 @@ const topVotedCountElements = function (nums) {
   return total;
 };
 
-// Much longer, much better runtime
+// Much longer, much better runtime */
+
+// Keep Multiplying Found Values by Two          6/18/2022
+
+// You are given an array of integers nums. You are also given an integer original which is the first number that needs to be searched for in nums.
+
+// You then do the following steps:	If original is found in nums, multiply it by two (i.e., set original = 2 * original).	Otherwise, stop the process.	Repeat this process with the new number as long as you keep finding the number.
+
+// Return the final value of original.
+
+// Example 1:
+//		 Input: nums = [5,3,6,1,12], original = 3
+//		 Output: 24
+// Explanation:
+// - 3 is found in nums. 3 is multiplied by 2 to obtain 6.
+// - 6 is found in nums. 6 is multiplied by 2 to obtain 12.
+// - 12 is found in nums. 12 is multiplied by 2 to obtain 24.
+// - 24 is not found in nums. Thus, 24 is returned.
+
+// Example 2:
+//		 Input: nums = [2,7,9], original = 4
+//		 Output: 4
+// Explanation:
+// - 4 is not found in nums. Thus, 4 is returned.
+
+// Constraints:
+//    1 <= nums.length <= 1000
+//    1 <= nums[i], original <= 1000
+
+const findFinalValue = (nums, original) =>
+  nums.find((x) => x === original)
+    ? findFinalValue(nums, original * 2)
+    : original;
+
+console.log(findFinalValue([5, 3, 6, 1, 12], 3)); // 24
+console.log(findFinalValue([2, 7, 9], 4)); // 4
+
+// Better runtime than 100% of submissions
+
+const topVotedFindFinalValue = (a, x) => {
+  let se = new Set(a);
+  while (se.has(x)) x *= 2;
+  return x;
+};
+
+// Initially thought of doing a while loop, but I prefer my solution
