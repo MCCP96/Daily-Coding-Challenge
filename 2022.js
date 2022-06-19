@@ -8805,7 +8805,7 @@ const topVotedCountElements = function (nums) {
 // Much longer, much better runtime */
 
 // Keep Multiplying Found Values by Two          6/18/2022
-
+/* 
 // You are given an array of integers nums. You are also given an integer original which is the first number that needs to be searched for in nums.
 
 // You then do the following steps:	If original is found in nums, multiply it by two (i.e., set original = 2 * original).	Otherwise, stop the process.	Repeat this process with the new number as long as you keep finding the number.
@@ -8847,4 +8847,53 @@ const topVotedFindFinalValue = (a, x) => {
   return x;
 };
 
-// Initially thought of doing a while loop, but I prefer my solution
+// Initially thought of doing a while loop, but I prefer my solution */
+
+// Minimum Sum of Four Digit Number After Splitting Digits          6/19/2022
+
+// You are given a positive integer num consisting of exactly four digits. Split num into two new integers new1 and new2 by using the digits found in num. Leading zeros are allowed in new1 and new2, and all the digits found in num must be used.	For example, given num = 2932, you have the following digits: two 2's, one 9 and one 3. Some of the possible pairs [new1, new2] are [22, 93], [23, 92], [223, 9] and [2, 329].
+
+// Return the minimum possible sum of new1 and new2.
+
+// Example 1:
+//		 Input: num = 2932
+//		 Output: 52
+// Explanation: Some possible pairs [new1, new2] are [29, 23], [223, 9], etc.
+// The minimum sum can be obtained by the pair [29, 23]: 29 + 23 = 52.
+
+// Example 2:
+//		 Input: num = 4009
+//		 Output: 13
+// Explanation: Some possible pairs [new1, new2] are [0, 49], [490, 0], etc.
+// The minimum sum can be obtained by the pair [4, 9]: 4 + 9 = 13.
+
+// Constraints:
+//    1000 <= num <= 9999
+
+const minimumSum = (num, num1 = [], num2 = []) => {
+  let nums = [...`${num}`.replaceAll(0, "")].sort((a, b) => a - b);
+
+  for (let i = 0; i < nums.length; i++)
+    num1.push(nums.shift()) && num2.push(nums.shift());
+
+  return +num1.join("") + +num2.join("");
+};
+console.log(minimumSum(2932)); // 52
+console.log(minimumSum(4009)); // 13
+
+// Doesn't work for all test cases
+
+const topVotedMinimumSum = function (num) {
+  let numbers = [];
+  for (let i = 0; i < 4; i++) {
+    numbers.push(~~num % 10);
+    num /= 10;
+  }
+  const sorted = numbers.sort((a, b) => b - a);
+  return sorted[0] + sorted[1] + 10 * (sorted[2] + sorted[3]);
+};
+
+// Huh, nice solution, never would've thought of this
+
+// "That ~~ is a double NOT bitwise operator.
+// It is used as a faster substitute for Math.floor() for positive numbers"
