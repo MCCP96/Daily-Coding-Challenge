@@ -8850,7 +8850,7 @@ const topVotedFindFinalValue = (a, x) => {
 // Initially thought of doing a while loop, but I prefer my solution */
 
 // Minimum Sum of Four Digit Number After Splitting Digits          6/19/2022
-
+/* 
 // You are given a positive integer num consisting of exactly four digits. Split num into two new integers new1 and new2 by using the digits found in num. Leading zeros are allowed in new1 and new2, and all the digits found in num must be used.	For example, given num = 2932, you have the following digits: two 2's, one 9 and one 3. Some of the possible pairs [new1, new2] are [22, 93], [23, 92], [223, 9] and [2, 329].
 
 // Return the minimum possible sum of new1 and new2.
@@ -8896,4 +8896,63 @@ const topVotedMinimumSum = function (num) {
 // Huh, nice solution, never would've thought of this
 
 // "That ~~ is a double NOT bitwise operator.
-// It is used as a faster substitute for Math.floor() for positive numbers"
+// It is used as a faster substitute for Math.floor() for positive numbers" */
+
+// Sort Even and Odd Indices Independently          6/20/2022
+
+// You are given a 0-indexed integer array nums. Rearrange the values of nums according to the following rules:	Sort the values at odd indices of nums in non-increasing order.			For example, if nums = [4,1,2,3] before this step, it becomes [4,3,2,1] after. The values at odd indices 1 and 3 are sorted in non-increasing order.			Sort the values at even indices of nums in non-decreasing order.			For example, if nums = [4,1,2,3] before this step, it becomes [2,1,4,3] after. The values at even indices 0 and 2 are sorted in non-decreasing order.
+
+// Return the array formed after rearranging the values of nums.
+
+// Example 1:
+//		 Input: nums = [4,1,2,3]
+//		 Output: [2,3,4,1]
+// Explanation:
+// First, we sort the values present at odd indices (1 and 3) in non-increasing order.
+// So, nums changes from [4,1,2,3] to [4,3,2,1].
+// Next, we sort the values present at even indices (0 and 2) in non-decreasing order.
+// So, nums changes from [4,1,2,3] to [2,3,4,1].
+// Thus, the array formed after rearranging the values is [2,3,4,1].
+
+// Example 2:
+//		 Input: nums = [2,1]
+//		 Output: [2,1]
+// Explanation:
+// Since there is exactly one odd index and one even index, no rearrangement of values takes place.
+// The resultant array formed is [2,1], which is the same as the initial array.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    1 <= nums[i] <= 100
+
+const sortEvenOdd = (nums) => {
+  nums.sort((a, b) => a - b);
+  let [odd, even] = [[], []];
+
+  while (nums.length >= 1)
+    nums[0] % 2 ? odd.push(nums.shift()) : even.push(nums.shift());
+  odd.sort((a, b) => b - a);
+
+  let ans = [];
+  const count = even.length + odd.length;
+  for (let i = 0; i < count; i++)
+    i % 2 ? ans.push(odd.shift()) : ans.push(even.shift());
+
+  return ans;
+};
+console.log(sortEvenOdd([4, 1, 2, 3])); // [2,3,4,1]
+console.log(sortEvenOdd([2, 1])); // [2,1]
+
+// Doesn't work for all test cases
+
+const topVotedSortEvenOdd = function (nums) {
+  let odd = nums.filter((num, i, arr) => i % 2 != 0).sort((a, b) => b - a);
+  let even = nums.filter((num, i, arr) => i % 2 == 0).sort((a, b) => a - b);
+  let x = 0,
+    y = 0;
+
+  nums.forEach((num, i, nums) => {
+    nums[i] = i % 2 == 0 ? even[x++] : odd[y++];
+  });
+  return nums;
+};
