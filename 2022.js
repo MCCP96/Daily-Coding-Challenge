@@ -8899,7 +8899,7 @@ const topVotedMinimumSum = function (num) {
 // It is used as a faster substitute for Math.floor() for positive numbers" */
 
 // Sort Even and Odd Indices Independently          6/20/2022
-
+/* 
 // You are given a 0-indexed integer array nums. Rearrange the values of nums according to the following rules:	Sort the values at odd indices of nums in non-increasing order.			For example, if nums = [4,1,2,3] before this step, it becomes [4,3,2,1] after. The values at odd indices 1 and 3 are sorted in non-increasing order.			Sort the values at even indices of nums in non-decreasing order.			For example, if nums = [4,1,2,3] before this step, it becomes [2,1,4,3] after. The values at even indices 0 and 2 are sorted in non-decreasing order.
 
 // Return the array formed after rearranging the values of nums.
@@ -8955,4 +8955,51 @@ const topVotedSortEvenOdd = function (nums) {
     nums[i] = i % 2 == 0 ? even[x++] : odd[y++];
   });
   return nums;
+}; */
+
+// Count Operations to Obtain Zero          6/21/2022
+
+// You are given two non-negative integers num1 and num2.
+
+// In one operation, if num1 >= num2, you must subtract num2 from num1, otherwise subtract num1 from num2.	For example, if num1 = 5 and num2 = 4, subtract num2 from num1, thus obtaining num1 = 1 and num2 = 4. However, if num1 = 4 and num2 = 5, after one operation, num1 = 4 and num2 = 1.
+
+// Return the number of operations required to make either num1 = 0 or num2 = 0.
+
+// Example 1:
+//		 Input: num1 = 2, num2 = 3
+//		 Output: 3
+// Explanation:
+// - Operation 1: num1 = 2, num2 = 3. Since num1 < num2, we subtract num1 from num2 and get num1 = 2, num2 = 3 - 2 = 1.
+// - Operation 2: num1 = 2, num2 = 1. Since num1 > num2, we subtract num2 from num1.
+// - Operation 3: num1 = 1, num2 = 1. Since num1 == num2, we subtract num2 from num1.
+// Now num1 = 0 and num2 = 1. Since num1 == 0, we do not need to perform any further operations.
+// So the total number of operations required is 3.
+
+// Example 2:
+//		 Input: num1 = 10, num2 = 10
+//		 Output: 1
+// Explanation:
+// - Operation 1: num1 = 10, num2 = 10. Since num1 == num2, we subtract num2 from num1 and get num1 = 10 - 10 = 0.
+// Now num1 = 0 and num2 = 10. Since num1 == 0, we are done.
+// So the total number of operations required is 1.
+
+// Constraints:
+//    0 <= num1, num2 <= 10^5
+
+const countOperations = (num1, num2, count = 0) =>
+  num1 === 0 || num2 === 0
+    ? count
+    : num2 >= num1
+    ? countOperations(num1, num2 - num1, ++count)
+    : countOperations(num1 - num2, num2, ++count);
+
+console.log(countOperations(2, 3)); // 3
+console.log(countOperations(10, 10)); // 1
+
+// Clean
+
+const topVotedCountOperations = function (num1, num2) {
+  if (num2 === 0) return 0;
+  if (num1 < num2) countOperations(num2, num1);
+  return Math.trunc(num1 / num2) + countOperations(num2, num1 % num2);
 };
