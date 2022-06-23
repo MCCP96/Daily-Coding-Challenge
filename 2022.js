@@ -9005,7 +9005,7 @@ const topVotedCountOperations = function (num1, num2) {
 }; */
 
 // Count Equal and Divisible Pairs in an Array          6/22/2022
-
+/* 
 // Given a 0-indexed integer array nums of length n and an integer k, return the number of pairs (i, j) where 0 <= i < j < n, such that nums[i] == nums[j] and (i * j) is divisible by k.
 
 // Example 1:
@@ -9042,4 +9042,42 @@ console.log(topVotedCountPairs([1, 2, 3, 4], 1)); // 0
 // Ended up studying top voted
 
 // Nested for loop definitely saves a lot of trouble
-// Keep it simple
+// Keep it simple */
+
+// Count Integers With Even Digit Sum          6/23/2022
+
+// Given a positive integer num, return the number of positive integers less than or equal to num whose digit sums are even.
+
+// The digit sum of a positive integer is the sum of all its digits.
+
+// Example 1:
+//		 Input: num = 4
+//		 Output: 2
+// Explanation:
+// The only integers less than or equal to 4 whose digit sums are even are 2 and 4.
+
+// Example 2:
+//		 Input: num = 30
+//		 Output: 14
+// Explanation:
+// The 14 integers less than or equal to 30 whose digit sums are even are
+// 2, 4, 6, 8, 11, 13, 15, 17, 19, 20, 22, 24, 26, and 28.
+
+// Constraints:
+//    1 <= num <= 1000
+
+const countEven = (num) => {
+  let count = 0;
+  for (let i = 1; i < num + 1; i++)
+    if (!([...`${i}`].reduce((a, c) => (a += +c), 0) % 2)) count++;
+  return count;
+};
+console.log(countEven(4)); // 2
+console.log(countEven(30)); // 14
+
+// Ok solution, there's probably a more efficient math approach to this
+
+const topVotedCountEven = (n) =>
+  (n - (((n / 10) & 1) ^ ((n / 100) & 1) ^ (n / 1000))) >> 1;
+
+// There it is
