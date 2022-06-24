@@ -9045,7 +9045,7 @@ console.log(topVotedCountPairs([1, 2, 3, 4], 1)); // 0
 // Keep it simple */
 
 // Count Integers With Even Digit Sum          6/23/2022
-
+/* 
 // Given a positive integer num, return the number of positive integers less than or equal to num whose digit sums are even.
 
 // The digit sum of a positive integer is the sum of all its digits.
@@ -9080,4 +9080,40 @@ console.log(countEven(30)); // 14
 const topVotedCountEven = (n) =>
   (n - (((n / 10) & 1) ^ ((n / 100) & 1) ^ (n / 1000))) >> 1;
 
-// There it is
+// There it is */
+
+// Counting Words With a Given Prefix          6/24/2022
+
+// You are given an array of strings words and a string pref.
+
+// Return the number of strings in words that contain pref as a prefix.
+
+// A prefix of a string s is any leading contiguous substring of s.
+
+// Example 1:
+//		 Input: words = ["pay","attention","practice","attend"], pref = "at"
+//		 Output: 2
+// Explanation: The 2 strings that contain "at" as a prefix are: "attention" and "attend".
+
+// Example 2:
+//		 Input: words = ["leetcode","win","loops","success"], pref = "code"
+//		 Output: 0
+// Explanation: There are no strings that contain "code" as a prefix.
+
+// Constraints:
+//    1 <= words.length <= 100
+//    1 <= words[i].length, pref.length <= 100
+//    words[i] and pref consist of lowercase English letters.
+
+const prefixCount = (words, pref) =>
+  words.reduce((a, c) => (c.startsWith(pref) ? ++a : a), 0);
+
+console.log(prefixCount(["pay", "attention", "practice", "attend"], "at")); // 2
+console.log(prefixCount(["leetcode", "win", "loops", "success"], "code")); // 0
+
+// Simple as
+
+const topVotedPrefixCount = (words, pref) =>
+  words.filter((word) => word.startsWith(pref)).length;
+
+// Also nice
