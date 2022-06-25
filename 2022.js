@@ -9083,7 +9083,7 @@ const topVotedCountEven = (n) =>
 // There it is */
 
 // Counting Words With a Given Prefix          6/24/2022
-
+/* 
 // You are given an array of strings words and a string pref.
 
 // Return the number of strings in words that contain pref as a prefix.
@@ -9116,4 +9116,72 @@ console.log(prefixCount(["leetcode", "win", "loops", "success"], "code")); // 0
 const topVotedPrefixCount = (words, pref) =>
   words.filter((word) => word.startsWith(pref)).length;
 
-// Also nice
+// Also nice */
+
+// Most Frequent Number Following Key In an Array          6/25/2022
+
+// You are given a 0-indexed integer array nums. You are also given an integer key, which is present in nums.
+
+// For every unique integer target in nums, count the number of times target immediately follows an occurrence of key in nums. In other words, count the number of indices i such that:
+//    0 <= i <= nums.length - 2
+//    nums[i] == key
+//    nums[i + 1] == target
+
+// Return the target with the maximum count. The test cases will be generated such that the target with maximum count is unique.
+
+// Example 1:
+//		 Input: nums = [1,100,200,1,100], key = 1
+//		 Output: 100
+// Explanation: For target = 100, there are 2 occurrences at indices 1 and 4 which follow an occurrence of key.
+// No other integers follow an occurrence of key, so we return 100.
+
+// Example 2:
+//		 Input: nums = [2,2,2,2,3], key = 2
+//		 Output: 2
+// Explanation: For target = 2, there are 3 occurrences at indices 1, 2, and 3 which follow an occurrence of key.
+// For target = 3, there is only one occurrence at index 4 which follows an occurrence of key.
+// target = 2 has the maximum number of occurrences following an occurrence of key, so we return 2.
+
+// Constraints:
+//    2 <= nums.length <= 1000
+//    1 <= nums[i] <= 1000
+//    The test cases will be generated such that the answer is unique.
+
+const mostFrequent = (nums, key) => {
+  let count = new Map();
+  for (let i = 0; i < nums.length; i++)
+    if (nums[i] === key)
+      count.has(nums[i + 1])
+        ? count.set(nums[i + 1], count.get(nums[i + 1]) + 1)
+        : count.set(nums[i + 1], 1);
+
+  let max = 0;
+  return [...count.entries()].reduce((a, c) => {
+    if (c[1] > max) {
+      max = c[1];
+      return c[0];
+    } else return a;
+  }, 0);
+};
+
+console.log(mostFrequent([1, 100, 200, 1, 100], 1)); // 100
+console.log(mostFrequent([2, 2, 2, 2, 3], 2)); // 2
+
+// Bit bulky, but works
+
+const topVotedMostFrequent = (nums, key) => {
+  const freq = {};
+  let ret = 0;
+  for (let i = 0, max = 0; i < nums.length - 1; ++i) {
+    if (nums[i] !== key) continue;
+    const target = nums[i + 1];
+    freq[target] = (freq[target] || 0) + 1;
+    if (freq[target] > max) {
+      max = freq[target];
+      ret = target;
+    }
+  }
+  return ret;
+};
+
+// Same idea, better execution
