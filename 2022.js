@@ -9237,7 +9237,7 @@ console.log(cellsInRange("A1:F1")); // ["A1","B1","C1","D1","E1","F1"]
 // Was definitely going for the .charCodeAt approach */
 
 // Find All K-Distant Indices in an Array          6/27/2022
-
+/* 
 // You are given a 0-indexed integer array nums and two integers key and k. A k-distant index is an index i of nums for which there exists at least one index j such that |i - j| <= k and nums[j] == key.
 
 // Return a list of all k-distant indices sorted in increasing order.
@@ -9277,4 +9277,52 @@ const topVotedFindKDistantIndices = (nums, key, k) => {
   return Array.from(result);
 };
 console.log(findKDistantIndices([3, 4, 9, 1, 3, 9, 5], 9, 1)); // [1,2,3,4,5,6]
-console.log(findKDistantIndices([2, 2, 2, 2, 2], 2, 2)); // [0,1,2,3,4]
+console.log(findKDistantIndices([2, 2, 2, 2, 2], 2, 2)); // [0,1,2,3,4] */
+
+// Divide Array Into Equal Pairs          6/28/2022
+
+// You are given an integer array nums consisting of 2 * n integers.
+
+// You need to divide nums into n pairs such that:
+//    Each element belongs to exactly one pair.
+//    The elements present in a pair are equal.
+
+// Return true if nums can be divided into n pairs, otherwise return false.
+
+// Example 1:
+//		 Input: nums = [3,2,3,2,2,2]
+//		 Output: true
+// Explanation:
+// There are 6 elements in nums, so they should be divided into 6 / 2 = 3 pairs.
+// If nums is divided into the pairs (2, 2), (3, 3), and (2, 2), it will satisfy all the conditions.
+
+// Example 2:
+//		 Input: nums = [1,2,3,4]
+//		 Output: false
+// Explanation:
+// There is no way to divide nums into 4 / 2 = 2 pairs such that the pairs satisfy every condition.
+
+// Constraints:
+//    nums.length == 2 * n
+//    1 <= n <= 500
+//    1 <= nums[i] <= 500
+
+const divideArray = (nums) => {
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < nums.length; i += 2)
+    if (nums[i] !== nums[i + 1]) return false;
+  return true;
+};
+console.log(divideArray([3, 2, 3, 2, 2, 2])); // true
+console.log(divideArray([1, 2, 3, 4])); // false
+
+// Straight to the point
+
+const topVotedDivideArray = function (nums) {
+  const numMap = new Map();
+  for (const num of nums)
+    numMap.has(num) ? numMap.delete(num) : numMap.set(num, true);
+  return numMap.size === 0;
+};
+
+// Thought about going the Map route
