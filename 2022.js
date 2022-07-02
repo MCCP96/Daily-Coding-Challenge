@@ -9443,7 +9443,7 @@ const topVotedFindDifference = (nums1, nums2) => {
 // Also a valid approach */
 
 // Minimum Bit Flips to Convert Number          7/1/2022
-
+/* 
 // A bit flip of a number x is choosing a bit in the binary representation of x and flipping it from either 0 to 1 or 1 to 0.
 
 // For example, for x = 7, the binary representation is 111 and we may choose any bit (including any leading zeros not shown) and flip it. We can flip the first bit from the right to get 110, flip the second bit from the right to get 101, flip the fifth bit from the right (a leading zero) to get 10111, etc.
@@ -9477,4 +9477,87 @@ const topVotedMinBitFlips = (start, goal) =>
 console.log(topVotedMinBitFlips(10, 7)); // 3
 console.log(topVotedMinBitFlips(3, 4)); // 3
 
-// Very nice
+// Very nice */
+
+// Minimum Number of Operations to Convert Time          7/2/2022
+
+// You are given two strings current and correct representing two 24-hour times.
+
+// 24-hour times are formatted as "HH:MM", where HH is between 00 and 23, and MM is between 00 and 59. The earliest 24-hour time is 00:00, and the latest is 23:59.
+
+// In one operation you can increase the time current by 1, 5, 15, or 60 minutes. You can perform this operation any number of times.
+
+// Return the minimum number of operations needed to convert current to correct.
+
+// Example 1:
+//		 Input: current = "02:30", correct = "04:35"
+//		 Output: 3
+// Explanation:
+// We can convert current to correct in 3 operations as follows:
+// - Add 60 minutes to current. current becomes "03:30".
+// - Add 60 minutes to current. current becomes "04:30".
+// - Add 5 minutes to current. current becomes "04:35".
+// It can be proven that it is not possible to convert current to correct in fewer than 3 operations.
+
+// Example 2:
+//		 Input: current = "11:00", correct = "11:01"
+//		 Output: 1
+// Explanation: We only have to add one minute to current, so the minimum number of operations needed is 1.
+
+// Constraints:
+//    current and correct are in the format "HH:MM"
+//    current <= correct
+
+const convertTime = (current, correct) => {
+  const [curH, curM] = current.split(":").map((val) => +val);
+  const [corH, corM] = correct.split(":").map((val) => +val);
+
+  let tot = corH - curH;
+  let diff = corM - curM;
+
+  if (corM < curM) {
+    tot -= 1;
+    diff += 60;
+  }
+
+  if (diff >= 15) {
+    tot += Math.floor(diff / 15);
+    diff = diff % 15;
+  }
+
+  if (diff >= 5) {
+    tot += Math.floor(diff / 5);
+    diff = diff % 5;
+  }
+
+  if (diff > 0) {
+    tot += diff;
+  }
+
+  return tot;
+};
+console.log(convertTime("02:30", "04:35")); // 3
+console.log(convertTime("11:00", "11:01")); // 1
+
+// First thing that came to mind
+
+const op = (s) => {
+  let a = s.split(":").map(Number);
+  return a;
+};
+
+const topVotedConvertTime = (s, t) => {
+  let [hs, ms] = op(s),
+    [ht, mt] = op(t);
+  let diff = Math.abs(hs * 60 + ms - (ht * 60 + mt));
+  let res = 0;
+  res += parseInt(diff / 60);
+  diff %= 60;
+  res += parseInt(diff / 15);
+  diff %= 15;
+  res += parseInt(diff / 5);
+  diff %= 5;
+  return res + diff; // finally diff will be in range [0, 4], use all 1
+};
+
+// Pretty tricky
