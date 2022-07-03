@@ -9480,7 +9480,7 @@ console.log(topVotedMinBitFlips(3, 4)); // 3
 // Very nice */
 
 // Minimum Number of Operations to Convert Time          7/2/2022
-
+/* 
 // You are given two strings current and correct representing two 24-hour times.
 
 // 24-hour times are formatted as "HH:MM", where HH is between 00 and 23, and MM is between 00 and 59. The earliest 24-hour time is 00:00, and the latest is 23:59.
@@ -9560,4 +9560,63 @@ const topVotedConvertTime = (s, t) => {
   return res + diff; // finally diff will be in range [0, 4], use all 1
 };
 
-// Pretty tricky
+// Pretty tricky */
+
+// Largest Number After Digit Swaps by Parity          7/3/2022
+
+// You are given a positive integer num. You may swap any two digits of num that have the same parity (i.e. both odd digits or both even digits).
+
+// Return the largest possible value of num after any number of swaps.
+
+// Example 1:
+//		 Input: num = 1234
+//		 Output: 3412
+// Explanation: Swap the digit 3 with the digit 1, this results in the number 3214.
+// Swap the digit 2 with the digit 4, this results in the number 3412.
+// Note that there may be other sequences of swaps but it can be shown that 3412 is the largest possible number.
+// Also note that we may not swap the digit 4 with the digit 1 since they are of different parities.
+
+// Example 2:
+//		 Input: num = 65875
+//		 Output: 87655
+// Explanation: Swap the digit 8 with the digit 6, this results in the number 85675.
+// Swap the first digit 5 with the digit 7, this results in the number 87655.
+// Note that there may be other sequences of swaps but it can be shown that 87655 is the largest possible number.
+
+// Constraints:
+//    1 <= num <= 10^9
+
+const largestInteger = (num) => {
+  const even = [...`${num}`].filter((x) => x % 2 === 0).sort((a, b) => b - a);
+  const odd = [...`${num}`].filter((x) => x % 2 !== 0).sort((a, b) => b - a);
+  return +[...`${num}`].reduce(
+    (a, c) => (c % 2 === 0 ? (a += even.shift()) : (a += odd.shift())),
+    0
+  );
+};
+console.log(largestInteger(1234)); // 3412
+console.log(largestInteger(65875)); // 87655
+
+// Terrible runtime, but works
+
+var topVotedLargestInteger = function (num) {
+  const odd = [];
+  const even = [];
+  const nums = String(num).split("");
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] % 2 === 0) even.push(parseInt(nums[i]));
+    else odd.push(parseInt(nums[i]));
+  }
+
+  odd.sort((a, b) => a - b);
+  even.sort((a, b) => a - b);
+
+  const largestNum = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] % 2 === 0) largestNum.push(even.pop());
+    else largestNum.push(odd.pop());
+  }
+
+  return largestNum.join("");
+};
