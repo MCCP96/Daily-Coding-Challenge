@@ -9622,7 +9622,7 @@ var topVotedLargestInteger = function (num) {
 }; */
 
 // Add Two Integers          7/4/2022
-
+/* 
 // Given two integers num1 and num2, return the sum of the two integers.
 
 // Example 1:
@@ -9643,4 +9643,60 @@ console.log(sum(12, 5)); // 17
 console.log(sum(-10, 4)); // -6
 
 // That's definitely the easiest one I've had so far
-// Same as top voted
+// Same as top voted */
+
+// Find Closest Number to Zero          7/5/2022
+
+// Given an integer array nums of size n, return the number with the value closest to 0 in nums. If there are multiple answers, return the number with the largest value.
+
+// Example 1:
+//		 Input: nums = [-4,-2,1,4,8]
+//		 Output: 1
+// Explanation:
+// The distance from -4 to 0 is |-4| = 4.
+// The distance from -2 to 0 is |-2| = 2.
+// The distance from 1 to 0 is |1| = 1.
+// The distance from 4 to 0 is |4| = 4.
+// The distance from 8 to 0 is |8| = 8.
+// Thus, the closest number to 0 in the array is 1.
+
+// Example 2:
+//		 Input: nums = [2,-1,1]
+//		 Output: 1
+// Explanation: 1 and -1 are both the closest numbers to 0, so 1 being larger is returned.
+
+// Constraints:
+//    1 <= n <= 1000
+//    -10^5 <= nums[i] <= 10^5
+
+const findClosestNumber = (nums) =>
+  nums.reduce(
+    (a, c) =>
+      Math.abs(c) < Math.abs(a)
+        ? c
+        : Math.abs(c) === Math.abs(a)
+        ? Math.max(c, a)
+        : a,
+    Number.MAX_SAFE_INTEGER
+  );
+
+console.log(findClosestNumber([-4, -2, 1, 4, 8])); // 1
+console.log(findClosestNumber([2, -1, 1])); // 1
+
+// Ok runtime, Great memory
+
+var topVotedFindClosestNumber = function (nums) {
+  let closest = Infinity;
+
+  for (let num of nums) {
+    if (Math.abs(num) < Math.abs(closest)) {
+      closest = num;
+    } else if (Math.abs(num) === Math.abs(closest)) {
+      closest = Math.max(num, closest);
+    }
+  }
+
+  return closest;
+};
+
+// More readable for sure
