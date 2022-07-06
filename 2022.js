@@ -9646,7 +9646,7 @@ console.log(sum(-10, 4)); // -6
 // Same as top voted */
 
 // Find Closest Number to Zero          7/5/2022
-
+/* 
 // Given an integer array nums of size n, return the number with the value closest to 0 in nums. If there are multiple answers, return the number with the largest value.
 
 // Example 1:
@@ -9699,4 +9699,70 @@ var topVotedFindClosestNumber = function (nums) {
   return closest;
 };
 
-// More readable for sure
+// More readable for sure */
+
+// Calculate Digit Sum of a String          7/6/2022
+
+// You are given a string s consisting of digits and an integer k.
+
+// A round can be completed if the length of s is greater than k. In one round, do the following:
+
+//    1. Divide s into consecutive groups of size k such that the first k characters are in the first group, the next k characters are in the second group, and so on. Note that the size of the last group can be smaller than k.
+
+//    2. Replace each group of s with a string representing the sum of all its digits. For example, "346" is replaced with "13" because 3 + 4 + 6 = 13.
+
+//    3. Merge consecutive groups together to form a new string. If the length of the string is greater than k, repeat from step 1.
+
+// Return s after all rounds have been completed.
+
+// Example 1:
+//		 Input: s = "11111222223", k = 3
+//		 Output: "135"
+// Explanation:
+// - For the first round, we divide s into groups of size 3: "111", "112", "222", and "23".
+//   ​​​​​Then we calculate the digit sum of each group: 1 + 1 + 1 = 3, 1 + 1 + 2 = 4, 2 + 2 + 2 = 6, and 2 + 3 = 5.
+//  So, s becomes "3" + "4" + "6" + "5" = "3465" after the first round.
+// - For the second round, we divide s into "346" and "5".
+//  Then we calculate the digit sum of each group: 3 + 4 + 6 = 13, 5 = 5.
+//  So, s becomes "13" + "5" = "135" after second round.
+// Now, s.length <= k, so we return "135" as the answer.
+
+// Example 2:
+//		 Input: s = "00000000", k = 3
+//		 Output: "000"
+// Explanation:
+// We divide s into "000", "000", and "00".
+// Then we calculate the digit sum of each group: 0 + 0 + 0 = 0, 0 + 0 + 0 = 0, and 0 + 0 = 0.
+// s becomes "0" + "0" + "0" = "000", whose length is equal to k, so we return "000".
+
+// Constraints:
+//    1 <= s.length <= 100
+//    2 <= k <= 100
+//    s consists of digits only.
+
+const digitSum = (s, k) => {
+  if (s.length <= k) return s;
+  const ans = s
+    .match(new RegExp(`.{1,${k}}`, "g"))
+    .reduce((a, c) => (a += c.split("").reduce((a, c) => (a += +c), 0)), "");
+  return ans.length > k ? digitSum(ans, k) : ans;
+};
+console.log(digitSum("11111222223", 3)); // "135"
+console.log(digitSum("00000000", 3)); // "000"
+console.log(digitSum("233", 3)); // "233"
+
+// Happy I got to use reuse the RegExp I learnt last month
+
+var topVotedDigitSum = function (s, k) {
+  while (s.length > k) {
+    let newString = "";
+    for (let i = 0; i < s.length; i += k)
+      newString += s
+        .substring(i, i + k)
+        .split("")
+        .reduce((acc, val) => acc + +val, 0);
+
+    s = newString;
+  }
+  return s;
+};
