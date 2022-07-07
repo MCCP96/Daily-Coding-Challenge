@@ -9702,7 +9702,7 @@ var topVotedFindClosestNumber = function (nums) {
 // More readable for sure */
 
 // Calculate Digit Sum of a String          7/6/2022
-
+/* 
 // You are given a string s consisting of digits and an integer k.
 
 // A round can be completed if the length of s is greater than k. In one round, do the following:
@@ -9751,7 +9751,7 @@ console.log(digitSum("11111222223", 3)); // "135"
 console.log(digitSum("00000000", 3)); // "000"
 console.log(digitSum("233", 3)); // "233"
 
-// Happy I got to use reuse the RegExp I learnt last month
+// Happy I got to reuse the RegExp I learnt last month
 
 var topVotedDigitSum = function (s, k) {
   while (s.length > k) {
@@ -9765,4 +9765,60 @@ var topVotedDigitSum = function (s, k) {
     s = newString;
   }
   return s;
+}; */
+
+// Intersection of Multiple Arrays          7/7/2022
+
+// Given a 2D integer array nums where nums[i] is a non-empty array of distinct positive integers, return the list of integers that are present in each array of nums sorted in ascending order.
+
+// Example 1:
+//		 Input: nums = [[3,1,2,4,5],[1,2,3,4],[3,4,5,6]]
+//		 Output: [3,4]
+// Explanation:
+// The only integers present in each of nums[0] = [3,1,2,4,5], nums[1] = [1,2,3,4], and nums[2] = [3,4,5,6] are 3 and 4, so we return [3,4].
+
+// Example 2:
+//		 Input: nums = [[1,2,3],[4,5,6]]
+//		 Output: []
+// Explanation:
+// There does not exist any integer present both in nums[0] and nums[1], so we return an empty list [].
+
+// Constraints:
+//    1 <= nums.length <= 1000
+//    1 <= sum(nums[i].length) <= 1000
+//    1 <= nums[i][j] <= 1000
+//    All the values of nums[i] are unique.
+
+const intersection = (nums) => {
+  const count = nums.flat().reduce((a, c) => {
+    a[c] ? ++a[c] : (a[c] = 1);
+    return a;
+  }, {});
+
+  return [
+    ...Object.entries(count).reduce(
+      (a, c) => (c[1] === nums.length ? a.add(+c[0]) : a),
+      new Set()
+    ),
+  ].sort((a, b) => a - b);
 };
+// prettier-ignore
+console.log(intersection([[3, 1, 2, 4, 5],[1, 2, 3, 4],[3, 4, 5, 6],])); // [3,4]
+// prettier-ignore
+console.log(intersection([[1, 2, 3],[4, 5, 6],])); // []
+
+// Works
+
+const topVotedIntersection = (nums) => {
+  if (nums.length === 1) return nums[0].sort((a, b) => a - b);
+
+  let initSet = new Set(nums[0]);
+
+  for (let i = 1; i < nums.length; i++)
+    initSet = new Set([...nums[i]].filter((x) => initSet.has(x)));
+
+  return Array.from(initSet).sort((a, b) => a - b);
+};
+
+// Good guard clause
+// Much simpler logic here, very nice
