@@ -9824,7 +9824,7 @@ const topVotedIntersection = (nums) => {
 // Much simpler logic here, very nice */
 
 // Count Prefixes of a Given String          7/8/2022
-
+/* 
 // You are given a string array words and a string s, where words[i] and s comprise only of lowercase English letters.
 
 // Return the number of strings in words that are a prefix of s.
@@ -9869,4 +9869,69 @@ const topVotedCountPrefixes = function (words, s) {
   return cont;
 };
 
-// Worse runtime/memory
+// Worse runtime/memory */
+
+// Remove Digit From Number to Maximize Result          7/9/2022
+
+// You are given a string number representing a positive integer and a character digit.
+
+// Return the resulting string after removing exactly one occurrence of digit from number such that the value of the resulting string in decimal form is maximized. The test cases are generated such that digit occurs at least once in number.
+
+// Example 1:
+//		 Input: number = "123", digit = "3"
+//		 Output: "12"
+// Explanation: There is only one '3' in "123". After removing '3', the result is "12".
+
+// Example 2:
+//		 Input: number = "1231", digit = "1"
+//		 Output: "231"
+// Explanation: We can remove the first '1' to get "231" or remove the second '1' to get "123".
+// Since 231 > 123, we return "231".
+
+// Example 3:
+//		 Input: number = "551", digit = "5"
+//		 Output: "51"
+// Explanation: We can remove either the first or second '5' from "551".
+// Both result in the string "51".
+
+// Constraints:
+//    2 <= number.length <= 100
+//    number consists of digits from '1' to '9'.
+//    digit is a digit from '1' to '9'.
+//    digit occurs at least once in number.
+
+const removeDigit = (number, digit) => {
+  if (number.indexOf(digit) === number.lastIndexOf(digit))
+    return +number.replace(digit, "");
+
+  let ans = [];
+  for (let i = 0; i < number.split(digit).length - 1; i++) {
+    ans.push(
+      number
+        .split(digit)
+        .reduce((a, c, j) => +(i === j ? a : c === "" ? a + digit : a + c), 0)
+    );
+  }
+
+  return Math.max(...ans);
+};
+console.log(removeDigit("123", "3")); // "12"
+console.log(removeDigit("1231", "1")); // "231"
+console.log(removeDigit("551", "5")); // "51"
+
+// Doesn't work, got stuck on finding matching indexes
+// Really not my best code
+
+const topVotedRemoveDigit = function (number, digit) {
+  let str = [];
+  for (let i = 0; i < number.length; i++) {
+    if (number[i] == digit) {
+      let temp = number.substring(0, i) + number.substring(i + 1);
+      str.push(temp);
+    }
+  }
+  str.sort();
+  return str[str.length - 1];
+};
+
+// Much better, simpler logic
