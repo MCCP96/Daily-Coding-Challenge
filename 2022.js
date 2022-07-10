@@ -9872,7 +9872,7 @@ const topVotedCountPrefixes = function (words, s) {
 // Worse runtime/memory */
 
 // Remove Digit From Number to Maximize Result          7/9/2022
-
+/* 
 // You are given a string number representing a positive integer and a character digit.
 
 // Return the resulting string after removing exactly one occurrence of digit from number such that the value of the resulting string in decimal form is maximized. The test cases are generated such that digit occurs at least once in number.
@@ -9934,4 +9934,66 @@ const topVotedRemoveDigit = function (number, digit) {
   return str[str.length - 1];
 };
 
-// Much better, simpler logic
+// Much better, simpler logic */
+
+// Largest 3-Same-Digit Number in String          7/10/2022
+
+// You are given a string num representing a large integer. An integer is good if it meets the following conditions:
+//    It is a substring of num with length 3.
+//    It consists of only one unique digit.
+
+// Return the maximum good integer as a string or an empty string "" if no such integer exists.
+
+// Note:
+//    A substring is a contiguous sequence of characters within a string.
+//    There may be leading zeroes in num or a good integer.
+
+// Example 1:
+//		 Input: num = "6777133339"
+//		 Output: "777"
+// Explanation: There are two distinct good integers: "777" and "333".
+// "777" is the largest, so we return "777".
+
+// Example 2:
+//		 Input: num = "2300019"
+//		 Output: "000"
+// Explanation: "000" is the only good integer.
+
+// Example 3:
+//		 Input: num = "42352338"
+//		 Output: ""
+// Explanation: No substring of length 3 consists of only one unique digit. Therefore, there are no good integers.
+
+// Constraints:
+//    3 <= num.length <= 1000
+//    num only consists of digits.
+
+const largestGoodInteger = (num) => {
+  let ans = [];
+  for (let i = 0; i < num.length - 2; i++)
+    if (num[i] === num[i + 1] && num[i] === num[i + 2])
+      ans.push(num.slice(i, i + 3));
+  return ans.length >= 1
+    ? Math.max(...ans) == 0
+      ? "000"
+      : `${Math.max(...ans)}`
+    : "";
+};
+console.log(largestGoodInteger("6777133339")); // "777"
+console.log(largestGoodInteger("2300019")); // "000"
+console.log(largestGoodInteger("42352338")); // ""
+
+// Works, tried to get Regex working but couldn't
+// The return statement is a bit bulkier than I'd like
+
+var topVotedLargestGoodInteger = function (num) {
+  let max = "";
+  for (let i = 2; i < num.length; i++)
+    if (num[i] === num[i - 1] && num[i] === num[i - 2]) {
+      const subString = num[i].repeat(3);
+      if (subString > max) max = subString;
+    }
+  return max;
+};
+
+// Nice
