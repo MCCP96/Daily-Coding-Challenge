@@ -9937,7 +9937,7 @@ const topVotedRemoveDigit = function (number, digit) {
 // Much better, simpler logic */
 
 // Largest 3-Same-Digit Number in String          7/10/2022
-
+/* 
 // You are given a string num representing a large integer. An integer is good if it meets the following conditions:
 //    It is a substring of num with length 3.
 //    It consists of only one unique digit.
@@ -9996,4 +9996,53 @@ var topVotedLargestGoodInteger = function (num) {
   return max;
 };
 
-// Nice
+// Nice */
+
+// Find the K-Beauty of a Number          7/11/2022
+
+// The k-beauty of an integer num is defined as the number of substrings of num when it is read as a string that meet the following conditions:
+//    It has a length of k.
+//    It is a divisor of num.
+
+// Given integers num and k, return the k-beauty of num.
+
+// Note:
+//    Leading zeros are allowed.
+//    0 is not a divisor of any value.
+
+// A substring is a contiguous sequence of characters in a string.
+
+// Example 1:
+//		 Input: num = 240, k = 2
+//		 Output: 2
+// Explanation: The following are the substrings of num of length k:
+// - "24" from "240": 24 is a divisor of 240.
+// - "40" from "240": 40 is a divisor of 240.
+// Therefore, the k-beauty is 2.
+
+// Example 2:
+//		 Input: num = 430043, k = 2
+//		 Output: 2
+// Explanation: The following are the substrings of num of length k:
+// - "43" from "430043": 43 is a divisor of 430043.
+// - "30" from "430043": 30 is not a divisor of 430043.
+// - "00" from "430043": 0 is not a divisor of 430043.
+// - "04" from "430043": 4 is not a divisor of 430043.
+// - "43" from "430043": 43 is a divisor of 430043.
+// Therefore, the k-beauty is 2.
+
+// Constraints:
+//    1 <= num <= 10^9
+//    1 <= k <= num.length (taking num as a string)
+
+const divisorSubstrings = (num, k) => {
+  let [str, count] = [`${num}`, 0];
+  for (let i = 0; i <= str.length - k; i++)
+    if (str % +str.slice(i, i + k) === 0) count++;
+  return count;
+};
+console.log(divisorSubstrings(240, 2)); // 2
+console.log(divisorSubstrings(430043, 2)); // 2
+
+// OK
+// Same as top voted
