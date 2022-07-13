@@ -10048,7 +10048,7 @@ console.log(divisorSubstrings(430043, 2)); // 2
 // Same as top voted */
 
 // Find Resultant Array After Removing Anagrams          7/12/2022
-
+/* 
 // You are given a 0-indexed string array words, where words[i] consists of lowercase English letters.
 
 // In one operation, select any index i such that 0 < i < words.length and words[i - 1] and words[i] are anagrams, and delete words[i] from words. Keep performing this operation as long as you can select an index that satisfies the conditions.
@@ -10124,4 +10124,41 @@ function isAnagram(a, b) {
   return true;
 }
 
-// Much bulkier
+// Much bulkier */
+
+// Percentage of Letter in String          7/13/2022
+
+// Given a string s and a character letter, return the percentage of characters in s that equal letter rounded down to the nearest whole percent.
+
+// Example 1:
+//		 Input: s = "foobar", letter = "o"
+//		 Output: 33
+// Explanation:
+// The percentage of characters in s that equal the letter 'o' is 2 / 6 * 100% = 33% when rounded down, so we return 33.
+
+// Example 2:
+//		 Input: s = "jjjj", letter = "k"
+//		 Output: 0
+// Explanation:
+// The percentage of characters in s that equal the letter 'k' is 0%, so we return 0.
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s consists of lowercase English letters.
+//    letter is a lowercase English letter.
+
+const percentageLetter = (s, letter) =>
+  ~~(
+    (s.replaceAll(new RegExp(`[^${letter}]`, "g"), "").length / s.length) *
+    100
+  );
+
+console.log(percentageLetter("foobar", "o")); // 33
+console.log(percentageLetter("jjjj", "k")); // 0
+
+// Decent one-liner
+
+const topVotedPercentageLetter = (s, letter) =>
+  Math.floor(((s.length - s.replaceAll(letter, "").length) * 100) / s.length);
+
+// Also Nice
