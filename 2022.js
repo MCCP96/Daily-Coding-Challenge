@@ -10127,7 +10127,7 @@ function isAnagram(a, b) {
 // Much bulkier */
 
 // Percentage of Letter in String          7/13/2022
-
+/* 
 // Given a string s and a character letter, return the percentage of characters in s that equal letter rounded down to the nearest whole percent.
 
 // Example 1:
@@ -10161,4 +10161,69 @@ console.log(percentageLetter("jjjj", "k")); // 0
 const topVotedPercentageLetter = (s, letter) =>
   Math.floor(((s.length - s.replaceAll(letter, "").length) * 100) / s.length);
 
-// Also Nice
+// Also Nice */
+
+// Check if Number Has Equal Digit Count and Digit Value          7/14/2022
+
+// You are given a 0-indexed string num of length n consisting of digits.
+
+// Return true if for every index i in the range 0 <= i < n, the digit i occurs num[i] times in num, otherwise return false.
+
+// Example 1:
+//		 Input: num = "1210"
+//		 Output: true
+// Explanation:
+// num[0] = '1'. The digit 0 occurs once in num.
+// num[1] = '2'. The digit 1 occurs twice in num.
+// num[2] = '1'. The digit 2 occurs once in num.
+// num[3] = '0'. The digit 3 occurs zero times in num.
+// The condition holds true for every index in "1210", so return true.
+
+// Example 2:
+//		 Input: num = "030"
+//		 Output: false
+// Explanation:
+// num[0] = '0'. The digit 0 should occur zero times, but actually occurs twice in num.
+// num[1] = '3'. The digit 1 should occur three times, but actually occurs zero times in num.
+// num[2] = '0'. The digit 2 occurs zero times in num.
+// The indices 0 and 1 both violate the condition, so return false.
+
+// Constraints:
+//    n == num.length
+//    1 <= n <= 10
+//    num consists of digits.
+
+const digitCount = (num) => {
+  const count = [...num].reduce((a, c) => {
+    a[c] ? a[c]++ : (a[c] = 1);
+    return a;
+  }, {});
+  for (let i = 0; i < num.length; i++) {
+    if (num[i] == 0 && isNaN(count[i])) continue;
+    if (num[i] != count[i]) return false;
+  }
+  return true;
+};
+console.log(digitCount("1210")); // true
+console.log(digitCount("030")); // false
+
+// OK
+
+const counter = (a_or_s) => {
+  let m = new Map();
+  for (const x of a_or_s) m.set(x, m.get(x) + 1 || 1);
+  return m;
+};
+
+const topVotedDigitCount = (a) => {
+  let m = counter(a),
+    n = a.length;
+  for (let i = 0; i < n; i++) {
+    let cnt = m.get(i + "") || 0;
+    if (a[i] != cnt) return false;
+  }
+  return true;
+};
+
+// Same idea
+// I like the use of 'cnt' here, replaces my first if statement
