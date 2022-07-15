@@ -10164,7 +10164,7 @@ const topVotedPercentageLetter = (s, letter) =>
 // Also Nice */
 
 // Check if Number Has Equal Digit Count and Digit Value          7/14/2022
-
+/* 
 // You are given a 0-indexed string num of length n consisting of digits.
 
 // Return true if for every index i in the range 0 <= i < n, the digit i occurs num[i] times in num, otherwise return false.
@@ -10226,4 +10226,75 @@ const topVotedDigitCount = (a) => {
 };
 
 // Same idea
-// I like the use of 'cnt' here, replaces my first if statement
+// I like the use of 'cnt' here, replaces my first if statement */
+
+// Rearrange Characters to Make Target String          7/15/2022
+
+// You are given two 0-indexed strings s and target. You can take some letters from s and rearrange them to form new strings.
+
+// Return the maximum number of copies of target that can be formed by taking letters from s and rearranging them.
+
+// Example 1:
+//		 Input: s = "ilovecodingonleetcode", target = "code"
+//		 Output: 2
+// Explanation:
+// For the first copy of "code", take the letters at indices 4, 5, 6, and 7.
+// For the second copy of "code", take the letters at indices 17, 18, 19, and 20.
+// The strings that are formed are "ecod" and "code" which can both be rearranged into "code".
+// We can make at most two copies of "code", so we return 2.
+
+// Example 2:
+//		 Input: s = "abcba", target = "abc"
+//		 Output: 1
+// Explanation:
+// We can make one copy of "abc" by taking the letters at indices 0, 1, and 2.
+// We can make at most one copy of "abc", so we return 1.
+// Note that while there is an extra 'a' and 'b' at indices 3 and 4, we cannot reuse the letter 'c' at index 2, so we cannot make a second copy of "abc".
+
+// Example 3:
+//		 Input: s = "abbaccaddaeea", target = "aaaaa"
+//		 Output: 1
+// Explanation:
+// We can make one copy of "aaaaa" by taking the letters at indices 0, 3, 6, 9, and 12.
+// We can make at most one copy of "aaaaa", so we return 1.
+
+// Constraints:
+//    1 <= s.length <= 100
+//    1 <= target.length <= 10
+//    s and target consist of lowercase English letters.
+
+const rearrangeCharacters = (s, target) => {
+  const count = [...s].reduce((a, c) => {
+    if (!target.includes(c)) return a;
+    a[c] ? a[c]++ : (a[c] = 1);
+    return a;
+  }, {});
+  let ans = 0;
+  while (true) {
+    for (let i = 0; i < target.length; i++) {
+      if (count[target[i]]) count[target[i]]--;
+      else return ans;
+    }
+    ans++;
+  }
+};
+console.log(rearrangeCharacters("ilovecodingonleetcode", "code")); // 2
+console.log(rearrangeCharacters("abcba", "abc")); // 1
+console.log(rearrangeCharacters("abbaccaddaeea", "aaaaa")); // 1
+
+// while(true) is terrible but I couldn't think of an alternative
+
+const topVotedRearrangeCharacters = function (s, target) {
+  let min = s.length;
+  for (let l of target) {
+    let re = new RegExp(l, "g");
+    min = Math.min(
+      min,
+      Math.trunc((s.match(re)?.length || 0) / target.match(re).length)
+    );
+  }
+  return min;
+};
+
+// Very good use of Regex here
+// I much prefer this solution
