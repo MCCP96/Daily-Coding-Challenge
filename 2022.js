@@ -10430,7 +10430,7 @@ const topVotedStrongPasswordCheckerII = (s) => {
 // Works, pretty bulky */
 
 // Calculate Amount Paid in Taxes          7/18/2022
-
+/* 
 // You are given a 0-indexed 2D integer array brackets where brackets[i] = [upperi, percenti] means that the i^th tax bracket has an upper bound of upperi and is taxed at a rate of percenti. The brackets are sorted by upper bound (i.e. upperi-1 < upperi for 0 < i < brackets.length).
 
 // Tax is calculated as follows:
@@ -10505,4 +10505,76 @@ const topVotedCalculateTax = (brackets, income) => {
   }
 };
 
-// Much cleaner and logical
+// Much cleaner and logical */
+
+// Greatest English Letter in Upper and Lower Case          7/19/2022
+
+// Given a string of English letters s, return the greatest English letter which occurs as both a lowercase and uppercase letter in s. The returned letter should be in uppercase. If no such letter exists, return an empty string.
+
+// An English letter b is greater than another letter a if b appears after a in the English alphabet.
+
+// Example 1:
+//		 Input: s = "lEeTcOdE"
+//		 Output: "E"
+// Explanation:
+// The letter 'E' is the only letter to appear in both lower and upper case.
+
+// Example 2:
+//		 Input: s = "arRAzFif"
+//		 Output: "R"
+// Explanation:
+// The letter 'R' is the greatest letter to appear in both lower and upper case.
+// Note that 'A' and 'F' also appear in both lower and upper case, but 'R' is greater than 'F' or 'A'.
+
+// Example 3:
+//		 Input: s = "AbCdEfGhIjK"
+//		 Output: ""
+// Explanation:
+// There is no letter that appears in both lower and upper case.
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s consists of lowercase and uppercase English letters.
+
+const greatestLetter = (s) => {
+  try {
+    return Object.entries(
+      [...s].reduce((a, c) => {
+        a[c] ? a[c]++ : (a[c] = 1);
+        return a;
+      }, {})
+    )
+      .filter(
+        (c) =>
+          s.includes(c[0].toUpperCase()) &&
+          s.includes(c[0].toLowerCase()) &&
+          c[0] === c[0].toUpperCase()
+      )
+      .reduce((a, c) => (c[0].charCodeAt() > a[0].charCodeAt() ? c : a))[0];
+  } catch (err) {
+    return "";
+  }
+};
+
+console.log(greatestLetter("lEeTcOdE")); // "E"
+console.log(greatestLetter("arRAzFif")); // "R"
+console.log(greatestLetter("AbCdEfGhIjK")); // ""
+
+// The most disgusting "One-liner" I've written in a while
+
+var topVotedGreatestLetter = function (s) {
+  let uc = { ...Array(26).fill(0) },
+    lc = { ...Array(26).fill(0) };
+  for (let ch of s)
+    if (isUpper(ch)) ++uc[asciiDif(ch, "A")];
+    else ++lc[asciiDif(ch, "a")];
+  for (let i = 25; i >= 0; --i) {
+    if (uc[i] && lc[i]) return String.fromCharCode("A".charCodeAt(0) + i);
+  }
+  return "";
+};
+const isUpper = (char) => char.toUpperCase() === char;
+const asciiDif = (a, b) => a.charCodeAt(0) - b.charCodeAt(0);
+
+// This is the second time seeing this "{ ...Array(26).fill(0) }" method of counting letters
+// I'm not a fan, but I can see how that makes the for loop with the return statement very easy
