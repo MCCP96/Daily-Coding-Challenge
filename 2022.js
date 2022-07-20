@@ -10508,7 +10508,7 @@ const topVotedCalculateTax = (brackets, income) => {
 // Much cleaner and logical */
 
 // Greatest English Letter in Upper and Lower Case          7/19/2022
-
+/* 
 // Given a string of English letters s, return the greatest English letter which occurs as both a lowercase and uppercase letter in s. The returned letter should be in uppercase. If no such letter exists, return an empty string.
 
 // An English letter b is greater than another letter a if b appears after a in the English alphabet.
@@ -10577,4 +10577,62 @@ const isUpper = (char) => char.toUpperCase() === char;
 const asciiDif = (a, b) => a.charCodeAt(0) - b.charCodeAt(0);
 
 // This is the second time seeing this "{ ...Array(26).fill(0) }" method of counting letters
-// I'm not a fan, but I can see how that makes the for loop with the return statement very easy
+// I'm not a fan, but I can see how that makes the for loop with the return statement very easy */
+
+// Count Asterisks          7/20/2022
+
+// You are given a string s, where every two consecutive vertical bars '|' are grouped into a pair. In other words, the 1^st and 2^nd '|' make a pair, the 3^rd and 4^th '|' make a pair, and so forth.
+
+// Return the number of '*' in s, excluding the '*' between each pair of '|'.
+
+// Note that each '|' will belong to exactly one pair.
+
+// Example 1:
+//		 Input: s = "l|*e*et|c**o|*de|"
+//		 Output: 2
+// Explanation: The considered characters are underlined: "l|*e*et|c**o|*de|".
+// The characters between the first and second '|' are excluded from the answer.
+// Also, the characters between the third and fourth '|' are excluded from the answer.
+// There are 2 asterisks considered. Therefore, we return 2.
+
+// Example 2:
+//		 Input: s = "iamprogrammer"
+//		 Output: 0
+// Explanation: In this example, there are no asterisks in s. Therefore, we return 0.
+
+// Example 3:
+//		 Input: s = "yo|uar|e**|b|e***au|tifu|l"
+//		 Output: 5
+// Explanation: The considered characters are underlined: "yo|uar|e**|b|e***au|tifu|l". There are 5 asterisks considered. Therefore, we return 5.
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s consists of lowercase English letters, vertical bars '|', and asterisks '*'.
+//    s contains an even number of vertical bars '|'.
+
+const countAsterisks = (s) =>
+  [
+    ...s
+      .split("|")
+      .filter((x, i) => i % 2 === 0)
+      .join(""),
+  ].filter((x) => x === "*").length;
+
+console.log(countAsterisks("l|*e*et|c**o|*de|")); // 2
+console.log(countAsterisks("iamprogrammer")); // 0
+console.log(countAsterisks("yo|uar|e**|b|e***au|tifu|l")); // 5
+
+// Also thought about using .replace and Regex instead of second filter
+
+var topVotedCountAsterisks = function (s) {
+  let green = true,
+    count = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (green && s[i] == "*") count++;
+    if (s[i] == "|") green = !green;
+  }
+  return count;
+};
+
+// "| is like a STATE-SWITCHER (Traffic light), everytime we meet it, we have to change the state."
+// I like this approach
