@@ -10580,7 +10580,7 @@ const asciiDif = (a, b) => a.charCodeAt(0) - b.charCodeAt(0);
 // I'm not a fan, but I can see how that makes the for loop with the return statement very easy */
 
 // Count Asterisks          7/20/2022
-
+/* 
 // You are given a string s, where every two consecutive vertical bars '|' are grouped into a pair. In other words, the 1^st and 2^nd '|' make a pair, the 3^rd and 4^th '|' make a pair, and so forth.
 
 // Return the number of '*' in s, excluding the '*' between each pair of '|'.
@@ -10635,4 +10635,49 @@ var topVotedCountAsterisks = function (s) {
 };
 
 // "| is like a STATE-SWITCHER (Traffic light), everytime we meet it, we have to change the state."
-// I like this approach
+// I like this approach */
+
+// Check if Matrix Is X-Matrix          7/21/2022
+
+// A square matrix is said to be an X-Matrix if both of the following conditions hold:
+//    All the elements in the diagonals of the matrix are non-zero.
+//    All other elements are 0.
+
+// Given a 2D integer array grid of size n x n representing a square matrix, return true if grid is an X-Matrix. Otherwise, return false.
+
+// Example 1:
+//   https://assets.leetcode.com/uploads/2022/05/03/ex1.jpg
+//		 Input: grid = [[2,0,0,1],[0,3,1,0],[0,5,2,0],[4,0,0,2]]
+//		 Output: true
+// Explanation: Refer to the diagram above.
+// An X-Matrix should have the green elements (diagonals) be non-zero and the red elements be 0.
+// Thus, grid is an X-Matrix.
+
+// Example 2:
+//   https://assets.leetcode.com/uploads/2022/05/03/ex2.jpg
+//		 Input: grid = [[5,7,0],[0,3,1],[0,5,0]]
+//		 Output: false
+// Explanation: Refer to the diagram above.
+// An X-Matrix should have the green elements (diagonals) be non-zero and the red elements be 0.
+// Thus, grid is not an X-Matrix.
+
+// Constraints:
+//    n == grid.length == grid[i].length
+//    3 <= n <= 100
+//    0 <= grid[i][j] <= 10^5
+
+function topVotedCheckXMatrix(grid) {
+  const n = grid.length;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (i === j && grid[i][j] === 0) return false;
+      if (i === n - j - 1 && grid[i][j] === 0) return false;
+      if (i !== j && i !== n - j - 1 && grid[i][j] !== 0) return false;
+    }
+  }
+  return true;
+}
+// prettier-ignore
+console.log(topVotedCheckXMatrix([[2,0,0,1],[0,3,1,0],[0,5,2,0],[4,0,0,2]])) // true
+// prettier-ignore
+console.log(topVotedCheckXMatrix([[5,7,0],[0,3,1],[0,5,0]])) // false
