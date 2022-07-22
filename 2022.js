@@ -10638,7 +10638,7 @@ var topVotedCountAsterisks = function (s) {
 // I like this approach */
 
 // Check if Matrix Is X-Matrix          7/21/2022
-
+/* 
 // A square matrix is said to be an X-Matrix if both of the following conditions hold:
 //    All the elements in the diagonals of the matrix are non-zero.
 //    All other elements are 0.
@@ -10680,4 +10680,81 @@ function topVotedCheckXMatrix(grid) {
 // prettier-ignore
 console.log(topVotedCheckXMatrix([[2,0,0,1],[0,3,1,0],[0,5,2,0],[4,0,0,2]])) // true
 // prettier-ignore
-console.log(topVotedCheckXMatrix([[5,7,0],[0,3,1],[0,5,0]])) // false
+console.log(topVotedCheckXMatrix([[5,7,0],[0,3,1],[0,5,0]])) // false */
+
+// Decode the Message          7/22/2022
+
+// You are given the strings key and message, which represent a cipher key and a secret message, respectively. The steps to decode message are as follows:
+//    Use the first appearance of all 26 lowercase English letters in key as the order of the substitution table.
+//    Align the substitution table with the regular English alphabet.
+//    Each letter in message is then substituted using the table.
+//    Spaces ' ' are transformed to themselves.
+
+//    For example, given key = "happy boy" (actual key would have at least one instance of each letter in the alphabet), we have the partial substitution table of ('h' -> 'a', 'a' -> 'b', 'p' -> 'c', 'y' -> 'd', 'b' -> 'e', 'o' -> 'f').
+
+// Return the decoded message.
+
+// Example 1:
+//   https://assets.leetcode.com/uploads/2022/05/08/ex1new4.jpg
+//		 Input: key = "the quick brown fox jumps over the lazy dog", message = "vkbs bs t suepuv"
+//		 Output: "this is a secret"
+// Explanation: The diagram above shows the substitution table.
+// It is obtained by taking the first appearance of each letter in "the quick brown fox jumps over the lazy dog".
+
+// Example 2:
+//   https://assets.leetcode.com/uploads/2022/05/08/ex2new.jpg
+//		 Input: key = "eljuxhpwnyrdgtqkviszcfmabo", message = "zwx hnfx lqantp mnoeius ycgk vcnjrdb"
+//		 Output: "the five boxing wizards jump quickly"
+// Explanation: The diagram above shows the substitution table.
+// It is obtained by taking the first appearance of each letter in "eljuxhpwnyrdgtqkviszcfmabo".
+
+// Constraints:
+//    26 <= key.length <= 2000
+//    key consists of lowercase English letters and ' '.
+//    key contains every letter in the English alphabet ('a' to 'z') at least once.
+//    1 <= message.length <= 2000
+//    message consists of lowercase English letters and ' '.
+
+const decodeMessage = (key, message) => {
+  const table = [...key].reduce(
+    (a, c) => (a.includes(c) || c === " " ? a : [...a, c]),
+    []
+  );
+  return [...message].reduce(
+    (a, c) =>
+      c === " "
+        ? (a += " ")
+        : (a += String.fromCharCode(table.findIndex((x) => x === c) + 97)),
+    ""
+  );
+};
+console.log(
+  decodeMessage(
+    "the quick brown fox jumps over the lazy dog",
+    "vkbs bs t suepuv"
+  )
+); // "this is a secret"
+console.log(
+  decodeMessage(
+    "eljuxhpwnyrdgtqkviszcfmabo",
+    "zwx hnfx lqantp mnoeius ycgk vcnjrdb"
+  )
+); // "the five boxing wizards jump quickly"
+
+// I like these types of problems
+
+const topVotedDecodeMessage = function (key, message) {
+  let result = "";
+  key = Array.from(new Set(key.split(" ").join("")));
+  const hash = new Map();
+  const alpha = "abcdefghijklmnopqrstuvwxyz";
+
+  for (let i = 0; i < alpha.length; i++) hash.set(key[i], alpha[i]);
+  for (let chr of message) result += hash.get(chr) || " ";
+
+  return result;
+};
+
+// Using Set to create the key is very clean
+
+// Day 4️⃣0️⃣0️⃣ 🎉
