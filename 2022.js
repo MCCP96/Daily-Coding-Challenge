@@ -10760,7 +10760,7 @@ const topVotedDecodeMessage = function (key, message) {
 // Day 4️⃣0️⃣0️⃣ 🎉 */
 
 // Minimum Amount of Time to Fill Cups          7/23/2022
-
+/* 
 // You have a water dispenser that can dispense cold, warm, and hot water. Every second, you can either fill up 2 cups with different types of water, or 1 cup of any type of water.
 
 // You are given a 0-indexed integer array amount of length 3 where amount[0], amount[1], and amount[2] denote the number of cold, warm, and hot water cups you need to fill respectively. Return the minimum number of seconds needed to fill up all the cups.
@@ -10812,4 +10812,75 @@ console.log(fillCups([1, 4, 2])); // 4
 console.log(fillCups([5, 4, 4])); // 7
 console.log(fillCups([5, 0, 0])); // 5
 
-// No time today
+// No time today */
+
+// Maximum Number of Pairs in Array          7/24/2022
+
+// You are given a 0-indexed integer array nums. In one operation, you may do the following:
+//    Choose two integers in nums that are equal.
+//    Remove both integers from nums, forming a pair.
+
+// The operation is done on nums as many times as possible.
+
+// Return a 0-indexed integer array answer of size 2 where answer[0] is the number of pairs that are formed and answer[1] is the number of leftover integers in nums after doing the operation as many times as possible.
+
+// Example 1:
+//		 Input: nums = [1,3,2,1,3,2,2]
+//		 Output: [3,1]
+// Explanation:
+// Form a pair with nums[0] and nums[3] and remove them from nums. Now, nums = [3,2,3,2,2].
+// Form a pair with nums[0] and nums[2] and remove them from nums. Now, nums = [2,2,2].
+// Form a pair with nums[0] and nums[1] and remove them from nums. Now, nums = [2].
+// No more pairs can be formed. A total of 3 pairs have been formed, and there is 1 number leftover in nums.
+
+// Example 2:
+//		 Input: nums = [1,1]
+//		 Output: [1,0]
+// Explanation: Form a pair with nums[0] and nums[1] and remove them from nums. Now, nums = [].
+// No more pairs can be formed. A total of 1 pair has been formed, and there are 0 numbers leftover in nums.
+
+// Example 3:
+//		 Input: nums = [0]
+//		 Output: [0,1]
+// Explanation: No pairs can be formed, and there is 1 number leftover in nums.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    0 <= nums[i] <= 100
+
+const numberOfPairs = (nums, acc = 0) => {
+  for (let x of nums) {
+    let [i1, i2] = [nums.indexOf(x), nums.lastIndexOf(x)];
+    if (i1 !== i2) {
+      nums = [...nums.slice(0, i1), ...nums.slice(i1 + 1)];
+      nums = [...nums.slice(0, i2 - 1), ...nums.slice(i2)];
+      acc++;
+      return numberOfPairs(nums, acc);
+    }
+  }
+  return [acc, nums.length];
+};
+console.log(numberOfPairs([1, 3, 2, 1, 3, 2, 2])); // [3,1]
+console.log(numberOfPairs([1, 1])); // [1,0]
+console.log(numberOfPairs([0])); // [0,1]
+
+// Better than 100% runtimes and memory
+
+const topVotedNumberOfPairs = function (nums) {
+  let countPairs = [];
+  let countNoPairs = [];
+  nums = nums.sort((a, b) => a - b);
+
+  while (nums.length > 0) {
+    if (nums[0] === nums[1]) {
+      countPairs.push(nums.shift());
+      countPairs.push(nums.shift());
+    } else {
+      countNoPairs.push(nums.shift());
+    }
+  }
+
+  return [countPairs.length / 2, countNoPairs.length];
+};
+
+// Makes sense
