@@ -10886,7 +10886,7 @@ const topVotedNumberOfPairs = function (nums) {
 // Makes sense */
 
 // Best Poker Hand          7/25/2022
-
+/* 
 // You are given an integer array ranks and a character array suits. You have 5 cards where the i^th card has a rank of ranks[i] and a suit of suits[i].
 
 // The following are the types of poker hands you can make from best to worst:
@@ -10951,4 +10951,57 @@ const topVotedBestHand = function (ranks, suits) {
   return max > 2 ? "Three of a Kind" : max > 1 ? "Pair" : "High Card";
 };
 
-// Basically same logic
+// Basically same logic */
+
+// First Letter to Appear Twice          7/26/2022
+
+// Given a string s consisting of lowercase English letters, return the first letter to appear twice.
+
+// Note:
+//    A letter a appears twice before another letter b if the second occurrence of a is before the second occurrence of b.
+//    s will contain at least one letter that appears twice.
+
+// Example 1:
+//		 Input: s = "abccbaacz"
+//		 Output: "c"
+// Explanation:
+// The letter 'a' appears on the indexes 0, 5 and 6.
+// The letter 'b' appears on the indexes 1 and 4.
+// The letter 'c' appears on the indexes 2, 3 and 7.
+// The letter 'z' appears on the index 8.
+// The letter 'c' is the first letter to appear twice, because out of all the letters the index of its second occurrence is the smallest.
+
+// Example 2:
+//		 Input: s = "abcdd"
+//		 Output: "d"
+// Explanation:
+// The only letter that appears twice is 'd' so we return 'd'.
+
+// Constraints:
+//    2 <= s.length <= 100
+//    s consists of lowercase English letters.
+//    s has at least one repeated letter.
+
+const repeatedCharacter = (s) => {
+  let count = {};
+  for (const c of [...s]) {
+    if (count[c]) return c;
+    count[c] = 1;
+  }
+};
+console.log(repeatedCharacter("abccbaacz")); // "c"
+console.log(repeatedCharacter("abcdd")); // "d"
+
+// Better than 100% runtime & memory
+// That's 3 in a row, I think I'm getting deep into the problems and not many people have attempted these
+
+var topVotedRepeatedCharacter = function (s) {
+  const m = {};
+  for (let i of s) {
+    if (i in m) m[i]++;
+    else m[i] = 1;
+    if (m[i] == 2) return i;
+  }
+};
+
+// Same idea
