@@ -11109,7 +11109,7 @@ console.log(topVotedReverseBits(11111111111111111111111111111101)); // 322122547
 // The test cases here don't seem to work, but leetcode sees this as a valid solution */
 
 // Number of 1 Bits          7/29/2022
-
+/* 
 // Write a function that takes an unsigned integer and returns the number of '1' bits it has (also known as the http://en.wikipedia.org/wiki/Hamming_weight Hamming weight).
 
 // Note:
@@ -11152,4 +11152,65 @@ var topVotedHammingWeight = function (n) {
   return num_of_1s;
 };
 
-// Nice
+// Nice */
+
+// Happy Number          7/30/2022
+
+// Write an algorithm to determine if a number n is happy.
+
+// A happy number is a number defined by the following process:
+//    Starting with any positive integer, replace the number by the sum of the squares of its digits.
+//    Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.
+//    Those numbers for which this process ends in 1 are happy.
+
+// Return true if n is a happy number, and false if not.
+
+// Example 1:
+//		 Input: n = 19
+//		 Output: true
+// Explanation:
+// 1^2 + 9^2 = 82
+// 8^2 + 2^2 = 68
+// 6^2 + 8^2 = 100
+// 1^2 + 0^2 + 0^2 = 1
+
+// Example 2:
+//		 Input: n = 2
+//		 Output: false
+
+// Constraints:
+//    1 <= n <= 2^31 - 1
+
+const isHappy = (n, acc = []) => {
+  let ans = [...`${n}`].reduce((a, c) => (a += c * c), 0);
+  if (ans === 1) return true;
+  else {
+    if (acc.includes(ans)) return false;
+    acc.push(ans);
+    return isHappy(ans, acc);
+  }
+};
+console.log(isHappy(19)); // true
+console.log(isHappy(2)); // false
+
+// Works
+
+var topVotedIsHappy = function (n) {
+  var seen = {};
+  while (n !== 1 && !seen[n]) {
+    seen[n] = true;
+    n = sumOfSquares(n);
+  }
+  return n === 1 ? true : false;
+};
+
+function sumOfSquares(numString) {
+  return numString
+    .toString()
+    .split("")
+    .reduce(function (sum, num) {
+      return sum + Math.pow(num, 2);
+    }, 0);
+}
+
+// Same idea
