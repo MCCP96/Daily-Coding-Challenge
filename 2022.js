@@ -11155,7 +11155,7 @@ var topVotedHammingWeight = function (n) {
 // Nice */
 
 // Happy Number          7/30/2022
-
+/* 
 // Write an algorithm to determine if a number n is happy.
 
 // A happy number is a number defined by the following process:
@@ -11213,4 +11213,61 @@ function sumOfSquares(numString) {
     }, 0);
 }
 
-// Same idea
+// Same idea */
+
+// Remove Linked List Elements          7/31/2022
+
+// Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+// Example 1:
+//   https://assets.leetcode.com/uploads/2021/03/06/removelinked-list.jpg
+//		 Input: head = [1,2,6,3,4,5,6], val = 6
+//		 Output: [1,2,3,4,5]
+
+// Example 2:
+//		 Input: head = [], val = 1
+//		 Output: []
+
+// Example 3:
+//		 Input: head = [7,7,7,7], val = 7
+//		 Output: []
+
+// Constraints:
+//    The number of nodes in the list is in the range [0, 10^4].
+//    1 <= Node.val <= 50
+//    0 <= val <= 50
+
+const removeElements = (head, val) => head.filter((x) => x !== val);
+
+console.log(removeElements([1, 2, 6, 3, 4, 5, 6], 6)); // [1,2,3,4,5]
+console.log(removeElements([], 1)); // []
+console.log(removeElements([7, 7, 7, 7], 7)); // []
+
+// Leetcode is looking for something else
+
+var topVotedRemoveElements = function (head, val) {
+  if (!head) return head;
+
+  while (head) {
+    if (head.val === val) head = head.next;
+    else break;
+  }
+
+  let curr = head;
+  while (curr && curr.next) {
+    if (curr.next.val === val) curr.next = curr.next.next;
+    else curr = curr.next;
+  }
+
+  return head;
+};
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+
+// I should learn to read these ↑
