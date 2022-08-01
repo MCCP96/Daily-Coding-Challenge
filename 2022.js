@@ -11216,7 +11216,7 @@ function sumOfSquares(numString) {
 // Same idea */
 
 // Remove Linked List Elements          7/31/2022
-
+/* 
 // Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
 
 // Example 1:
@@ -11262,12 +11262,63 @@ var topVotedRemoveElements = function (head, val) {
   return head;
 };
 
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
+//  Definition for singly-linked list.
+//  function ListNode(val, next) {
+//      this.val = (val===undefined ? 0 : val)
+//      this.next = (next===undefined ? null : next)
+//  }
 
-// I should learn to read these ↑
+// I should learn to read these ↑ */
+
+// Isomorphic Strings          8/1/2022
+
+// Given two strings s and t, determine if they are isomorphic.
+
+// Two strings s and t are isomorphic if the characters in s can be replaced to get t.
+
+// All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
+
+// Example 1:
+//		 Input: s = "egg", t = "add"
+//		 Output: true
+
+// Example 2:
+//		 Input: s = "foo", t = "bar"
+//		 Output: false
+
+// Example 3:
+//		 Input: s = "paper", t = "title"
+//		 Output: true
+
+// Constraints:
+//    1 <= s.length <= 5 * 10^4
+//    t.length == s.length
+//    s and t consist of any valid ascii character.
+
+const isIsomorphic = (s, t) => {
+  let map = {};
+  for (let i = 0; i < s.length; i++) {
+    if (map[s[i]] && map[s[i]] !== t[i]) return false;
+    if (Object.values(map).includes(t[i]) && !map[s[i]]) return false;
+    map[s[i]] = t[i];
+  }
+  return true;
+};
+console.log(isIsomorphic("egg", "add")); // true
+console.log(isIsomorphic("foo", "bar")); // false
+console.log(isIsomorphic("paper", "title")); // true
+console.log(isIsomorphic("badc", "baba")); // false
+
+// Bit bulky, but gets the job done
+
+var topVotedIsIsomorphic = function (s, t) {
+  var obj = {};
+  for (var i = 0; i < s.length; i++) {
+    if (!obj["s" + s[i]]) obj["s" + s[i]] = t[i];
+    if (!obj["t" + t[i]]) obj["t" + t[i]] = s[i];
+    if (t[i] != obj["s" + s[i]] || s[i] != obj["t" + t[i]]) return false;
+  }
+  return true;
+};
+
+// Similar logic
