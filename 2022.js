@@ -11271,7 +11271,7 @@ var topVotedRemoveElements = function (head, val) {
 // I should learn to read these ↑ */
 
 // Isomorphic Strings          8/1/2022
-
+/* 
 // Given two strings s and t, determine if they are isomorphic.
 
 // Two strings s and t are isomorphic if the characters in s can be replaced to get t.
@@ -11321,4 +11321,35 @@ var topVotedIsIsomorphic = function (s, t) {
   return true;
 };
 
-// Similar logic
+// Similar logic */
+
+// Contains Duplicate          8/2/2022
+
+// Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+// Example 1:
+//		 Input: nums = [1,2,3,1]
+//		 Output: true
+
+// Example 2:
+//		 Input: nums = [1,2,3,4]
+//		 Output: false
+
+// Example 3:
+//		 Input: nums = [1,1,1,3,3,4,3,2,4,2]
+//		 Output: true
+
+// Constraints:
+//    1 <= nums.length <= 10^5
+//    -10^9 <= nums[i] <= 10^9
+
+const containsDuplicate = (nums) => new Set(nums).size !== nums.length;
+
+console.log(containsDuplicate([1, 2, 3, 1])); // true
+console.log(containsDuplicate([1, 2, 3, 4])); // false
+console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // true
+
+// Same as top voted
+
+var otherContainsDuplicate = (nums) =>
+  nums.sort().some((a, i) => a === nums[i - 1]);
