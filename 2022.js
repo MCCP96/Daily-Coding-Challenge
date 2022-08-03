@@ -11324,7 +11324,7 @@ var topVotedIsIsomorphic = function (s, t) {
 // Similar logic */
 
 // Contains Duplicate          8/2/2022
-
+/* 
 // Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
 
 // Example 1:
@@ -11352,4 +11352,49 @@ console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // true
 // Same as top voted
 
 var otherContainsDuplicate = (nums) =>
-  nums.sort().some((a, i) => a === nums[i - 1]);
+  nums.sort().some((a, i) => a === nums[i - 1]); */
+
+// Contains Duplicate II          8/3/2022
+
+// Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.
+
+// Example 1:
+//		 Input: nums = [1,2,3,1], k = 3
+//		 Output: true
+
+// Example 2:
+//		 Input: nums = [1,0,1,1], k = 1
+//		 Output: true
+
+// Example 3:
+//		 Input: nums = [1,2,3,1,2,3], k = 2
+//		 Output: false
+
+// Constraints:
+//    1 <= nums.length <= 10^5
+//    -10^9 <= nums[i] <= 10^9
+//    0 <= k <= 10^5
+
+const containsNearbyDuplicate = (nums, k) => {
+  for (let i = 0; i < nums.length; i++) {
+    const j = nums.slice(i + 1).findIndex((x) => x === nums[i]);
+    if (j !== -1 && j + 1 <= k) return true;
+  }
+  return false;
+};
+console.log(containsNearbyDuplicate([1, 2, 3, 1], 3)); // true
+console.log(containsNearbyDuplicate([1, 0, 1, 1], 1)); // true
+console.log(containsNearbyDuplicate([1, 2, 3, 1, 2, 3], 2)); // false
+
+// Exceeds Leetcode's time limit
+
+var topVotedContainsNearbyDuplicate = function (nums, k) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    if (i - map.get(nums[i]) <= k) return true;
+    map.set(nums[i], i);
+  }
+  return false;
+};
+
+// Very good runtime
