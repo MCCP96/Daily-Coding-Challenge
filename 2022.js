@@ -11400,7 +11400,7 @@ var topVotedContainsNearbyDuplicate = function (nums, k) {
 // Very good runtime */
 
 // Summary Ranges          8/4/2022
-
+/* 
 // You are given a sorted unique integer array nums.
 
 // A range [a,b] is the set of all integers from a to b (inclusive).
@@ -11473,4 +11473,43 @@ var topVotedSummaryRanges = function (nums) {
   return ans;
 };
 
-// Much cleaner
+// Much cleaner */
+
+// Power of Two          8/5/2022
+
+// Given an integer n, return true if it is a power of two. Otherwise, return false.
+
+// An integer n is a power of two, if there exists an integer x such that n == 2^x.
+
+// Example 1:
+//		 Input: n = 1
+//		 Output: true
+// Explanation: 2^0 = 1
+
+// Example 2:
+//		 Input: n = 16
+//		 Output: true
+// Explanation: 2^4 = 16
+
+// Example 3:
+//		 Input: n = 3
+//		 Output: false
+
+// Constraints:
+//    -2^31 <= n <= 2^31 - 1
+
+const isPowerOfTwo = (n) => {
+  for (let i = 0; i <= n / 2; i++) if (Math.pow(2, i) === n) return true;
+  return false;
+};
+console.log(isPowerOfTwo(1)); // true
+console.log(isPowerOfTwo(16)); // true
+console.log(isPowerOfTwo(3)); // false
+console.log(isPowerOfTwo(4)); // true
+
+// Exceeds Leetcode time limit
+
+const topVotedIsPowerOfTwo = (n) => (n > 0 ? !(n & (n - 1)) : false);
+
+// Smart binary trick
+// https://leetcode.com/problems/power-of-two/discuss/369024/100-fastest-0ms-one-line-solution-with-explanation-binary-trick
