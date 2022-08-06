@@ -11476,7 +11476,7 @@ var topVotedSummaryRanges = function (nums) {
 // Much cleaner */
 
 // Power of Two          8/5/2022
-
+/* 
 // Given an integer n, return true if it is a power of two. Otherwise, return false.
 
 // An integer n is a power of two, if there exists an integer x such that n == 2^x.
@@ -11512,4 +11512,34 @@ console.log(isPowerOfTwo(4)); // true
 const topVotedIsPowerOfTwo = (n) => (n > 0 ? !(n & (n - 1)) : false);
 
 // Smart binary trick
-// https://leetcode.com/problems/power-of-two/discuss/369024/100-fastest-0ms-one-line-solution-with-explanation-binary-trick
+// https://leetcode.com/problems/power-of-two/discuss/369024/100-fastest-0ms-one-line-solution-with-explanation-binary-trick */
+
+// Valid Anagram          8/6/2022
+
+// Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+// An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+// Constraints:
+//    1 <= s.length, t.length <= 5 * 10^4
+//    s and t consist of lowercase English letters.
+
+// Example 1:
+//		 Input: s = "anagram", t = "nagaram"
+//		 Output: true
+
+// Example 2:
+//		 Input: s = "rat", t = "car"
+//		 Output: false
+
+// Constraints:
+//    1 <= s.length, t.length <= 5 * 10^4
+//    s and t consist of lowercase English letters.
+
+const isAnagram = (s, t) => [...s].sort().join("") === [...t].sort().join("");
+
+console.log(isAnagram("anagram", "nagaram")); // true
+console.log(isAnagram("rat", "car")); // false
+
+// Nice
+// Same as top voted
