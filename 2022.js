@@ -11515,7 +11515,7 @@ const topVotedIsPowerOfTwo = (n) => (n > 0 ? !(n & (n - 1)) : false);
 // https://leetcode.com/problems/power-of-two/discuss/369024/100-fastest-0ms-one-line-solution-with-explanation-binary-trick */
 
 // Valid Anagram          8/6/2022
-
+/* 
 // Given two strings s and t, return true if t is an anagram of s, and false otherwise.
 
 // An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
@@ -11542,4 +11542,42 @@ console.log(isAnagram("anagram", "nagaram")); // true
 console.log(isAnagram("rat", "car")); // false
 
 // Nice
-// Same as top voted
+// Same as top voted */
+
+// Add Digits          8/7/2022
+
+// Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.
+
+// Constraints:	0 <= num <= 2^31 - 1
+
+// Example 1:
+//		 Input: num = 38
+//		 Output: 2
+// Explanation: The process is
+// 38 --> 3 + 8 --> 11
+// 11 --> 1 + 1 --> 2
+// Since 2 has only one digit, return it.
+
+// Example 2:
+//		 Input: num = 0
+//		 Output: 0
+
+// Constraints:
+//    0 <= num <= 2^31 - 1
+
+const addDigits = (num) =>
+  num < 10 ? num : addDigits(+[...`${num}`].reduce((a, c) => a + +c, 0));
+
+console.log(addDigits(38)); // 2
+console.log(addDigits(0)); // 0
+
+// One line
+// Decent runtime/memory
+
+var topVotedAddDigits = function (num) {
+  if (isNaN(num) || num === 0) return 0;
+  if (num < 10) return num;
+  return num % 9 === 0 ? 9 : num % 9;
+};
+
+// Huh, nice!
