@@ -11545,7 +11545,7 @@ console.log(isAnagram("rat", "car")); // false
 // Same as top voted */
 
 // Add Digits          8/7/2022
-
+/* 
 // Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.
 
 // Constraints:	0 <= num <= 2^31 - 1
@@ -11580,4 +11580,46 @@ var topVotedAddDigits = function (num) {
   return num % 9 === 0 ? 9 : num % 9;
 };
 
-// Huh, nice!
+// Huh, nice! */
+
+// Ugly Number          8/8/2022
+
+// An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
+
+// Given an integer n, return true if n is an ugly number.
+
+// Example 1:
+//		 Input: n = 6
+//		 Output: true
+// Explanation: 6 = 2 × 3
+
+// Example 2:
+//		 Input: n = 1
+//		 Output: true
+// Explanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.
+
+// Example 3:
+//		 Input: n = 14
+//		 Output: false
+// Explanation: 14 is not ugly since it includes the prime factor 7.
+
+// Constraints:
+//    -2^31 <= n <= 2^31 - 1
+
+const isUgly = (n) => {
+  if (n <= 0) return false;
+  return n % 2 === 1 || n % 3 === 1 || n % 5 === 1;
+};
+console.log(isUgly(6)); // true
+console.log(isUgly(1)); // true
+console.log(isUgly(14)); // false
+
+// Don't really get the prompt
+
+var topVotedIsUgly = function (num) {
+  if (num <= 0) return false;
+  while (parseInt(num / 2) === num / 2) num /= 2;
+  while (parseInt(num / 3) === num / 3) num /= 3;
+  while (parseInt(num / 5) === num / 5) num /= 5;
+  return num === 1;
+};
