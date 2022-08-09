@@ -11583,7 +11583,7 @@ var topVotedAddDigits = function (num) {
 // Huh, nice! */
 
 // Ugly Number          8/8/2022
-
+/* 
 // An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
 
 // Given an integer n, return true if n is an ugly number.
@@ -11622,4 +11622,52 @@ var topVotedIsUgly = function (num) {
   while (parseInt(num / 3) === num / 3) num /= 3;
   while (parseInt(num / 5) === num / 5) num /= 5;
   return num === 1;
+}; */
+
+// Missing Number          8/9/2022
+
+// Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+// Example 1:
+//		 Input: nums = [3,0,1]
+//		 Output: 2
+// Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+
+// Example 2:
+//		 Input: nums = [0,1]
+//		 Output: 2
+// Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+
+// Example 3:
+//		 Input: nums = [9,6,4,2,3,5,7,0,1]
+//		 Output: 8
+// Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+
+// Constraints:
+//    n == nums.length
+//    1 <= n <= 10^4
+//    0 <= nums[i] <= n
+//    All the numbers of nums are unique.
+
+const missingNumber = (nums) => {
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i <= nums.length; i++) {
+    if (nums[i] !== i) return i;
+  }
 };
+console.log(missingNumber([3, 0, 1])); // 2
+console.log(missingNumber([0, 1])); // 2
+console.log(missingNumber([9, 6, 4, 2, 3, 5, 7, 0, 1])); // 8
+
+// Found a one-liner, but it had terrible runtime
+// This is much better
+
+var topVotedMissingNumber = function (nums) {
+  const res = new Array(nums.length + 1).fill(-1);
+  for (const num of nums) {
+    res[num] = num;
+  }
+  return res.indexOf(-1);
+};
+
+// That's one way of going about it
