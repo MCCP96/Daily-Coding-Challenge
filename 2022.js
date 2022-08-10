@@ -11625,7 +11625,7 @@ var topVotedIsUgly = function (num) {
 }; */
 
 // Missing Number          8/9/2022
-
+/* 
 // Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
 
 // Example 1:
@@ -11670,4 +11670,50 @@ var topVotedMissingNumber = function (nums) {
   return res.indexOf(-1);
 };
 
-// That's one way of going about it
+// That's one way of going about it */
+
+// First Bad Version          8/10/2022
+
+// You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
+
+// Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
+
+// You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
+
+// Example 1:
+//		 Input: n = 5, bad = 4
+//		 Output: 4
+// Explanation:
+//    call isBadVersion(3) -> false
+//    call isBadVersion(5)-> true
+//    call isBadVersion(4)-> true
+//    Then 4 is the first bad version.
+
+// Example 2:
+//		 Input: n = 1, bad = 1
+//		 Output: 1
+
+// Constraints:
+//    1 <= bad <= n <= 2^31 - 1
+
+const topVotedSolution = (isBadVersion) => (n) => {
+  let min = null;
+  let start = 1;
+  let end = n;
+
+  while (start <= end) {
+    const mid = Math.floor((start + end) / 2);
+
+    if (isBadVersion(mid)) {
+      min = mid;
+      end = mid - 1;
+    } else {
+      start = mid + 1;
+    }
+  }
+  return min;
+};
+console.log(topVotedSolution(5, 4)); // 4
+console.log(topVotedSolution(1, 1)); // 1
+
+// I get the logic here but I'm never quite sure how to test these
