@@ -11673,7 +11673,7 @@ var topVotedMissingNumber = function (nums) {
 // That's one way of going about it */
 
 // First Bad Version          8/10/2022
-
+/* 
 // You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
 
 // Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
@@ -11716,4 +11716,47 @@ const topVotedSolution = (isBadVersion) => (n) => {
 console.log(topVotedSolution(5, 4)); // 4
 console.log(topVotedSolution(1, 1)); // 1
 
-// I get the logic here but I'm never quite sure how to test these
+// I get the logic here but I'm never quite sure how to test these */
+
+// Move Zeroes          8/11/2022
+
+// Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+// Note that you must do this in-place without making a copy of the array.
+
+// Example 1:
+//		 Input: nums = [0,1,0,3,12]
+//		 Output: [1,3,12,0,0]
+
+// Example 2:
+//		 Input: nums = [0]
+//		 Output: [0]
+
+// Constraints:
+//    1 <= nums.length <= 10^4
+//    -2^31 <= nums[i] <= 2^31 - 1
+
+const moveZeroes = (nums) =>
+  [
+    nums.filter((x) => x !== 0),
+    Array(nums.filter((x) => x === 0).length).fill(0),
+  ].flat();
+
+console.log(moveZeroes([0, 1, 0, 3, 12])); // [1,3,12,0,0]
+console.log(moveZeroes([0])); // [0]
+
+// Couldn't get it working without making a copy of the array
+
+const topVotedMoveZeroes = (nums) => {
+  var pos = 0;
+  for (var i = 0; i < nums.length; i++)
+    if (nums[i] !== 0) {
+      nums[pos++] = nums[i];
+    }
+
+  for (i = pos; i < nums.length; i++) {
+    nums[i] = 0;
+  }
+};
+
+// Very clean
