@@ -11719,7 +11719,7 @@ console.log(topVotedSolution(1, 1)); // 1
 // I get the logic here but I'm never quite sure how to test these */
 
 // Move Zeroes          8/11/2022
-
+/* 
 // Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
 // Note that you must do this in-place without making a copy of the array.
@@ -11759,4 +11759,66 @@ const topVotedMoveZeroes = (nums) => {
   }
 };
 
-// Very clean
+// Very clean */
+
+// Word Pattern          8/12/2022
+
+// Given a pattern and a string s, find if s follows the same pattern.
+
+// Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s.
+
+// Example 1:
+//		 Input: pattern = "abba", s = "dog cat cat dog"
+//		 Output: true
+
+// Example 2:
+//		 Input: pattern = "abba", s = "dog cat cat fish"
+//		 Output: false
+
+// Example 3:
+//		 Input: pattern = "aaaa", s = "dog cat cat dog"
+//		 Output: false
+
+// Constraints:
+//    1 <= pattern.length <= 300
+//    pattern contains only lower-case English letters.
+//    1 <= s.length <= 3000
+//    s contains only lowercase English letters and spaces ' '.
+//    s does not contain any leading or trailing spaces.
+//    All the words in s are separated by a single space.
+
+const wordPattern = (pattern, s, map = {}) => {
+  const words = s.split(" ");
+  if (pattern.length !== words.length) return false;
+  for (let i = 0; i < pattern.length; i++) {
+    if (map[pattern[i]] && map[pattern[i]] !== words[i]) return false;
+    if (!map[pattern[i]]) {
+      if (Object.values(map).includes(words[i])) return false;
+      else map[pattern[i]] = words[i];
+    }
+  }
+  return true;
+};
+console.log(wordPattern("abba", "dog cat cat dog")); // true
+console.log(wordPattern("abba", "dog cat cat fish")); // false
+console.log(wordPattern("aaaa", "dog cat cat dog")); // false
+console.log(wordPattern("abba", "dog dog dog dog")); // false
+console.log(wordPattern("aaa", "aa aa aa aa")); // false
+
+// Bit bulky but pretty readable I find
+
+const topVotedWordPattern = function (pattern, str) {
+  const words = str.split(/\s+/);
+  const map = new Map();
+
+  if (words.length !== pattern.length) return false;
+  if (new Set(words).size !== new Set(pattern).size) return false;
+
+  for (let i = 0; i < pattern.length; i++) {
+    if (map.has(pattern[i]) && map.get(pattern[i]) !== words[i]) return false;
+    map.set(pattern[i], words[i]);
+  }
+  return true;
+};
+
+// Same idea, cleaner code
