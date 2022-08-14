@@ -11824,7 +11824,7 @@ const topVotedWordPattern = function (pattern, str) {
 // Same idea, cleaner code */
 
 // Nim Game          8/13/2022
-
+/* 
 // You are playing the following Nim Game with your friend:
 //    Initially, there is a heap of stones on the table.
 //    You and your friend will alternate taking turns, and you go first.
@@ -11860,4 +11860,47 @@ console.log(canWinNim(1)); // true
 console.log(canWinNim(2)); // true
 
 // Multiples of 4 are the only count that promise a loss
-// Same as top voted
+// Same as top voted */
+
+// Power of Three          8/14/2022
+
+// Given an integer n, return true if it is a power of three. Otherwise, return false.
+
+// An integer n is a power of three, if there exists an integer x such that n == 3^x.
+
+// Example 1:
+//		 Input: n = 27
+//		 Output: true
+
+// Example 2:
+//		 Input: n = 0
+//		 Output: false
+
+// Example 3:
+//		 Input: n = 9
+//		 Output: true
+
+// Constraints:
+//    -2^31 <= n <= 2^31 - 1
+
+const isPowerOfThree = (n) => {
+  for (let i = 0; i <= ~~Math.sqrt(n); i++)
+    if (Math.pow(3, i) === n) return true;
+  return false;
+};
+console.log(isPowerOfThree(27)); // true
+console.log(isPowerOfThree(0)); // false
+console.log(isPowerOfThree(9)); // true
+console.log(isPowerOfThree(45)); // false
+console.log(isPowerOfThree(1)); // true
+console.log(isPowerOfThree(3)); // true
+
+// Great memory, terrible runtime
+
+var topVotedIsPowerOfThree = function (n) {
+  let a = Math.log(n) / Math.log(3);
+  return Math.abs(a - Math.round(a)) < 1e-10;
+};
+
+// Of course log would be the right approach here
+// Very nice
