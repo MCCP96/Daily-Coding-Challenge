@@ -11863,7 +11863,7 @@ console.log(canWinNim(2)); // true
 // Same as top voted */
 
 // Power of Three          8/14/2022
-
+/* 
 // Given an integer n, return true if it is a power of three. Otherwise, return false.
 
 // An integer n is a power of three, if there exists an integer x such that n == 3^x.
@@ -11903,4 +11903,55 @@ var topVotedIsPowerOfThree = function (n) {
 };
 
 // Of course log would be the right approach here
-// Very nice
+// Very nice */
+
+// Counting Bits          8/15/2022
+
+// Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+// Constraints:	0 <= n <= 10^5
+
+// Example 1:
+//		 Input: n = 2
+//		 Output: [0,1,1]
+// Explanation:
+// 0 --> 0
+// 1 --> 1
+// 2 --> 10
+
+// Example 2:
+//		 Input: n = 5
+//		 Output: [0,1,1,2,1,2]
+// Explanation:
+// 0 --> 0
+// 1 --> 1
+// 2 --> 10
+// 3 --> 11
+// 4 --> 100
+// 5 --> 101
+
+// Constraints:
+//    0 <= n <= 10^5
+
+const countBits = (n) =>
+  Array(n + 1)
+    .fill(0)
+    .map((_, i) => i.toString(2).replaceAll(0, "").length);
+
+console.log(countBits(2)); // [0,1,1]
+console.log(countBits(5)); // [0,1,1,2,1,2]
+
+// Not great runtime, but pretty straightforward
+
+const topVotedCountBits = (n) => {
+  let result = Array(n + 1).fill(0);
+  let offset = 1;
+  for (let i = 1; i < n + 1; i++) {
+    if (offset * 2 === i) {
+      offset = i;
+    }
+    result[i] = 1 + result[i - offset];
+  }
+
+  return result;
+};
