@@ -11906,7 +11906,7 @@ var topVotedIsPowerOfThree = function (n) {
 // Very nice */
 
 // Counting Bits          8/15/2022
-
+/* 
 // Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
 
 // Constraints:	0 <= n <= 10^5
@@ -11954,4 +11954,40 @@ const topVotedCountBits = (n) => {
   }
 
   return result;
+}; */
+
+// Power of Four          8/16/2022
+
+// Given an integer n, return true if it is a power of four. Otherwise, return false.
+
+// An integer n is a power of four, if there exists an integer x such that n == 4^x.
+
+// Example 1:
+//		 Input: n = 16
+//		 Output: true
+
+// Example 2:
+//		 Input: n = 5
+//		 Output: false
+
+// Example 3:
+//		 Input: n = 1
+//		 Output: true
+
+// Constraints:
+//    -2^31 <= n <= 2^31 - 1
+
+const isPowerOfFour = (n) => {
+  let a = Math.log(n) / Math.log(4);
+  return Math.abs(a - Math.round(a)) < 1e-10;
 };
+
+console.log(isPowerOfFour(16)); // true
+console.log(isPowerOfFour(5)); // false
+console.log(isPowerOfFour(1)); // true
+
+// Same as power of three from 2 days ago
+
+const topVotedIsPowerOfFour = (n) => n > 0 && Math.log2(n) % 2 === 0;
+
+// Nice one liner
