@@ -11957,7 +11957,7 @@ const topVotedCountBits = (n) => {
 }; */
 
 // Power of Four          8/16/2022
-
+/* 
 // Given an integer n, return true if it is a power of four. Otherwise, return false.
 
 // An integer n is a power of four, if there exists an integer x such that n == 4^x.
@@ -11990,4 +11990,43 @@ console.log(isPowerOfFour(1)); // true
 
 const topVotedIsPowerOfFour = (n) => n > 0 && Math.log2(n) % 2 === 0;
 
-// Nice one liner
+// Nice one liner */
+
+// Reverse String          8/17/2022
+
+// Write a function that reverses a string. The input string is given as an array of characters s.
+
+// You must do this by modifying the input array in-place (https://en.wikipedia.org/wiki/In-place_algorithm) with O(1) extra memory.
+
+// Example 1:
+//		 Input: s = ["h","e","l","l","o"]
+//		 Output: ["o","l","l","e","h"]
+
+// Example 2:
+//		 Input: s = ["H","a","n","n","a","h"]
+//		 Output: ["h","a","n","n","a","H"]
+
+// Constraints:
+//    1 <= s.length <= 10^5
+//    s[i] is a (https://en.wikipedia.org/wiki/ASCII#Printable_characters) printable ascii character.
+
+const reverseString = (s) => {
+  for (let i = 0, j = s.length - 1; i < s.length / 2; i++, j--)
+    [s[i], s[j]] = [s[j], s[i]];
+};
+console.log(reverseString(["h", "e", "l", "l", "o"])); // ["o","l","l","e","h"]
+console.log(reverseString(["H", "a", "n", "n", "a", "h"])); // ["h","a","n","n","a","H"]
+
+// Works
+
+const topVotedReverseString = function (s) {
+  let i = 0,
+    j = s.length - 1;
+  while (i < j) {
+    [s[i], s[j]] = [s[j], s[i]];
+    i++;
+    j--;
+  }
+};
+
+// Similar use of destructuring
