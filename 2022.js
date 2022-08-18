@@ -11993,7 +11993,7 @@ const topVotedIsPowerOfFour = (n) => n > 0 && Math.log2(n) % 2 === 0;
 // Nice one liner */
 
 // Reverse String          8/17/2022
-
+/* 
 // Write a function that reverses a string. The input string is given as an array of characters s.
 
 // You must do this by modifying the input array in-place (https://en.wikipedia.org/wiki/In-place_algorithm) with O(1) extra memory.
@@ -12029,4 +12029,44 @@ const topVotedReverseString = function (s) {
   }
 };
 
-// Similar use of destructuring
+// Similar use of destructuring */
+
+// Reverse Vowels of a String          8/18/2022
+
+// Given a string s, reverse only all the vowels in the string and return it.
+
+// The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both cases.
+
+// Example 1:
+//		 Input: s = "hello"
+//		 Output: "holle"
+
+// Example 2:
+//		 Input: s = "leetcode"
+//		 Output: "leotcede"
+
+// Constraints:
+//    1 <= s.length <= 3 * 10^5
+//    s consist of printable ASCII characters.
+
+const reverseVowels = (s) => {
+  const vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"];
+  const sorted = [...s].filter((c) => vowels.includes(c));
+  return [...s].reduce(
+    (a, c) => a + (vowels.includes(c) ? sorted.pop() : c),
+    ""
+  );
+};
+console.log(reverseVowels("hello")); // "holle"
+console.log(reverseVowels("leetcode")); // "leotcede"
+
+// Concise and pretty good runtime
+
+const topVotedReverseVowels = function (s) {
+  const vowels = s.split("").filter((a) => /[aeiou]/i.test(a));
+  return s
+    .split(/[aeiou]/i)
+    .reduce((res, a) => res + a + (vowels.pop() || ""), "");
+};
+
+// Clean use of Regex and splitting by vowels
