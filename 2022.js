@@ -12032,7 +12032,7 @@ const topVotedReverseString = function (s) {
 // Similar use of destructuring */
 
 // Reverse Vowels of a String          8/18/2022
-
+/* 
 // Given a string s, reverse only all the vowels in the string and return it.
 
 // The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both cases.
@@ -12069,4 +12069,50 @@ const topVotedReverseVowels = function (s) {
     .reduce((res, a) => res + a + (vowels.pop() || ""), "");
 };
 
-// Clean use of Regex and splitting by vowels
+// Clean use of Regex and splitting by vowels */
+
+// Binary Watch          8/19/2022
+
+// A binary watch has 4 LEDs on the top to represent the hours (0-11), and 6 LEDs on the bottom to representthe minutes (0-59). Each LED represents a zero or one, with the least significant bit on the right.
+
+// For example, the below binary watch reads "4:51".
+// https://assets.leetcode.com/uploads/2021/04/08/binarywatch.jpg
+
+// Given an integer turnedOn which represents the number of LEDs that are currently on (ignoring the PM), return all possible times the watch could represent. You may return the answer in any order.
+
+// The hour must not contain a leading zero.
+//    For example, "01:00" is not valid. It should be "1:00".
+
+// The minute must be consist of two digits and may contain a leading zero.
+//    For example, "10:2" is not valid. It should be "10:02".
+
+// Example 1:
+//		 Input: turnedOn = 1
+//		 Output: ["0:01","0:02","0:04","0:08","0:16","0:32","1:00","2:00","4:00","8:00"]
+
+// Example 2:
+//		 Input: turnedOn = 9
+//		 Output: []
+
+// Constraints:
+//    0 <= turnedOn <= 10
+
+const topVotedReadBinaryWatch = function (num) {
+  const times = [];
+  for (let h = 0; h < 12; h++) {
+    for (let m = 0; m < 60; m++) {
+      const hOnes = h ? h.toString(2).match(/1/g).length : 0;
+      const mOnes = m ? m.toString(2).match(/1/g).length : 0;
+      console.log(hOnes, mOnes);
+      if (hOnes + mOnes === num) {
+        times.push(`${h}:${m < 10 ? `0${m}` : m}`);
+      }
+    }
+  }
+  return times;
+};
+console.log(topVotedReadBinaryWatch(1)); // ["0:01","0:02","0:04","0:08","0:16","0:32","1:00","2:00","4:00","8:00"]
+console.log(topVotedReadBinaryWatch(9)); // []
+
+// I didn't know how to tackle this one
+// This is a logical approach
