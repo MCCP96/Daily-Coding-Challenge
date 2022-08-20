@@ -12072,7 +12072,7 @@ const topVotedReverseVowels = function (s) {
 // Clean use of Regex and splitting by vowels */
 
 // Binary Watch          8/19/2022
-
+/* 
 // A binary watch has 4 LEDs on the top to represent the hours (0-11), and 6 LEDs on the bottom to representthe minutes (0-59). Each LED represents a zero or one, with the least significant bit on the right.
 
 // For example, the below binary watch reads "4:51".
@@ -12115,4 +12115,39 @@ console.log(topVotedReadBinaryWatch(1)); // ["0:01","0:02","0:04","0:08","0:16",
 console.log(topVotedReadBinaryWatch(9)); // []
 
 // I didn't know how to tackle this one
-// This is a logical approach
+// This is a logical approach */
+
+// Intersection of Two Arrays          8/20/2022
+
+// Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.
+
+// Example 1:
+//		 Input: nums1 = [1,2,2,1], nums2 = [2,2]
+//		 Output: [2]
+
+// Example 2:
+//		 Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+//		 Output: [9,4]
+// Explanation: [4,9] is also accepted.
+
+// Constraints:
+//    1 <= nums1.length, nums2.length <= 1000
+//    0 <= nums1[i], nums2[i] <= 1000
+
+const intersection = (nums1, nums2) =>
+  nums1.reduce(
+    (a, c) => (nums2.includes(c) && !a.includes(c) ? [...a, c] : a),
+    []
+  );
+
+console.log(intersection([1, 2, 2, 1], [2, 2])); // [2]
+console.log(intersection([4, 9, 5], [9, 4, 9, 8, 4])); // [9,4]
+
+// One line, good runtime
+
+const topVotedIntersect = (nums1, nums2) => {
+  let setNum1 = new Set(nums1);
+  return [...new Set(nums2.filter((num) => setNum1.has(num)))];
+};
+
+// Clean
