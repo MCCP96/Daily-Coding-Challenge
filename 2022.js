@@ -12206,7 +12206,7 @@ const topVotedIntersect = function (nums1, nums2) {
 // Worse runtime */
 
 // Valid Perfect Square          8/22/2022
-
+/* 
 // Given a positive integer num, write a function which returns True if num is a perfect square else False.
 
 // Follow up: Do not use any built-in library function such as sqrt.
@@ -12237,4 +12237,66 @@ const topVotedIsPerfectSquare = function (num) {
   return num ** 0.5 == parseInt(num ** 0.5);
 };
 
-// Much better
+// Much better */
+
+// Guess Number Higher or Lower          8/23/2022
+
+// We are playing the Guess Game. The game is as follows:
+
+// I pick a number from 1 to n. You have to guess which number I picked.
+
+// Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.
+
+// You call a pre-defined API int guess(int num), which returns three possible results:
+//    -1: Your guess is higher than the number I picked (i.e. num > pick).
+//    1: Your guess is lower than the number I picked (i.e. num < pick).
+//    0: your guess is equal to the number I picked (i.e. num == pick).
+
+// Return the number that I picked.
+
+// Example 1:
+//		 Input: n = 10, pick = 6
+//		 Output: 6
+
+// Example 2:
+//		 Input: n = 1, pick = 1
+//		 Output: 1
+
+// Example 3:
+//		 Input: n = 2, pick = 1
+//		 Output: 1
+
+// Constraints:
+//    1 <= n <= 2^31 - 1
+//    1 <= pick <= n
+
+const pick = 6;
+const guess = (n) => (n > pick ? -1 : n < pick ? 1 : 0);
+
+const guessNumber = (n) => {
+  const pos = guess(n);
+  if (pos === 0) return n;
+  return guessNumber(pos === -1 ? --n : ++n);
+};
+console.log(guessNumber(10, 6)); // 6
+console.log(guessNumber(1, 1)); // 1
+console.log(guessNumber(2, 1)); // 1
+
+// Exceeds maximum call stack, but works locally
+// Definitely could decrement/increment more than 1 at a time to solve this
+
+const topVotedGuessNumber = function (n) {
+  let l = 0,
+    r = n - 1;
+  while (l <= r) {
+    let mid = Math.floor((l + r) / 2);
+    let res = guess(mid);
+    if (res == 0) return mid;
+    else if (res == 1) l = mid + 1;
+    else r = mid - 1;
+  }
+  return l;
+};
+
+// Works
+// Not great runtime
