@@ -12240,7 +12240,7 @@ const topVotedIsPerfectSquare = function (num) {
 // Much better */
 
 // Guess Number Higher or Lower          8/23/2022
-
+/* 
 // We are playing the Guess Game. The game is as follows:
 
 // I pick a number from 1 to n. You have to guess which number I picked.
@@ -12299,4 +12299,59 @@ const topVotedGuessNumber = function (n) {
 };
 
 // Works
-// Not great runtime
+// Not great runtime */
+
+// Ransom Note          8/24/2022
+
+// Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
+
+// Each letter in magazine can only be used once in ransomNote.
+
+// Example 1:
+//		 Input: ransomNote = "a", magazine = "b"
+//		 Output: false
+
+// Example 2:
+//		 Input: ransomNote = "aa", magazine = "ab"
+//		 Output: false
+
+// Example 3:
+//		 Input: ransomNote = "aa", magazine = "aab"
+//		 Output: true
+
+// Constraints:
+//    1 <= ransomNote.length, magazine.length <= 10^5
+//    ransomNote and magazine consist of lowercase English letters.
+
+const canConstruct = (ransomNote, magazine) => {
+  for (let c of ransomNote)
+    if (!magazine.includes(c)) return false;
+    else {
+      const i = magazine.indexOf(c);
+      magazine = magazine.substring(0, i) + magazine.substring(i + 1);
+    }
+  return true;
+};
+console.log(canConstruct("a", "b")); // false
+console.log(canConstruct("aa", "ab")); // false
+console.log(canConstruct("aa", "aab")); // true
+
+// Pretty concise
+
+const topVotedCanConstruct = function (ransomNote, magazine) {
+  const map = {};
+  for (let letter of magazine) {
+    if (!map[letter]) {
+      map[letter] = 0;
+    }
+    map[letter]++;
+  }
+
+  for (let letter of ransomNote) {
+    if (!map[letter]) {
+      return false;
+    }
+    map[letter]--;
+  }
+  return true;
+};
