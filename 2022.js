@@ -12357,7 +12357,7 @@ const topVotedCanConstruct = function (ransomNote, magazine) {
 }; */
 
 // Convert a Number to Hexadecimal          8/25/2022
-
+/* 
 // Given an integer num, return a string representing its hexadecimal representation. For negative integers, https://en.wikipedia.org/wiki/Two%27s_complement two’s complement method is used.
 
 // All the letters in the answer string should be lowercase characters, and there should not be any leading zeros in the answer except for the zero itself.
@@ -12402,4 +12402,53 @@ const topVotedToHex = function (num) {
   return res;
 };
 
-// I rather '.toString(16)' over having an array
+// I rather '.toString(16)' over having an array */
+
+// Maximum Average Subarray I          8/26/2022
+
+// You are given an integer array nums consisting of n elements, and an integer k.
+
+// Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10^-5 will be accepted.
+
+// Example 1:
+//		 Input: nums = [1,12,-5,-6,50,3], k = 4
+//		 Output: 12.75000
+// Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+
+// Example 2:
+//		 Input: nums = [5], k = 1
+//		 Output: 5.00000
+
+// Constraints:
+//    n == nums.length
+//    1 <= k <= n <= 10^5
+//    -10^4 <= nums[i] <= 10^4
+
+const findMaxAverage = (nums, k) => {
+  let max = Number.MIN_SAFE_INTEGER;
+  for (let i = 0; i <= nums.length - k; i++) {
+    let cur = 0;
+    for (let j = i; j < i + k; j++) cur += nums[j];
+    max = Math.max(max, cur / k);
+  }
+  return max;
+};
+console.log(findMaxAverage([1, 12, -5, -6, 50, 3], 4)); // 12.75000
+console.log(findMaxAverage([5], 1)); // 5.00000
+
+// Great memory, terrible runtime
+
+const topVotedFindMaxAverage = function (nums, k) {
+  let sum = 0;
+  for (let i = 0; i < k; i++) {
+    sum += nums[i];
+  }
+
+  let max = sum;
+  for (let i = k; i < nums.length; i++) {
+    sum = sum - nums[i - k] + nums[i];
+    max = Math.max(max, sum);
+  }
+
+  return max / k;
+};
