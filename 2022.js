@@ -12454,7 +12454,7 @@ const topVotedFindMaxAverage = function (nums, k) {
 }; */
 
 // Min Cost Climbing Stairs          8/27/2022
-
+/* 
 // You are given an integer array cost where cost[i] is the cost of i^th step on a staircase. Once you pay the cost, you can either climb one or two steps.
 
 // You can either start from the step with index 0, or the step with index 1.
@@ -12492,4 +12492,50 @@ const topVotedMinCostClimbingStairs = (cost) => {
 console.log(minCostClimbingStairs([10, 15, 20])); // 15
 console.log(minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1])); // 6
 
-// No time today
+// No time today */
+
+// Valid Boomerang          8/28/2022
+
+// Given an array points where points[i] = [xi, yi] represents a point on the X-Y plane, return true if these points are a boomerang.
+
+// A boomerang is a set of three points that are all distinct and not in a straight line.
+
+// Example 1:
+//		 Input: points = [[1,1],[2,3],[3,2]]
+//		 Output: true
+
+// Example 2:
+//		 Input: points = [[1,1],[2,2],[3,3]]
+//		 Output: false
+
+// Constraints:
+//    points.length == 3
+//    points[i].length == 2
+//    0 <= xi, yi <= 100
+
+const isBoomerang = (points) => {
+  if (
+    points[1][1] - points[0][1] / (points[1][0] - points[0][0]) ===
+    points[2][1] - points[1][1] / (points[2][0] - points[1][0])
+  )
+    return false;
+  if (
+    points[0].join("") === points[1].join("") ||
+    points[0].join("") === points[2].join("") ||
+    points[1].join("") === points[2].join("")
+  )
+    return false;
+  return true;
+};
+// prettier-ignore
+console.log(isBoomerang([[1, 1],[2, 3],[3, 2]])); // true
+// prettier-ignore
+console.log(isBoomerang([[1, 1],[2, 2],[3, 3]])); // false
+
+// Doesn't work for all test cases
+
+const isBoomerang = function ([[ax, ay], [bx, by], [cx, cy]]) {
+  return (by - ay) * (cx - bx) !== (cy - by) * (bx - ax);
+};
+
+// Very clean
