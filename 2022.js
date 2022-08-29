@@ -12495,7 +12495,7 @@ console.log(minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1])); // 6
 // No time today */
 
 // Valid Boomerang          8/28/2022
-
+/* 
 // Given an array points where points[i] = [xi, yi] represents a point on the X-Y plane, return true if these points are a boomerang.
 
 // A boomerang is a set of three points that are all distinct and not in a straight line.
@@ -12538,4 +12538,47 @@ const isBoomerang = function ([[ax, ay], [bx, by], [cx, cy]]) {
   return (by - ay) * (cx - bx) !== (cy - by) * (bx - ax);
 };
 
-// Very clean
+// Very clean */
+
+// Make Array Zero by Subtracting Equal Amounts          8/29/2022
+
+// You are given a non-negative integer array nums. In one operation, you must:	Choose a positive integer x such that x is less than or equal to the smallest non-zero element in nums.	Subtract x from every positive element in nums.
+
+// Return the minimum number of operations to make every element in nums equal to 0.
+
+// Example 1:
+//		 Input: nums = [1,5,0,3,5]
+//		 Output: 3
+// Explanation:
+// In the first operation, choose x = 1. Now, nums = [0,4,0,2,4].
+// In the second operation, choose x = 2. Now, nums = [0,2,0,0,2].
+// In the third operation, choose x = 2. Now, nums = [0,0,0,0,0].
+
+// Example 2:
+//		 Input: nums = [0]
+//		 Output: 0
+// Explanation: Each element in nums is already 0 so no operations are needed.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    0 <= nums[i] <= 100
+
+const minimumOperations = (nums, count = 0) => {
+  cur = nums.filter((x) => x !== 0);
+  if (cur.length === 0) return count;
+  const min = Math.min(...cur);
+  return minimumOperations(
+    cur.map((cur) => cur - min),
+    ++count
+  );
+};
+console.log(minimumOperations([1, 5, 0, 3, 5])); // 3
+console.log(minimumOperations([0])); // 0
+
+// Feels like a logical solution
+// Decent runtime
+
+const topVotedMinimumOperations = (nums) =>
+  new Set(nums.filter((x) => x !== 0)).size;
+
+// Hah, didn't think of that, makes total sense
