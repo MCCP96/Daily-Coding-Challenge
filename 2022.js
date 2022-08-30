@@ -12541,7 +12541,7 @@ const isBoomerang = function ([[ax, ay], [bx, by], [cx, cy]]) {
 // Very clean */
 
 // Make Array Zero by Subtracting Equal Amounts          8/29/2022
-
+/* 
 // You are given a non-negative integer array nums. In one operation, you must:	Choose a positive integer x such that x is less than or equal to the smallest non-zero element in nums.	Subtract x from every positive element in nums.
 
 // Return the minimum number of operations to make every element in nums equal to 0.
@@ -12581,4 +12581,80 @@ console.log(minimumOperations([0])); // 0
 const topVotedMinimumOperations = (nums) =>
   new Set(nums.filter((x) => x !== 0)).size;
 
-// Hah, didn't think of that, makes total sense
+// Hah, didn't think of that, makes total sense */
+
+// Merge Similar Items          8/30/2022
+
+// You are given two 2D integer arrays, items1 and items2, representing two sets of items. Each array items has the following properties:
+//    items[i] = [valuei, weighti] where valuei represents the value and weighti represents the weight of the i^th item.
+//    The value of each item in items is unique.
+
+// Return a 2D integer array ret where ret[i] = [valuei, weighti], with weighti being the sum of weights of all items with value valuei.
+
+// Note: ret should be returned in ascending order by value.
+
+// Example 1:
+//		 Input: items1 = [[1,1],[4,5],[3,8]], items2 = [[3,1],[1,5]]
+//		 Output: [[1,6],[3,9],[4,5]]
+// Explanation:
+// The item with value = 1 occurs in items1 with weight = 1 and in items2 with weight = 5, total weight = 1 + 5 = 6.
+// The item with value = 3 occurs in items1 with weight = 8 and in items2 with weight = 1, total weight = 8 + 1 = 9.
+// The item with value = 4 occurs in items1 with weight = 5, total weight = 5.
+// Therefore, we return [[1,6],[3,9],[4,5]].
+
+// Example 2:
+//		 Input: items1 = [[1,1],[3,2],[2,3]], items2 = [[2,1],[3,2],[1,3]]
+//		 Output: [[1,4],[2,4],[3,4]]
+// Explanation:
+// The item with value = 1 occurs in items1 with weight = 1 and in items2 with weight = 3, total weight = 1 + 3 = 4.
+// The item with value = 2 occurs in items1 with weight = 3 and in items2 with weight = 1, total weight = 3 + 1 = 4.
+// The item with value = 3 occurs in items1 with weight = 2 and in items2 with weight = 2, total weight = 2 + 2 = 4.
+// Therefore, we return [[1,4],[2,4],[3,4]].
+
+// Example 3:
+//		 Input: items1 = [[1,3],[2,2]], items2 = [[7,1],[2,2],[1,4]]
+//		 Output: [[1,7],[2,4],[7,1]]
+// Explanation:
+// The item with value = 1 occurs in items1 with weight = 3 and in items2 with weight = 4, total weight = 3 + 4 = 7.
+// The item with value = 2 occurs in items1 with weight = 2 and in items2 with weight = 2, total weight = 2 + 2 = 4.
+// The item with value = 7 occurs in items2 with weight = 1, total weight = 1.
+// Therefore, we return [[1,7],[2,4],[7,1]].
+
+// Constraints:
+//    1 <= items1.length, items2.length <= 1000
+//    items1[i].length == items2[i].length == 2
+//    1 <= valuei, weighti <= 1000
+//    Each valuei in items1 is unique.
+//    Each valuei in items2 is unique.
+
+const mergeSimilarItems = (items1, items2) => {
+  let acc = {};
+  for (let arr of [...items1, ...items2]) {
+    acc[arr[0]] ? (acc[arr[0]] += arr[1]) : (acc[arr[0]] = arr[1]);
+  }
+  return Object.entries(acc);
+};
+// prettier-ignore
+console.log(mergeSimilarItems([[1,1],[4,5],[3,8]],[[3,1],[1,5]])) // [[1,6],[3,9],[4,5]]
+// prettier-ignore
+console.log(mergeSimilarItems([[1,1],[3,2],[2,3]],[[2,1],[3,2],[1,3]])) // [[1,4],[2,4],[3,4]]
+// prettier-ignore
+console.log(mergeSimilarItems([[1,3],[2,2]],[[7,1],[2,2],[1,4]])) // [[1,7],[2,4],[7,1]]
+
+// Better than 90% of runtimes
+
+const oneLineMergeSimilarItems = (items1, items2) =>
+  Object.entries(
+    [...items1, ...items2].reduce((a, c) => {
+      a[c[0]] ? (a[c[0]] += c[1]) : (a[c[0]] = c[1]);
+      return a;
+    }, {})
+  );
+// prettier-ignore
+console.log(oneLineMergeSimilarItems([[1,1],[4,5],[3,8]],[[3,1],[1,5]])) // [[1,6],[3,9],[4,5]]
+// prettier-ignore
+console.log(oneLineMergeSimilarItems([[1,1],[3,2],[2,3]],[[2,1],[3,2],[1,3]])) // [[1,4],[2,4],[3,4]]
+// prettier-ignore
+console.log(oneLineMergeSimilarItems([[1,3],[2,2]],[[7,1],[2,2],[1,4]])) // [[1,7],[2,4],[7,1]]
+
+// Top voteds were all very bulky so decided to make a one liner
