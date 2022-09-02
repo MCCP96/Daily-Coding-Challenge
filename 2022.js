@@ -12715,7 +12715,7 @@ const topVotedArithmeticTriplets = function (nums, diff) {
 // Hah, nice */
 
 // Largest Local Values in a Matrix          9/1/2022
-
+/* 
 // You are given an n x n integer matrix grid.
 
 // Generate an integer matrix maxLocal of size (n - 2) x (n - 2) such that:	maxLocal[i][j] is equal to the largest value of the 3 x 3 matrix in grid centered around row i + 1 and column j + 1.
@@ -12787,4 +12787,68 @@ const topVotedLargestLocal = function (grid, count = 2) {
   return --count == 0 ? arr : largestLocal(arr, count);
 };
 
-// Most top voteds were identical to mine except this one
+// Most top voteds were identical to mine except this one */
+
+// Minimum Recolors to Get K Consecutive Black Blocks          9/2/2022
+
+// You are given a 0-indexed string blocks of length n, where blocks[i] is either 'W' or 'B', representing the color of the i^th block. The characters 'W' and 'B' denote the colors white and black, respectively.
+
+// You are also given an integer k, which is the desired number of consecutive black blocks.
+
+// In one operation, you can recolor a white block such that it becomes a black block.
+
+// Return the minimum number of operations needed such that there is at least one occurrence of k consecutive black blocks.
+
+// Example 1:
+//		 Input: blocks = "WBBWWBBWBW", k = 7
+//		 Output: 3
+// Explanation:
+// One way to achieve 7 consecutive black blocks is to recolor the 0th, 3rd, and 4th blocks
+// so that blocks = "BBBBBBBWBW".
+// It can be shown that there is no way to achieve 7 consecutive black blocks in less than 3 operations.
+// Therefore, we return 3.
+
+// Example 2:
+//		 Input: blocks = "WBWBBBW", k = 2
+//		 Output: 0
+// Explanation:
+// No changes need to be made, since 2 consecutive black blocks already exist.
+// Therefore, we return 0.
+
+// Constraints:
+//    n == blocks.length
+//    1 <= n <= 100
+//    blocks[i] is either 'W' or 'B'.
+//    1 <= k <= n
+
+const minimumRecolors = (blocks, k, count = 0) =>
+  blocks.includes("B".repeat(k))
+    ? count
+    : minimumRecolors(blocks.replace("W", "B"), k, ++count);
+
+console.log(minimumRecolors("WBBWWBBWBW", 7)); // 3
+console.log(minimumRecolors("WBWBBBW", 2)); // 0
+
+// Does not recolor optimally
+
+const topVotedMinimumRecolors = function (blocks, k) {
+  let min_count = Number.MAX_VALUE;
+  for (let i = 0; i < blocks.length; i++) {
+    let black_count = 0,
+      count = 0;
+    for (let j = i; j < blocks.length; j++) {
+      if (blocks.charAt(j) == "B") black_count++;
+      else {
+        black_count++;
+        count++;
+      }
+      if (black_count == k) {
+        min_count = Math.min(min_count, count);
+        break;
+      }
+    }
+  }
+  return min_count;
+};
+
+// min_count optimizes recolors but impacts runtime
