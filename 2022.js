@@ -12790,7 +12790,7 @@ const topVotedLargestLocal = function (grid, count = 2) {
 // Most top voteds were identical to mine except this one */
 
 // Minimum Recolors to Get K Consecutive Black Blocks          9/2/2022
-
+/* 
 // You are given a 0-indexed string blocks of length n, where blocks[i] is either 'W' or 'B', representing the color of the i^th block. The characters 'W' and 'B' denote the colors white and black, respectively.
 
 // You are also given an integer k, which is the desired number of consecutive black blocks.
@@ -12851,4 +12851,85 @@ const topVotedMinimumRecolors = function (blocks, k) {
   return min_count;
 };
 
-// min_count optimizes recolors but impacts runtime
+// min_count optimizes recolors but impacts runtime */
+
+// Minimum Hours of Training to Win a Competition          9/3/2022
+
+// You are entering a competition, and are given two positive integers initialEnergy and initialExperience denoting your initial energy and initial experience respectively.
+
+// You are also given two 0-indexed integer arrays energy and experience, both of length n.
+
+// You will face n opponents in order. The energy and experience of the i^th opponent is denoted by energy[i] and experience[i] respectively. When you face an opponent, you need to have both strictly greater experience and energy to defeat them and move to the next opponent if available.
+
+// Defeating the i^th opponent increases your experience by experience[i], but decreases your energy by energy[i].
+
+// Before starting the competition, you can train for some number of hours. After each hour of training, you can either choose to increase your initial experience by one, or increase your initial energy by one.
+
+// Return the minimum number of training hours required to defeat all n opponents.
+
+// Example 1:
+//		 Input: initialEnergy = 5, initialExperience = 3, energy = [1,4,3,2], experience = [2,6,3,1]
+//		 Output: 8
+// Explanation: You can increase your energy to 11 after 6 hours of training, and your experience to 5 after 2 hours of training.
+// You face the opponents in the following order:
+// - You have more energy and experience than the 0^th opponent so you win.
+//   Your energy becomes 11 - 1 = 10, and your experience becomes 5 + 2 = 7.
+// - You have more energy and experience than the 1^st opponent so you win.
+//   Your energy becomes 10 - 4 = 6, and your experience becomes 7 + 6 = 13.
+// - You have more energy and experience than the 2^nd opponent so you win.
+//   Your energy becomes 6 - 3 = 3, and your experience becomes 13 + 3 = 16.
+// - You have more energy and experience than the 3^rd opponent so you win.
+//   Your energy becomes 3 - 2 = 1, and your experience becomes 16 + 1 = 17.
+// You did a total of 6 + 2 = 8 hours of training before the competition, so we return 8.
+// It can be proven that no smaller answer exists.
+
+// Example 2:
+//		 Input: initialEnergy = 2, initialExperience = 4, energy = [1], experience = [3]
+//		 Output: 0
+// Explanation: You do not need any additional energy or experience to win the competition, so we return 0.
+
+// Constraints:
+//    n == energy.length == experience.length
+//    1 <= n <= 100
+//    1 <= initialEnergy, initialExperience, energy[i], experience[i] <= 100
+
+const minNumberOfHours = (iniEnergy, iniExp, energy, exp, hours = 0) => {
+  const oppEnergy = energy.reduce((a, c) => (a += c));
+  if (oppEnergy < iniEnergy) return hours;
+  hours += oppEnergy - iniEnergy + 1;
+  for (let i = 0; i < exp.length; i++) {
+    if (exp[i] >= iniExp) hours += exp[i] - iniExp + 1;
+
+    iniExp += exp[i];
+  }
+  return hours;
+};
+console.log(minNumberOfHours(5, 3, [1, 4, 3, 2], [2, 6, 3, 2])); // 8
+console.log(minNumberOfHours(2, 4, [1], [3])); // 0
+console.log(minNumberOfHours(5, 3, [1, 4], [2, 5])); // 2
+console.log(minNumberOfHours(1, 1, [1, 1, 1, 1], [1, 1, 1, 50])); // 51
+
+// Bit of a bulky prompt
+// Doesn't work for all test cases
+
+// prettier-ignore
+const topVotedMinNumberOfHours = function(initialEnergy, initialExperience, energy, experience) {
+  let count = 0
+  for (let i=0; i<energy.length; i++) {
+      if (energy[i]>=initialEnergy) {
+          count+=energy[i]-initialEnergy+1
+          initialEnergy = 1
+      } else {
+          initialEnergy -= energy[i]
+      } 
+      if (experience[i]<initialExperience) {
+          initialExperience += experience[i]
+      } else {
+          count+=experience[i]-initialExperience+1
+          initialExperience += experience[i]+experience[i]-initialExperience+1       
+      }
+  }
+  return count
+};
+
+// Not a fan of this question
