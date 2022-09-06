@@ -12983,7 +12983,7 @@ console.log(answerQueries([2, 3, 4, 5], [1])); // [0]
 // No time today */
 
 // Find Subarrays With Equal Sum          9/5/2022
-
+/* 
 // Given a 0-indexed integer array nums, determine whether there exist two subarrays of length 2 with equal sum. Note that the two subarrays must begin at different indices.
 
 // Return true if these subarrays exist, and false otherwise.
@@ -13037,4 +13037,69 @@ const topVotedFindSubarrays = function (nums) {
   return false;
 };
 
-// Nice
+// Nice */
+
+// Check Distances Between Same Letters          9/6/2022
+
+// You are given a 0-indexed string s consisting of only lowercase English letters, where each letter in s appears exactly twice. You are also given a 0-indexed integer array distance of length 26.
+
+// Each letter in the alphabet is numbered from 0 to 25 (i.e. 'a' -> 0, 'b' -> 1, 'c' -> 2, ... , 'z' -> 25).
+
+// In a well-spaced string, the number of letters between the two occurrences of the i^th letter is distance[i]. If the i^th letter does not appear in s, then distance[i] can be ignored.
+
+// Return true if s is a well-spaced string, otherwise return false.
+
+// Example 1:
+//		 Input: s = "abaccb", distance = [1,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+//		 Output: true
+// Explanation:
+// - 'a' appears at indices 0 and 2 so it satisfies distance[0] = 1.
+// - 'b' appears at indices 1 and 5 so it satisfies distance[1] = 3.
+// - 'c' appears at indices 3 and 4 so it satisfies distance[2] = 0.
+// Note that distance[3] = 5, but since 'd' does not appear in s, it can be ignored.
+// Return true because s is a well-spaced string.
+
+// Example 2:
+//		 Input: s = "aa", distance = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+//		 Output: false
+// Explanation:
+// - 'a' appears at indices 0 and 1 so there are zero letters between them.
+// Because distance[0] = 1, s is not a well-spaced string.
+
+// Constraints:
+//    2 <= s.length <= 52
+//    s consists only of lowercase English letters.
+//    Each letter appears in s exactly twice.
+//    distance.length == 26
+//    0 <= distance[i] <= 50
+
+const checkDistances = (s, distance) => {
+  for (let c of new Set(s))
+    if (s.lastIndexOf(c) - s.indexOf(c) - 1 !== distance[c.charCodeAt(0) - 97])
+      return false;
+  return true;
+};
+// prettier-ignore
+console.log(checkDistances("abaccb",[1,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])) // true
+// prettier-ignore
+console.log(checkDistances("aa",[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])) // false
+
+// pretty concise
+
+const topVotedCheckDistances = function (s, distance) {
+  const map = {};
+  for (let i = 0; i < s.length; i++) {
+    if (map[s[i]] !== undefined) {
+      const diff = i - map[s[i]] - 1;
+      const charCode = s[i].charCodeAt() - 97;
+      if (distance[charCode] !== diff) {
+        return false;
+      }
+    } else {
+      map[s[i]] = i;
+    }
+  }
+  return true;
+};
+
+// Bit bulkier, but works
