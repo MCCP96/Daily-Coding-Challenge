@@ -13105,7 +13105,7 @@ const topVotedCheckDistances = function (s, distance) {
 // Bit bulkier, but works */
 
 // Longest Substring Without Repeating Characters          9/7/2022
-
+/* 
 // Given a string s, find the length of the longest substring without repeating characters.
 
 // Example 1:
@@ -13157,4 +13157,52 @@ const topVotedLengthOfLongestSubstring = (s) => {
   }, 0);
 };
 
-// Very nice!
+// Very nice! */
+
+// Longest Palindromic Substring          9/8/2022
+
+// Given a string s, return the longest palindromic substring in s.
+
+// Example 1:
+//		 Input: s = "babad"
+//		 Output: "bab"
+// Explanation: "aba" is also a valid answer.
+
+// Example 2:
+//		 Input: s = "cbbd"
+//		 Output: "bb"
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s consist of only digits and English letters.
+
+const longestPalindrome = (s) => {
+  let ans = "";
+  for (let i = 0; i < s.length; i++) {
+    for (let j = i + 1; j <= s.length; j++) {
+      let cur = s.slice(i, j);
+      if (cur === [...cur].reverse().join("") && cur.length > ans.length)
+        ans = cur;
+    }
+  }
+  return ans;
+};
+console.log(longestPalindrome("babad")); // "bab"
+console.log(longestPalindrome("cbbd")); // "bb"
+
+// Exceeds Leetcode's runtime limit
+// I'd have to avoid the nested for loop or find a better way of testing for palindromes
+
+const topVotedLongestPalindrome = (s) => {
+  let ll = 0,
+    rr = 0;
+
+  for (let i = 0; i < s.length; i++)
+    for (let j of [i, i + 1])
+      for (l = i, r = j; s[l] && s[l] === s[r]; l--, r++)
+        [ll, rr] = r - l + 1 > rr - ll + 1 ? [l, r] : [ll, rr];
+
+  return s.substring(ll, rr + 1);
+};
+
+// Not very readable but works
