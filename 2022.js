@@ -13160,7 +13160,7 @@ const topVotedLengthOfLongestSubstring = (s) => {
 // Very nice! */
 
 // Longest Palindromic Substring          9/8/2022
-
+/* 
 // Given a string s, return the longest palindromic substring in s.
 
 // Example 1:
@@ -13205,4 +13205,82 @@ const topVotedLongestPalindrome = (s) => {
   return s.substring(ll, rr + 1);
 };
 
-// Not very readable but works
+// Not very readable but works */
+
+// Zigzag Conversion          9/9/2022
+
+// The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+// P   A   H   N
+// A P L S I I G
+// Y   I   R
+
+// And then read line by line: "PAHNAPLSIIGYIR"
+
+// Write the code that will take a string and make this conversion given a number of rows:string convert(string s, int numRows);
+
+// Example 1:
+//		 Input: s = "PAYPALISHIRING", numRows = 3
+//		 Output: "PAHNAPLSIIGYIR"
+
+// Example 2:
+//		 Input: s = "PAYPALISHIRING", numRows = 4
+//		 Output: "PINALSIGYAHRPI"
+// Explanation:
+// P     I    N
+// A   L S  I G
+// Y A   H R
+// P     I
+
+// Example 3:
+//		 Input: s = "A", numRows = 1
+//		 Output: "A"
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s consists of English letters (lower-case and upper-case), ',' and '.'.
+//    1 <= numRows <= 1000
+
+const convert = (s, numRows) => {
+  let rows = [];
+  for (let i = 0; i < s.length; i += numRows + ~~(numRows / 2)) {
+    let zig = [...s.slice(i, i + numRows)];
+    let zag = [...s.slice(i + numRows, i + numRows + ~~(numRows / 2))];
+    console.log(zig, zag);
+    // for (let j = 0; j < numRows; j++) {
+    //   rows[j] = rows[j] ? [...rows[j], zig.shift()] : zig.shift();
+    //   console.log(rows[j]);
+    //   if (j > 0 || j < numRows - 1) rows[j] = [...rows[j], zag.pop()];
+    // }
+  }
+  return "?";
+};
+console.log(convert("PAYPALISHIRING", 3)); // "PAHNAPLSIIGYIR"
+console.log(convert("PAYPALISHIRING", 4)); // "PINALSIGYAHRPI"
+console.log(convert("A", 1)); // "A"
+
+// Felt like I was on to something, but couldn't get the last part working
+
+const topVotedConvert = (s, numRows) => {
+  // return original string if can't zigzag
+  if (numRows === 1 || s.length < numRows) return s;
+
+  let rows = [];
+  let converted = "";
+  let reverse = false;
+  let count = 0;
+
+  // prepare rows
+  for (let i = 0; i < numRows; i++) rows[i] = [];
+
+  // reverse the push flow when reaching turning points
+  for (let i = 0; i < s.length; i++) {
+    rows[count].push(s[i]);
+    reverse ? count-- : count++;
+    if (count === numRows - 1 || count === 0) reverse = !reverse;
+  }
+
+  // put together converted string
+  return rows.reduce((converted, cur) => converted + cur.join(""), "");
+};
+
+// Hmm, great use of reverse boolean here
