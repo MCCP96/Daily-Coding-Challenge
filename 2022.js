@@ -13286,7 +13286,7 @@ const topVotedConvert = (s, numRows) => {
 // Hmm, great use of reverse boolean here */
 
 // String to Integer (atoi)          9/10/2022
-
+/* 
 // Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).
 
 // The algorithm for myAtoi(string s) is as follows:
@@ -13356,4 +13356,55 @@ console.log(topVotedMyAtoi("   -42")); // -42
 console.log(topVotedMyAtoi("4193 with words")); // 4193
 
 // No time today
-// First time seeing parseInt, very useful for this case
+// First time seeing parseInt, very useful for this case */
+
+// Container With Most Water          9/11/2022
+
+// You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the i^th line are (i, 0) and (i, height[i]).
+
+// Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+// Return the maximum amount of water a container can store.
+
+// Notice that you may not slant the container.
+
+// Example 1:
+//   https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg
+//		 Input: height = [1,8,6,2,5,4,8,3,7]
+//		 Output: 49
+// Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+// Example 2:
+//		 Input: height = [1,1]
+//		 Output: 1
+
+// Constraints:
+//    n == height.length
+//    2 <= n <= 10^5
+//    0 <= height[i] <= 10^4
+
+const maxArea = (height) => {
+  let max = 0;
+  for (let i = 0; i < height.length; i++)
+    for (let j = i + 1; j < height.length; j++)
+      max = Math.max(Math.min(height[i], height[j]) * (j - i), max);
+  return max;
+};
+console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7])); // 49
+console.log(maxArea([1, 1])); // 1
+
+// Exceeds Leetcode's max runtime
+// Medium difficulty questions require a more optimal soluion than nested for loops
+
+const topVotedMaxArea = (H) => {
+  let ans = 0,
+    i = 0,
+    j = H.length - 1;
+  while (i < j) {
+    ans = Math.max(ans, Math.min(H[i], H[j]) * (j - i));
+    H[i] <= H[j] ? i++ : j--;
+  }
+  return ans;
+};
+
+// Smart to work in from left and right
