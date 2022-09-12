@@ -13359,7 +13359,7 @@ console.log(topVotedMyAtoi("4193 with words")); // 4193
 // First time seeing parseInt, very useful for this case */
 
 // Container With Most Water          9/11/2022
-
+/* 
 // You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the i^th line are (i, 0) and (i, height[i]).
 
 // Find two lines that together with the x-axis form a container, such that the container contains the most water.
@@ -13407,4 +13407,80 @@ const topVotedMaxArea = (H) => {
   return ans;
 };
 
-// Smart to work in from left and right
+// Smart to work in from left and right */
+
+// Integer to Roman          9/12/2022
+
+// Roman numerals are represented by seven different symbols:I, V, X, L, C, D and M.
+// Symbol       Value
+// I             1
+// V             5
+// X             10
+// L             50
+// C             100
+// D             500
+// M             1000
+
+// For example,2 is written as II in Roman numeral, just two one's added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+// Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+// I can be placed before V (5) and X (10) to make 4 and 9.
+// X can be placed before L (50) and C (100) to make 40 and 90.
+// C can be placed before D (500) and M (1000) to make 400 and 900.
+
+// Given an integer, convert it to a roman numeral.
+
+// Example 1:
+//		 Input: num = 3
+//		 Output: "III"
+// Explanation: 3 is represented as 3 ones.
+
+// Example 2:
+//		 Input: num = 58
+//		 Output: "LVIII"
+// Explanation: L = 50, V = 5, III = 3.
+
+// Example 3:
+//		 Input: num = 1994
+//		 Output: "MCMXCIV"
+// Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+// Constraints:
+//    1 <= num <= 3999
+
+const intToRoman = (num, ans = "") => {
+  if (num > 0) {
+    if (num >= 1000) return intToRoman(num - 1000, `${ans}M`);
+    else if (num >= 900) return intToRoman(num - 900, `${ans}CM`);
+    else if (num >= 500) return intToRoman(num - 500, `${ans}D`);
+    else if (num >= 400) return intToRoman(num - 400, `${ans}CD`);
+    else if (num >= 100) return intToRoman(num - 100, `${ans}C`);
+    else if (num >= 90) return intToRoman(num - 90, `${ans}XC`);
+    else if (num >= 50) return intToRoman(num - 50, `${ans}L`);
+    else if (num >= 40) return intToRoman(num - 40, `${ans}XL`);
+    else if (num >= 10) return intToRoman(num - 10, `${ans}X`);
+    else if (num >= 9) return intToRoman(num - 9, `${ans}IX`);
+    else if (num >= 5) return intToRoman(num - 5, `${ans}V`);
+    else if (num >= 4) return intToRoman(num - 4, `${ans}IV`);
+    else if (num >= 1) return intToRoman(--num, `${ans}I`);
+  }
+  return ans;
+};
+console.log(intToRoman(3)); // "III"
+console.log(intToRoman(58)); // "LVIII"
+console.log(intToRoman(1994)); // "MCMXCIV"
+console.log(intToRoman(1000)); // "Mm"
+
+// Disgusting block of if/elses and return statement
+// Better than 100% of submissions runtimes
+
+const val = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+// prettier-ignore
+const rom = ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"]
+const topVotedIntToRoman = (N) => {
+  let ans = "";
+  for (let i = 0; N; i++) while (N >= val[i]) (ans += rom[i]), (N -= val[i]);
+  return ans;
+};
+
+// Much more concise
