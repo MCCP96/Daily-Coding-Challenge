@@ -13486,7 +13486,7 @@ const topVotedIntToRoman = (N) => {
 // Much more concise */
 
 // 3Sum          9/13/2022
-
+/* 
 // Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
 // Notice that the solution set must not contain duplicate triplets.
@@ -13574,4 +13574,49 @@ const topVotedThreeSum = (nums) => {
 };
 
 // Amazing explanation:
-// https://leetcode.com/problems/3sum/discuss/281302/JavaScript-with-lots-of-explanatory-comments!
+// https://leetcode.com/problems/3sum/discuss/281302/JavaScript-with-lots-of-explanatory-comments! */
+
+// 3Sum Closest          9/14/2022
+
+// Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
+
+// Return the sum of the three integers.
+
+// You may assume that each input would have exactly one solution.
+
+// Example 1:
+//		 Input: nums = [-1,2,1,-4], target = 1
+//		 Output: 2
+// Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+
+// Example 2:
+//		 Input: nums = [0,0,0], target = 1
+//		 Output: 0
+
+// Constraints:
+//    3 <= nums.length <= 1000
+//    -1000 <= nums[i] <= 1000
+//    -10^4 <= target <= 10^4
+
+const topVotedThreeSumClosest = (nums, target) => {
+  nums.sort((a, b) => a - b);
+  let closest = Infinity;
+  for (let i = 0; i < nums.length - 2; i++) {
+    let left = i + 1;
+    right = nums.length - 1;
+    while (left < right) {
+      let localSum = nums[i] + nums[left] + nums[right];
+      if (Math.abs(localSum - target) < Math.abs(closest - target))
+        closest = localSum;
+      if (localSum > target) right--;
+      else left++;
+    }
+  }
+  return closest;
+};
+console.log(topVotedThreeSumClosest([-1, 2, 1, -4], 1)); // 2
+console.log(topVotedThreeSumClosest([0, 0, 0], 1)); // 0
+
+// Couldn't get it going so decided to look at top voted submission
+
+// Based on yesterday and today's challenges, 3Sum problems must always be solved with a left and right pointer that are reset for every increment of i
