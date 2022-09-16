@@ -13622,7 +13622,7 @@ console.log(topVotedThreeSumClosest([0, 0, 0], 1)); // 0
 // Based on yesterday and today's challenges, 3Sum problems must always be solved with a left and right pointer that are reset for every increment of i */
 
 // Letter Combinations of a Phone Number          9/15/2022
-
+/* 
 // Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
 
 // A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
@@ -13676,4 +13676,93 @@ console.log(topVotedLetterCombinations("23")); // ["ad","ae","af","bd","be","bf"
 console.log(topVotedLetterCombinations("")); // []
 console.log(topVotedLetterCombinations("2")); // ["a","b","c"]
 
-// Knew I wanted this approach but could not figure it out
+// Knew I wanted this approach but could not figure it out */
+
+// 4Sum          9/16/2022
+
+// Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:	0 <= a, b, c, d< n	a, b, c, and d are distinct.	nums[a] + nums[b] + nums[c] + nums[d] == target
+
+// You may return the answer in any order.
+
+// Example 1:
+//		 Input: nums = [1,0,-1,0,-2,2], target = 0
+//		 Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+
+// Example 2:
+//		 Input: nums = [2,2,2,2,2], target = 8
+//		 Output: [[2,2,2,2]]
+
+// Constraints:
+//    1 <= nums.length <= 200
+//    -10^9 <= nums[i] <= 10^9
+//    -10^9 <= target <= 10^9
+
+const fourSum = (nums, target) => {
+  const ans = [];
+  if (nums.length < 4) return ans;
+  nums.sort((a, b) => a - b);
+
+  for (let i = 0; i < nums.length - 3; i++) {
+    if (nums[i] > target) break;
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+    for (let j = i + 1; j < nums.length - 2; j++) {
+      if (nums[j] > target) break;
+      if (j > 0 && nums[j] === nums[j - 2]) continue;
+
+      let k = j + 1;
+      let l = nums.length - 1;
+
+      while (k < l) {
+        let sum = nums[i] + nums[j] + nums[k] + nums[l];
+        if (sum === target) {
+          ans.push([nums[i], nums[j], nums[k], nums[l]]);
+          while (nums[k] === nums[k + 1]) k++;
+          while (nums[l] === nums[l - 1]) l--;
+          k++;
+          l--;
+        } else if (sum < target) k++;
+        else l--;
+      }
+    }
+  }
+  return ans;
+};
+console.log(fourSum([1, 0, -1, 0, -2, 2], 0)); // [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+console.log(fourSum([2, 2, 2, 2, 2], 8)); // [[2,2,2,2]]
+
+// Inspired by the 3Sum solution
+// Doesn't work for all test cases
+
+const topVotedFourSum = (nums, target) => {
+  nums.sort((a, b) => a - b);
+  const result = [];
+
+  for (let i = 0; i < nums.length - 3; i++) {
+    for (let j = i + 1; j < nums.length - 2; j++) {
+      let low = j + 1;
+      let high = nums.length - 1;
+
+      while (low < high) {
+        const sum = nums[i] + nums[j] + nums[low] + nums[high];
+        if (sum === target) {
+          result.push([nums[i], nums[j], nums[low], nums[high]]);
+          while (nums[low] === nums[low + 1]) low++;
+          while (nums[high] === nums[high - 1]) high--;
+          low++;
+          high--;
+        } else if (sum < target) {
+          low++;
+        } else {
+          high--;
+        }
+      }
+      while (nums[j] === nums[j + 1]) j++;
+    }
+    while (nums[i] === nums[i + 1]) i++;
+  }
+  return result;
+};
+
+// So close
+// Seems I was missing the last two while loops and had to remove some if statements
