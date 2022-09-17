@@ -13679,7 +13679,7 @@ console.log(topVotedLetterCombinations("2")); // ["a","b","c"]
 // Knew I wanted this approach but could not figure it out */
 
 // 4Sum          9/16/2022
-
+/* 
 // Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:	0 <= a, b, c, d< n	a, b, c, and d are distinct.	nums[a] + nums[b] + nums[c] + nums[d] == target
 
 // You may return the answer in any order.
@@ -13765,4 +13765,46 @@ const topVotedFourSum = (nums, target) => {
 };
 
 // So close
-// Seems I was missing the last two while loops and had to remove some if statements
+// Seems I was missing the last two while loops and had to remove some if statements */
+
+// Generate Parentheses          9/17/2022
+
+// Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+// Example 1:
+//		 Input: n = 3
+//		 Output: ["((()))","(()())","(())()","()(())","()()()"]
+
+// Example 2:
+//		 Input: n = 1
+//		 Output: ["()"]
+
+// Constraints:
+//    1 <= n <= 8
+
+const topVotedGenerateParenthesis = (n) => {
+  const res = [];
+
+  const go = (l, r, s) => {
+    console.log(l, r, s);
+
+    if (s.length === 2 * n) {
+      res.push(s);
+      return;
+    }
+
+    if (l < n) go(l + 1, r, s + "(");
+    if (r < l) go(l, r + 1, s + ")");
+  };
+
+  go(0, 0, "");
+  return res;
+};
+console.log(topVotedGenerateParenthesis(3)); // ["((()))","(()())","(())()","()(())","()()()"]
+console.log(topVotedGenerateParenthesis(1)); // ["()"]
+
+// Second time seeing the use of a 'go' function
+// I added the 'console.log' to help visualize what's going on here
+
+// To my understanding, we're starting with 'l' and getting one iteration out before incrementing 'r' and finding the next possible bracket combination
+// Rinse and repeat
