@@ -13768,7 +13768,7 @@ const topVotedFourSum = (nums, target) => {
 // Seems I was missing the last two while loops and had to remove some if statements */
 
 // Generate Parentheses          9/17/2022
-
+/* 
 // Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
 
 // Example 1:
@@ -13807,4 +13807,76 @@ console.log(topVotedGenerateParenthesis(1)); // ["()"]
 // I added the 'console.log' to help visualize what's going on here
 
 // To my understanding, we're starting with 'l' and getting one iteration out before incrementing 'r' and finding the next possible bracket combination
-// Rinse and repeat
+// Rinse and repeat */
+
+// Fruit Into Baskets          9/18/2022
+
+// You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the i^th tree produces.
+
+// You want to collect as much fruit as possible. However, the owner has some strict rules that you must follow:	You only have two baskets, and each basket can only hold a single type of fruit. There is no limit on the amount of fruit each basket can hold.	Starting from any tree of your choice, you must pick exactly one fruit from every tree (including the start tree) while moving to the right. The picked fruits must fit in one of your baskets.	Once you reach a tree with fruit that cannot fit in your baskets, you must stop.
+
+// Given the integer array fruits, return the maximum number of fruits you can pick.
+
+// Example 1:
+//		 Input: fruits = [1,2,1]
+//		 Output: 3
+// Explanation: We can pick from all 3 trees.
+
+// Example 2:
+//		 Input: fruits = [0,1,2,2]
+//		 Output: 3
+// Explanation: We can pick from trees [1,2,2].
+// If we had started at the first tree, we would only pick from trees [0,1].
+
+// Example 3:
+//		 Input: fruits = [1,2,3,2,2]
+//		 Output: 4
+// Explanation: We can pick from trees [2,3,2,2].
+// If we had started at the first tree, we would only pick from trees [1,2].
+
+// Constraints:
+//    1 <= fruits.length <= 10^5
+//    0 <= fruits[i] < fruits.length
+
+const totalFruit = (fruits) => {
+  let max = 0;
+  for (let i = 0; i < fruits.length; i++) {
+    let [cur, seen] = [0, []];
+    for (let j = i; j < fruits.length; j++) {
+      if (!seen.includes(fruits[j])) seen.push(fruits[j]);
+      if (seen.length > 2) break;
+      cur++;
+    }
+    max = Math.max(max, cur);
+  }
+  return max;
+};
+console.log(totalFruit([1, 2, 1])); // 3
+console.log(totalFruit([0, 1, 2, 2])); // 3
+console.log(totalFruit([1, 2, 3, 2, 2])); // 4
+console.log(totalFruit([3, 3, 3, 1, 2, 1, 1, 2, 3, 3, 4])); // 5
+
+// Works, but exceeds max runtime
+
+const topVotedTotalFruit = function (fruits) {
+  let max = 0,
+    l = 0,
+    size = 0,
+    map = {};
+  fruits.forEach((fruit, i) => {
+    map[fruit] ? map[fruit]++ : ((map[fruit] = 1), size++);
+    while (size > 2) {
+      const tail = fruits[l];
+      if (--map[tail] === 0) delete map[tail], size--;
+      l++;
+    }
+    max = Math.max(max, i - l + 1);
+  });
+  return max;
+};
+
+// "Actual Problem Statement: Return the length of the longest contiguous subarray with no more than two distinct characters"
+
+// I don't get it
+
+// First time seeing 'delete' for an object tho
