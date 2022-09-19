@@ -13810,7 +13810,7 @@ console.log(topVotedGenerateParenthesis(1)); // ["()"]
 // Rinse and repeat */
 
 // Fruit Into Baskets          9/18/2022
-
+/* 
 // You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the i^th tree produces.
 
 // You want to collect as much fruit as possible. However, the owner has some strict rules that you must follow:	You only have two baskets, and each basket can only hold a single type of fruit. There is no limit on the amount of fruit each basket can hold.	Starting from any tree of your choice, you must pick exactly one fruit from every tree (including the start tree) while moving to the right. The picked fruits must fit in one of your baskets.	Once you reach a tree with fruit that cannot fit in your baskets, you must stop.
@@ -13879,4 +13879,59 @@ const topVotedTotalFruit = function (fruits) {
 
 // I don't get it
 
-// First time seeing 'delete' for an object tho
+// First time seeing 'delete' for an object tho */
+
+// Partition to K Equal Sum Subsets          9/19/2022
+
+// Given an integer array nums and an integer k, return true if it is possible to divide this array into k non-empty subsets whose sums are all equal.
+
+// Example 1:
+//		 Input: nums = [4,3,2,3,5,2,1], k = 4
+//		 Output: true
+// Explanation: It is possible to divide it into 4 subsets (5), (1, 4), (2,3), (2,3) with equal sums.
+
+// Example 2:
+//		 Input: nums = [1,2,3,4], k = 3
+//		 Output: false
+
+// Constraints:
+//    1 <= k <= nums.length <= 16
+//    1 <= nums[i] <= 10^4
+//    The frequency of each element is in the range [1, 4].
+
+const topVotedCanPartitionKSubsets = (nums, k) => {
+  const total = nums.reduce((a, c) => a + c, 0);
+  if (total % k != 0) return false;
+
+  const subset = total / k;
+  const memo = new Map();
+
+  function partition(idx, sum, count) {
+    if (count === k - 1) return true;
+
+    const key = nums.join();
+    if (memo.has(key)) return false;
+
+    if (sum === subset) return partition(0, 0, count + 1);
+    if (sum > subset) return false;
+
+    for (let i = idx; i < nums.length; i++) {
+      if (nums[i] === null) continue;
+      const num = nums[i];
+      nums[i] = null;
+      if (partition(i + 1, sum + num, count)) return true;
+      nums[i] = num;
+    }
+    memo.set(key, false);
+    return false;
+  }
+  return partition(0, 0, 0);
+};
+console.log(canPartitionKSubsets([4, 3, 2, 3, 5, 2, 1], 4)); // true
+console.log(canPartitionKSubsets([1, 2, 3, 4], 3)); // false
+
+// I need to learn backtracking
+
+// "Backtracking is a strategy used to find and build a solution incrementally. We start with a possible move and we try to solve the problem with the selected move. If it does not work, we backtrack and then we select another move and so on until we have the problem solved."
+
+// I think I'll reattempt some of my previous medium difficulty problems until I feel confident
