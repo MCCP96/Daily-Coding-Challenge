@@ -13937,7 +13937,7 @@ console.log(canPartitionKSubsets([1, 2, 3, 4], 3)); // false
 // I think I'll reattempt some of my previous medium difficulty problems until I feel confident */
 
 // Search in Rotated Sorted Array          9/20/2022
-
+/* 
 // There is an integer array nums sorted in ascending order (with distinct values).
 
 // Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
@@ -14010,4 +14010,75 @@ const topVotedSearch = function (nums, target) {
   }
 
   return -1;
+}; */
+
+// Most Frequent Even Element          9/21/2022
+
+// Given an integer array nums, return the most frequent even element.
+
+// If there is a tie, return the smallest one. If there is no such element, return -1.
+
+// Example 1:
+//		 Input: nums = [0,1,2,2,4,4,1]
+//		 Output: 2
+// Explanation:
+// The even elements are 0, 2, and 4. Of these, 2 and 4 appear the most.
+// We return the smallest one, which is 2.
+
+// Example 2:
+//		 Input: nums = [4,4,4,9,2,4]
+//		 Output: 4
+// Explanation: 4 is the even element appears the most.
+
+// Example 3:
+//		 Input: nums = [29,47,21,41,13,37,25,7]
+//		 Output: -1
+// Explanation: There is no even element.
+
+// Constraints:
+//    1 <= nums.length <= 2000
+//    0 <= nums[i] <= 10^5
+
+const mostFrequentEven = (nums) => {
+  const even = nums.filter((x) => x % 2 === 0);
+  return even.length > 0
+    ? +[
+        ...Object.entries(
+          even.reduce((a, c) => {
+            a[c] ? a[c]++ : (a[c] = 1);
+            return a;
+          }, {})
+        ),
+      ].sort((a, b) => b[1] - a[1])[0][0]
+    : -1;
 };
+console.log(mostFrequentEven([0, 1, 2, 2, 4, 4, 1])); // 2
+console.log(mostFrequentEven([4, 4, 4, 9, 2, 4])); // 4
+console.log(mostFrequentEven([29, 47, 21, 41, 13, 37, 25, 7])); // -1
+
+// What a monstrosity
+
+const topVotedMostFrequentEven = function (nums) {
+  let evenNumMap = new Map();
+  let max = 0;
+
+  for (let num of nums) {
+    if (!evenNumMap.has(num) && num % 2 === 0) {
+      evenNumMap.set(num, 1);
+    } else if (evenNumMap.has(num) && num % 2 === 0) {
+      evenNumMap.set(num, evenNumMap.get(num) + 1);
+    }
+
+    if (evenNumMap.get(num) > max) max = evenNumMap.get(num);
+  }
+
+  let smallestMaxKey = Infinity;
+
+  for (let [num, count] of evenNumMap) {
+    if (count === max && num < smallestMaxKey) smallestMaxKey = num;
+  }
+
+  return smallestMaxKey === Infinity ? -1 : smallestMaxKey;
+};
+
+// Also very bulky
