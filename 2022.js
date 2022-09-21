@@ -13882,7 +13882,7 @@ const topVotedTotalFruit = function (fruits) {
 // First time seeing 'delete' for an object tho */
 
 // Partition to K Equal Sum Subsets          9/19/2022
-
+/* 
 // Given an integer array nums and an integer k, return true if it is possible to divide this array into k non-empty subsets whose sums are all equal.
 
 // Example 1:
@@ -13934,4 +13934,80 @@ console.log(canPartitionKSubsets([1, 2, 3, 4], 3)); // false
 
 // "Backtracking is a strategy used to find and build a solution incrementally. We start with a possible move and we try to solve the problem with the selected move. If it does not work, we backtrack and then we select another move and so on until we have the problem solved."
 
-// I think I'll reattempt some of my previous medium difficulty problems until I feel confident
+// I think I'll reattempt some of my previous medium difficulty problems until I feel confident */
+
+// Search in Rotated Sorted Array          9/20/2022
+
+// There is an integer array nums sorted in ascending order (with distinct values).
+
+// Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+
+// Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+
+// You must write an algorithm with O(log n) runtime complexity.
+
+// Example 1:
+//		 Input: nums = [4,5,6,7,0,1,2], target = 0
+//		 Output: 4
+
+// Example 2:
+//		 Input: nums = [4,5,6,7,0,1,2], target = 3
+//		 Output: -1
+
+// Example 3:
+//		 Input: nums = [1], target = 0
+//		 Output: -1
+
+// Constraints:
+//    1 <= nums.length <= 5000
+//    -10^4 <= nums[i] <= 10^4
+//    All values of nums are unique.
+//    nums is an ascending array that is possibly rotated.
+//    -10^4 <= target <= 10^4
+
+const search = (nums, target) => nums.indexOf(target);
+
+console.log(search([4, 5, 6, 7, 0, 1, 2], 0)); // 4
+console.log(search([4, 5, 6, 7, 0, 1, 2], 3)); // -1
+console.log(search([1], 0)); // -1
+
+// Definitely didn't respect the O(log n) runtime complexity here
+
+const topVotedSearch = function (nums, target) {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+
+    if (nums[mid] === target) {
+      return mid;
+    }
+
+    // When dividing the roated array into two halves, one must be sorted.
+
+    // Check if the left side is sorted
+    if (nums[left] <= nums[mid]) {
+      if (nums[left] <= target && target <= nums[mid]) {
+        // target is in the left
+        right = mid - 1;
+      } else {
+        // target is in the right
+        left = mid + 1;
+      }
+    }
+
+    // Otherwise, the right side is sorted
+    else {
+      if (nums[mid] <= target && target <= nums[right]) {
+        // target is in the right
+        left = mid + 1;
+      } else {
+        // target is in the left
+        right = mid - 1;
+      }
+    }
+  }
+
+  return -1;
+};
