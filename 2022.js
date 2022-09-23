@@ -14084,7 +14084,7 @@ const topVotedMostFrequentEven = function (nums) {
 // Also very bulky */
 
 // Count Days Spent Together          9/22/2022
-
+/* 
 // Alice and Bob are traveling to Rome for separate business meetings.
 
 // You are given 4 strings arriveAlice, leaveAlice, arriveBob, and leaveBob. Alice will be in the city from the dates arriveAlice to leaveAlice (inclusive), while Bob will be in the city from the dates arriveBob to leaveBob (inclusive). Each will be a 5-character string in the format "MM-DD", corresponding to the month and day of the date.
@@ -14126,4 +14126,28 @@ console.log(countDaysTogether("10-01", "10-31", "11-01", "12-31")); // 0
 
 // No time today
 
-// Tried shortly without using Date object and was proving to be overly complicated
+// Tried shortly without using Date object and was proving to be overly complicated */
+
+// Smallest Even Multiple          9/23/2022
+
+// Given a positive integer n, return the smallest positive integer that is a multiple of both 2 and n.
+
+// Example 1:
+//		 Input: n = 5
+//		 Output: 10
+// Explanation: The smallest multiple of both 5 and 2 is 10.
+
+// Example 2:
+//		 Input: n = 6
+//		 Output: 6
+// Explanation: The smallest multiple of both 6 and 2 is 6. Note that a number is a multiple of itself.
+
+// Constraints:
+//    1 <= n <= 150
+
+const smallestEvenMultiple = (n) => (n % 2 ? 2 * n : n);
+
+console.log(smallestEvenMultiple(5)); // 10
+console.log(smallestEvenMultiple(6)); // 6
+
+// Same as top voted
