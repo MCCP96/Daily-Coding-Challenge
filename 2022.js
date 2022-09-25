@@ -14153,7 +14153,7 @@ console.log(smallestEvenMultiple(6)); // 6
 // Same as top voted */
 
 // Minimum Time Visiting All Points          9/24/2022
-
+/* 
 // On a 2D plane, there are n points with integer coordinates points[i] = [xi, yi]. Return the minimum time in seconds to visit all the points in the order given by points.
 
 // You can move according to these rules:	In 1 second, you can either:			move vertically by oneunit,		move horizontally by one unit, or		move diagonally sqrt(2) units (in other words, move one unit vertically then one unit horizontally in 1 second).			You have to visit the points in the same order as they appear in the array.	You are allowed to pass through points that appear later in the order, but these do not count as visits.
@@ -14191,4 +14191,38 @@ console.log(minTimeToVisitAllPoints([[1,1],[3,4],[-1,0]])) // 7
 // prettier-ignore
 console.log(minTimeToVisitAllPoints([[3,2],[-2,2]])) // 5
 
-// same as top voted
+// same as top voted */
+
+// Binary Prefix Divisible By 5          9/25/2022
+
+// You are given a binary array nums (0-indexed).
+
+// We define xi as the number whose binary representation is the subarray nums[0..i] (from most-significant-bit to least-significant-bit).	For example, if nums = [1,0,1], then x0 = 1, x1 = 2, and x2 = 5.
+
+// Return an array of booleans answer where answer[i] is true if xi is divisible by 5.
+
+// Example 1:
+//		 Input: nums = [0,1,1]
+//		 Output: [true,false,false]
+// Explanation: The input numbers in binary are 0, 01, 011; which are 0, 1, and 3 in base-10.
+// Only the first number is divisible by 5, so answer[0] is true.
+
+// Example 2:
+//		 Input: nums = [1,1,1]
+//		 Output: [false,false,false]
+
+// Constraints:
+//    1 <= nums.length <= 10^5
+//    nums[i] is either 0 or 1.
+
+const prefixesDivBy5 = (nums, acc = "") =>
+  nums.map((c) => parseInt(acc + c, 2) % 5 === 0);
+
+console.log(prefixesDivBy5([0, 1, 1])); // [true,false,false]
+console.log(prefixesDivBy5([1, 1, 1])); // [false,false,false]
+
+// Doesn't work for all test cases
+
+const prefixesDivBy5 = (A, acc = 0) => A.map((d) => !(acc = (acc * 2 + d) % 5));
+
+// * 2 instead of parseInt is nice
