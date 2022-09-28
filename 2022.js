@@ -14281,7 +14281,7 @@ const topVotedToGoatLatin = function (S) {
 // Pretty much identical logic */
 
 // Buddy Strings          9/27/2022
-
+/* 
 // Given two strings s and goal, return true if you can swap two letters in s so the result is equal to goal, otherwise, return false.
 
 // Swapping letters is defined as taking two indices i and j (0-indexed) such that i != j and swapping the characters at s[i] and s[j].	For example, swapping at indices 0 and 2 in "abcd" results in "cbad".
@@ -14342,4 +14342,59 @@ const topVotedBuddyStrings = function (A, B) {
 };
 
 // Makes so much sense
-// I was stuck on a train of thought and couldn't see an alternative
+// I was stuck on a train of thought and couldn't see an alternative */
+
+// Binary Gap          9/28/2022
+
+// Given a positive integer n, find and return the longest distance between any two adjacent 1's in the binary representation of n. If there are no two adjacent 1's, return 0.
+
+// Two 1's are adjacent if there are only 0's separating them (possibly no 0's). The distance between two 1's is the absolute difference between their bit positions. For example, the two 1's in "1001" have a distance of 3.
+
+// Example 1:
+//		 Input: n = 22
+//		 Output: 2
+// Explanation: 22 in binary is "10110".
+// The first adjacent pair of 1's is "10110" with a distance of 2.
+// The second adjacent pair of 1's is "10110" with a distance of 1.
+// The answer is the largest of these two distances, which is 2.
+// Note that "10110" is not a valid pair since there is a 1 separating the two 1's underlined.
+
+// Example 2:
+//		 Input: n = 8
+//		 Output: 0
+// Explanation: 8 in binary is "1000".
+// There are not any adjacent pairs of 1's in the binary representation of 8, so we return 0.
+
+// Example 3:
+//		 Input: n = 5
+//		 Output: 2
+// Explanation: 5 in binary is "101".
+
+// Constraints:
+//    1 <= n <= 10^9
+
+const binaryGap = (n, cur = 1) => {
+  const b = n.toString(2);
+  const arr = [...b.substring(0, b.lastIndexOf("1") + 1)];
+  if (arr.length < 2) return 0;
+  return arr.reduce((a, c) => {
+    cur = c == 1 ? 1 : cur + 1;
+    return Math.max(a, cur);
+  }, 0);
+};
+console.log(binaryGap(22)); // 2
+console.log(binaryGap(8)); // 0
+console.log(binaryGap(5)); // 2
+
+// Decent
+
+const topVotedBinaryGap = (N) =>
+  Math.max(
+    0,
+    ...N.toString(2)
+      .split("1")
+      .slice(1, -1)
+      .map((gap) => gap.length + 1)
+  );
+
+// Love a good one-liner
