@@ -14345,7 +14345,7 @@ const topVotedBuddyStrings = function (A, B) {
 // I was stuck on a train of thought and couldn't see an alternative */
 
 // Binary Gap          9/28/2022
-
+/* 
 // Given a positive integer n, find and return the longest distance between any two adjacent 1's in the binary representation of n. If there are no two adjacent 1's, return 0.
 
 // Two 1's are adjacent if there are only 0's separating them (possibly no 0's). The distance between two 1's is the absolute difference between their bit positions. For example, the two 1's in "1001" have a distance of 3.
@@ -14397,4 +14397,61 @@ const topVotedBinaryGap = (N) =>
       .map((gap) => gap.length + 1)
   );
 
-// Love a good one-liner
+// Love a good one-liner */
+
+// Sort the People          9/29/2022
+
+// You are given an array of strings names, and an array heights that consists of distinct positive integers. Both arrays are of length n.
+
+// For each index i, names[i] and heights[i] denote the name and height of the i^th person.
+
+// Return names sorted in descending order by the people's heights.
+
+// Example 1:
+//		 Input: names = ["Mary","John","Emma"], heights = [180,165,170]
+//		 Output: ["Mary","Emma","John"]
+// Explanation: Mary is the tallest, followed by Emma and John.
+
+// Example 2:
+//		 Input: names = ["Alice","Bob","Bob"], heights = [155,185,150]
+//		 Output: ["Bob","Alice","Bob"]
+// Explanation: The first Bob is the tallest, followed by Alice and the second Bob.
+
+// Constraints:
+//    n == names.length == heights.length
+//    1 <= n <= 10^3
+//    1 <= names[i].length <= 20
+//    1 <= heights[i] <= 10^5
+//    names[i] consists of lower and upper case English letters.
+//    All the values of heights are distinct.
+
+const sortPeople = (names, heights, i = 0) =>
+  names.sort((a, b) => {
+    i++;
+    return i < heights.length
+      ? heights[i - 1] - heights[i]
+      : heights[i - 2] - heights[i - 1];
+  });
+
+console.log(sortPeople(["Mary", "John", "Emma"], [180, 165, 170])); // ["Mary","Emma","John"]
+console.log(sortPeople(["Alice", "Bob", "Bob"], [155, 185, 150])); // ["Bob","Alice","Bob"]
+
+// Doesn't work for all test cases
+
+const topVotedSortPeople = function (names, heights) {
+  return names
+    .map((e, i) => e + heights[i])
+    .sort((a, b) => b.match(/\d+/) - a.match(/\d+/))
+    .join(" ")
+    .replace(/[0-9]/g, "")
+    .split(" ");
+};
+
+// Thought about joining names to height, sorting, then wiping heights, but felt too heavy
+// Great example of that though
+
+const revisedSortPeople = (names, heights) =>
+  names
+    .map((c, i) => [c, heights[i]])
+    .sort((a, b) => b[1] - a[1])
+    .map((c) => c[0]);
