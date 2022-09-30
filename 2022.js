@@ -14400,7 +14400,7 @@ const topVotedBinaryGap = (N) =>
 // Love a good one-liner */
 
 // Sort the People          9/29/2022
-
+/* 
 // You are given an array of strings names, and an array heights that consists of distinct positive integers. Both arrays are of length n.
 
 // For each index i, names[i] and heights[i] denote the name and height of the i^th person.
@@ -14454,4 +14454,46 @@ const revisedSortPeople = (names, heights) =>
   names
     .map((c, i) => [c, heights[i]])
     .sort((a, b) => b[1] - a[1])
-    .map((c) => c[0]);
+    .map((c) => c[0]); */
+
+// Set Mismatch          9/30/2022
+
+// You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
+
+// You are given an integer array nums representing the data status of this set after the error.
+
+// Find the number that occurs twice and the number that is missing and return them in the form of an array.
+
+// Example 1:
+//		 Input: nums = [1,2,2,4]
+//		 Output: [2,3]
+
+// Example 2:
+//		 Input: nums = [1,1]
+//		 Output: [1,2]
+
+// Constraints:
+//    2 <= nums.length <= 10^4
+//    1 <= nums[i] <= 10^4
+
+const findErrorNums = function (nums) {
+  nums.sort();
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== i + 1) return [nums[i], i + 1];
+  }
+};
+console.log(findErrorNums([1, 2, 2, 4])); // [2,3]
+console.log(findErrorNums([1, 1])); // [1,2]
+console.log(findErrorNums([3, 2, 2])); // [2,1]
+
+// Doesn't take into consideration decreasing array
+
+const topVotedFindErrorNums = (nums) => {
+  let N = nums.length,
+    ans = [,];
+  for (let i = 0; i < N; i++) nums[(nums[i] - 1) % 10000] += 10000;
+  for (let i = 0; i < N; i++)
+    if (nums[i] > 20000) ans[0] = i + 1;
+    else if (nums[i] < 10001) ans[1] = i + 1;
+  return ans;
+};
