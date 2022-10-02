@@ -14499,7 +14499,7 @@ const topVotedFindErrorNums = (nums) => {
 }; */
 
 // Find First and Last Position of Element in Sorted Array          10/1/2022
-
+/* 
 // Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value.
 
 // If target is not found in the array, return [-1, -1].
@@ -14547,4 +14547,52 @@ const topVotedsearchRange = function (N, T) {
   let Tleft = find(T, N);
   if (N[Tleft] !== T) return [-1, -1];
   return [Tleft, find(T + 1, N, Tleft) - 1];
+}; */
+
+// Remove Letter To Equalize Frequency          10/2/2022
+
+// You are given a 0-indexed string word, consisting of lowercase English letters. You need to select one index and remove the letter at that index from word so that the frequency of every letter present in word is equal.
+
+// Return true if it is possible to remove one letter so that the frequency of all letters in word are equal, and false otherwise.
+
+// Note:	The frequency of a letter x is the number of times it occurs in the string.	You must remove exactly one letter and cannot chose to do nothing.
+
+// Example 1:
+//		 Input: word = "abcc"
+//		 Output: true
+// Explanation: Select index 3 and delete it: word becomes "abc" and each character has a frequency of 1.
+
+// Example 2:
+//		 Input: word = "aazz"
+//		 Output: false
+// Explanation: We must delete a character, so either the frequency of "a" is 1 and the frequency of "z" is 2, or vice versa. It is impossible to make all present letters have equal frequency.
+
+// Constraints:
+//    2 <= word.length <= 100
+//    word consists of lowercase English letters only.
+
+const equalFrequency = (word) => {
+  for (let i = 0; i < word.length; i++) {
+    const cur = word.slice(0, i) + word.slice(i + 1);
+    const count = Object.values(
+      [...cur].reduce((a, c) => {
+        a[c] ? a[c]++ : (a[c] = 1);
+        return a;
+      }, {})
+    );
+    if (count.length === 1) return true;
+    for (let j = 1; j < count.length; j++) {
+      if (count[j] !== count[j - 1]) break;
+      if (j === count.length - 1) return true;
+    }
+  }
+  return false;
 };
+console.log(equalFrequency("abcc")); // true
+console.log(equalFrequency("aazz")); // false
+console.log(equalFrequency("bac")); // true
+console.log(equalFrequency("abbcc")); // true
+console.log(equalFrequency("zz")); // true
+
+// Bit of a cluster but 100% runtime and memory
+// Felt bulky, but all top voted submissions are as well
