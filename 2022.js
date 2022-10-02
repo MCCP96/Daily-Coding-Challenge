@@ -14457,7 +14457,7 @@ const revisedSortPeople = (names, heights) =>
     .map((c) => c[0]); */
 
 // Set Mismatch          9/30/2022
-
+/* 
 // You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
 
 // You are given an integer array nums representing the data status of this set after the error.
@@ -14496,4 +14496,55 @@ const topVotedFindErrorNums = (nums) => {
     if (nums[i] > 20000) ans[0] = i + 1;
     else if (nums[i] < 10001) ans[1] = i + 1;
   return ans;
+}; */
+
+// Find First and Last Position of Element in Sorted Array          10/1/2022
+
+// Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value.
+
+// If target is not found in the array, return [-1, -1].
+
+// You mustwrite an algorithm with O(log n) runtime complexity.
+
+// Example 1:
+//		 Input: nums = [5,7,7,8,8,10], target = 8
+//		 Output: [3,4]
+
+// Example 2:
+//		 Input: nums = [5,7,7,8,8,10], target = 6
+//		 Output: [-1,-1]
+
+// Example 3:
+//		 Input: nums = [], target = 0
+//		 Output: [-1,-1]
+
+// Constraints:
+//    0 <= nums.length <= 10^5
+//    -10^9<= nums[i]<= 10^9
+//    nums is a non-decreasing array.
+//    -10^9<= target<= 10^9
+
+const searchRange = (nums, target) => [
+  nums.indexOf(target),
+  nums.lastIndexOf(target),
+];
+
+console.log(searchRange([5, 7, 7, 8, 8, 10], 8)); // [3,4]
+console.log(searchRange([5, 7, 7, 8, 8, 10], 6)); // [-1,-1]
+console.log(searchRange([], 0)); // [-1,-1]
+
+// Not respecting O(log n) runtime complexity
+
+const topVotedsearchRange = function (N, T) {
+  const find = (target, arr, left = 0, right = arr.length) => {
+    while (left <= right) {
+      let mid = (left + right) >> 1;
+      if (arr[mid] < target) left = mid + 1;
+      else right = mid - 1;
+    }
+    return left;
+  };
+  let Tleft = find(T, N);
+  if (N[Tleft] !== T) return [-1, -1];
+  return [Tleft, find(T + 1, N, Tleft) - 1];
 };
