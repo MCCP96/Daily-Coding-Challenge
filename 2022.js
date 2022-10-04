@@ -14550,7 +14550,7 @@ const topVotedsearchRange = function (N, T) {
 }; */
 
 // Remove Letter To Equalize Frequency          10/2/2022
-
+/* 
 // You are given a 0-indexed string word, consisting of lowercase English letters. You need to select one index and remove the letter at that index from word so that the frequency of every letter present in word is equal.
 
 // Return true if it is possible to remove one letter so that the frequency of all letters in word are equal, and false otherwise.
@@ -14595,4 +14595,40 @@ console.log(equalFrequency("abbcc")); // true
 console.log(equalFrequency("zz")); // true
 
 // Bit of a cluster but 100% runtime and memory
-// Felt bulky, but all top voted submissions are as well
+// Felt bulky, but all top voted submissions are as well */
+
+// Number of Common Factors          10/3/2022
+
+// Given two positive integers a and b, return the number of common factors of a and b.
+
+// An integer x is a common factor of a and b if x divides both a and b.
+
+// Example 1:
+//		 Input: a = 12, b = 6
+//		 Output: 4
+// Explanation: The common factors of 12 and 6 are 1, 2, 3, 6.
+
+// Example 2:
+//		 Input: a = 25, b = 30
+//		 Output: 2
+// Explanation: The common factors of 25 and 30 are 1, 5.
+
+// Constraints:
+//    1 <= a, b <= 1000
+
+const commonFactors = (a, b) => {
+  let count = 1;
+  for (let i = 2; i < Math.min(a, b) + 1; i++)
+    if (a % i === 0 && b % i === 0) count++;
+  return count;
+};
+console.log(commonFactors(12, 6)); // 4
+console.log(commonFactors(25, 30)); // 2
+
+// Pretty basic
+// Surely there's a math solution to this
+
+const topVotedCommonFactors = (a, b) =>
+  new Array(Math.min(a, b) + 1)
+    .fill(0)
+    .reduce((total, _, i) => total + (a % i == 0 && b % i == 0), 0);
