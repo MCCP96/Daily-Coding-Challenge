@@ -14598,7 +14598,7 @@ console.log(equalFrequency("zz")); // true
 // Felt bulky, but all top voted submissions are as well */
 
 // Number of Common Factors          10/3/2022
-
+/* 
 // Given two positive integers a and b, return the number of common factors of a and b.
 
 // An integer x is a common factor of a and b if x divides both a and b.
@@ -14631,4 +14631,74 @@ console.log(commonFactors(25, 30)); // 2
 const topVotedCommonFactors = (a, b) =>
   new Array(Math.min(a, b) + 1)
     .fill(0)
-    .reduce((total, _, i) => total + (a % i == 0 && b % i == 0), 0);
+    .reduce((total, _, i) => total + (a % i == 0 && b % i == 0), 0); */
+
+// Missing Ranges          10/4/2022
+
+// You are given an inclusive range [lower, upper] and a sorted unique integer array nums, where all elements are in the inclusive range.
+
+// A number x is considered missing if x is in the range [lower, upper] and x is not in nums.
+
+// Return the smallest sorted list of ranges that cover every missing number exactly. That is, no element of nums is in any of the ranges, and each missing number is in one of the ranges.
+
+// Each range [a,b] in the list should be output as:	"a->b" if a != b	"a" if a == b
+
+// Example 1:
+//		 Input: nums = [0,1,3,50,75], lower = 0, upper = 99
+//		 Output: ["2","4->49","51->74","76->99"]
+// Explanation: The ranges are:
+// [2,2] --> "2"
+// [4,49] --> "4->49"
+// [51,74] --> "51->74"
+// [76,99] --> "76->99"
+
+// Example 2:
+//		 Input: nums = [-1], lower = -1, upper = -1
+//		 Output: []
+// Explanation: There are no missing ranges since there are no missing numbers.
+
+// Constraints:
+//    -10^9 <= lower <= upper <= 10^9
+//    0 <= nums.length <= 100
+//    lower <= nums[i] <= upper
+//    All the values of nums are unique.
+
+const findMissingRanges = (nums, lower, upper) => {
+  let ans = [];
+  nums.unshift(lower), nums.push(upper);
+  for (let i = 1; i < nums.length; i++) {
+    const dif = nums[i] - nums[i - 1] - 1;
+    if (dif > 0) {
+      dif === 1
+        ? ans.push(`${nums[i - 1] + dif}`)
+        : ans.push(
+            `${nums[i - 1] + 1}->${nums[i] - (i == nums.length - 1 ? 0 : 1)}`
+          );
+    }
+  }
+  return ans;
+};
+console.log(findMissingRanges([0, 1, 3, 50, 75], 0, 99)); // ["2","4->49","51->74","76->99"]
+console.log(findMissingRanges([-1], -1, -1)); // []
+
+// Doesn't work for all test cases
+
+function topVotedMindMissingRanges(nums, lower, upper) {
+  const res = [];
+  nums = [lower - 1, ...nums, upper + 1];
+
+  for (let i = 1; i < nums.length; i++) {
+    const diff = nums[i] - nums[i - 1];
+
+    if (diff === 2) {
+      res.push(`${nums[i - 1] + 1}`);
+    } else if (diff > 2) {
+      res.push(`${nums[i - 1] + 1}->${nums[i] - 1}`);
+    }
+  }
+
+  return res;
+}
+
+// Faster than 99%
+// Similar logic
