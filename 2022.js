@@ -14634,7 +14634,7 @@ const topVotedCommonFactors = (a, b) =>
     .reduce((total, _, i) => total + (a % i == 0 && b % i == 0), 0); */
 
 // Missing Ranges          10/4/2022
-
+/* 
 // You are given an inclusive range [lower, upper] and a sorted unique integer array nums, where all elements are in the inclusive range.
 
 // A number x is considered missing if x is in the range [lower, upper] and x is not in nums.
@@ -14701,4 +14701,86 @@ function topVotedMindMissingRanges(nums, lower, upper) {
 }
 
 // Faster than 99%
-// Similar logic
+// Similar logic */
+
+// Shortest Word Distance          10/5/2022
+
+// Given an array of strings wordsDict and two different strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
+
+// Example 1:
+//		 Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "coding", word2 = "practice"
+//		 Output: 3
+
+// Example 2:
+//		 Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "makes", word2 = "coding"
+//		 Output: 1
+
+// Constraints:
+//    2 <= wordsDict.length <= 3 * 10^4
+//    1 <= wordsDict[i].length <= 10
+//    wordsDict[i] consists of lowercase English letters.
+//    word1 and word2 are in wordsDict.
+//    word1 != word2
+
+const shortestDistance = (wordsDict, word1, word2) => {
+  let ans = Number.MAX_SAFE_INTEGER;
+  wordDict = wordsDict.slice(
+    Math.min(wordsDict.indexOf(word1), wordsDict.indexOf(word2)),
+    Math.max(wordsDict.lastIndexOf(word1), wordsDict.lastIndexOf(word2)) + 1
+  );
+  for (let i = 0; i < wordDict.length; i++) {
+    let x = "";
+    if (wordDict[i] === word1) x = word2;
+    else if (wordDict[i] === word2) x = word1;
+    else continue;
+    const index = wordDict.slice(i).indexOf(x);
+    if (index === -1) continue;
+    ans = Math.min(ans, index);
+  }
+  return ans;
+};
+// prettier-ignore
+console.log(shortestDistance(["practice", "makes", "perfect", "coding", "makes"], "coding", "practice")); // 3
+// prettier-ignore
+console.log(shortestDistance(["practice", "makes", "perfect", "coding", "makes"], "makes", "coding")); // 1
+
+// Ok runtime
+// Bit bulky, but I think it makes sense
+
+var topVotedShortestDistance = function (words, word1, word2) {
+  let map = {};
+
+  for (let w = 0; w < words.length; w++) {
+    let word = words[w];
+
+    if (!map[word]) {
+      map[word] = [w];
+    } else {
+      map[word].push(w);
+    }
+  }
+
+  return distance(map[word1], map[word2]);
+};
+
+function distance(arr1, arr2) {
+  let i = 0,
+    j = 0,
+    distance = Number.MAX_SAFE_INTEGER;
+
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] < arr2[j]) {
+      distance = Math.min(distance, arr2[j] - arr1[i]);
+      i++;
+    } else {
+      distance = Math.min(distance, arr1[i] - arr2[j]);
+      j++;
+    }
+
+    if (distance === 1) break;
+  }
+
+  return distance;
+}
+
+// All others were like mine, but this was a nice take on the problem
