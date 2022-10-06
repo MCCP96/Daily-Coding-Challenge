@@ -14704,7 +14704,7 @@ function topVotedMindMissingRanges(nums, lower, upper) {
 // Similar logic */
 
 // Shortest Word Distance          10/5/2022
-
+/* 
 // Given an array of strings wordsDict and two different strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
 
 // Example 1:
@@ -14783,4 +14783,67 @@ function distance(arr1, arr2) {
   return distance;
 }
 
-// All others were like mine, but this was a nice take on the problem
+// All others were like mine, but this was a nice take on the problem */
+
+// Strobogrammatic Number          10/6/2022
+
+// Given a string num which represents an integer, return true if num is a strobogrammatic number.
+
+// A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
+
+// Example 1:
+//		 Input: num = "69"
+//		 Output: true
+
+// Example 2:
+//		 Input: num = "88"
+//		 Output: true
+
+// Example 3:
+//		 Input: num = "962"
+//		 Output: false
+
+// Constraints:
+//    1 <= num.length <= 50
+//    num consists of only digits.
+//    num does not contain any leading zeros except for zero itself.
+
+const flippable = new Set(["0", "1", "8"]);
+const isStrobogrammatic = (num) =>
+  num ===
+  [...num]
+    .reverse()
+    .reduce(
+      (a, c, _, arr) =>
+        (a +=
+          c == "6" ? "9" : c == "9" ? "6" : flippable.has(c) ? c : (arr = [])),
+      ""
+    );
+
+console.log(isStrobogrammatic("69")); // true
+console.log(isStrobogrammatic("88")); // true
+console.log(isStrobogrammatic("962")); // false
+console.log(isStrobogrammatic("2")); // false
+console.log(isStrobogrammatic("6")); // false
+
+// Gets the job done
+
+const topVotedIsStrobogrammatic = function (num) {
+  myMap = new Map();
+  myMap.set("6", "9");
+  myMap.set("9", "6");
+  myMap.set("0", "0");
+  myMap.set("1", "1");
+  myMap.set("8", "8");
+  var l = 0,
+    r = num.length - 1;
+  while (l <= r) {
+    if (!myMap.has(num.charAt(l))) return false;
+    if (myMap.get(num.charAt(l)) != num.charAt(r)) return false;
+    l++;
+    r--;
+  }
+  return true;
+};
+
+// left and right approach is best here
