@@ -14786,7 +14786,7 @@ function distance(arr1, arr2) {
 // All others were like mine, but this was a nice take on the problem */
 
 // Strobogrammatic Number          10/6/2022
-
+/* 
 // Given a string num which represents an integer, return true if num is a strobogrammatic number.
 
 // A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
@@ -14846,4 +14846,54 @@ const topVotedIsStrobogrammatic = function (num) {
   return true;
 };
 
-// left and right approach is best here
+// left and right approach is best here */
+
+// Meeting Rooms          10/7/2022
+
+// Given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings.
+
+// Example 1:
+//		 Input: intervals = [[0,30],[5,10],[15,20]]
+//		 Output: false
+
+// Example 2:
+//		 Input: intervals = [[7,10],[2,4]]
+//		 Output: true
+
+// Constraints:
+//    0 <= intervals.length <= 10^4
+//    intervals[i].length == 2
+//    0 <= starti <endi <= 10^6
+
+const canAttendMeetings = (int) => {
+  for (let i = 0; i < int.length; i++) {
+    for (let j = i + 1; j < int.length; j++) {
+      if (
+        (int[j][0] <= int[i][0] && int[j][1] >= int[i][0]) ||
+        (int[j][0] <= int[i][1] && int[j][1] >= int[i][1]) ||
+        (int[j][0] >= int[i][0] && int[j][1] <= int[i][1]) ||
+        (int[j][0] <= int[i][0] && int[j][1] >= int[i][1])
+      )
+        return false;
+    }
+  }
+  return true;
+};
+// prettier-ignore
+console.log(canAttendMeetings([[0,30],[5,10],[15,20]])) // false
+// prettier-ignore
+console.log(canAttendMeetings([[7,10],[2,4]])) // true
+// prettier-ignore
+console.log(canAttendMeetings([[5,8],[6,8]])) // false
+
+// Idk, had a big day of school today, can't think straight
+
+const topVotedCanAttendMeetings = function (intervals) {
+  if (!intervals || intervals.length === 1) return true;
+  intervals.sort((a, b) => a[0] - b[0]);
+  for (let i = 0; i < intervals.length - 1; i++)
+    if (intervals[i][1] > intervals[i + 1][0]) return false;
+  return true;
+};
+
+// Of course
