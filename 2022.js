@@ -14899,7 +14899,7 @@ const topVotedCanAttendMeetings = function (intervals) {
 // Of course */
 
 // Palindrome Permutation          10/8/2022
-
+/* 
 // Given a string s, return true if a permutation of the string could form a palindrome.
 
 // Example 1:
@@ -14945,4 +14945,40 @@ const topVotedCanPermutePalindrome = function (s) {
   return Object.keys(set).length === 0 || Object.keys(set).length === 1;
 };
 
-// similar in a way
+// similar in a way */
+
+// Flip Game          10/9/2022
+
+// You are playing a Flip Game with your friend.
+
+// You are given a string currentState that contains only '+' and '-'. You and your friend take turns to flip two consecutive "++" into "--". The game ends when a person can no longer make a move, and therefore the other person will be the winner.
+
+// Return all possible states of the string currentState after one valid move. You may return the answer in any order. If there is no valid move, return an empty list [].
+
+// Example 1:
+//		 Input: currentState = "++++"
+//		 Output: ["--++","+--+","++--"]
+
+// Example 2:
+//		 Input: currentState = "+"
+//		 Output: []
+
+// Constraints:
+//    1 <= currentState.length <= 500
+//    currentState[i] is either '+' or '-'.
+
+const generatePossibleNextMoves = (c, ans = []) => {
+  if (c.length < 2) return ans;
+  for (let i = 1; i < c.length; i++)
+    if (c[i - 1] === c[i] && c[i] === "+")
+      ans.push(c.substring(0, i - 1) + "--" + c.substring(i + 1));
+  return ans;
+};
+console.log(generatePossibleNextMoves("++++")); // ["--++","+--+","++--"]
+console.log(generatePossibleNextMoves("+")); // []
+console.log(generatePossibleNextMoves("--")); // []
+
+// Accidentally made it work for -- and ++ at first
+// 400 thumbs down vs 100 thumbs up on this one
+
+// All top voteds were a lot bulkier
