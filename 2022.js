@@ -14849,7 +14849,7 @@ const topVotedIsStrobogrammatic = function (num) {
 // left and right approach is best here */
 
 // Meeting Rooms          10/7/2022
-
+/* 
 // Given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings.
 
 // Example 1:
@@ -14896,4 +14896,53 @@ const topVotedCanAttendMeetings = function (intervals) {
   return true;
 };
 
-// Of course
+// Of course */
+
+// Palindrome Permutation          10/8/2022
+
+// Given a string s, return true if a permutation of the string could form a palindrome.
+
+// Example 1:
+//		 Input: s = "code"
+//		 Output: false
+
+// Example 2:
+//		 Input: s = "aab"
+//		 Output: true
+
+// Example 3:
+//		 Input: s = "carerac"
+//		 Output: true
+
+// Constraints:
+//    1 <= s.length <= 5000
+//    s consists of only lowercase English letters.
+
+const canPermutePalindrome = (s) =>
+  Object.values(
+    [...s].reduce((a, c) => {
+      a[c] ? a[c]++ : (a[c] = 1);
+      return a;
+    }, {})
+  ).filter((x) => x % 2).length <= 1;
+
+console.log(canPermutePalindrome("code")); // false
+console.log(canPermutePalindrome("aab")); // true
+console.log(canPermutePalindrome("carerac")); // true
+console.log(canPermutePalindrome("aa")); // true
+
+// Ok one-liner
+
+const topVotedCanPermutePalindrome = function (s) {
+  var set = {};
+  for (var i = 0; i < s.length; i++) {
+    if (!(s.charAt(i) in set)) {
+      set[s.charAt(i)] = true;
+    } else {
+      delete set[s.charAt(i)];
+    }
+  }
+  return Object.keys(set).length === 0 || Object.keys(set).length === 1;
+};
+
+// similar in a way
