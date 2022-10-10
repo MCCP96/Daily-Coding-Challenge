@@ -14948,7 +14948,7 @@ const topVotedCanPermutePalindrome = function (s) {
 // similar in a way */
 
 // Flip Game          10/9/2022
-
+/* 
 // You are playing a Flip Game with your friend.
 
 // You are given a string currentState that contains only '+' and '-'. You and your friend take turns to flip two consecutive "++" into "--". The game ends when a person can no longer make a move, and therefore the other person will be the winner.
@@ -14981,4 +14981,73 @@ console.log(generatePossibleNextMoves("--")); // []
 // Accidentally made it work for -- and ++ at first
 // 400 thumbs down vs 100 thumbs up on this one
 
-// All top voteds were a lot bulkier
+// All top voteds were a lot bulkier */
+
+// Valid Word Abbreviation          10/10/2022
+
+// A string can be abbreviated by replacing any number of non-adjacent, non-empty substrings with their lengths. The lengths should not have leading zeros.
+
+// For example, a string such as "substitution" could be abbreviated as (but not limited to):	"s10n" ("s ubstitutio n")	"sub4u4" ("sub stit u tion")	"12" ("substitution")	"su3i1u2on" ("su bst i t u ti on")	"substitution" (no substrings replaced)
+
+// The following are not valid abbreviations:	"s55n" ("s ubsti tutio n", the replaced substrings are adjacent)	"s010n" (has leading zeros)	"s0ubstitution" (replaces an empty substring)
+
+// Given a string word and an abbreviation abbr, return whether the string matches the given abbreviation.
+
+// A substring is a contiguous non-empty sequence of characters within a string.
+
+// Example 1:
+//		 Input: word = "internationalization", abbr = "i12iz4n"
+//		 Output: true
+// Explanation: The word "internationalization" can be abbreviated as "i12iz4n" ("i nternational iz atio n").
+
+// Example 2:
+//		 Input: word = "apple", abbr = "a2e"
+//		 Output: false
+// Explanation: The word "apple" cannot be abbreviated as "a2e".
+
+// Constraints:
+//    1 <= word.length <= 20
+//    word consists of only lowercase English letters.
+//    1 <= abbr.length <= 10
+//    abbr consists of lowercase English letters and digits.
+//    All the integers in abbr will fit in a 32-bit integer.
+
+const validWordAbbreviation = (word, abbr) => {
+  [word, abbr] = [[...word], abbr.split(/(\d+)/g)];
+  for (let i = 0; i < abbr.length; i++) {
+    if (/[a-z]|[A-Z]/.test(abbr[i][0])) {
+      for (let j = 0; j < abbr[i].length; j++) {
+        if (word[0] === abbr[i][j]) word.shift();
+        else return false;
+      }
+    } else if (word.length <= +abbr[i]) return false;
+    else word.splice(0, +abbr[i]);
+  }
+  return true;
+};
+console.log(validWordAbbreviation("internationalization", "i12iz4n")); // true
+console.log(validWordAbbreviation("apple", "a2e")); // false
+console.log(validWordAbbreviation("a", "2")); // false
+console.log(validWordAbbreviation("a", "01")); // false
+
+// Doesn't work for all test cases
+
+const topVotedValidWordAbbreviation = function (word, abbr) {
+  let i = 0,
+    j = 0,
+    number = 0;
+  while (i < abbr.length && j < word.length) {
+    if (!isNaN(abbr[i])) {
+      number = number * 10 + Number(abbr[i]);
+      if (number === 0) return false;
+      i++;
+    } else if (number > 0) {
+      j += number;
+      number = 0;
+    } else if (abbr[i] == word[j]) {
+      i++;
+      j++;
+    } else return false;
+  }
+  return i === abbr.length && j + number === word.length;
+};
