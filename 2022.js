@@ -14984,7 +14984,7 @@ console.log(generatePossibleNextMoves("--")); // []
 // All top voteds were a lot bulkier */
 
 // Valid Word Abbreviation          10/10/2022
-
+/* 
 // A string can be abbreviated by replacing any number of non-adjacent, non-empty substrings with their lengths. The lengths should not have leading zeros.
 
 // For example, a string such as "substitution" could be abbreviated as (but not limited to):	"s10n" ("s ubstitutio n")	"sub4u4" ("sub stit u tion")	"12" ("substitution")	"su3i1u2on" ("su bst i t u ti on")	"substitution" (no substrings replaced)
@@ -15050,4 +15050,79 @@ const topVotedValidWordAbbreviation = function (word, abbr) {
     } else return false;
   }
   return i === abbr.length && j + number === word.length;
+}; */
+
+// Valid Word Square          10/11/2022
+
+// Given an array of strings words, return true if it forms a valid word square.
+
+// A sequence of strings forms a valid word square if the k^th row and column read the same string, where 0 <= k < max(numRows, numColumns).
+
+// Example 1:
+//   https://assets.leetcode.com/uploads/2021/04/09/validsq1-grid.jpg
+//		 Input: words = ["abcd","bnrt","crmy","dtye"]
+//		 Output: true
+// Explanation:
+// The 1^st row and 1^st column both read "abcd".
+// The 2^nd row and 2^nd column both read "bnrt".
+// The 3^rd row and 3^rd column both read "crmy".
+// The 4^th row and 4^th column both read "dtye".
+// Therefore, it is a valid word square.
+
+// Example 2:
+//   https://assets.leetcode.com/uploads/2021/04/09/validsq2-grid.jpg
+//		 Input: words = ["abcd","bnrt","crm","dt"]
+//		 Output: true
+// Explanation:
+// The 1^st row and 1^st column both read "abcd".
+// The 2^nd row and 2^nd column both read "bnrt".
+// The 3^rd row and 3^rd column both read "crm".
+// The 4^th row and 4^th column both read "dt".
+// Therefore, it is a valid word square.
+
+// Example 3:
+//   https://assets.leetcode.com/uploads/2021/04/09/validsq3-grid.jpg
+//		 Input: words = ["ball","area","read","lady"]
+//		 Output: false
+// Explanation:
+// The 3^rd row reads "read" while the 3^rd column reads "lead".
+// Therefore, it is NOT a valid word square.
+
+// Constraints:
+//    1 <= words.length <= 500
+//    1 <= words[i].length <= 500
+//    words[i] consists of only lowercase English letters.
+
+const validWordSquare = (words) => {
+  const length = words.reduce((a, c) => Math.max(a, c.length), 0);
+  for (let i = 0; i < length; i++)
+    for (let j = 0; j < words.length; j++) {
+      try {
+        if (words[j][i] !== words[i][j]) return false;
+      } catch (err) {
+        return false;
+      }
+    }
+  return true;
 };
+console.log(validWordSquare(["abcd", "bnrt", "crmy", "dtye"])); // true
+console.log(validWordSquare(["abcd", "bnrt", "crm", "dt"])); // true
+console.log(validWordSquare(["ball", "area", "read", "lady"])); // false
+console.log(validWordSquare(["abc", "b"])); // false
+
+// Ok, not a fan of length or try/catch
+
+const topVotedValidWordSquare = function (words) {
+  const length = Math.max(...words.map((m) => m.length));
+  let i = 0;
+  while (i < length) {
+    for (let j = 0; j < words.length; j++) {
+      if ((words[i] && !words[j]) || (words[j] && !words[i])) return false;
+      if (words[j][i] !== words[i][j]) return false;
+    }
+    i++;
+  }
+  return true;
+};
+
+// Similar logic
