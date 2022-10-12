@@ -15053,7 +15053,7 @@ const topVotedValidWordAbbreviation = function (word, abbr) {
 }; */
 
 // Valid Word Square          10/11/2022
-
+/* 
 // Given an array of strings words, return true if it forms a valid word square.
 
 // A sequence of strings forms a valid word square if the k^th row and column read the same string, where 0 <= k < max(numRows, numColumns).
@@ -15125,4 +15125,107 @@ const topVotedValidWordSquare = function (words) {
   return true;
 };
 
-// Similar logic
+// Similar logic */
+
+// Sentence Similarity          10/12/2022
+
+// We can represent a sentence as an array of words, for example, the sentence "I am happy with leetcode" can be represented as arr = ["I","am",happy","with","leetcode"].
+
+// Given two sentences sentence1 and sentence2 each represented as a string array and given an array of string pairs similarPairs where similarPairs[i] = [xi, yi] indicates that the two words xi and yi are similar.
+
+// Return true if sentence1 and sentence2 are similar, or false if they are not similar.
+
+// Two sentences are similar if:	They have the same length (i.e., the same number of words)	sentence1[i] and sentence2[i] are similar.
+
+// Notice that a word is always similar to itself, also notice that the similarity relation is not transitive. For example, if the words a and b are similar, and the words b and c are similar, a and c are not necessarily similar.
+
+// <strong class="example">Example 1:
+//		 Input: sentence1 = ["great","acting","skills"], sentence2 = ["fine","drama","talent"], similarPairs = [["great","fine"],["drama","acting"],["skills","talent"]]
+//		 Output: true
+// Explanation: The two sentences have the same length and each word i of sentence1 is also similar to the corresponding word in sentence2.
+
+// <strong class="example">Example 2:
+//		 Input: sentence1 = ["great"], sentence2 = ["great"], similarPairs = []
+//		 Output: true
+// Explanation: A word is similar to itself.
+
+// <strong class="example">Example 3:
+//		 Input: sentence1 = ["great"], sentence2 = ["doubleplus","good"], similarPairs = [["great","doubleplus"]]
+//		 Output: false
+// Explanation: As they don't have the same length, we return false.
+
+// Constraints:
+//    1 <= sentence1.length, sentence2.length <= 1000
+//    1 <= sentence1[i].length, sentence2[i].length <= 20
+//    sentence1[i] and sentence2[i] consist of English letters.
+//    0 <= similarPairs.length <= 1000
+//    similarPairs[i].length == 2
+//    1 <= xi.length, yi.length <= 20
+//    xi and yi consist of lower-case and upper-case English letters.
+//    All the pairs (xi, yi) are distinct.
+
+const areSentencesSimilar = (s1, s2, p) => {
+  if (s1.length !== s2.length) return false;
+  p = p.reduce((a, c) => {
+    a[c[0]] = a[c[0]] ? [...a[c[0]], c[1]] : [c[1]];
+    a[c[1]] = a[c[1]] ? [...a[c[1]], c[0]] : [c[0]];
+    return a;
+  }, {});
+  for (let i = 0; i < s1.length; i++)
+    try {
+      if (
+        s1[i] !== s2[i] &&
+        !p[s1[i]].includes(s2[i]) &&
+        !p[s2[i]].includes(s1[i])
+      )
+        return false;
+    } catch (e) {
+      return false;
+    }
+  return true;
+};
+console.log(
+  areSentencesSimilar(
+    ["great", "acting", "skills"],
+    ["fine", "drama", "talent"],
+    [
+      ["great", "fine"],
+      ["drama", "acting"],
+      ["skills", "talent"],
+    ]
+  )
+); // true
+console.log(areSentencesSimilar(["great"], ["great"], [])); // true
+console.log(
+  areSentencesSimilar(
+    ["great"],
+    ["doubleplus", "good"],
+    [["great", "doubleplus"]]
+  )
+); // false
+
+// Probably could've avoided the try/catch
+// OK runtime
+
+const topVotedAreSentencesSimilar = function (s1, s2, p) {
+  if (s1.length != s2.length) return false;
+
+  const n = s1.length;
+  const set = new Set();
+
+  for (const [word1, word2] of p) {
+    set.add(word1 + "#" + word2);
+  }
+
+  return s1.every((_, i) => isSimilar(s1[i], s2[i]));
+
+  function isSimilar(word1, word2) {
+    return (
+      word1 == word2 ||
+      set.has(word1 + "#" + word2) ||
+      set.has(word2 + "#" + word1)
+    );
+  }
+};
+
+// So clean!
