@@ -15128,7 +15128,7 @@ const topVotedValidWordSquare = function (words) {
 // Similar logic */
 
 // Sentence Similarity          10/12/2022
-
+/* 
 // We can represent a sentence as an array of words, for example, the sentence "I am happy with leetcode" can be represented as arr = ["I","am",happy","with","leetcode"].
 
 // Given two sentences sentence1 and sentence2 each represented as a string array and given an array of string pairs similarPairs where similarPairs[i] = [xi, yi] indicates that the two words xi and yi are similar.
@@ -15228,4 +15228,39 @@ const topVotedAreSentencesSimilar = function (s1, s2, p) {
   }
 };
 
-// So clean!
+// So clean! */
+
+// Find Anagram Mappings          10/13/2022
+
+// You are given two integer arrays nums1 and nums2 where nums2 is an anagram of nums1. Both arrays may contain duplicates.
+
+// Return an index mapping array mapping from nums1 to nums2 where mapping[i] = j means the i^th element in nums1 appears in nums2 at index j. If there are multiple answers, return any of them.
+
+// An array a is an anagram of an array b means b is made by randomizing the order of the elements in a.
+
+// Example 1:
+//		 Input: nums1 = [12,28,46,32,50], nums2 = [50,12,32,46,28]
+//		 Output: [1,4,3,2,0]
+// Explanation: As mapping[0] = 1 because the 0^th element of nums1 appears at nums2[1], and mapping[1] = 4 because the 1^st element of nums1 appears at nums2[4], and so on.
+
+// Example 2:
+//		 Input: nums1 = [84,46], nums2 = [84,46]
+//		 Output: [0,1]
+
+// Constraints:
+//    1 <= nums1.length <= 100
+//    nums2.length == nums1.length
+//    0 <= nums1[i], nums2[i] <= 10^5
+//    nums2 is an anagram of nums1.
+
+const anagramMappings = (nums1, nums2) => nums1.map((c) => nums2.indexOf(c));
+
+console.log(anagramMappings([12, 28, 46, 32, 50], [50, 12, 32, 46, 28])); // [1,4,3,2,0]
+console.log(anagramMappings([84, 46], [84, 46])); // [0,1]
+
+const topVotedAnagramMappings = function (nums1, nums2) {
+  const numToIdx = new Map(nums2.map((v, i) => [v, i]));
+  return nums1.map((v) => numToIdx.get(v));
+};
+
+// I think the prompt was to create and use a map
