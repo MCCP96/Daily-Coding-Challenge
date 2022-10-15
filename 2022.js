@@ -15266,7 +15266,7 @@ const topVotedAnagramMappings = function (nums1, nums2) {
 // I think the prompt was to create and use a map */
 
 // Similar RGB Color          10/14/2022
-
+/* 
 // The red-green-blue color "#AABBCC" can be written as "#ABC" in shorthand.	For example, "#15c" is shorthand for the color "#1155cc".
 
 // The similarity between the two colors "#ABCDEF" and "#UVWXYZ" is -(AB - UV)^2 - (CD - WX)^2 - (EF - YZ)^2.
@@ -15318,4 +15318,67 @@ const topVotedSimilarRGB = function (color) {
 console.log(topVotedSimilarRGB("#09f166")); // "#11ee66"
 console.log(topVotedSimilarRGB("#4e3fe1")); // "#5544dd"
 
-// no time today
+// no time today */
+
+// Confusing Number          10/15/2022
+
+// A confusing number is a number that when rotated 180 degrees becomes a different number with each digit valid.
+
+// We can rotate digits of a number by 180 degrees to form new digits.	When 0, 1, 6, 8, and 9 are rotated 180 degrees, they become 0, 1, 9, 8, and 6 respectively.	When 2, 3, 4, 5, and 7 are rotated 180 degrees, they become invalid.
+
+// Note that after rotating a number, we can ignore leading zeros.	For example, after rotating 8000, we have 0008 which is considered as just 8.
+
+// Given an integer n, return true if it is a confusing number, or false otherwise.
+
+// Example 1:
+//   https://assets.leetcode.com/uploads/2019/03/23/1268_1.png"
+//		 Input: n = 6
+//		 Output: true
+// Explanation: We get 9 after rotating 6, 9 is a valid number, and 9 != 6.
+
+// Example 2:
+//   https://assets.leetcode.com/uploads/2019/03/23/1268_2.png"
+//		 Input: n = 89
+//		 Output: true
+// Explanation: We get 68 after rotating 89, 68 is a valid number and 68 != 89.
+
+// Example 3:
+//   https://assets.leetcode.com/uploads/2019/03/26/1268_3.png"
+//		 Input: n = 11
+//		 Output: false
+// Explanation: We get 11 after rotating 11, 11 is a valid number but the value remains the same, thus 11 is not a confusing number
+
+// Constraints:
+//    0 <= n <= 10^9
+
+const confusingNumber = (n) => {
+  const [valid, invalid] = [{ 6: 9, 9: 6 }, [2, 3, 4, 5, 7]];
+  if ([...n.toString(10)].some((x) => invalid.includes(+x))) return false;
+  const flipped = [...n.toString(10)]
+    .map((c) => (valid[c] ? valid[c] : c))
+    .reverse()
+    .join("");
+  return n != flipped;
+};
+console.log(confusingNumber(6)); // true
+console.log(confusingNumber(89)); // true
+console.log(confusingNumber(11)); // false
+console.log(confusingNumber(379)); // false
+
+// Great memory, ok runtime
+
+function confusingNumber(n) {
+  let k = n;
+  // prettier-ignore
+  const map = new Map([[0,0], [1,1], [6,9], [8,8], [9,6]]);
+  let rotated = 0;
+  while (k) {
+    const num = k % 10;
+    if (!map.has(num)) return false;
+    rotated = rotated * 10 + map.get(num);
+    k = Math.floor(k / 10);
+  }
+  return rotated !== n;
+}
+
+// Clean
