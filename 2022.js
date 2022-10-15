@@ -15231,7 +15231,7 @@ const topVotedAreSentencesSimilar = function (s1, s2, p) {
 // So clean! */
 
 // Find Anagram Mappings          10/13/2022
-
+/* 
 // You are given two integer arrays nums1 and nums2 where nums2 is an anagram of nums1. Both arrays may contain duplicates.
 
 // Return an index mapping array mapping from nums1 to nums2 where mapping[i] = j means the i^th element in nums1 appears in nums2 at index j. If there are multiple answers, return any of them.
@@ -15263,4 +15263,59 @@ const topVotedAnagramMappings = function (nums1, nums2) {
   return nums1.map((v) => numToIdx.get(v));
 };
 
-// I think the prompt was to create and use a map
+// I think the prompt was to create and use a map */
+
+// Similar RGB Color          10/14/2022
+
+// The red-green-blue color "#AABBCC" can be written as "#ABC" in shorthand.	For example, "#15c" is shorthand for the color "#1155cc".
+
+// The similarity between the two colors "#ABCDEF" and "#UVWXYZ" is -(AB - UV)^2 - (CD - WX)^2 - (EF - YZ)^2.
+
+// Given a string color that follows the format "#ABCDEF", return a string represents the color that is most similar to the given color and has a shorthand (i.e., it can be represented as some "#XYZ").
+
+// Any answer which has the same highest similarity as the best answer will be accepted.
+
+// Example 1:
+//		 Input: color = "#09f166"
+//		 Output: "#11ee66"
+// Explanation:
+// The similarity is -(0x09 - 0x11)^2 -(0xf1 - 0xee)^2 - (0x66 - 0x66)^2 = -64 -9 -0 = -73.
+// This is the highest among any shorthand color.
+
+// Example 2:
+//		 Input: color = "#4e3fe1"
+//		 Output: "#5544dd"
+
+// Constraints:
+//    color.length == 7
+//    color[0] == '#'
+//    color[i] is either digit or character in the range ['a', 'f'] for i > 0.
+
+const topVotedSimilarRGB = function (color) {
+  let result = "#";
+  for (let i = 1; i < color.length; i += 2) {
+    const a = parseInt(color[i] + color[i], 16);
+    const b = a + 17;
+    const c = a - 17;
+    const base = parseInt(color[i] + color[i + 1], 16);
+    const diff1 = Math.abs(a - base);
+    const diff2 = Math.abs(b - base);
+    const diff3 = Math.abs(c - base);
+    let best = a;
+    switch (Math.min(diff1, diff2, diff3)) {
+      case diff2:
+        best = b;
+        break;
+      case diff3:
+        best = c;
+        break;
+    }
+    result += best !== 0 ? best.toString(16) : "00";
+  }
+  return result;
+};
+
+console.log(topVotedSimilarRGB("#09f166")); // "#11ee66"
+console.log(topVotedSimilarRGB("#4e3fe1")); // "#5544dd"
+
+// no time today
