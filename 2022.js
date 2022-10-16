@@ -15321,7 +15321,7 @@ console.log(topVotedSimilarRGB("#4e3fe1")); // "#5544dd"
 // no time today */
 
 // Confusing Number          10/15/2022
-
+/* 
 // A confusing number is a number that when rotated 180 degrees becomes a different number with each digit valid.
 
 // We can rotate digits of a number by 180 degrees to form new digits.	When 0, 1, 6, 8, and 9 are rotated 180 degrees, they become 0, 1, 9, 8, and 6 respectively.	When 2, 3, 4, 5, and 7 are rotated 180 degrees, they become invalid.
@@ -15381,4 +15381,35 @@ function confusingNumber(n) {
   return rotated !== n;
 }
 
-// Clean
+// Clean */
+
+// Fixed Point          10/16/2022
+
+// Given an array of distinct integers arr, where arr is sorted in ascending order, return the smallest index i that satisfies arr[i] == i. If there is no such index, return -1.
+
+// Example 1:
+//		 Input: arr = [-10,-5,0,3,7]
+//		 Output: 3
+// Explanation: For the given array, arr[0] = -10, arr[1] = -5, arr[2] = 0, arr[3] = 3, thus the output is 3.
+
+// Example 2:
+//		 Input: arr = [0,2,5,8,17]
+//		 Output: 0
+// Explanation: arr[0] = 0, thus the output is 0.
+
+// Example 3:
+//		 Input: arr = [-10,-5,3,4,7,9]
+//		 Output: -1
+// Explanation: There is no such i that arr[i] == i, thus the output is -1.
+
+// Constraints:
+//    1 <= arr.length < 10^4
+//    -10^9 <= arr[i] <= 10^9
+
+const fixedPoint = (arr) => {
+  for (let i = 0; i < arr.length; i++) if (i === arr[i]) return i;
+  return -1;
+};
+console.log(fixedPoint([-10, -5, 0, 3, 7])); // 3
+console.log(fixedPoint([0, 2, 5, 8, 17])); // 0
+console.log(fixedPoint([-10, -5, 3, 4, 7, 9])); // -1
