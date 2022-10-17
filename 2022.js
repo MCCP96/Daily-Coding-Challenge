@@ -15384,7 +15384,7 @@ function confusingNumber(n) {
 // Clean */
 
 // Fixed Point          10/16/2022
-
+/* 
 // Given an array of distinct integers arr, where arr is sorted in ascending order, return the smallest index i that satisfies arr[i] == i. If there is no such index, return -1.
 
 // Example 1:
@@ -15412,4 +15412,45 @@ const fixedPoint = (arr) => {
 };
 console.log(fixedPoint([-10, -5, 0, 3, 7])); // 3
 console.log(fixedPoint([0, 2, 5, 8, 17])); // 0
-console.log(fixedPoint([-10, -5, 3, 4, 7, 9])); // -1
+console.log(fixedPoint([-10, -5, 3, 4, 7, 9])); // -1 */
+
+// Index Pairs of a String          10/17/2022
+
+// Given a string text and an array of strings words, return an array of all index pairs [i, j] so that the substring text[i...j] is in words.
+
+// Return the pairs [i, j] in sorted order (i.e., sort them by their first coordinate, and in case of ties sort them by their second coordinate).
+
+// Example 1:
+//		 Input: text = "thestoryofleetcodeandme", words = ["story","fleet","leetcode"]
+//		 Output: [[3,7],[9,13],[10,17]]
+
+// Example 2:
+//		 Input: text = "ababa", words = ["aba","ab"]
+//		 Output: [[0,1],[0,2],[2,3],[2,4]]
+// Explanation: Notice that matches can overlap, see "aba" is found in [0,2] and [2,4].
+
+// Constraints:
+//    1 <= text.length <= 100
+//    1 <= words.length <= 20
+//    1 <= words[i].length <= 50
+//    text and words[i] consist of lowercase English letters.
+//    All the strings of words are unique.
+
+const topVotedIndexPairs = function (text, words) {
+  const res = [];
+  for (let i = 0; i < text.length; i++) {
+    words.forEach((word) => {
+      if (word[0] === text[i] && word === text.slice(i, i + word.length)) {
+        res.push([i, i + word.length - 1]);
+      }
+    });
+  }
+  return res.sort((a, b) => (a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]));
+};
+
+// prettier-ignore
+console.log(topVotedIndexPairs("thestoryofleetcodeandme", ["story", "fleet", "leetcode"])); // [[3,7],[9,13],[10,17]]
+console.log(topVotedIndexPairs("ababa", ["aba", "ab"])); // [[0,1],[0,2],[2,3],[2,4]]
+
+// Tried all sorts but ended up overcomplicating it
+// Very logical
