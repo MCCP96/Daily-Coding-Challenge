@@ -15415,7 +15415,7 @@ console.log(fixedPoint([0, 2, 5, 8, 17])); // 0
 console.log(fixedPoint([-10, -5, 3, 4, 7, 9])); // -1 */
 
 // Index Pairs of a String          10/17/2022
-
+/* 
 // Given a string text and an array of strings words, return an array of all index pairs [i, j] so that the substring text[i...j] is in words.
 
 // Return the pairs [i, j] in sorted order (i.e., sort them by their first coordinate, and in case of ties sort them by their second coordinate).
@@ -15453,4 +15453,45 @@ console.log(topVotedIndexPairs("thestoryofleetcodeandme", ["story", "fleet", "le
 console.log(topVotedIndexPairs("ababa", ["aba", "ab"])); // [[0,1],[0,2],[2,3],[2,4]]
 
 // Tried all sorts but ended up overcomplicating it
-// Very logical
+// Very logical */
+
+// Sum of Digits in the Minimum Number          10/18/2022
+
+// Given an integer array nums, return 0 if the sum of the digits of the minimum integer in nums is odd, or 1 otherwise.
+
+// Example 1:
+//		 Input: nums = [34,23,1,24,75,33,54,8]
+//		 Output: 0
+// Explanation: The minimal element is 1, and the sum of those digits is 1 which is odd, so the answer is 0.
+
+// Example 2:
+//		 Input: nums = [99,77,33,66,55]
+//		 Output: 1
+// Explanation: The minimal element is 33, and the sum of those digits is 3 + 3 = 6 which is even, so the answer is 1.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    1 <= nums[i] <= 100
+
+const sumOfDigits = (nums) =>
+  [...`${Math.min(...nums)}`].reduce((a, c) => +a + +c) % 2 ? 0 : 1;
+
+console.log(sumOfDigits([34, 23, 1, 24, 75, 33, 54, 8])); // 0
+console.log(sumOfDigits([99, 77, 33, 66, 55])); // 1
+
+// Better than 90% runtime & 100% memory
+
+const topVotedSumOfDigits = function (A) {
+  const findSum = (num) => {
+    let sum = 0;
+    while (num > 0) {
+      let remainder = num % 10;
+      sum += remainder;
+      num = Math.floor(num / 10);
+    }
+    return sum;
+  };
+  return findSum(Math.min(...A)) % 2 === 0 ? 1 : 0;
+};
+
+// Slower runtime than my solution
