@@ -15497,7 +15497,7 @@ const topVotedSumOfDigits = function (A) {
 // Slower runtime than my solution */
 
 // High Five          10/19/2022
-
+/* 
 // Given a list of the scores of different students, items, where items[i] = [IDi, scorei] represents one score from a student with IDi, calculate each student's top five average.
 
 // Return the answer as an array of pairs result, where result[j] = [IDj, topFiveAveragej] represents the student with IDj and their top five average. Sort result by IDj in increasing order.
@@ -15566,4 +15566,53 @@ const topVotedHighFive = function (items) {
   return Object.keys(scoreBoard).reduce(getAverage, []);
 };
 
-// Thought I was bulky, but all answers seem pretty long
+// Thought I was bulky, but all answers seem pretty long */
+
+// Two Sum Less Than K          10/20/2022
+
+// Given an array nums of integers and integer k, return the maximum sum such that there exists i < j with nums[i] + nums[j] = sum and sum < k. If no i, j exist satisfying this equation, return -1.
+
+// Example 1:
+//		 Input: nums = [34,23,1,24,75,33,54,8], k = 60
+//		 Output: 58
+// Explanation: We can use 34 and 24 to sum 58 which is less than 60.
+
+// Example 2:
+//		 Input: nums = [10,20,30], k = 15
+//		 Output: -1
+// Explanation: In this case it is not possible to get a pair sum less that 15.
+
+// Constraints:
+//    1 <= nums.length <= 100
+//    1 <= nums[i] <= 1000
+//    1 <= k <= 2000
+
+const twoSumLessThanK = (nums, k) =>
+  nums
+    .filter((x) => x < k)
+    .reduce((a, c, i, arr) => {
+      for (let j = i + 1; j < arr.length; j++) {
+        const cur = c + arr[j];
+        if (cur < k) a = Math.max(a, cur);
+      }
+      return a;
+    }, -1);
+
+console.log(twoSumLessThanK([34, 23, 1, 24, 75, 33, 54, 8], 60)); // 58
+console.log(twoSumLessThanK([10, 20, 30], 15)); // -1
+
+// Concise, which is nice
+// Ok runtime
+
+const topVotedTwoSumLessThanK = function (A, K) {
+  let max = -1;
+  for (i = 0; i < A.length - 1; i++) {
+    for (j = i + 1; j < A.length; j++) {
+      let sum = A[i] + A[j];
+      if (sum > max && sum < K) max = sum;
+    }
+  }
+  return max;
+};
+
+// Easily achieved with a nested for loop
