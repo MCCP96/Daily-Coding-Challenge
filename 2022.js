@@ -15569,7 +15569,7 @@ const topVotedHighFive = function (items) {
 // Thought I was bulky, but all answers seem pretty long */
 
 // Two Sum Less Than K          10/20/2022
-
+/* 
 // Given an array nums of integers and integer k, return the maximum sum such that there exists i < j with nums[i] + nums[j] = sum and sum < k. If no i, j exist satisfying this equation, return -1.
 
 // Example 1:
@@ -15615,4 +15615,45 @@ const topVotedTwoSumLessThanK = function (A, K) {
   return max;
 };
 
-// Easily achieved with a nested for loop
+// Easily achieved with a nested for loop */
+
+// Number of Days in a Month          10/21/2022
+
+// Given a year year and a month month, return the number of days of that month.
+
+// Example 1:
+//		 Input: year = 1992, month = 7
+//		 Output: 31
+
+// Example 2:
+//		 Input: year = 2000, month = 2
+//		 Output: 29
+
+// Example 3:
+//		 Input: year = 1900, month = 2
+//		 Output: 28
+
+// Constraints:
+//    1583 <= year <= 2100
+//    1 <= month <= 12
+
+const numberOfDays = (y, m) => {
+  const d =
+    m !== 12 ? new Date(`${m + 1} 1, ${y}`) : new Date(`jan 1, ${y + 1}`);
+  d.setDate(d.getDate() - 1);
+  return d.getDate();
+};
+console.log(numberOfDays(1992, 7)); // 31
+console.log(numberOfDays(2000, 2)); // 29
+console.log(numberOfDays(1900, 2)); // 28
+
+// Great runtime
+
+const topVotedNumberOfDays = function (Y, M) {
+  let date1 = new Date(Y, M - 1);
+  let date2 = new Date(Y, M);
+  let diff = date2.getTime() - date1.getTime();
+  return diff / (1000 * 60 * 60 * 24);
+};
+
+// This was my first approach
