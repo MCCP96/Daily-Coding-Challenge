@@ -15618,7 +15618,7 @@ const topVotedTwoSumLessThanK = function (A, K) {
 // Easily achieved with a nested for loop */
 
 // Number of Days in a Month          10/21/2022
-
+/* 
 // Given a year year and a month month, return the number of days of that month.
 
 // Example 1:
@@ -15656,4 +15656,31 @@ const topVotedNumberOfDays = function (Y, M) {
   return diff / (1000 * 60 * 60 * 24);
 };
 
-// This was my first approach
+// This was my first approach */
+
+// Remove Vowels from a String          10/22/2022
+
+// Given a string s, remove the vowels 'a', 'e', 'i', 'o', and 'u' from it, and return the new string.
+
+// Example 1:
+//		 Input: s = "leetcodeisacommunityforcoders"
+//		 Output: "ltcdscmmntyfrcdrs"
+
+// Example 2:
+//		 Input: s = "aeiou"
+//		 Output: ""
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s consists of only lowercase English letters.
+
+const removeVowels = (s) => s.split(/[a,e,i,o,u]/).join("");
+
+console.log(removeVowels("leetcodeisacommunityforcoders")); // "ltcdscmmntyfrcdrs"
+console.log(removeVowels("aeiou")); // ""
+
+// Works
+
+const topVotedRemoveVowels = (s) => s.replace(/a|e|o|i|u/gi, "");
+
+// Even better
