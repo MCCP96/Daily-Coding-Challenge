@@ -15659,7 +15659,7 @@ const topVotedNumberOfDays = function (Y, M) {
 // This was my first approach */
 
 // Remove Vowels from a String          10/22/2022
-
+/* 
 // Given a string s, remove the vowels 'a', 'e', 'i', 'o', and 'u' from it, and return the new string.
 
 // Example 1:
@@ -15683,4 +15683,46 @@ console.log(removeVowels("aeiou")); // ""
 
 const topVotedRemoveVowels = (s) => s.replace(/a|e|o|i|u/gi, "");
 
-// Even better
+// Even better */
+
+// Largest Unique Number          10/23/2022
+
+// Given an integer array nums, return the largest integer that only occurs once. If no integer occurs once, return -1.
+
+// Example 1:
+//		 Input: nums = [5,7,3,9,4,9,8,3,1]
+//		 Output: 8
+// Explanation: The maximum integer in the array is 9 but it is repeated. The number 8 occurs only once, so it is the answer.
+
+// Example 2:
+//		 Input: nums = [9,9,8,8]
+//		 Output: -1
+// Explanation: There is no number that occurs only once.
+
+// Constraints:
+//    1 <= nums.length <= 2000
+//    0 <= nums[i] <= 1000
+
+const largestUniqueNumber = (nums) => {
+  const unique = nums.filter((x) => nums.indexOf(x) === nums.lastIndexOf(x));
+  return unique.length >= 1 ? Math.max(...unique) : -1;
+};
+
+console.log(largestUniqueNumber([5, 7, 3, 9, 4, 9, 8, 3, 1])); // 8
+console.log(largestUniqueNumber([9, 9, 8, 8])); // -1
+
+// Works
+
+const topVotedLargestUniqueNumber = function (A) {
+  const map = new Map();
+  for (let n of A) {
+    map.set(n, (map.get(n) || 0) + 1);
+  }
+  const res = [...map.keys()]
+    .sort((a, b) => b - a)
+    .filter((v, i) => map.get(v) === 1);
+  if (!res.length) return -1;
+  return res[0];
+};
+
+// A map is also a good approach
