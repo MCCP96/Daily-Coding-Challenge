@@ -15686,7 +15686,7 @@ const topVotedRemoveVowels = (s) => s.replace(/a|e|o|i|u/gi, "");
 // Even better */
 
 // Largest Unique Number          10/23/2022
-
+/* 
 // Given an integer array nums, return the largest integer that only occurs once. If no integer occurs once, return -1.
 
 // Example 1:
@@ -15725,4 +15725,52 @@ const topVotedLargestUniqueNumber = function (A) {
   return res[0];
 };
 
-// A map is also a good approach
+// A map is also a good approach */
+
+// Armstrong Number          10/24/2022
+
+// Given an integer n, return true if and only if it is an Armstrong number.
+
+// The k-digit number n is an Armstrong number if and only if the k^th power of each digit sums to n.
+
+// Example 1:
+//		 Input: n = 153
+//		 Output: true
+// Explanation: 153 is a 3-digit number, and 153 = 1^3 + 5^3 + 3^3.
+
+// Example 2:
+//		 Input: n = 123
+//		 Output: false
+// Explanation: 123 is a 3-digit number, and 123 != 1^3 + 2^3 + 3^3 = 36.
+
+// Constraints:
+//    1 <= n <= 10^8
+
+const isArmstrong = (n) =>
+  `${n}`
+    .split("")
+    .reduce((a, c, _, arr) => (a += Math.pow(c, arr.length)), 0) === n;
+
+console.log(isArmstrong(153)); // true
+console.log(isArmstrong(123)); // false
+
+// One line, OK runtime
+
+const topVotedIsArmstrong = function (n) {
+  let x = 10,
+    k = 1;
+  while (n >= x) {
+    x *= 10;
+    k += 1;
+  }
+  x = n;
+  let sum = 0;
+  while (x > 0) {
+    let rightMost = x % 10;
+    sum += Math.pow(rightMost, k);
+    x = Math.floor(x / 10);
+  }
+  return sum === n;
+};
+
+// Improved runtime
