@@ -15728,7 +15728,7 @@ const topVotedLargestUniqueNumber = function (A) {
 // A map is also a good approach */
 
 // Armstrong Number          10/24/2022
-
+/* 
 // Given an integer n, return true if and only if it is an Armstrong number.
 
 // The k-digit number n is an Armstrong number if and only if the k^th power of each digit sums to n.
@@ -15773,4 +15773,40 @@ const topVotedIsArmstrong = function (n) {
   return sum === n;
 };
 
-// Improved runtime
+// Improved runtime */
+
+// Check If a Number Is Majority Element in a Sorted Array          10/25/2022
+
+// Given an integer array nums sorted in non-decreasing order and an integer target, return true if target is a majority element, or false otherwise.
+
+// A majority element in an array nums is an element that appears more than nums.length / 2 times in the array.
+
+// Example 1:
+//		 Input: nums = [2,4,5,5,5,5,5,6,6], target = 5
+//		 Output: true
+// Explanation: The value 5 appears 5 times and the length of the array is 9.
+// Thus, 5 is a majority element because 5 > 9/2 is true.
+
+// Example 2:
+//		 Input: nums = [10,100,101,101], target = 101
+//		 Output: false
+// Explanation: The value 101 appears 2 times and the length of the array is 4.
+// Thus, 101 is not a majority element because 2 > 4/2 is false.
+
+// Constraints:
+//    1 <= nums.length <= 1000
+//    1 <= nums[i], target <= 10^9
+//    nums is sorted in non-decreasing order.
+
+const isMajorityElement = (nums, target) =>
+  nums.reduce((a, c) => (a += c === target ? 1 : 0), 0) > nums.length / 2;
+
+console.log(isMajorityElement([2, 4, 5, 5, 5, 5, 5, 6, 6], 5)); // true
+console.log(isMajorityElement([10, 100, 101, 101], 101)); // false
+
+// One line
+
+const topVotedIsMajorityElement = (nums, target) =>
+  nums.filter((x) => x == target).length > nums.length / 2;
+
+// Much better runtime
