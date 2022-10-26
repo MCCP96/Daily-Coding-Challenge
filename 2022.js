@@ -15776,7 +15776,7 @@ const topVotedIsArmstrong = function (n) {
 // Improved runtime */
 
 // Check If a Number Is Majority Element in a Sorted Array          10/25/2022
-
+/* 
 // Given an integer array nums sorted in non-decreasing order and an integer target, return true if target is a majority element, or false otherwise.
 
 // A majority element in an array nums is an element that appears more than nums.length / 2 times in the array.
@@ -15809,4 +15809,56 @@ console.log(isMajorityElement([10, 100, 101, 101], 101)); // false
 const topVotedIsMajorityElement = (nums, target) =>
   nums.filter((x) => x == target).length > nums.length / 2;
 
-// Much better runtime
+// Much better runtime */
+
+// Single-Row Keyboard          10/26/2022
+
+// There is a special keyboard with all keys in a single row.
+
+// Given a string keyboard of length 26 indicating the layout of the keyboard (indexed from 0 to 25). Initially, your finger is at index 0. To type a character, you have to move your finger to the index of the desired character. The time taken to move your finger from index i to index j is |i - j|.
+
+// You want to type a string word. Write a function to calculate how much time it takes to type it with one finger.
+
+// Example 1:
+//		 Input: keyboard = "abcdefghijklmnopqrstuvwxyz", word = "cba"
+//		 Output: 4
+// Explanation: The index moves from 0 to 2 to write 'c' then to 1 to write 'b' then to 0 again to write 'a'.
+// Total time = 2 + 1 + 1 = 4.
+
+// Example 2:
+//		 Input: keyboard = "pqrstuvwxyzabcdefghijklmno", word = "leetcode"
+//		 Output: 73
+
+// Constraints:
+//    keyboard.length == 26
+//    keyboard contains each English lowercase letter exactly once in some order.
+//    1 <= word.length <= 10^4
+//    word[i] is an English lowercase letter.
+
+const calculateTime = (keyboard, word, pos = 0) =>
+  [...word].reduce((a, c) => {
+    const cur = keyboard.indexOf(c);
+    a += Math.abs(cur - pos);
+    pos = cur;
+    return a;
+  }, 0);
+
+console.log(calculateTime("abcdefghijklmnopqrstuvwxyz", "cba")); // 4
+console.log(calculateTime("pqrstuvwxyzabcdefghijklmno", "leetcode")); // 73
+
+// Works
+
+const topVotedCalculateTime = function (keyboard, word) {
+  let count = 0,
+    cur = 0;
+  const keys = new Map(keyboard.split("").map((el, ind) => [el, ind]));
+  for (const v of word) {
+    const temp = keys.get(v);
+    count += Math.abs(cur - temp);
+    cur = temp;
+  }
+  return count;
+};
+
+// Turning the keyboard into a map saves runtime of .indexOf
+// Ends up being much quicker
