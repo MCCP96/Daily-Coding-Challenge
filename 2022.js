@@ -15812,7 +15812,7 @@ const topVotedIsMajorityElement = (nums, target) =>
 // Much better runtime */
 
 // Single-Row Keyboard          10/26/2022
-
+/* 
 // There is a special keyboard with all keys in a single row.
 
 // Given a string keyboard of length 26 indicating the layout of the keyboard (indexed from 0 to 25). Initially, your finger is at index 0. To type a character, you have to move your finger to the index of the desired character. The time taken to move your finger from index i to index j is |i - j|.
@@ -15861,4 +15861,75 @@ const topVotedCalculateTime = function (keyboard, word) {
 };
 
 // Turning the keyboard into a map saves runtime of .indexOf
-// Ends up being much quicker
+// Ends up being much quicker */
+
+// Diet Plan Performance          10/27/2022
+
+// A dieter consumescalories[i] calories on the i-th day.
+
+// Given an integer k, for every consecutive sequence of k days (calories[i], calories[i+1], ..., calories[i+k-1] for all 0 <= i <= n-k), they look at T, the total calories consumed during that sequence of k days (calories[i] + calories[i+1] + ... + calories[i+k-1]):	If T < lower, they performed poorly on their diet and lose 1 point;	If T > upper, they performed well on their diet and gain 1 point;	Otherwise, they performed normally and there is no change in points.
+
+// Initially, the dieter has zero points. Return the total number of points the dieter has after dieting for calories.lengthdays.
+
+// Note that the total points can be negative.
+
+// Example 1:
+//		 Input: calories = [1,2,3,4,5], k = 1, lower = 3, upper = 3
+//		 Output: 0
+// Explanation: Since k = 1, we consider each element of the array separately and compare it to lower and upper.
+// calories[0] and calories[1] are less than lower so 2 points are lost.
+// calories[3] and calories[4] are greater than upper so 2 points are gained.
+
+// Example 2:
+//		 Input: calories = [3,2], k = 2, lower = 0, upper = 1
+//		 Output: 1
+// Explanation: Since k = 2, we consider subarrays of length 2.
+// calories[0] + calories[1] > upper so 1 point is gained.
+
+// Example 3:
+//		 Input: calories = [6,5,0,0], k = 2, lower = 1, upper = 5
+//		 Output: 0
+// Explanation:
+// calories[0] + calories[1] > upper so 1 point is gained.
+// lower <= calories[1] + calories[2] <= upper so no change in points.
+// calories[2] + calories[3] < lower so 1 point is lost.
+
+// Constraints:
+//    1 <= k <= calories.length <= 10^5
+//    0 <= calories[i] <= 20000
+//    0 <= lower <= upper
+
+const dietPlanPerformance = (cals, k, l, u) => {
+  let points = 0;
+  for (let i = 0; i < cals.length - k + 1; i++) {
+    const cur = cals.slice(i, i + k).reduce((a, c) => (a += c));
+    points += cur < l ? -1 : cur > u ? 1 : 0;
+  }
+  return points;
+};
+console.log(dietPlanPerformance([1, 2, 3, 4, 5], 1, 3, 3)); // 0
+console.log(dietPlanPerformance([3, 2], 2, 0, 1)); // 1
+console.log(dietPlanPerformance([6, 5, 0, 0], 2, 1, 5)); // 0
+console.log(dietPlanPerformance([6, 13, 8, 7, 10, 1, 12, 11], 6, 5, 37)); // 3
+
+// Exceeded runtime limit
+
+const topVotedDietPlanPerformance = function (calories, k, lower, upper) {
+  let left = 0,
+    right = left + k,
+    points = 0,
+    countCal = 0;
+
+  for (let i = 0; i < k; i++) countCal += calories[i];
+
+  while (right <= calories.length) {
+    if (countCal < lower) points--;
+    else if (countCal > upper) points++;
+    countCal = countCal - calories[left] + calories[right];
+    left++;
+    right = left + k;
+  }
+  return points;
+};
+
+// Sliding window, very clean
