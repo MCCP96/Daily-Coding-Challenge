@@ -15864,7 +15864,7 @@ const topVotedCalculateTime = function (keyboard, word) {
 // Ends up being much quicker */
 
 // Diet Plan Performance          10/27/2022
-
+/* 
 // A dieter consumescalories[i] calories on the i-th day.
 
 // Given an integer k, for every consecutive sequence of k days (calories[i], calories[i+1], ..., calories[i+k-1] for all 0 <= i <= n-k), they look at T, the total calories consumed during that sequence of k days (calories[i] + calories[i+1] + ... + calories[i+k-1]):	If T < lower, they performed poorly on their diet and lose 1 point;	If T > upper, they performed well on their diet and gain 1 point;	Otherwise, they performed normally and there is no change in points.
@@ -15932,4 +15932,40 @@ const topVotedDietPlanPerformance = function (calories, k, lower, upper) {
   return points;
 };
 
-// Sliding window, very clean
+// Sliding window, very clean */
+
+// Count Substrings with Only One Distinct Letter          10/28/2022
+
+// Given a string s, return the number of substrings that have only one distinct letter.
+
+// Example 1:
+//		 Input: s = "aaaba"
+//		 Output: 8
+// Explanation: The substrings with one distinct letter are "aaa", "aa", "a", "b".
+// "aaa" occurs 1 time.
+// "aa" occurs 2 times.
+// "a" occurs 4 times.
+// "b" occurs 1 time.
+// So the answer is 1 + 2 + 4 + 1 = 8.
+
+// Example 2:
+//		 Input: s = "aaaaaaaaaa"
+//		 Output: 55
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s[i] consists of only lowercase English letters.
+
+const topVotedCountLetters = function (s) {
+  let count = 1;
+  let result = 0;
+  for (let [i, v] of Object.entries(s)) {
+    v === s[i - 1] ? (count += 1) : (count = 1);
+    result += count;
+  }
+  return result;
+};
+console.log(countLetters("aaaba")); // 8
+console.log(countLetters("aaaaaaaaaa")); // 55
+
+// No time today
