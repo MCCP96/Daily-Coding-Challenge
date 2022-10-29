@@ -15935,7 +15935,7 @@ const topVotedDietPlanPerformance = function (calories, k, lower, upper) {
 // Sliding window, very clean */
 
 // Count Substrings with Only One Distinct Letter          10/28/2022
-
+/* 
 // Given a string s, return the number of substrings that have only one distinct letter.
 
 // Example 1:
@@ -15968,4 +15968,48 @@ const topVotedCountLetters = function (s) {
 console.log(countLetters("aaaba")); // 8
 console.log(countLetters("aaaaaaaaaa")); // 55
 
-// No time today
+// No time today */
+
+// How Many Apples Can You Put into the Basket          10/29/2022
+
+// You have some apples and a basket that can carry up to 5000 units of weight.
+
+// Given an integer array weight where weight[i] is the weight of the i^th apple, return the maximum number of apples you can put in the basket.
+
+// Example 1:
+//		 Input: weight = [100,200,150,1000]
+//		 Output: 4
+// Explanation: All 4 apples can be carried by the basket since their sum of weights is 1450.
+
+// Example 2:
+//		 Input: weight = [900,950,800,1000,700,800]
+//		 Output: 5
+// Explanation: The sum of weights of the 6 apples exceeds 5000 so we choose any 5 of them.
+
+// Constraints:
+//    1 <= weight.length <= 10^3
+//    1 <= weight[i] <= 10^3
+
+const maxNumberOfApples = (w) => {
+  let u = 0;
+  w.sort((a, b) => a - b);
+  for (let i = 0; i < w.length; i++) {
+    u += w[i];
+    if (u > 5000) return i;
+  }
+  return w.length;
+};
+console.log(maxNumberOfApples([100, 200, 150, 1000])); // 4
+console.log(maxNumberOfApples([900, 950, 800, 1000, 700, 800])); // 5
+
+// Clean
+
+const topVotedMaxNumberOfApples = function (arr) {
+  const sorted = arr.slice(0).sort((a, b) => a - b);
+  for (let i = 0, sum = sorted[0]; i < sorted.length; sum += sorted[++i]) {
+    if (sum > 5000) return i;
+  }
+  return arr.length;
+};
+
+// I like the 'sum += sorted[++i]' in the for loop definition
