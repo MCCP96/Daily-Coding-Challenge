@@ -15971,7 +15971,7 @@ console.log(countLetters("aaaaaaaaaa")); // 55
 // No time today */
 
 // How Many Apples Can You Put into the Basket          10/29/2022
-
+/* 
 // You have some apples and a basket that can carry up to 5000 units of weight.
 
 // Given an integer array weight where weight[i] is the weight of the i^th apple, return the maximum number of apples you can put in the basket.
@@ -16012,4 +16012,69 @@ const topVotedMaxNumberOfApples = function (arr) {
   return arr.length;
 };
 
-// I like the 'sum += sorted[++i]' in the for loop definition
+// I like the 'sum += sorted[++i]' in the for loop definition */
+
+// Intersection of Three Sorted Arrays          10/30/2022
+
+// Given three integer arrays arr1, arr2 and arr3sorted in strictly increasing order, return a sorted array of onlytheintegers that appeared in all three arrays.
+
+// Example 1:
+//		 Input: arr1 = [1,2,3,4,5], arr2 = [1,2,5,7,9], arr3 = [1,3,4,5,8]
+//		 Output: [1,5]
+// Explanation: Only 1 and 5 appeared in the three arrays.
+
+// Example 2:
+//		 Input: arr1 = [197,418,523,876,1356], arr2 = [501,880,1593,1710,1870], arr3 = [521,682,1337,1395,1764]
+//		 Output: []
+
+// Constraints:
+//    1 <= arr1.length, arr2.length, arr3.length <= 1000
+//    1 <= arr1[i], arr2[i], arr3[i] <= 2000
+
+const arraysIntersection = (a1, a2, a3) =>
+  a1.reduce((a, c) => {
+    if (a2.includes(c) && a3.includes(c)) a.push(c);
+    return a;
+  }, []);
+
+console.log(
+  arraysIntersection([1, 2, 3, 4, 5], [1, 2, 5, 7, 9], [1, 3, 4, 5, 8])
+); // [1,5]
+console.log(
+  arraysIntersection(
+    [197, 418, 523, 876, 1356],
+    [501, 880, 1593, 1710, 1870],
+    [521, 682, 1337, 1395, 1764]
+  )
+); // []
+
+// one line
+
+const topVotedArraysIntersection = function (arr1, arr2, arr3) {
+  let result = [];
+  const hashMap = {};
+
+  for (let i = 0; i < arr1.length; i++) {
+    hashMap[arr1[i]] = false;
+  }
+
+  for (let i = 0; i < arr2.length; i++) {
+    if (hashMap[arr2[i]] === false) {
+      hashMap[arr2[i]] = true;
+    }
+  }
+
+  for (let i = 0; i < arr3.length; i++) {
+    if (hashMap[arr3[i]] === true) {
+      result.push(arr3[i]);
+    }
+  }
+
+  return result;
+};
+
+// Same runtime
+
+// DAY 500
+// I'm half way through my first semester of software engineering. Technically, I should graduate in 3.75 years from now, so by day 1,869.
+// 500 doesn't seem like that many days now...
