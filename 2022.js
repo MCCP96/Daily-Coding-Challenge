@@ -16015,7 +16015,7 @@ const topVotedMaxNumberOfApples = function (arr) {
 // I like the 'sum += sorted[++i]' in the for loop definition */
 
 // Intersection of Three Sorted Arrays          10/30/2022
-
+/* 
 // Given three integer arrays arr1, arr2 and arr3sorted in strictly increasing order, return a sorted array of onlytheintegers that appeared in all three arrays.
 
 // Example 1:
@@ -16077,4 +16077,40 @@ const topVotedArraysIntersection = function (arr1, arr2, arr3) {
 
 // DAY 500
 // I'm half way through my first semester of software engineering. Technically, I should graduate in 3.75 years from now, so by day 1,869.
-// 500 doesn't seem like that many days now...
+// 500 doesn't seem like that many days now... */
+
+// Missing Number In Arithmetic Progression          10/31/2022
+
+// In some array arr, the values were in arithmetic progression: the values arr[i + 1] - arr[i] are all equal for every 0 <= i < arr.length - 1.
+
+// A value from arr was removed that was not the first or last value in the array.
+
+// Given arr, return the removed value.
+
+// Example 1:
+//		 Input: arr = [5,7,11,13]
+//		 Output: 9
+// Explanation: The previous array was [5,7,9,11,13].
+
+// Example 2:
+//		 Input: arr = [15,13,12]
+//		 Output: 14
+// Explanation: The previous array was [15,14,13,12].
+
+// Constraints:
+//    3 <= arr.length <= 1000
+//    0 <= arr[i] <= 10^5
+//    The given array is guaranteed to be a valid array.
+
+const missingNumber = (arr) => {
+  if (new Set(arr).size === 1) return arr[0];
+  const dif = (arr[arr.length - 1] - arr[0]) / arr.length;
+  for (let i = 1; i < arr.length; i++)
+    if (arr[i] - arr[i - 1] !== dif) return arr[i - 1] + dif;
+};
+console.log(missingNumber([5, 7, 11, 13])); // 9
+console.log(missingNumber([15, 13, 12])); // 14
+console.log(missingNumber([0, 0, 0])); // 0
+
+// Works
+// Same as top voted
