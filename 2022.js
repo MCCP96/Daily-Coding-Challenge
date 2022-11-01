@@ -16080,7 +16080,7 @@ const topVotedArraysIntersection = function (arr1, arr2, arr3) {
 // 500 doesn't seem like that many days now... */
 
 // Missing Number In Arithmetic Progression          10/31/2022
-
+/* 
 // In some array arr, the values were in arithmetic progression: the values arr[i + 1] - arr[i] are all equal for every 0 <= i < arr.length - 1.
 
 // A value from arr was removed that was not the first or last value in the array.
@@ -16113,4 +16113,80 @@ console.log(missingNumber([15, 13, 12])); // 14
 console.log(missingNumber([0, 0, 0])); // 0
 
 // Works
-// Same as top voted
+// Same as top voted */
+
+// Array Transformation          11/1/2022
+
+// Given an initial array arr, every day you produce a new array using the array of the previous day.
+
+// On the i-th day, you do the following operations on the array of dayi-1 to produce the array of day i:
+// If an element is smaller than both its left neighbor and its right neighbor, then this element is incremented.
+// If an element is bigger than both its left neighbor and its right neighbor, then this element is decremented.
+// The firstand last elements never change.
+
+// After some days, the array does not change. Return that final array.
+
+// Example 1:
+//		 Input: arr = [6,2,3,4]
+//		 Output: [6,3,3,4]
+// Explanation:
+// On the first day, the array is changed from [6,2,3,4] to [6,3,3,4].
+// No more operations can be done to this array.
+
+// Example 2:
+//		 Input: arr = [1,6,3,4,3,5]
+//		 Output: [1,4,4,4,4,5]
+// Explanation:
+// On the first day, the array is changed from [1,6,3,4,3,5] to [1,5,4,3,4,5].
+// On the second day, the array is changed from [1,5,4,3,4,5] to [1,4,4,4,4,5].
+// No more operations can be done to this array.
+
+// Constraints:
+//    3 <= arr.length <= 100
+//    1 <= arr[i] <= 100
+
+const transformArray = (arr, final = false) => {
+  while (!final) {
+    final = true;
+    let ans = [arr[0]];
+    for (let i = 1; i < arr.length - 1; i++) {
+      if (arr[i] < arr[i - 1] && arr[i] < arr[i + 1])
+        (ans[i] = arr[i] + 1), (final = false);
+      else if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1])
+        (ans[i] = arr[i] - 1), (final = false);
+      else ans[i] = arr[i];
+    }
+    ans.push(arr[arr.length - 1]);
+    arr = ans;
+  }
+  return arr;
+};
+console.log(transformArray([6, 2, 3, 4])); // [6,3,3,4]
+console.log(transformArray([1, 6, 3, 4, 3, 5])); // [1,4,4,4,4,5]
+console.log(transformArray([2, 1, 2, 1, 1, 2, 2, 1])); // [2,2,1,1,1,2,2,1]
+
+// Great memory, not so great runtime
+
+const topVotedTransformArray = function (arr) {
+  let set = true;
+  while (set) {
+    let dif = 0;
+    const ans = Array(arr.length - 1).fill(0);
+    for (i = 0; i < arr.length; i++) {
+      if (i == 0 || i == arr.length - 1) {
+        ans[i] = arr[i];
+      } else if (arr[i] < arr[i - 1] && arr[i] < arr[i + 1]) {
+        ans[i] = arr[i] + 1;
+        dif++;
+      } else if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+        ans[i] = arr[i] - 1;
+        dif++;
+      } else {
+        ans[i] = arr[i];
+      }
+    }
+    arr = ans;
+    if (!dif) set = false;
+  }
+  return arr;
+};
