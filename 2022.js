@@ -16116,7 +16116,7 @@ console.log(missingNumber([0, 0, 0])); // 0
 // Same as top voted */
 
 // Array Transformation          11/1/2022
-
+/* 
 // Given an initial array arr, every day you produce a new array using the array of the previous day.
 
 // On the i-th day, you do the following operations on the array of dayi-1 to produce the array of day i:
@@ -16189,4 +16189,73 @@ const topVotedTransformArray = function (arr) {
     if (!dif) set = false;
   }
   return arr;
+}; */
+
+// Hexspeak          11/2/2022
+
+// A decimal number can be converted to its Hexspeak representation by first converting it to an uppercase hexadecimal string, then replacing all occurrences of the digit '0' with the letter 'O', and the digit '1' with the letter 'I'. Such a representation is valid if and only if it consists only of the letters in the set {'A', 'B', 'C', 'D', 'E', 'F', 'I', 'O'}.
+
+// Given a string num representing a decimal integer n, return the Hexspeak representation of n if it is valid, otherwise return "ERROR".
+
+// Example 1:
+//		 Input: num = "257"
+//		 Output: "IOI"
+// Explanation: 257 is 101 in hexadecimal.
+
+// Example 2:
+//		 Input: num = "3"
+//		 Output: "ERROR"
+
+// Constraints:
+//    1 <= num.length <= 12
+//    num does not contain leading zeros.
+//    num represents an integer in the range [1, 10^12].
+
+const toHexspeak = (num, ans = "") => {
+  const hex = [...Number(num).toString(16).toUpperCase()];
+  for (let i = 0; i < hex.length; i++) {
+    switch (hex[i]) {
+      case "1":
+        ans += "I";
+        break;
+      case "0":
+        ans += "O";
+        break;
+      default:
+        if (+hex[i] <= 9) return "ERROR";
+        ans += hex[i];
+        break;
+    }
+  }
+  return ans;
+};
+
+console.log(toHexspeak("257")); // "IOI"
+console.log(toHexspeak("3")); // "ERROR"
+
+// Faster than 100% runtimes
+
+const topVotedToHexspeak = function (num) {
+  const map = {
+    0: "O",
+    1: "I",
+    10: "A",
+    11: "B",
+    12: "C",
+    13: "D",
+    14: "E",
+    15: "F",
+  };
+  let res = "";
+
+  while (num > 0) {
+    const rem = num % 16;
+
+    if (!map[rem]) return "ERROR";
+
+    res = map[rem] + res;
+    num = Math.floor(num / 16);
+  }
+
+  return res;
 };
