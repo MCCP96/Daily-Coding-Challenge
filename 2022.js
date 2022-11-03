@@ -16192,7 +16192,7 @@ const topVotedTransformArray = function (arr) {
 }; */
 
 // Hexspeak          11/2/2022
-
+/* 
 // A decimal number can be converted to its Hexspeak representation by first converting it to an uppercase hexadecimal string, then replacing all occurrences of the digit '0' with the letter 'O', and the digit '1' with the letter 'I'. Such a representation is valid if and only if it consists only of the letters in the set {'A', 'B', 'C', 'D', 'E', 'F', 'I', 'O'}.
 
 // Given a string num representing a decimal integer n, return the Hexspeak representation of n if it is valid, otherwise return "ERROR".
@@ -16258,4 +16258,39 @@ const topVotedToHexspeak = function (num) {
   }
 
   return res;
+}; */
+
+// Counting Elements          11/3/2022
+
+// Given an integer array arr, count how many elements x there are, such that x + 1 is also in arr. If there are duplicates in arr, count them separately.
+
+// Example 1:
+//		 Input: arr = [1,2,3]
+//		 Output: 2
+// Explanation: 1 and 2 are counted cause 2 and 3 are in arr.
+
+// Example 2:
+//		 Input: arr = [1,1,3,3,5,5,7,7]
+//		 Output: 0
+// Explanation: No numbers are counted, cause there is no 2, 4, 6, or 8 in arr.
+
+// Constraints:
+//    1 <= arr.length <= 1000
+//    0 <= arr[i] <= 1000
+
+const countElements = (arr) =>
+  arr.reduce((a, c) => (arr.includes(c + 1) ? ++a : a), 0);
+
+console.log(countElements([1, 2, 3])); // 2
+console.log(countElements([1, 1, 3, 3, 5, 5, 7, 7])); // 0
+
+// Works
+
+const topVotedCountElements = (arr) => {
+  let uniqueNums = new Set(arr);
+  let count = 0;
+  arr.forEach((num) => {
+    if (uniqueNums.has(num + 1)) count++;
+  });
+  return count;
 };
