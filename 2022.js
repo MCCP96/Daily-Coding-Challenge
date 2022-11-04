@@ -16261,7 +16261,7 @@ const topVotedToHexspeak = function (num) {
 }; */
 
 // Counting Elements          11/3/2022
-
+/* 
 // Given an integer array arr, count how many elements x there are, such that x + 1 is also in arr. If there are duplicates in arr, count them separately.
 
 // Example 1:
@@ -16293,4 +16293,73 @@ const topVotedCountElements = (arr) => {
     if (uniqueNums.has(num + 1)) count++;
   });
   return count;
+}; */
+
+// Perform String Shifts          11/4/2022
+
+// You are given a string s containing lowercase English letters, and a matrix shift, where shift[i] = [directioni, amounti]:	directioni can be 0 (for left shift) or 1 (for right shift).	amounti is the amount by which string s is to be shifted.	A left shift by 1 means remove the first character of s and append it to the end.	Similarly, a right shift by 1 means remove the last character of s and add it to the beginning.
+
+// Return the final string after all operations.
+
+// Example 1:
+//		 Input: s = "abc", shift = [[0,1],[1,2]]
+//		 Output: "cab"
+// Explanation:
+// [0,1] means shift to left by 1. "abc" -> "bca"
+// [1,2] means shift to right by 2. "bca" -> "cab"
+
+// Example 2:
+//		 Input: s = "abcdefg", shift = [[1,1],[1,1],[0,2],[1,3]]
+//		 Output: "efgabcd"
+// Explanation:
+// [1,1] means shift to right by 1. "abcdefg" -> "gabcdef"
+// [1,1] means shift to right by 1. "gabcdef" -> "fgabcde"
+// [0,2] means shift to left by 2. "fgabcde" -> "abcdefg"
+// [1,3] means shift to right by 3. "abcdefg" -> "efgabcd"
+
+// Constraints:
+//    1 <= s.length <= 100
+//    s only contains lower case English letters.
+//    1 <= shift.length <= 100
+//    shift[i].length == 2
+//    directioni is either 0 or 1.
+//    0 <= amounti <= 100
+
+const stringShift = (s, shift) =>
+  shift.reduce((a, c) => {
+    let [dir, count] = c;
+    if (count >= s.length) count = count % s.length;
+    return dir
+      ? a.substring(a.length - count) + a.substring(0, a.length - count)
+      : a.substring(count) + a.substring(0, count);
+  }, s);
+
+// prettier-ignore
+console.log(stringShift("abc", [[0, 1],[1, 2]])); // "cab"
+// prettier-ignore
+console.log(stringShift("abcdefg", [[1, 1],[1, 1],[0, 2],[1, 3]])); // "efgabcd"
+console.log(stringShift("abc", [[0, 4]])); // "bca"
+// prettier-ignore
+console.log(stringShift("mecsk",[[1,15],[0,10],[0,13],[1,24],[1,31]])); // "skmec"
+
+// Some test cases were causing trouble, but 'count % s.length' fixed it
+
+const topVotedStringShift = (s, shift) => {
+  let arr = s.split("");
+  for (let [d, a] of shift) {
+    if (d === 0) {
+      while (a > 0) {
+        let res = arr.shift();
+        arr.push(res);
+        a--;
+      }
+    } else {
+      while (a > 0) {
+        let res = arr.pop();
+        arr.unshift(res);
+        a--;
+      }
+    }
+  }
+  return arr.join("");
 };
