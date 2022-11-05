@@ -16296,7 +16296,7 @@ const topVotedCountElements = (arr) => {
 }; */
 
 // Perform String Shifts          11/4/2022
-
+/* 
 // You are given a string s containing lowercase English letters, and a matrix shift, where shift[i] = [directioni, amounti]:	directioni can be 0 (for left shift) or 1 (for right shift).	amounti is the amount by which string s is to be shifted.	A left shift by 1 means remove the first character of s and append it to the end.	Similarly, a right shift by 1 means remove the last character of s and add it to the beginning.
 
 // Return the final string after all operations.
@@ -16362,4 +16362,70 @@ const topVotedStringShift = (s, shift) => {
     }
   }
   return arr.join("");
+}; */
+
+// Largest Subarray Length K          11/5/2022
+
+// An array A is larger than some array B if for the first index i where A[i] != B[i], A[i] > B[i].
+
+// For example, consider 0-indexing:	[1,3,2,4] > [1,2,2,4], since at index 1, 3 > 2.	[1,4,4,4] < [2,1,1,1], since at index 0, 1 < 2.
+
+// A subarray is a contiguous subsequence of the array.
+
+// Given an integer array nums of distinct integers, return the largest subarray of nums of length k.
+
+// Example 1:
+//		 Input: nums = [1,4,5,2,3], k = 3
+//		 Output: [5,2,3]
+// Explanation: The subarrays of size 3 are: [1,4,5], [4,5,2], and [5,2,3].
+// Of these, [5,2,3] is the largest.
+
+// Example 2:
+//		 Input: nums = [1,4,5,2,3], k = 4
+//		 Output: [4,5,2,3]
+// Explanation: The subarrays of size 4 are: [1,4,5,2], and [4,5,2,3].
+// Of these, [4,5,2,3] is the largest.
+
+// Example 3:
+//		 Input: nums = [1,4,5,2,3], k = 1
+//		 Output: [5]
+
+// Constraints:
+//    1 <= k <= nums.length <= 10^5
+//    1 <= nums[i] <= 10^9
+//    All the integers of nums are unique.
+
+const largestSubarray = (nums, k) => {
+  let ans = nums.slice(0, k);
+  for (let i = 1; i <= nums.length - k; i++) {
+    const cur = nums.slice(i, i + k);
+    for (let j = 0; j < cur.length; j++) {
+      if (ans[j] != cur[j]) {
+        ans = ans[j] < cur[j] ? cur : ans;
+        break;
+      }
+    }
+  }
+  return ans;
+};
+console.log(largestSubarray([1, 4, 5, 2, 3], 3)); // [5,2,3]
+console.log(largestSubarray([1, 4, 5, 2, 3], 4)); // [4,5,2,3]
+console.log(largestSubarray([1, 4, 5, 2, 3], 1)); // [5]
+
+// Time limit exceeded
+
+const topVotedLargestSubarray = function (nums, k) {
+  if (nums === null || nums.length === 0 || k <= 0 || k > nums.length) {
+    return [];
+  }
+  let max = -Infinity;
+  let idx = -1;
+  let numOfPossibleSubarrs = nums.length - k + 1;
+  for (let i = 0; i < numOfPossibleSubarrs; i++) {
+    if (nums[i] > max) {
+      max = Math.max(max, nums[i]);
+      idx = i;
+    }
+  }
+  return nums.slice(idx, idx + k);
 };
