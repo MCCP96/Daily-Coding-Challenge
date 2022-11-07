@@ -16431,7 +16431,7 @@ const topVotedLargestSubarray = function (nums, k) {
 }; */
 
 // Faulty Sensor          11/6/2022
-
+/* 
 // An experiment is being conducted in a lab. To ensure accuracy, there are two sensors collecting data simultaneously. You are given two arrays sensor1 and sensor2, where sensor1[i] and sensor2[i] are the i^th data points collected by the two sensors.
 
 // However, this type of sensor has a chance of being defective, which causes exactly one data point to be dropped. After the data is dropped, all the data points to the right of the dropped data are shifted one place to the left, and the last data point is replaced with some random value. It is guaranteed that this random value will not be equal to the dropped value.	For example, if the correct data is [1,2,3,4,5] and 3 is dropped, the sensor could return [1,2,4,5,7] (the last position can be any value, not just 7).
@@ -16479,4 +16479,43 @@ console.log(badSensor([2, 2, 2, 2, 2], [2, 2, 2, 2, 5])); // -1
 console.log(badSensor([2, 3, 2, 2, 3, 2], [2, 3, 2, 3, 2, 7])); // 2
 
 // Unclear description
-// Skipping this one
+// Skipping this one */
+
+// Check if String Is Decomposable Into Value-Equal Substrings          11/7/2022
+
+// A value-equal string is a string where all characters are the same.	For example, "1111" and "33" are value-equal strings.	In contrast, "123" is not a value-equal string.
+
+// Given a digit string s, decompose the string into some number of consecutive value-equal substrings where exactly one substring has a length of 2 and the remaining substrings have a length of 3.
+
+// Return true if you can decompose s according to the above rules. Otherwise, return false.
+
+// A substring is a contiguous sequence of characters in a string.
+
+// Example 1:
+//		 Input: s = "000111000"
+//		 Output: false
+// Explanation: s cannot be decomposed according to the rules because ["000", "111", "000"] does not have a substring of length 2.
+
+// Example 2:
+//		 Input: s = "00011111222"
+//		 Output: true
+// Explanation: s can be decomposed into ["000", "111", "11", "222"].
+
+// Example 3:
+//		 Input: s = "011100022233"
+//		 Output: false
+// Explanation: s cannot be decomposed according to the rules because of the first '0'.
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    s consists of only digits '0' through '9'.
+
+const isDecomposable = (s) => {
+  s = s.match(/(.)\1*/g).filter((x) => x.length % 3 !== 0);
+  return s.length === 1 ? s.pop().length % 3 == 2 : false;
+};
+console.log(isDecomposable("000111000")); // false
+console.log(isDecomposable("00011111222")); // true
+console.log(isDecomposable("011100022233")); // false
+console.log(isDecomposable("66666666666677722")); // true
+console.log(isDecomposable("22222222222222222222222")); // true
