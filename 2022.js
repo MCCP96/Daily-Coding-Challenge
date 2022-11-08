@@ -16482,7 +16482,7 @@ console.log(badSensor([2, 3, 2, 2, 3, 2], [2, 3, 2, 3, 2, 7])); // 2
 // Skipping this one */
 
 // Check if String Is Decomposable Into Value-Equal Substrings          11/7/2022
-
+/* 
 // A value-equal string is a string where all characters are the same.	For example, "1111" and "33" are value-equal strings.	In contrast, "123" is not a value-equal string.
 
 // Given a digit string s, decompose the string into some number of consecutive value-equal substrings where exactly one substring has a length of 2 and the remaining substrings have a length of 3.
@@ -16511,11 +16511,67 @@ console.log(badSensor([2, 3, 2, 2, 3, 2], [2, 3, 2, 3, 2, 7])); // 2
 //    s consists of only digits '0' through '9'.
 
 const isDecomposable = (s) => {
-  s = s.match(/(.)\1*/g).filter((x) => x.length % 3 !== 0);
+  s = s.match(/(.)\1* /g).filter((x) => x.length % 3 !== 0);
   return s.length === 1 ? s.pop().length % 3 == 2 : false;
 };
 console.log(isDecomposable("000111000")); // false
 console.log(isDecomposable("00011111222")); // true
 console.log(isDecomposable("011100022233")); // false
 console.log(isDecomposable("66666666666677722")); // true
-console.log(isDecomposable("22222222222222222222222")); // true
+console.log(isDecomposable("22222222222222222222222")); // true */
+
+// Check if an Array Is Consecutive          11/8/2022
+
+// Given an integer array nums, return true if nums is consecutive, otherwise return false.
+
+// An array is consecutive if it contains every number in the range [x, x + n - 1] (inclusive), where x is the minimum number in the array and n is the length of the array.
+
+// Example 1:
+//		 Input: nums = [1,3,4,2]
+//		 Output: true
+// Explanation:
+// The minimum value is 1 and the length of nums is 4.
+// All of the values in the range [x, x + n - 1] = [1, 1 + 4 - 1] = [1, 4] = (1, 2, 3, 4) occur in nums.
+// Therefore, nums is consecutive.
+
+// Example 2:
+//		 Input: nums = [1,3]
+//		 Output: false
+// Explanation:
+// The minimum value is 1 and the length of nums is 2.
+// The value 2 in the range [x, x + n - 1] = [1, 1 + 2 - 1], = [1, 2] = (1, 2) does not occur in nums.
+// Therefore, nums is not consecutive.
+
+// Example 3:
+//		 Input: nums = [3,5,4]
+//		 Output: true
+// Explanation:
+// The minimum value is 3 and the length of nums is 3.
+// All of the values in the range [x, x + n - 1] = [3, 3 + 3 - 1] = [3, 5] = (3, 4, 5) occur in nums.
+// Therefore, nums is consecutive.
+
+// Constraints:
+//    1 <= nums.length <= 10^5
+//    0 <= nums[i] <= 10^5
+
+const isConsecutive = (nums) => {
+  nums.sort((a, b) => a - b);
+  for (let i = nums[0]; i <= nums[0] + nums.length - 1; i++)
+    if (!nums.includes(i)) return false;
+  return true;
+};
+console.log(isConsecutive([1, 3, 4, 2])); // true
+console.log(isConsecutive([1, 3])); // false
+console.log(isConsecutive([3, 5, 4])); // true
+
+// Runtime exceeded
+
+const topVotedIsConsecutive = (nums) => {
+  if (nums.length === 1) return true;
+  let numSet = new Set(nums);
+  if (numSet.size !== nums.length) return false;
+  let min = Math.min(...nums);
+  for (let i = min + 1; i <= min + nums.length - 1; i++)
+    if (!numSet.has(i)) return false;
+  return true;
+};
