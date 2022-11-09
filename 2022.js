@@ -16521,7 +16521,7 @@ console.log(isDecomposable("66666666666677722")); // true
 console.log(isDecomposable("22222222222222222222222")); // true */
 
 // Check if an Array Is Consecutive          11/8/2022
-
+/* 
 // Given an integer array nums, return true if nums is consecutive, otherwise return false.
 
 // An array is consecutive if it contains every number in the range [x, x + n - 1] (inclusive), where x is the minimum number in the array and n is the length of the array.
@@ -16574,4 +16574,64 @@ const topVotedIsConsecutive = (nums) => {
   for (let i = min + 1; i <= min + nums.length - 1; i++)
     if (!numSet.has(i)) return false;
   return true;
+}; */
+
+// Determine if Two Events Have Conflict          11/9/2022
+
+// You are given two arrays of strings that represent two inclusive events that happened on the same day, event1 and event2, where:	event1 = [startTime1, endTime1] and	event2 = [startTime2, endTime2].
+
+// Event times are valid 24 hours format in the form of HH:MM.
+
+// A conflict happens when two events have some non-empty intersection (i.e., some moment is common to both events).
+
+// Return true if there is a conflict between two events. Otherwise, return false.
+
+// Example 1:
+//		 Input: event1 = ["01:15","02:00"], event2 = ["02:00","03:00"]
+//		 Output: true
+// Explanation: The two events intersect at time 2:00.
+
+// Example 2:
+//		 Input: event1 = ["01:00","02:00"], event2 = ["01:20","03:00"]
+//		 Output: true
+// Explanation: The two events intersect starting from 01:20 to 02:00.
+
+// Example 3:
+//		 Input: event1 = ["10:00","11:00"], event2 = ["14:00","15:00"]
+//		 Output: false
+// Explanation: The two events do not intersect.
+
+// Constraints:
+//    evnet1.length == event2.length == 2.
+//    event1[i].length == event2[i].length == 5
+//    startTime1 <= endTime1
+//    startTime2 <= endTime2
+//    All the event times follow the HH:MM format.
+
+const haveConflict = (event1, event2) => {
+  const createDate = (d) =>
+    new Date("2022", "1", "1", d.substring(0, 2), d.substring(3, 5));
+  const e1 = [createDate(event1[0]), createDate(event1[1])];
+  const e2 = [createDate(event2[0]), createDate(event2[1])];
+  if ((e1[0] >= e2[0] && e1[0] <= e2[1]) || (e1[1] >= e2[0] && e1[1] <= e2[1]))
+    return true;
+  if ((e2[0] >= e1[0] && e2[0] <= e1[1]) || (e2[1] >= e1[0] && e2[1] <= e1[1]))
+    return true;
+  return false;
 };
+console.log(haveConflict(["01:15", "02:00"], ["02:00", "03:00"])); // true
+console.log(haveConflict(["01:00", "02:00"], ["01:20", "03:00"])); // true
+console.log(haveConflict(["10:00", "11:00"], ["14:00", "15:00"])); // false
+
+// Bulky, but faster than most runtimes
+
+const topVotedHaveConflict = function (event1, event2) {
+  return (
+    (event1[0] <= event2[0] && event2[0] <= event1[1]) ||
+    (event1[0] <= event2[1] && event2[1] <= event1[1]) ||
+    (event2[0] <= event1[0] && event1[0] <= event2[1]) ||
+    (event2[0] <= event1[1] && event1[1] <= event2[1])
+  );
+};
+
+// Much simpler
