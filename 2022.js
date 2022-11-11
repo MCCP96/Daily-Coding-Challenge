@@ -16637,7 +16637,7 @@ const topVotedHaveConflict = function (event1, event2) {
 // Much simpler */
 
 // The Employee That Worked on the Longest Task          11/10/2022
-
+/* 
 // There are n employees, each with a unique id from 0 to n - 1.
 
 // You are given a 2D integer array logs where logs[i] = [idi, leaveTimei] where:	idi is the id of the employee that worked on the i^th task, and	leaveTimei is the time at which the employee finished the i^th task. All the values leaveTimei are unique.
@@ -16716,4 +16716,52 @@ const topVotedHardestWorker = function (n, logs) {
     }
   }
   return id;
+}; */
+
+// Number of Valid Clock Times          11/11/2022
+
+// You are given a string of length 5 called time, representing the current time on a digital clock in the format "hh:mm". The earliest possible time is "00:00" and the latest possible time is "23:59".
+
+// In the string time, the digits represented by the ?symbol are unknown, and must be replaced with a digit from 0 to 9.
+
+// Return an integer answer, the number of valid clock times that can be created by replacing every ?with a digit from 0 to 9.
+
+// Example 1:
+//		 Input: time = "?5:00"
+//		 Output: 2
+// Explanation: We can replace the ? with either a 0 or 1, producing "05:00" or "15:00". Note that we cannot replace it with a 2, since the time "25:00" is invalid. In total, we have two choices.
+
+// Example 2:
+//		 Input: time = "0?:0?"
+//		 Output: 100
+// Explanation: Each ? can be replaced by any digit from 0 to 9, so we have 100 total choices.
+
+// Example 3:
+//		 Input: time = "??:??"
+//		 Output: 1440
+// Explanation: There are 24 possible choices for the hours, and 60 possible choices for the minutes. In total, we have 24 * 60 = 1440 choices.
+
+// Constraints:
+//    time is a valid string of length 5 in the format "hh:mm".
+//    "00" <= hh <= "23"
+//    "00" <= mm <= "59"
+//    Some of the digits might be replaced with '?' and need to be replaced with digits from 0 to 9.
+
+const topVotedCountTime = (t) => {
+  let [h, m] = t.split(":");
+  let ans = [];
+  if (h == "??") ans.push(24);
+  else {
+    if (h[0] == "?") h[1] > 3 ? ans.push(2) : ans.push(3);
+    if (h[1] == "?") h[0] == 2 ? ans.push(4) : ans.push(10);
+  }
+  if (m[0] == "?") ans.push(6);
+  if (m[1] == "?") ans.push(10);
+  return ans.reduce((a, b) => a * b, 1);
 };
+console.log(countTime("?5:00")); // 2
+console.log(countTime("0?:0?")); // 100
+console.log(countTime("??:??")); // 1440
+
+// Couldn't figure out hrs^mins
+// Ended up looking at top voted
