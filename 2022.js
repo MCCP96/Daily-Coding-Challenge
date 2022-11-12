@@ -16719,7 +16719,7 @@ const topVotedHardestWorker = function (n, logs) {
 }; */
 
 // Number of Valid Clock Times          11/11/2022
-
+/* 
 // You are given a string of length 5 called time, representing the current time on a digital clock in the format "hh:mm". The earliest possible time is "00:00" and the latest possible time is "23:59".
 
 // In the string time, the digits represented by the ?symbol are unknown, and must be replaced with a digit from 0 to 9.
@@ -16764,4 +16764,70 @@ console.log(countTime("0?:0?")); // 100
 console.log(countTime("??:??")); // 1440
 
 // Couldn't figure out hrs^mins
-// Ended up looking at top voted
+// Ended up looking at top voted */
+
+// Odd String Difference          11/12/2022
+
+// You are given an array of equal-length strings words. Assume that the length of each string is n.
+
+// Each string words[i] can be converted into a difference integer array difference[i] of length n - 1 where difference[i][j] = words[i][j+1] - words[i][j] where 0 <= j <= n - 2. Note that the difference between two letters is the difference between their positions in the alphabet i.e.the position of 'a' is 0, 'b' is 1, and 'z' is 25.	For example, for the string "acb", the difference integer array is [2 - 0, 1 - 2] = [2, -1].
+
+// All the strings in words have the same difference integer array, except one. You should find that string.
+
+// Return the string in words that has different difference integer array.
+
+// Example 1:
+//		 Input: words = ["adc","wzy","abc"]
+//		 Output: "abc"
+// Explanation:
+// - The difference integer array of "adc" is [3 - 0, 2 - 3] = [3, -1].
+// - The difference integer array of "wzy" is [25 - 22, 24 - 25]= [3, -1].
+// - The difference integer array of "abc" is [1 - 0, 2 - 1] = [1, 1].
+// The odd array out is [1, 1], so we return the corresponding string, "abc".
+
+// Example 2:
+//		 Input: words = ["aaa","bob","ccc","ddd"]
+//		 Output: "bob"
+// Explanation: All the integer arrays are [0, 0] except for "bob", which corresponds to [13, -13].
+
+// Constraints:
+//    3 <= words.length <= 100
+//    n == words[i].length
+//    2 <= n <= 20
+//    words[i] consists of lowercase English letters.
+
+const oddString = (words) => {
+  const dif = words.map((c, i) => {
+    let cur = [];
+    for (let i = 1; i < c.length; i++) {
+      cur.push(c.charCodeAt(i) - c.charCodeAt(i - 1));
+    }
+    return cur;
+  });
+  console.log(dif);
+};
+console.log(oddString(["adc", "wzy", "abc"])); // "abc"
+console.log(oddString(["aaa", "bob", "ccc", "ddd"])); // "bob"
+
+// Got this far but have to leave
+// Going to a wedding!
+
+const topVotedOddString = function (words) {
+  const map = {};
+  const ans = {};
+
+  for (const word of words) {
+    let key = "";
+    for (let i = 1; i < word.length; i++) {
+      key += `_${word[i].charCodeAt() - word[i - 1].charCodeAt()}`;
+    }
+    map[key] = ++map[key] || 1;
+    ans[key] = word;
+  }
+
+  const key = Object.keys(map).find((e) => map[e] === 1);
+
+  return ans[key];
+};
+
+// Good call using a map
