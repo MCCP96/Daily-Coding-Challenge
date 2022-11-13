@@ -16767,7 +16767,7 @@ console.log(countTime("??:??")); // 1440
 // Ended up looking at top voted */
 
 // Odd String Difference          11/12/2022
-
+/* 
 // You are given an array of equal-length strings words. Assume that the length of each string is n.
 
 // Each string words[i] can be converted into a difference integer array difference[i] of length n - 1 where difference[i][j] = words[i][j+1] - words[i][j] where 0 <= j <= n - 2. Note that the difference between two letters is the difference between their positions in the alphabet i.e.the position of 'a' is 0, 'b' is 1, and 'z' is 25.	For example, for the string "acb", the difference integer array is [2 - 0, 1 - 2] = [2, -1].
@@ -16830,4 +16830,43 @@ const topVotedOddString = function (words) {
   return ans[key];
 };
 
-// Good call using a map
+// Good call using a map */
+
+// Average Value of Even Numbers That Are Divisible by Three          11/13/2022
+
+// Given an integer array nums of positive integers, return the average value of all even integers that are divisible by 3.
+
+// Note that the average of n elements is the sum of the n elements divided by n and rounded down to the nearest integer.
+
+// Example 1:
+//		 Input: nums = [1,3,6,10,12,15]
+//		 Output: 9
+// Explanation: 6 and 12 are even numbers that are divisible by 3. (6 + 12) / 2 = 9.
+
+// Example 2:
+//		 Input: nums = [1,2,4,7,10]
+//		 Output: 0
+// Explanation: There is no single number that satisfies the requirement, so return 0.
+
+// Constraints:
+//    1 <= nums.length <= 1000
+//    1 <= nums[i] <= 1000
+
+const averageValue = (nums) =>
+  nums.reduce((a, c) => (a += c % 3 === 0 && c % 2 === 0 ? c : 0), 0) /
+    nums.filter((x) => x % 3 === 0 && x % 2 === 0).length || 0;
+
+console.log(averageValue([1, 3, 6, 10, 12, 15])); // 9
+console.log(averageValue([1, 2, 4, 7, 10])); // 0
+
+const topVotedAverageValue = function (nums) {
+  let sum = 0;
+  let count = 0;
+  for (let n of nums) {
+    if (n % 6 === 0) {
+      sum += n;
+      count++;
+    }
+  }
+  return sum === 0 ? sum : Math.floor(sum / count);
+};
