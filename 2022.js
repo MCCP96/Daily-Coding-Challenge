@@ -16924,7 +16924,7 @@ const topVotedApplyOperations = function (nums) {
 // '!a - !b' is what I was looking for */
 
 // Number of Distinct Averages          11/15/2022
-
+/* 
 // You are given a 0-indexed integer array nums of even length.
 
 // As long as nums is not empty, you must repetitively:	Find the minimum number in nums and remove it.	Find the maximum number in nums and remove it.	Calculate the average of the two removed numbers.
@@ -16968,4 +16968,36 @@ console.log(distinctAverages([4, 1, 4, 0, 3, 5])); // 2
 console.log(distinctAverages([1, 100])); // 1
 
 // Ok runtime
-// Same as top voted
+// Same as top voted */
+
+// Count Numbers with Unique Digits          11/16/2022
+
+// Given an integer n, return the count of all numbers with unique digits, x, where 0 <= x < 10^n.
+
+// Example 1:
+//		 Input: n = 2
+//		 Output: 91
+// Explanation: The answer should be the total numbers in the range of 0 ≤ x < 100, excluding 11,22,33,44,55,66,77,88,99
+
+// Example 2:
+//		 Input: n = 0
+//		 Output: 1
+
+// Constraints:
+//    0 <= n <= 8
+
+const topVotedCountNumbersWithUniqueDigits = (n) => {
+  if (n == 0) return 1;
+  if (n == 1) return 10;
+  let k = 9;
+  for (let i = 0; i < n - 1; i++) {
+    k *= 9 - i;
+  }
+  return k + countNumbersWithUniqueDigits(n - 1);
+};
+
+console.log(countNumbersWithUniqueDigits(3)); // 739
+console.log(countNumbersWithUniqueDigits(2)); // 91
+console.log(countNumbersWithUniqueDigits(0)); // 1
+
+// Math solution
