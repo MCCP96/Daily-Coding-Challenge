@@ -17033,7 +17033,7 @@ console.log(convertTemperature(122.11)); // [395.26000,251.79800]
 // Same as top voted */
 
 // Same Tree          11/18/2022
-
+/* 
 // Given the roots of two binary trees p and q, write a function to check if they are the same or not.
 
 // Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
@@ -17079,4 +17079,72 @@ function topVotedIsSameTree(p, q) {
 
 // Seems I'd attempted this question a year ago and commented that I should learn binary trees lol
 
-// I will learn to do these questions and prototype questions over winter break (Dec 19th), After my last final exam
+// I will learn to do these questions and prototype questions over winter break (Dec 19th), After my last final exam */
+
+// Sort Colors          11/19/2022
+
+// Given an array nums with n objects colored red, white, or blue, sort them https://en.wikipedia.org/wiki/In-place_algorithm so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+// We will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.
+
+// You must solve this problem without using the library's sort function.
+
+// Constraints:	n == nums.length	1 <= n <= 300	nums[i] is either 0, 1, or 2.
+
+// Example 1:
+//		 Input: nums = [2,0,2,1,1,0]
+//		 Output: [0,0,1,1,2,2]
+
+// Example 2:
+//		 Input: nums = [2,0,1]
+//		 Output: [0,1,2]
+
+// Constraints:
+//    n == nums.length
+//    1 <= n <= 300
+//    nums[i] is either 0, 1, or 2.
+
+const sortColors = (nums) => {
+  for (let i = 0; i < nums.length - 1; i++) {
+    if (nums[i] > nums[i + 1]) {
+      [nums[i], nums[i + 1]] = [nums[i + 1], nums[i]];
+      sortColors(nums);
+    }
+  }
+  return nums;
+};
+console.log(sortColors([2, 0, 2, 1, 1, 0])); // [0,0,1,1,2,2]
+console.log(sortColors([2, 0, 1])); // [0,1,2]
+
+// Bad runtime
+
+const topVotedSortColors = function (arr) {
+  let one = 0,
+    zero = 0,
+    two = 0;
+
+  for (let elem of arr) {
+    if (elem == 0) zero++;
+    else if (elem == 1) one++;
+    else two++;
+  }
+
+  arr.length = 0;
+
+  for (let i = 0; i < zero; i++) arr.push(0);
+  for (let i = 0; i < one; i++) arr.push(1);
+  for (let i = 0; i < two; i++) arr.push(2);
+};
+
+// Smart to count them then recreate the array
+
+const revisedSortColors = (nums) => {
+  const count = nums.reduce((a, c) => {
+    a[c] ? a[c]++ : (a[c] = 1);
+    return a;
+  }, {});
+  return Object.entries(count).reduce(
+    (a, c) => [...a, ...Array(c[1]).fill(+c[0])],
+    []
+  );
+};
