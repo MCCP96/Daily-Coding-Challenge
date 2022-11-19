@@ -17003,7 +17003,7 @@ console.log(countNumbersWithUniqueDigits(0)); // 1
 // Math solution */
 
 // Convert the Temperature          11/17/2022
-
+/* 
 // You are given a non-negative floating point number rounded to two decimal places celsius, that denotes the temperature in Celsius.
 
 // You should convert Celsius into Kelvin and Fahrenheit and return it as an array ans = [kelvin, fahrenheit].
@@ -17030,4 +17030,53 @@ const convertTemperature = (celsius) => [celsius + 273.15, celsius * 1.8 + 32];
 console.log(convertTemperature(36.5)); // [309.65000,97.70000]
 console.log(convertTemperature(122.11)); // [395.26000,251.79800]
 
-// Same as top voted
+// Same as top voted */
+
+// Same Tree          11/18/2022
+
+// Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+// Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+// Example 1:
+//   https://assets.leetcode.com/uploads/2020/12/20/ex1.jpg
+//		 Input: p = [1,2,3], q = [1,2,3]
+//		 Output: true
+
+// Example 2:
+//   https://assets.leetcode.com/uploads/2020/12/20/ex2.jpg
+//		 Input: p = [1,2], q = [1,null,2]
+//		 Output: false
+
+// Example 3:
+//   https://assets.leetcode.com/uploads/2020/12/20/ex3.jpg
+//		 Input: p = [1,2,1], q = [1,1,2]
+//		 Output: false
+
+// Constraints:
+//    The number of nodes in both trees is in the range [0, 100].
+//    -10^4 <= Node.val <= 10^4
+
+const isSameTree = (p, q) => {
+  if (p.length !== q.length) return false;
+  for (let i = 0; i < p.length; i++) {
+    if (p[i] !== q[i]) return false;
+  }
+  return true;
+};
+console.log(isSameTree([1, 2, 3], [1, 2, 3])); // true
+console.log(isSameTree([1, 2], [1, null, 2])); // false
+console.log(isSameTree([1, 2, 1], [1, 1, 2])); // false
+
+// Doesn't work in LeetCode
+
+function topVotedIsSameTree(p, q) {
+  if (!p && !q) return true;
+  if (!p || !q || p.val !== q.val) return false;
+
+  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+}
+
+// Seems I'd attempted this question a year ago and commented that I should learn binary trees lol
+
+// I will learn to do these questions and prototype questions over winter break (Dec 19th), After my last final exam
