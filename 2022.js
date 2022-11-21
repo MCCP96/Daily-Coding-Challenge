@@ -17150,7 +17150,7 @@ const revisedSortColors = (nums) => {
 }; */
 
 // Find Peak Element          11/20/2022
-
+/* 
 // A peak element is an element that is strictly greater than its neighbors.
 
 // Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
@@ -17191,4 +17191,63 @@ const topVotedFindPeakElement = function (nums) {
     if (nums[i] > nums[i + 1]) return i;
   }
   return nums.length - 1;
+}; */
+
+// Maximum Product Subarray          11/21/2022
+
+// Given an integer array nums, find a subarray that has the largest product, and return the product.
+
+// The test cases are generated so that the answer will fit in a 32-bit integer.
+
+// Example 1:
+//		 Input: nums = [2,3,-2,4]
+//		 Output: 6
+// Explanation: [2,3] has the largest product 6.
+
+// Example 2:
+//		 Input: nums = [-2,0,-1]
+//		 Output: 0
+// Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+
+// Constraints:
+//    1 <= nums.length <= 2 * 10^4
+//    -10 <= nums[i] <= 10
+//    The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+const maxProduct = (nums) => {
+  let max = nums[0];
+  for (let i = 0; i < nums.length; i++) {
+    let cur = nums[i];
+    if (cur > max) max = cur;
+    for (let j = i + 1; j < nums.length; j++) {
+      cur *= nums[j];
+      if (cur > max) max = cur;
+    }
+  }
+  return max;
 };
+console.log(maxProduct([2, 3, -2, 4])); // 6
+console.log(maxProduct([-2, 0, -1])); // 0
+console.log(maxProduct([-2])); // -2
+
+// Exceeds runtime limit
+
+var topVotedMaxProduct = function (nums) {
+  let max = nums[0];
+  let prevMax = nums[0];
+  let prevMin = nums[0];
+
+  for (let i = 1; i < nums.length; i++) {
+    const options = [nums[i], nums[i] * prevMax, nums[i] * prevMin];
+    prevMax = Math.max(...options);
+    prevMin = Math.min(...options);
+
+    max = Math.max(max, prevMax);
+  }
+
+  return max;
+};
+
+// https://leetcode.com/problems/maximum-product-subarray/discuss/416395/JavaScript-Solution-w-Explanation
+
+// Clean
