@@ -17194,7 +17194,7 @@ const topVotedFindPeakElement = function (nums) {
 }; */
 
 // Maximum Product Subarray          11/21/2022
-
+/* 
 // Given an integer array nums, find a subarray that has the largest product, and return the product.
 
 // The test cases are generated so that the answer will fit in a 32-bit integer.
@@ -17250,4 +17250,54 @@ var topVotedMaxProduct = function (nums) {
 
 // https://leetcode.com/problems/maximum-product-subarray/discuss/416395/JavaScript-Solution-w-Explanation
 
-// Clean
+// Clean */
+
+// Group Shifted Strings          11/22/2022
+
+// We can shift a string by shifting each of its letters to its successive letter.	For example, "abc" can be shifted to be "bcd".
+
+// We can keep shifting the string to form a sequence.	For example, we can keep shifting "abc" to form the sequence: "abc" -> "bcd" -> ... -> "xyz".
+
+// Given an array of strings strings, group all strings[i] that belong to the same shifting sequence. You may return the answer in any order.
+
+// Example 1:
+//		 Input: strings = ["abc","bcd","acef","xyz","az","ba","a","z"]
+//		 Output: [["acef"],["a","z"],["abc","bcd","xyz"],["az","ba"]]
+
+// Example 2:
+//		 Input: strings = ["a"]
+//		 Output: [["a"]]
+
+// Constraints:
+//    1 <= strings.length <= 200
+//    1 <= strings[i].length <= 50
+//    strings[i] consists of lowercase English letters.
+
+const groupStrings = (strings) => {
+  const count = strings.reduce((a, c, i, arr) => {
+    a[c.length] ? a[c.length].push(c) : (a[c.length] = [c]);
+    return a;
+  }, {});
+  return Object.entries(count)
+    .reverse()
+    .reduce((a, c) => [...a, [...c[1]]], []);
+};
+console.log(groupStrings(["abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"])); // [["acef"],["a","z"],["abc","bcd","xyz"],["az","ba"]]
+console.log(groupStrings(["a"])); // [["a"]]
+
+// Doesn't work for all test cases
+
+const topVotedGroupStrings = (strs) => {
+  const res = {};
+  strs.forEach((s) => {
+    const key = new Array(s.length).fill(0);
+    for (let i = 1; i < s.length; i++) {
+      key[i] = s.charCodeAt(i - 1) - (s.charCodeAt(i) + 26);
+      if (key[i] > 25 || key[i] < -25) key[i] %= 26;
+    }
+    res[key] ? res[key].push(s) : (res[key] = [s]);
+  });
+  return Object.values(res);
+};
+
+// Close, but not really
