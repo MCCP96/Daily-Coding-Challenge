@@ -17303,7 +17303,7 @@ const topVotedGroupStrings = (strs) => {
 // Close, but not really */
 
 // Path Sum II          11/23/2022
-
+/* 
 // Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
 
 // A root-to-leaf path is a path starting from the root and ending at any leaf node. A leaf is a node with no children.
@@ -17341,4 +17341,20 @@ const topVotedPathSum = function (root, sum, res = [], path = []) {
   return res;
 };
 
-// No time today
+// No time today */
+
+// API Call I         11/24/2022
+
+// I'm feeling rusty so I'll refresh on API calls today.
+
+// Using https://github.com/public-apis/public-apis, I'll setup a simple API call. This first iteration will retrieving an image or some text. Later iterations will have added complexity.
+
+const fetchCat = async () => {
+  const res = await fetch("https://api.thecatapi.com/v1/images/search");
+  const data = await res.json();
+  const cat = data.shift().url;
+  console.log(cat);
+};
+fetchCat();
+
+// Went with https://docs.thecatapi.com/
