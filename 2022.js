@@ -17344,7 +17344,7 @@ const topVotedPathSum = function (root, sum, res = [], path = []) {
 // No time today */
 
 // API Call I         11/24/2022
-
+/* 
 // I'm feeling rusty so I'll refresh on API calls today.
 
 // Using https://github.com/public-apis/public-apis, I'll setup a simple API call. This first iteration will retrieving an image or some text. Later iterations will have added complexity.
@@ -17357,4 +17357,65 @@ const fetchCat = async () => {
 };
 fetchCat();
 
-// Went with https://docs.thecatapi.com/
+// Went with https://docs.thecatapi.com/ */
+
+// Number of Unequal Triplets in Array          11/25/2022
+
+// You are given a 0-indexed array of positive integers nums. Find the number of triplets (i, j, k) that meet the following conditions:	0 <= i < j < k < nums.length	nums[i], nums[j], and nums[k] are pairwise distinct. In other words, nums[i] != nums[j], nums[i] != nums[k], and nums[j] != nums[k].
+
+// Return the number of triplets that meet the conditions.
+
+// Example 1:
+//		 Input: nums = [4,4,2,4,3]
+//		 Output: 3
+// Explanation: The following triplets meet the conditions:
+// - (0, 2, 4) because 4 != 2 != 3
+// - (1, 2, 4) because 4 != 2 != 3
+// - (2, 3, 4) because 2 != 4 != 3
+// Since there are 3 triplets, we return 3.
+// Note that (2, 0, 4) is not a valid triplet because 2 > 0.
+
+// Example 2:
+//		 Input: nums = [1,1,1,1,1]
+//		 Output: 0
+// Explanation: No triplets meet the conditions so we return 0.
+
+// Constraints:
+//    3 <= nums.length <= 100
+//    1 <= nums[i] <= 1000
+
+const unequalTriplets = (nums) => {
+  let count = 0;
+  for (let i = 0; i < nums.length; i++)
+    for (let j = i + 1; j < nums.length; j++)
+      for (let k = j + 1; k < nums.length; k++)
+        if (nums[i] != nums[j] && nums[j] != nums[k] && nums[i] != nums[k])
+          count++;
+  return count;
+};
+console.log(unequalTriplets([4, 4, 2, 4, 3])); // 3
+console.log(unequalTriplets([1, 1, 1, 1, 1])); // 0
+
+// Surely something more optimal
+
+const topVotedUnequalTriplets = function (nums) {
+  let count = 0,
+    prev = 0,
+    nxt = nums.length;
+  let frequencies = nums.reduce((count, currentValue) => {
+    return (
+      count[currentValue] ? ++count[currentValue] : (count[currentValue] = 1),
+      count
+    );
+  }, {});
+
+  for (freq of Object.values(frequencies)) {
+    nxt -= freq;
+    count += prev * freq * nxt;
+    prev += freq;
+  }
+  return count;
+};
+
+// Damn, that's nice
+// Only slightly faster than mine
