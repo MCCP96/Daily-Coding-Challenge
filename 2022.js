@@ -17360,7 +17360,7 @@ fetchCat();
 // Went with https://docs.thecatapi.com/ */
 
 // Number of Unequal Triplets in Array          11/25/2022
-
+/* 
 // You are given a 0-indexed array of positive integers nums. Find the number of triplets (i, j, k) that meet the following conditions:	0 <= i < j < k < nums.length	nums[i], nums[j], and nums[k] are pairwise distinct. In other words, nums[i] != nums[j], nums[i] != nums[k], and nums[j] != nums[k].
 
 // Return the number of triplets that meet the conditions.
@@ -17418,4 +17418,42 @@ const topVotedUnequalTriplets = function (nums) {
 };
 
 // Damn, that's nice
-// Only slightly faster than mine
+// Only slightly faster than mine */
+
+// Integer Break          11/26/2022
+
+// Given an integer n, break it into the sum of k positive integers, where k >= 2, and maximize the product of those integers.
+
+// Return the maximum product you can get.
+
+// Example 1:
+//		 Input: n = 2
+//		 Output: 1
+// Explanation: 2 = 1 + 1, 1 × 1 = 1.
+
+// Example 2:
+//		 Input: n = 10
+//		 Output: 36
+// Explanation: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36.
+
+// Constraints:
+//    2 <= n <= 58
+
+const topVotedIntegerBreak = (n) => {
+  let memo = new Map();
+
+  function dp(n) {
+    if (n == 1 || n == 2) return 1;
+    if (memo.has(n)) return memo.get(n);
+
+    let q = 0;
+    for (let i = 1; i <= n / 2; i++) {
+      q = Math.max(q, i * Math.max(n - i, dp(n - i)));
+    }
+    memo.set(n, q);
+    return q;
+  }
+  return dp(n);
+};
+console.log(topVotedIntegerBreak(2)); // 1
+console.log(topVotedIntegerBreak(10)); // 36
