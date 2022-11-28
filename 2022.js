@@ -17421,7 +17421,7 @@ const topVotedUnequalTriplets = function (nums) {
 // Only slightly faster than mine */
 
 // Integer Break          11/26/2022
-
+/* 
 // Given an integer n, break it into the sum of k positive integers, where k >= 2, and maximize the product of those integers.
 
 // Return the maximum product you can get.
@@ -17456,4 +17456,63 @@ const topVotedIntegerBreak = (n) => {
   return dp(n);
 };
 console.log(topVotedIntegerBreak(2)); // 1
-console.log(topVotedIntegerBreak(10)); // 36
+console.log(topVotedIntegerBreak(10)); // 36 */
+
+// Top K Frequent Words          11/27/2022
+
+// Given an array of strings words and an integer k, return the k most frequent strings.
+
+// Return the answer sorted by the frequency from highest to lowest. Sort the words with the same frequency by their lexicographical order.
+
+// Example 1:
+//		 Input: words = ["i","love","leetcode","i","love","coding"], k = 2
+//		 Output: ["i","love"]
+// Explanation: "i" and "love" are the two most frequent words.
+// Note that "i" comes before "love" due to a lower alphabetical order.
+
+// Example 2:
+//		 Input: words = ["the","day","is","sunny","the","the","the","sunny","is","is"], k = 4
+//		 Output: ["the","is","sunny","day"]
+// Explanation: "the", "is", "sunny" and "day" are the four most frequent words, with the number of occurrence being 4, 3, 2 and 1 respectively.
+
+// Constraints:
+//    1 <= words.length <= 500
+//    1 <= words[i].length <= 10
+//    words[i] consists of lowercase English letters.
+//    k is in the range [1, The number of unique words[i]]
+
+const topKFrequent = (words, k) => {
+  let count = words.reduce((a, c) => {
+    a[c] ? a[c]++ : (a[c] = 1);
+    return a;
+  }, {});
+  count = Object.entries(count).sort((a, b) => b[1] - a[1]);
+  count = count.reduce((a, c) => {
+    const [word, count] = c;
+    a[count] ? a[count].push(word) : (a[count] = [word]);
+    return a;
+  }, {});
+  return Object.entries(count)
+    .sort((a, b) => b[0] - a[0])
+    .reduce((a, c) => [...a, ...c[1].sort((a, b) => a.localeCompare(b))], [])
+    .slice(0, k);
+};
+console.log(topKFrequent(["i", "love", "leetcode", "i", "love", "coding"], 2)); // ["i","love"]
+// prettier-ignore
+console.log(topKFrequent(["the","day","is","sunny","the","the","the","sunny","is","is"],4)) // ["the","is","sunny","day"]
+console.log(topKFrequent(["i", "love", "leetcode", "i", "love", "coding"], 3)); // ["i", "love", "coding"];
+
+// Clunky, but works
+
+const topVotedTopKFrequent = (words, k) => {
+  let hash = {};
+  for (let word of words) hash[word] = hash[word] + 1 || 1;
+  let result = Object.keys(hash).sort((a, b) => {
+    let countCompare = hash[b] - hash[a];
+    if (countCompare == 0) return a.localeCompare(b);
+    else return countCompare;
+  });
+  return result.slice(0, k);
+};
+
+// Much cleaner
