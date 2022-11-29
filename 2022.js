@@ -17518,7 +17518,7 @@ const topVotedTopKFrequent = (words, k) => {
 // Much cleaner */
 
 // Find the Pivot Integer          11/28/2022
-
+/* 
 // Given a positive integer n, find the pivot integer x such that:	The sum of all elements between 1 and x inclusively equals the sum of all elements between x and n inclusively.
 
 // Return the pivot integer x. If no such integer exists, return -1. It is guaranteed that there will be at most one pivot index for the given input.
@@ -17565,4 +17565,52 @@ const topVotedPivotInteger = (n) => {
   return -1;
 };
 
-// bit slower
+// bit slower */
+
+// Single Number III          11/29/2022
+
+// Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
+
+// You must write analgorithm that runs in linear runtime complexity and usesonly constant extra space.
+
+// Example 1:
+//		 Input: nums = [1,2,1,3,2,5]
+//		 Output: [3,5]
+// Explanation:  [5, 3] is also a valid answer.
+
+// Example 2:
+//		 Input: nums = [-1,0]
+//		 Output: [-1,0]
+
+// Example 3:
+//		 Input: nums = [0,1]
+//		 Output: [1,0]
+
+// Constraints:
+//    2 <= nums.length <= 3 * 10^4
+//    -2^31 <= nums[i] <= 2^31 - 1
+//    Each integer in nums will appear twice, only two integers will appear once.
+
+const singleNumber = (nums) => {
+  let ans = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (nums.indexOf(nums[i]) === nums.lastIndexOf(nums[i])) ans.push(nums[i]);
+    if (ans.length === 2) return ans;
+  }
+};
+console.log(singleNumber([1, 2, 1, 3, 2, 5])); // [3,5]
+console.log(singleNumber([-1, 0])); // [-1,0]
+console.log(singleNumber([0, 1])); // [1,0]
+
+// Terrible runtime, great memory
+
+const topVotedSingleNumber = (nums) => {
+  var xor = nums.reduce((acc, cur) => acc ^ cur, 0);
+  var uniqBitPos = xor.toString(2).length - 1;
+  var xor2 = nums
+    .filter((num) => ((num >> uniqBitPos) & 1) == 0)
+    .reduce((acc, cur) => acc ^ cur, 0);
+  return [xor2, xor2 ^ xor];
+};
+
+// Much better
