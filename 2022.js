@@ -17568,7 +17568,7 @@ const topVotedPivotInteger = (n) => {
 // bit slower */
 
 // Single Number III          11/29/2022
-
+/* 
 // Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
 
 // You must write analgorithm that runs in linear runtime complexity and usesonly constant extra space.
@@ -17613,4 +17613,48 @@ const topVotedSingleNumber = (nums) => {
   return [xor2, xor2 ^ xor];
 };
 
-// Much better
+// Much better */
+
+// Battleships in a Board          11/30/2022
+
+// Given an m x n matrix board where each cell is a battleship 'X' or empty '.', return the number of the battleships on board.
+
+// Battleships can only be placed horizontally or vertically on board. In other words, they can only be made of the shape 1 x k (1 row, k columns) or k x 1 (k rows, 1 column), where k can be of any size. At least one horizontal or vertical cell separates between two battleships (i.e., there are no adjacent battleships).
+
+// Example 1:
+//   https://assets.leetcode.com/uploads/2021/04/10/battelship-grid.jpg
+//		 Input: board = [["X",".",".","X"],[".",".",".","X"],[".",".",".","X"]]
+//		 Output: 2
+
+// Example 2:
+//		 Input: board = [["."]]
+//		 Output: 0
+
+// Constraints:
+//    m == board.length
+//    n == board[i].length
+//    1 <= m, n <= 200
+//    board[i][j] is either '.' or 'X'.
+
+const topVotedCountBattleships = (board) => {
+  let count = 0;
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      if (
+        board[i][j] === "X" &&
+        board[i][j - 1] !== "X" &&
+        (!board[i - 1] || board[i - 1][j] !== "X")
+      )
+        count++;
+    }
+  }
+  return count;
+};
+console.log(
+  countBattleships([
+    ["X", ".", ".", "X"],
+    [".", ".", ".", "X"],
+    [(".", ".", ".", "X")],
+  ])
+); // 2
+console.log(countBattleships([["."]])); // 0
