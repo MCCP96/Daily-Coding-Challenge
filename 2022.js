@@ -17568,7 +17568,7 @@ const topVotedPivotInteger = (n) => {
 // bit slower */
 
 // Single Number III          11/29/2022
-
+/* 
 // Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
 
 // You must write analgorithm that runs in linear runtime complexity and usesonly constant extra space.
@@ -17613,4 +17613,82 @@ const topVotedSingleNumber = (nums) => {
   return [xor2, xor2 ^ xor];
 };
 
-// Much better
+// Much better */
+
+// Advent of code - Day 1: Calorie Counting
+
+// The Elves take turns writing down the number of Calories contained by the various meals, snacks, rations, etc. that they've brought with them, one item per line. Each Elf separates their own inventory from the previous Elf's inventory (if any) by a blank line.
+
+// In case the Elves get hungry and need extra snacks, they need to know which Elf to ask: they'd like to know how many Calories are being carried by the Elf carrying the most Calories. In the example above, this is 24000 (carried by the fourth Elf).
+
+// Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
+
+// Example 1:
+//		 Input: nums = [[1000,2000,3000],[4000],[5000,6000],[7000,8000,9000],[1000]]
+//		 Output: 24000
+
+// Explanation:
+//    The first Elf is carrying food with 1000, 2000, and 3000 Calories, a total of 6000 Calories.
+//    The second Elf is carrying one food item with 4000 Calories.
+//    The third Elf is carrying food with 5000 and 6000 Calories, a total of 11000 Calories.
+//    The fourth Elf is carrying food with 7000, 8000, and 9000 Calories, a total of 24000 Calories.
+//    The fifth Elf is carrying one food item with 10000 Calories.
+
+const calorieCounting = (calories) =>
+  calories.reduce(
+    (max, elf) =>
+      Math.max(
+        max,
+        elf.reduce((a, cal) => (a += cal), 0)
+      ),
+    0
+  );
+
+console.log(
+  calorieCounting([
+    [1000, 2000, 3000],
+    [4000],
+    [5000, 6000],
+    [7000, 8000, 9000],
+    [1000],
+  ]) // 24000
+);
+
+// the Elves would instead like to know the total Calories carried by the top three Elves carrying the most Calories. That way, even if one of those Elves runs out of snacks, they still have two backups.
+
+// In the example above, the top three Elves are the fourth Elf (with 24000 Calories), then the third Elf (with 11000 Calories), then the fifth Elf (with 10000 Calories). The sum of the Calories carried by these three elves is 45000.
+
+// Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
+
+// Example 1:
+//		 Input: nums = [[1000,2000,3000],[4000],[5000,6000],[7000,8000,9000],[1000]]
+//		 Output: 45000
+
+const topThree = (calories) =>
+  calories
+    .reduce((a, elf) => {
+      const cur = elf.reduce((a, cal) => (a += cal), 0);
+      if (cur > a[0]) {
+        a[0] = cur;
+        a.sort((a, b) => a - b);
+      }
+      return a;
+    }, new Array(3).fill(0))
+    .reduce((a, c) => a + c);
+
+console.log(
+  topThree([
+    [1000, 2000, 3000],
+    [4000],
+    [5000, 6000],
+    [7000, 8000, 9000],
+    [10000],
+  ]) // 45000
+);
+
+// Something new for December :)
+
+// Found an advent calendar of coding challenges! https://adventofcode.com/
+// Fun so far, will try to do them all until Christmas 🎄
+
+// Challenges become available everyday at midnight
