@@ -18406,7 +18406,7 @@ console.log(update(example)); // 24933642
 // Resolved it with 'path += `${c}/`' */
 
 // Advent of code - Day 8: Treetop Tree House         12/8/2022
-
+/* 
 // The expedition comes across a peculiar patch of tall trees all planted carefully in a grid. The Elves explain that a previous expedition planted these trees as a reforestation effort. Now, they're curious if this would be a good location for a tree house.
 
 // First, determine whether there is enough tree cover here to keep a tree house hidden. To do this, you need to count the number of trees that are visible from outside the grid when looking directly along a row or column.
@@ -18544,4 +18544,161 @@ const scenic = (grid) => {
 console.log(scenic(["30373", "25512", "65332", "33549", "35390"])); // 16
 
 // Definitely some runtime optimization to be had, but works
-// If I had to redo it, I would append to the top and bottom accumulators instead of rebuilding them on every iteration
+// If I had to redo it, I would append to the top and bottom accumulators instead of rebuilding them on every iteration */
+
+// Advent of code - Day 9: Rope Bridge          12/9/2022
+
+// This rope bridge creaks as you walk along it. You aren't sure how old it is, or whether it can even support your weight.
+
+// It seems to support the Elves just fine, though. The bridge spans a gorge which was carved out by the massive river far below you.
+
+// You step carefully; as you do, the ropes stretch and twist. You decide to distract yourself by modeling rope physics; maybe you can even figure out where not to step.
+
+// Consider a rope with a knot at each end; these knots mark the head and the tail of the rope. If the head moves far enough away from the tail, the tail is pulled toward the head.
+
+// Due to nebulous reasoning involving Planck lengths, you should be able to model the positions of the knots on a two-dimensional grid. Then, by following a hypothetical series of motions (your puzzle input) for the head, you can determine how the tail will move.
+
+// Due to the aforementioned Planck lengths, the rope must be quite short; in fact, the head (H) and tail (T) must always be touching (diagonally adjacent and even overlapping both count as touching):
+
+// ....
+// .TH.
+// ....
+
+// ....
+// .H..
+// ..T.
+// ....
+
+// ...
+// .H. (H covers T)
+// ...
+// If the head is ever two steps directly up, down, left, or right from the tail, the tail must also move one step in that direction so it remains close enough:
+
+// .....    .....    .....
+// .TH.. -> .T.H. -> ..TH.
+// .....    .....    .....
+
+// ...    ...    ...
+// .T.    .T.    ...
+// .H. -> ... -> .T.
+// ...    .H.    .H.
+// ...    ...    ...
+// Otherwise, if the head and tail aren't touching and aren't in the same row or column, the tail always moves one step diagonally to keep up:
+
+// .....    .....    .....
+// .....    ..H..    ..H..
+// ..H.. -> ..... -> ..T..
+// .T...    .T...    .....
+// .....    .....    .....
+
+// .....    .....    .....
+// .....    .....    .....
+// ..H.. -> ...H. -> ..TH.
+// .T...    .T...    .....
+// .....    .....    .....
+// You just need to work out where the tail goes as the head follows a series of motions. Assume the head and the tail both start at the same position, overlapping.
+
+// For example:
+
+// R 4
+// U 4
+// L 3
+// D 1
+// R 4
+// D 1
+// L 5
+// R 2
+
+// After simulating the rope, you can count up all of the positions the tail visited at least once. In this diagram, s again marks the starting position (which the tail also visited) and # marks other positions the tail visited:
+
+// ..##..
+// ...##.
+// .####.
+// ....#.
+// s###..
+// So, there are 13 positions the tail visited at least once.
+
+// Simulate your complete hypothetical series of motions. How many positions does the tail of the rope visit at least once?
+
+const rope = (moves) => {
+  const isAdj = (T, H) => {
+    let [Tx, Ty] = T;
+    let [Hx, Hy] = H;
+    return Math.abs(Tx - Hx) <= 1 && Math.abs(Ty - Hy) <= 1;
+  };
+
+  let T = [0, 0];
+  let H = [0, 0];
+
+  let map = { "00": "#" };
+  moves.reduce((_, move) => {
+    let [d, num] = move.split(" ");
+
+    for (; num > 0; num--) {
+      if (d === "U") H[1]++;
+      if (d === "D") H[1]--;
+      if (d === "R") H[0]++;
+      if (d === "L") H[0]--;
+
+      if (isAdj(T, H) && num > 1) {
+        T = H;
+        map[`${T.join("")}`] = "#";
+        console.log(T);
+      }
+    }
+    return map;
+  }, {});
+
+  console.log(map);
+  return Object.values(map).length;
+};
+
+console.log(rope(["R 4", "U 4", "L 3", "D 1", "R 4", "D 1", "L 5", "R 2"])); // 13
+
+// Got stuck and could not resolve
+// See a Javascript solution below
+
+const moveTail = ([head, ...tail]) => {
+  if (!tail.length) return [head];
+  const [next, ...rest] = tail;
+  const delta = head[0].map((c, i) => c - next[0][i]);
+  return delta.some((d) => Math.abs(d) > 1)
+    ? [
+        head,
+        ...moveTail([
+          [next[0].map((c, i) => c + Math.sign(delta[i])), ...next],
+          ...rest,
+        ]),
+      ]
+    : [head, ...tail];
+};
+
+const part1 = (input, knots = 2) =>
+  input
+    .map((line) => line.split(" "))
+    .reduce(
+      (result, [d, steps]) => [
+        ...result,
+        ...Array(Number(steps)).fill(
+          {
+            U: [0, -1],
+            D: [0, 1],
+            L: [-1, 0],
+            R: [1, 0],
+          }[d]
+        ),
+      ],
+      []
+    )
+    .reduce(
+      ([head, ...tail], dir) =>
+        moveTail([[dir.map((c, i) => head[0][i] + c), ...head], ...tail]),
+      Array.from({ length: knots }, () => [[0, 0]])
+    )
+    .at(-1)
+    .map((trail) => trail.join(","))
+    .filter((v, i, a) => a.indexOf(v) === i).length;
+
+const part2 = (input) => part1(input, 10);
+
+// I kept encountering bugs with adjacence detection
