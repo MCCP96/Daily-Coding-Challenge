@@ -18547,7 +18547,7 @@ console.log(scenic(["30373", "25512", "65332", "33549", "35390"])); // 16
 // If I had to redo it, I would append to the top and bottom accumulators instead of rebuilding them on every iteration */
 
 // Advent of code - Day 9: Rope Bridge          12/9/2022
-
+/* 
 // This rope bridge creaks as you walk along it. You aren't sure how old it is, or whether it can even support your weight.
 
 // It seems to support the Elves just fine, though. The bridge spans a gorge which was carved out by the massive river far below you.
@@ -18701,4 +18701,120 @@ const part1 = (input, knots = 2) =>
 
 const part2 = (input) => part1(input, 10);
 
-// I kept encountering bugs with adjacence detection
+// I kept encountering bugs with adjacence detection */
+
+// Advent of code - Day 10: Cathode-Ray Tube          12/10/2022
+
+// You avoid the ropes, plunge into the river, and swim to shore.
+
+// The Elves yell something about meeting back up with them upriver, but the river is too loud to tell exactly what they're saying. They finish crossing the bridge and disappear from view.
+
+// Situations like this must be why the Elves prioritized getting the communication system on your handheld device working. You pull it out of your pack, but the amount of water slowly draining from a big crack in its screen tells you it probably won't be of much immediate use.
+
+// Unless, that is, you can design a replacement for the device's video system! It seems to be some kind of cathode-ray tube screen and simple CPU that are both driven by a precise clock circuit. The clock circuit ticks at a constant rate; each tick is called a cycle.
+
+// Start by figuring out the signal being sent by the CPU. The CPU has a single register, X, which starts with the value 1. It supports only two instructions:
+
+// addx V takes two cycles to complete. After two cycles, the X register is increased by the value V. (V can be negative.)
+// noop takes one cycle to complete. It has no other effect.
+// The CPU uses these instructions in a program (your puzzle input) to, somehow, tell the screen what to draw.
+
+// Consider the following small program:
+
+// noop
+// addx 3
+// addx -5
+
+// Execution of this program proceeds as follows:
+
+// At the start of the first cycle, the noop instruction begins execution. During the first cycle, X is 1. After the first cycle, the noop instruction finishes execution, doing nothing.
+// At the start of the second cycle, the addx 3 instruction begins execution. During the second cycle, X is still 1.
+// During the third cycle, X is still 1. After the third cycle, the addx 3 instruction finishes execution, setting X to 4.
+// At the start of the fourth cycle, the addx -5 instruction begins execution. During the fourth cycle, X is still 4.
+// During the fifth cycle, X is still 4. After the fifth cycle, the addx -5 instruction finishes execution, setting X to -1.
+// Maybe you can learn something by looking at the value of the X register throughout execution. For now, consider the signal strength (the cycle number multiplied by the value of the X register) during the 20th cycle and every 40 cycles after that (that is, during the 20th, 60th, 100th, 140th, 180th, and 220th cycles).
+
+// Find the signal strength during the 20th, 60th, 100th, 140th, 180th, and 220th cycles. What is the sum of these six signal strengths?
+
+const samples = [20, 60, 100, 140, 180, 220];
+
+const part1 = (instructions, cycle = 0, x = 1) =>
+  instructions.reduce((sum, cur) => {
+    cycle++;
+    if (samples.includes(cycle)) sum += cycle * x;
+    if (cur.includes("addx ")) {
+      cycle++;
+      if (samples.includes(cycle)) sum += cycle * x;
+      x += +cur.substring(5);
+    }
+    return sum;
+  }, 0);
+
+const part2 = (instructions, x = 0) => {
+  instructions = instructions.reduce((acc, cur) => {
+    if (cur === "noop") acc.push("tick");
+    else {
+      acc.push("tick");
+      acc.push(cur.substring(5));
+    }
+    return acc;
+  }, []);
+
+  let crt = new Array(6).fill(new Array(40).fill("."));
+
+  for (let row = 0; row < crt.length; row++) {
+    for (let col = 0; col < crt[row].length; col++) {
+      let cur = instructions.shift();
+      console.log(cur, x);
+      if (cur === "tick") {
+        if ([x, x + 1, x + 2].includes(col)) crt[row][col] = "#";
+      } else {
+        x += +cur;
+      }
+    }
+  }
+
+  return crt;
+};
+
+// Part 1 was solved quickly
+// Couldn't get part 2 working
+
+// See other user's submission below
+
+const topVotedPart2 = () => {
+  function checkLine() {
+    sprite = [X - 1, X, X + 1];
+    if (sprite.includes(cycle)) {
+      line.push("#");
+    } else {
+      line.push(" ");
+    }
+    cycle++;
+    if (cycle % 40 === 0) {
+      console.log(line);
+      line = [];
+      X += 40;
+    }
+  }
+  let cycle = 0;
+  let X = 1;
+  let sprite = [];
+  let line = [];
+  let instructions = ["noop", "addx 6", "noop", "addx 30", "addx -26"].map(
+    (x) => x.split(" ")
+  ); // insert key here
+
+  for (let i = 0; i < instructions.length; i++) {
+    let action = instructions[i][0];
+    let value = parseInt(instructions[i][1]);
+    if (action === "noop") {
+      checkLine();
+    }
+    if (action === "addx") {
+      checkLine();
+      checkLine();
+      X += value;
+    }
+  }
+};
