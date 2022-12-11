@@ -18704,7 +18704,7 @@ const part2 = (input) => part1(input, 10);
 // I kept encountering bugs with adjacence detection */
 
 // Advent of code - Day 10: Cathode-Ray Tube          12/10/2022
-
+/* 
 // You avoid the ropes, plunge into the river, and swim to shore.
 
 // The Elves yell something about meeting back up with them upriver, but the river is too loud to tell exactly what they're saying. They finish crossing the bridge and disappear from view.
@@ -18817,4 +18817,130 @@ const topVotedPart2 = () => {
       X += value;
     }
   }
+}; */
+
+// Advent of code - Day 11: Monkey in the Middle          12/11/2022
+
+const part1 = (monkeys) => {
+  for (let i = 0; i < 20; i++) {
+    Object.entries(monkeys).forEach((monkey) => {
+      const [id] = monkey[0];
+      let { start: inv, opp, test } = monkey[1];
+      while (inv.length > 0) {
+        const cur = Math.floor(opp(inv.shift()) / 3);
+        monkeys[id].count++;
+        monkeys[test(cur)]?.start.push(cur);
+      }
+    });
+  }
+  return Object.values(monkeys)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 2)
+    .reduce((a, c) => a.count * c.count);
 };
+
+const part2 = (monkeys) => {
+  for (let i = 0; i < 10000; i++) {
+    Object.entries(monkeys).forEach((monkey) => {
+      const [id] = monkey[0];
+      let { start: inv, opp, test } = monkey[1];
+      while (inv.length > 0) {
+        const cur = Math.floor(opp(inv.shift()));
+        monkeys[id].count++;
+        monkeys[test(cur)]?.start.push(cur);
+      }
+    });
+  }
+  return Object.values(monkeys)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 2)
+    .reduce((a, c) => a.count * c.count);
+};
+
+const example = {
+  0: {
+    start: [79, 98],
+    opp: (x) => x * 19,
+    test: (x) => (x % 23 === 0 ? 2 : 3),
+    count: 0,
+  },
+  1: {
+    start: [54, 65, 75, 74],
+    opp: (x) => x + 6,
+    test: (x) => (x % 19 === 0 ? 2 : 0),
+    count: 0,
+  },
+  2: {
+    start: [79, 60, 97],
+    opp: (x) => x * x,
+    test: (x) => (x % 13 === 0 ? 1 : 3),
+    count: 0,
+  },
+  3: {
+    start: [74],
+    opp: (x) => x + 3,
+    test: (x) => (x % 17 === 0 ? 0 : 1),
+    count: 0,
+  },
+};
+console.log(part1(example)); // 10605
+console.log(part2(example)); // 2713310158
+
+const puzzleInput = {
+  0: {
+    start: [59, 74, 65, 86],
+    opp: (x) => x * 19,
+    test: (x) => (x % 7 === 0 ? 6 : 2),
+    count: 0,
+  },
+  1: {
+    start: [62, 84, 72, 91, 68, 78, 51],
+    opp: (x) => x + 1,
+    test: (x) => (x % 2 === 0 ? 2 : 0),
+    count: 0,
+  },
+  2: {
+    start: [78, 84, 96],
+    opp: (x) => x + 8,
+    test: (x) => (x % 19 === 0 ? 6 : 5),
+    count: 0,
+  },
+  3: {
+    start: [97, 86],
+    opp: (x) => x * x,
+    test: (x) => (x % 3 === 0 ? 1 : 0),
+    count: 0,
+  },
+  4: {
+    start: [50],
+    opp: (x) => x + 6,
+    test: (x) => (x % 13 === 0 ? 3 : 1),
+    count: 0,
+  },
+  5: {
+    start: [73, 65, 69, 65, 51],
+    opp: (x) => x * 17,
+    test: (x) => (x % 11 === 0 ? 4 : 7),
+    count: 0,
+  },
+  6: {
+    start: [69, 82, 97, 93, 82, 84, 58, 63],
+    opp: (x) => x + 5,
+    test: (x) => (x % 5 === 0 ? 5 : 7),
+    count: 0,
+  },
+  7: {
+    start: [81, 78, 82, 76, 79, 80],
+    opp: (x) => x + 3,
+    test: (x) => (x % 17 === 0 ? 3 : 4),
+    count: 0,
+  },
+};
+
+console.log(part1(puzzleInput)); // 61005
+console.log(part2(puzzleInput)); //
+
+// Part 2 requires some BigInt() shenanigans to accomodate for the ridiculous stress levels
+// Only doing part 1 for today
+
+// May revisit in the future
