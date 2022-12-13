@@ -18820,7 +18820,7 @@ const topVotedPart2 = () => {
 }; */
 
 // Advent of code - Day 11: Monkey in the Middle          12/11/2022
-
+/* 
 const part1 = (monkeys) => {
   for (let i = 0; i < 20; i++) {
     Object.entries(monkeys).forEach((monkey) => {
@@ -18944,3 +18944,61 @@ console.log(part2(puzzleInput)); //
 // Only doing part 1 for today
 
 // May revisit in the future
+
+// The solution was actually modular arithmetic, not BigInt lol */
+
+// Advent of code - Day 12: Hill Climbing Algorithm
+
+// https://adventofcode.com/2022/day/12
+
+// No time today, here's a javascript solution:
+
+const { input } = require("./parse");
+
+let heightMap = input.heightMap;
+
+let endPos = input.endPos;
+let startPos = input.startPos;
+
+let visited = heightMap.map((line) => line.map(() => false));
+let shortestPaths = heightMap.map((line) => line.map(() => Infinity));
+shortestPaths[endPos.y][endPos.x] = 0;
+
+let queue = [endPos];
+
+while (queue.length > 0) {
+  let pos = queue.shift();
+  visited[pos.y][pos.x] = true;
+
+  let neighbours = [
+    { x: pos.x, y: pos.y - 1 },
+    { x: pos.x, y: pos.y + 1 },
+    { x: pos.x - 1, y: pos.y },
+    { x: pos.x + 1, y: pos.y },
+  ];
+
+  neighbours = neighbours.filter((neighbour) => {
+    return heightMap[neighbour.y]?.[neighbour.x] !== undefined;
+  });
+
+  neighbours.forEach((neighbour) => {
+    let currHeight = heightMap[pos.y][pos.x];
+    let nextHeight = heightMap[neighbour.y][neighbour.x];
+    if (currHeight >= nextHeight - 1) {
+      let shortestDist = shortestPaths[neighbour.y][neighbour.x] + 1;
+      let currShortestDist = shortestPaths[pos.y][pos.x];
+      shortestPaths[pos.y][pos.x] = Math.min(currShortestDist, shortestDist);
+    }
+
+    if (!visited[neighbour.y][neighbour.x] && currHeight <= nextHeight + 1) {
+      queue.push(neighbour);
+      visited[neighbour.y][neighbour.x] = true;
+    }
+  });
+}
+
+console.log(shortestPaths[startPos.y][startPos.x]);
+
+// Looking at the subreddit, it seems Dijkstra's algorithm or Breadth First Search are the two main approaches
+
+// Will have to attempt them at some point in the future
