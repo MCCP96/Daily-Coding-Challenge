@@ -18947,8 +18947,8 @@ console.log(part2(puzzleInput)); //
 
 // The solution was actually modular arithmetic, not BigInt lol */
 
-// Advent of code - Day 12: Hill Climbing Algorithm
-
+// Advent of code - Day 12: Hill Climbing Algorithm         12/12/2022
+/* 
 // https://adventofcode.com/2022/day/12
 
 // No time today, here's a javascript solution:
@@ -19001,4 +19001,102 @@ console.log(shortestPaths[startPos.y][startPos.x]);
 
 // Looking at the subreddit, it seems Dijkstra's algorithm or Breadth First Search are the two main approaches
 
-// Will have to attempt them at some point in the future
+// Will have to attempt them at some point in the future */
+
+// Advent of code - Day 13: Distress Signal         12/13/2022
+
+// https://adventofcode.com/2022/day/13
+
+// Tried for a while, but couldn't get it working
+// Ended up with a wall of if/elses
+
+// See a javascript solution found on the subreddit below
+
+let input = "";
+
+await fetch("/in.txt")
+  .then((res) => res.text())
+  .then(
+    (data) =>
+      (input = data
+        .split("\n\n")
+        .map((x) => x.split("\n"))
+        .map((x) => [eval(x[0]), eval(x[1])]))
+  );
+
+let indiciesSum = 0;
+
+for (let i = 0; i < input.length; i++) {
+  if (checkPackets(input[i][0], input[i][1])) {
+    indiciesSum += i + 1;
+    console.log(i + 1);
+  }
+}
+
+console.log(indiciesSum); // answer
+
+function checkPackets(leftPacket, rightPacket) {
+  console.log(
+    `compare ${JSON.stringify(leftPacket)} vs ${JSON.stringify(rightPacket)}`
+  );
+
+  let i = 0;
+  for (; i < leftPacket.length; i++) {
+    let left = leftPacket[i];
+    let right = rightPacket[i];
+
+    if (right === undefined) {
+      return false;
+    }
+
+    if (typeof left === "number" && typeof right === "number") {
+      console.log(`compare ${left} vs ${right}`);
+
+      if (left < right) {
+        return true;
+      } else if (left > right) {
+        return false;
+      } else {
+        continue;
+      }
+    } else if (typeof left === "object" && typeof right === "object") {
+      let statusOfNestedArray = checkPackets(left, right);
+      if (statusOfNestedArray == null) {
+        continue;
+      } else {
+        return statusOfNestedArray;
+      }
+    } else {
+      console.log("mixed types");
+      if (typeof left === "number") {
+        let statusOfNestedArray = checkPackets([left], right);
+        if (statusOfNestedArray == null) {
+          continue;
+        } else {
+          return statusOfNestedArray;
+        }
+      } else {
+        let statusOfNestedArray = checkPackets(left, [right]);
+        if (statusOfNestedArray == null) {
+          continue;
+        } else {
+          return statusOfNestedArray;
+        }
+      }
+    }
+  }
+
+  if (rightPacket.length > i) {
+    console.log(
+      "  - Left side ran out of items, so inputs are in the right order"
+    );
+    return true;
+  } else {
+    return null;
+  }
+}
+
+// Might have to reconsider the coding advent
+// The first days were easy, but now they're taking a bit too long and I'm out of my depths
+
+// May spend a couple days studying some of the previously missed days
