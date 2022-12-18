@@ -19234,7 +19234,7 @@ const topVotedMaximumValue = function (strs) {
 // Thought about using Regex, but didn't want to overcomplicate things */
 
 // Minimum Cuts to Divide a Circle          12/16/2022
-
+/* 
 // A valid cut in a circle can be:
 
 // A cut that is represented by a straight line that touches two points on the edge of the circle and passes through its center, or
@@ -19269,4 +19269,80 @@ console.log(numberOfCuts(4)); // 2
 console.log(numberOfCuts(3)); // 3
 
 // Faster than 90% of submissions
-// Same as top voted
+// Same as top voted */
+
+// Delete Greatest Value in Each Row          12/17/2022
+
+// You are given an m x n matrix grid consisting of positive integers.
+
+// Perform the following operation until grid becomes empty:
+
+// Delete the element with the greatest value from each row. If multiple such elements exist, delete any of them.
+// Add the maximum of deleted elements to the answer.
+// Note that the number of columns decreases by one after each operation.
+
+// Return the answer after performing the operations described above.
+
+// Example 1:
+// https://assets.leetcode.com/uploads/2022/10/19/q1ex1.jpg
+//    Input: grid = [[1,2,4],[3,3,1]]
+//    Output: 8
+// Explanation: The diagram above shows the removed values in each step.
+// - In the first operation, we remove 4 from the first row and 3 from the second row (notice that, there are two cells with value 3 and we can remove any of them). We add 4 to the answer.
+// - In the second operation, we remove 2 from the first row and 3 from the second row. We add 3 to the answer.
+// - In the third operation, we remove 1 from the first row and 1 from the second row. We add 1 to the answer.
+// The final answer = 4 + 3 + 1 = 8.
+
+// Example 2:
+// https://assets.leetcode.com/uploads/2022/10/19/q1ex2.jpg
+//    Input: grid = [[10]]
+//    Output: 10
+// Explanation: The diagram above shows the removed values in each step.
+// - In the first operation, we remove 10 from the first row. We add 10 to the answer.
+// The final answer = 10.
+
+// Constraints:
+//    m == grid.length
+//    n == grid[i].length
+//    1 <= m, n <= 50
+//    1 <= grid[i][j] <= 100
+
+const deleteGreatestValue = (grid) => {
+  grid.sort((a, b) => b.length - a.length).map((c) => c.sort((a, b) => a - b));
+  let ans = 0;
+  while (grid[0].length >= 1) {
+    let acc = [];
+    grid = grid.map((c) => {
+      acc.push(c.pop());
+      return c;
+    });
+    ans += Math.max(...acc);
+  }
+  return ans;
+};
+
+// prettier-ignore
+console.log(deleteGreatestValue([[1,2,4],[3,3,1]])); // 8
+console.log(deleteGreatestValue([[10]])); // 10
+
+// I like this
+
+const topVotedDeleteGreatestValue = function (grid) {
+  let sum = 0,
+    idx = 0;
+  for (let i = 0; i < grid.length; i++) grid[i].sort((a, b) => b - a);
+
+  while (idx < grid[0].length) {
+    let max = -Infinity;
+    for (let i = 0; i < grid.length; i++) {
+      max = Math.max(grid[i][idx], max);
+    }
+
+    idx++;
+    sum += max;
+  }
+
+  return sum;
+};
+
+// Similar, different way of identifying max
