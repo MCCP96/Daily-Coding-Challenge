@@ -19398,7 +19398,7 @@ console.log(similarPairs(["nba", "cba", "dba"])); // 0
 // Other posted solutions are pretty long and bulky */
 
 // Reverse Words in a String         12/19/2022
-
+/* 
 // Given an input string s, reverse the order of the words.
 
 // A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
@@ -19434,4 +19434,41 @@ console.log(reverseWords("the sky is blue")); // "blue is sky the"
 console.log(reverseWords("  hello world  ")); // "world hello"
 console.log(reverseWords("a good   example")); // "example good a"
 
-// Same as top voted
+// Same as top voted */
+
+// Top K Frequent Elements          12/20/2022
+
+// Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+
+// Example 1:
+//    Input: nums = [1,1,1,2,2,3], k = 2
+//    Output: [1,2]
+
+// Example 2:
+//    Input: nums = [1], k = 1
+//    Output: [1]
+
+// Constraints:
+//    1 <= nums.length <= 105
+//    -104 <= nums[i] <= 104
+//    k is in the range [1, the number of unique elements in the array].
+//    It is guaranteed that the answer is unique.
+
+// Follow up: Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
+
+const topKFrequent = (nums, k) => {
+  const count = nums.reduce((a, c) => {
+    a[c] ? a[c]++ : (a[c] = 1);
+    return a;
+  }, {});
+  return Object.entries(count)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, k)
+    .map((c) => +c[0]);
+};
+
+console.log(topKFrequent([1, 1, 1, 2, 2, 3], 2)); // [1,2]
+console.log(topKFrequent([1], 1)); // [1]
+
+// 100% Runtime
+// Not sure I'm respecting the O(n log n) complexity
