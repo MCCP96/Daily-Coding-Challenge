@@ -19437,7 +19437,7 @@ console.log(reverseWords("a good   example")); // "example good a"
 // Same as top voted */
 
 // Top K Frequent Elements          12/20/2022
-
+/* 
 // Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
 
 // Example 1:
@@ -19471,4 +19471,91 @@ console.log(topKFrequent([1, 1, 1, 2, 2, 3], 2)); // [1,2]
 console.log(topKFrequent([1], 1)); // [1]
 
 // 100% Runtime
-// Not sure I'm respecting the O(n log n) complexity
+// Not sure I'm respecting the O(n log n) complexity */
+
+// Compare Version Numbers          12/21/2022
+
+// Given two version numbers, version1 and version2, compare them.
+
+// Version numbers consist of one or more revisions joined by a dot '.'. Each revision consists of digits and may contain leading zeros. Every revision contains at least one character. Revisions are 0-indexed from left to right, with the leftmost revision being revision 0, the next revision being revision 1, and so on. For example 2.5.33 and 0.1 are valid version numbers.
+
+// To compare version numbers, compare their revisions in left-to-right order. Revisions are compared using their integer value ignoring any leading zeros. This means that revisions 1 and 001 are considered equal. If a version number does not specify a revision at an index, then treat the revision as 0. For example, version 1.0 is less than version 1.1 because their revision 0s are the same, but their revision 1s are 0 and 1 respectively, and 0 < 1.
+
+// Return the following:
+
+// If version1 < version2, return -1.
+// If version1 > version2, return 1.
+// Otherwise, return 0.
+
+// Example 1:
+//    Input: version1 = "1.01", version2 = "1.001"
+//    Output: 0
+// Explanation: Ignoring leading zeroes, both "01" and "001" represent the same integer "1".
+
+// Example 2:
+//    Input: version1 = "1.0", version2 = "1.0.0"
+//    Output: 0
+// Explanation: version1 does not specify revision 2, which means it is treated as "0".
+
+// Example 3:
+//    Input: version1 = "0.1", version2 = "1.1"
+//    Output: -1
+// Explanation: version1's revision 0 is "0", while version2's revision 0 is "1". 0 < 1, so version1 < version2.
+
+// Constraints:
+//    1 <= version1.length, version2.length <= 500
+//    version1 and version2 only contain digits and '.'.
+//    version1 and version2 are valid version numbers.
+//    All the given revisions in version1 and version2 can be stored in a 32-bit integer.
+
+const compareVersion = (ve1, ve2) => {
+  const clean = (s) => s.split(".").map((c) => +c);
+  let [v1, v2] = [clean(ve1), clean(ve2)];
+  for (let i = 0; i < v1.length; i++) {
+    if (v1[i] > v2[i]) return 1;
+    if (v2[i] > v1[i]) return -1;
+  }
+  if (v2.length > v1.length && +v2.slice(v1.length).join("") > 0) return -1;
+  else if (v1.length > v2.length && +v1.slice(v2.length).join("") > 0) return 1;
+  return 0;
+};
+
+console.log(compareVersion("1.01", "1.001")); // 0
+console.log(compareVersion("1.0", "1.0.0")); // 0
+console.log(compareVersion("1.0.1", "1.0")); // 1
+console.log(compareVersion("0.1", "1.1")); // -1
+
+// Better than 90% runtimes
+
+const topVotedCompareVersion = function (version1, version2) {
+  let v1Array = version1.split(".");
+  let v2Array = version2.split(".");
+  let len1 = v1Array.length;
+  let len2 = v2Array.length;
+  var i = Math.min(len1, len2);
+
+  while (i > 0) {
+    var v1Elem = parseInt(v1Array.shift());
+    var v2Elem = parseInt(v2Array.shift());
+    if (v1Elem > v2Elem) {
+      return 1;
+    } else if (v1Elem < v2Elem) {
+      return -1;
+    }
+    i--;
+  }
+
+  if (len1 > len2) {
+    if (parseInt(v1Array.join("")) > 0) {
+      return 1;
+    }
+  } else if (len1 < len2) {
+    if (parseInt(v2Array.join("")) > 0) {
+      return -1;
+    }
+  }
+
+  return 0;
+};
+
+// Same as mine, but bit bulkier
