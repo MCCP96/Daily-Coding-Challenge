@@ -19714,7 +19714,7 @@ const topVotedIsValidSudoku = function (board) {
 // Saves a lot of effort by going incrementally, not checking later values */
 
 // Rotate Array         12/23/2022
-
+/* 
 // Given an array, rotate the array to the right by k steps, where k is non-negative.
 
 // Example 1:
@@ -19770,4 +19770,48 @@ var topVotedRotate = function (nums, k) {
 };
 
 // Thought about the temp approach
-// Better runtime than mine
+// Better runtime than mine */
+
+// Remove Duplicate Letters         12/24/2022
+
+// Given a string s, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.
+
+// Example 1:
+//    Input: s = "bcabc"
+//    Output: "abc"
+
+// Example 2:
+//    Input: s = "cbacdcbc"
+//    Output: "acdb"
+
+// Constraints:
+//    1 <= s.length <= 104
+//    s consists of lowercase English letters.
+
+const topVotedRemoveDuplicateLetters = (s) => {
+  const stack = [];
+  const seen = {};
+  const occurrence = {};
+  for (let j = 0; j < s.length; j++) occurrence[s[j]] = j;
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    if (seen[char]) continue;
+    while (
+      stack.length > 0 &&
+      stack[stack.length - 1] > char &&
+      occurrence[stack[stack.length - 1]] > i
+    ) {
+      const temp = stack.pop();
+      seen[temp] = false;
+    }
+    seen[char] = true;
+    stack.push(char);
+  }
+  return stack.join("");
+};
+
+console.log(removeDuplicateLetters("bcabc")); // "abc"
+console.log(removeDuplicateLetters("cbacdcbc")); // "acdb"
+
+// Totally underestimated this one
+// See top voted solution above
