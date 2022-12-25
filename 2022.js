@@ -19773,7 +19773,7 @@ var topVotedRotate = function (nums, k) {
 // Better runtime than mine */
 
 // Remove Duplicate Letters         12/24/2022
-
+/* 
 // Given a string s, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.
 
 // Example 1:
@@ -19814,4 +19814,50 @@ console.log(removeDuplicateLetters("bcabc")); // "abc"
 console.log(removeDuplicateLetters("cbacdcbc")); // "acdb"
 
 // Totally underestimated this one
-// See top voted solution above
+// See top voted solution above */
+
+// Repeated String Match          12/25/2022
+
+// Given two strings a and b, return the minimum number of times you should repeat string a so that string b is a substring of it. If it is impossible for b​​​​​​ to be a substring of a after repeating it, return -1.
+
+// Notice: string "abc" repeated 0 times is "", repeated 1 time is "abc" and repeated 2 times is "abcabc".
+
+// Example 1:
+//    Input: a = "abcd", b = "cdabcdab"
+//    Output: 3
+// Explanation: We return 3 because by repeating a three times "abcdabcdabcd", b is a substring of it.
+
+// Example 2:
+//    Input: a = "a", b = "aa"
+//    Output: 2
+
+// Constraints:
+//    1 <= a.length, b.length <= 104
+//    a and b consist of lowercase English letters.
+
+const repeatedStringMatch = (a, b, ans = 1) => {
+  if (a.includes(b)) return ans;
+  const x = a;
+  while (ans <= b.length) {
+    a += x;
+    ans++;
+    if (a.includes(b)) return ans;
+  }
+  return -1;
+};
+
+console.log(repeatedStringMatch("abcd", "cdabcdab")); // 3
+console.log(repeatedStringMatch("a", "aa")); // 2
+console.log(repeatedStringMatch("abc", "cabcabca")); // 4
+console.log(repeatedStringMatch("aaaaaaaaaaaaaaaaaaaaaab", "ba")); // 2
+
+// Runtime limit exceeded
+
+const topVotedRepeatedStringMatch = (A, B) => {
+  const count = Math.ceil(B.length / A.length);
+  const str = A.repeat(count);
+  return str.includes(B) ? count : (str + A).includes(B) ? count + 1 : -1;
+};
+
+// Very nice
+// Merry Christmas 🎄
