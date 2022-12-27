@@ -19863,7 +19863,7 @@ const topVotedRepeatedStringMatch = (A, B) => {
 // Merry Christmas 🎄 */
 
 // Number of Pairs of Strings With Concatenation Equal to Target          12/26/2022
-
+/* 
 // Given an array of digit strings nums and a digit string target, return the number of pairs of indices (i, j) (where i != j) such that the concatenation of nums[i] + nums[j] equals target.
 
 // Example 1:
@@ -19930,4 +19930,52 @@ const topVotedNumOfPairs = function (nums, target) {
     x++;
   }
   return count;
+}; */
+
+// Letter Case Permutation          12/27/2022
+
+// Given a string s, you can transform every letter individually to be lowercase or uppercase to create another string.
+
+// Return a list of all possible strings we could create. Return the output in any order.
+
+// Example 1:
+//    Input: s = "a1b2"
+//    Output: ["a1b2","a1B2","A1b2","A1B2"]
+
+// Example 2:
+//    Input: s = "3z4"
+//    Output: ["3z4","3Z4"]
+
+// Constraints:
+//    1 <= s.length <= 12
+//    s consists of lowercase English letters, uppercase English letters, and digits.
+
+const topVotedLetterCasePermutation = (s) => {
+  let n = s.length;
+  let ans = [];
+  let arr = [];
+
+  const backtrack = (i) => {
+    if (i == n) {
+      ans.push(arr.join(""));
+      return;
+    }
+    if (/[a-zA-Z]/.test(s[i])) {
+      arr[i] = s[i].toLowerCase();
+      backtrack(i + 1);
+      arr[i] = s[i].toUpperCase();
+      backtrack(i + 1);
+    } else {
+      arr[i] = s[i];
+      backtrack(i + 1);
+    }
+  };
+  backtrack(0);
+  return ans;
 };
+
+console.log(letterCasePermutation("a1b2")); // ["a1b2","a1B2","A1b2","A1B2"]
+console.log(letterCasePermutation("3z4")); // ["3z4","3Z4"]
+
+// I've never successfully backtracked, but studying the top voted here made a lot of sense
+// Will try and find a backtracking problem tomorrow
