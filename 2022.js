@@ -19933,7 +19933,7 @@ const topVotedNumOfPairs = function (nums, target) {
 }; */
 
 // Letter Case Permutation          12/27/2022
-
+/* 
 // Given a string s, you can transform every letter individually to be lowercase or uppercase to create another string.
 
 // Return a list of all possible strings we could create. Return the output in any order.
@@ -19978,4 +19978,47 @@ console.log(letterCasePermutation("a1b2")); // ["a1b2","a1B2","A1b2","A1B2"]
 console.log(letterCasePermutation("3z4")); // ["3z4","3Z4"]
 
 // I've never successfully backtracked, but studying the top voted here made a lot of sense
-// Will try and find a backtracking problem tomorrow
+// Will try and find a backtracking problem tomorrow */
+
+// Subsets II         12/28/2022
+
+// Given an integer array nums that may contain duplicates, return all possible
+// subsets
+//  (the power set).
+
+// The solution set must not contain duplicate subsets. Return the solution in any order.
+
+// Example 1:
+//    Input: nums = [1,2,2]
+//    Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
+
+// Example 2:
+//    Input: nums = [0]
+//    Output: [[],[0]]
+
+// Constraints:
+//    1 <= nums.length <= 10
+//    -10 <= nums[i] <= 10
+
+const subsetsWithDup = (nums) => {
+  let ans = [];
+  const backtrack = (arr, cur) => {
+    ans.push([...cur]);
+    for (let i = 0; i < arr.length; i++) {
+      if (i == 0 || arr[i] != arr[i - 1]) {
+        cur.push(arr[i]);
+        backtrack(arr.slice(i + 1), cur);
+        cur.pop();
+      }
+    }
+  };
+  nums.sort((a, b) => a - b);
+  backtrack(nums, []);
+  return ans;
+};
+
+console.log(subsetsWithDup([1, 2, 2])); // [[],[1],[1,2],[1,2,2],[2],[2,2]]
+console.log(subsetsWithDup([0])); // [[],[0]]
+
+// This one clicked even less
+// I'll have to do my research on backtracking
