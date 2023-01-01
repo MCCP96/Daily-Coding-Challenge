@@ -20087,7 +20087,7 @@ var topVotedNumRescueBoats = function (people, limit) {
 // Two pointers drastically improves runtime here */
 
 // H-Index          12/30/2022
-
+/* 
 // Given an array of integers citations where citations[i] is the number of citations a researcher received for their ith paper, return compute the researcher's h-index.
 
 // According to the definition of h-index on Wikipedia: A scientist has an index h if h of their n papers have at least h citations each, and the other n − h papers have no more than h citations each.
@@ -20129,4 +20129,72 @@ const topVotedHIndex = (citations) => {
   return i;
 };
 
-// Having it sorted beforehand allows you to save a lot of .filters()
+// Having it sorted beforehand allows you to save a lot of .filters() */
+
+// Find the Duplicate Number          12/31/2022
+
+// Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+
+// There is only one repeated number in nums, return this repeated number.
+
+// You must solve the problem without modifying the array nums and uses only constant extra space.
+
+// Example 1:
+//    Input: nums = [1,3,4,2,2]
+//    Output: 2
+
+// Example 2:
+//    Input: nums = [3,1,3,4,2]
+//    Output: 3
+
+// Constraints:
+//    1 <= n <= 105
+//    nums.length == n + 1
+//    1 <= nums[i] <= n
+//    All the integers in nums appear only once except for precisely one integer which appears two or more times.
+
+// Follow up:
+//    How can we prove that at least one duplicate number must exist in nums?
+//    Can you solve the problem in linear runtime complexity?
+
+const findDuplicate = (nums) => {
+  for (let i = 0; i < nums.length; i++)
+    if (nums.indexOf(nums[i]) !== nums.lastIndexOf(nums[i])) return nums[i];
+};
+const findDuplicate2 = (nums) => {
+  let seen = {};
+  for (let i = 0; i < nums.length; i++) {
+    if (!seen[nums[i]]) seen[nums[i]] = true;
+    else return nums[i];
+  }
+};
+
+console.log(findDuplicate2([1, 3, 4, 2, 2])); // 2
+console.log(findDuplicate2([3, 1, 3, 4, 2])); // 3
+
+// The first solution exceeds Leetcode's runtime limit
+// Second one works, OK runtime
+
+var topVotedFindDuplicate = function (nums) {
+  let slow = nums[0];
+  let fast = nums[nums[0]];
+
+  while (slow != fast) {
+    slow = nums[slow];
+    fast = nums[nums[fast]];
+  }
+
+  slow = 0;
+
+  while (slow != fast) {
+    slow = nums[slow];
+    fast = nums[fast];
+  }
+
+  return slow;
+};
+
+// Seems this is known as Floyd's Cycle Finding Algorithm (Tortoise and Hare)
+// Much faster than my solution
+
+// Happy new years! More coding challenges in 2023! 🎉
