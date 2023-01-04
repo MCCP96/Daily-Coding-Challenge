@@ -108,7 +108,7 @@ var topVotedCaptureForts = function (forts) {
 // Though about Regex, but didn't want to mess with the expressions */
 
 // Walking Robot Simulation         1/3/2023
-
+/* 
 // A robot on an infinite XY-plane starts at point (0, 0) facing north. The robot can receive a sequence of these three possible types of commands:
 
 // -2: Turn left 90 degrees.
@@ -202,11 +202,10 @@ const topVotedRobotSim = (commands, obstacles) => {
   let y = 0;
   let max = 0;
 
-  /* 0 = north
-   * 1 = east
-   * 2 = south
-   * 3 = west
-   */
+  // 0 = north
+  // 1 = east
+  // 2 = south
+  // 3 = west
 
   let direction = 0;
   for (let i = 0; i < obstacles.length; i++) {
@@ -240,4 +239,85 @@ const topVotedRobotSim = (commands, obstacles) => {
 };
 
 // Could've definitely made it easier on myself by doing the if(direction === x) statements instead of my dictionnary approach
-// Such simple yet effective obstacle detection too
+// Such simple yet effective obstacle detection too */
+
+// Words Within Two Edits of Dictionary         1/4/2023
+
+// You are given two string arrays, queries and dictionary. All words in each array comprise of lowercase English letters and have the same length.
+
+// In one edit you can take a word from queries, and change any letter in it to any other letter. Find all words from queries that, after a maximum of two edits, equal some word from dictionary.
+
+// Return a list of all words from queries, that match with some word from dictionary after a maximum of two edits. Return the words in the same order they appear in queries.
+
+// Example 1:
+//    Input: queries = ["word","note","ants","wood"], dictionary = ["wood","joke","moat"]
+//    Output: ["word","note","wood"]
+// Explanation:
+// - Changing the 'r' in "word" to 'o' allows it to equal the dictionary word "wood".
+// - Changing the 'n' to 'j' and the 't' to 'k' in "note" changes it to "joke".
+// - It would take more than 2 edits for "ants" to equal a dictionary word.
+// - "wood" can remain unchanged (0 edits) and match the corresponding dictionary word.
+// Thus, we return ["word","note","wood"].
+
+// Example 2:
+//    Input: queries = ["yes"], dictionary = ["not"]
+//    Output: []
+// Explanation:
+// Applying any two edits to "yes" cannot make it equal to "not". Thus, we return an empty array.
+
+// Constraints:
+//    1 <= queries.length, dictionary.length <= 100
+//    n == queries[i].length == dictionary[j].length
+//    1 <= n <= 100
+//    All queries[i] and dictionary[j] are composed of lowercase English letters.
+
+const twoEditWords = (q, d) =>
+  q.reduce((a, c) => {
+    for (let i = 0; i < d.length; i++) {
+      let dif = 0;
+      for (let j = 0; j < d[i].length; j++) {
+        if (c[j] !== d[i][j]) dif++;
+        if (dif > 2) break;
+      }
+      if (dif <= 2) {
+        a.push(c);
+        break;
+      }
+    }
+    return a;
+  }, []);
+
+console.log(
+  twoEditWords(["word", "note", "ants", "wood"], ["wood", "joke", "moat"])
+); // ["word","note","wood"]
+console.log(twoEditWords(["yes"], ["not"])); // []
+
+// Decent runtime
+
+var topVotedTwoEditWords = function (queries, dictionary) {
+  const res = [],
+    n = queries[0].length;
+
+  for (const q of queries) {
+    if (helper(q)) res.push(q);
+  }
+  return res;
+
+  function helper(q_word) {
+    for (const w of dictionary) {
+      if (diffLessThanTwo(q_word, w)) return true;
+    }
+    return false;
+  }
+
+  function diffLessThanTwo(w1, w2) {
+    let cnt = 0;
+    for (let i = 0; i < n; i++) {
+      if (cnt > 2) return false;
+      if (w1[i] !== w2[i]) cnt++;
+    }
+    return cnt <= 2;
+  }
+};
+
+// Similar logic
