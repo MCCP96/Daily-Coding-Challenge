@@ -242,7 +242,7 @@ const topVotedRobotSim = (commands, obstacles) => {
 // Such simple yet effective obstacle detection too */
 
 // Words Within Two Edits of Dictionary         1/4/2023
-
+/* 
 // You are given two string arrays, queries and dictionary. All words in each array comprise of lowercase English letters and have the same length.
 
 // In one edit you can take a word from queries, and change any letter in it to any other letter. Find all words from queries that, after a maximum of two edits, equal some word from dictionary.
@@ -320,4 +320,80 @@ var topVotedTwoEditWords = function (queries, dictionary) {
   }
 };
 
-// Similar logic
+// Similar logic */
+
+// Minimum Penalty for a Shop         1/5/2023
+
+// You are given the customer visit log of a shop represented by a 0-indexed string customers consisting only of characters 'N' and 'Y':
+
+// if the ith character is 'Y', it means that customers come at the ith hour
+// whereas 'N' indicates that no customers come at the ith hour.
+// If the shop closes at the jth hour (0 <= j <= n), the penalty is calculated as follows:
+
+// For every hour when the shop is open and no customers come, the penalty increases by 1.
+// For every hour when the shop is closed and customers come, the penalty increases by 1.
+// Return the earliest hour at which the shop must be closed to incur a minimum penalty.
+
+// Note that if a shop closes at the jth hour, it means the shop is closed at the hour j.
+
+// Example 1:
+//    Input: customers = "YYNY"
+//    Output: 2
+// Explanation:
+// - Closing the shop at the 0th hour incurs in 1+1+0+1 = 3 penalty.
+// - Closing the shop at the 1st hour incurs in 0+1+0+1 = 2 penalty.
+// - Closing the shop at the 2nd hour incurs in 0+0+0+1 = 1 penalty.
+// - Closing the shop at the 3rd hour incurs in 0+0+1+1 = 2 penalty.
+// - Closing the shop at the 4th hour incurs in 0+0+1+0 = 1 penalty.
+// Closing the shop at 2nd or 4th hour gives a minimum penalty. Since 2 is earlier, the optimal closing time is 2.
+
+// Example 2:
+//    Input: customers = "NNNNN"
+//    Output: 0
+// Explanation: It is best to close the shop at the 0th hour as no customers arrive.
+
+// Example 3:
+//    Input: customers = "YYYY"
+//    Output: 4
+// Explanation: It is best to close the shop at the 4th hour as customers arrive at each hour.
+
+// Constraints:
+//    1 <= customers.length <= 105
+//    customers consists only of characters 'Y' and 'N'.
+
+const bestClosingTime = (cust) => {
+  const penaltyOpen = (i) => cust.substring(0, i).replaceAll("Y", "").length;
+  const penaltyClosed = (i) => cust.substring(i).replaceAll("N", "").length;
+  let min = { time: 0, penalty: Number.MAX_SAFE_INTEGER };
+
+  for (let i = 0; i <= cust.length; i++) {
+    const totPenaltyL = penaltyOpen(i) + penaltyClosed(i);
+    if (totPenaltyL < min.penalty) min = { time: i, penalty: totPenaltyL };
+    if (min.penalty === 0) break;
+  }
+
+  return min.time;
+};
+
+console.log(bestClosingTime("YYNY")); // 2
+console.log(bestClosingTime("NNNNN")); // 0
+console.log(bestClosingTime("YYYY")); // 4
+
+// Works but exceeds runtime limit on larger test cases
+// Running the string methods on each iteration is weighing me down
+
+var topVotedBestClosingTime = function (customers) {
+  let max = 0;
+  let balance = 0;
+  let answer = 0;
+  for (var i = 0; i < customers.length; i++) {
+    if (customers[i] === "Y") {
+      balance++;
+    } else balance--;
+    if (balance > max) {
+      max = balance;
+      answer = i + 1;
+    }
+  }
+  return answer;
+};
