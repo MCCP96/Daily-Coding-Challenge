@@ -323,7 +323,7 @@ var topVotedTwoEditWords = function (queries, dictionary) {
 // Similar logic */
 
 // Minimum Penalty for a Shop         1/5/2023
-
+/* 
 // You are given the customer visit log of a shop represented by a 0-indexed string customers consisting only of characters 'N' and 'Y':
 
 // if the ith character is 'Y', it means that customers come at the ith hour
@@ -396,4 +396,64 @@ var topVotedBestClosingTime = function (customers) {
     }
   }
   return answer;
+}; */
+
+// Hand of Straights          1/6/2023
+
+// Alice has some number of cards and she wants to rearrange the cards into groups so that each group is of size groupSize, and consists of groupSize consecutive cards.
+
+// Given an integer array hand where hand[i] is the value written on the ith card and an integer groupSize, return true if she can rearrange the cards, or false otherwise.
+
+// Example 1:
+//    Input: hand = [1,2,3,6,2,3,4,7,8], groupSize = 3
+//    Output: true
+// Explanation: Alice's hand can be rearranged as [1,2,3],[2,3,4],[6,7,8]
+
+// Example 2:
+//    Input: hand = [1,2,3,4,5], groupSize = 4
+//    Output: false
+// Explanation: Alice's hand can not be rearranged into groups of 4.
+
+// Constraints:
+//    1 <= hand.length <= 104
+//    0 <= hand[i] <= 109
+//    1 <= groupSize <= hand.length
+
+const isNStraightHand = (hand, size) => {
+  if (hand.length % size !== 0) return false;
+  hand.sort((a, b) => a - b);
+  while (hand.length > 0) {
+    let cur = hand.shift();
+    for (let i = 0; i < size - 1; i++) {
+      const index = hand.findIndex((x) => x == cur + 1);
+      if (index == -1) return false;
+      cur = hand.splice(index, 1)[0];
+    }
+  }
+  return true;
+};
+
+console.log(isNStraightHand([1, 2, 3, 6, 2, 3, 4, 7, 8], 3)); // true
+console.log(isNStraightHand([1, 2, 3, 4, 5], 4)); // false
+console.log(isNStraightHand([8, 10, 12], 3)); // false
+
+var topVotedIsNStraightHand = function (hand, W) {
+  if (hand.length % W) return false;
+  const map = hand.reduce(
+    (map, curr) => map.set(curr, map.get(curr) + 1 || 1),
+    new Map()
+  );
+  const checkValid = (key) => {
+    let count = map.get(key);
+    while (count) {
+      for (let i = key; i < key + W; i++) {
+        if (!map.has(i)) return false;
+        else if (map.get(i) === 1) map.delete(i);
+        else map.set(i, map.get(i) - 1);
+      }
+      count--;
+    }
+    return true;
+  };
+  return [...map.keys()].sort((a, b) => a - b).every((k) => checkValid(k));
 };
