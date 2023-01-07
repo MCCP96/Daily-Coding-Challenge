@@ -399,7 +399,7 @@ var topVotedBestClosingTime = function (customers) {
 }; */
 
 // Hand of Straights          1/6/2023
-
+/* 
 // Alice has some number of cards and she wants to rearrange the cards into groups so that each group is of size groupSize, and consists of groupSize consecutive cards.
 
 // Given an integer array hand where hand[i] is the value written on the ith card and an integer groupSize, return true if she can rearrange the cards, or false otherwise.
@@ -456,4 +456,69 @@ var topVotedIsNStraightHand = function (hand, W) {
     return true;
   };
   return [...map.keys()].sort((a, b) => a - b).every((k) => checkValid(k));
+}; */
+
+// Rabbits in Forest          1/7/2023
+
+// There is a forest with an unknown number of rabbits. We asked n rabbits "How many rabbits have the same color as you?" and collected the answers in an integer array answers where answers[i] is the answer of the ith rabbit.
+
+// Given the array answers, return the minimum number of rabbits that could be in the forest.
+
+// Example 1:
+//    Input: answers = [1,1,2]
+//    Output: 5
+// Explanation:
+// The two rabbits that answered "1" could both be the same color, say red.
+// The rabbit that answered "2" can't be red or the answers would be inconsistent.
+// Say the rabbit that answered "2" was blue.
+// Then there should be 2 other blue rabbits in the forest that didn't answer into the array.
+// The smallest possible number of rabbits in the forest is therefore 5: 3 that answered plus 2 that didn't.
+
+// Example 2:
+//    Input: answers = [10,10,10]
+//    Output: 11
+
+// Constraints:
+//    1 <= answers.length <= 1000
+//    0 <= answers[i] < 1000
+
+const numRabbits = (ans) => {
+  let tot = ans.length;
+  let count = ans.reduce((a, c) => {
+    a[c] ? a[c]++ : (a[c] = 1);
+    return a;
+  }, {});
+  return Object.entries(count)
+    .filter((x) => x[0] != 0)
+    .reduce((a, c) => {
+      let dif = Math.abs(+c[0] - c[1]);
+      return a + dif + (c[0] < c[1] ? -1 : 1);
+    }, tot);
+};
+
+console.log(numRabbits([1, 1, 2])); // 5
+console.log(numRabbits([10, 10, 10])); // 11
+console.log(numRabbits([0, 0, 1, 1, 1])); // 6
+console.log(numRabbits([1, 0, 1, 0, 0])); // 5
+
+var topVotedNumRabbits = function (answers) {
+  const map = new Map();
+  let tot = 0;
+
+  for (const answer of answers) {
+    if (answer === 0) {
+      tot++;
+      continue;
+    }
+
+    if (!map.has(answer)) {
+      map.set(answer, answer);
+      tot += answer + 1;
+    } else {
+      map.set(answer, map.get(answer) - 1);
+
+      if (map.get(answer) === 0) map.delete(answer);
+    }
+  }
+  return tot;
 };
