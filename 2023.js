@@ -524,7 +524,7 @@ var topVotedNumRabbits = function (answers) {
 }; */
 
 // Shortest Distance to Target String in a Circular Array         1/8/2023
-
+/* 
 // You are given a 0-indexed circular string array words and a string target. A circular array means that the array's end connects to the array's beginning.
 
 // Formally, the next element of words[i] is words[(i + 1) % n] and the previous element of words[i] is words[(i - 1 + n) % n], where n is the length of words.
@@ -590,4 +590,80 @@ var topVotedClosetTarget = function (words, target, startIndex) {
     step++;
   }
   return -1;
+}; */
+
+// Adding Two Negabinary Numbers          1/9/2023
+
+// Given two numbers arr1 and arr2 in base -2, return the result of adding them together.
+
+// Each number is given in array format:  as an array of 0s and 1s, from most significant bit to least significant bit.  For example, arr = [1,1,0,1] represents the number (-2)^3 + (-2)^2 + (-2)^0 = -3.  A number arr in array, format is also guaranteed to have no leading zeros: either arr == [0] or arr[0] == 1.
+
+// Return the result of adding arr1 and arr2 in the same format: as an array of 0s and 1s with no leading zeros.
+
+// Example 1:
+//    Input: arr1 = [1,1,1,1,1], arr2 = [1,0,1]
+//    Output: [1,0,0,0,0]
+// Explanation: arr1 represents 11, arr2 represents 5, the output represents 16.
+
+// Example 2:
+//    Input: arr1 = [0], arr2 = [0]
+//    Output: [0]
+
+// Example 3:
+//    Input: arr1 = [0], arr2 = [1]
+//    Output: [1]
+
+// Constraints:
+//    1 <= arr1.length, arr2.length <= 1000
+//    arr1[i] and arr2[i] are 0 or 1
+//    arr1 and arr2 have no leading zeros
+
+const addNegabinary = (a1, a2) => {
+  const count = (a) =>
+    a.reverse().reduce((a, c, i) => (c == 0 ? a : (a += (0 - 2) ** i)), 0);
+  return (count(a1) + count(a2)).toString(2).split("");
 };
+
+console.log(addNegabinary([1, 1, 1, 1, 1], [1, 0, 1])); // [1,0,0,0,0]
+console.log(addNegabinary([0], [0])); // [0]
+console.log(addNegabinary([0], [1])); // [1]
+console.log(addNegabinary([0], [1, 0])); // [1,0]
+
+// Doesn't work for all test cases
+
+function addNegabinary(a, b) {
+  (a = a.reverse()), (b = b.reverse());
+
+  let c = dp(Math.max(a.length, b.length));
+
+  while (c.length > 1 && c[0] == 0) {
+    c.shift();
+  }
+
+  return c;
+
+  function dp(max, r = []) {
+    for (let i = 0; i <= max; i++) {
+      r[i] = (a[i] || 0) + (b[i] || 0) + (r[i] || 0);
+
+      if (r[i] == -1) {
+        r[i] = 1;
+        r[i + 1] = 1;
+        continue;
+      }
+
+      if (r[i] == 2) {
+        r[i] = 0;
+        r[i + 1] = -1;
+        continue;
+      }
+
+      if (r[i] == 3) {
+        r[i] = 1;
+        r[i + 1] = -1;
+        continue;
+      }
+    }
+    return r.reverse();
+  }
+}
