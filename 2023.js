@@ -593,7 +593,7 @@ var topVotedClosetTarget = function (words, target, startIndex) {
 }; */
 
 // Adding Two Negabinary Numbers          1/9/2023
-
+/* 
 // Given two numbers arr1 and arr2 in base -2, return the result of adding them together.
 
 // Each number is given in array format:  as an array of 0s and 1s, from most significant bit to least significant bit.  For example, arr = [1,1,0,1] represents the number (-2)^3 + (-2)^2 + (-2)^0 = -3.  A number arr in array, format is also guaranteed to have no leading zeros: either arr == [0] or arr[0] == 1.
@@ -666,4 +666,39 @@ function addNegabinary(a, b) {
     }
     return r.reverse();
   }
-}
+} */
+
+// Count the Digits That Divide a Number          1/10/2023
+
+// Given an integer num, return the number of digits in num that divide num.
+
+// An integer val divides nums if nums % val == 0.
+
+// Example 1:
+//    Input: num = 7
+//    Output: 1
+// Explanation: 7 divides itself, hence the answer is 1.
+
+// Example 2:
+//    Input: num = 121
+//    Output: 2
+// Explanation: 121 is divisible by 1, but not 2. Since 1 occurs twice as a digit, we return 2.
+
+// Example 3:
+//    Input: num = 1248
+//    Output: 4
+// Explanation: 1248 is divisible by all of its digits, hence the answer is 4.
+
+// Constraints:
+//    1 <= num <= 109
+//    num does not contain 0 as one of its digits.
+
+const countDigits = (num) =>
+  [...`${num}`].reduce((a, c) => (num % +c == 0 ? ++a : a), 0);
+
+console.log(countDigits(7)); // 1
+console.log(countDigits(121)); // 2
+console.log(countDigits(1248)); // 4
+
+// Better than 90% runtimes
+// Same as top voted
