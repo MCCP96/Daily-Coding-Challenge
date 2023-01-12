@@ -704,7 +704,7 @@ console.log(countDigits(1248)); // 4
 // Same as top voted */
 
 // Find Minimum in Rotated Sorted Array         1/11/2023
-
+/* 
 // Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
 
 // [4,5,6,7,0,1,2] if it was rotated 4 times.
@@ -753,4 +753,55 @@ console.log(findMin([4, 5, 6, 7, 0, 1, 2])); // 0
 console.log(findMin([11, 13, 15, 17])); // 11
 
 // Same as top voted
-// ~~ can be used instead of Math.floor for better runtime
+// ~~ can be used instead of Math.floor for better runtime */
+
+// Repeated DNA Sequences         1/12/2023
+
+// The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'.
+
+// For example, "ACGAATTCCG" is a DNA sequence.
+// When studying DNA, it is useful to identify repeated sequences within the DNA.
+
+// Given a string s that represents a DNA sequence, return all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in any order.
+
+// Example 1:
+//    Input: s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+//    Output: ["AAAAACCCCC","CCCCCAAAAA"]
+
+// Example 2:
+//    Input: s = "AAAAAAAAAAAAA"
+//    Output: ["AAAAAAAAAA"]
+
+// Constraints:
+//    1 <= s.length <= 10^5
+//    s[i] is either 'A', 'C', 'G', or 'T'.
+
+const findRepeatedDnaSequences = (s) => {
+  let ans = new Set();
+  if (s.length <= 10) return [];
+  for (let i = 0; i < s.length - 10; i++) {
+    let [cur, rest] = [s.substring(i, i + 10), s.substring(i + 1)];
+    if (rest.includes(cur)) ans.add(cur);
+  }
+  return [...ans];
+};
+
+console.log(findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT")); // ["AAAAACCCCC","CCCCCAAAAA"]
+console.log(findRepeatedDnaSequences("AAAAAAAAAAAAA")); // ["AAAAAAAAAA"]
+
+// Terrible runtime
+
+var topVotedFindRepeatedDnaSequences = function (s) {
+  let curr = s.slice(0, 10);
+  const seen = new Set([curr]);
+  const res = new Set();
+
+  for (let i = 10; i < s.length; i++) {
+    curr = curr.slice(1) + s[i];
+    if (seen.has(curr)) res.add(curr);
+    seen.add(curr);
+  }
+  return [...res];
+};
+
+// Saves checking on every iteration by only adding a string if it's been seen before
