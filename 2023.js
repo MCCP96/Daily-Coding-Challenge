@@ -756,7 +756,7 @@ console.log(findMin([11, 13, 15, 17])); // 11
 // ~~ can be used instead of Math.floor for better runtime */
 
 // Repeated DNA Sequences         1/12/2023
-
+/* 
 // The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'.
 
 // For example, "ACGAATTCCG" is a DNA sequence.
@@ -804,4 +804,92 @@ var topVotedFindRepeatedDnaSequences = function (s) {
   return [...res];
 };
 
-// Saves checking on every iteration by only adding a string if it's been seen before
+// Saves checking on every iteration by only adding a string if it's been seen before */
+
+// Course Schedule          1/13/2023
+
+// There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+// For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+// Return true if you can finish all courses. Otherwise, return false.
+
+// Example 1:
+//    Input: numCourses = 2, prerequisites = [[1,0]]
+//    Output: true
+// Explanation: There are a total of 2 courses to take.
+// To take course 1 you should have finished course 0. So it is possible.
+
+// Example 2:
+//    Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+//    Output: false
+// Explanation: There are a total of 2 courses to take.
+// To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+
+// Constraints:
+//    1 <= numCourses <= 2000
+//    0 <= prerequisites.length <= 5000
+//    prerequisites[i].length == 2
+//    0 <= ai, bi < numCourses
+//    All the pairs prerequisites[i] are unique.
+
+let visiting;
+let visited;
+let graph;
+
+const topVotedCanFinish = (numCourses, prerequisites) => {
+  graph = new Map();
+  visiting = new Set();
+  visited = new Set();
+
+  for (let [v, e] of prerequisites) {
+    if (graph.has(v)) {
+      let edges = graph.get(v);
+      edges.push(e);
+      graph.set(v, edges);
+    } else {
+      graph.set(v, [e]);
+    }
+  }
+
+  for (const [v, e] of graph) {
+    if (DFS(v)) {
+      return false; //if cyclic it will not finish so it is false
+    }
+  }
+
+  return true;
+};
+
+var DFS = function (v) {
+  visiting.add(v);
+  let edges = graph.get(v); // get all the edges to explore
+
+  if (edges) {
+    //console.log(edges)
+    for (let e of edges) {
+      if (visited.has(e)) {
+        //skip if it is explored already
+        continue;
+      }
+
+      if (visiting.has(e)) {
+        //found e is being explored
+        return true;
+      }
+
+      if (DFS(e)) {
+        // DFS deeper if this e is cyclic
+        return true;
+      }
+    }
+  }
+
+  visiting.delete(v); // remove from visiting set when all decedant v are visited
+  visited.add(v);
+  return false;
+};
+
+console.log(topVotedCanFinish(2, [[1, 0]]));
+console.log(topVotedCanFinish(2,  [[1,0],[0,1]])); // prettier-ignore
+
+// Tried for a while but couldn't get it working
