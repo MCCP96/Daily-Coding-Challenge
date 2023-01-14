@@ -807,7 +807,7 @@ var topVotedFindRepeatedDnaSequences = function (s) {
 // Saves checking on every iteration by only adding a string if it's been seen before */
 
 // Course Schedule          1/13/2023
-
+/* 
 // There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
 // For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
@@ -892,4 +892,81 @@ var DFS = function (v) {
 console.log(topVotedCanFinish(2, [[1, 0]]));
 console.log(topVotedCanFinish(2,  [[1,0],[0,1]])); // prettier-ignore
 
-// Tried for a while but couldn't get it working
+// Tried for a while but couldn't get it working */
+
+// Moving Stones Until Consecutive          1/14/2023
+
+// There are three stones in different positions on the X-axis. You are given three integers a, b, and c, the positions of the stones.
+
+// In one move, you pick up a stone at an endpoint (i.e., either the lowest or highest position stone), and move it to an unoccupied position between those endpoints. Formally, let's say the stones are currently at positions x, y, and z with x < y < z. You pick up the stone at either position x or position z, and move that stone to an integer position k, with x < k < z and k != y.
+
+// The game ends when you cannot make any more moves (i.e., the stones are in three consecutive positions).
+
+// Return an integer array answer of length 2 where:
+
+// answer[0] is the minimum number of moves you can play, and
+// answer[1] is the maximum number of moves you can play.
+
+// Example 1:
+//    Input: a = 1, b = 2, c = 5
+//    Output: [1,2]
+// Explanation: Move the stone from 5 to 3, or move the stone from 5 to 4 to 3.
+
+// Example 2:
+//    Input: a = 4, b = 3, c = 2
+//    Output: [0,0]
+// Explanation: We cannot make any moves.
+
+// Example 3:
+//    Input: a = 3, b = 5, c = 1
+//    Output: [1,2]
+// Explanation: Move the stone from 1 to 4; or move the stone from 1 to 2 to 4.
+
+// Constraints:
+//    1 <= a, b, c <= 100
+//    a, b, and c have different values.
+
+const numMovesStones = (a, b, c) => {
+  let ans = [0, 0];
+  let cur = [a, b, c].sort((a, b) => a - b);
+  while (cur[0] != cur[1] - 1 || cur[1] != cur[2] - 1) {
+    const dif = {
+      l: cur[1] - cur[0] - 1,
+      r: cur[2] - cur[1] - 1,
+    };
+    if (dif.l > dif.r) {
+      ans[0]++;
+      if (cur[2] - cur[1] == 1) {
+        ans[1] += dif.l;
+        cur = [cur[1] - 1, cur[1], cur[2]];
+      } else {
+        ans[1] += dif.l + 1;
+        cur = [cur[1], cur[1] + 1, cur[2]];
+      }
+    } else {
+      ans[0]++;
+      if (cur[1] - cur[0] == 1) {
+        ans[1] += dif.r;
+        cur = [cur[0], cur[1], cur[1] + 1];
+      } else {
+        ans[1] += dif.r + 1;
+        cur = [cur[0], cur[1] - 1, cur[1]];
+      }
+    }
+  }
+  return ans;
+};
+
+console.log(numMovesStones(1, 2, 5)); // [1,2]
+console.log(numMovesStones(4, 3, 2)); // [0,0]
+console.log(numMovesStones(3, 5, 1)); // [1,2]
+
+// Better than 100% Runtimes & Memory
+
+const topVotedNumMovesStones = (a, b, c) => {
+  const [x, y, z] = [Math.abs(a - b), Math.abs(b - c), Math.abs(c - a)];
+  const [min, max] = [Math.min(x, y, z), Math.max(x, y, z)];
+  return 2 === max ? [0, 0] : [min < 3 ? 1 : 2, max - 2];
+};
+
+// So much cleaner
