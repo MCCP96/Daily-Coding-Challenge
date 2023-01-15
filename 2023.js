@@ -895,7 +895,7 @@ console.log(topVotedCanFinish(2,  [[1,0],[0,1]])); // prettier-ignore
 // Tried for a while but couldn't get it working */
 
 // Moving Stones Until Consecutive          1/14/2023
-
+/* 
 // There are three stones in different positions on the X-axis. You are given three integers a, b, and c, the positions of the stones.
 
 // In one move, you pick up a stone at an endpoint (i.e., either the lowest or highest position stone), and move it to an unoccupied position between those endpoints. Formally, let's say the stones are currently at positions x, y, and z with x < y < z. You pick up the stone at either position x or position z, and move that stone to an integer position k, with x < k < z and k != y.
@@ -969,4 +969,136 @@ const topVotedNumMovesStones = (a, b, c) => {
   return 2 === max ? [0, 0] : [min < 3 ? 1 : 2, max - 2];
 };
 
-// So much cleaner
+// So much cleaner */
+
+// Lexicographically Smallest Equivalent String         1/15/2023
+
+// You are given two strings of the same length s1 and s2 and a string baseStr.
+
+// We say s1[i] and s2[i] are equivalent characters.
+
+// For example, if s1 = "abc" and s2 = "cde", then we have 'a' == 'c', 'b' == 'd', and 'c' == 'e'.
+// Equivalent characters follow the usual rules of any equivalence relation:
+
+// Reflexivity: 'a' == 'a'.
+// Symmetry: 'a' == 'b' implies 'b' == 'a'.
+// Transitivity: 'a' == 'b' and 'b' == 'c' implies 'a' == 'c'.
+// For example, given the equivalency information from s1 = "abc" and s2 = "cde", "acd" and "aab" are equivalent strings of baseStr = "eed", and "aab" is the lexicographically smallest equivalent string of baseStr.
+
+// Return the lexicographically smallest equivalent string of baseStr by using the equivalency information from s1 and s2.
+
+// Example 1:
+//    Input: s1 = "parker", s2 = "morris", baseStr = "parser"
+//    Output: "makkek"
+// Explanation: Based on the equivalency information in s1 and s2, we can group their characters as [m,p], [a,o], [k,r,s], [e,i].
+// The characters in each group are equivalent and sorted in lexicographical order.
+// So the answer is "makkek".
+
+// Example 2:
+//    Input: s1 = "hello", s2 = "world", baseStr = "hold"
+//    Output: "hdld"
+// Explanation: Based on the equivalency information in s1 and s2, we can group their characters as [h,w], [d,e,o], [l,r].
+// So only the second letter 'o' in baseStr is changed to 'd', the answer is "hdld".
+
+// Example 3:
+//    Input: s1 = "leetcode", s2 = "programs", baseStr = "sourcecode"
+//    Output: "aauaaaaada"
+// Explanation: We group the equivalent characters in s1 and s2 as [a,o,e,r,s,c], [l,p], [g,t] and [d,m], thus all letters in baseStr except 'u' and 'd' are transformed to 'a', the answer is "aauaaaaada".
+
+// Constraints:
+//    1 <= s1.length, s2.length, baseStr <= 1000
+//    s1.length == s2.length
+//    s1, s2, and baseStr consist of lowercase English letters.
+
+const smallestEquivalentString = (s1, s2, base) => {
+  let equi = {};
+  for (let i = 0; i < s1.length; i++) {
+    const [l1, l2] = [s1[i], s2[i]];
+    equi[l1] ? equi[l1].push(l2) : (equi[l1] = [l1, l2]);
+    equi[l2] ? equi[l2].push(l1) : (equi[l2] = [l2, l1]);
+  }
+  Object.entries(equi).forEach((c) => {
+    const [l, e] = c;
+    const len = e.length;
+    for (let i = 1; i < len; i++) {
+      equi[l].push(...equi[e[i]]);
+      equi[l] = [...new Set(equi[l])].sort();
+    }
+  });
+  // Object.entries(equi).forEach((c) => {
+  //   const [l, e] = c;
+  //   const len = e.length;
+  //   for (let i = 1; i < len; i++) {
+  //     equi[l].push(...equi[e[i]]);
+  //     equi[l] = [...new Set(equi[l])].sort();
+  //   }
+  // });
+  let ans = "";
+  for (let i = 0; i < base.length; i++) {
+    ans += equi[base[i]] ? equi[base[i]][0] : base[i];
+  }
+  return ans;
+};
+
+console.log(smallestEquivalentString("parker", "morris", "parser")); // "makkek"
+console.log(smallestEquivalentString("hello", "world", "hold")); // "hdld"
+console.log(smallestEquivalentString("leetcode", "programs", "sourcecode")); // "aauaaaaada"
+console.log(
+  smallestEquivalentString(
+    "cgokcgerolkgksgbhgmaaealacnsshofjinidiigbjerdnkolc",
+    "rjjlkbmnprkslilqmbnlasardrossiogrcboomrbcmgmglsrsj",
+    "bxbwjlbdazfejdsaacsjgrlxqhiddwaeguxhqoupicyzfeupcn"
+  )
+); // "axawaaaaazaaaaaaaaaaaaaxaaaaawaaauxaaauaaayzaauaaa"
+
+// Got it working, but needs to run middle portion twice, as seen in test case 4
+
+var topVotedSmallestEquivalentString = function (s1, s2, baseStr) {
+  let arr = new Array(26);
+
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = String.fromCharCode(i + 97);
+  }
+  for (let i = 0; i < s1.length; i++) {
+    let f = arr[s1[i].charCodeAt(0) - 97];
+    let s = arr[s2[i].charCodeAt(0) - 97];
+    if (f == s) continue;
+    let replaceTo = "";
+    let replaceFrom = "";
+    if (f > s) {
+      replaceTo = s;
+      replaceFrom = f;
+    } else {
+      replaceTo = f;
+      replaceFrom = s;
+    }
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] == replaceFrom) arr[i] = replaceTo;
+    }
+  }
+  let res = "";
+  for (let i = 0; i < baseStr.length; i++) {
+    res += arr[baseStr.charCodeAt(i) - 97];
+  }
+  return res;
+};
+
+// Makes an alphabet then continuously replaces letters with the smallest one
+
+const revisedSolution = (s1, s2, base) => {
+  let arr = new Array(26);
+  for (let i = 0; i < arr.length; i++) arr[i] = String.fromCharCode(i + 97);
+
+  const update = (small, large) =>
+    (arr = arr.map((c) => (c == large ? small : c)));
+  for (let i = 0; i < s1.length; i++) {
+    let l1 = arr[s1[i].charCodeAt(0) - 97];
+    let l2 = arr[s2[i].charCodeAt(0) - 97];
+    if (l1 == l2) continue;
+    l1 > l2 ? update(l2, l1) : update(l1, l2);
+  }
+
+  return [...base].reduce((a, _, i) => (a += arr[base.charCodeAt(i) - 97]), "");
+};
+
+console.log(revisedSolution("parker", "morris", "parser")); // "makkek"
