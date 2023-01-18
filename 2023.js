@@ -1184,7 +1184,7 @@ console.log(
 // Same as top voted */
 
 // Successful Pairs of Spells and Potions         1/17/2023
-
+/* 
 // You are given two positive integer arrays spells and potions, of length n and m respectively, where spells[i] represents the strength of the ith spell and potions[j] represents the strength of the jth potion.
 
 // You are also given an integer success. A spell and potion pair is considered successful if the product of their strengths is at least success.
@@ -1244,4 +1244,69 @@ var topVotedSuccessfulPairs = function (spells, potions, success) {
   return res;
 };
 
-// Binary search would be the way to go here
+// Binary search would be the way to go here */
+
+// Apply Discount to Prices         1/18/2023
+
+// A sentence is a string of single-space separated words where each word can contain digits, lowercase letters, and the dollar sign '$'. A word represents a price if it is a sequence of digits preceded by a dollar sign.
+
+// For example, "$100", "$23", and "$6" represent prices while "100", "$", and "$1e5" do not.
+// You are given a string sentence representing a sentence and an integer discount. For each word representing a price, apply a discount of discount% on the price and update the word in the sentence. All updated prices should be represented with exactly two decimal places.
+
+// Return a string representing the modified sentence.
+
+// Note that all prices will contain at most 10 digits.
+
+// Example 1:
+//    Input: sentence = "there are $1 $2 and 5$ candies in the shop", discount = 50
+//    Output: "there are $0.50 $1.00 and 5$ candies in the shop"
+// Explanation:
+// The words which represent prices are "$1" and "$2".
+// - A 50% discount on "$1" yields "$0.50", so "$1" is replaced by "$0.50".
+// - A 50% discount on "$2" yields "$1". Since we need to have exactly 2 decimal places after a price, we replace "$2" with "$1.00".
+
+// Example 2:
+//    Input: sentence = "1 2 $3 4 $5 $6 7 8$ $9 $10$", discount = 100
+//    Output: "1 2 $0.00 4 $0.00 $0.00 7 8$ $0.00 $10$"
+// Explanation:
+// Applying a 100% discount on any price will result in 0.
+// The words representing prices are "$3", "$5", "$6", and "$9".
+// Each of them is replaced by "$0.00".
+
+// Constraints:
+//    1 <= sentence.length <= 105
+//    sentence consists of lowercase English letters, digits, ' ', and '$'.
+//    sentence does not have leading or trailing spaces.
+//    All words in sentence are separated by a single space.
+//    All prices will be positive numbers without leading zeros.
+//    All prices will have at most 10 digits.
+//    0 <= discount <= 100
+
+const discountPrices = (str, d) =>
+  str.split(" ").reduce((a, c, i, arr) => {
+    if (/^\$\d+$/.test(c)) {
+      let price = +c.substring(1);
+      c = "$" + (price - (price * d) / 100).toFixed(2);
+    }
+    return (a += c + (i == arr.length - 1 ? "" : " "));
+  }, "");
+
+console.log(discountPrices("there are $1 $2 and 5$ candies in the shop", 50)); // "there are $0.50 $1.00 and 5$ candies in the shop"
+console.log(discountPrices("1 2 $3 4 $5 $6 7 8$ $9 $10$", 100)); // "1 2 $0.00 4 $0.00 $0.00 7 8$ $0.00 $10$"
+console.log(
+  discountPrices("$2$3 $10 $100 $1 200 $33 33$ $$ $99 $99999 $9999999999", 0)
+); // "$2$3 $10.00 $100.00 $1.00 200 $33.00 33$ $$ $99.00 $99999.00 $9999999999.00"
+
+// Better Runtime than 100%
+
+function topVotedDiscountPrices(sentence, discount) {
+  const reg = /(?<=(\s|^))\$(\d+)(?=(\s|$))/g;
+  return sentence.replace(reg, (match) => {
+    const price = parseFloat(match.slice(1));
+    const afterDiscount = (price * (100 - discount)) / 100;
+    return `${afterDiscount.toFixed(2)}`;
+  });
+}
+
+// Plenty of people complaining about this question
+// Seems the only valid approach was Regex
