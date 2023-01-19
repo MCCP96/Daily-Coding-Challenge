@@ -1247,7 +1247,7 @@ var topVotedSuccessfulPairs = function (spells, potions, success) {
 // Binary search would be the way to go here */
 
 // Apply Discount to Prices         1/18/2023
-
+/* 
 // A sentence is a string of single-space separated words where each word can contain digits, lowercase letters, and the dollar sign '$'. A word represents a price if it is a sequence of digits preceded by a dollar sign.
 
 // For example, "$100", "$23", and "$6" represent prices while "100", "$", and "$1e5" do not.
@@ -1284,10 +1284,8 @@ var topVotedSuccessfulPairs = function (spells, potions, success) {
 
 const discountPrices = (str, d) =>
   str.split(" ").reduce((a, c, i, arr) => {
-    if (/^\$\d+$/.test(c)) {
-      let price = +c.substring(1);
-      c = "$" + (price - (price * d) / 100).toFixed(2);
-    }
+    if (/^\$\d+$/.test(c))
+      c = "$" + ((+c.substring(1) * (100 - d)) / 100).toFixed(2);
     return (a += c + (i == arr.length - 1 ? "" : " "));
   }, "");
 
@@ -1309,4 +1307,83 @@ function topVotedDiscountPrices(sentence, discount) {
 }
 
 // Plenty of people complaining about this question
-// Seems the only valid approach was Regex
+// Seems the only valid approach was Regex */
+
+// Replace Elements in an Array         1/19/2023
+
+//  You are given a 0-indexed array nums that consists of n distinct positive integers. Apply m operations to this array, where in the ith operation you replace the number operations[i][0] with operations[i][1].
+
+// It is guaranteed that in the ith operation:
+
+// operations[i][0] exists in nums.
+// operations[i][1] does not exist in nums.
+// Return the array obtained after applying all the operations.
+
+// Example 1:
+//    Input: nums = [1,2,4,6], operations = [[1,3],[4,7],[6,1]]
+//    Output: [3,2,7,1]
+// Explanation: We perform the following operations on nums:
+// - Replace the number 1 with 3. nums becomes [3,2,4,6].
+// - Replace the number 4 with 7. nums becomes [3,2,7,6].
+// - Replace the number 6 with 1. nums becomes [3,2,7,1].
+// We return the final array [3,2,7,1].
+
+// Example 2:
+//    Input: nums = [1,2], operations = [[1,3],[2,1],[3,2]]
+//    Output: [2,1]
+// Explanation: We perform the following operations to nums:
+// - Replace the number 1 with 3. nums becomes [3,2].
+// - Replace the number 2 with 1. nums becomes [3,1].
+// - Replace the number 3 with 2. nums becomes [2,1].
+// We return the array [2,1].
+
+// Constraints:
+//    n == nums.length
+//    m == operations.length
+//    1 <= n, m <= 105
+//    All the values of nums are distinct.
+//    operations[i].length == 2
+//    1 <= nums[i], operations[i][0], operations[i][1] <= 106
+//    operations[i][0] will exist in nums when applying the ith operation.
+//    operations[i][1] will not exist in nums when applying the ith operation.
+
+const arrayChange = (nums, ops) =>
+  ops.reduce(
+    (nums, op) => nums.map((num) => (num == op[0] ? op[1] : num)),
+    nums
+  );
+
+// prettier-ignore
+console.log(arrayChange([1,2,4,6],[[1,3],[4,7],[6,1]])); // [3,2,7,1]
+// prettier-ignore
+console.log(arrayChange([1,2], [[1,3],[2,1],[3,2]])); // [2,1]
+
+// Exceeds runtime limit
+// Probably have to map a path between the first and last operations and update the array only once at the end
+
+var topVotedArrayChange = function (nums, operations) {
+  let map = new Map();
+
+  for (let i = 0; i < nums.length; i++) {
+    let num = nums[i];
+    map.set(num, i);
+  }
+
+  for (let op of operations) {
+    let key = op[0];
+    let value = op[1];
+
+    // if key exists
+    if (map.has(key)) {
+      const idx = map.get(key);
+      map.set(value, idx);
+      map.delete(key);
+    }
+  }
+
+  for (let [key, idx] of map) {
+    nums[idx] = key;
+  }
+
+  return nums;
+};
