@@ -1441,7 +1441,7 @@ console.log(topVotedLongestSubsequence("1001010", 5)); // 5
 console.log(topVotedLongestSubsequence("00101001", 1)); // 6 */
 
 // Categorize Box According to Criteria         1/21/2023
-
+/* 
 // Given four integers length, width, height, and mass, representing the dimensions and mass of a box, respectively, return a string representing the category of the box.
 
 // The box is "Bulky" if:
@@ -1494,5 +1494,71 @@ const categorizeBox = (l, w, h, m) => {
 
 console.log(categorizeBox(1000, 35, 700, 300)); // "Heavy"
 console.log(categorizeBox(200, 50, 800, 50)); // "Neither"
+
+// Same as top voted */
+
+// Maximum Sum of an Hourglass          1/22/2023
+
+// You are given an m x n integer matrix grid.
+
+// We define an hourglass as a part of the matrix with the following form:
+// https://assets.leetcode.com/uploads/2022/08/21/img.jpg
+
+// Return the maximum sum of the elements of an hourglass.
+
+// Note that an hourglass cannot be rotated and must be entirely contained within the matrix.
+
+// Example 1:
+//    Input: grid = [[6,2,1,3],[4,2,1,5],[9,2,8,7],[4,1,2,9]]
+//    Output: 30
+// Explanation: The cells shown above represent the hourglass with the maximum sum: 6 + 2 + 1 + 2 + 9 + 2 + 8 = 30.
+
+// Example 2:
+//    Input: grid = [[1,2,3],[4,5,6],[7,8,9]]
+//    Output: 35
+// Explanation: There is only one hourglass in the matrix, with the sum: 1 + 2 + 3 + 5 + 7 + 8 + 9 = 35.
+
+// Constraints:
+//    m == grid.length
+//    n == grid[i].length
+//    3 <= m, n <= 150
+//    0 <= grid[i][j] <= 106
+
+const maxSum = (g) => {
+  let res = -Infinity;
+  for (let i = 1; i < g.length - 1; i++) {
+    for (let j = 1; j < g[i].length - 1; j++) {
+      const cur =
+        g[i - 1][j - 1] +
+        g[i - 1][j] +
+        g[i - 1][j + 1] +
+        g[i][j] +
+        g[i + 1][j - 1] +
+        g[i + 1][j] +
+        g[i + 1][j + 1];
+      if (cur > res) res = cur;
+    }
+  }
+  return res;
+};
+
+console.log(
+  maxSum([
+    [6, 2, 1, 3],
+    [4, 2, 1, 5],
+    [9, 2, 8, 7],
+    [4, 1, 2, 9],
+  ])
+); // 30
+console.log(
+  maxSum([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ])
+); // 35
+
+// Great runtime
+// This should probably be an easy question
 
 // Same as top voted
