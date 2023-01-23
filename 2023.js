@@ -1498,7 +1498,7 @@ console.log(categorizeBox(200, 50, 800, 50)); // "Neither"
 // Same as top voted */
 
 // Maximum Sum of an Hourglass          1/22/2023
-
+/* 
 // You are given an m x n integer matrix grid.
 
 // We define an hourglass as a part of the matrix with the following form:
@@ -1561,4 +1561,39 @@ console.log(
 // Great runtime
 // This should probably be an easy question
 
-// Same as top voted
+// Same as top voted */
+
+// Find Three Consecutive Integers That Sum to a Given Number         1/23/2023
+
+// Given an integer num, return three consecutive integers (as a sorted array) that sum to num. If num cannot be expressed as the sum of three consecutive integers, return an empty array.
+
+// Example 1:
+//    Input: num = 33
+//    Output: [10,11,12]
+// Explanation: 33 can be expressed as 10 + 11 + 12 = 33.
+// 10, 11, 12 are 3 consecutive integers, so we return [10, 11, 12].
+
+// Example 2:
+//    Input: num = 4
+//    Output: []
+// Explanation: There is no way to express 4 as the sum of 3 consecutive integers.
+
+// Constraints:
+//    0 <= num <= 1015
+
+const sumOfThree = (num) => {
+  const div = Math.floor(num / 3);
+  const res = [div - 1, div, div + 1];
+  return res[0] + res[1] + res[2] === num ? res : [];
+};
+
+console.log(sumOfThree(33)); // [10,11,12]
+console.log(sumOfThree(4)); // []
+console.log(sumOfThree(6675975537)); // [2225325178,2225325179,2225325180]
+
+// Works, but bad runtime
+
+var topVotedSumOfThree = (num) =>
+  num % 3 === 0 ? [num / 3 - 1, num / 3, num / 3 + 1] : [];
+
+// You only need to check for numbers divisible by 3
