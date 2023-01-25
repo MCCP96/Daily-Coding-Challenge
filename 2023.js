@@ -1599,7 +1599,7 @@ var topVotedSumOfThree = (num) =>
 // You only need to check for numbers divisible by 3 */
 
 // Maximum of Absolute Value Expression         1/24/2023
-
+/* 
 // Given two arrays of integers with equal lengths, return the maximum value of:
 
 // |arr1[i] - arr1[j]| + |arr2[i] - arr2[j]| + |i - j|
@@ -1643,4 +1643,66 @@ const topVotedMaxAbsValExpr = function (arr1, arr2) {
 console.log(topVotedMaxAbsValExpr([1, 2, 3, 4], [-1, 4, 5, 6])); // 13
 console.log(topVotedMaxAbsValExpr([1, -2, -5, 0, 10], [0, -2, -1, -7, -4])); // 20
 
-// Couldn't get it working, but this makes total sense
+// Couldn't get it working, but this makes total sense */
+
+// Count Number of Bad Pairs          1/25/2023
+
+// You are given a 0-indexed integer array nums. A pair of indices (i, j) is a bad pair if i < j and j - i != nums[j] - nums[i].
+
+// Return the total number of bad pairs in nums.
+
+// Example 1:
+//    Input: nums = [4,1,3,3]
+//    Output: 5
+// Explanation: The pair (0, 1) is a bad pair since 1 - 0 != 1 - 4.
+// The pair (0, 2) is a bad pair since 2 - 0 != 3 - 4, 2 != -1.
+// The pair (0, 3) is a bad pair since 3 - 0 != 3 - 4, 3 != -1.
+// The pair (1, 2) is a bad pair since 2 - 1 != 3 - 1, 1 != 2.
+// The pair (2, 3) is a bad pair since 3 - 2 != 3 - 3, 1 != 0.
+// There are a total of 5 bad pairs, so we return 5.
+
+// Example 2:
+//    Input: nums = [1,2,3,4,5]
+//    Output: 0
+// Explanation: There are no bad pairs.
+
+// Constraints:
+//    1 <= nums.length <= 105
+//    1 <= nums[i] <= 109
+
+const countBadPairs = (nums) =>
+  nums.reduce((a, c, i, arr) => {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (j - i !== nums[j] - c) a++;
+    }
+    return a;
+  }, 0);
+
+console.log(countBadPairs([4, 1, 3, 3])); // 5
+console.log(countBadPairs([1, 2, 3, 4, 5])); // 0
+
+// Exceeds runtime limit
+
+var topVotedCountBadPairs = function (nums) {
+  let totalPairs = 0;
+  let goodPairs = 0;
+  let differencesFreqsMap = {};
+
+  for (let i = 0; i < nums.length; i++) {
+    const diff = nums[i] - i;
+
+    totalPairs += i;
+    if (diff in differencesFreqsMap) {
+      goodPairs += differencesFreqsMap[diff];
+      differencesFreqsMap[diff]++;
+      continue;
+    }
+
+    differencesFreqsMap[diff] = 1;
+  }
+
+  return totalPairs - goodPairs;
+};
+
+// First time seeing 'in' used in Javascript, very useful to check an object
+// I guess 'if (differencesFreqsMap[nums[i] - i])' would evaluate to the same thing
