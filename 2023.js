@@ -1646,7 +1646,7 @@ console.log(topVotedMaxAbsValExpr([1, -2, -5, 0, 10], [0, -2, -1, -7, -4])); // 
 // Couldn't get it working, but this makes total sense */
 
 // Count Number of Bad Pairs          1/25/2023
-
+/* 
 // You are given a 0-indexed integer array nums. A pair of indices (i, j) is a bad pair if i < j and j - i != nums[j] - nums[i].
 
 // Return the total number of bad pairs in nums.
@@ -1705,4 +1705,121 @@ var topVotedCountBadPairs = function (nums) {
 };
 
 // First time seeing 'in' used in Javascript, very useful to check an object
-// I guess 'if (differencesFreqsMap[nums[i] - i])' would evaluate to the same thing
+// I guess 'if (differencesFreqsMap[nums[i] - i])' would evaluate to the same thing */
+
+// Rotating the Box         1/26/2023
+
+// You are given an m x n matrix of characters box representing a side-view of a box. Each cell of the box is one of the following:
+
+// A stone '#'
+// A stationary obstacle '*'
+// Empty '.'
+// The box is rotated 90 degrees clockwise, causing some of the stones to fall due to gravity. Each stone falls down until it lands on an obstacle, another stone, or the bottom of the box. Gravity does not affect the obstacles' positions, and the inertia from the box's rotation does not affect the stones' horizontal positions.
+
+// It is guaranteed that each stone in box rests on an obstacle, another stone, or the bottom of the box.
+
+// Return an n x m matrix representing the box after the rotation described above.
+
+// Example 1:
+//    Input: box = [["#",".","#"]]
+//    Output: [["."],
+//            ["#"],
+//            ["#"]]
+
+// Example 2:
+//    Input: box = [["#",".","*","."],
+//                 ["#","#","*","."]]
+//    Output: [["#","."],
+//            ["#","#"],
+//            ["*","*"],
+//            [".","."]]
+
+// Example 3: https://assets.leetcode.com/uploads/2021/04/08/rotatingtheboxleetcode3withstone.png
+//    Input: box = [["#","#","*",".","*","."],
+//                 ["#","#","#","*",".","."],
+//                 ["#","#","#",".","#","."]]
+//    Output: [[".","#","#"],
+//            [".","#","#"],
+//            ["#","#","*"],
+//            ["#","*","."],
+//            ["#",".","*"],
+//            ["#",".","."]]
+
+// Constraints:
+//    m == box.length
+//    n == box[i].length
+//    1 <= m, n <= 500
+//    box[i][j] is either '#', '*', or '.'
+
+const rotateTheBox = (box) => {
+  let res = [];
+  for (let i = box.length - 1; i >= 0; i--) {
+    let row = box[i];
+    let col = [];
+    while (row.length > 0) {
+      let index = row.findIndex((x) => x == "*");
+      let cur = row
+        .splice(0, index !== -1 ? index : 501)
+        .sort((a, b) => a.localeCompare(b));
+      if (index !== -1) cur.push(row.shift());
+      col.push(...cur);
+    }
+    res.push(col);
+  }
+  return res[0].map((_, col) => res.map((row) => row[col]));
+};
+
+console.log(rotateTheBox([["#", ".", "#"]])); // [["."],["#"],["#"]]
+console.log(
+  rotateTheBox([
+    ["#", ".", "*", "."],
+    ["#", "#", "*", "."],
+  ])
+); // [["#","."],["#","#"],["*","*"],[".","."]]
+console.log(
+  rotateTheBox([
+    ["#", "#", "*", ".", "*", "."],
+    ["#", "#", "#", "*", ".", "."],
+    ["#", "#", "#", ".", "#", "."],
+  ])
+); // [[".", "#", "#"],[".", "#", "#"],["#", "#", "*"],["#", "*", "."],["#", ".", "*"],["#", ".", "."]];
+
+// Bad runtime, but I like this solution
+// Last line returns the transpose of the matrix once gravity has been accounted for
+
+var topVotedRotateTheBox = function (box) {
+  for (let r = 0; r < box.length; r++) {
+    let idx = null;
+    for (let c = 0; c < box[r].length; c++) {
+      const curr = box[r][c];
+      if (curr === "*") {
+        idx = null;
+        continue;
+      }
+      if (curr === "#" && idx === null) {
+        idx = c;
+        continue;
+      }
+      if (curr === "." && box[r][idx] === "#" && idx <= c) {
+        box[r][idx] = ".";
+        box[r][c] = "#";
+        idx++;
+      }
+    }
+  }
+  return transpose(box);
+};
+
+function transpose(arr) {
+  const B = [];
+  for (let c = 0; c < arr[0].length; c++) {
+    if (!B[c]) B[c] = [];
+    for (let r = 0; r < arr.length; r++) {
+      B[c][r] = arr[r][c];
+    }
+    B[c].reverse();
+  }
+  return B;
+}
+
+// Javascript two pointers, moving zeros and transpose
