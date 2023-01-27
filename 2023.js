@@ -1708,7 +1708,7 @@ var topVotedCountBadPairs = function (nums) {
 // I guess 'if (differencesFreqsMap[nums[i] - i])' would evaluate to the same thing */
 
 // Rotating the Box         1/26/2023
-
+/* 
 // You are given an m x n matrix of characters box representing a side-view of a box. Each cell of the box is one of the following:
 
 // A stone '#'
@@ -1822,4 +1822,74 @@ function transpose(arr) {
   return B;
 }
 
-// Javascript two pointers, moving zeros and transpose
+// Javascript two pointers, moving zeros and transpose */
+
+// Find All Good Indices          1/27/2023
+
+// You are given a 0-indexed integer array nums of size n and a positive integer k.
+
+// We call an index i in the range k <= i < n - k good if the following conditions are satisfied:
+
+// The k elements that are just before the index i are in non-increasing order.
+// The k elements that are just after the index i are in non-decreasing order.
+// Return an array of all good indices sorted in increasing order.
+
+// Example 1:
+//    Input: nums = [2,1,1,1,3,4,1], k = 2
+//    Output: [2,3]
+// Explanation: There are two good indices in the array:
+// - Index 2. The subarray [2,1] is in non-increasing order, and the subarray [1,3] is in non-decreasing order.
+// - Index 3. The subarray [1,1] is in non-increasing order, and the subarray [3,4] is in non-decreasing order.
+// Note that the index 4 is not good because [4,1] is not non-decreasing.
+
+// Example 2:
+//    Input: nums = [2,1,1,2], k = 2
+//    Output: []
+// Explanation: There are no good indices in this array.
+
+// Constraints:
+//    n == nums.length
+//    3 <= n <= 105
+//    1 <= nums[i] <= 106
+//    1 <= k <= n / 2
+
+const goodIndices = (nums, k) => {
+  let res = [];
+  for (let i = k; i < nums.length - k; i++) {
+    const [l, r] = [nums.slice(i - k, i), nums.slice(i + 1, i + k + 1)];
+    if (
+      l.join() === l.sort((a, b) => b - a).join() &&
+      r.join() === r.sort((a, b) => a - b).join()
+    )
+      res.push(i);
+  }
+  return res;
+};
+
+console.log(goodIndices([2, 1, 1, 1, 3, 4, 1], 2)); // [2,3]
+console.log(goodIndices([2, 1, 1, 2], 2)); // []
+
+var topVotedGoodIndices = function (nums, k) {
+  const res = [];
+  const n = nums.length;
+
+  for (let i = k; i < n - k; i++) {
+    let left = i - k + 1;
+    let right = i + k - 1;
+    let add = true;
+
+    while (left < right) {
+      if (nums[left] > nums[left - 1] || nums[right] > nums[right + 1]) {
+        add = false;
+        break;
+      }
+
+      left++;
+      right--;
+    }
+
+    if (add) res.push(i);
+  }
+
+  return res;
+};
