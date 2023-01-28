@@ -1825,7 +1825,7 @@ function transpose(arr) {
 // Javascript two pointers, moving zeros and transpose */
 
 // Find All Good Indices          1/27/2023
-
+/* 
 // You are given a 0-indexed integer array nums of size n and a positive integer k.
 
 // We call an index i in the range k <= i < n - k good if the following conditions are satisfied:
@@ -1892,4 +1892,64 @@ var topVotedGoodIndices = function (nums, k) {
   }
 
   return res;
+}; */
+
+// Maximum Consecutive Floors Without Special Floors          1/28/2023
+
+// Alice manages a company and has rented some floors of a building as office space. Alice has decided some of these floors should be special floors, used for relaxation only.
+
+// You are given two integers bottom and top, which denote that Alice has rented all the floors from bottom to top (inclusive). You are also given the integer array special, where special[i] denotes a special floor that Alice has designated for relaxation.
+
+// Return the maximum number of consecutive floors without a special floor.
+
+// Example 1:
+//    Input: bottom = 2, top = 9, special = [4,6]
+//    Output: 3
+// Explanation: The following are the ranges (inclusive) of consecutive floors without a special floor:
+// - (2, 3) with a total amount of 2 floors.
+// - (5, 5) with a total amount of 1 floor.
+// - (7, 9) with a total amount of 3 floors.
+// Therefore, we return the maximum number which is 3 floors.
+
+// Example 2:
+//    Input: bottom = 6, top = 8, special = [7,6,8]
+//    Output: 0
+// Explanation: Every floor rented is a special floor, so we return 0.
+
+// Constraints:
+//    1 <= special.length <= 10^5
+//    1 <= bottom <= special[i] <= top <= 10^9
+//    All the values of special are unique.
+
+const easyMaxConsecutive = (b, t, s) => {
+  s.sort((a, b) => a - b);
+  let max = 0;
+  let count = 0;
+  for (let i = b; i <= t; i++) {
+    if (i !== s[0]) count++;
+    else {
+      max = Math.max(count, max);
+      count = 0;
+      s.shift();
+    }
+  }
+  return Math.max(count, max);
 };
+
+// Exceeds runtime
+
+const maxConsecutive = (b, t, s) => {
+  s.sort((a, b) => b - a);
+  let max = 0;
+  for (let i = 0; i < s.length - 1; i++) {
+    const count = s[i] - s[i + 1] - 1;
+    max = Math.max(max, count);
+  }
+  return Math.max(max, s[s.length - 1] - b, t - s[0]);
+};
+
+console.log(maxConsecutive(2, 9, [4, 6])); // 3
+console.log(maxConsecutive(6, 8, [7, 6, 8])); // 0
+
+// Beats 95%
+// Same as top voted
