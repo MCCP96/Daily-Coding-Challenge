@@ -1895,7 +1895,7 @@ var topVotedGoodIndices = function (nums, k) {
 }; */
 
 // Maximum Consecutive Floors Without Special Floors          1/28/2023
-
+/* 
 // Alice manages a company and has rented some floors of a building as office space. Alice has decided some of these floors should be special floors, used for relaxation only.
 
 // You are given two integers bottom and top, which denote that Alice has rented all the floors from bottom to top (inclusive). You are also given the integer array special, where special[i] denotes a special floor that Alice has designated for relaxation.
@@ -1952,4 +1952,72 @@ console.log(maxConsecutive(2, 9, [4, 6])); // 3
 console.log(maxConsecutive(6, 8, [7, 6, 8])); // 0
 
 // Beats 95%
+// Same as top voted */
+
+// Equal Row and Column Pairs         1/29/2023
+
+// Given a 0-indexed n x n integer matrix grid, return the number of pairs (ri, cj) such that row ri and column cj are equal.
+
+// A row and column pair is considered equal if they contain the same elements in the same order (i.e., an equal array).
+
+// Example 1:
+//    Input: grid = [[3,2,1],[1,7,6],[2,7,7]]
+//    Output: 1
+// Explanation: There is 1 equal row and column pair:
+// - (Row 2, Column 1): [2,7,7]
+
+// Example 2:
+//    Input: grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]
+//    Output: 3
+// Explanation: There are 3 equal row and column pairs:
+// - (Row 0, Column 0): [3,1,2,2]
+// - (Row 2, Column 2): [2,4,2,2]
+// - (Row 3, Column 2): [2,4,2,2]
+
+// Constraints:
+//    n == grid.length == grid[i].length
+//    1 <= n <= 200
+//    1 <= grid[i][j] <= 105
+
+const equalPairs = (grid) => {
+  const rows = grid.map((c) => c.join());
+  const cols = grid[0].map((_, col) => grid.map((row) => row[col]).join());
+  return rows.reduce(
+    (res, row) =>
+      res + cols.reduce((count, col) => count + (row === col ? 1 : 0), 0),
+    0
+  );
+};
+
+console.log(
+  equalPairs([
+    [3, 2, 1],
+    [1, 7, 6],
+    [2, 7, 7],
+  ])
+); // 1
+console.log(
+  equalPairs([
+    [3, 1, 2, 2],
+    [1, 4, 4, 5],
+    [2, 4, 2, 2],
+    [2, 4, 2, 2],
+  ])
+); // 3
+console.log(
+  equalPairs([
+    [3, 1, 2, 2],
+    [1, 4, 4, 4],
+    [2, 4, 2, 2],
+    [2, 5, 2, 2],
+  ])
+); // 3
+console.log(
+  equalPairs([
+    [11, 1],
+    [1, 11],
+  ])
+); // 2
+
+// Same use of Matrix Transpose as 3 days ago in 'Rotating the Box'
 // Same as top voted
