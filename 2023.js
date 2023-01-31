@@ -2023,7 +2023,7 @@ console.log(
 // Same as top voted */
 
 // Shifting Letters II          1/30/2023
-
+/* 
 // You are given a string s of lowercase English letters and a 2D integer array shifts where shifts[i] = [starti, endi, directioni]. For every i, shift the characters in s from the index starti to the index endi (inclusive) forward if directioni = 1, or shift the characters backward if directioni = 0.
 
 // Shifting a character forward means replacing it with the next letter in the alphabet (wrapping around so that 'z' becomes 'a'). Similarly, shifting a character backward means replacing it with the previous letter in the alphabet (wrapping around so that 'a' becomes 'z').
@@ -2048,7 +2048,7 @@ console.log(
 //    shifts[i].length == 3
 //    0 <= starti <= endi < s.length
 //    0 <= directioni <= 1
-//    s consists of lowercase English letters. */
+//    s consists of lowercase English letters.
 
 const shiftingLetters = (s, shifts) => {
   s = [...s];
@@ -2088,4 +2088,82 @@ var topVotedShiftingLetters = function (s, shifts) {
     arr[i] = String.fromCharCode(newCharCode);
   });
   return arr.join("");
+}; */
+
+// Maximum White Tiles Covered by a Carpet          1/31/2023
+
+// You are given a 2D integer array tiles where tiles[i] = [li, ri] represents that every tile j in the range li <= j <= ri is colored white.
+
+// You are also given an integer carpetLen, the length of a single carpet that can be placed anywhere.
+
+// Return the maximum number of white tiles that can be covered by the carpet.
+
+// Example 1:
+//    Input: tiles = [[1,5],[10,11],[12,18],[20,25],[30,32]], carpetLen = 10
+//    Output: 9
+// Explanation: Place the carpet starting on tile 10.
+// It covers 9 white tiles, so we return 9.
+// Note that there may be other places where the carpet covers 9 white tiles.
+// It can be shown that the carpet cannot cover more than 9 white tiles.
+
+// Example 2:
+//    Input: tiles = [[10,11],[1,1]], carpetLen = 2
+//    Output: 2
+// Explanation: Place the carpet starting on tile 10.
+// It covers 2 white tiles, so we return 2.
+
+// Constraints:
+//    1 <= tiles.length <= 5 * 104
+//    tiles[i].length == 2
+//    1 <= li <= ri <= 109
+//    1 <= carpetLen <= 109
+//    The tiles are non-overlapping.
+
+const maximumWhiteTiles = (tiles, len) => {
+  tiles.sort((a, b) => a[1] - b[1]);
+  let floor = new Array(tiles[tiles.length - 1][1]).fill(false);
+  for (const [s, e] of tiles)
+    floor.splice(s - 1, e - s + 1, ..."x".repeat(e - s + 1));
+  let max = floor.slice(0, len).reduce((a, c) => (a += c ? 1 : 0), 0);
+  for (let i = 1; i < floor.length - len; i++) {
+    const cur = max - (floor[i - 1] ? 1 : 0) + (floor[i + len - 1] ? 1 : 0);
+    max = Math.max(max, cur);
+  }
+  return max;
+};
+
+// prettier-ignore
+console.log(maximumWhiteTiles([[1,5],[10,11],[12,18],[20,25],[30,32]], 10)); // 9
+// prettier-ignore
+console.log(maximumWhiteTiles([[10,11],[1,1]], 2)); // 2
+
+// Pretty scuffed, but no time today
+
+var topVotedMaximumWhiteTiles = function (tiles, carpetLen) {
+  tiles.sort((a, b) => a[0] - b[0]);
+
+  let right = 1;
+  let cover = tiles[0][1] - tiles[0][0] + 1;
+  let maxCovered = cover;
+  if (maxCovered >= carpetLen) return carpetLen;
+
+  for (const tile of tiles) {
+    let start = tile[0];
+    let end = start + carpetLen - 1;
+
+    while (right < tiles.length && tiles[right][1] <= end) {
+      cover += tiles[right][1] - tiles[right][0] + 1;
+      right++;
+    }
+    if (right === tiles.length || end < tiles[right][0]) {
+      maxCovered = Math.max(maxCovered, cover);
+    } else {
+      let partial = end - tiles[right][0] + 1;
+      maxCovered = Math.max(maxCovered, cover + partial);
+    }
+
+    cover -= tile[1] - tile[0] + 1;
+  }
+
+  return maxCovered;
 };
