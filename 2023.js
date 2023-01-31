@@ -1955,7 +1955,7 @@ console.log(maxConsecutive(6, 8, [7, 6, 8])); // 0
 // Same as top voted */
 
 // Equal Row and Column Pairs         1/29/2023
-
+/* 
 // Given a 0-indexed n x n integer matrix grid, return the number of pairs (ri, cj) such that row ri and column cj are equal.
 
 // A row and column pair is considered equal if they contain the same elements in the same order (i.e., an equal array).
@@ -2020,4 +2020,72 @@ console.log(
 ); // 2
 
 // Same use of Matrix Transpose as 3 days ago in 'Rotating the Box'
-// Same as top voted
+// Same as top voted */
+
+// Shifting Letters II          1/30/2023
+
+// You are given a string s of lowercase English letters and a 2D integer array shifts where shifts[i] = [starti, endi, directioni]. For every i, shift the characters in s from the index starti to the index endi (inclusive) forward if directioni = 1, or shift the characters backward if directioni = 0.
+
+// Shifting a character forward means replacing it with the next letter in the alphabet (wrapping around so that 'z' becomes 'a'). Similarly, shifting a character backward means replacing it with the previous letter in the alphabet (wrapping around so that 'a' becomes 'z').
+
+// Return the final string after all such shifts to s are applied.
+
+// Example 1:
+//    Input: s = "abc", shifts = [[0,1,0],[1,2,1],[0,2,1]]
+//    Output: "ace"
+// Explanation: Firstly, shift the characters from index 0 to index 1 backward. Now s = "zac".
+// Secondly, shift the characters from index 1 to index 2 forward. Now s = "zbd".
+// Finally, shift the characters from index 0 to index 2 forward. Now s = "ace".
+
+// Example 2:
+//    Input: s = "dztz", shifts = [[0,0,0],[1,1,1]]
+//    Output: "catz"
+// Explanation: Firstly, shift the characters from index 0 to index 0 backward. Now s = "cztz".
+// Finally, shift the characters from index 1 to index 1 forward. Now s = "catz".
+
+// Constraints:
+//    1 <= s.length, shifts.length <= 5 * 104
+//    shifts[i].length == 3
+//    0 <= starti <= endi < s.length
+//    0 <= directioni <= 1
+//    s consists of lowercase English letters. */
+
+const shiftingLetters = (s, shifts) => {
+  s = [...s];
+  for (const [a, b, dir] of shifts) {
+    const shift = s.splice(a, b - a + 1).map((c) => {
+      let num = c.charCodeAt(0) - 97 + (dir ? 1 : -1);
+      if (num > 25) num = 0;
+      else if (num < 0) num = 25;
+      return String.fromCharCode(num + 97);
+    });
+    s.splice(a, 0, ...shift);
+  }
+  return s.join("");
+};
+
+// prettier-ignore
+console.log(shiftingLetters("abc",[[0,1,0],[1,2,1],[0,2,1]])); // "ace"
+// prettier-ignore
+console.log(shiftingLetters("dztz", [[0,0,0],[1,1,1]])); // "catz"
+
+var topVotedShiftingLetters = function (s, shifts) {
+  const cb = Array(s.length).fill(0);
+  shifts.forEach(([s, e, d]) => {
+    for (let i = s; i <= e; i++) {
+      cb[i] += d === 0 ? -1 : 1;
+    }
+  });
+  const arr = s.split("");
+  cb.forEach((e, i) => {
+    let newCharCode = arr[i].charCodeAt() + e;
+    while (newCharCode < 97) {
+      newCharCode += 26;
+    }
+    while (newCharCode > 122) {
+      newCharCode -= 26;
+    }
+    arr[i] = String.fromCharCode(newCharCode);
+  });
+  return arr.join("");
+};
