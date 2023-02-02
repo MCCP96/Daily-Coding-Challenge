@@ -2169,7 +2169,7 @@ var topVotedMaximumWhiteTiles = function (tiles, carpetLen) {
 }; */
 
 // Max Sum of a Pair With Equal Sum of Digits         2/1/2023
-
+/* 
 // You are given a 0-indexed array nums consisting of positive integers. You can choose two indices i and j, such that i != j, and the sum of digits of the number nums[i] is equal to that of nums[j].
 
 // Return the maximum value of nums[i] + nums[j] that you can obtain over all possible indices i and j that satisfy the conditions.
@@ -2236,4 +2236,37 @@ const sumOfDigit = (x) => {
     res = 0;
   for (const c of s) res += c - "0";
   return res;
-};
+}; */
+
+// Strictly Palindromic Number          2/2/2023
+
+// An integer n is strictly palindromic if, for every base b between 2 and n - 2 (inclusive), the string representation of the integer n in base b is palindromic.
+
+// Given an integer n, return true if n is strictly palindromic and false otherwise.
+
+// A string is palindromic if it reads the same forward and backward.
+
+// Example 1:
+//    Input: n = 9
+//    Output: false
+// Explanation: In base 2: 9 = 1001 (base 2), which is palindromic.
+// In base 3: 9 = 100 (base 3), which is not palindromic.
+// Therefore, 9 is not strictly palindromic so we return false.
+// Note that in bases 4, 5, 6, and 7, n = 9 is also not palindromic.
+
+// Example 2:
+//    Input: n = 4
+//    Output: false
+// Explanation: We only consider base 2: 4 = 100 (base 2), which is not palindromic.
+// Therefore, we return false.
+
+// Constraints:
+//    4 <= n <= 105
+
+const isStrictlyPalindromic = (n) => false;
+
+console.log(isStrictlyPalindromic(9)); // false
+console.log(isStrictlyPalindromic(4)); // false
+console.log(isStrictlyPalindromic(20)); // false
+
+// Really enjoying the discussion surrounding this one lol
