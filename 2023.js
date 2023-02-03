@@ -2239,7 +2239,7 @@ const sumOfDigit = (x) => {
 }; */
 
 // Strictly Palindromic Number          2/2/2023
-
+/* 
 // An integer n is strictly palindromic if, for every base b between 2 and n - 2 (inclusive), the string representation of the integer n in base b is palindromic.
 
 // Given an integer n, return true if n is strictly palindromic and false otherwise.
@@ -2269,4 +2269,75 @@ console.log(isStrictlyPalindromic(9)); // false
 console.log(isStrictlyPalindromic(4)); // false
 console.log(isStrictlyPalindromic(20)); // false
 
-// Really enjoying the discussion surrounding this one lol
+// Really enjoying the discussion surrounding this one lol */
+
+// Move Pieces to Obtain a String         2/3/2023
+
+// You are given two strings start and target, both of length n. Each string consists only of the characters 'L', 'R', and '_' where:
+
+// The characters 'L' and 'R' represent pieces, where a piece 'L' can move to the left only if there is a blank space directly to its left, and a piece 'R' can move to the right only if there is a blank space directly to its right.
+// The character '_' represents a blank space that can be occupied by any of the 'L' or 'R' pieces.
+// Return true if it is possible to obtain the string target by moving the pieces of the string start any number of times. Otherwise, return false.
+
+// Example 1:
+//    Input: start = "_L__R__R_", target = "L______RR"
+//    Output: true
+// Explanation: We can obtain the string target from start by doing the following moves:
+// - Move the first piece one step to the left, start becomes equal to "L___R__R_".
+// - Move the last piece one step to the right, start becomes equal to "L___R___R".
+// - Move the second piece three steps to the right, start becomes equal to "L______RR".
+// Since it is possible to get the string target from start, we return true.
+
+// Example 2:
+//    Input: start = "R_L_", target = "__LR"
+//    Output: false
+// Explanation: The 'R' piece in the string start can move one step to the right to obtain "_RL_".
+// After that, no pieces can move anymore, so it is impossible to obtain the string target from start.
+
+// Example 3:
+//    Input: start = "_R", target = "R_"
+//    Output: false
+// Explanation: The piece in the string start can move only to the right, so it is impossible to obtain the string target from start.
+
+// Constraints:
+//    n == start.length == target.length
+//    1 <= n <= 105
+//    start and target consist of the characters 'L', 'R', and '_'.
+
+const canChange = (s, t) =>
+  !(
+    s.lastIndexOf("L") < t.lastIndexOf("L") ||
+    s.indexOf("L") < t.indexOf("L") ||
+    s.lastIndexOf("R") > t.lastIndexOf("R") ||
+    s.indexOf("R") > t.indexOf("R") ||
+    s.replaceAll("_", "") !== t.replaceAll("_", "")
+  );
+
+console.log(canChange("_L__R__R_", "L______RR")); // true
+console.log(canChange("R_L_", "__LR")); // false
+console.log(canChange("_R", "R_")); // false
+console.log(canChange("L_L", "_LL")); // false
+
+// 100% runtime
+// If it's stupid and it works, it's not stupid :)
+
+var topVotedCanChange = function (start, target) {
+  let lCount = 0; //count of l's in target, to be consumed later in start
+  let rCount = 0; //count of r's in start, to be consumed later in target
+
+  for (let i = 0; i < start.length; i++) {
+    if (start[i] === "R") rCount++; //add r to count
+    if (start[i] === "L") lCount--; //remove l from count
+
+    if (target[i] === "L" && rCount > 0) return false; //if L in start is blocked by R
+    if (start[i] === "L" && rCount > 0) return false; //if there is an unsetteled R in start
+
+    if (target[i] === "L") lCount++; //add l to count
+    if (target[i] === "R") rCount--; //remove r from count
+
+    if (lCount < 0 || rCount < 0) return false; //check if the requirements are less than available
+  }
+  return !lCount && !rCount; //count should return to zero as all L and R are consumed
+};
+
+// All top voted solutions are two pointer
