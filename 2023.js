@@ -2272,7 +2272,7 @@ console.log(isStrictlyPalindromic(20)); // false
 // Really enjoying the discussion surrounding this one lol */
 
 // Move Pieces to Obtain a String         2/3/2023
-
+/* 
 // You are given two strings start and target, both of length n. Each string consists only of the characters 'L', 'R', and '_' where:
 
 // The characters 'L' and 'R' represent pieces, where a piece 'L' can move to the left only if there is a blank space directly to its left, and a piece 'R' can move to the right only if there is a blank space directly to its right.
@@ -2340,4 +2340,44 @@ var topVotedCanChange = function (start, target) {
   return !lCount && !rCount; //count should return to zero as all L and R are consumed
 };
 
-// All top voted solutions are two pointer
+// All top voted solutions are two pointer */
+
+// Length of the Longest Alphabetical Continuous Substring          2/4/2023
+
+// An alphabetical continuous string is a string consisting of consecutive letters in the alphabet. In other words, it is any substring of the string "abcdefghijklmnopqrstuvwxyz".
+
+// For example, "abc" is an alphabetical continuous string, while "acb" and "za" are not.
+// Given a string s consisting of lowercase letters only, return the length of the longest alphabetical continuous substring.
+
+// Example 1:
+//    Input: s = "abacaba"
+//    Output: 2
+// Explanation: There are 4 distinct continuous substrings: "a", "b", "c" and "ab".
+// "ab" is the longest continuous substring.
+
+// Example 2:
+//    Input: s = "abcde"
+//    Output: 5
+// Explanation: "abcde" is the longest continuous substring.
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s consists of only English lowercase letters.
+
+const longestContinuousSubstring = (s) => {
+  let res = 1;
+  let count = 1;
+  for (let i = 1; i < s.length; i++) {
+    if (s[i] !== String.fromCharCode(s[i - 1].charCodeAt(0) + 1)) {
+      res = Math.max(count, res);
+      count = 1;
+    } else count++;
+  }
+  return Math.max(count, res);
+};
+
+console.log(longestContinuousSubstring("abacaba")); // 2
+console.log(longestContinuousSubstring("abcde")); // 5
+console.log(longestContinuousSubstring("awy")); // 1
+
+// Same as top voted
