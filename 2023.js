@@ -2343,7 +2343,7 @@ var topVotedCanChange = function (start, target) {
 // All top voted solutions are two pointer */
 
 // Length of the Longest Alphabetical Continuous Substring          2/4/2023
-
+/* 
 // An alphabetical continuous string is a string consisting of consecutive letters in the alphabet. In other words, it is any substring of the string "abcdefghijklmnopqrstuvwxyz".
 
 // For example, "abc" is an alphabetical continuous string, while "acb" and "za" are not.
@@ -2380,4 +2380,104 @@ console.log(longestContinuousSubstring("abacaba")); // 2
 console.log(longestContinuousSubstring("abcde")); // 5
 console.log(longestContinuousSubstring("awy")); // 1
 
-// Same as top voted
+// Same as top voted */
+
+// Using a Robot to Print the Lexicographically Smallest String         2/5/2023
+
+// You are given a string s and a robot that currently holds an empty string t. Apply one of the following operations until s and t are both empty:
+
+// Remove the first character of a string s and give it to the robot. The robot will append this character to the string t.
+// Remove the last character of a string t and give it to the robot. The robot will write this character on paper.
+// Return the lexicographically smallest string that can be written on the paper.
+
+// Example 1:
+//    Input: s = "zza"
+//    Output: "azz"
+// Explanation: Let p denote the written string.
+// Initially p="", s="zza", t="".
+// Perform first operation three times p="", s="", t="zza".
+// Perform second operation three times p="azz", s="", t="".
+
+// Example 2:
+//    Input: s = "bac"
+//    Output: "abc"
+// Explanation: Let p denote the written string.
+// Perform first operation twice p="", s="c", t="ba".
+// Perform second operation twice p="ab", s="c", t="".
+// Perform first operation p="ab", s="", t="c".
+// Perform second operation p="abc", s="", t="".
+
+// Example 3:
+//    Input: s = "bdda"
+//    Output: "addb"
+// Explanation: Let p denote the written string.
+// Initially p="", s="bdda", t="".
+// Perform first operation four times p="", s="", t="bdda".
+// Perform second operation four times p="addb", s="", t="".
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s consists of only English lowercase letters.
+
+const robotWithString = (s) => {
+  let sorted = [...s].sort();
+  s = [...s];
+
+  let res = [];
+  let count = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] == sorted[0]) {
+      res.push(s[i], ...s.slice(i - count, i).reverse());
+      sorted.shift();
+      count = 0;
+    } else count++;
+
+    if (i == s.length - 1 && count > 0) {
+      res.push(...s.slice(i - count, i - 1).reverse());
+    }
+  }
+  return res.join("");
+};
+
+console.log(robotWithString("zza")); // 'azz'
+console.log(robotWithString("bac")); // 'abc'
+console.log(robotWithString("bdda")); // 'addb'
+console.log(robotWithString("bydizfve")); // 'bdevfziy'
+
+// Close but not quite
+
+var topVotedRobotWithString = function (s) {
+  console.log(s);
+  // compute minimum toward the right
+  let minimums = new Array(s.length);
+  let minimum = "{";
+  let minIndex = -1;
+  for (let i = s.length - 1; i >= 0; i--) {
+    // if the minimum element is equal, we pick
+    // the one with lower index
+    if (s[i] <= minimum) {
+      minimum = s[i];
+      minIndex = i;
+    }
+    minimums[i] = minIndex;
+  }
+  let result = [];
+  let stack = [];
+  for (let i = 0; i < s.length; i++) {
+    // compare s[minimums[i]] with top of stack
+    while (stack.length && s[minimums[i]] >= stack.at(-1)) {
+      result.push(stack.pop());
+    }
+    stack.push(s[i]);
+  }
+
+  // the remaining characters in the stack are also popped
+  // and added to the answer
+  while (stack.length) {
+    result.push(stack.pop());
+  }
+
+  // return the string made after joining all the characters
+  return result.join("");
+};
