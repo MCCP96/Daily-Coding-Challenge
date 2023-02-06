@@ -2383,7 +2383,7 @@ console.log(longestContinuousSubstring("awy")); // 1
 // Same as top voted */
 
 // Using a Robot to Print the Lexicographically Smallest String         2/5/2023
-
+/* 
 // You are given a string s and a robot that currently holds an empty string t. Apply one of the following operations until s and t are both empty:
 
 // Remove the first character of a string s and give it to the robot. The robot will append this character to the string t.
@@ -2480,4 +2480,97 @@ var topVotedRobotWithString = function (s) {
 
   // return the string made after joining all the characters
   return result.join("");
+}; */
+
+// Intervals Between Identical Elements         2/6/2023
+
+// You are given a 0-indexed array of n integers arr.
+
+// The interval between two elements in arr is defined as the absolute difference between their indices. More formally, the interval between arr[i] and arr[j] is |i - j|.
+
+// Return an array intervals of length n where intervals[i] is the sum of intervals between arr[i] and each element in arr with the same value as arr[i].
+
+// Note: |x| is the absolute value of x.
+
+// Example 1:
+//    Input: arr = [2,1,3,1,2,3,3]
+//    Output: [4,2,7,2,4,4,5]
+// Explanation:
+// - Index 0: Another 2 is found at index 4. |0 - 4| = 4
+// - Index 1: Another 1 is found at index 3. |1 - 3| = 2
+// - Index 2: Two more 3s are found at indices 5 and 6. |2 - 5| + |2 - 6| = 7
+// - Index 3: Another 1 is found at index 1. |3 - 1| = 2
+// - Index 4: Another 2 is found at index 0. |4 - 0| = 4
+// - Index 5: Two more 3s are found at indices 2 and 6. |5 - 2| + |5 - 6| = 4
+// - Index 6: Two more 3s are found at indices 2 and 5. |6 - 2| + |6 - 5| = 5
+
+// Example 2:
+//    Input: arr = [10,5,10,10]
+//    Output: [5,0,3,4]
+// Explanation:
+// - Index 0: Two more 10s are found at indices 2 and 3. |0 - 2| + |0 - 3| = 5
+// - Index 1: There is only one 5 in the array, so its sum of intervals to identical elements is 0.
+// - Index 2: Two more 10s are found at indices 0 and 3. |2 - 0| + |2 - 3| = 3
+// - Index 3: Two more 10s are found at indices 0 and 2. |3 - 0| + |3 - 2| = 4
+
+// Constraints:
+//    n == arr.length
+//    1 <= n <= 105
+//    1 <= arr[i] <= 105
+
+const getDistances = (arr) => {
+  const map = arr.reduce((a, c, i) => {
+    a[c] ? a[c].push(i) : (a[c] = [i]);
+    return a;
+  }, {});
+
+  let seen = {};
+  return arr.map((c) => {
+    const indexes = map[c];
+    if (indexes.length == 1) return 0;
+    if (indexes.length == 2) return indexes[1] - indexes[0];
+
+    let count = seen[c] ?? 0;
+    let res = 0;
+    for (let i = 0; i < count; i++) res += indexes[count] - indexes[i];
+    for (let i = count + 1; i < indexes.length; i++)
+      res += indexes[i] - indexes[count];
+    seen[c] = count + 1;
+    return res;
+  });
+};
+
+console.log(getDistances([2, 1, 3, 1, 2, 3, 3])); // [4,2,7,2,4,4,5]
+console.log(getDistances([10, 5, 10, 10])); // [5,0,3,4]
+
+var topVotedGetDistances = function (arr) {
+  const map = new Map();
+  const result = new Array(arr.length).fill(0);
+
+  for (let i = 0; i < arr.length; i++) {
+    const num = arr[i];
+    const val = map.get(num) || {
+      count: 0,
+      sum: 0,
+    };
+    result[i] += val.count * i - val.sum;
+    val.sum += i;
+    val.count++;
+    map.set(num, val);
+  }
+  map.clear();
+
+  for (let i = arr.length - 1; i >= 0; i--) {
+    const num = arr[i];
+    const val = map.get(num) || {
+      count: 0,
+      sum: 0,
+    };
+    result[i] += val.sum - val.count * i;
+    val.sum += i;
+    val.count++;
+    map.set(num, val);
+  }
+
+  return result;
 };
