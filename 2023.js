@@ -2576,7 +2576,7 @@ var topVotedGetDistances = function (arr) {
 }; */
 
 // Minimum Lines to Represent a Line Chart          2/7/2023
-
+/* 
 // You are given a 2D integer array stockPrices where stockPrices[i] = [dayi, pricei] indicates the price of the stock on day dayi is pricei. A line chart is created from the array by plotting the points on an XY plane with the X-axis representing the day and the Y-axis representing the price and connecting adjacent points. One such example is shown below:
 
 // Return the minimum number of lines needed to represent the line chart.
@@ -2667,4 +2667,64 @@ const revisedMinimumLines = function (stockPrices) {
     if ((y2 - y1) * (x3 - x2) !== (y3 - y2) * (x2 - x1)) count++;
   }
   return count;
+}; */
+
+// Steps to Make Array Non-decreasing         2/8/2023
+
+// You are given a 0-indexed integer array nums. In one step, remove all elements nums[i] where nums[i - 1] > nums[i] for all 0 < i < nums.length.
+
+// Return the number of steps performed until nums becomes a non-decreasing array.
+
+// Example 1:
+//    Input: nums = [5,3,4,4,7,3,6,11,8,5,11]
+//    Output: 3
+// Explanation: The following are the steps performed:
+// - Step 1: [5,3,4,4,7,3,6,11,8,5,11] becomes [5,4,4,7,6,11,11]
+// - Step 2: [5,4,4,7,6,11,11] becomes [5,4,7,11,11]
+// - Step 3: [5,4,7,11,11] becomes [5,7,11,11]
+// [5,7,11,11] is a non-decreasing array. Therefore, we return 3.
+
+// Example 2:
+//    Input: nums = [4,5,7,7,13]
+//    Output: 0
+// Explanation: nums is already a non-decreasing array. Therefore, we return 0.
+
+// Constraints:
+//    1 <= nums.length <= 105
+//    1 <= nums[i] <= 109 */
+
+const totalSteps = (nums, count = 0) => {
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i - 1] > nums[i]) {
+      if (!index) var index = {};
+      index[i] = true;
+    }
+  }
+  if (!index) return count;
+  return totalSteps(
+    nums.filter((_, i) => !index[i]),
+    ++count
+  );
 };
+
+console.log(totalSteps([5, 3, 4, 4, 7, 3, 6, 11, 8, 5, 11])); // 3
+console.log(totalSteps([4, 5, 7, 7, 13])); // 0
+
+// Pretty clean, but doesn't pass larger test cases
+
+var topVotedTotalSteps = function (nums) {
+  let stack = [],
+    dp = new Array(nums.length).fill(0),
+    max = 0;
+
+  for (let i = nums.length - 1; i >= 0; i--) {
+    while (stack.length > 0 && nums[i] > nums[stack[stack.length - 1]]) {
+      dp[i] = Math.max(++dp[i], dp[stack.pop()]);
+      max = Math.max(dp[i], max);
+    }
+    stack.push(i);
+  }
+  return max;
+};
+
+// Stack & DP solution
