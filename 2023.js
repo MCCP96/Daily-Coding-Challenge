@@ -2670,7 +2670,7 @@ const revisedMinimumLines = function (stockPrices) {
 }; */
 
 // Steps to Make Array Non-decreasing         2/8/2023
-
+/* 
 // You are given a 0-indexed integer array nums. In one step, remove all elements nums[i] where nums[i - 1] > nums[i] for all 0 < i < nums.length.
 
 // Return the number of steps performed until nums becomes a non-decreasing array.
@@ -2691,7 +2691,7 @@ const revisedMinimumLines = function (stockPrices) {
 
 // Constraints:
 //    1 <= nums.length <= 105
-//    1 <= nums[i] <= 109 */
+//    1 <= nums[i] <= 109
 
 const totalSteps = (nums, count = 0) => {
   for (let i = 1; i < nums.length; i++) {
@@ -2727,4 +2727,67 @@ var topVotedTotalSteps = function (nums) {
   return max;
 };
 
-// Stack & DP solution
+// Stack & DP solution */
+
+// Removing Stars From a String         2/9/2023
+
+// You are given a string s, which contains stars *.
+
+// In one operation, you can:
+
+// Choose a star in s.
+// Remove the closest non-star character to its left, as well as remove the star itself.
+// Return the string after all stars have been removed.
+
+// Note:
+
+// The input will be generated such that the operation is always possible.
+// It can be shown that the resulting string will always be unique.
+
+// Example 1:
+//    Input: s = "leet**cod*e"
+//    Output: "lecoe"
+// Explanation: Performing the removals from left to right:
+// - The closest character to the 1st star is 't' in "leet**cod*e". s becomes "lee*cod*e".
+// - The closest character to the 2nd star is 'e' in "lee*cod*e". s becomes "lecod*e".
+// - The closest character to the 3rd star is 'd' in "lecod*e". s becomes "lecoe".
+// There are no more stars, so we return "lecoe".
+
+// Example 2:
+//    Input: s = "erase*****"
+//    Output: ""
+// Explanation: The entire string is removed, so we return an empty string.
+
+// Constraints:
+//    1 <= s.length <= 105
+//    s consists of lowercase English letters and stars *.
+//    The operation above can be performed on s.
+
+const easyRemoveStars = (s) => {
+  for (let i = 1; i < s.length; i++)
+    if (s[i] == "*")
+      return removeStars(s.substring(0, i - 1) + s.substring(i + 1));
+  return s;
+};
+
+const oneLineRemoveStars = (s) =>
+  [...s].reduce(
+    (a, c) => (c == "*" ? a.substring(0, a.length - 1) : (a += c)),
+    ""
+  );
+
+const removeStars = (s) =>
+  [...s]
+    .reduce((a, c) => {
+      c == "*" ? a.pop() : a.push(c);
+      return a;
+    }, [])
+    .join("");
+
+console.log(removeStars("leet**cod*e")); // 'lecoe'
+console.log(removeStars("erase*****")); // ''
+
+// One line solution had poor runtime
+// Settled on last removeStars function
+
+// Very similar to top voted
