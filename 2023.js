@@ -2730,7 +2730,7 @@ var topVotedTotalSteps = function (nums) {
 // Stack & DP solution */
 
 // Removing Stars From a String         2/9/2023
-
+/* 
 // You are given a string s, which contains stars *.
 
 // In one operation, you can:
@@ -2790,4 +2790,54 @@ console.log(removeStars("erase*****")); // ''
 // One line solution had poor runtime
 // Settled on last removeStars function
 
-// Very similar to top voted
+// Very similar to top voted */
+
+// Longest Ideal Subsequence          2/10/2023
+
+// You are given a string s consisting of lowercase letters and an integer k. We call a string t ideal if the following conditions are satisfied:
+
+// t is a subsequence of the string s.
+// The absolute difference in the alphabet order of every two adjacent letters in t is less than or equal to k.
+// Return the length of the longest ideal string.
+
+// A subsequence is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.
+
+// Note that the alphabet order is not cyclic. For example, the absolute difference in the alphabet order of 'a' and 'z' is 25, not 1.
+
+// Example 1:
+//    Input: s = "acfgbd", k = 2
+//    Output: 4
+// Explanation: The longest ideal string is "acbd". The length of this string is 4, so 4 is returned.
+// Note that "acfgbd" is not ideal because 'c' and 'f' have a difference of 3 in alphabet order.
+
+// Example 2:
+//    Input: s = "abcd", k = 3
+//    Output: 4
+// Explanation: The longest ideal string is "abcd". The length of this string is 4, so 4 is returned.
+
+// Constraints:
+//    1 <= s.length <= 105
+//    0 <= k <= 25
+//    s consists of lowercase English letters.
+
+var topVotedLongestIdealString = function (s, k) {
+  let n = s.length;
+  let dp = Array(26).fill(0);
+  let ans = 0;
+  for (let i = 0; i < n; i++) {
+    const cur = s.charCodeAt(i) - 97;
+    dp[cur] += 1;
+    for (let j = Math.max(0, cur - k); j <= Math.min(cur + k, 25); j++) {
+      if (j !== cur) {
+        dp[cur] = Math.max(dp[cur], dp[j] + 1);
+      }
+    }
+    ans = Math.max(dp[cur], ans);
+  }
+  return ans;
+};
+
+console.log(longestIdealString("acfgbd", 2)); // 4
+console.log(longestIdealString("abcd", 3)); // 4
+
+// I need to learn dp
