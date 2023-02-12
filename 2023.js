@@ -2843,7 +2843,7 @@ console.log(longestIdealString("abcd", 3)); // 4
 // I need to learn dp */
 
 // Reduction Operations to Make the Array Elements Equal          2/11/2023
-
+/* 
 // Given an integer array nums, your goal is to make all elements in nums equal. To complete one operation, follow these steps:
 
 // Find the largest value in nums. Let its index be i (0-indexed) and its value be largest. If there are multiple elements with the largest value, pick the smallest i.
@@ -2893,4 +2893,46 @@ var topVotedReductionOperations = function (nums) {
   for (let i = nums.length - 1; i > 0; i--)
     if (nums[i] !== nums[i - 1]) count += nums.length - i;
   return count;
-};
+}; */
+
+// Remove All Occurrences of a Substring          2/12/2023
+
+// Given two strings s and part, perform the following operation on s until all occurrences of the substring part are removed:
+
+// Find the leftmost occurrence of the substring part and remove it from s.
+// Return s after removing all occurrences of part.
+
+// A substring is a contiguous sequence of characters in a string.
+
+// Example 1:
+//    Input: s = "daabcbaabcbc", part = "abc"
+//    Output: "dab"
+// Explanation: The following operations are done:
+// - s = "daabcbaabcbc", remove "abc" starting at index 2, so s = "dabaabcbc".
+// - s = "dabaabcbc", remove "abc" starting at index 4, so s = "dababc".
+// - s = "dababc", remove "abc" starting at index 3, so s = "dab".
+// Now s has no occurrences of "abc".
+
+// Example 2:
+//    Input: s = "axxxxyyyyb", part = "xy"
+//    Output: "ab"
+// Explanation: The following operations are done:
+// - s = "axxxxyyyyb", remove "xy" starting at index 4 so s = "axxxyyyb".
+// - s = "axxxyyyb", remove "xy" starting at index 3 so s = "axxyyb".
+// - s = "axxyyb", remove "xy" starting at index 2 so s = "axyb".
+// - s = "axyb", remove "xy" starting at index 1 so s = "ab".
+// Now s has no occurrences of "xy".
+
+// Constraints:
+//    1 <= s.length <= 1000
+//    1 <= part.length <= 1000
+//    s​​​​​​ and part consists of lowercase English letters. */
+
+const removeOccurrences = (s, part) =>
+  s.includes(part) ? removeOccurrences(s.replace(part, ""), part) : s;
+
+console.log(removeOccurrences("daabcbaabcbc", "abc")); // "dab"
+console.log(removeOccurrences("axxxxyyyyb", "xy")); // "ab"
+
+// OK runtime
+// Same as most top voted
