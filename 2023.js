@@ -2896,7 +2896,7 @@ var topVotedReductionOperations = function (nums) {
 }; */
 
 // Remove All Occurrences of a Substring          2/12/2023
-
+/* 
 // Given two strings s and part, perform the following operation on s until all occurrences of the substring part are removed:
 
 // Find the leftmost occurrence of the substring part and remove it from s.
@@ -2926,7 +2926,7 @@ var topVotedReductionOperations = function (nums) {
 // Constraints:
 //    1 <= s.length <= 1000
 //    1 <= part.length <= 1000
-//    s​​​​​​ and part consists of lowercase English letters. */
+//    s​​​​​​ and part consists of lowercase English letters.
 
 const removeOccurrences = (s, part) =>
   s.includes(part) ? removeOccurrences(s.replace(part, ""), part) : s;
@@ -2935,4 +2935,73 @@ console.log(removeOccurrences("daabcbaabcbc", "abc")); // "dab"
 console.log(removeOccurrences("axxxxyyyyb", "xy")); // "ab"
 
 // OK runtime
-// Same as most top voted
+// Same as most top voted */
+
+// Maximum Value after Insertion          2/13/2023
+
+// You are given a very large integer n, represented as a string,​​​​​​ and an integer digit x. The digits in n and the digit x are in the inclusive range [1, 9], and n may represent a negative number.
+
+// You want to maximize n's numerical value by inserting x anywhere in the decimal representation of n​​​​​​. You cannot insert x to the left of the negative sign.
+
+// For example, if n = 73 and x = 6, it would be best to insert it between 7 and 3, making n = 763.
+// If n = -55 and x = 2, it would be best to insert it before the first 5, making n = -255.
+// Return a string representing the maximum value of n​​​​​​ after the insertion.
+
+// Example 1:
+//    Input: n = "99", x = 9
+//    Output: "999"
+// Explanation: The result is the same regardless of where you insert 9.
+
+// Example 2:
+//    Input: n = "-13", x = 2
+//    Output: "-123"
+// Explanation: You can make n one of {-213, -123, -132}, and the largest of those three is -123.
+
+// Constraints:
+//    1 <= n.length <= 105
+//    1 <= x <= 9
+//    The digits in n​​​ are in the range [1, 9].
+//    n is a valid representation of an integer.
+//    In the case of a negative n,​​​​​​ it will begin with '-'.
+
+const maxValue = (n, x) => {
+  const isPositive = n[0] !== "-";
+  for (let i = 0; i < n.length; i++) {
+    if ((isPositive && n[i] < x) || (!isPositive && n[i] > x))
+      return n.substring(0, i) + x + n.substring(i);
+  }
+  return n + x;
+};
+
+console.log(maxValue("99", 9)); // "999"
+console.log(maxValue("-13", 2)); // "-123"
+console.log(maxValue("-132", 3)); // "-1323"
+
+// Beats 90% of submissions
+
+const topVotedMaxValue = (s, x) => {
+  let neg = false;
+  if (s[0] == "-") {
+    neg = true;
+    s = s.slice(1); // if neg, remove '-'
+  }
+  let xs = x + "";
+  let n = s.length;
+  if (neg) {
+    // neg, make min
+    for (let i = 0; i < n; i++) {
+      if (xs < s[i]) {
+        return "-" + s.slice(0, i) + xs + s.slice(i);
+      }
+    }
+    return "-" + s + xs;
+  } else {
+    // pos, make max
+    for (let i = 0; i < n; i++) {
+      if (xs > s[i]) {
+        return s.slice(0, i) + xs + s.slice(i);
+      }
+    }
+    return s + xs; // not found, add to the end
+  }
+};
