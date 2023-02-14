@@ -2938,7 +2938,7 @@ console.log(removeOccurrences("axxxxyyyyb", "xy")); // "ab"
 // Same as most top voted */
 
 // Maximum Value after Insertion          2/13/2023
-
+/* 
 // You are given a very large integer n, represented as a string,​​​​​​ and an integer digit x. The digits in n and the digit x are in the inclusive range [1, 9], and n may represent a negative number.
 
 // You want to maximize n's numerical value by inserting x anywhere in the decimal representation of n​​​​​​. You cannot insert x to the left of the negative sign.
@@ -3004,4 +3004,78 @@ const topVotedMaxValue = (s, x) => {
     }
     return s + xs; // not found, add to the end
   }
+}; */
+
+// Maximum Count of Positive Integer and Negative Integer         2/14/2023
+
+// Given an array nums sorted in non-decreasing order, return the maximum between the number of positive integers and the number of negative integers.
+
+// In other words, if the number of positive integers in nums is pos and the number of negative integers is neg, then return the maximum of pos and neg.
+// Note that 0 is neither positive nor negative.
+
+// Example 1:
+//    Input: nums = [-2,-1,-1,1,2,3]
+//    Output: 3
+// Explanation: There are 3 positive integers and 3 negative integers. The maximum count among them is 3.
+
+// Example 2:
+//    Input: nums = [-3,-2,-1,0,0,1,2]
+//    Output: 3
+// Explanation: There are 2 positive integers and 3 negative integers. The maximum count among them is 3.
+
+// Example 3:
+//    Input: nums = [5,20,66,1314]
+//    Output: 4
+// Explanation: There are 4 positive integers and 0 negative integers. The maximum count among them is 4.
+
+// Constraints:
+//    1 <= nums.length <= 2000
+//    -2000 <= nums[i] <= 2000
+//    nums is sorted in a non-decreasing order.
+
+// Follow up: Can you solve the problem in O(log(n)) time complexity?
+
+const maximumCount = (nums) => {
+  nums = nums.filter((x) => x !== 0);
+  let posIndex = nums.findIndex((x) => x > 0);
+  if (posIndex == -1) return nums.length;
+  return Math.max(posIndex, nums.length - posIndex);
 };
+
+console.log(maximumCount([-2, -1, -1, 1, 2, 3])); // 3
+console.log(maximumCount([-3, -2, -1, 0, 0, 1, 2])); // 3
+console.log(maximumCount([5, 20, 66, 1314])); // 4
+
+// Good runtime
+
+var topVotedMaximumCount = function (nums) {
+  return Math.max(upper_bound(nums), lower_bound(nums));
+};
+
+// binary search for the index of largest(in value) negative number
+function upper_bound(nums) {
+  if (nums[0] >= 0) return 0;
+  let left = 0,
+    right = nums.length - 1;
+  while (left < right) {
+    let mid = Math.ceil((left + right) / 2);
+    if (nums[mid] < 0) left = mid;
+    else right = mid - 1;
+  }
+  return left + 1;
+}
+
+// binary search for the index of smallest positive number
+function lower_bound(nums) {
+  if (nums[nums.length - 1] <= 0) return 0;
+  let left = 0,
+    right = nums.length - 1;
+  while (left < right) {
+    let mid = Math.floor((left + right) / 2);
+    if (nums[mid] > 0) right = mid;
+    else left = mid + 1;
+  }
+  return nums.length - left;
+}
+
+// All top voted are binary search
