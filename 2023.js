@@ -3007,7 +3007,7 @@ const topVotedMaxValue = (s, x) => {
 }; */
 
 // Maximum Count of Positive Integer and Negative Integer         2/14/2023
-
+/* 
 // Given an array nums sorted in non-decreasing order, return the maximum between the number of positive integers and the number of negative integers.
 
 // In other words, if the number of positive integers in nums is pos and the number of negative integers is neg, then return the maximum of pos and neg.
@@ -3078,4 +3078,51 @@ function lower_bound(nums) {
   return nums.length - left;
 }
 
-// All top voted are binary search
+// All top voted are binary search */
+
+// Increment Submatrices by One         2/15/2023
+
+// You are given a positive integer n, indicating that we initially have an n x n 0-indexed integer matrix mat filled with zeroes.
+
+// You are also given a 2D integer array query. For each query[i] = [row1i, col1i, row2i, col2i], you should do the following operation:
+
+// Add 1 to every element in the submatrix with the top left corner (row1i, col1i) and the bottom right corner (row2i, col2i). That is, add 1 to mat[x][y] for for all row1i <= x <= row2i and col1i <= y <= col2i.
+// Return the matrix mat after performing every query.
+
+// Example 1:
+//    Input: n = 3, queries = [[1,1,2,2],[0,0,1,1]]
+//    Output: [[1,1,0],[1,2,1],[0,1,1]]
+// Explanation: The diagram above shows the initial matrix, the matrix after the first query, and the matrix after the second query.
+// - In the first query, we add 1 to every element in the submatrix with the top left corner (1, 1) and bottom right corner (2, 2).
+// - In the second query, we add 1 to every element in the submatrix with the top left corner (0, 0) and bottom right corner (1, 1).
+
+// Example 2:
+//    Input: n = 2, queries = [[0,0,1,1]]
+//    Output: [[1,1],[1,1]]
+// Explanation: The diagram above shows the initial matrix and the matrix after the first query.
+// - In the first query we add 1 to every element in the matrix.
+
+// Constraints:
+//    1 <= n <= 500
+//    1 <= queries.length <= 104
+//    0 <= row1i <= row2i < n
+//    0 <= col1i <= col2i < n
+
+const rangeAddQueries = (n, queries) => {
+  let grid = new Array(n).fill().map((x) => new Array(n).fill(0));
+  for (let [row1, col1, row2, col2] of queries)
+    for (let row = row1; row <= row2; row++)
+      for (let col = col1; col <= col2; col++) grid[row][col]++;
+  return grid;
+};
+
+// prettier-ignore
+console.log(rangeAddQueries(3, [[1,1,2,2],[0,0,1,1]])); // [[1,1,0],[1,2,1],[0,1,1]]
+// prettier-ignore
+console.log(rangeAddQueries(2, [[0,0,1,1]])); // [[1,1],[1,1]]
+
+// O(n^3) complexity, but works
+// TIL: https://stackoverflow.com/questions/64669938/updating-an-element-in-javascript-2d-array-updates-entire-column
+
+// Same as top voted
+// Anything faster is very bulky
