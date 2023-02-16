@@ -3081,7 +3081,7 @@ function lower_bound(nums) {
 // All top voted are binary search */
 
 // Increment Submatrices by One         2/15/2023
-
+/* 
 // You are given a positive integer n, indicating that we initially have an n x n 0-indexed integer matrix mat filled with zeroes.
 
 // You are also given a 2D integer array query. For each query[i] = [row1i, col1i, row2i, col2i], you should do the following operation:
@@ -3125,4 +3125,119 @@ console.log(rangeAddQueries(2, [[0,0,1,1]])); // [[1,1],[1,1]]
 // TIL: https://stackoverflow.com/questions/64669938/updating-an-element-in-javascript-2d-array-updates-entire-column
 
 // Same as top voted
-// Anything faster is very bulky
+// Anything faster is very bulky */
+
+// Maximum Sum of Distinct Subarrays With Length K          2/16/2023
+
+// You are given an integer array nums and an integer k. Find the maximum subarray sum of all the subarrays of nums that meet the following conditions:
+
+// The length of the subarray is k, and
+// All the elements of the subarray are distinct.
+// Return the maximum subarray sum of all the subarrays that meet the conditions. If no subarray meets the conditions, return 0.
+
+// A subarray is a contiguous non-empty sequence of elements within an array.
+
+// Example 1:
+//    Input: nums = [1,5,4,2,9,9,9], k = 3
+//    Output: 15
+// Explanation: The subarrays of nums with length 3 are:
+// - [1,5,4] which meets the requirements and has a sum of 10.
+// - [5,4,2] which meets the requirements and has a sum of 11.
+// - [4,2,9] which meets the requirements and has a sum of 15.
+// - [2,9,9] which does not meet the requirements because the element 9 is repeated.
+// - [9,9,9] which does not meet the requirements because the element 9 is repeated.
+// We return 15 because it is the maximum subarray sum of all the subarrays that meet the conditions
+
+// Example 2:
+//    Input: nums = [4,4,4], k = 3
+//    Output: 0
+// Explanation: The subarrays of nums with length 3 are:
+// - [4,4,4] which does not meet the requirements because the element 4 is repeated.
+// We return 0 because no subarrays meet the conditions.
+
+// Constraints:
+//    1 <= k <= nums.length <= 105
+//    1 <= nums[i] <= 105
+
+const maximumSubarraySum = (n, k) => {
+  if (new Set(n).size < k) return 0;
+
+  let [max, cur, count] = [0, 0, {}];
+  for (let i = 0; i < n.length; i++) {
+    const r = n[i];
+    cur += r;
+    count[r] ? count[r]++ : (count[r] = 1);
+
+    if (i < k - 1) continue;
+    if (Object.keys(count).length == k) max = Math.max(max, cur);
+
+    const l = n[i - k + 1];
+    cur -= l;
+    count[l] == 1 ? delete count[l] : count[l]--;
+  }
+  return max;
+};
+
+console.log(maximumSubarraySum([1, 5, 4, 2, 9, 9, 9], 3)); // 15
+console.log(maximumSubarraySum([4, 4, 4], 3)); // 0
+console.log(maximumSubarraySum([9, 9, 9, 1, 2, 3], 3)); // 12
+
+function topVotedMaximumSubarraySum(nums, k) {
+  const eleFreq = new Map(); // Used to store the frequency of an element within the window k
+  let currSum = 0,
+    maxSum = 0; // local and global sum
+  let i = 0;
+  // Loop over the elements untill you have your first window
+  // record the currSum and keep adding the num[i] to your map
+  while (i < k) {
+    currSum += nums[i];
+    eleFreq.set(nums[i], (eleFreq.get(nums[i]) || 0) + 1);
+    i++;
+  }
+  // Check if the all the elements in your window is unique
+  if (eleFreq.size === k) {
+    maxSum = Math.max(maxSum, currSum);
+  }
+  while (i < nums.length) {
+    // Since we already have k elements in the window, remove the first element in the window. Subtract the sum and frequency of first element to reflect the removal
+    currSum -= nums[i - k];
+    eleFreq.set(nums[i - k], (eleFreq.get(nums[i - k]) || 0) - 1);
+    // If freq is zero, then just remove it from the map so that we have a count of unique elements in the window
+    if (eleFreq.get(nums[i - k]) === 0) eleFreq.delete(nums[i - k]);
+    currSum += nums[i];
+    eleFreq.set(nums[i], (eleFreq.get(nums[i]) || 0) + 1);
+    // Everytime you add nums[i] in your map, check if there are k unique elements, if yes then calcualte maxSum again
+    if (eleFreq.size === k) {
+      maxSum = Math.max(maxSum, currSum);
+    }
+    i++;
+  }
+  return maxSum;
+}
+
+// Same logic, but faster
+
+const revisedMaximumSubarraySum = (n, k) => {
+  if (new Set(n).size < k) return 0;
+
+  let [max, cur, freq] = [0, 0, new Map()];
+  for (let i = 0; i < n.length; i++) {
+    const r = n[i];
+    cur += r;
+    freq.set(r, (freq.get(r) || 0) + 1);
+
+    if (i < k - 1) continue;
+    if (freq.size == k) max = Math.max(max, cur);
+
+    const l = n[i - k + 1];
+    cur -= l;
+    freq.set(l, (freq.get(l) || 0) - 1);
+    if (freq.get(l) === 0) freq.delete(l);
+  }
+  return max;
+};
+console.log(revisedMaximumSubarraySum([1, 5, 4, 2, 9, 9, 9], 3)); // 15
+console.log(revisedMaximumSubarraySum([4, 4, 4], 3)); // 0
+console.log(revisedMaximumSubarraySum([9, 9, 9, 1, 2, 3], 3)); // 12
+
+// ♥ -Hannah
