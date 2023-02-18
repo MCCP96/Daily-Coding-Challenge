@@ -3243,7 +3243,7 @@ console.log(revisedMaximumSubarraySum([9, 9, 9, 1, 2, 3], 3)); // 12
 // ♥ -Hannah */
 
 // Difference Between Ones and Zeros in Row and Column          2/17/2023
-
+/* 
 // You are given a 0-indexed m x n binary matrix grid.
 
 // A 0-indexed m x n difference matrix diff is created with the following procedure:
@@ -3317,4 +3317,105 @@ console.log(onesMinusZeros([[0,1,1],[1,0,1],[0,0,1]])); // [[0,0,4],[0,0,4],[-2,
 // prettier-ignore
 console.log(onesMinusZeros([[1,1,1],[1,1,1]])); // [[5,5,5],[5,5,5]]
 
-// Same logic as top voted solutions
+// Same logic as top voted solutions */
+
+// Count Vowel Strings in Ranges          2/18/2023
+
+// You are given a 0-indexed array of strings words and a 2D array of integers queries.
+
+// Each query queries[i] = [li, ri] asks us to find the number of strings present in the range li to ri (both inclusive) of words that start and end with a vowel.
+
+// Return an array ans of size queries.length, where ans[i] is the answer to the ith query.
+
+// Note that the vowel letters are 'a', 'e', 'i', 'o', and 'u'.
+
+// Example 1:
+//    Input: words = ["aba","bcb","ece","aa","e"], queries = [[0,2],[1,4],[1,1]]
+//    Output: [2,3,0]
+// Explanation: The strings starting and ending with a vowel are "aba", "ece", "aa" and "e".
+// The answer to the query [0,2] is 2 (strings "aba" and "ece").
+// to query [1,4] is 3 (strings "ece", "aa", "e").
+// to query [1,1] is 0.
+// We return [2,3,0].
+
+// Example 2:
+//    Input: words = ["a","e","i"], queries = [[0,2],[0,1],[2,2]]
+//    Output: [3,2,1]
+// Explanation: Every string satisfies the conditions, so we return [3,2,1].
+
+// Constraints:
+//    1 <= words.length <= 105
+//    1 <= words[i].length <= 40
+//    words[i] consists only of lowercase English letters.
+//    sum(words[i].length) <= 3 * 105
+//    1 <= queries.length <= 105
+//    0 <= li <= ri < words.length
+
+const vowelStrings = (w, q) => {
+  const isVowel = (c) =>
+    c == "a" || c == "e" || c == "i" || c == "o" || c == "u";
+  const isVowelString = w.map((c) => isVowel(c[0]) && isVowel(c[c.length - 1]));
+
+  return q.map(([l, r]) => {
+    let count = 0;
+    for (let i = l; i <= r; i++) if (isVowelString[i]) count++;
+    return count;
+  });
+};
+
+// prettier-ignore
+console.log(vowelStrings(["aba","bcb","ece","aa","e"], [[0,2],[1,4],[1,1]])); // [2,3,0]
+// prettier-ignore
+console.log(vowelStrings(["a","e","i"], [[0,2],[0,1],[2,2]])); // [3,2,1]
+
+// Passes, although slow
+
+var topVotedVowelStrings = function (words, queries) {
+  let pref = new Array(words.length + 1).fill(0);
+  let i = 0;
+  for (let x of words) {
+    pref[i + 1] = pref[i] + (isVowel(x[0]) && isVowel(x[x.length - 1]));
+    i++;
+  }
+  let ans = [];
+  for (let i = 0; i < queries.length; i++) {
+    ans.push(pref[queries[i][1] + 1] - pref[queries[i][0]]);
+  }
+  return ans;
+};
+
+function isVowel(x) {
+  if (
+    x == "a" ||
+    x == "e" ||
+    x == "i" ||
+    x == "o" ||
+    x == "u" ||
+    x == "A" ||
+    x == "E" ||
+    x == "I" ||
+    x == "O" ||
+    x == "U"
+  )
+    return true;
+  else return false;
+}
+
+// Much faster
+
+const revisedVowelStrings = (w, q) => {
+  const isVowel = (c) =>
+    c == "a" || c == "e" || c == "i" || c == "o" || c == "u";
+
+  let count = new Array(w.length + 1).fill(0);
+  w.forEach(
+    (str, i) =>
+      (count[i + 1] =
+        count[i] + (isVowel(str[0]) && isVowel(str[str.length - 1])))
+  );
+
+  return q.map(([l, r]) => count[r + 1] - count[l]);
+};
+
+// This approach avoids the nested loop at the end, making it much faster
+// First time seeing the addition of a boolean used in this way
