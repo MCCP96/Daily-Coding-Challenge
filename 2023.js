@@ -3421,7 +3421,7 @@ const revisedVowelStrings = (w, q) => {
 // First time seeing the addition of a boolean used in this way */
 
 // Total Cost to Hire K Workers         2/19/2023
-
+/* 
 // You are given a 0-indexed integer array costs where costs[i] is the cost of hiring the ith worker.
 
 // You are also given two integers k and candidates. We want to hire exactly k workers according to the following rules:
@@ -3538,4 +3538,74 @@ const topVotedTotalCost = (a, k, m) => {
 //    datastructures-js/priority-queue
 //    datastructures-js/queue
 
-// https://support.leetcode.com/hc/en-us/articles/360011833974-What-are-the-environments-for-the-programming-languages-
+// https://support.leetcode.com/hc/en-us/articles/360011833974-What-are-the-environments-for-the-programming-languages- */
+
+// Divide Players Into Teams of Equal Skill         2/20/2023
+
+// You are given a positive integer array skill of even length n where skill[i] denotes the skill of the ith player. Divide the players into n / 2 teams of size 2 such that the total skill of each team is equal.
+
+// The chemistry of a team is equal to the product of the skills of the players on that team.
+
+// Return the sum of the chemistry of all the teams, or return -1 if there is no way to divide the players into teams such that the total skill of each team is equal.
+
+// Example 1:
+//    Input: skill = [3,2,5,1,3,4]
+//    Output: 22
+// Explanation:
+// Divide the players into the following teams: (1, 5), (2, 4), (3, 3), where each team has a total skill of 6.
+// The sum of the chemistry of all the teams is: 1 * 5 + 2 * 4 + 3 * 3 = 5 + 8 + 9 = 22.
+
+// Example 2:
+//    Input: skill = [3,4]
+//    Output: 12
+// Explanation:
+// The two players form a team with a total skill of 7.
+// The chemistry of the team is 3 * 4 = 12.
+
+// Example 3:
+//    Input: skill = [1,1,2,3]
+//    Output: -1
+// Explanation:
+// There is no way to divide the players into teams such that the total skill of each team is equal.
+
+// Constraints:
+//    2 <= skill.length <= 105
+//    skill.length is even.
+//    1 <= skill[i] <= 1000
+
+const dividePlayers = (players) => {
+  players.sort((a, b) => a - b);
+
+  const ini = [players.shift(), players.pop()];
+  const skill = ini[0] + ini[1];
+  let chem = ini[0] * ini[1];
+
+  while (players.length > 0) {
+    const cur = [players.shift(), players.pop()];
+    const curSkill = cur[0] + cur[1];
+    if (curSkill !== skill) return -1;
+    chem += cur[0] * cur[1];
+  }
+
+  return chem;
+};
+
+console.log(dividePlayers([3, 2, 5, 1, 3, 4])); // 22
+console.log(dividePlayers([3, 4])); // 12
+console.log(dividePlayers([1, 1, 2, 3])); // -1
+
+// Slow runtime
+
+var topVotedDividePlayers = function (skill) {
+  skill.sort((a, b) => a - b);
+  let j = skill.length - 1;
+  let maxVal = skill[0] + skill[skill.length - 1];
+  let finalVal = 0;
+  for (let i = 0; i <= j / 2; i++) {
+    if (maxVal == skill[i] + skill[j - i]) finalVal += skill[i] * skill[j - i];
+    else return -1;
+  }
+  return finalVal;
+};
+
+// j/2 definitely improved speed
