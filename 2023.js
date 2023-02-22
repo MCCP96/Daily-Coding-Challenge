@@ -3611,7 +3611,7 @@ var topVotedDividePlayers = function (skill) {
 // j/2 definitely improved speed */
 
 // Sort the Students by Their Kth Score         2/21/2023
-
+/* 
 // There is a class with m students and n exams. You are given a 0-indexed m x n integer matrix score, where each row represents one student and score[i][j] denotes the score the ith student got in the jth exam. The matrix score contains distinct integers only.
 
 // You are also given an integer k. Sort the students (i.e., the rows of the matrix) by their scores in the kth (0-indexed) exam from the highest to the lowest.
@@ -3648,4 +3648,54 @@ console.log(sortTheStudents([[10,6,9,1],[7,5,11,2],[4,8,3,15]], 2)); // [[7,5,11
 // prettier-ignore
 console.log(sortTheStudents([[3,4],[5,6]], 0)); // [[5,6],[3,4]]
 
-// Same as top voted
+// Same as top voted */
+
+// Count the Number of Fair Pairs         2/22/2023
+
+// Given a 0-indexed integer array nums of size n and two integers lower and upper, return the number of fair pairs.
+
+// A pair (i, j) is fair if:
+
+// 0 <= i < j < n, and
+// lower <= nums[i] + nums[j] <= upper
+
+// Example 1:
+//    Input: nums = [0,1,7,4,4,5], lower = 3, upper = 6
+//    Output: 6
+// Explanation: There are 6 fair pairs: (0,3), (0,4), (0,5), (1,3), (1,4), and (1,5).
+
+// Example 2:
+//    Input: nums = [1,7,9,2,5], lower = 11, upper = 11
+//    Output: 1
+// Explanation: There is a single fair pair: (2,3).
+
+// Constraints:
+//    1 <= nums.length <= 105
+//    nums.length == n
+//    -109 <= nums[i] <= 109
+//    -109 <= lower <= upper <= 109
+
+const countFairPairs = (n, l, u) =>
+  n.reduce((a, c, i) => {
+    for (let j = i + 1; j < n.length; j++)
+      if (l <= c + n[j] && c + n[j] <= u) a++;
+    return a;
+  }, 0);
+
+console.log(countFairPairs([0, 1, 7, 4, 4, 5], 3, 6)); // 6
+console.log(countFairPairs([1, 7, 9, 2, 5], 11, 11)); // 1
+
+// Exceeds runtime
+
+const topVotedCountFairPairs = function (nums, lower, upper) {
+  nums.sort((a, b) => a - b);
+  const countless = (val) => {
+    let res = 0;
+    for (let i = 0, j = nums.length - 1; i < j; ++i) {
+      while (i < j && nums[i] + nums[j] > val) --j;
+      res += j - i;
+    }
+    return res;
+  };
+  return countless(upper) - countless(lower - 1);
+};
