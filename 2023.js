@@ -3651,7 +3651,7 @@ console.log(sortTheStudents([[3,4],[5,6]], 0)); // [[5,6],[3,4]]
 // Same as top voted */
 
 // Count the Number of Fair Pairs         2/22/2023
-
+/* 
 // Given a 0-indexed integer array nums of size n and two integers lower and upper, return the number of fair pairs.
 
 // A pair (i, j) is fair if:
@@ -3698,4 +3698,61 @@ const topVotedCountFairPairs = function (nums, lower, upper) {
     return res;
   };
   return countless(upper) - countless(lower - 1);
+}; */
+
+// Count Number of Distinct Integers After Reverse Operations         2/23/2023
+
+// You are given an array nums consisting of positive integers.
+
+// You have to take each integer in the array, reverse its digits, and add it to the end of the array. You should apply this operation to the original integers in nums.
+
+// Return the number of distinct integers in the final array.
+
+// Example 1:
+//    Input: nums = [1,13,10,12,31]
+//    Output: 6
+// Explanation: After including the reverse of each number, the resulting array is [1,13,10,12,31,1,31,1,21,13].
+// The reversed integers that were added to the end of the array are underlined. Note that for the integer 10, after reversing it, it becomes 01 which is just 1.
+// The number of distinct integers in this array is 6 (The numbers 1, 10, 12, 13, 21, and 31).
+
+// Example 2:
+//    Input: nums = [2,2,2]
+//    Output: 1
+// Explanation: After including the reverse of each number, the resulting array is [2,2,2,2,2,2].
+// The number of distinct integers in this array is 1 (The number 2).
+
+// Constraints:
+//    1 <= nums.length <= 105
+//    1 <= nums[i] <= 106
+
+const countDistinctIntegers = (nums) => {
+  const rev = [...new Set(nums.filter((x) => x >= 10))].map(
+    (c) => +[...`${c}`].reverse().join("")
+  );
+  return new Set([...rev, ...nums]).size;
 };
+
+console.log(countDistinctIntegers([1, 13, 10, 12, 31])); // 6
+console.log(countDistinctIntegers([2, 2, 2])); // 1
+
+const getReverseOfNum = (num) => {
+  let str = num + "";
+  return Number(str.split("").reverse().join(""));
+};
+
+const topVotedCountDistinctIntegers = (n) => {
+  let arr = [...n];
+  for (let i = 0; i < n.length; i++) {
+    arr.push(getReverseOfNum(n[i]));
+  }
+  return new Set(arr).size;
+};
+
+// Same logic as top voted, but theirs is much faster
+
+const revisedCountDistinctIntegers = (nums) => {
+  nums.push(...nums.map((c) => +[...String(c)].reverse().join("")));
+  return new Set(nums).size;
+};
+
+// I was trying to help by filtering my initial solution, but it ultimately made it slower
