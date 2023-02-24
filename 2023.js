@@ -3701,7 +3701,7 @@ const topVotedCountFairPairs = function (nums, lower, upper) {
 }; */
 
 // Count Number of Distinct Integers After Reverse Operations         2/23/2023
-
+/* 
 // You are given an array nums consisting of positive integers.
 
 // You have to take each integer in the array, reverse its digits, and add it to the end of the array. You should apply this operation to the original integers in nums.
@@ -3755,4 +3755,62 @@ const revisedCountDistinctIntegers = (nums) => {
   return new Set(nums).size;
 };
 
-// I was trying to help by filtering my initial solution, but it ultimately made it slower
+// I was trying to help by filtering my initial solution, but it ultimately made it slower */
+
+// Minimize Maximum of Array					2/24/2023
+
+// You are given a 0-indexed array nums comprising of n non-negative integers.
+
+// In one operation, you must:
+//    Choose an integer i such that 1 <= i < n and nums[i] > 0.
+//    Decrease nums[i] by 1.
+//    Increase nums[i - 1] by 1.
+
+// Return the minimum possible value of the maximum integer of nums after performing any number of operations.
+
+// Example 1:
+//    Input: nums = [3,7,1,6]
+//    Output: 5
+// Explanation:
+// 		One set of optimal operations is as follows:
+// 		1. Choose i = 1, and nums becomes [4,6,1,6].
+// 		2. Choose i = 3, and nums becomes [4,6,2,5].
+// 		3. Choose i = 1, and nums becomes [5,5,2,5].
+// 		The maximum integer of nums is 5. It can be shown that the maximum number cannot be less than 5.
+// 		Therefore, we return 5.
+
+// Example 2:
+//    Input: nums = [10,1]
+//    Output: 10
+// Explanation:
+// 		It is optimal to leave nums as is, and since 10 is the maximum value, we return 10.
+
+// Constraints:
+//		n == nums.length
+//		2 <= n <= 105
+//		0 <= nums[i] <= 109
+
+const minimizeArrayValue = (nums) => {
+  const indexOfMax = () => nums.indexOf(Math.max(...nums));
+  while (indexOfMax() !== 0) {
+    let i = indexOfMax();
+    nums[i]--;
+    nums[i - 1]++;
+  }
+  return Math.max(...nums);
+};
+
+console.log(minimizeArrayValue([3, 7, 1, 6])); // 5
+console.log(minimizeArrayValue([10, 1])); // 10
+
+// Too slow
+
+var topVotedMinimizeArrayValue = function (nums) {
+  let sum = 0,
+    res = 0;
+  for (let i = 0; i < nums.length; ++i) {
+    sum += nums[i];
+    res = Math.max(res, Math.floor((sum + i) / (i + 1)));
+  }
+  return res;
+};
