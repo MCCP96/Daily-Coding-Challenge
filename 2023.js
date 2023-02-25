@@ -3758,7 +3758,7 @@ const revisedCountDistinctIntegers = (nums) => {
 // I was trying to help by filtering my initial solution, but it ultimately made it slower */
 
 // Minimize Maximum of Array					2/24/2023
-
+/* 
 // You are given a 0-indexed array nums comprising of n non-negative integers.
 
 // In one operation, you must:
@@ -3813,4 +3813,79 @@ var topVotedMinimizeArrayValue = function (nums) {
     res = Math.max(res, Math.floor((sum + i) / (i + 1)));
   }
   return res;
+}; */
+
+// Most Popular Video Creator					2/25/2023
+
+// You are given two string arrays creators and ids, and an integer array views, all of length n. The ith video on a platform was created by creator[i], has an id of ids[i], and has views[i] views.
+
+// The popularity of a creator is the sum of the number of views on all of the creator's videos. Find the creator with the highest popularity and the id of their most viewed video.
+
+// If multiple creators have the highest popularity, find all of them.
+
+// If multiple videos have the highest view count for a creator, find the lexicographically smallest id.
+
+// Return a 2D array of strings answer where answer[i] = [creatori, idi] means that creatori has the highest popularity and idi is the id of their most popular video. The answer can be returned in any order.
+
+// Example 1:
+// 		Input: creators = ["alice","bob","alice","chris"], ids = ["one","two","three","four"], views = [5,10,5,4]
+// 		Output: [["alice","one"],["bob","two"]]
+// Explanation:
+// 		The popularity of alice is 5 + 5 = 10.
+// 		The popularity of bob is 10.
+// 		The popularity of chris is 4.
+// 		alice and bob are the most popular creators.
+// 		For bob, the video with the highest view count is "two".
+// 		For alice, the videos with the highest view count are "one" and "three". Since "one" is lexicographically smaller than "three", it is included in the answer.
+
+// Example 2:
+// 		Input: creators = ["alice","alice","alice"], ids = ["a","b","c"], views = [1,2,2]
+// 		Output: [["alice","b"]]
+// Explanation:
+// 		The videos with id "b" and "c" have the highest view count.
+// 		Since "b" is lexicographically smaller than "c", it is included in the answer.
+
+// Constraints:
+//		n == creators.length == ids.length == views.length
+//		1 <= n <= 105
+//		1 <= creators[i].length, ids[i].length <= 5
+//		creators[i] and ids[i] consist only of lowercase English letters.
+//		0 <= views[i] <= 105
+
+const mostPopularCreator = (creators, ids, views) => {
+  let mostPop = 0;
+
+  let map = creators.reduce((map, creator, i) => {
+    let [curId, curViews] = [ids[i], views[i]];
+
+    if (map.has(creator)) {
+      let user = map.get(creator);
+      user.pop += curViews;
+      mostPop = Math.max(user.pop, mostPop);
+
+      if (curViews > user.bestVid[1]) user.bestVid = [curId, curViews];
+      else if (curViews == user.bestVid[1] && curId < user.bestVid[0])
+        user.bestVid[0] = curId;
+    } else {
+      map.set(creator, { pop: curViews, bestVid: [curId, curViews] });
+      mostPop = Math.max(curViews, mostPop);
+    }
+
+    return map;
+  }, new Map());
+
+  return [...map.entries()].reduce((res, creator) => {
+    if (creator[1].pop == mostPop)
+      res.push([creator[0], creator[1].bestVid[0]]);
+    return res;
+  }, []);
 };
+
+// prettier-ignore
+console.log(mostPopularCreator(["alice","bob","alice","chris"], ["one","two","three","four"], [5,10,5,4])) // [["alice","one"],["bob","two"]]
+// prettier-ignore
+console.log(mostPopularCreator(["alice", "alice", "alice"], ["a", "b", "c"], [1, 2, 2])); // [["alice","b"]]
+console.log(mostPopularCreator(["a", "b"], ["a", "a"], [1, 0])); // [["a","a"]]
+
+// Top voteds were equally as bulky Maps
+// Good runtime
