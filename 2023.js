@@ -3891,7 +3891,7 @@ console.log(mostPopularCreator(["a", "b"], ["a", "a"], [1, 0])); // [["a","a"]]
 // Good runtime */
 
 // Minimum Addition to Make Integer Beautiful					2/26/2023
-
+/* 
 // You are given two positive integers n and target.
 
 // An integer is considered beautiful if the sum of its digits is less than or equal to target.
@@ -3967,4 +3967,50 @@ var digitSum = function (x) {
   return summation;
 };
 
-// I definitely overcomplicated things
+// I definitely overcomplicated things */
+
+// Difference Between Element Sum and Digit Sum of an Array					2/27/2023
+
+// You are given a positive integer array nums.
+
+// The element sum is the sum of all the elements in nums.
+
+// The digit sum is the sum of all the digits (not necessarily distinct) that appear in nums.
+
+// Return the absolute difference between the element sum and digit sum of nums.
+
+// Note that the absolute difference between two integers x and y is defined as |x - y|.
+
+// Example 1:
+// 		Input: nums = [1,15,6,3]
+// 		Output: 9
+// Explanation:
+// 		The element sum of nums is 1 + 15 + 6 + 3 = 25.
+// 		The digit sum of nums is 1 + 1 + 5 + 6 + 3 = 16.
+// 		The absolute difference between the element sum and digit sum is |25 - 16| = 9.
+
+// Example 2:
+// 		Input: nums = [1,2,3,4]
+// 		Output: 0
+// Explanation:
+// 		The element sum of nums is 1 + 2 + 3 + 4 = 10.
+// 		The digit sum of nums is 1 + 2 + 3 + 4 = 10.
+// 		The absolute difference between the element sum and digit sum is |10 - 10| = 0.
+
+// Constraints:
+//		1 <= nums.length <= 2000
+//		1 <= nums[i] <= 2000
+
+const differenceOfSum = (nums) => {
+  let [el, dig] = [0, 0];
+  nums.forEach((n) => {
+    el += n;
+    dig += [...String(n)].reduce((a, c) => (a += +c), 0);
+  });
+  return el - dig;
+};
+
+console.log(differenceOfSum([1, 15, 6, 3])); // 9
+console.log(differenceOfSum([1, 2, 3, 4])); // 0
+
+// 100% Runtime
