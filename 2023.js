@@ -3816,7 +3816,7 @@ var topVotedMinimizeArrayValue = function (nums) {
 }; */
 
 // Most Popular Video Creator					2/25/2023
-
+/* 
 // You are given two string arrays creators and ids, and an integer array views, all of length n. The ith video on a platform was created by creator[i], has an id of ids[i], and has views[i] views.
 
 // The popularity of a creator is the sum of the number of views on all of the creator's videos. Find the creator with the highest popularity and the id of their most viewed video.
@@ -3888,4 +3888,83 @@ console.log(mostPopularCreator(["alice", "alice", "alice"], ["a", "b", "c"], [1,
 console.log(mostPopularCreator(["a", "b"], ["a", "a"], [1, 0])); // [["a","a"]]
 
 // Top voteds were equally as bulky Maps
-// Good runtime
+// Good runtime */
+
+// Minimum Addition to Make Integer Beautiful					2/26/2023
+
+// You are given two positive integers n and target.
+
+// An integer is considered beautiful if the sum of its digits is less than or equal to target.
+
+// Return the minimum non-negative integer x such that n + x is beautiful. The input will be generated such that it is always possible to make n beautiful.
+
+// Example 1:
+// 		Input: n = 16, target = 6
+// 		Output: 4
+// Explanation: Initially n is 16 and its digit sum is 1 + 6 = 7. After adding 4, n becomes 20 and digit sum becomes 2 + 0 = 2. It can be shown that we can not make n beautiful with adding non-negative integer less than 4.
+
+// Example 2:
+// 		Input: n = 467, target = 6
+// 		Output: 33
+// Explanation: Initially n is 467 and its digit sum is 4 + 6 + 7 = 17. After adding 33, n becomes 500 and digit sum becomes 5 + 0 + 0 = 5. It can be shown that we can not make n beautiful with adding non-negative integer less than 33.
+
+// Example 3:
+// 		Input: n = 1, target = 1
+// 		Output: 0
+// Explanation: Initially n is 1 and its digit sum is 1, which is already smaller than or equal to target.
+
+// Constraints:
+//		1 <= n <= 1012
+//		1 <= target <= 150
+//		The input will be generated such that it is always possible to make n beautiful.
+
+const makeIntegerBeautiful = (n, t) => {
+  let cur = String(n);
+  let acc = 0;
+  let index;
+
+  for (let i = 0; i < cur.length; i++) {
+    acc += Number(cur[i]);
+    if (acc > t) {
+      index = i;
+      break;
+    }
+  }
+
+  let dif = Math.pow(10, cur.length - index) - cur.substring(index);
+  if (isNaN(dif)) return 0;
+
+  let res = [...String(n + dif)].reduce((a, c) => (a += Number(c)), 0);
+  if (res <= t) return dif;
+
+  res = Number(`${9 - cur[index - 1]}${dif}`);
+  return res;
+};
+
+console.log(makeIntegerBeautiful(16, 6)); // 4
+console.log(makeIntegerBeautiful(467, 6)); // 33
+console.log(makeIntegerBeautiful(1, 1)); // 0
+console.log(makeIntegerBeautiful(19, 1)); // 81
+console.log(makeIntegerBeautiful(209659314313, 22)); // 40685687
+
+// Doesn't work for all test cases
+// Pretty scuffed
+
+var topVotedMakeIntegerBeautiful = function (n, target) {
+  if (digitSum(n) <= target) return 0;
+  // Padding to N, where N > n, and N is nearest multiple of 10, 100, 1000, 10000, ... and so on
+  let padding = 10 - (n % 10);
+  return (
+    padding + 10 * topVotedMakeIntegerBeautiful((n + padding) / 10, target)
+  );
+};
+var digitSum = function (x) {
+  let summation = 0;
+  while (x > 0) {
+    summation += x % 10;
+    x = Math.floor(x / 10); // Take care to force round down to integer to avoid underflow
+  }
+  return summation;
+};
+
+// I definitely overcomplicated things
