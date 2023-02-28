@@ -3970,7 +3970,7 @@ var digitSum = function (x) {
 // I definitely overcomplicated things */
 
 // Difference Between Element Sum and Digit Sum of an Array					2/27/2023
-
+/* 
 // You are given a positive integer array nums.
 
 // The element sum is the sum of all the elements in nums.
@@ -4013,4 +4013,67 @@ const differenceOfSum = (nums) => {
 console.log(differenceOfSum([1, 15, 6, 3])); // 9
 console.log(differenceOfSum([1, 2, 3, 4])); // 0
 
-// 100% Runtime
+// 100% Runtime */
+
+// Make Number of Distinct Characters Equal					2/28/2023
+
+// You are given two 0-indexed strings word1 and word2.
+
+// A move consists of choosing two indices i and j such that 0 <= i < word1.length and 0 <= j < word2.length and swapping word1[i] with word2[j].
+
+// Return true if it is possible to get the number of distinct characters in word1 and word2 to be equal with exactly one move. Return false otherwise.
+
+// Example 1:
+// 		Input: word1 = "ac", word2 = "b"
+// 		Output: false
+// Explanation: Any pair of swaps would yield two distinct characters in the first string, and one in the second string.
+
+// Example 2:
+// 		Input: word1 = "abcc", word2 = "aab"
+// 		Output: true
+// Explanation: We swap index 2 of the first string with index 0 of the second string. The resulting strings are word1 = "abac" and word2 = "cab", which both have 3 distinct characters.
+
+// Example 3:
+// 		Input: word1 = "abcde", word2 = "fghij"
+// 		Output: true
+// Explanation: Both resulting strings will have 5 distinct characters, regardless of which indices we swap.
+
+// Constraints:
+//		1 <= word1.length, word2.length <= 105
+//		word1 and word2 consist of only lowercase English letters.
+
+const isItPossible = (w1, w2) => {
+  const map = (str) =>
+    [...str].reduce((map, c) => map.set(c, map.get(c) + 1 || 1), new Map());
+
+  const [m1, m2] = [map(w1), map(w2)];
+  if (Math.abs(m1.size - m2.size) > 2) return false;
+
+  for (let [c1, n1] of m1) {
+    for (let [c2, n2] of m2) {
+      if (c1 === c2) {
+        if (m1.size === m2.size) return true;
+      } else {
+        let s1 = m1.size;
+        if (n1 === 1) s1--;
+        if (!m1.has(c2)) s1++;
+
+        let s2 = m2.size;
+        if (n2 === 1) s2--;
+        if (!m2.has(c1)) s2++;
+
+        if (s1 === s2) return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+console.log(isItPossible("ac", "b")); // false
+console.log(isItPossible("abcc", "aab")); // true
+console.log(isItPossible("abcde", "fghij")); // true
+console.log(isItPossible("aa", "ab")); // false
+
+// Stolen from top voted
+// Managed to get the Map down, but struggled with the nested for loop logic
