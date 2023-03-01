@@ -4016,7 +4016,7 @@ console.log(differenceOfSum([1, 2, 3, 4])); // 0
 // 100% Runtime */
 
 // Make Number of Distinct Characters Equal					2/28/2023
-
+/* 
 // You are given two 0-indexed strings word1 and word2.
 
 // A move consists of choosing two indices i and j such that 0 <= i < word1.length and 0 <= j < word2.length and swapping word1[i] with word2[j].
@@ -4076,4 +4076,85 @@ console.log(isItPossible("abcde", "fghij")); // true
 console.log(isItPossible("aa", "ab")); // false
 
 // Stolen from top voted
-// Managed to get the Map down, but struggled with the nested for loop logic
+// Managed to get the Map down, but struggled with the nested for loop logic */
+
+// Two Best Non-Overlapping Events					3/1/2023
+
+// You are given a 0-indexed 2D integer array of events where events[i] = [startTimei, endTimei, valuei]. The ith event starts at startTimei and ends at endTimei, and if you attend this event, you will receive a value of valuei. You can choose at most two non-overlapping events to attend such that the sum of their values is maximized.
+
+// Return this maximum sum.
+
+// Note that the start time and end time is inclusive: that is, you cannot attend two events where one of them starts and the other ends at the same time. More specifically, if you attend an event with end time t, the next event must start at or after t + 1.
+
+// Example 1:
+// 		Input: events = [[1,3,2],[4,5,2],[2,4,3]]
+// 		Output: 4
+// Explanation: Choose the green events, 0 and 1 for a sum of 2 + 2 = 4.
+
+// Example 2:
+// 		Example 1 Diagram
+// 		Input: events = [[1,3,2],[4,5,2],[1,5,5]]
+// 		Output: 5
+// Explanation: Choose event 2 for a sum of 5.
+
+// Example 3:
+// 		Input: events = [[1,5,3],[1,5,1],[6,6,5]]
+// 		Output: 8
+// Explanation: Choose events 0 and 2 for a sum of 3 + 5 = 8.
+
+// Constraints:
+//		2 <= events.length <= 105
+//		events[i].length == 3
+//		1 <= startTimei <= endTimei <= 109
+//		1 <= valuei <= 106
+
+const maxTwoEvents = (e) => {
+  e.sort((a, b) => b[2] - a[2]);
+  let max = e[0][2];
+  let seen = {};
+
+  for (let i = 0; i < e.length - 1; i++) {
+    if (seen[e[i]]) continue;
+    else seen[e[i]] = true;
+
+    for (let j = i + 1; j < e.length; j++) {
+      let [s1, e1, val1] = e[i];
+      let [s2, e2, val2] = e[j];
+
+      if (val1 + val2 <= max) break;
+      if (s1 > e2 || e1 < s2) max = Math.max(max, val1 + val2);
+    }
+  }
+  return max;
+};
+
+// prettier-ignore
+console.log(maxTwoEvents([[1,3,2],[4,5,2],[2,4,3]])) // 4
+// prettier-ignore
+console.log(maxTwoEvents([[1,3,2],[4,5,2],[1,5,5]])) // 5
+// prettier-ignore
+console.log(maxTwoEvents([[1,5,3],[1,5,1],[6,6,5]])) // 8
+
+const topVotedMaxTwoEvents = (a) => {
+  let d = [],
+    res = 0,
+    maxPreSum = 0;
+  for (const [start, end, sum] of a) {
+    d.push([start, sum, 1]);
+    d.push([end, sum, -1]);
+  }
+  d.sort((x, y) => {
+    if (x[0] != y[0]) return x[0] - y[0];
+    return y[2] - x[2];
+  });
+  for (const [, sum, flag] of d) {
+    if (flag == -1) {
+      maxPreSum = Math.max(maxPreSum, sum);
+    } else {
+      res = Math.max(res, maxPreSum + sum);
+    }
+  }
+  return res;
+};
+
+// Really nice
