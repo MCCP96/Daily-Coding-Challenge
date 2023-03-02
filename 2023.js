@@ -4079,7 +4079,7 @@ console.log(isItPossible("aa", "ab")); // false
 // Managed to get the Map down, but struggled with the nested for loop logic */
 
 // Two Best Non-Overlapping Events					3/1/2023
-
+/* 
 // You are given a 0-indexed 2D integer array of events where events[i] = [startTimei, endTimei, valuei]. The ith event starts at startTimei and ends at endTimei, and if you attend this event, you will receive a value of valuei. You can choose at most two non-overlapping events to attend such that the sum of their values is maximized.
 
 // Return this maximum sum.
@@ -4157,4 +4157,92 @@ const topVotedMaxTwoEvents = (a) => {
   return res;
 };
 
-// Really nice
+// Really nice */
+
+// Plates Between Candles					3/2/2023
+
+// There is a long table with a line of plates and candles arranged on top of it. You are given a 0-indexed string s consisting of characters '*' and '|' only, where a '*' represents a plate and a '|' represents a candle.
+
+// You are also given a 0-indexed 2D integer array queries where queries[i] = [lefti, righti] denotes the substring s[lefti...righti] (inclusive). For each query, you need to find the number of plates between candles that are in the substring. A plate is considered between candles if there is at least one candle to its left and at least one candle to its right in the substring.
+
+// For example, s = "||**||**|*", and a query [3, 8] denotes the substring "*||**|". The number of plates between candles in this substring is 2, as each of the two plates has at least one candle in the substring to its left and right.
+
+// Return an integer array answer where answer[i] is the answer to the ith query.
+
+// Example 1:
+// 		ex-1
+// 		Input: s = "**|**|***|", queries = [[2,5],[5,9]]
+// 		Output: [2,3]
+// Explanation:
+// 		- queries[0] has two plates between candles.
+// 		- queries[1] has three plates between candles.
+
+// Example 2:
+// 		ex-2
+// 		Input: s = "***|**|*****|**||**|*", queries = [[1,17],[4,5],[14,17],[5,11],[15,16]]
+// 		Output: [9,0,0,0,0]
+// Explanation:
+// 		- queries[0] has nine plates between candles.
+// 		- The other queries have zero plates between candles.
+
+// Constraints:
+//		3 <= s.length <= 105
+//		s consists of '*' and '|' characters.
+//		1 <= queries.length <= 105
+//		queries[i].length == 2
+//		0 <= lefti <= righti < s.length
+
+const platesBetweenCandles = (s, q) =>
+  q.reduce((res, [a, b]) => {
+    let c = s.substring(a, b + 1);
+    res.push(
+      c.substring(c.indexOf("|") + 1, c.lastIndexOf("|")).replaceAll("|", "")
+        .length
+    );
+    return res;
+  }, []);
+
+// prettier-ignore
+console.log(platesBetweenCandles("**|**|***|", [[2,5],[5,9]])); // [2,3]
+// prettier-ignore
+console.log(platesBetweenCandles("***|**|*****|**||**|*", [[1,17],[4,5],[14,17],[5,11],[15,16]])); // [9,0,0,0,0]
+
+// Exceeds runtime limit
+// Messed with regex for a while, but couldn't get it working
+
+const topVotedPlatesBetweenCandles = function (s, queries) {
+  let platPreFixSum = [...Array(s.length + 1)];
+  let leftViewCandle = [...Array(s.length + 1)];
+  let rightViewCandle = [...Array(s.length + 1)];
+
+  platPreFixSum[0] = 0;
+  leftViewCandle[0] = -1;
+  rightViewCandle[s.length] = -1;
+
+  for (let i = 1; i <= s.length; i++) {
+    platPreFixSum[i] =
+      s[i - 1] == "*" ? platPreFixSum[i - 1] + 1 : platPreFixSum[i - 1];
+    leftViewCandle[i] = s[i - 1] == "|" ? i - 1 : leftViewCandle[i - 1];
+    rightViewCandle[s.length - i] =
+      s[s.length - i] == "|" ? s.length - i : rightViewCandle[s.length - i + 1];
+  }
+
+  let result = [];
+
+  queries.forEach(([left, right]) => {
+    if (
+      rightViewCandle[left] >= 0 &&
+      leftViewCandle[right + 1] >= 0 &&
+      rightViewCandle[left] < leftViewCandle[right + 1]
+    ) {
+      result.push(
+        platPreFixSum[leftViewCandle[right + 1]] -
+          platPreFixSum[rightViewCandle[left]]
+      );
+    } else {
+      result.push(0);
+    }
+  });
+
+  return result;
+};
