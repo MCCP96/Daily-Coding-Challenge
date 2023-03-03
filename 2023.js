@@ -4160,7 +4160,7 @@ const topVotedMaxTwoEvents = (a) => {
 // Really nice */
 
 // Plates Between Candles					3/2/2023
-
+/* 
 // There is a long table with a line of plates and candles arranged on top of it. You are given a 0-indexed string s consisting of characters '*' and '|' only, where a '*' represents a plate and a '|' represents a candle.
 
 // You are also given a 0-indexed 2D integer array queries where queries[i] = [lefti, righti] denotes the substring s[lefti...righti] (inclusive). For each query, you need to find the number of plates between candles that are in the substring. A plate is considered between candles if there is at least one candle to its left and at least one candle to its right in the substring.
@@ -4245,4 +4245,91 @@ const topVotedPlatesBetweenCandles = function (s, queries) {
   });
 
   return result;
+}; */
+
+// Vowels of All Substrings					3/3/2023
+
+// Given a string word, return the sum of the number of vowels ('a', 'e', 'i', 'o', and 'u') in every substring of word.
+
+// A substring is a contiguous (non-empty) sequence of characters within a string.
+
+// Note: Due to the large constraints, the answer may not fit in a signed 32-bit integer. Please be careful during the calculations.
+
+// Example 1:
+// 		Input: word = "aba"
+// 		Output: 6
+// Explanation:
+// 		All possible substrings are: "a", "ab", "aba", "b", "ba", and "a".
+// 		- "b" has 0 vowels in it
+// 		- "a", "ab", "ba", and "a" have 1 vowel each
+// 		- "aba" has 2 vowels in it
+// 		Hence, the total sum of vowels = 0 + 1 + 1 + 1 + 1 + 2 = 6.
+
+// Example 2:
+// 		Input: word = "abc"
+// 		Output: 3
+// Explanation:
+// 		All possible substrings are: "a", "ab", "abc", "b", "bc", and "c".
+// 		- "a", "ab", and "abc" have 1 vowel each
+// 		- "b", "bc", and "c" have 0 vowels each
+// 		Hence, the total sum of vowels = 1 + 1 + 1 + 0 + 0 + 0 = 3.
+
+// Example 3:
+// 		Input: word = "ltcd"
+// 		Output: 0
+// Explanation: There are no vowels in any substring of "ltcd".
+
+// Constraints:
+//		1 <= word.length <= 105
+//		word consists of lowercase English letters.
+
+const countVowels = (w) => {
+  if (!/[a,e,i,o,u]/.test(w)) return 0;
+  let count = 0;
+
+  for (let i = 0; i < w.length; i++) {
+    let cur = w.substring(i);
+    let vowel = cur.search(/[a,e,i,o,u]/);
+
+    if (vowel === -1) break;
+
+    count += cur
+      .split(/(?=[a,e,i,o,u])/)
+      .reduce((vowel, c, i) => (vowel += c.length * (i + 1)), 0);
+
+    i = w.length - cur.length + vowel + 1;
+  }
+  return count;
+};
+
+console.log(countVowels("aba")); // 6
+console.log(countVowels("abc")); // 3
+console.log(countVowels("ltcd")); // 0
+
+// Can't seem to get it working and fast enough
+
+var topVotedCountVowels = function (word) {
+  const vowels = new Set(["a", "e", "i", "o", "u"]);
+  let total = 0;
+  let count = 0;
+  for (let i = 0; i < word.length; i++) {
+    if (vowels.has(word[i])) {
+      count += i + 1;
+    }
+    total += count;
+  }
+  return total;
+};
+
+// I'm mad, this is so much more obvious
+
+const revisedCountVowels = (w) => {
+  if (!/[a,e,i,o,u]/.test(w)) return 0;
+  let [res, acc] = [0, 0];
+
+  for (let i = 0; i < w.length; i++) {
+    if (/[a,e,i,o,u]/.test(w[i])) acc += i + 1;
+    res += acc;
+  }
+  return res;
 };
