@@ -4335,7 +4335,7 @@ const revisedCountVowels = (w) => {
 }; */
 
 // Most Beautiful Item for Each Query					3/4/2023
-
+/* 
 // You are given a 2D integer array items where items[i] = [pricei, beautyi] denotes the price and beauty of an item respectively.
 
 // You are also given a 0-indexed integer array queries. For each queries[j], you want to determine the maximum beauty of an item whose price is less than or equal to queries[j]. If no such item exists, then the answer to this query is 0.
@@ -4432,4 +4432,102 @@ var topVotedMaximumBeauty = function (items, queries) {
   return ans;
 };
 
-// Binary search is the way to go
+// Binary search is the way to go */
+
+// Decode the Slanted Ciphertext					3/5/2023
+
+// A string originalText is encoded using a slanted transposition cipher to a string encodedText with the help of a matrix having a fixed number of rows rows.
+
+// originalText is placed first in a top-left to bottom-right manner.
+
+// The blue cells are filled first, followed by the red cells, then the yellow cells, and so on, until we reach the end of originalText. The arrow indicates the order in which the cells are filled. All empty cells are filled with ' '. The number of columns is chosen such that the rightmost column will not be empty after filling in originalText.
+
+// encodedText is then formed by appending all characters of the matrix in a row-wise fashion.
+
+// The characters in the blue cells are appended first to encodedText, then the red cells, and so on, and finally the yellow cells. The arrow indicates the order in which the cells are accessed.
+
+// For example, if originalText = "cipher" and rows = 3, then we encode it in the following manner:
+
+// https://assets.leetcode.com/uploads/2021/10/25/desc2.png
+
+// The blue arrows depict how originalText is placed in the matrix, and the red arrows denote the order in which encodedText is formed. In the above example, encodedText = "ch ie pr".
+
+// Given the encoded string encodedText and number of rows rows, return the original string originalText.
+
+// Note: originalText does not have any trailing spaces ' '. The test cases are generated such that there is only one possible originalText.
+
+// Example 1:
+// 		Input: encodedText = "ch   ie   pr", rows = 3
+// 		Output: "cipher"
+// Explanation: This is the same example described in the problem description.
+
+// Example 2:
+// 		Input: encodedText = "iveo    eed   l te   olc", rows = 4
+// 		Output: "i love leetcode"
+// Explanation: The figure above denotes the matrix that was used to encode originalText.
+// 		The blue arrows show how we can find originalText from encodedText.
+
+// Example 3:
+// 		Input: encodedText = "coding", rows = 1
+// 		Output: "coding"
+// Explanation: Since there is only 1 row, both originalText and encodedText are the same.
+
+// Constraints:
+//		0 <= encodedText.length <= 106
+//		encodedText consists of lowercase English letters and ' ' only.
+//		encodedText is a valid encoding of some originalText that does not have trailing spaces.
+//		1 <= rows <= 1000
+//		The testcases are generated such that there is only one possible originalText.
+
+const decodeCiphertext = (text, rows) => {
+  if (rows == 1 || text.length < rows) return text;
+
+  const reg = new RegExp(`.{1,${text.length / rows}}`, "g");
+  rows = text.match(reg);
+
+  let res = "";
+  for (let i = 0; i < rows[0].length; i++) {
+    for (let j = 0, k = i; j < rows.length; j++, k++) {
+      if (k > rows[0].length - 1) return res.replace(/\s+$/, "");
+      res += rows[j][k];
+    }
+  }
+
+  return res.replace(/\s+$/, "");
+};
+
+console.log(decodeCiphertext("ch   ie   pr", 3)); // "cipher"
+console.log(decodeCiphertext("iveo    eed   l te   olc", 4)); // "i love leetcode"
+console.log(decodeCiphertext("coding", 1)); // "coding"
+console.log(decodeCiphertext(" b  ac", 2)); // " abc"
+console.log(decodeCiphertext("", 5)); // ""
+
+// 100% Runtime
+
+var topVotedDecodeCiphertext = function (encodedText, rows) {
+  const n = encodedText.length;
+  const cols = n / rows;
+  let res = "";
+
+  for (let i = 0; i < cols; ++i) {
+    let str = "";
+
+    let row = 0;
+    let col = i % cols;
+
+    while (row < rows && col < cols) {
+      const idx = row * cols + col;
+
+      str += encodedText.charAt(idx);
+
+      row += 1;
+      col += 1;
+    }
+
+    res += str;
+  }
+
+  return res.trimEnd();
+};
+
+// Just learning about .trimEnd()
