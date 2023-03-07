@@ -4533,7 +4533,7 @@ var topVotedDecodeCiphertext = function (encodedText, rows) {
 // Just learning about .trimEnd() */
 
 // Watering Plants					3/6/2023
-
+/* 
 // You want to water n plants in your garden with a watering can. The plants are arranged in a row and are labeled from 0 to n - 1 from left to right where the ith plant is located at x = i. There is a river at x = -1 that you can refill your watering can at.
 
 // Each plant needs a specific amount of water. You will water the plants in the following way:
@@ -4603,4 +4603,67 @@ console.log(wateringPlants([2, 2, 3, 3], 5)); // 14
 console.log(wateringPlants([1, 1, 1, 4, 2, 3], 4)); // 30
 console.log(wateringPlants([7, 7, 7, 7, 7, 7, 7], 8)); // 49
 
-// Same as top voted
+// Same as top voted */
+
+// Minimum Number of Food Buckets to Feed the Hamsters					3/7/2023
+
+// You are given a 0-indexed string hamsters where hamsters[i] is either:
+
+// 'H' indicating that there is a hamster at index i, or
+
+// '.' indicating that index i is empty.
+
+// You will add some number of food buckets at the empty indices in order to feed the hamsters. A hamster can be fed if there is at least one food bucket to its left or to its right. More formally, a hamster at index i can be fed if you place a food bucket at index i - 1 and/or at index i + 1.
+
+// Return the minimum number of food buckets you should place at empty indices to feed all the hamsters or -1 if it is impossible to feed all of them.
+
+// Example 1:
+// 		Input: hamsters = "H..H"
+// 		Output: 2
+// Explanation: We place two food buckets at indices 1 and 2.
+// 		It can be shown that if we place only one food bucket, one of the hamsters will not be fed.
+
+// Example 2:
+// 		Input: hamsters = ".H.H."
+// 		Output: 1
+// Explanation: We place one food bucket at index 2.
+
+// Example 3:
+// 		Input: hamsters = ".HHH."
+// 		Output: -1
+// Explanation: If we place a food bucket at every empty index as shown, the hamster at index 2 will not be able to eat.
+
+// Constraints:
+//		1 <= hamsters.length <= 10^5
+//		hamsters[i] is either'H' or '.'.
+
+const minimumBuckets = (hamsters) => {
+  if (/HHH|^HH|HH$/.test(hamsters) || hamsters.indexOf(".") == -1) return -1;
+  if (hamsters.indexOf("H") == -1) return 0;
+
+  let arr = [...hamsters];
+  let count = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] == "H") {
+      if (arr[i - 1] == "B") continue;
+      else if (arr[i + 1] == "H") {
+        arr[i - 1] = "B";
+        count++;
+      } else {
+        arr[i + 1] = "B";
+        count++;
+      }
+    }
+  }
+
+  return count;
+};
+
+console.log(minimumBuckets("H..H")); // 2
+console.log(minimumBuckets(".H.H.")); // 1
+console.log(minimumBuckets(".HHH.")); // -1
+console.log(minimumBuckets(".HH.H.H.H..")); // 3
+
+// 100% Runtime
+// Same as top voted, although guard clauses made mine quicker
