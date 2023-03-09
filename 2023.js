@@ -4669,7 +4669,7 @@ console.log(minimumBuckets(".HH.H.H.H..")); // 3
 // Same as top voted, although guard clauses made mine quicker */
 
 // K Radius Subarray Averages					3/8/2023
-
+/* 
 // You are given a 0-indexed array nums of n integers, and an integer k.
 
 // The k-radius average for a subarray of nums centered at some index i with the radius k is the average of all elements in nums between the indices i - k and i + k (inclusive). If there are less than k elements before or after the index i, then the k-radius average is -1.
@@ -4729,4 +4729,68 @@ console.log(getAverages([100000], 0)); // [100000]
 console.log(getAverages([8], 100000)); // [-1]
 
 // Ça marche
+// Same as top voted */
+
+// Removing Minimum and Maximum From Array					3/9/2023
+
+// You are given a 0-indexed array of distinct integers nums.
+
+// There is an element in nums that has the lowest value and an element that has the highest value. We call them the minimum and maximum respectively. Your goal is to remove both these elements from the array.
+
+// A deletion is defined as either removing an element from the front of the array or removing an element from the back of the array.
+
+// Return the minimum number of deletions it would take to remove both the minimum and maximum element from the array.
+
+// Example 1:
+// 		Input: nums = [2,10,7,5,4,1,8,6]
+// 		Output: 5
+// Explanation:
+// 		The minimum element in the array is nums[5], which is 1.
+// 		The maximum element in the array is nums[1], which is 10.
+// 		We can remove both the minimum and maximum by removing 2 elements from the front and 3 elements from the back.
+// 		This results in 2 + 3 = 5 deletions, which is the minimum number possible.
+
+// Example 2:
+// 		Input: nums = [0,-4,19,1,8,-2,-3,5]
+// 		Output: 3
+// Explanation:
+// 		The minimum element in the array is nums[1], which is -4.
+// 		The maximum element in the array is nums[2], which is 19.
+// 		We can remove both the minimum and maximum by removing 3 elements from the front.
+// 		This results in only 3 deletions, which is the minimum number possible.
+
+// Example 3:
+// 		Input: nums = [101]
+// 		Output: 1
+// Explanation:
+// 		There is only one element in the array, which makes it both the minimum and maximum element.
+// 		We can remove it with 1 deletion.
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		-105 <= nums[i] <= 105
+//		The integers in nums are distinct.
+
+const minimumDeletions = (nums) => {
+  if (nums.length <= 2) return nums.length;
+
+  let [minIndex, maxIndex] = [
+    nums.indexOf(Math.min(...nums)),
+    nums.indexOf(Math.max(...nums)),
+  ];
+  if (maxIndex < minIndex) [minIndex, maxIndex] = [maxIndex, minIndex];
+
+  let min = maxIndex + 1;
+  min = Math.min(min, nums.length - minIndex);
+  min = Math.min(min, nums.length - maxIndex + minIndex + 1);
+
+  return min;
+};
+
+console.log(minimumDeletions([2, 10, 7, 5, 4, 1, 8, 6])); // 5
+console.log(minimumDeletions([0, -4, 19, 1, 8, -2, -3, 5])); // 3
+console.log(minimumDeletions([101])); // 1
+
 // Same as top voted
+// They favored looping through the array to find min and max
+// Probably better runtime
