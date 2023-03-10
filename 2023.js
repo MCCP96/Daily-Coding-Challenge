@@ -4732,7 +4732,7 @@ console.log(getAverages([8], 100000)); // [-1]
 // Same as top voted */
 
 // Removing Minimum and Maximum From Array					3/9/2023
-
+/* 
 // You are given a 0-indexed array of distinct integers nums.
 
 // There is an element in nums that has the lowest value and an element that has the highest value. We call them the minimum and maximum respectively. Your goal is to remove both these elements from the array.
@@ -4793,4 +4793,96 @@ console.log(minimumDeletions([101])); // 1
 
 // Same as top voted
 // They favored looping through the array to find min and max
-// Probably better runtime
+// Probably better runtime */
+
+// Find Good Days to Rob the Bank					3/10/2023
+
+// You and a gang of thieves are planning on robbing a bank. You are given a 0-indexed integer array security, where security[i] is the number of guards on duty on the ith day. The days are numbered starting from 0. You are also given an integer time.
+
+// The ith day is a good day to rob the bank if:
+
+// There are at least time days before and after the ith day,
+
+// The number of guards at the bank for the time days before i are non-increasing, and
+
+// The number of guards at the bank for the time days after i are non-decreasing.
+
+// More formally, this means day i is a good day to rob the bank if and only if security[i - time] >= security[i - time + 1] >= ... >= security[i] <= ... <= security[i + time - 1] <= security[i + time].
+
+// Return a list of all days (0-indexed) that are good days to rob the bank. The order that the days are returned in does not matter.
+
+// Example 1:
+// 		Input: security = [5,3,3,3,5,6,2], time = 2
+// 		Output: [2,3]
+// Explanation:
+// 		On day 2, we have security[0] >= security[1] >= security[2] <= security[3] <= security[4].
+// 		On day 3, we have security[1] >= security[2] >= security[3] <= security[4] <= security[5].
+// 		No other days satisfy this condition, so days 2 and 3 are the only good days to rob the bank.
+
+// Example 2:
+// 		Input: security = [1,1,1,1,1], time = 0
+// 		Output: [0,1,2,3,4]
+// Explanation:
+// 		Since time equals 0, every day is a good day to rob the bank, so return every day.
+
+// Example 3:
+// 		Input: security = [1,2,3,4,5,6], time = 2
+// 		Output: []
+// Explanation:
+// 		No day has 2 days before it that have a non-increasing number of guards.
+// 		Thus, no day is a good day to rob the bank, so return an empty list.
+
+// Constraints:
+//		1 <= security.length <= 105
+//		0 <= security[i], time <= 105
+
+const goodDaysToRobBank = (sec, t) => {
+  if (t == 0) return sec.map((_, i) => i);
+
+  let res = [];
+  for (let i = t; i < sec.length - t; i++) {
+    if (sec[i - 1] < sec[i] || sec[i] > sec[i + 1]) continue;
+
+    let invalid = false;
+    for (let j = i - t, k = i + t - 1; j < i - 1; j++, k--) {
+      if (sec[j] < sec[j + 1] || sec[k] > sec[k + 1]) invalid = true;
+      if (invalid) break;
+    }
+
+    if (!invalid) res.push(i);
+  }
+  return res;
+};
+
+console.log(goodDaysToRobBank([5, 3, 3, 3, 5, 6, 2], 2)); // [2,3]
+console.log(goodDaysToRobBank([1, 1, 1, 1, 1], 0)); // [0,1,2,3,4]
+console.log(goodDaysToRobBank([1, 2, 3, 4, 5, 6], 2)); // []
+console.log(goodDaysToRobBank([1, 2, 3, 4], 1)); // []
+
+var topVotedGoodDaysToRobBank = function (security, time) {
+  let decrease = [0];
+  let increase = Array(security.length).fill(0);
+
+  // Prefix
+  for (let i = 1; i < security.length; i++) {
+    if (security[i] <= security[i - 1]) decrease[i] = decrease[i - 1] + 1;
+    else decrease[i] = 0;
+  }
+
+  // Suffix
+  for (let j = security.length - 2; j >= 0; j--) {
+    if (security[j] <= security[j + 1]) increase[j] = increase[j + 1] + 1;
+    else increase[j] = 0;
+  }
+
+  let output = [];
+  for (let k = 0; k < security.length; k++) {
+    let left = decrease[k];
+    let right = increase[k];
+    if (left >= time && right >= time) output.push(k);
+  }
+
+  return output;
+};
+
+// Much better runtime
