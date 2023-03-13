@@ -4950,7 +4950,7 @@ console.log(subArrayRanges([4, -2, -3, 4, 1])); // 59
 // Same as top voted */
 
 // Find All Possible Recipes from Given Supplies					3/12/2023
-
+/* 
 // You have information about n different recipes. You are given a string array recipes and a 2D string array ingredients. The ith recipe has the name recipes[i], and you can create it if you have all the needed ingredients from ingredients[i]. Ingredients to a recipe may need to be created from other recipes, i.e., ingredients[i] may contain a string that is in recipes.
 
 // You are also given a string array supplies containing all the ingredients that you initially have, and you have an infinite supply of all of them.
@@ -5053,4 +5053,71 @@ console.log(
 ); // ["bread","sandwich","burger"]
 
 // Fell down a different train of thought and couldn't get it working
-// Very nice code, felt very easy to read and understand
+// Very nice code, felt very easy to read and understand */
+
+// Number of Laser Beams in a Bank					3/13/2023
+
+// Anti-theft security devices are activated inside a bank. You are given a 0-indexed binary string array bank representing the floor plan of the bank, which is an m x n 2D matrix. bank[i] represents the ith row, consisting of '0's and '1's. '0' means the cell is empty, while'1' means the cell has a security device.
+
+// There is one laser beam between any two security devices if both conditions are met:
+
+// The two devices are located on two different rows: r1 and r2, where r1 < r2.
+
+// For each row i where r1 < i < r2, there are no security devices in the ith row.
+
+// Laser beams are independent, i.e., one beam does not interfere nor join with another.
+
+// Return the total number of laser beams in the bank.
+
+// Example 1:
+// 		Input: bank = ["011001","000000","010100","001000"]
+// 		Output: 8
+// Explanation: Between each of the following device pairs, there is one beam. In total, there are 8 beams:
+// 		* bank[0][1] -- bank[2][1]
+// 		* bank[0][1] -- bank[2][3]
+// 		* bank[0][2] -- bank[2][1]
+// 		* bank[0][2] -- bank[2][3]
+// 		* bank[0][5] -- bank[2][1]
+// 		* bank[0][5] -- bank[2][3]
+// 		* bank[2][1] -- bank[3][2]
+// 		* bank[2][3] -- bank[3][2]
+// 		Note that there is no beam between any device on the 0th row with any on the 3rd row.
+// 		This is because the 2nd row contains security devices, which breaks the second condition.
+// https://assets.leetcode.com/uploads/2021/12/24/laser1.jpg
+
+// Example 2:
+// 		Input: bank = ["000","111","000"]
+// 		Output: 0
+// Explanation: There does not exist two devices located on two different rows.
+
+// Constraints:
+//		m == bank.length
+//		n == bank[i].length
+//		1 <= m, n <= 500
+//		bank[i][j] is either '0' or '1'.
+
+const numberOfBeams = (bank) => {
+  bank = bank.filter((row) => /1/.test(row));
+  if (bank.length <= 1) return 0;
+
+  let res = 0;
+  let prev = bank[0].match(/1/g).length;
+  for (let i = 1; i < bank.length; i++) {
+    let cur = bank[i].match(/1/g).length;
+    res += prev * cur;
+    prev = cur;
+  }
+
+  return res;
+};
+
+console.log(numberOfBeams(["011001", "000000", "010100", "001000"])); // 8
+console.log(numberOfBeams(["000", "111", "000"])); // 0
+
+const topVotedNumberOfBeams = (bank) =>
+  bank
+    .map((str) => str.split("0").join("").length)
+    .filter((val) => val !== 0)
+    .reduce((acc, cur, ind, arr) => acc + cur * (arr[ind + 1] || 0), 0);
+
+// Same logic in one line
