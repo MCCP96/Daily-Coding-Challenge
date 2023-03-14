@@ -5056,7 +5056,7 @@ console.log(
 // Very nice code, felt very easy to read and understand */
 
 // Number of Laser Beams in a Bank					3/13/2023
-
+/* 
 // Anti-theft security devices are activated inside a bank. You are given a 0-indexed binary string array bank representing the floor plan of the bank, which is an m x n 2D matrix. bank[i] represents the ith row, consisting of '0's and '1's. '0' means the cell is empty, while'1' means the cell has a security device.
 
 // There is one laser beam between any two security devices if both conditions are met:
@@ -5120,4 +5120,50 @@ const topVotedNumberOfBeams = (bank) =>
     .filter((val) => val !== 0)
     .reduce((acc, cur, ind, arr) => acc + cur * (arr[ind + 1] || 0), 0);
 
-// Same logic in one line
+// Same logic in one line */
+
+// Destroying Asteroids					3/14/2023
+
+// You are given an integer mass, which represents the original mass of a planet. You are further given an integer array asteroids, where asteroids[i] is the mass of the ith asteroid.
+
+// You can arrange for the planet to collide with the asteroids in any arbitrary order. If the mass of the planet is greater than or equal to the mass of the asteroid, the asteroid is destroyed and the planet gains the mass of the asteroid. Otherwise, the planet is destroyed.
+
+// Return true if all asteroids can be destroyed. Otherwise, return false.
+
+// Example 1:
+// 		Input: mass = 10, asteroids = [3,9,19,5,21]
+// 		Output: true
+// Explanation: One way to order the asteroids is [9,19,5,3,21]:
+// 		- The planet collides with the asteroid with a mass of 9. New planet mass: 10 + 9 = 19
+// 		- The planet collides with the asteroid with a mass of 19. New planet mass: 19 + 19 = 38
+// 		- The planet collides with the asteroid with a mass of 5. New planet mass: 38 + 5 = 43
+// 		- The planet collides with the asteroid with a mass of 3. New planet mass: 43 + 3 = 46
+// 		- The planet collides with the asteroid with a mass of 21. New planet mass: 46 + 21 = 67
+// 		All asteroids are destroyed.
+
+// Example 2:
+// 		Input: mass = 5, asteroids = [4,9,23,4]
+// 		Output: false
+// Explanation:
+// 		The planet cannot ever gain enough mass to destroy the asteroid with a mass of 23.
+// 		After the planet destroys the other asteroids, it will have a mass of 5 + 4 + 9 + 4 = 22.
+// 		This is less than 23, so a collision would not destroy the last asteroid.
+
+// Constraints:
+//		1 <= mass <= 105
+//		1 <= asteroids.length <= 105
+//		1 <= asteroids[i] <= 105
+
+const asteroidsDestroyed = (m, asteroids) => {
+  asteroids.sort((a, b) => a - b);
+  for (let i = 0; i < asteroids.length; i++) {
+    if (m < asteroids[i]) return false;
+    m += asteroids[i];
+  }
+  return true;
+};
+
+console.log(asteroidsDestroyed(10, [3, 9, 19, 5, 21])); // true
+console.log(asteroidsDestroyed(5, [4, 9, 23, 4])); // false
+
+// Same logic as top voteds
