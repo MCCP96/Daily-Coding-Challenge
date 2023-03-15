@@ -5123,7 +5123,7 @@ const topVotedNumberOfBeams = (bank) =>
 // Same logic in one line */
 
 // Destroying Asteroids					3/14/2023
-
+/* 
 // You are given an integer mass, which represents the original mass of a planet. You are further given an integer array asteroids, where asteroids[i] is the mass of the ith asteroid.
 
 // You can arrange for the planet to collide with the asteroids in any arbitrary order. If the mass of the planet is greater than or equal to the mass of the asteroid, the asteroid is destroyed and the planet gains the mass of the asteroid. Otherwise, the planet is destroyed.
@@ -5166,4 +5166,88 @@ const asteroidsDestroyed = (m, asteroids) => {
 console.log(asteroidsDestroyed(10, [3, 9, 19, 5, 21])); // true
 console.log(asteroidsDestroyed(5, [4, 9, 23, 4])); // false
 
-// Same logic as top voteds
+// Same logic as top voteds */
+
+// Longest Palindrome by Concatenating Two Letter Words					3/15/2023
+
+// You are given an array of strings words. Each element of words consists of two lowercase English letters.
+
+// Create the longest possible palindrome by selecting some elements from words and concatenating them in any order. Each element can be selected at most once.
+
+// Return the length of the longest palindrome that you can create. If it is impossible to create any palindrome, return 0.
+
+// A palindrome is a string that reads the same forward and backward.
+
+// Example 1:
+// 		Input: words = ["lc","cl","gg"]
+// 		Output: 6
+// Explanation: One longest palindrome is "lc" + "gg" + "cl" = "lcggcl", of length 6.
+// 		Note that "clgglc" is another longest palindrome that can be created.
+
+// Example 2:
+// 		Input: words = ["ab","ty","yt","lc","cl","ab"]
+// 		Output: 8
+// Explanation: One longest palindrome is "ty" + "lc" + "cl" + "yt" = "tylcclyt", of length 8.
+// 		Note that "lcyttycl" is another longest palindrome that can be created.
+
+// Example 3:
+// 		Input: words = ["cc","ll","xx"]
+// 		Output: 2
+// Explanation: One longest palindrome is "cc", of length 2.
+// 		Note that "ll" is another longest palindrome that can be created, and so is "xx".
+
+// Constraints:
+//		1 <= words.length <= 105
+//		words[i].length == 2
+//		words[i] consists of lowercase English letters.
+
+const longestPalindrome = (words) => {
+  let count = 0;
+
+  const map = words.reduce((map, word) => {
+    const rev = word[1] + word[0];
+
+    if (map.has(rev)) {
+      map.get(rev) == 1 ? map.delete(rev) : map.set(rev, map.get(rev) - 1);
+      count += 4;
+    } else map.set(word, map.get(word) + 1 || 1);
+
+    return map;
+  }, new Map());
+
+  const hasCenter =
+    [...map.keys()].filter((word) => word[0] === word[1]).length > 0;
+  return count + (hasCenter && 2);
+};
+
+console.log(longestPalindrome(["lc", "cl", "gg"])); // 6
+console.log(longestPalindrome(["ab", "ty", "yt", "lc", "cl", "ab"])); // 8
+console.log(longestPalindrome(["cc", "ll", "xx"])); // 2
+
+// Similar to top voted solutions
+
+const revisedLongestPalindrome = (words) => {
+  let count = 0;
+  let centers = 0;
+
+  words.reduce((map, word) => {
+    const rev = word[1] + word[0];
+
+    if (map.has(rev)) {
+      if (map.get(rev) == 1) {
+        map.delete(rev);
+        if (word === rev) centers--;
+      } else map.set(rev, map.get(rev) - 1);
+      count += 4;
+    } else {
+      map.set(word, map.get(word) + 1 || 1);
+      if (word[0] === word[1]) centers++;
+    }
+
+    return map;
+  }, new Map());
+
+  return count + (centers > 0 && 2);
+};
+
+// Somehow slower than previous version
