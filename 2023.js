@@ -5253,7 +5253,7 @@ const revisedLongestPalindrome = (words) => {
 // Somehow slower than previous version */
 
 // Minimum Swaps to Group All 1's Together II					3/16/2023
-
+/* 
 // A swap is defined as taking two distinct positions in an array and swapping the values in them.
 
 // A circular array is defined as an array where we consider the first element and the last element to be adjacent.
@@ -5319,4 +5319,97 @@ console.log(
 ); // 7
 
 // Couldn't get it working
-// Sliding window makes sense
+// Sliding window makes sense */
+
+// Count Words Obtained After Adding a Letter					3/17/2023
+
+// You are given two 0-indexed arrays of strings startWords and targetWords. Each string consists of lowercase English letters only.
+
+// For each string in targetWords, check if it is possible to choose a string from startWords and perform a conversion operation on it to be equal to that from targetWords.
+
+// The conversion operation is described in the following two steps:
+
+// Append any lowercase letter that is not present in the string to its end.
+
+// For example, if the string is "abc", the letters 'd', 'e', or 'y' can be added to it, but not 'a'. If 'd' is added, the resulting string will be "abcd".
+
+// Rearrange the letters of the new string in any arbitrary order.
+
+// For example, "abcd" can be rearranged to "acbd", "bacd", "cbda", and so on. Note that it can also be rearranged to "abcd" itself.
+
+// Return the number of strings in targetWords that can be obtained by performing the operations on any string of startWords.
+
+// Note that you will only be verifying if the string in targetWords can be obtained from a string in startWords by performing the operations. The strings in startWords do not actually change during this process.
+
+// Example 1:
+// 		Input: startWords = ["ant","act","tack"], targetWords = ["tack","act","acti"]
+// 		Output: 2
+// Explanation:
+// 		- In order to form targetWords[0] = "tack", we use startWords[1] = "act", append 'k' to it, and rearrange "actk" to "tack".
+// 		- There is no string in startWords that can be used to obtain targetWords[1] = "act".
+// 		Note that "act" does exist in startWords, but we must append one letter to the string before rearranging it.
+// 		- In order to form targetWords[2] = "acti", we use startWords[1] = "act", append 'i' to it, and rearrange "acti" to "acti" itself.
+
+// Example 2:
+// 		Input: startWords = ["ab","a"], targetWords = ["abc","abcd"]
+// 		Output: 1
+// Explanation:
+// 		- In order to form targetWords[0] = "abc", we use startWords[0] = "ab", add 'c' to it, and rearrange it to "abc".
+// 		- There is no string in startWords that can be used to obtain targetWords[1] = "abcd".
+
+// Constraints:
+//		1 <= startWords.length, targetWords.length <= 5 * 10^4
+//		1 <= startWords[i].length, targetWords[j].length <= 26
+//		Each string of startWords and targetWords consists of lowercase English letters only.
+//		No letter occurs more than once in any string of startWords or targetWords.
+
+const wordCount = (sWords, tWords) => {
+  const sMap = sWords.reduce(
+    (map, c) => map.set([...c].sort().join(), true),
+    new Map()
+  );
+
+  return tWords.reduce((count, word) => {
+    for (let i = 0; i < word.length; i++) {
+      if (
+        sMap.has(
+          [...(word.substring(0, i) + word.substring(i + 1))].sort().join()
+        )
+      ) {
+        count++;
+        break;
+      }
+    }
+    return count;
+  }, 0);
+};
+
+console.log(wordCount(["ant", "act", "tack"], ["tack", "act", "acti"])); // 2
+console.log(wordCount(["ab", "a"], ["abc", "abcd"])); // 1
+
+// Thought it would exceed runtime limit, but works OK
+
+var topVotedWordCount = function (startWords, targetWords) {
+  const startMap = {};
+  for (let word of startWords) {
+    startMap[word.split("").sort().join("")] = true;
+  }
+
+  let ans = 0;
+  for (let word of targetWords) {
+    for (let i = 0; i < word.length; i++) {
+      let temp = (word.substring(0, i) + word.substring(i + 1, word.length))
+        .split("")
+        .sort()
+        .join("");
+      if (startMap[temp]) {
+        ans++;
+        break;
+      }
+    }
+  }
+
+  return ans;
+};
+
+// Same idea
