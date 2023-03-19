@@ -5415,7 +5415,7 @@ var topVotedWordCount = function (startWords, targetWords) {
 // Same idea */
 
 // Solving Questions With Brainpower					3/18/2023
-
+/* 
 // You are given a 0-indexed 2D integer array questions where questions[i] = [pointsi, brainpoweri].
 
 // The array describes the questions of an exam, where you have to process the questions in order (i.e., starting from question 0) and make a decision whether to solve or skip each question. Solving question i will earn you pointsi points but you will be unable to solve each of the next brainpoweri questions. If you skip question i, you get to make the decision on the next question.
@@ -5494,4 +5494,91 @@ var topVotedMostPoints = function (questions) {
   }
 
   return max;
+}; */
+
+// Minimum Moves to Reach Target Score					3/19/2023
+
+// You are playing a game with integers. You start with the integer 1 and you want to reach the integer target.
+
+// In one move, you can either:
+
+// Increment the current integer by one (i.e., x = x + 1).
+
+// Double the current integer (i.e., x = 2 * x).
+
+// You can use the increment operation any number of times, however, you can only use the double operation at most maxDoubles times.
+
+// Given the two integers target and maxDoubles, return the minimum number of moves needed to reach target starting with 1.
+
+// Example 1:
+// 		Input: target = 5, maxDoubles = 0
+// 		Output: 4
+// Explanation: Keep incrementing by 1 until you reach target.
+
+// Example 2:
+// 		Input: target = 19, maxDoubles = 2
+// 		Output: 7
+// Explanation: Initially, x = 1
+// 		Increment 3 times so x = 4
+// 		Double once so x = 8
+// 		Increment once so x = 9
+// 		Double again so x = 18
+// 		Increment once so x = 19
+
+// Example 3:
+// 		Input: target = 10, maxDoubles = 4
+// 		Output: 4
+// Explanation: Initially, x = 1
+// 		Increment once so x = 2
+// 		Double once so x = 4
+// 		Increment once so x = 5
+// 		Double again so x = 10
+
+// Constraints:
+//		1 <= target <= 109
+//		0 <= maxDoubles <= 100
+
+const minMoves = (t, dubs) => {
+  let min = Infinity;
+
+  const db = (c, dubsUsed = 0, moves = 0) => {
+    if (c == t) {
+      min = Math.min(min, moves);
+      return;
+    }
+    if (c > t) return;
+
+    db(c + 1, dubsUsed, moves + 1);
+
+    if (dubsUsed < dubs) {
+      db(c * 2, dubsUsed + 1, moves + 1);
+    }
+  };
+  db(1);
+
+  return min;
 };
+
+console.log(minMoves(5, 0)); // 4
+console.log(minMoves(19, 2)); // 7
+console.log(minMoves(10, 4)); // 4
+
+// Max call stack exceeded
+
+const revisedMinMoves = (t, dubs) => {
+  let moves = 0;
+  while (t > 1) {
+    if (t % 2 == 1) t--;
+    else {
+      if (dubs > 0) {
+        t /= 2;
+        dubs--;
+      } else return moves + t - 1;
+    }
+    moves += 1;
+  }
+  return moves;
+};
+
+// Cleaned up top voted
+// Beats 100%
