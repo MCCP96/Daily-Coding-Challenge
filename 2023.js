@@ -5584,7 +5584,7 @@ const revisedMinMoves = (t, dubs) => {
 // Beats 100% */
 
 // Rearrange Array Elements by Sign					3/20/2023
-
+/* 
 // You are given a 0-indexed integer array nums of even length consisting of an equal number of positive and negative integers.
 
 // You should rearrange the elements of nums such that the modified array follows the given conditions:
@@ -5647,4 +5647,58 @@ function topVotedRearrangeArray(nums) {
   return result;
 }
 
-// This is more what I was looking for
+// This is more what I was looking for */
+
+// Find All Lonely Numbers in the Array					3/21/2023
+
+// You are given an integer array nums. A number x is lonely when it appears only once, and no adjacent numbers (i.e. x + 1 and x - 1) appear in the array.
+
+// Return all lonely numbers in nums. You may return the answer in any order.
+
+// Example 1:
+// 		Input: nums = [10,6,5,8]
+// 		Output: [10,8]
+// Explanation:
+// 		- 10 is a lonely number since it appears exactly once and 9 and 11 does not appear in nums.
+// 		- 8 is a lonely number since it appears exactly once and 7 and 9 does not appear in nums.
+// 		- 5 is not a lonely number since 6 appears in nums and vice versa.
+// 		Hence, the lonely numbers in nums are [10, 8].
+// 		Note that [8, 10] may also be returned.
+
+// Example 2:
+// 		Input: nums = [1,3,5,3]
+// 		Output: [1,5]
+// Explanation:
+// 		- 1 is a lonely number since it appears exactly once and 0 and 2 does not appear in nums.
+// 		- 5 is a lonely number since it appears exactly once and 4 and 6 does not appear in nums.
+// 		- 3 is not a lonely number since it appears twice.
+// 		Hence, the lonely numbers in nums are [1, 5].
+// 		Note that [5, 1] may also be returned.
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		0 <= nums[i] <= 106
+
+const findLonely = (nums) => {
+  const count = nums.reduce(
+    (map, c) => map.set(c, map.get(c) + 1 || 1),
+    new Map()
+  );
+
+  let res = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (
+      count.get(nums[i]) < 2 &&
+      !count.has(nums[i] - 1) &&
+      !count.has(nums[i] + 1)
+    )
+      res.push(nums[i]);
+  }
+
+  return res;
+};
+
+console.log(findLonely([10, 6, 5, 8])); // [10,8]
+console.log(findLonely([1, 3, 5, 3])); // [1,5]
+
+// Same as top voted
