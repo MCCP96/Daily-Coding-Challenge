@@ -5650,7 +5650,7 @@ function topVotedRearrangeArray(nums) {
 // This is more what I was looking for */
 
 // Find All Lonely Numbers in the Array					3/21/2023
-
+/* 
 // You are given an integer array nums. A number x is lonely when it appears only once, and no adjacent numbers (i.e. x + 1 and x - 1) appear in the array.
 
 // Return all lonely numbers in nums. You may return the answer in any order.
@@ -5701,4 +5701,104 @@ const findLonely = (nums) => {
 console.log(findLonely([10, 6, 5, 8])); // [10,8]
 console.log(findLonely([1, 3, 5, 3])); // [1,5]
 
-// Same as top voted
+// Same as top voted */
+
+// All Divisions With the Highest Score of a Binary Array					3/22/2023
+
+// You are given a 0-indexed binary array nums of length n. nums can be divided at index i (where 0 <= i <= n) into two arrays (possibly empty) numsleft and numsright:
+
+// numsleft has all the elements of nums between index 0 and i - 1 (inclusive), while numsright has all the elements of nums between index i and n - 1 (inclusive).
+
+// If i == 0, numsleft is empty, while numsright has all the elements of nums.
+
+// If i == n, numsleft has all the elements of nums, while numsright is empty.
+
+// The division score of an index i is the sum of the number of 0's in numsleft and the number of 1's in numsright.
+
+// Return all distinct indices that have the highest possible division score. You may return the answer in any order.
+
+// Example 1:
+// 		Input: nums = [0,0,1,0]
+// 		Output: [2,4]
+// Explanation: Division at index
+// 		- 0: numsleft is []. numsright is [0,0,1,0]. The score is 0 + 1 = 1.
+// 		- 1: numsleft is [0]. numsright is [0,1,0]. The score is 1 + 1 = 2.
+// 		- 2: numsleft is [0,0]. numsright is [1,0]. The score is 2 + 1 = 3.
+// 		- 3: numsleft is [0,0,1]. numsright is [0]. The score is 2 + 0 = 2.
+// 		- 4: numsleft is [0,0,1,0]. numsright is []. The score is 3 + 0 = 3.
+// 		Indices 2 and 4 both have the highest possible division score 3.
+// 		Note the answer [4,2] would also be accepted.
+
+// Example 2:
+// 		Input: nums = [0,0,0]
+// 		Output: [3]
+// Explanation: Division at index
+// 		- 0: numsleft is []. numsright is [0,0,0]. The score is 0 + 0 = 0.
+// 		- 1: numsleft is [0]. numsright is [0,0]. The score is 1 + 0 = 1.
+// 		- 2: numsleft is [0,0]. numsright is [0]. The score is 2 + 0 = 2.
+// 		- 3: numsleft is [0,0,0]. numsright is []. The score is 3 + 0 = 3.
+// 		Only index 3 has the highest possible division score 3.
+
+// Example 3:
+// 		Input: nums = [1,1]
+// 		Output: [0]
+// Explanation: Division at index
+// 		- 0: numsleft is []. numsright is [1,1]. The score is 0 + 2 = 2.
+// 		- 1: numsleft is [1]. numsright is [1]. The score is 0 + 1 = 1.
+// 		- 2: numsleft is [1,1]. numsright is []. The score is 0 + 0 = 0.
+// 		Only index 0 has the highest possible division score 2.
+
+// Constraints:
+//		n == nums.length
+//		1 <= n <= 105
+//		nums[i] is either 0 or 1.
+
+const maxScoreIndices = (nums) => {
+  let [l, r] = [0, nums.reduce((a, c) => (a += c), 0)];
+  let max = l + r;
+  let map = { [max]: [0] };
+
+  for (let i = 0; i < nums.length; i++) {
+    nums[i] ? r-- : l++;
+
+    if (l + r == max) {
+      map[max].push(i + 1);
+    }
+    if (l + r > max) {
+      max = l + r;
+      map[max] = [i + 1];
+    }
+  }
+
+  return map[max];
+};
+
+console.log(maxScoreIndices([0, 0, 1, 0])); // [2,4]
+console.log(maxScoreIndices([0, 0, 0])); // [3]
+console.log(maxScoreIndices([1, 1])); // [0]
+
+// Same runtime as top voted
+
+const topVotedMaxScoreIndices = function (nums) {
+  let oneCount = 0,
+    zeroCount = 0,
+    score = 0,
+    maxScore = -Infinity;
+  const map = {};
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 1) oneCount++;
+  }
+  for (let i = 0; i <= nums.length; i++) {
+    const prev = nums[i - 1];
+    if (prev === 1) oneCount--;
+    if (prev === 0) zeroCount++;
+    score = oneCount + zeroCount;
+    if (!map[score]) {
+      map[score] = [i];
+    } else {
+      map[score].push(i);
+    }
+    maxScore = Math.max(score, maxScore);
+  }
+  return map[maxScore];
+};
