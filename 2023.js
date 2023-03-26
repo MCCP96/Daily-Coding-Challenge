@@ -5939,7 +5939,7 @@ console.log(smallestNumber(0)); // 0
 // Similar logic to top voteds */
 
 // Removing Minimum Number of Magic Beans					3/25/2023
-
+/* 
 // You are given an array of positive integers beans, where each integer represents the number of magic beans found in a particular magic bag.
 
 // Remove any number of beans (possibly none) from each bag such that the number of beans in each remaining non-empty bag (still containing at least one bean) is equal. Once a bean has been removed from a bag, you are not allowed to return it to any of the bags.
@@ -6011,4 +6011,57 @@ var topVotedMinimumRemoval = function (beans) {
   return ans;
 };
 
-// Beats 100% Runtimes
+// Beats 100% Runtimes */
+
+// Maximum Split of Positive Even Integers					3/26/2023
+
+// You are given an integer finalSum. Split it into a sum of a maximum number of unique positive even integers.
+
+// For example, given finalSum = 12, the following splits are valid (unique positive even integers summing up to finalSum): (12), (2 + 10), (2 + 4 + 6), and (4 + 8). Among them, (2 + 4 + 6) contains the maximum number of integers. Note that finalSum cannot be split into (2 + 2 + 4 + 4) as all the numbers should be unique.
+
+// Return a list of integers that represent a valid split containing a maximum number of integers. If no valid split exists for finalSum, return an empty list. You may return the integers in any order.
+
+// Example 1:
+// 		Input: finalSum = 12
+// 		Output: [2,4,6]
+// Explanation: The following are valid splits: (12), (2 + 10), (2 + 4 + 6), and (4 + 8).
+// 		(2 + 4 + 6) has the maximum number of integers, which is 3. Thus, we return [2,4,6].
+// 		Note that [2,6,4], [6,2,4], etc. are also accepted.
+
+// Example 2:
+// 		Input: finalSum = 7
+// 		Output: []
+// Explanation: There are no valid splits for the given finalSum.
+// 		Thus, we return an empty array.
+
+// Example 3:
+// 		Input: finalSum = 28
+// 		Output: [6,8,2,12]
+// Explanation: The following are valid splits: (2 + 26), (6 + 8 + 2 + 12), and (4 + 24).
+// 		(6 + 8 + 2 + 12) has the maximum number of integers, which is 4. Thus, we return [6,8,2,12].
+// 		Note that [10,2,4,12], [6,2,4,16], etc. are also accepted.
+
+// Constraints:
+//		1 <= finalSum <= 10^10
+
+const maximumEvenSplit = (finalSum) => {
+  if (finalSum % 2) return [];
+
+  let res = new Set();
+  let [acc, inc] = [0, 2];
+
+  while (acc < finalSum) {
+    acc += inc;
+    res.add(inc);
+    inc += 2;
+  }
+  if (acc > finalSum) res.delete(acc - finalSum);
+
+  return [...res];
+};
+
+console.log(maximumEvenSplit(12)); // [2,4,6]
+console.log(maximumEvenSplit(7)); // []
+console.log(maximumEvenSplit(28)); // [6,8,2,12]
+
+// Same as top voted
