@@ -6014,7 +6014,7 @@ var topVotedMinimumRemoval = function (beans) {
 // Beats 100% Runtimes */
 
 // Maximum Split of Positive Even Integers					3/26/2023
-
+/* 
 // You are given an integer finalSum. Split it into a sum of a maximum number of unique positive even integers.
 
 // For example, given finalSum = 12, the following splits are valid (unique positive even integers summing up to finalSum): (12), (2 + 10), (2 + 4 + 6), and (4 + 8). Among them, (2 + 4 + 6) contains the maximum number of integers. Note that finalSum cannot be split into (2 + 2 + 4 + 4) as all the numbers should be unique.
@@ -6064,4 +6064,94 @@ console.log(maximumEvenSplit(12)); // [2,4,6]
 console.log(maximumEvenSplit(7)); // []
 console.log(maximumEvenSplit(28)); // [6,8,2,12]
 
-// Same as top voted
+// Same as top voted */
+
+// Construct String With Repeat Limit					3/27/2023
+
+// You are given a string s and an integer repeatLimit. Construct a new string repeatLimitedString using the characters of s such that no letter appears more than repeatLimit times in a row. You do not have to use all characters from s.
+
+// Return the lexicographically largest repeatLimitedString possible.
+
+// A string a is lexicographically larger than a string b if in the first position where a and b differ, string a has a letter that appears later in the alphabet than the corresponding letter in b. If the first min(a.length, b.length) characters do not differ, then the longer string is the lexicographically larger one.
+
+// Example 1:
+// 		Input: s = "cczazcc", repeatLimit = 3
+// 		Output: "zzcccac"
+// Explanation: We use all of the characters from s to construct the repeatLimitedString "zzcccac".
+// 		The letter 'a' appears at most 1 time in a row.
+// 		The letter 'c' appears at most 3 times in a row.
+// 		The letter 'z' appears at most 2 times in a row.
+// 		Hence, no letter appears more than repeatLimit times in a row and the string is a valid repeatLimitedString.
+// 		The string is the lexicographically largest repeatLimitedString possible so we return "zzcccac".
+// 		Note that the string "zzcccca" is lexicographically larger but the letter 'c' appears more than 3 times in a row, so it is not a valid repeatLimitedString.
+
+// Example 2:
+// 		Input: s = "aababab", repeatLimit = 2
+// 		Output: "bbabaa"
+// Explanation: We use only some of the characters from s to construct the repeatLimitedString "bbabaa".
+// 		The letter 'a' appears at most 2 times in a row.
+// 		The letter 'b' appears at most 2 times in a row.
+// 		Hence, no letter appears more than repeatLimit times in a row and the string is a valid repeatLimitedString.
+// 		The string is the lexicographically largest repeatLimitedString possible so we return "bbabaa".
+// 		Note that the string "bbabaaa" is lexicographically larger but the letter 'a' appears more than 2 times in a row, so it is not a valid repeatLimitedString.
+
+// Constraints:
+//		1 <= repeatLimit <= s.length <= 10^5
+//		s consists of lowercase English letters.
+
+const repeatLimitedString = (s, repeatLimit) => {
+  let chars = [...s].sort((a, b) => b.localeCompare(a));
+
+  let countRepeats = 0;
+  return chars.reduce((a, c, i, arr) => {
+    if (c == a[a.length - 1]) {
+      if (countRepeats === repeatLimit) {
+        let indexNextChar = arr.lastIndexOf(c) + 1;
+        if (indexNextChar === arr.length) return a;
+        a += arr.splice(indexNextChar, 1);
+        countRepeats = 1;
+      } else {
+        countRepeats++;
+      }
+    } else countRepeats = 1;
+    a += c;
+
+    return a;
+  }, "");
+};
+
+console.log(repeatLimitedString("cczazcc", 3)); // "zzcccac"
+console.log(repeatLimitedString("aababab", 2)); // "bbabaa"
+
+// What a confusing mess
+// Exceeds runtime limit
+
+var topVotedRepeatLimitedString = function (s, repeatLimit) {
+  const freq = {},
+    //https://github.com/datastructures-js/priority-queue
+    queue = new MaxPriorityQueue(),
+    result = [];
+  for (let c of s) freq[c] = freq[c] ? freq[c] + 1 : 1;
+  for (let [k, v] of Object.entries(freq))
+    queue.enqueue({ l: k, c: v }, k.charCodeAt(0) - 97);
+
+  while (!queue.isEmpty()) {
+    const { element: top, priority: prior } = queue.dequeue();
+    for (let i = 0; i < repeatLimit && top.c > 0; i++, top.c--)
+      result.push(top.l);
+
+    if (top.c > 0) {
+      if (!queue.isEmpty()) {
+        const f = queue.front().element;
+        result.push(f.l);
+        f.c--;
+        if (f.c === 0) queue.dequeue();
+        queue.enqueue(top, prior);
+      }
+    }
+  }
+  return result.join("");
+};
+
+// 2nd time seeing MaxPriorityQueue
+// It seems very useful in these types of questions
