@@ -6067,7 +6067,7 @@ console.log(maximumEvenSplit(28)); // [6,8,2,12]
 // Same as top voted */
 
 // Construct String With Repeat Limit					3/27/2023
-
+/* 
 // You are given a string s and an integer repeatLimit. Construct a new string repeatLimitedString using the characters of s such that no letter appears more than repeatLimit times in a row. You do not have to use all characters from s.
 
 // Return the lexicographically largest repeatLimitedString possible.
@@ -6154,4 +6154,73 @@ var topVotedRepeatLimitedString = function (s, repeatLimit) {
 };
 
 // 2nd time seeing MaxPriorityQueue
-// It seems very useful in these types of questions
+// It seems very useful in these types of questions */
+
+// Minimum Number of Steps to Make Two Strings Anagram II					3/28/2023
+
+// You are given two strings s and t. In one step, you can append any character to either s or t.
+
+// Return the minimum number of steps to make s and t anagrams of each other.
+
+// An anagram of a string is a string that contains the same characters with a different (or the same) ordering.
+
+// Example 1:
+// 		Input: s = "leetcode", t = "coats"
+// 		Output: 7
+// Explanation:
+// 		- In 2 steps, we can append the letters in "as" onto s = "leetcode", forming s = "leetcodeas".
+// 		- In 5 steps, we can append the letters in "leede" onto t = "coats", forming t = "coatsleede".
+// 		"leetcodeas" and "coatsleede" are now anagrams of each other.
+// 		We used a total of 2 + 5 = 7 steps.
+// 		It can be shown that there is no way to make them anagrams of each other with less than 7 steps.
+
+// Example 2:
+// 		Input: s = "night", t = "thing"
+// 		Output: 0
+// Explanation: The given strings are already anagrams of each other. Thus, we do not need any further steps.
+
+// Constraints:
+//		1 <= s.length, t.length <= 2 * 10^5
+//		s and t consist of lowercase English letters.
+
+const minSteps = (s, t) => {
+  const charMap = (str) =>
+    [...str].reduce((a, c) => a.set(c, a.get(c) + 1 || 1), new Map());
+
+  s = charMap(s);
+  t = charMap(t);
+
+  let missingChars = 0;
+
+  for (const [char, sCount] of [...s.entries()]) {
+    let tCount = t.get(char);
+    if (!tCount) missingChars += sCount;
+    else if (sCount > tCount) missingChars += sCount - tCount;
+  }
+  for (const [char, tCount] of [...t.entries()]) {
+    let sCount = s.get(char);
+    if (!sCount) missingChars += tCount;
+    else if (tCount > sCount) missingChars += tCount - sCount;
+  }
+
+  return missingChars;
+};
+
+console.log(minSteps("leetcode", "coats")); // 7
+console.log(minSteps("night", "thing")); // 0
+
+// Decent runtime
+
+var topVotedMinSteps = function (s, t) {
+  let sFreq = Array(26).fill(0),
+    tFreq = Array(26).fill(0);
+  for (let char of s) sFreq[char.charCodeAt() - 97]++;
+  for (let char of t) tFreq[char.charCodeAt() - 97]++;
+  let ans = 0;
+  for (let i = 0; i < 26; i++) {
+    ans += Math.abs(sFreq[i] - tFreq[i]);
+  }
+  return ans;
+};
+
+// Same idea, but much cleaner and faster
