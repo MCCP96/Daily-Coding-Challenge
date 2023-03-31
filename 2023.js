@@ -6280,7 +6280,7 @@ console.log(topVotedMinimumTime([2], 1)); // 2
 // 'Math.min.apply(null, time)' works the same as 'Math.min(...time)' but provides faster runtime */
 
 // Sort the Jumbled Numbers					3/30/2023
-
+/* 
 // You are given a 0-indexed integer array mapping which represents the mapping rule of a shuffled decimal system. mapping[i] = j means digit i should be mapped to digit j in this system.
 
 // The mapped value of an integer is the new integer obtained by replacing each occurrence of digit i in the integer with mapping[i] for all 0 <= i <= 9.
@@ -6350,4 +6350,87 @@ const topVotedSortJumbled = (mapping, nums) => {
 };
 
 // Same idea, faster code
-// Avoids converting to string/array to find mapped value
+// Avoids converting to string/array to find mapped value */
+
+// Append K Integers With Minimal Sum					3/31/2023
+
+// You are given an integer array nums and an integer k. Append k unique positive integers that do not appear in nums to nums such that the resulting total sum is minimum.
+
+// Return the sum of the k integers appended to nums.
+
+// Example 1:
+// 		Input: nums = [1,4,25,10,25], k = 2
+// 		Output: 5
+// Explanation: The two unique positive integers that do not appear in nums which we append are 2 and 3.
+// 		The resulting sum of nums is 1 + 4 + 25 + 10 + 25 + 2 + 3 = 70, which is the minimum.
+// 		The sum of the two integers appended is 2 + 3 = 5, so we return 5.
+
+// Example 2:
+// 		Input: nums = [5,6], k = 6
+// 		Output: 25
+// Explanation: The six unique positive integers that do not appear in nums which we append are 1, 2, 3, 4, 7, and 8.
+// 		The resulting sum of nums is 5 + 6 + 1 + 2 + 3 + 4 + 7 + 8 = 36, which is the minimum.
+// 		The sum of the six integers appended is 1 + 2 + 3 + 4 + 7 + 8 = 25, so we return 25.
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		1 <= nums[i] <= 109
+//		1 <= k <= 108
+
+const minimalKSum = (nums, k) => {
+  nums = [...new Set(nums)].sort((a, b) => a - b);
+
+  let i = 1,
+    j = 0,
+    res = 0;
+
+  while (k > 0) {
+    if (nums[j] === i) j++;
+    else {
+      res += i;
+      k--;
+    }
+    i++;
+  }
+
+  return res;
+};
+
+console.log(minimalKSum([1, 4, 25, 10, 25], 2)); // 5
+console.log(minimalKSum([5, 6], 6)); // 25
+console.log(minimalKSum([904], 98022370)); // 4804192657241102
+
+// Exceeds runtime limit
+// Appears to have been a bugged problem in the past for Javascript, but has since been resolved
+
+var topVotedMinimalKSum = function (nums, k) {
+  let total = (k * (k + 1)) / 2;
+
+  nums = Array.from(new Set(nums));
+  nums.sort((a, b) => a - b);
+  for (let num of nums) {
+    if (num <= k) {
+      k++;
+      console.log(total - 1);
+      total = total - num + k;
+      console.log(total + 1);
+    } else break;
+  }
+  return total;
+};
+
+// Trickier than initially expected
+
+const revisedMinimalKSum = (nums, k) => {
+  let tot = (k * (k + 1)) / 2;
+  nums = [...new Set(nums)].sort((a, b) => a - b);
+
+  for (let num of nums) {
+    if (num <= k) {
+      k++;
+      tot = tot - num + k;
+    }
+  }
+
+  return tot;
+};
