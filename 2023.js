@@ -6437,7 +6437,7 @@ const revisedMinimalKSum = (nums, k) => {
 }; */
 
 // Count Artifacts That Can Be Extracted					4/1/2023
-
+/* 
 // There is an n x n 0-indexed grid with some artifacts buried in it. You are given the integer n and a 0-indexed 2D integer array artifacts describing the positions of the rectangular artifacts where artifacts[i] = [r1i, c1i, r2i, c2i] denotes that the ith artifact is buried in the subgrid where:
 
 // (r1i, c1i) is the coordinate of the top-left cell of the ith artifact and
@@ -6501,4 +6501,69 @@ console.log(digArtifacts(2, [[0,0,0,0],[0,1,1,1]], [[0,0],[0,1]])) // 1
 console.log(digArtifacts(2, [[0,0,0,0],[0,1,1,1]], [[0,0],[0,1],[1,1]])) // 2
 
 // Really happy with this code
-// Same logic as other submissions but more concise
+// Same logic as other submissions but more concise */
+
+// Maximize the Topmost Element After K Moves					4/2/2023
+
+// You are given a 0-indexed integer array nums representing the contents of a pile, where nums[0] is the topmost element of the pile.
+
+// In one move, you can perform either of the following:
+
+// If the pile is not empty, remove the topmost element of the pile.
+
+// If there are one or more removed elements, add any one of them back onto the pile. This element becomes the new topmost element.
+
+// You are also given an integer k, which denotes the total number of moves to be made.
+
+// Return the maximum value of the topmost element of the pile possible after exactly k moves. In case it is not possible to obtain a non-empty pile after k moves, return -1.
+
+// Example 1:
+// 		Input: nums = [5,2,2,4,0,6], k = 4
+// 		Output: 5
+// Explanation:
+// 		One of the ways we can end with 5 at the top of the pile after 4 moves is as follows:
+// 		- Step 1: Remove the topmost element = 5. The pile becomes [2,2,4,0,6].
+// 		- Step 2: Remove the topmost element = 2. The pile becomes [2,4,0,6].
+// 		- Step 3: Remove the topmost element = 2. The pile becomes [4,0,6].
+// 		- Step 4: Add 5 back onto the pile. The pile becomes [5,4,0,6].
+// 		Note that this is not the only way to end with 5 at the top of the pile. It can be shown that 5 is the largest answer possible after 4 moves.
+
+// Example 2:
+// 		Input: nums = [2], k = 1
+// 		Output: -1
+// Explanation:
+// 		In the first move, our only option is to pop the topmost element of the pile.
+// 		Since it is not possible to obtain a non-empty pile after one move, we return -1.
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		0 <= nums[i], k <= 109
+
+const maximumTop = (nums, k) => {
+  if (nums.length == 1 && k % 2) return -1;
+  if (k == 1) return nums[1];
+  if (k == 2) return Math.max(nums[0], nums[2]);
+  if (k < nums.length) {
+    const cur = nums.slice(0, k);
+    if (cur.indexOf(Math.max.apply(null, cur)) == k - 1)
+      return Math.max(cur[cur.length - 2], nums[k]);
+    else return Math.max(...cur, nums[k]);
+  }
+  return Math.max.apply(null, nums);
+};
+
+console.log(maximumTop([5, 2, 2, 4, 0, 6], 4)); // 5
+console.log(maximumTop([2], 1)); // -1
+
+// Made sense a couple iterations ago but got worse and worse
+// Doesn't pass all test cases
+
+const topVotedMaximumTop = function (nums, k) {
+  if (nums.length === 1 && k == 0) return nums;
+  if (nums.length === 1 && k % 2 !== 0) return -1;
+  let max = Math.max(...nums.slice(0, Math.abs(k - 1)));
+  return max > nums[k] || nums[k] === undefined ? max : nums[k];
+};
+
+// This is what I was shooting for
+// Makes much more sense
