@@ -6504,7 +6504,7 @@ console.log(digArtifacts(2, [[0,0,0,0],[0,1,1,1]], [[0,0],[0,1],[1,1]])) // 2
 // Same logic as other submissions but more concise */
 
 // Maximize the Topmost Element After K Moves					4/2/2023
-
+/* 
 // You are given a 0-indexed integer array nums representing the contents of a pile, where nums[0] is the topmost element of the pile.
 
 // In one move, you can perform either of the following:
@@ -6566,4 +6566,84 @@ const topVotedMaximumTop = function (nums, k) {
 };
 
 // This is what I was shooting for
-// Makes much more sense
+// Makes much more sense */
+
+// Maximize Number of Subsequences in a String					4/3/2023
+
+// You are given a 0-indexed string text and another 0-indexed string pattern of length 2, both of which consist of only lowercase English letters.
+
+// You can add either pattern[0] or pattern[1] anywhere in text exactly once. Note that the character can be added even at the beginning or at the end of text.
+
+// Return the maximum number of times pattern can occur as a subsequence of the modified text.
+
+// A subsequence is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.
+
+// Example 1:
+// 		Input: text = "abdcdbc", pattern = "ac"
+// 		Output: 4
+// Explanation:
+// 		If we add pattern[0] = 'a' in between text[1] and text[2], we get "abadcdbc". Now, the number of times "ac" occurs as a subsequence is 4.
+// 		Some other strings which have 4 subsequences "ac" after adding a character to text are "aabdcdbc" and "abdacdbc".
+// 		However, strings such as "abdcadbc", "abdccdbc", and "abdcdbcc", although obtainable, have only 3 subsequences "ac" and are thus suboptimal.
+// 		It can be shown that it is not possible to get more than 4 subsequences "ac" by adding only one character.
+
+// Example 2:
+// 		Input: text = "aabb", pattern = "ab"
+// 		Output: 6
+// Explanation:
+// 		Some of the strings which can be obtained from text and have 6 subsequences "ab" are "aaabb", "aaabb", and "aabbb".
+
+// Constraints:
+//		1 <= text.length <= 10^5
+//		pattern.length == 2
+//		text and pattern consist only of lowercase English letters.
+
+const maximumSubsequenceCount = (text, pattern) => {
+  const regex = new RegExp(`${pattern[0]}|${pattern[1]}`, "g");
+  let arr = text.match(regex);
+  if (!arr) return 0;
+
+  let max = 0;
+
+  const testSubseq = (cur) => {
+    let curMax = 0;
+    for (let i = 0; i <= cur.lastIndexOf(pattern[0]); i++) {
+      for (let j = i + 1; j < cur.length; j++) {
+        if (cur[i] == pattern[0] && cur[j] == pattern[1]) curMax++;
+      }
+    }
+    if (curMax > max) max = curMax;
+  };
+
+  testSubseq([pattern[0], ...arr]);
+  testSubseq([...arr, pattern[1]]);
+
+  return max;
+};
+
+console.log(maximumSubsequenceCount("abdcdbc", "ac")); // 4
+console.log(maximumSubsequenceCount("aabb", "ab")); // 6
+
+// Brute force approach
+
+const topVotedMaximumSubsequenceCount = function (text, pattern) {
+  let fc = 0;
+  let sc = 0;
+
+  let res = 0;
+
+  for (let el of text) {
+    if (el === pattern[0]) fc++;
+    else if (el === pattern[1]) {
+      sc++;
+      res += fc;
+    }
+  }
+
+  if (pattern[0] === pattern[1]) return (fc * (fc + 1)) / 2;
+
+  return res + Math.max(fc, sc);
+};
+
+// '(x * (x + 1)) / 2' counts cummulative occurrences of x
+// Saw it a couple problems ago and allows to break early from repetitive counting
