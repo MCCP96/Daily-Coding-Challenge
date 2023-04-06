@@ -6732,7 +6732,7 @@ var topVotedHalveArray = function (nums) {
 // Saves from sorting on every iteration */
 
 // Maximum Points in an Archery Competition					4/5/2023
-
+/* 
 // Alice and Bob are opponents in an archery competition. The competition has set the following rules:
 
 // Alice first shoots numArrows arrows and then Bob shoots numArrows arrows.
@@ -6810,4 +6810,73 @@ console.log(maximumBobPoints(89, [3, 2, 28, 1, 7, 1, 16, 7, 3, 13, 3, 5])); // [
 // Same as top voted
 
 // Really getting comfortable with backtracking
-// took me a while to find a bug, fixed by returning [...bobArrows] in skip
+// took me a while to find a bug, fixed by returning [...bobArrows] in skip */
+
+// Minimum Deletions to Make Array Beautiful					4/6/2023
+
+// You are given a 0-indexed integer array nums. The array nums is beautiful if:
+
+// nums.length is even.
+
+// nums[i] != nums[i + 1] for all i % 2 == 0.
+
+// Note that an empty array is considered beautiful.
+
+// You can delete any number of elements from nums. When you delete an element, all the elements to the right of the deleted element will be shifted one unit to the left to fill the gap created and all the elements to the left of the deleted element will remain unchanged.
+
+// Return the minimum number of elements to delete from nums to make it beautiful.
+
+// Example 1:
+// 		Input: nums = [1,1,2,3,5]
+// 		Output: 1
+// Explanation: You can delete either nums[0] or nums[1] to make nums = [1,2,3,5] which is beautiful. It can be proven you need at least 1 deletion to make nums beautiful.
+
+// Example 2:
+// 		Input: nums = [1,1,2,2,3,3]
+// 		Output: 2
+// Explanation: You can delete nums[0] and nums[5] to make nums = [1,2,2,3] which is beautiful. It can be proven you need at least 2 deletions to make nums beautiful.
+
+// Constraints:
+//		1 <= nums.length <= 10^5
+//		0 <= nums[i] <= 10^5
+
+const minDeletion = (nums) => {
+  let deletions = 0;
+
+  for (let i = 0; i < nums.length - 1; i++) {
+    if (i % 2 == 0 && nums[i] == nums[i + 1]) {
+      nums.splice(i, 1);
+      deletions++;
+      i--;
+    }
+  }
+  if (nums.length % 2 == 1) deletions++;
+
+  return deletions;
+};
+
+console.log(minDeletion([1, 1, 2, 3, 5])); // 1
+console.log(minDeletion([1, 1, 2, 2, 3, 3])); // 2
+console.log(minDeletion([2, 8, 1, 0, 4, 4, 7, 0, 4, 5, 1, 2, 4, 1])); // 2
+
+const topVotedMinDeletion = function (nums) {
+  var count = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    if (i % 2 === 0 && nums[i] === nums[i + 1]) {
+      // We can use either splice or shift, but I prefer to use shift because of better performance.
+      // nums.splice( i, 1 );
+      nums.shift();
+      i--;
+      count++;
+    }
+  }
+
+  return nums.length % 2 !== 0 ? count + 1 : count;
+};
+
+// Hah, the only difference between our solutions is .splice vs .shift
+// Mine exceeds runtime limit while his passes
+
+// A comment from the user addressing this difference:
+// "Good Question, shift will remove first element of array as opposed to splice which will remove specific array index i. However, the goal of the challenge is to return minimum deletion operation to make array beautiful. So, if we use shift, and remove first element of array for condition ( i % 2 === 0 && nums[i] === nums[i + 1] ), first element of array will always get changed only without any array elements manipulation. Also, shift operation is much faster than splice. On the other hand, if we use splice and lets say we remove an element in the middle of array, it will first remove that index, and shift right elements to left by one which is computationally expensive for big arrays. Hope that helps."
