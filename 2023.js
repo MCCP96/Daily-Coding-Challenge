@@ -6813,7 +6813,7 @@ console.log(maximumBobPoints(89, [3, 2, 28, 1, 7, 1, 16, 7, 3, 13, 3, 5])); // [
 // took me a while to find a bug, fixed by returning [...bobArrows] in skip */
 
 // Minimum Deletions to Make Array Beautiful					4/6/2023
-
+/* 
 // You are given a 0-indexed integer array nums. The array nums is beautiful if:
 
 // nums.length is even.
@@ -6879,4 +6879,58 @@ const topVotedMinDeletion = function (nums) {
 // Mine exceeds runtime limit while his passes
 
 // A comment from the user addressing this difference:
-// "Good Question, shift will remove first element of array as opposed to splice which will remove specific array index i. However, the goal of the challenge is to return minimum deletion operation to make array beautiful. So, if we use shift, and remove first element of array for condition ( i % 2 === 0 && nums[i] === nums[i + 1] ), first element of array will always get changed only without any array elements manipulation. Also, shift operation is much faster than splice. On the other hand, if we use splice and lets say we remove an element in the middle of array, it will first remove that index, and shift right elements to left by one which is computationally expensive for big arrays. Hope that helps."
+// "Good Question, shift will remove first element of array as opposed to splice which will remove specific array index i. However, the goal of the challenge is to return minimum deletion operation to make array beautiful. So, if we use shift, and remove first element of array for condition ( i % 2 === 0 && nums[i] === nums[i + 1] ), first element of array will always get changed only without any array elements manipulation. Also, shift operation is much faster than splice. On the other hand, if we use splice and lets say we remove an element in the middle of array, it will first remove that index, and shift right elements to left by one which is computationally expensive for big arrays. Hope that helps." */
+
+// Find Palindrome With Fixed Length					4/7/2023
+
+// Given an integer array queries and a positive integer intLength, return an array answer where answer[i] is either the queries[i]th smallest positive palindrome of length intLength or -1 if no such palindrome exists.
+
+// A palindrome is a number that reads the same backwards and forwards. Palindromes cannot have leading zeros.
+
+// Example 1:
+// 		Input: queries = [1,2,3,4,5,90], intLength = 3
+// 		Output: [101,111,121,131,141,999]
+// Explanation:
+// 		The first few palindromes of length 3 are:
+// 		101, 111, 121, 131, 141, 151, 161, 171, 181, 191, 202, ...
+// 		The 90th palindrome of length 3 is 999.
+
+// Example 2:
+// 		Input: queries = [2,4,6], intLength = 4
+// 		Output: [1111,1331,1551]
+// Explanation:
+// 		The first six palindromes of length 4 are:
+// 		1001, 1111, 1221, 1331, 1441, and 1551.
+
+// Constraints:
+//		1 <= queries.length <= 5 * 104
+//		1 <= queries[i] <= 109
+//		1 <= intLength <= 15
+
+var revisedKthPalindrome = function (q, len) {
+  let half = 10 ** (Math.ceil(len / 2) - 1);
+  // either half len +1 (odd length palindrome) or 1 less (for even length palindrome)
+
+  let ans = [];
+  for (let nth of q) {
+    let palindrome = String(half + (nth - 1));
+
+    if (len % 2) {
+      palindrome += [...palindrome.substring(0, palindrome.length - 1)]
+        .reverse()
+        .join("");
+    } else {
+      palindrome += [...palindrome].reverse().join("");
+    }
+
+    palindrome.length > len ? ans.push(-1) : ans.push(+palindrome);
+  }
+
+  return ans;
+};
+
+console.log(revisedKthPalindrome([1, 2, 3, 4, 5, 90], 3)); // [101,111,121,131,141,999]
+console.log(revisedKthPalindrome([2, 4, 6], 4)); // [1111,1331,1551]
+
+// Copied top voted's logic for 'half'
+// Changed the rest to how I would've gone about it
