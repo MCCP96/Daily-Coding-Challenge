@@ -6882,7 +6882,7 @@ const topVotedMinDeletion = function (nums) {
 // "Good Question, shift will remove first element of array as opposed to splice which will remove specific array index i. However, the goal of the challenge is to return minimum deletion operation to make array beautiful. So, if we use shift, and remove first element of array for condition ( i % 2 === 0 && nums[i] === nums[i + 1] ), first element of array will always get changed only without any array elements manipulation. Also, shift operation is much faster than splice. On the other hand, if we use splice and lets say we remove an element in the middle of array, it will first remove that index, and shift right elements to left by one which is computationally expensive for big arrays. Hope that helps." */
 
 // Find Palindrome With Fixed Length					4/7/2023
-
+/* 
 // Given an integer array queries and a positive integer intLength, return an array answer where answer[i] is either the queries[i]th smallest positive palindrome of length intLength or -1 if no such palindrome exists.
 
 // A palindrome is a number that reads the same backwards and forwards. Palindromes cannot have leading zeros.
@@ -6933,4 +6933,69 @@ console.log(revisedKthPalindrome([1, 2, 3, 4, 5, 90], 3)); // [101,111,121,131,1
 console.log(revisedKthPalindrome([2, 4, 6], 4)); // [1111,1331,1551]
 
 // Copied top voted's logic for 'half'
-// Changed the rest to how I would've gone about it
+// Changed the rest to how I would've gone about it */
+
+// Find Triangular Sum of an Array					4/8/2023
+
+// You are given a 0-indexed integer array nums, where nums[i] is a digit between 0 and 9 (inclusive).
+
+// The triangular sum of nums is the value of the only element present in nums after the following process terminates:
+
+// Let nums comprise of n elements. If n == 1, end the process. Otherwise, create a new 0-indexed integer array newNums of length n - 1.
+
+// For each index i, where 0 <= i < n - 1, assign the value of newNums[i] as (nums[i] + nums[i+1]) % 10, where % denotes modulo operator.
+
+// Replace the array nums with newNums.
+
+// Repeat the entire process starting from step 1.
+
+// Return the triangular sum of nums.
+
+// Example 1:
+// 		Input: nums = [1,2,3,4,5]
+// 		Output: 8
+// Explanation:
+//    https://assets.leetcode.com/uploads/2022/02/22/ex1drawio.png
+// 		The above diagram depicts the process from which we obtain the triangular sum of the array.
+
+// Example 2:
+// 		Input: nums = [5]
+// 		Output: 5
+// Explanation:
+// 		Since there is only one element in nums, the triangular sum is the value of that element itself.
+
+// Constraints:
+//		1 <= nums.length <= 1000
+//		0 <= nums[i] <= 9
+
+const triangularSum = (nums) => {
+  if (nums.length == 1) return nums[0];
+
+  let newNums = [];
+  for (let i = 0; i < nums.length - 1; i++) {
+    newNums[i] = (nums[i] + nums[i + 1]) % 10;
+  }
+
+  return triangularSum(newNums);
+};
+
+console.log(triangularSum([1, 2, 3, 4, 5])); // 8
+console.log(triangularSum([5])); // 5
+
+// Same as most other javascript solutions
+// A while loop would've been better
+
+var topVotedTriangularSum = function (nums) {
+  let j = nums.length;
+
+  while (j > 1) {
+    for (let i = 0; i < j - 1; i++) {
+      nums[i] = (nums[i] + (nums[i + 1] || 0)) % 10;
+    }
+    j--;
+  }
+
+  return nums[0];
+};
+
+// Much better runtime
