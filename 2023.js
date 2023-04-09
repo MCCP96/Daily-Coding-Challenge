@@ -6936,7 +6936,7 @@ console.log(revisedKthPalindrome([2, 4, 6], 4)); // [1111,1331,1551]
 // Changed the rest to how I would've gone about it */
 
 // Find Triangular Sum of an Array					4/8/2023
-
+/* 
 // You are given a 0-indexed integer array nums, where nums[i] is a digit between 0 and 9 (inclusive).
 
 // The triangular sum of nums is the value of the only element present in nums after the following process terminates:
@@ -6998,4 +6998,76 @@ var topVotedTriangularSum = function (nums) {
   return nums[0];
 };
 
-// Much better runtime
+// Much better runtime */
+
+// Number of Ways to Select Buildings					4/9/2023
+
+// You are given a 0-indexed binary string s which represents the types of buildings along a street where:
+
+// s[i] = '0' denotes that the ith building is an office and
+
+// s[i] = '1' denotes that the ith building is a restaurant.
+
+// As a city official, you would like to select 3 buildings for random inspection. However, to ensure variety, no two consecutive buildings out of the selected buildings can be of the same type.
+
+// For example, given s = "001101", we cannot select the 1st, 3rd, and 5th buildings as that would form "011" which is not allowed due to having two consecutive buildings of the same type.
+
+// Return the number of valid ways to select 3 buildings.
+
+// Example 1:
+// 		Input: s = "001101"
+// 		Output: 6
+// Explanation:
+// 		The following sets of indices selected are valid:
+// 		- [0,2,4] from "001101" forms "010"
+// 		- [0,3,4] from "001101" forms "010"
+// 		- [1,2,4] from "001101" forms "010"
+// 		- [1,3,4] from "001101" forms "010"
+// 		- [2,4,5] from "001101" forms "101"
+// 		- [3,4,5] from "001101" forms "101"
+// 		No other selection is valid. Thus, there are 6 total ways.
+
+// Example 2:
+// 		Input: s = "11100"
+// 		Output: 0
+// Explanation: It can be shown that there are no valid selections.
+
+// Constraints:
+//		3 <= s.length <= 105
+//		s[i] is either '0' or '1'.
+
+const numberOfWays = (s) => {
+  let arr = s.match(/[0]+|[1]+/g).map((n) => n.length);
+  if (arr.length < 3) return 0;
+
+  let res = 0;
+  for (let i = 0; i < arr.length - 2; i++)
+    for (let j = i + 1; j < arr.length - 1; j += 2)
+      for (let k = j + 1; k < arr.length; k += 2)
+        res += arr[i] * arr[j] * arr[k];
+
+  return res;
+};
+
+console.log(numberOfWays("001101")); // 6
+console.log(numberOfWays("11100")); // 0
+console.log(numberOfWays("0001100100")); // 38
+
+// Exceeds runtime limit
+
+const topVotedNumberOfWays = (s) => op(s, "101") + op(s, "010");
+
+const op = (s, t) => {
+  let one = 0,
+    two = 0,
+    three = 0;
+  for (const c of s) {
+    if (c == t[2]) three += two;
+    if (c == t[1]) two += one;
+    if (c == t[0]) one++;
+  }
+  return three;
+};
+
+// Wow, would've never landed on this
+// Very nice
