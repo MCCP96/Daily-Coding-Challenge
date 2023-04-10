@@ -7001,7 +7001,7 @@ var topVotedTriangularSum = function (nums) {
 // Much better runtime */
 
 // Number of Ways to Select Buildings					4/9/2023
-
+/* 
 // You are given a 0-indexed binary string s which represents the types of buildings along a street where:
 
 // s[i] = '0' denotes that the ith building is an office and
@@ -7070,4 +7070,37 @@ const op = (s, t) => {
 };
 
 // Wow, would've never landed on this
-// Very nice
+// Very nice */
+
+// Minimum Common Value					4/10/2023
+
+// Given two integer arrays nums1 and nums2, sorted in non-decreasing order, return the minimum integer common to both arrays. If there is no common integer amongst nums1 and nums2, return -1.
+
+// Note that an integer is said to be common to nums1 and nums2 if both arrays have at least one occurrence of that integer.
+
+// Example 1:
+// 		Input: nums1 = [1,2,3], nums2 = [2,4]
+// 		Output: 2
+// Explanation: The smallest element common to both arrays is 2, so we return 2.
+
+// Example 2:
+// 		Input: nums1 = [1,2,3,6], nums2 = [2,3,4,5]
+// 		Output: 2
+// Explanation: There are two common elements in the array 2 and 3 out of which 2 is the smallest, so 2 is returned.
+
+// Constraints:
+//		1 <= nums1.length, nums2.length <= 105
+//		1 <= nums1[i], nums2[j] <= 109
+//		Both nums1 and nums2 are sorted in non-decreasing order.
+
+const getCommon = (n1, n2) => {
+  const set = new Set(n1);
+  for (const n of n2) if (set.has(n)) return n;
+  return -1;
+};
+
+console.log(getCommon([1, 2, 3], [2, 4])); // 2
+console.log(getCommon([1, 2, 3, 6], [2, 3, 4, 5])); // 2
+
+// Was too slow at first
+// Worked once array was cast as Set
