@@ -7106,7 +7106,7 @@ console.log(getCommon([1, 2, 3, 6], [2, 3, 4, 5])); // 2
 // Worked once array was cast as Set */
 
 // Find Players With Zero or One Losses					4/11/2023
-
+/* 
 // You are given an integer array matches where matches[i] = [winneri, loseri] indicates that the player winneri defeated player loseri in a match.
 
 // Return a list answer of size 2 where:
@@ -7194,4 +7194,41 @@ var topVotedFindWinners = function (matches) {
 };
 
 // Same logic
-// Cleaner code
+// Cleaner code */
+
+// Array Prototype Last					4/12/2023
+
+// Write code that enhances all arrays such that you can call the array.last() method on any array and it will return the last element. If there are no elements in the array, it should return -1.
+
+// Example 1:
+// 		Input: nums = [1,2,3]
+// 		Output: 3
+// Explanation: Calling nums.last() should return the last element: 3.
+
+// Example 2:
+// 		Input: nums = []
+// 		Output: -1
+// Explanation: Because there are no elements, return -1.
+
+// Constraints:
+//		0 <= arr.length <= 1000
+//		0 <= arr[i] <= 1000
+
+Array.prototype.last = function () {
+  return this[this.length - 1] ?? -1;
+};
+
+console.log([1, 2, 3].last()); // 3
+console.log([].last()); // -1
+console.log([0, 0, 0].last()); // 0
+
+// 100% Runtime
+
+Array.prototype.topVotedLast = function () {
+  return this.at(-1) ?? -1;
+};
+
+// First time seeing .at
+
+// Leetcode dropped a new category today for Javascript Front-end questions only
+// Very cool, will be doing more of these definitely
