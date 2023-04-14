@@ -7234,7 +7234,7 @@ Array.prototype.topVotedLast = function () {
 // Very cool, will be doing more of these definitely */
 
 // Counter					4/13/2023
-
+/* 
 // Write a function that accepts an integer n and returns a counter function. This counter function initially returns n and then returns 1 more than the previous value every subsequent time it is called (n, n + 1, n + 2, etc).
 
 // Example 1:
@@ -7266,4 +7266,44 @@ console.log(call1(), call1(), call1());
 const call2 = createCounter(-2);
 console.log(call2(), call2(), call2(), call2(), call2());
 
-// Same as top voted
+// Same as top voted */
+
+// Sleep					4/14/2023
+
+// Given a positive integer millis, write an asyncronous function that sleeps for millis milliseconds. It can resolve any value.
+
+// Example 1:
+// 		Input: millis = 100
+// 		Output: 100
+// Explanation: It should return a promise that resolves after 100ms.
+// 		let t = Date.now();
+// 		sleep(100).then(() => {
+// 		console.log(Date.now() - t); // 100
+// 		});
+
+// Example 2:
+// 		Input: millis = 200
+// 		Output: 200
+// Explanation: It should return a promise that resolves after 200ms.
+
+// Constraints:
+//		1 <= millis <= 1000
+
+const sleep = async (millis) =>
+  new Promise((res) => setTimeout(() => res(true), millis));
+
+console.log(await sleep(100)); // 100
+console.log(await sleep(200)); // 200
+
+// Ça marche
+
+async function topVotedSleep(millis) {
+  await new Promise((resolve) => setTimeout(resolve, millis));
+}
+
+// This works since the promise can return any value
+
+const revisedSleep = async (millis) =>
+  new Promise((res) => setTimeout(res, millis));
+
+// Day 666 🤡
