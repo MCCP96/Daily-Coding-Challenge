@@ -7529,7 +7529,7 @@ console.log(map([10, 20, 30], () => 42)); // [42,42,42]
 // Very similar to yesterday's question */
 
 // Promise Time Limit					4/19/2023
-
+/* 
 // Given an asyncronous function fn and a time t in milliseconds, return a new time limited version of the input function.
 
 // A time limited function is a function that is identical to the original unless it takes longer than t milliseconds to fullfill. In that case, it will reject with "Time Limit Exceeded".  Note that it should reject with a string, not an Error.
@@ -7622,4 +7622,62 @@ const fn4 = topVotedTimeLimit(async () => {
 console.log(await fn4()); // {"rejected":"Error","time":0}
 
 // I'm very out of practice with Promises
-// Seems like a perfect situation for .race here
+// Seems like a perfect situation for .race here */
+
+// Check if Object Instance of Class					4/20/2023
+
+// Write a function that checks if a given object is an instance of a given class or superclass. For this problem, an object is considered an instance of a given class if that object has access to that class's methods.
+
+// There are no constraints on the data types that can be passed to the function.
+
+// Example 1:
+// 		Input: func = () => checkIfInstanceOf(new Date(), Date)
+// 		Output: true
+// Explanation: The object returned by the Date constructor is, by definition, an instance of Date.
+
+// Example 2:
+// 		Input: func = () => { class Animal {}; class Dog extends Animal {}; return checkIfInstanceOf(new Dog(), Animal); }
+// 		Output: true
+// Explanation:
+// 		class Animal {};
+// 		class Dog extends Animal {};
+// 		checkIfInstance(new Dog(), Animal); // true
+// 		Dog is a subclass of Animal. Therefore, a Dog object is an instance of both Dog and Animal.
+
+// Example 3:
+// 		Input: func = () => checkIfInstanceOf(Date, Date)
+// 		Output: false
+// Explanation: A date constructor cannot logically be an instance of itself.
+
+// Example 4:
+// 		Input: func = () => checkIfInstanceOf(5, Number)
+// 		Output: true
+
+// Explanation: 5 is a Number. Note that the "instanceof" keyword would return false. However, it is still considered an instance of Number because it accesses the Number methods. For example "toFixed()".
+
+const checkIfInstanceOf = (obj, classFn) => {
+  while (obj != null) {
+    if (obj.constructor == classFn) return true;
+    obj = Object.getPrototypeOf(obj);
+  }
+  return false;
+};
+
+console.log(checkIfInstanceOf(new Date(), Date)); // true
+class Animal {}
+class Dog extends Animal {}
+console.log(checkIfInstanceOf(new Dog(), Animal)); // true
+console.log(checkIfInstanceOf(Date, Date)); // false
+console.log(checkIfInstanceOf(5, Number)); // true
+
+// Knew I had to find the top-most prototype, but couldn't figure out which method to use
+// Ended up looking at top voted to find Object.getPrototypeOf
+
+const topVotedCheckIfInstanceOf = (obj, classFn) => {
+  if (obj == null || typeof obj == null || typeof classFn !== "function")
+    return false;
+  return Object(obj) instanceof classFn;
+};
+
+// instanceof wasn't working for me
+// Turns out I had to cast it as an Object first
