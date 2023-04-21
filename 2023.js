@@ -7625,7 +7625,7 @@ console.log(await fn4()); // {"rejected":"Error","time":0}
 // Seems like a perfect situation for .race here */
 
 // Check if Object Instance of Class					4/20/2023
-
+/* 
 // Write a function that checks if a given object is an instance of a given class or superclass. For this problem, an object is considered an instance of a given class if that object has access to that class's methods.
 
 // There are no constraints on the data types that can be passed to the function.
@@ -7680,4 +7680,86 @@ const topVotedCheckIfInstanceOf = (obj, classFn) => {
 };
 
 // instanceof wasn't working for me
-// Turns out I had to cast it as an Object first
+// Turns out I had to cast it as an Object first */
+
+// Generate Fibonacci Sequence					4/21/2023
+
+// Write a generator function that returns a generator object which yields the fibonacci sequence.
+
+// The fibonacci sequence is defined by the relation Xn = Xn-1 + Xn-2.
+
+// The first few numbers of the series are 0, 1, 1, 2, 3, 5, 8, 13.
+
+// Example 1:
+// 		Input: callCount = 5
+// 		Output: [0,1,1,2,3]
+// Explanation:
+// 		const gen = fibGenerator();
+// 		gen.next().value; // 0
+// 		gen.next().value; // 1
+// 		gen.next().value; // 1
+// 		gen.next().value; // 2
+// 		gen.next().value; // 3
+
+// Example 2:
+// 		Input: callCount = 0
+// 		Output: []
+// Explanation: gen.next() is never called so nothing is outputted
+
+// Constraints:
+//		0 <= callCount <= 50
+
+const fibGenerator = function* () {
+  let i = 0;
+  let a = 0;
+  let b = 1;
+
+  if (i == 0) {
+    i++;
+    yield a;
+  }
+  if (i == 1) {
+    i++;
+    yield b;
+  }
+
+  while (true) {
+    [a, b] = [b, a + b];
+    i++;
+    yield b;
+  }
+};
+
+const gen = fibGenerator();
+console.log(gen.next().value);
+console.log(gen.next().value);
+console.log(gen.next().value);
+console.log(gen.next().value);
+console.log(gen.next().value);
+
+// First time ever encountering a generator function
+// Read the MDN doc and ended up with what's above
+
+var topVotedFibGenerator = function* () {
+  let a = 0;
+  let b = 1;
+
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+};
+
+// Much simpler, seems while(true) replaces the need for i
+
+const revisedFibGenerator = function* () {
+  let a = 0,
+    b = 1;
+
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+};
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*
