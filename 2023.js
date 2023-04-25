@@ -7999,7 +7999,7 @@ function topVotedMemoize(fn) {
 // Same logic */
 
 // Snail Traversal					4/24/2023
-
+/* 
 // Write code that enhances all arrays such that you can call the snail(rowsCount, colsCount) method that transforms the 1D array into a 2D array organised in the pattern known as snail traversal order. Invalid input values should output an empty array. If rowsCount * colsCount !== nums.length, the input is considered invalid.
 
 // Snail traversal order starts at the top left cell with the first value of the current array. It then moves through the entire first column from top to bottom, followed by moving to the next column on the right and traversing it from bottom to top. This pattern continues, alternating the direction of traversal with each column, until the entire current array is covered. For example, when given the input array [19, 10, 3, 7, 9, 8, 5, 2, 1, 17, 16, 14, 12, 18, 6, 13, 11, 20, 4, 15] with rowsCount = 5 and colsCount = 4, the desired output matrix is shown below. Note that iterating the matrix following the arrows corresponds to the order of numbers in the original array.
@@ -8085,4 +8085,85 @@ Array.prototype.topVotedSnail = function (rowsCount, colsCount) {
   }, []);
 };
 
-// Clean
+// Clean */
+
+// Flatten Deeply Nested Array					4/25/2023
+
+// Given a multi-dimensional array arr and a depth n, return a flattened version of that array.
+
+// A multi-dimensional array is a recursive data structure that contains integers or other multi-dimensional arrays.
+
+// A flattened array is a version of that array with some or all of the sub-arrays removed and replaced with the actual elements in that sub-array. This flattening operation should only be done if the current depth of nesting is less than n. The depth of the elements in the first array are considered to be 0.
+
+// Please solve it without the built-in Array.flat method.
+
+// Example 1:
+// 		Input
+// 		arr = [1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
+// 		n = 0
+// 		Output
+// 		[1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
+// 		Explanation
+// 		Passing a depth of n=0 will always result in the original array. This is because the smallest possible depth of a subarray (0) is not less than n=0. Thus, no subarray should be flattened.
+
+// Example 2:
+// 		Input
+// 		arr = [1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
+// 		n = 1
+// 		Output
+// 		[1, 2, 3, 4, 5, 6, 7, 8, [9, 10, 11], 12, 13, 14, 15]
+// 		Explanation
+// 		The subarrays starting with 4, 7, and 13 are all flattened. This is because their depth of 0 is less than 1. However [9, 10, 11] remains unflattened because its depth is 1.
+
+// Example 3:
+// 		Input
+// 		arr = [[1, 2, 3], [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
+// 		n = 2
+// 		Output
+// 		[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+// 		Explanation
+// 		The maximum depth of any subarray is 1. Thus, all of them are flattened.
+
+// Constraints:
+//		0 <= count of numbers in arr <= 105
+//		0 <= count of subarrays in arr <= 105
+//		maxDepth <= 1000
+//		-1000 <= each number <= 1000
+//		0 <= n <= 1000
+
+const flat = (arr, n) => {
+  for (let i = 0; i < n; i++) {
+    arr = arr.reduce((a, c) => {
+      if (typeof c == "number") a.push(c);
+      else a.push(...c);
+      return a;
+    }, []);
+  }
+  return arr;
+};
+
+// prettier-ignore
+console.log(flat([1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]], 0))
+// prettier-ignore
+console.log(flat([1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]], 1))
+// prettier-ignore
+console.log(flat([[1, 2, 3], [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]], 2))
+
+// Very slow runtime, but works
+
+var topVotedFlat = function (arr, n) {
+  if (n == 0) return arr;
+
+  let answer = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (n > 0 && Array.isArray(arr[i])) {
+      answer.push(...flat(arr[i], n - 1));
+    } else {
+      answer.push(arr[i]);
+    }
+  }
+
+  return answer;
+};
+
+// Much better
