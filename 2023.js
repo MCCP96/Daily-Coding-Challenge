@@ -8169,7 +8169,7 @@ var topVotedFlat = function (arr, n) {
 // Much better */
 
 // Debounce					4/26/2023
-
+/* 
 // Given a function fn and a time in milliseconds t, return a debounced version of that function.
 
 // A debounced function is a function whose execution is delayed by t milliseconds and whose execution is cancelled if it is called again within that window of time. The debounced function should also recieve the passed parameters.
@@ -8256,4 +8256,97 @@ setTimeout(() => dlog(2), 75);
 // "What is Debouncing?
 // Debouncing is a method that limits the rate at which a function gets called. It works by delaying the execution of a function until a certain amount of time has passed without any additional function calls. If another function call happens within this time frame, the timer resets and the function execution is delayed again. Debouncing is useful in situations where you want to prevent a function from being called too frequently, such as:
 // Handling user input events like keypresses, mouse movements, or button clicks
-// Handling expensive computations or network requests that don't need to be performed on every function call"
+// Handling expensive computations or network requests that don't need to be performed on every function call" */
+
+// JSON Deep Equal					4/27/2023
+
+// Given two objects o1 and o2, check if they are deeply equal.
+
+// For two objects to be deeply equal, they must contain the same keys, and the associated values must also be deeply equal. Two objects are also considered deeply equal if they pass the === equality check.
+
+// You may assume both objects are the output of JSON.parse. In other words, they are valid JSON.
+
+// Please solve it without using lodash's _.isEqual() function.
+
+// Example 1:
+// 		Input: o1 = {"x":1,"y":2}, o2 = {"x":1,"y":2}
+// 		Output: true
+// Explanation: The keys and values match exactly.
+
+// Example 2:
+// 		Input: o1 = {"y":2,"x":1}, o2 = {"x":1,"y":2}
+// 		Output: true
+// Explanation: Although the keys are in a different order, they still match exactly.
+
+// Example 3:
+// 		Input: o1 = {"x":null,"L":[1,2,3]}, o2 = {"x":null,"L":["1","2","3"]}
+// 		Output: false
+// Explanation: The array of numbers is different from the array of strings.
+
+// Example 4:
+// 		Input: o1 = true, o2 = false
+// 		Output: false
+// Explanation: true !== false
+
+// Constraints:
+//		1 <= JSON.stringify(o1).length <= 105
+//		1 <= JSON.stringify(o2).length <= 105
+//		maxNestingDepth <= 1000
+
+const areDeeplyEqual = (o1, o2) => {
+  const keys1 = Object.keys(o1).sort((a, b) => a.localeCompare(b));
+  const keys2 = Object.keys(o2).sort((a, b) => a.localeCompare(b));
+
+  if (keys1.length !== keys2.length) return false;
+  if (typeof o1 == "boolean") return o1 === o2;
+
+  return keys1.every((key) => {
+    const [o1Type, o2Type] = [typeof o1[key], typeof o2[key]];
+    if (o1Type != o2Type) return false;
+
+    if (o1Type == "array") {
+      return o1[key].sort().join() == o2[key].sort().join();
+    }
+    if (o1Type == "object") {
+      if (o1[key] == null && o2[key] == null) return true;
+      return areDeeplyEqual(o1[key], o2[key]);
+    }
+    if (o1[key] !== o2[key]) return false;
+    return true;
+  });
+};
+
+console.log(areDeeplyEqual({ x: 1, y: 2 }, { x: 1, y: 2 })); // true
+console.log(areDeeplyEqual({ y: 2, x: 1 }, { x: 1, y: 2 })); // true
+// prettier-ignore
+console.log(areDeeplyEqual({"x":null,"L":[1,2,3]}, {"x":null,"L":["1","2","3"]})) // false
+console.log(areDeeplyEqual(true, false)); // false
+
+// Doesn't pass all test cases
+
+var topVotedAreDeeplyEqual = function (o1, o2) {
+  // All equal values and same objects are eliminated
+  if (o1 === o2) return true;
+
+  // If any of o1 or o2 is not an object, they are different values
+  if (typeof o1 != "object" || typeof o2 != "object") return false;
+
+  // Both of them should be objects or arrays
+  if (Array.isArray(o1) !== Array.isArray(o2)) return false;
+
+  // Both should have same keys, in case of indexes this will return indexes
+  if (Object.keys(o1).length != Object.keys(o2).length) return false;
+
+  // Check if all values against keys of o1 and o2 are deeply equal.
+  // If number of keys are same, then at a different key in objects would mean at least
+  // 1 value against the key of o2 will be undefined
+  for (const key in o1) {
+    if (!areDeeplyEqual(o1[key], o2[key])) return false;
+  }
+
+  // All checks passed
+  return true;
+};
+
+// I was going in the right direction, although this one works
+// I'm learning that in a real world scenario I would use lodash's _.isEqual() function
