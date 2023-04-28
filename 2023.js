@@ -8259,7 +8259,7 @@ setTimeout(() => dlog(2), 75);
 // Handling expensive computations or network requests that don't need to be performed on every function call" */
 
 // JSON Deep Equal					4/27/2023
-
+/* 
 // Given two objects o1 and o2, check if they are deeply equal.
 
 // For two objects to be deeply equal, they must contain the same keys, and the associated values must also be deeply equal. Two objects are also considered deeply equal if they pass the === equality check.
@@ -8349,4 +8349,52 @@ var topVotedAreDeeplyEqual = function (o1, o2) {
 };
 
 // I was going in the right direction, although this one works
-// I'm learning that in a real world scenario I would use lodash's _.isEqual() function
+// I'm learning that in a real world scenario I would use lodash's _.isEqual() function */
+
+// Row With Maximum Ones					4/28/2023
+
+// Given a m x n binary matrix mat, find the 0-indexed position of the row that contains the maximum count of ones, and the number of ones in that row.
+
+// In case there are multiple rows that have the maximum count of ones, the row with the smallest row number should be selected.
+
+// Return an array containing the index of the row, and the number of ones in it.
+
+// Example 1:
+// 		Input: mat = [[0,1],[1,0]]
+// 		Output: [0,1]
+// Explanation: Both rows have the same number of 1's. So we return the index of the smaller row, 0, and the maximum count of ones (1). So, the answer is [0,1].
+
+// Example 2:
+// 		Input: mat = [[0,0,0],[0,1,1]]
+// 		Output: [1,2]
+// Explanation: The row indexed 1 has the maximum count of ones (2). So we return its index, 1, and the count. So, the answer is [1,2].
+
+// Example 3:
+// 		Input: mat = [[0,0],[1,1],[0,0]]
+// 		Output: [1,2]
+// Explanation: The row indexed 1 has the maximum count of ones (2). So the answer is [1,2].
+
+// Constraints:
+//		m == mat.length
+//		n == mat[i].length
+//		1 <= m, n <= 100
+//		mat[i][j] is either 0 or 1.
+
+const rowAndMaximumOnes = (mat) =>
+  mat.reduce(
+    (max, row, i) => {
+      const count = row.filter((x) => x != 0).length;
+      if (count > max[1]) max = [i, count];
+      return max;
+    },
+    [0, 0]
+  );
+
+// prettier-ignore
+console.log(rowAndMaximumOnes([[0,1],[1,0]])) // [0,1]
+// prettier-ignore
+console.log(rowAndMaximumOnes([[0,0,0],[0,1,1]])) // [1,2]
+// prettier-ignore
+console.log(rowAndMaximumOnes([[0,0],[1,1],[0,0]])) // [1,2]
+
+// Similar to top voteds
