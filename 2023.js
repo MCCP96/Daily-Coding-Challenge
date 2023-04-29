@@ -8352,7 +8352,7 @@ var topVotedAreDeeplyEqual = function (o1, o2) {
 // I'm learning that in a real world scenario I would use lodash's _.isEqual() function */
 
 // Row With Maximum Ones					4/28/2023
-
+/* 
 // Given a m x n binary matrix mat, find the 0-indexed position of the row that contains the maximum count of ones, and the number of ones in that row.
 
 // In case there are multiple rows that have the maximum count of ones, the row with the smallest row number should be selected.
@@ -8397,4 +8397,109 @@ console.log(rowAndMaximumOnes([[0,0,0],[0,1,1]])) // [1,2]
 // prettier-ignore
 console.log(rowAndMaximumOnes([[0,0],[1,1],[0,0]])) // [1,2]
 
-// Similar to top voteds
+// Similar to top voteds */
+
+// Group By					4/29/2023
+
+// Write code that enhances all arrays such that you can call the array.groupBy(fn) method on any array and it will return a grouped version of the array.
+
+// A grouped array is an object where each key is the output of fn(arr[i]) and each value is an array containing all items in the original array with that key.
+
+// The provided callback fn will accept an item in the array and return a string key.
+
+// The order of each value list should be the order the items appear in the array. Any order of keys is acceptable.
+
+// Please solve it without lodash's _.groupBy function.
+
+// Example 1:
+// 		Input:
+// 		array = [
+// 		{"id":"1"},
+// 		{"id":"1"},
+// 		{"id":"2"}
+// 		],
+// 		fn = function (item) {
+// 		return item.id;
+// 		}
+// 		Output:
+// 		{
+// 		"1": [{"id": "1"}, {"id": "1"}],
+// 		"2": [{"id": "2"}]
+// 		}
+// Explanation:
+// 		Output is from array.groupBy(fn).
+// 		The selector function gets the "id" out of each item in the array.
+// 		There are two objects with an "id" of 1. Both of those objects are put in the first array.
+// 		There is one object with an "id" of 2. That object is put in the second array.
+
+// Example 2:
+// 		Input:
+// 		array = [
+// 		[1, 2, 3],
+// 		[1, 3, 5],
+// 		[1, 5, 9]
+// 		]
+// 		fn = function (list) {
+// 		return String(list[0]);
+// 		}
+// 		Output:
+// 		{
+// 		"1": [[1, 2, 3], [1, 3, 5], [1, 5, 9]]
+// 		}
+// Explanation:
+// 		The array can be of any type. In this case, the selector function defines the key as being the first element in the array.
+// 		All the arrays have 1 as their first element so they are grouped together.
+// 		{
+// 		"1": [[1, 2, 3], [1, 3, 5], [1, 5, 9]]
+// 		}
+
+// Example 3:
+// 		Input:
+// 		array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+// 		fn = function (n) {
+// 		return String(n > 5);
+// 		}
+// 		Output:
+// 		{
+// 		"true": [6, 7, 8, 9, 10],
+// 		"false": [1, 2, 3, 4, 5]
+// 		}
+// Explanation:
+// 		The selector function splits the array by whether each number is greater than 5.
+
+// Constraints:
+//		0 <= array.length <= 105
+//		fn returns a string
+
+Array.prototype.mapGroupBy = function (fn) {
+  return this.reduce((map, c) => {
+    const id = fn(c);
+    map.has(id) ? map.set(id, [...map.get(id), c]) : map.set(id, [c]);
+    return map;
+  }, new Map());
+};
+
+Array.prototype.groupBy = function (fn) {
+  return this.reduce((map, c) => {
+    const id = fn(c);
+    map[id] ? map[id].push(c) : (map[id] = [c]);
+    return map;
+  }, {});
+};
+
+// prettier-ignore
+console.log([{ id: "1" }, { id: "1" }, { id: "2" }].groupBy((item) => String(item.id)));
+// prettier-ignore
+console.log([[1, 2, 3], [1, 3, 5], [1, 5, 9]].groupBy((list) => String(list[0])));
+
+// Did it using Map, but it wanted an object
+
+Array.prototype.topVotedGroupBy = function (fn) {
+  const ans = {};
+  for (let e of this) {
+    const key = fn(e);
+    ans[key] ||= [];
+    ans[key].push(e);
+  }
+  return ans;
+};
