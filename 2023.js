@@ -8505,7 +8505,7 @@ Array.prototype.topVotedGroupBy = function (fn) {
 }; */
 
 // Curry					4/30/2023
-
+/* 
 // Given a function fn, return a curried version of that function.
 
 // A curried function is a function that accepts fewer or an equal number of parameters as the original function and returns either another curried function or the same value the original function would have returned.
@@ -8578,4 +8578,76 @@ var oneLineCurry = (c = (f, ...a) =>
     ? f
     : f.length > a.length
     ? (...b) => c(f, ...a, ...b)
-    : f(...a));
+    : f(...a)); */
+
+// Convert Object to JSON String					5/1/2023
+
+// Given an object, return a valid JSON string of that object. You may assume the object only inludes strings, integers, arrays, objects, booleans, and null. The returned string should not include extra spaces. The order of keys should be the same as the order returned by Object.keys().
+
+// Please solve it without using the built-in JSON.stringify method.
+
+// Example 1:
+// 		Input: object = {"y":1,"x":2}
+// 		Output: {"y":1,"x":2}
+// Explanation:
+// 		Return the JSON representation.
+// 		Note that the order of keys should be the same as the order returned by Object.keys().
+
+// Example 2:
+// 		Input: object = {"a":"str","b":-12,"c":true,"d":null}
+// 		Output: {"a":"str","b":-12,"c":true,"d":null}
+// Explanation:
+// 		The primitives of JSON are strings, numbers, booleans, and null.
+
+// Example 3:
+// 		Input: object = {"key":{"a":1,"b":[{},null,"Hello"]}}
+// 		Output: {"key":{"a":1,"b":[{},null,"Hello"]}}
+// Explanation:
+// 		Objects and arrays can include other objects and arrays.
+
+// Example 4:
+// 		Input: object = true
+// 		Output: true
+// Explanation:
+// 		Primitive types are valid inputs.
+
+// Constraints:
+//		object includes strings, integers, booleans, arrays, objects, and null
+//		1 <= JSON.stringify(object).length <= 105
+//		maxNestingLevel <= 1000
+//		all strings will only contain alphanumeric characters
+
+var topVotedJsonStringify = function (object) {
+  if (object === null) {
+    return "null";
+  }
+  if (typeof object === "string") {
+    // return the string value surrounded by double quotes.
+    return '"' + object + '"';
+  }
+  if (typeof object === "number" || typeof object === "boolean") {
+    // return its string representation.
+    return String(object);
+  }
+  if (Array.isArray(object)) {
+    // Recursively convert each item to a JSON string and join them with commas.
+    const items = object.map((item) => topVotedJsonStringify(item)).join(",");
+    return "[" + items + "]";
+  }
+  // Recursively convert each value to a JSON string and pair it with the corresponding key.
+  if (typeof object === "object") {
+    const keys = Object.keys(object);
+    const items = keys.map(
+      (key) => '"' + key + '":' + topVotedJsonStringify(object[key])
+    );
+    return "{" + items.join(",") + "}";
+  }
+};
+
+console.log(topVotedJsonStringify({ y: 1, x: 2 })); // {"y":1,"x":2}
+console.log(topVotedJsonStringify({ a: "str", b: -12, c: true, d: null })); // {"a":"str","b":-12,"c":true,"d":null}
+console.log(topVotedJsonStringify({ key: { a: 1, b: [{}, null, "Hello"] } })); // {"key":{"a":1,"b":[{},null,"Hello"]}}
+console.log(topVotedJsonStringify(true)); // true
+
+// Felt similar to areDeeplyEqual from last week
+// Not so much a fan of this one, JSON.stringify would be the way to go!
