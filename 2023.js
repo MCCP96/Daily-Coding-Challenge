@@ -8653,7 +8653,7 @@ console.log(topVotedJsonStringify(true)); // true
 // Not so much a fan of this one, JSON.stringify would be the way to go! */
 
 // Promise Pool					5/2/2023
-
+/* 
 // Given an array of asyncronous functions functions and a pool limit n, return an asyncronous function promisePool. It should return a promise that resolves when all the input functions resolve.
 
 // Pool limit is defined as the maximum number promises that can be pending at once. promisePool should begin execution of as many functions as possible and continue executing new functions when old promises resolve. promisePool should execute functions[i] then functions[i + 1] then functions[i + 2], etc. When the last promise resolves, promisePool should also resolve.
@@ -8751,4 +8751,49 @@ console.log(topVotedPromisePool([
 // Start promises from 0 to n, start the next once one fulfills
 // Seems so easy in retrospect
 
-// Didn't know you had to call a Promise like you would a function, using ()
+// Didn't know you had to call a Promise like you would a function, using () */
+
+// Alternating Digit Sum					5/3/2023
+
+// You are given a positive integer n. Each digit of n has a sign according to the following rules:
+
+// The most significant digit is assigned a positive sign.
+
+// Each other digit has an opposite sign to its adjacent digits.
+
+// Return the sum of all digits with their corresponding sign.
+
+// Example 1:
+// 		Input: n = 521
+// 		Output: 4
+// Explanation: (+5) + (-2) + (+1) = 4.
+
+// Example 2:
+// 		Input: n = 111
+// 		Output: 1
+// Explanation: (+1) + (-1) + (+1) = 1.
+
+// Example 3:
+// 		Input: n = 886996
+// 		Output: 0
+// Explanation: (+8) + (-8) + (+6) + (-9) + (+9) + (-6) = 0.
+
+// Constraints:
+//		1 <= n <= 109
+
+const alternateDigitSum = (n) =>
+  [...String(n)].reduce((a, c, i) => (a += i % 2 ? 0 - +c : +c), 0);
+
+console.log(alternateDigitSum(521)); // 4
+console.log(alternateDigitSum(111)); // 1
+console.log(alternateDigitSum(886996)); // 0
+
+var topVotedAlternateDigitSum = function (n) {
+  const str = n.toString();
+  let sum = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (i % 2 == 0) sum += +str[i];
+    else sum -= +str[i];
+  }
+  return sum;
+};
