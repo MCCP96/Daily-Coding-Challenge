@@ -8853,7 +8853,7 @@ console.log(ex1.increment());
 // Same as top voteds */
 
 // Allow One Function Call					5/5/2023
-
+/* 
 // Given a function fn, return a new function that is identical to the original function except that it ensures fn is called at most once.
 
 // The first time the returned function is called, it should return the same result as fn.
@@ -8896,4 +8896,29 @@ const ex1 = once((a, b, c) => a + b + c);
 console.log(ex1(1, 2, 3)); // 6
 console.log(ex1(2, 3, 6)); // undefined
 
-// Same as top voteds
+// Same as top voteds */
+
+// Create Hello World Function					5/6/2023
+
+// Write a function createHelloWorld. It should return a new function that always returns "Hello World".
+
+// Example 1:
+// 		Input: args = []
+// 		Output: "Hello World"
+// Explanation:
+// 		const f = createHelloWorld();
+// 		f(); // "Hello World"
+// 		The function returned by createHelloWorld should always return "Hello World".
+
+// Example 2:
+// 		Input: args = [{},null,42]
+// 		Output: "Hello World"
+// Explanation:
+// 		const f = createHelloWorld();
+// 		f({}, null, 42); // "Hello World"
+// 		Any arguments could be passed to the function but it should still always return "Hello World".
+
+// Constraints:
+//		0 <= args.length <= 10
+
+const createHelloWorld = () => () => "Hello World";
