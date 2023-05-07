@@ -8899,7 +8899,7 @@ console.log(ex1(2, 3, 6)); // undefined
 // Same as top voteds */
 
 // Create Hello World Function					5/6/2023
-
+/* 
 // Write a function createHelloWorld. It should return a new function that always returns "Hello World".
 
 // Example 1:
@@ -8921,4 +8921,65 @@ console.log(ex1(2, 3, 6)); // undefined
 // Constraints:
 //		0 <= args.length <= 10
 
-const createHelloWorld = () => () => "Hello World";
+const createHelloWorld = () => () => "Hello World"; */
+
+// Nested Array Generator					5/7/2023
+
+// Given a multi-dimensional array of integers, return a generator object which yields integers in the same order as inorder traversal.
+
+// A multi-dimensional array is a recursive data structure that contains both integers and other multi-dimensional arrays.
+
+// inorder traversal iterates over each array from left to right, yielding any integers it encounters or applying inorder traversal to any arrays it encounters.
+
+// Example 1:
+// 		Input: arr = [[[6]],[1,3],[]]
+// 		Output: [6,1,3]
+// Explanation:
+// 		const generator = inorderTraversal(arr);
+// 		generator.next().value; // 6
+// 		generator.next().value; // 1
+// 		generator.next().value; // 3
+// 		generator.next().done; // true
+
+// Example 2:
+// 		Input: arr = []
+// 		Output: []
+// Explanation: There are no integers so the generator doesn't yield anything.
+
+// Constraints:
+//		0 <= arr.flat().length <= 105
+//		0 <= arr.flat()[i] <= 105
+//		maxNestingDepth <= 105
+
+// Can you solve this without creating a new flattened version of the array?
+
+const inorderTraversal = function* (arr) {
+  let i = 0;
+  while (i < arr.length) {
+    let cur = arr[i++];
+    if (typeof cur == "object") {
+      yield inorderTraversal(cur);
+    }
+    yield cur;
+  }
+};
+
+const ex1 = inorderTraversal([[[6]], [1, 3], []]);
+console.log(ex1.next().value);
+console.log(ex1.next().value);
+console.log(ex1.next().value);
+
+// inorderTraversal {<suspended>}
+// I'm missing something to recursively call generator functions
+
+var topVotedInorderTraversal = function* (arr) {
+  for (let element of arr) {
+    if (Array.isArray(element)) {
+      yield* inorderTraversal(element);
+    } else {
+      yield element;
+    }
+  }
+};
+
+// yield* is what I was looking for
