@@ -8924,7 +8924,7 @@ console.log(ex1(2, 3, 6)); // undefined
 const createHelloWorld = () => () => "Hello World"; */
 
 // Nested Array Generator					5/7/2023
-
+/* 
 // Given a multi-dimensional array of integers, return a generator object which yields integers in the same order as inorder traversal.
 
 // A multi-dimensional array is a recursive data structure that contains both integers and other multi-dimensional arrays.
@@ -8982,4 +8982,169 @@ var topVotedInorderTraversal = function* (arr) {
   }
 };
 
-// yield* is what I was looking for
+// yield* is what I was looking for */
+
+// Design an ATM Machine					5/8/2023
+
+// There is an ATM machine that stores banknotes of 5 denominations: 20, 50, 100, 200, and 500 dollars. Initially the ATM is empty. The user can use the machine to deposit or withdraw any amount of money.
+
+// When withdrawing, the machine prioritizes using banknotes of larger values.
+
+// For example, if you want to withdraw $300 and there are 2 $50 banknotes, 1 $100 banknote, and 1 $200 banknote, then the machine will use the $100 and $200 banknotes.
+
+// However, if you try to withdraw $600 and there are 3 $200 banknotes and 1 $500 banknote, then the withdraw request will be rejected because the machine will first try to use the $500 banknote and then be unable to use banknotes to complete the remaining $100. Note that the machine is not allowed to use the $200 banknotes instead of the $500 banknote.
+
+// Implement the ATM class:
+
+// ATM() Initializes the ATM object.
+
+// void deposit(int[] banknotesCount) Deposits new banknotes in the order $20, $50, $100, $200, and $500.
+
+// int[] withdraw(int amount) Returns an array of length 5 of the number of banknotes that will be handed to the user in the order $20, $50, $100, $200, and $500, and update the number of banknotes in the ATM after withdrawing. Returns [-1] if it is not possible (do not withdraw any banknotes in this case).
+
+// Example 1:
+// 		Input
+// 		["ATM", "deposit", "withdraw", "deposit", "withdraw", "withdraw"]
+// 		[[], [[0,0,1,2,1]], [600], [[0,1,0,1,1]], [600], [550]]
+
+// 		Output
+// 		[null, null, [0,0,1,0,1], null, [-1], [0,1,0,0,1]]
+
+// 		Explanation
+// 		ATM atm = new ATM();
+// 		atm.deposit([0,0,1,2,1]);
+//        Deposits 1 $100 banknote, 2 $200 banknotes, and 1 $500 banknote.
+// 		atm.withdraw(600);
+//        Returns [0,0,1,0,1]. The machine uses 1 $100 banknote and 1 $500 banknote.
+//        The banknotes left over in the machine are [0,0,0,2,0].
+// 		atm.deposit([0,1,0,1,1]);
+//        Deposits 1 $50, $200, and $500 banknote.
+//        The banknotes in the machine are now [0,1,0,3,1].
+// 		atm.withdraw(600);
+//        Returns [-1]. The machine will try to use a $500 banknote and then be unable to complete the remaining $100, so the withdraw request will be rejected. Since the request is rejected, the number of banknotes in the machine is not modified.
+// 		atm.withdraw(550);
+//        Returns [0,1,0,0,1]. The machine uses 1 $50 banknote and 1 $500 banknote.
+
+// Constraints:
+//		banknotesCount.length == 5
+//		0 <= banknotesCount[i] <= 109
+//		1 <= amount <= 109
+//		At most 5000 calls in total will be made to withdraw and deposit.
+//		At least one call will be made to each function withdraw and deposit.
+
+class ATM {
+  constructor() {
+    this.tot = 0;
+    this.banknotes = [0, 0, 0, 0, 0];
+    this.map = { 0: 20, 1: 50, 2: 100, 3: 200, 4: 500 };
+  }
+
+  deposit(deposited) {
+    this.tot = 0;
+    this.banknotes = this.banknotes.map((c, i) => {
+      c += deposited[i];
+      this.tot += c * this.map[i];
+      return c;
+    });
+  }
+
+  withdraw(amt) {
+    if (this.tot < amt) return [-1];
+
+    let curBanknotes = [...this.banknotes];
+    let usedBanknotes = [0, 0, 0, 0, 0];
+    let i = 4;
+    while (amt > 0) {
+      if (curBanknotes[i] > 0 && this.map[i] <= amt) {
+        amt -= this.map[i];
+        curBanknotes[i]--;
+        usedBanknotes[i]++;
+      } else i--;
+      if (i < 0) break;
+    }
+    if (amt == 0) {
+      this.banknotes = curBanknotes;
+      return usedBanknotes;
+    } else return [-1];
+  }
+}
+
+// Works but exceeds runtime limit
+
+var TopVotedATM = function () {
+  this.bankNotes = new Array(5).fill(0);
+  this.banksNotesValue = [20, 50, 100, 200, 500];
+};
+
+TopVotedATM.prototype.deposit = function (banknotesCount) {
+  for (let i = 0; i < 5; i++) {
+    this.bankNotes[i] += banknotesCount[i];
+  }
+  return this.bankNotes;
+};
+
+TopVotedATM.prototype.withdraw = function (amount) {
+  let remain = amount;
+  let usedBankNotes = new Array(5).fill(0);
+  let temp = [...this.bankNotes];
+  for (let i = 4; i >= 0; i--) {
+    if (temp[i] > 0 && remain >= this.banksNotesValue[i]) {
+      const bankNote = Math.floor(remain / this.banksNotesValue[i]);
+      const maxCanUse = Math.min(temp[i], bankNote);
+      usedBankNotes[i] = maxCanUse;
+      temp[i] -= maxCanUse;
+
+      remain -= maxCanUse * this.banksNotesValue[i];
+    }
+  }
+
+  if (remain > 0) {
+    return [-1];
+  } else {
+    this.bankNotes = temp;
+    return usedBankNotes;
+  }
+};
+
+// Optimized by implementing maxCanUse
+// Iterates once per banknote value instead of several times
+
+class RevisedATM {
+  constructor() {
+    this.banknotes = [0, 0, 0, 0, 0];
+    this.value = { 0: 20, 1: 50, 2: 100, 3: 200, 4: 500 };
+  }
+
+  deposit(deposited) {
+    this.banknotes = this.banknotes.map((c, i) => (c += deposited[i]));
+  }
+
+  withdraw(amt) {
+    let curBanknotes = [...this.banknotes];
+    let usedBanknotes = [0, 0, 0, 0, 0];
+
+    for (let i = 4; i >= 0; i--) {
+      if (curBanknotes[i] > 0 && this.value[i] <= amt) {
+        const max = Math.floor(amt / this.value[i]);
+        const maxUse = Math.min(curBanknotes[i], max);
+        curBanknotes[i] -= maxUse;
+        usedBanknotes[i] = maxUse;
+        amt -= maxUse * this.value[i];
+      }
+    }
+
+    if (amt == 0) {
+      this.banknotes = curBanknotes;
+      return usedBanknotes;
+    } else return [-1];
+  }
+}
+
+const ex1 = new RevisedATM();
+console.log(ex1.deposit([0, 0, 1, 2, 1]));
+console.log(ex1.withdraw(600));
+console.log(ex1.deposit([0, 1, 0, 1, 1]));
+console.log(ex1.withdraw(600));
+console.log(ex1.withdraw(550));
+
+// Passes all test cases now
