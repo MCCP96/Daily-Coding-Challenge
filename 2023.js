@@ -9195,7 +9195,7 @@ console.log(waysToBuyPensPencils(5, 10, 10)); // 1
 console.log(waysToBuyPensPencils(100, 1, 1)); // 5151
 
 // Doesn't work
-// There must be a formula
+// There must be a better formula
 
 var topVotedWaysToBuyPensPencils = function (total, cost1, cost2) {
   var count = 0;
