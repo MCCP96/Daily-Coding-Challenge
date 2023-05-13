@@ -9326,7 +9326,7 @@ console.log(minPartitions("27346209830709182346")); // 9
 // Pretty easy for a medium question */
 
 // Execution of All Suffix Instructions Staying in a Grid					5/12/2023
-
+/* 
 // There is an n x n grid, with the top-left cell at (0, 0) and the bottom-right cell at (n - 1, n - 1). You are given the integer n and an integer array startPos where startPos = [startrow, startcol] indicates that a robot is initially at cell (startrow, startcol).
 
 // You are also given a 0-indexed string s of length m where s[i] is the ith instruction for the robot: 'L' (move left), 'R' (move right), 'U' (move up), and 'D' (move down).
@@ -9390,4 +9390,65 @@ console.log(executeInstructions(3, [0, 1], "RRDDLU")); // [1,5,4,3,1,0]
 console.log(executeInstructions(2, [1, 1], "LURD")); // [4,1,0,0]
 console.log(executeInstructions(1, [0, 0], "LRUD")); // [0,0,0,0]
 
-// Same logic as top voted solutions
+// Same logic as top voted solutions */
+
+// Minimum Rounds to Complete All Tasks					5/13/2023
+
+// You are given a 0-indexed integer array tasks, where tasks[i] represents the difficulty level of a task. In each round, you can complete either 2 or 3 tasks of the same difficulty level.
+
+// Return the minimum rounds required to complete all the tasks, or -1 if it is not possible to complete all the tasks.
+
+// Example 1:
+// 		Input: tasks = [2,2,3,3,2,4,4,4,4,4]
+// 		Output: 4
+// Explanation: To complete all the tasks, a possible plan is:
+// 		- In the first round, you complete 3 tasks of difficulty level 2.
+// 		- In the second round, you complete 2 tasks of difficulty level 3.
+// 		- In the third round, you complete 3 tasks of difficulty level 4.
+// 		- In the fourth round, you complete 2 tasks of difficulty level 4.
+// 		It can be shown that all the tasks cannot be completed in fewer than 4 rounds, so the answer is 4.
+
+// Example 2:
+// 		Input: tasks = [2,3,3]
+// 		Output: -1
+// Explanation: There is only 1 task of difficulty level 2, but in each round, you can only complete either 2 or 3 tasks of the same difficulty level. Hence, you cannot complete all the tasks, and the answer is -1.
+
+// Constraints:
+//		1 <= tasks.length <= 105
+//		1 <= tasks[i] <= 109
+
+const minimumRounds = (tasks) => {
+  const map = tasks.reduce(
+    (count, task) => count.set(task, (count.get(task) || 0) + 1),
+    new Map()
+  );
+  let res = 0;
+  for (const [task, count] of map) {
+    if (count < 2) return -1;
+    let curRounds = ~~(count / 3); // 3 task rounds
+    if (count - curRounds * 3 > 0) curRounds++; // needs a 2 task round
+    res += curRounds;
+  }
+  return res;
+};
+
+console.log(minimumRounds([2, 2, 3, 3, 2, 4, 4, 4, 4, 4])); // 4
+console.log(minimumRounds([2, 3, 3])); // -1
+
+// Great runtime
+
+const revisedMinimumRounds = (tasks) => {
+  const map = tasks.reduce(
+    (count, task) => count.set(task, (count.get(task) || 0) + 1),
+    new Map()
+  );
+
+  let res = 0;
+  for (const [task, count] of map) {
+    if (count < 2) return -1;
+    res += Math.ceil(count / 3);
+  }
+  return res;
+};
+
+// Looking at top voted, realized I could just round up instead of down then adding
