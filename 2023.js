@@ -9507,7 +9507,7 @@ var topVotedFindArray = function (pref) {
 }; */
 
 // Chunk Array					5/15/2023
-
+/* 
 // Given an array arr and a chunk size size, return a chunked array. A chunked array contains the original elements in arr, but consists of subarrays each of length size. The length of the last subarray may be less than size if arr.length is not evenly divisible by size.
 
 // You may assume the array is the output of JSON.parse. In other words, it is valid JSON.
@@ -9550,4 +9550,65 @@ const chunk = (arr, s) => {
 console.log(chunk([1, 2, 3, 4, 5], 1)); // [[1],[2],[3],[4],[5]]
 console.log(chunk([1, 9, 6, 3, 2], 3)); // [[1,9,6],[3,2]]
 console.log(chunk([8, 5, 3, 2, 6], 6)); // [[8,5,3,2,6]]
-console.log(chunk([], 1)); // []
+console.log(chunk([], 1)); // [] */
+
+// Count Sorted Vowel Strings					5/16/2023
+
+// Given an integer n, return the number of strings of length n that consist only of vowels (a, e, i, o, u) and are lexicographically sorted.
+
+// A string s is lexicographically sorted if for all valid i, s[i] is the same as or comes before s[i+1] in the alphabet.
+
+// Example 1:
+// 		Input: n = 1
+// 		Output: 5
+// Explanation: The 5 sorted strings that consist of vowels only are ["a","e","i","o","u"].
+
+// Example 2:
+// 		Input: n = 2
+// 		Output: 15
+// Explanation: The 15 sorted strings that consist of vowels only are
+// 		["aa","ae","ai","ao","au","ee","ei","eo","eu","ii","io","iu","oo","ou","uu"].
+// 		Note that "ea" is not a valid string since 'e' comes after 'a' in the alphabet.
+
+// Example 3:
+// 		Input: n = 33
+// 		Output: 66045
+
+// Constraints:
+//		1 <= n <= 50
+
+var topVotedCountVowelStrings = function (n) {
+  let a = 1,
+    e = 1,
+    i = 1,
+    o = 1,
+    u = 1;
+  while (n-- > 1) {
+    a = a + e + i + o + u;
+    e = e + i + o + u;
+    i = i + o + u;
+    o = o + u;
+    u = u;
+  }
+  return a + e + i + o + u;
+};
+
+// Tried a very different approach at first
+// This is much easier
+
+const revisedCountVowelStrings = (n) => {
+  let c = [1, 1, 1, 1, 1];
+  while (n > 1) {
+    c[0] = c[0] + c[1] + c[2] + c[3] + c[4];
+    c[1] = c[1] + c[2] + c[3] + c[4];
+    c[2] = c[2] + c[3] + c[4];
+    c[3] = c[3] + c[4];
+    c[4] = c[4];
+    n--;
+  }
+  return c.reduce((sum, c) => sum + c);
+};
+
+console.log(revisedCountVowelStrings(1)); // 5
+console.log(revisedCountVowelStrings(2)); // 15
+console.log(revisedCountVowelStrings(33)); // 66045
