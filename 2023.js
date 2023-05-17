@@ -9553,7 +9553,7 @@ console.log(chunk([8, 5, 3, 2, 6], 6)); // [[8,5,3,2,6]]
 console.log(chunk([], 1)); // [] */
 
 // Count Sorted Vowel Strings					5/16/2023
-
+/* 
 // Given an integer n, return the number of strings of length n that consist only of vowels (a, e, i, o, u) and are lexicographically sorted.
 
 // A string s is lexicographically sorted if for all valid i, s[i] is the same as or comes before s[i+1] in the alphabet.
@@ -9611,4 +9611,163 @@ const revisedCountVowelStrings = (n) => {
 
 console.log(revisedCountVowelStrings(1)); // 5
 console.log(revisedCountVowelStrings(2)); // 15
-console.log(revisedCountVowelStrings(33)); // 66045
+console.log(revisedCountVowelStrings(33)); // 66045 */
+
+// Array of Objects to Matrix					5/17/2023
+
+// Write a function that converts an array of objects arr into a matrix m.
+
+// arr is an array of objects or arrays. Each item in the array can be deeply nested with child arrays and child objects. It can also contain numbers, strings, booleans, and null values.
+
+// The first row m should be the column names. If there is no nesting, the column names are the unique keys within the objects. If there is nesting, the column names are the respective paths in the object separated by ".".
+
+// Each of the remaining rows corresponds to an object in arr. Each value in the matrix corresponds to a value in an object. If a given object doesn't contain a value for a given column, the cell should contain an empty string "".
+
+// The colums in the matrix should be in lexographically ascending order.
+
+// Example 1:
+// 		Input:
+// 		arr = [
+// 		{"b": 1, "a": 2},
+// 		{"b": 3, "a": 4}
+// 		]
+// 		Output:
+// 		[
+// 		["a", "b"],
+// 		[2, 1],
+// 		[4, 3]
+// 		]
+// Explanation:
+// 		There are two unique column names in the two objects: "a" and "b".
+// 		"a" corresponds with [2, 4].
+// 		"b" coresponds with [1, 3].
+
+// Example 2:
+// 		Input:
+// 		arr = [
+// 		{"a": 1, "b": 2},
+// 		{"c": 3, "d": 4},
+// 		{}
+// 		]
+// 		Output:
+// 		[
+// 		["a", "b", "c", "d"],
+// 		[1, 2, "", ""],
+// 		["", "", 3, 4],
+// 		["", "", "", ""]
+// 		]
+// Explanation:
+// 		There are 4 unique column names: "a", "b", "c", "d".
+// 		The first object has values associated with "a" and "b".
+// 		The second object has values associated with "c" and "d".
+// 		The third object has no keys, so it is just a row of empty strings.
+
+// Example 3:
+// 		Input:
+// 		arr = [
+// 		{"a": {"b": 1, "c": 2}},
+// 		{"a": {"b": 3, "d": 4}}
+// 		]
+// 		Output:
+// 		[
+// 		["a.b", "a.c", "a.d"],
+// 		[1, 2, ""],
+// 		[3, "", 4]
+// 		]
+// Explanation:
+// 		In this example, the objects are nested. The keys represent the full path to each value separated by periods.
+// 		There are three paths: "a.b", "a.c", "a.d".
+
+// Example 4:
+// 		Input:
+// 		arr = [
+// 		[{"a": null}],
+// 		[{"b": true}],
+// 		[{"c": "x"}]
+// 		]
+// 		Output:
+// 		[
+// 		["0.a", "0.b", "0.c"],
+// 		[null, "", ""],
+// 		["", true, ""],
+// 		["", "", "x"]
+// 		]
+// Explanation:
+// 		Arrays are also considered objects with their keys being their indices.
+// 		Each array has one element so the keys are "0.a", "0.b", and "0.c".
+
+// Example 5:
+// 		Input:
+// 		arr = [
+// 		{},
+// 		{},
+// 		{},
+// 		]
+// 		Output:
+// 		[
+// 		[],
+// 		[],
+// 		[],
+// 		[]
+// 		]
+// Explanation:
+// 		There are no keys so every row is an empty array.
+
+// Constraints:
+//		1 <= arr.length <= 1000
+//		unique keys <= 1000
+
+const jsonToMatrix = (arr) => {
+  const path = (a, cur = []) => {
+    let map = {};
+    try {
+      for (const [key, val] of Object.entries(a)) {
+        if (typeof val !== "object") {
+          map[[...cur, key].join(".")] = val; // end of path
+        } else {
+          return path(val, [...cur, key]); // dive deeper
+        }
+      }
+    } catch (e) {
+      map[[...cur, Object.keys(a)].join(".")] = null;
+    }
+    return map;
+  };
+  let paths = arr.map((c) => path(c));
+
+  const keys = [
+    ...new Set(paths.reduce((all, path) => [...all, ...Object.keys(path)], [])),
+  ].sort();
+
+  return paths.reduce(
+    (a, c) => [...a, keys.map((key) => (key in c ? c[key] : ""))],
+    [keys]
+  );
+};
+
+// prettier-ignore
+console.log(jsonToMatrix([{ b: 1, a: 2 },	{ b: 3, a: 4 }]));
+console.log(jsonToMatrix([{ a: { b: 1, c: 2 } }, { a: { b: 3, d: 4 } }]));
+console.log(jsonToMatrix([[{ a: null }], [{ b: true }], [{ c: "x" }]]));
+
+// Not a fan of try{}catch nor how I found my keys
+
+const flatten = (a, prefix = []) =>
+  Object.entries(a).reduce(
+    (r, [k, v]) =>
+      typeof v !== "object" || v === null
+        ? { ...r, [[...prefix, k].join(".")]: v }
+        : { ...r, ...flatten(v, [...prefix, k]) },
+    {}
+  );
+
+const topVotedJsonToMatrix = (a) => {
+  a = a.map((i) => flatten(i));
+  const keys = Object.keys(a.reduce((r, i) => ({ ...r, ...i }), {})).sort();
+  return a.reduce(
+    (r, i) => [...r, keys.map((key) => (key in i ? i[key] : ""))],
+    [keys]
+  );
+};
+
+// Same idea, much more concise
