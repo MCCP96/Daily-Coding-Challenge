@@ -9896,7 +9896,7 @@ console.log(String(obj2)); // "[3,4]"
 // Same as top voted */
 
 // Call Function with Custom Context					5/20/2023
-
+/* 
 // Enhance all functions to have the callPolyfill method. The method accepts an object obj as it's first parameter and any number of additional arguments. The obj becomes the this context for the function. The additional arguments are passed to the function (that the callPolyfill method belongs on).
 
 // For example if you had the function:
@@ -9955,4 +9955,90 @@ Function.prototype.callPolyfill = function (context, ...args) {
   return context[functionId](...args);
 };
 
-// Same, but not using .bind
+// Same, but not using .bind */
+
+// Event Emitter					5/21/2023
+
+// Design an EventEmitter class. This interface is similar (but with some differences) to the one found in Node.js or the Event Target interface of the DOM. The EventEmitter should allow for subscribing to events and emitting them.
+
+// Your EventEmitter class should have the following two methods:
+
+// subscribe - This method takes in two arguments: the name of an event as a string and a callback function. This callback function will later be called when the event is emitted.
+
+// An event should be able to have multiple listeners for the same event. When emitting an event with multiple callbacks, each should be called in the order in which they were subscribed. An array of results should be returned. You can assume no callbacks passed to subscribe are referentially identical.
+
+// The subscribe method should also return an object with an unsubscribe method that enables the user to unsubscribe. When it is called, the callback should be removed from the list of subscriptions and undefined should be returned.
+
+// emit - This method takes in two arguments: the name of an event as a string and an optional array of arguments that will be passed to the callback(s). If there are no callbacks subscribed to the given event, return an empty array. Otherwise, return an array of the results of all callback calls in the order they were subscribed.
+
+// Example 1:
+// 		Input: actions = ["EventEmitter", "emit", "subscribe", "subscribe", "emit"], values = [[], ["firstEvent", "function cb1() { return 5; }"],  ["firstEvent", "function cb1() { return 5; }"], ["firstEvent"]]
+// 		Output: [[],["emitted",[]],["subscribed"],["subscribed"],["emitted",[5,6]]]
+// Explanation:
+// 		const emitter = new EventEmitter();
+// 		emitter.emit("firstEvent"); // [], no callback are subscribed yet
+// 		emitter.subscribe("firstEvent", function cb1() { return 5; });
+// 		emitter.subscribe("firstEvent", function cb2() { return 6; });
+// 		emitter.emit("firstEvent"); // [5, 6], returns the output of cb1 and cb2
+
+// Constraints:
+//		1 <= actions.length <= 10
+//		values.length === actions.length
+//		All test cases are valid, e.g. you don't need to handle scenarios when unsubscribing from a non-existing subscription.
+//		There are only 4 different actions: EventEmitter, emit, subscribe, and unsubscribe.
+//		The EventEmitter action doesn't take any arguments.
+//		The emit action takes between either 1 or 2 arguments. The first argument is the name of the event we want to emit, and the 2nd argument is passed to the callback functions.
+//		The subscribe action takes 2 arguments, where the first one is the event name and the second is the callback function.
+//		The unsubscribe action takes one argument, which is the 0-indexed order of the subscription made before.
+
+class MapEventEmitter {
+  constructor() {
+    this.fns = new Map();
+  }
+
+  subscribe(e, cb) {
+    this.fns.set(e, this.fns.get(e)?.push(cb) || [cb]);
+
+    return {
+      unsubscribe: () => {
+        this.fns.delete(e);
+      },
+    };
+  }
+
+  emit(e, args = []) {
+    if (!this.fns.has(e)) return [];
+    return this.fns.get(e).map((fn) => fn(...args));
+  }
+}
+
+// Doesn't like Map, encountered bug with this.fns.get(e).map()
+
+class EventEmitter {
+  constructor() {
+    this.fns = {};
+  }
+
+  subscribe(e, cb) {
+    this.fns[e] ? this.fns[e].push(cb) : (this.fns[e] = [cb]);
+
+    return {
+      unsubscribe: () => {
+        this.fns[e].pop();
+      },
+    };
+  }
+
+  emit(e, args = []) {
+    return this.fns[e]?.map((fn) => fn(...args)) || [];
+  }
+}
+
+const emitter = new EventEmitter();
+const onClickCallback = () => 99;
+const sub = emitter.subscribe("onClick", onClickCallback);
+console.log(emitter.emit("onClick")); // [99]
+sub.unsubscribe(); // undefined
+console.log(emitter.emit("onClick")); // []
+
+// More readable than top voteds
