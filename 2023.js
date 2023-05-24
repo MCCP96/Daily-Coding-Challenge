@@ -10106,7 +10106,7 @@ const topVotedMakeSmallestPalindrome = function (s) {
 }; */
 
 // Find the Prefix Common Array of Two Arrays					5/23/2023
-
+/* 
 // You are given two 0-indexed integer permutations A and B of length n.
 
 // A prefix common array of A and B is an array C such that C[i] is equal to the count of numbers that are present at or before the index i in both A and B.
@@ -10154,4 +10154,68 @@ const findThePrefixCommonArray = (A, B) => {
 };
 
 console.log(findThePrefixCommonArray([1, 3, 2, 4], [3, 1, 2, 4])); // [0,2,3,4]
-console.log(findThePrefixCommonArray([2, 3, 1], [3, 1, 2])); // [0,1,3]
+console.log(findThePrefixCommonArray([2, 3, 1], [3, 1, 2])); // [0,1,3] */
+
+// Permutations					5/24/2023
+
+// Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+
+// Example 1:
+// 		Input: nums = [1,2,3]
+// 		Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+// Example 2:
+// 		Input: nums = [0,1]
+// 		Output: [[0,1],[1,0]]
+
+// Example 3:
+// 		Input: nums = [1]
+// 		Output: [[1]]
+
+// Constraints:
+//		1 <= nums.length <= 6
+//		-10 <= nums[i] <= 10
+//		All the integers of nums are unique.
+
+const permute = (nums) => {
+  let res = [];
+
+  const backtrack = (acc, arr) => {
+    if (arr.length == 0) {
+      res.push(acc);
+    } else {
+      for (let i = 0; i < arr.length; i++) {
+        let cur = [...acc];
+        let rem = [...arr];
+        cur.push(...rem.splice(i, 1));
+
+        backtrack(cur, rem);
+      }
+    }
+  };
+  backtrack([], nums);
+
+  return res;
+};
+
+console.log(permute([1, 2, 3])); // [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+console.log(permute([0, 1])); // [[0,1],[1,0]]
+console.log(permute([1])); // [[1]]
+
+// Beats 90% of Runtimes
+
+var topVotedPermute = function (nums) {
+  const output = [];
+  const dfs = (curr, rest) => {
+    if (rest.length === 0) {
+      output.push(curr);
+      return;
+    }
+    for (let i = 0; i < rest.length; i++) {
+      dfs([...curr, rest[i]], [...rest.slice(0, i), ...rest.slice(i + 1)]);
+    }
+  };
+  dfs([], nums);
+
+  return output;
+};
