@@ -10221,7 +10221,7 @@ var topVotedPermute = function (nums) {
 }; */
 
 // Unique Paths					5/25/2023
-
+/* 
 // There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
 
 // Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.
@@ -10291,4 +10291,72 @@ var factorial = function (k) {
   } else {
     return k * factorial(k - 1);
   }
+}; */
+
+// Differences Between Two Objects					5/26/2023
+
+// Write a function that accepts two deeply nested objects or arrays obj1 and obj2 and returns a new object representing their differences.
+
+// The function should compare the properties of the two objects and identify any changes. The returned object should only contains keys where the value is different from obj1 to obj2. For each changed key, the value should be represented as an array [obj1 value, obj2 value]. Keys that exist in one object but not in the other should not be included in the returned object. When comparing two arrays, the indices of the arrays are considered to be their keys. The end result should be a deeply nested object where each leaf value is a difference array.
+
+// You may assume that both objects are the output of JSON.parse.
+
+// Example 1:
+// 		Input:
+// 		obj1 = {}
+// 		obj2 = {
+// 		"a": 1,
+// 		"b": 2
+// 		}
+// 		Output: {}
+// Explanation: There were no modifications made to obj1. New keys "a" and "b" appear in obj2, but keys that are added or removed should be ignored.
+
+// Example 5:
+// 		Input:
+// 		obj1 = {
+// 		"a": [1, 2, {}],
+// 		"b": false
+// 		}
+// 		obj2 = {
+// 		"b": false,
+// 		"a": [1, 2, {}]
+// 		}
+// 		Output:
+// 		{}
+// Explanation: Apart from a different ordering of keys, the two objects are identical so an empty object is returned.
+
+// Constraints:
+//		2 <= JSON.stringify(obj1).length <= 104
+//		2 <= JSON.stringify(obj2).length <= 104
+
+const topVotedObjDiff = (sourceObj, targetObj) => {
+  // Special case: Objects are the same
+  if (sourceObj === targetObj) return {};
+
+  // Special cases: Null values or different types
+  if (sourceObj === null || targetObj === null) return [sourceObj, targetObj];
+  if (typeof sourceObj !== "object" || typeof targetObj !== "object")
+    return [sourceObj, targetObj];
+  if (Array.isArray(sourceObj) !== Array.isArray(targetObj))
+    return [sourceObj, targetObj];
+
+  const diffObj = {}; // Object to store the differences
+
+  // Iterate over the keys in sourceObj
+  Object.keys(sourceObj).forEach((key) => {
+    if (key in targetObj) {
+      const subDiff = topVotedObjDiff(sourceObj[key], targetObj[key]); // Recursive call for nested objects
+
+      // If there are differences, add them to the diffObj
+      if (Object.keys(subDiff).length > 0) {
+        diffObj[key] = subDiff;
+      }
+    }
+  });
+
+  return diffObj; // Return the object containing the differences
 };
+
+console.log(topVotedObjDiff({}, { a: 1, b: 2 })); // {}
+// prettier-ignore
+console.log(topVotedObjDiff({a: [1,2,{}], b: false }, {b: false , a: [1,2,{}] })); // {}
