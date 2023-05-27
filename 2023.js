@@ -10294,7 +10294,7 @@ var factorial = function (k) {
 }; */
 
 // Differences Between Two Objects					5/26/2023
-
+/* 
 // Write a function that accepts two deeply nested objects or arrays obj1 and obj2 and returns a new object representing their differences.
 
 // The function should compare the properties of the two objects and identify any changes. The returned object should only contains keys where the value is different from obj1 to obj2. For each changed key, the value should be represented as an array [obj1 value, obj2 value]. Keys that exist in one object but not in the other should not be included in the returned object. When comparing two arrays, the indices of the arrays are considered to be their keys. The end result should be a deeply nested object where each leaf value is a difference array.
@@ -10359,4 +10359,85 @@ const topVotedObjDiff = (sourceObj, targetObj) => {
 
 console.log(topVotedObjDiff({}, { a: 1, b: 2 })); // {}
 // prettier-ignore
-console.log(topVotedObjDiff({a: [1,2,{}], b: false }, {b: false , a: [1,2,{}] })); // {}
+console.log(topVotedObjDiff({a: [1,2,{}], b: false }, {b: false , a: [1,2,{}] })); // {} */
+
+// Combination Sum					5/27/2023
+
+// Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+
+// The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.
+
+// The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+
+// Example 1:
+// 		Input: candidates = [2,3,6,7], target = 7
+// 		Output: [[2,2,3],[7]]
+// Explanation:
+// 		2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.
+// 		7 is a candidate, and 7 = 7.
+// 		These are the only two combinations.
+
+// Example 2:
+// 		Input: candidates = [2,3,5], target = 8
+// 		Output: [[2,2,2,2],[2,3,3],[3,5]]
+
+// Example 3:
+// 		Input: candidates = [2], target = 1
+// 		Output: []
+
+// Constraints:
+//		1 <= candidates.length <= 30
+//		2 <= candidates[i] <= 40
+//		All elements of candidates are distinct.
+//		1 <= target <= 40
+
+const combinationSum = (arr, t) => {
+  arr.sort((a, b) => a - b);
+  let seen = new Set();
+  let combos = [];
+
+  const dp = (cur, sum) => {
+    if (sum == t) {
+      const idx = cur.sort((a, b) => a - b).join("");
+      if (seen.has(idx)) return;
+      else {
+        seen.add(idx);
+        combos.push(cur);
+        return;
+      }
+    }
+
+    for (const n of arr) {
+      if (sum + n > t) break;
+      const i = [...cur, n];
+      dp(i, sum + n);
+    }
+  };
+  dp([], 0);
+
+  return combos;
+};
+
+console.log(combinationSum([2, 3, 6, 7], 7)); // [[2,2,3],[7]]
+console.log(combinationSum([2, 3, 5], 8)); // [[2,2,2,2],[2,3,3],[3,5]]
+console.log(combinationSum([2], 1)); // []
+
+// This works due to this problems constraints
+// if candidates.length were to be any larger I would most likely exceed runtime
+
+function topVotedCombinationSum(candidates, target) {
+  var buffer = [];
+  var result = [];
+  search(0, target);
+  return result;
+
+  function search(startIdx, target) {
+    if (target === 0) return result.push(buffer.slice());
+    if (target < 0) return;
+    if (startIdx === candidates.length) return;
+    buffer.push(candidates[startIdx]);
+    search(startIdx, target - candidates[startIdx]);
+    buffer.pop();
+    search(startIdx + 1, target);
+  }
+}
