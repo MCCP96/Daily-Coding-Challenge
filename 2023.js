@@ -10362,7 +10362,7 @@ console.log(topVotedObjDiff({}, { a: 1, b: 2 })); // {}
 console.log(topVotedObjDiff({a: [1,2,{}], b: false }, {b: false , a: [1,2,{}] })); // {} */
 
 // Combination Sum					5/27/2023
-
+/* 
 // Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
 
 // The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.
@@ -10440,4 +10440,71 @@ function topVotedCombinationSum(candidates, target) {
     buffer.pop();
     search(startIdx + 1, target);
   }
-}
+} */
+
+// Return Length of Arguments Passed					5/28/2023
+
+// Write a function argumentsLength that returns the count of arguments passed to it.
+
+// Example 1:
+// 		Input: argsArr = [5]
+// 		Output: 1
+// Explanation:
+// 		argumentsLength(5); // 1
+// 		One value was passed to the function so it should return 1.
+
+// Example 2:
+// 		Input: argsArr = [{}, null, "3"]
+// 		Output: 3
+// Explanation:
+// 		argumentsLength({}, null, "3"); // 3
+// 		Three values were passed to the function so it should return 3.
+
+// Constraints:
+//		argsArr is a valid JSON array
+//		0 <= argsArr.length <= 100
+
+const argumentsLength = (...args) => args[0].length;
+
+console.log(argumentsLength([5])); // 1
+console.log(argumentsLength([{}, null, "3"])); // 3
+
+// args[0].length here, args.length in leetcode
+// Doing another, that was a bit too easy
+
+// To Be Or Not To Be					5/28/2023
+
+// Write a function expect that helps developers test their code. It should take in any value val and return an object with the following two functions.
+
+// toBe(val) accepts another value and returns true if the two values === each other. If they are not equal, it should throw an error "Not Equal".
+
+// notToBe(val) accepts another value and returns true if the two values !== each other. If they are equal, it should throw an error "Equal".
+
+// Example 1:
+// 		Input: func = () => expect(5).toBe(5)
+// 		Output: {"value": true}
+// Explanation: 5 === 5 so this expression returns true.
+
+// Example 2:
+// 		Input: func = () => expect(5).toBe(null)
+// 		Output: {"error": "Not Equal"}
+// Explanation: 5 !== null so this expression throw the error "Not Equal".
+
+// Example 3:
+// 		Input: func = () => expect(5).notToBe(null)
+// 		Output: {"value": true}
+
+// Explanation: 5 !== null so this expression returns true.
+
+const expect = (n) => ({
+  toBe: (x) => {
+    if (n === x) return true;
+    else throw new Error("Not Equal");
+  },
+  notToBe: (x) => {
+    if (n !== x) return true;
+    else throw new Error("Equal");
+  },
+});
+
+// Same as top voted
