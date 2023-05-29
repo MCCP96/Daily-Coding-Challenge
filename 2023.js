@@ -10443,7 +10443,7 @@ function topVotedCombinationSum(candidates, target) {
 } */
 
 // Return Length of Arguments Passed					5/28/2023
-
+/* 
 // Write a function argumentsLength that returns the count of arguments passed to it.
 
 // Example 1:
@@ -10507,4 +10507,69 @@ const expect = (n) => ({
   },
 });
 
-// Same as top voted
+// Same as top voted */
+
+// Compact Object					5/29/2023
+
+// Given an object or array obj, return a compact object. A compact object is the same as the original object, except with keys containing falsy values removed. This operation applies to the object and any nested objects. Arrays are considered objects where the indices are keys. A value is considered falsy when Boolean(value) returns false.
+
+// You may assume the obj is the output of JSON.parse. In other words, it is valid JSON.
+
+// Example 1:
+// 		Input: obj = [null, 0, false, 1]
+// 		Output: [1]
+// Explanation: All falsy values have been removed from the array.
+
+// Example 2:
+// 		Input: obj = {"a": null, "b": [false, 1]}
+// 		Output: {"b": [1]}
+// Explanation: obj["a"] and obj["b"][0] had falsy values and were removed.
+
+// Example 3:
+// 		Input: obj = [null, 0, 5, [0], [false, 16]]
+// 		Output: [5, [], [16]]
+// Explanation: obj[0], obj[1], obj[3][0], and obj[4][0] were falsy and removed.
+
+// Constraints:
+//		obj is a valid JSON object
+//		2 <= JSON.stringify(obj).length <= 106
+
+const compactObject = (obj) => {
+  let res;
+  if (Array.isArray(obj)) {
+    res = [];
+    for (const x of obj) {
+      if (typeof x == "object" && x) res.push(compactObject(x));
+      else if (x) res.push(x);
+    }
+  } else if (typeof obj == "object") {
+    res = {};
+    for (const [key, val] of Object.entries(obj)) {
+      if (typeof val == "object" && val) res[key] = compactObject(val);
+      else if (val) res[key] = val;
+    }
+  }
+  return res;
+};
+
+console.log(compactObject([null, 0, false, 1])); // [1]
+console.log(compactObject({ a: null, b: [false, 1] })); // {"b": [1]}
+console.log(compactObject([null, 0, 5, [0], [false, 16]])); // [5, [], [16]]
+
+// 90% Runtime
+
+var topVotedCompactObject = function (obj) {
+  // These three if statements deal with when obj is not an iterable object
+  if (obj === null) return null;
+  if (Array.isArray(obj)) return obj.filter(Boolean).map(compactObject);
+  if (typeof obj !== "object") return obj;
+
+  // This for loop deals with when obj is an iterable object
+  const compacted = {};
+  for (const key in obj) {
+    let value = compactObject(obj[key]);
+    if (Boolean(value)) compacted[key] = value;
+  }
+
+  return compacted;
+};
