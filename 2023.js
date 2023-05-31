@@ -10575,7 +10575,7 @@ var topVotedCompactObject = function (obj) {
 }; */
 
 // Rotate Image					5/30/2023
-
+/* 
 // You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
 
 // You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
@@ -10637,4 +10637,43 @@ var topVotedRotate = function (M) {
 };
 
 // Great image depicting the swaps
-// https://imgur.com/LbkYex3
+// https://imgur.com/LbkYex3 */
+
+// Group Anagrams					5/31/2023
+
+// Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+// An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+// Example 1:
+// 		Input: strs = ["eat","tea","tan","ate","nat","bat"]
+// 		Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+// Example 2:
+// 		Input: strs = [""]
+// 		Output: [[""]]
+
+// Example 3:
+// 		Input: strs = ["a"]
+// 		Output: [["a"]]
+
+// Constraints:
+//		1 <= strs.length <= 104
+//		0 <= strs[i].length <= 100
+//		strs[i] consists of lowercase English letters.
+
+const groupAnagrams = (strs) => [
+  ...strs
+    .reduce((map, str) => {
+      const idx = [...str].sort().join();
+      return map.set(idx, map.has(idx) ? [...map.get(idx), str] : [str]);
+    }, new Map())
+    .values(),
+];
+
+console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"])); // [["bat"],["nat","tan"],["ate","eat","tea"]]
+console.log(groupAnagrams([""])); // [[""]]
+console.log(groupAnagrams(["a"])); // [["a"]]
+
+// Good runtime
+// Done from YOW airport, headed to Dominican Republic :)
