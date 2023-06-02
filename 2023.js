@@ -10679,7 +10679,7 @@ console.log(groupAnagrams(["a"])); // [["a"]]
 // Done from YOW airport, headed to Dominican Republic :) */
 
 // Separate the Digits in an Array					6/1/2023
-
+/* 
 // Given an array of positive integers nums, return an array answer that consists of the digits of each integer in nums after separating them in the same order they appear in nums.
 
 // To separate the digits of an integer is to get all the digits it has in the same order.
@@ -10720,4 +10720,75 @@ console.log(separateDigits([7, 1, 3, 9])); // [7,1,3,9]
 
 const topVotedSeparateDigits = (nums) => Array.from(nums.join(""), Number);
 
-// Nice!
+// Nice! */
+
+// Two Sum II - Input Array Is Sorted					6/1/2023
+
+// Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 < numbers.length.
+
+// Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
+
+// The tests are generated such that there is exactly one solution. You may not use the same element twice.
+
+// Your solution must use only constant extra space.
+
+// Example 1:
+// 		Input: numbers = [2,7,11,15], target = 9
+// 		Output: [1,2]
+// Explanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
+
+// Example 2:
+// 		Input: numbers = [2,3,4], target = 6
+// 		Output: [1,3]
+// Explanation: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].
+
+// Example 3:
+// 		Input: numbers = [-1,0], target = -1
+// 		Output: [1,2]
+// Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
+
+// Constraints:
+//		2 <= numbers.length <= 3 * 104
+//		-1000 <= numbers[i] <= 1000
+//		numbers is sorted in non-decreasing order.
+//		-1000 <= target <= 1000
+//		The tests are generated such that there is exactly one solution.
+
+const twoSum = (nums, t) => {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] + nums[j] == t) return [i + 1, j + 1];
+      if (nums[i] + nums[j] > t) break;
+    }
+  }
+};
+
+console.log(twoSum([2, 7, 11, 15], 9)); // [1,2]
+console.log(twoSum([2, 3, 4], 6)); // [1,3]
+console.log(twoSum([-1, 0], -1)); // [1,2]
+console.log(twoSum([0, 0, 3, 4], 0)); // [1,2]
+
+// Exceeds runtime
+
+const topVotedTwoSum = (numbers, target) => {
+  let p1 = 0;
+  let p2 = numbers.length - 1;
+
+  while (numbers[p1] + numbers[p2] !== target) {
+    if (numbers[p1] + numbers[p2] > target) {
+      p2--;
+    } else {
+      p1++;
+    }
+  }
+
+  return [p1 + 1, p2 + 1];
+};
+
+const revisedTwoSum = (nums, t) => {
+  let [l, r] = [0, nums.length - 1];
+  while (nums[l] + nums[r] !== t) {
+    nums[l] + nums[r] > t ? r-- : l++;
+  }
+  return [l + 1, r + 1];
+};
