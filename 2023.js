@@ -10722,8 +10722,8 @@ const topVotedSeparateDigits = (nums) => Array.from(nums.join(""), Number);
 
 // Nice! */
 
-// Two Sum II - Input Array Is Sorted					6/1/2023
-
+// Two Sum II - Input Array Is Sorted					6/2/2023
+/* 
 // Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 < numbers.length.
 
 // Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
@@ -10791,4 +10791,49 @@ const revisedTwoSum = (nums, t) => {
     nums[l] + nums[r] > t ? r-- : l++;
   }
   return [l + 1, r + 1];
+}; */
+
+// Single Number II					6/3/2023
+
+// Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it.
+
+// You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+// Example 1:
+// 		Input: nums = [2,2,3,2]
+// 		Output: 3
+
+// Example 2:
+// 		Input: nums = [0,1,0,1,0,1,99]
+// 		Output: 99
+
+// Constraints:
+//		1 <= nums.length <= 3 * 104
+//		-231 <= nums[i] <= 231 - 1
+//		Each element in nums appears exactly three times except for one element which appears once.
+
+const singleNumber = (nums) => {
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < nums.length; i += 3) {
+    if (nums[i] !== nums[i + 1]) return nums[i];
+  }
 };
+
+console.log(singleNumber([2, 2, 3, 2])); // 3
+console.log(singleNumber([0, 1, 0, 1, 0, 1, 99])); // 99
+
+// Beats 90%, but not linear runtime complexity
+
+var topVotedSingleNumber = function (nums) {
+  let ones = 0;
+  let twos = 0;
+
+  for (let num of nums) {
+    ones = (ones ^ num) & ~twos;
+    twos = (twos ^ num) & ~ones;
+  }
+
+  return ones;
+};
+
+// https://leetcode.com/problems/single-number-ii/solutions/3527570/mastering-bitwise-operations-a-guide-to-boost-your-interview-preparation/
