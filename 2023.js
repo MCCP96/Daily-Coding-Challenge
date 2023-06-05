@@ -10839,7 +10839,7 @@ var topVotedSingleNumber = function (nums) {
 // https://leetcode.com/problems/single-number-ii/solutions/3527570/mastering-bitwise-operations-a-guide-to-boost-your-interview-preparation/ */
 
 // Execute Cancellable Function With Delay					6/4/2023
-
+/* 
 // Given a function fn, an array or arguments args, and a timeout t in milliseconds, return a cancel function cancelFn.
 
 // After a delay of t, fn should be called with args passed as parameters unless cancelFn was called first. In that case, fn should never be called.
@@ -10876,4 +10876,76 @@ const cancellable = (fn, args, t) => {
 
 const ex1 = cancellable((x) => x * 5, [2], 20);
 const ex2 = cancellable((x) => x ** 2, [2], 100);
-const ex3 = cancellable((x1, x2) => x1 * x2, [2, 4], 30);
+const ex3 = cancellable((x1, x2) => x1 * x2, [2, 4], 30); */
+
+// Count and Say					6/5/2023
+
+// The count-and-say sequence is a sequence of digit strings defined by the recursive formula:
+
+// countAndSay(1) = "1"
+
+// countAndSay(n) is the way you would "say" the digit string from countAndSay(n-1), which is then converted into a different digit string.
+
+// To determine how you "say" a digit string, split it into the minimal number of substrings such that each substring contains exactly one unique digit. Then for each substring, say the number of digits, then say the digit. Finally, concatenate every said digit.
+
+// For example, the saying and conversion for digit string "3322251":
+
+// Given a positive integer n, return the nth term of the count-and-say sequence.
+
+// Example 1:
+// 		Input: n = 1
+// 		Output: "1"
+// Explanation: This is the base case.
+
+// Example 2:
+// 		Input: n = 4
+// 		Output: "1211"
+// Explanation:
+// 		countAndSay(1) = "1"
+// 		countAndSay(2) = say "1" = one 1 = "11"
+// 		countAndSay(3) = say "11" = two 1's = "21"
+// 		countAndSay(4) = say "21" = one 2 + one 1 = "12" + "11" = "1211"
+
+// Constraints:
+//		1 <= n <= 30
+
+const countAndSay = (n) => {
+  if (n == 1) return "1";
+  let prev = countAndSay(n - 1);
+  let arr = [];
+  let cur = prev[0];
+  let count = 1;
+  for (let i = 1; i < prev.length; i++) {
+    if (cur !== prev[i]) {
+      arr.push(cur.repeat(count));
+      count = 1;
+      cur = prev[i];
+    } else count++;
+  }
+  arr.push(cur.repeat(count));
+  return arr.reduce((a, c) => a + c.length + c[0], "");
+};
+
+console.log(countAndSay(1)); // "1"
+console.log(countAndSay(4)); // "1211"
+
+// Nasty
+// Got stuck on Regex for wayyy too long before giving up and opting for a for loop
+
+var topVotedCountAndSay = function (n) {
+  var str = "1";
+  for (var i = 1; i < n; i++) {
+    var strArray = str.split("");
+    str = "";
+    var count = 1;
+    for (var j = 0; j < strArray.length; j++) {
+      if (strArray[j] !== strArray[j + 1]) {
+        str += count + strArray[j];
+        count = 1;
+      } else {
+        count++;
+      }
+    }
+  }
+  return str;
+};
