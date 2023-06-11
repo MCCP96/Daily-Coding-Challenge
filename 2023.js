@@ -11184,7 +11184,7 @@ console.log(sortBy([[3, 4],[5, 2],[10, 1]], (x) => x[1])); // [[10, 1], [5, 2], 
 // same as top voted */
 
 // Interval Cancellation					6/10/2023
-
+/* 
 // Given a function fn, an array of arguments args, and an interval time t, return a cancel function cancelFn. The function fn should be called with args immediately and then called again every t milliseconds until cancelFn is called.
 
 // Example 1:
@@ -11276,4 +11276,107 @@ var topVotedCancellable = function (fn, args, t) {
   return cancelFn;
 };
 
-// Thought about nested timeouts but looked up intervals instead
+// Thought about nested timeouts but looked up intervals instead */
+
+// Trapping Rain Water					6/11/2023
+
+// Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
+
+// Example 1:
+//    https://assets.leetcode.com/uploads/2018/10/22/rainwatertrap.png
+// 		Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+// 		Output: 6
+// Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
+
+// Example 2:
+// 		Input: height = [4,2,0,3,2,5]
+// 		Output: 9
+
+// Constraints:
+//		n == height.length
+//		1 <= n <= 2 * 10^4
+//		0 <= height[i] <= 10^5
+
+const trap = (heights) => {
+  // Find peaks
+  let peaks = [];
+  for (let i = 0; i <= heights.length; i++) {
+    if (i === 0 && heights[i] > heights[i + 1]) peaks.push(i);
+    if (i === heights.length - 1 && heights[i - 1] < heights[i]) peaks.push(i);
+    if (heights[i - 1] <= heights[i] && heights[i] >= heights[i + 1])
+      peaks.push(i);
+  }
+
+  // Remove smaller peaks boxed between higher peaks
+  for (let i = 1; i < peaks.length - 1; i++) {
+    if (
+      heights[peaks[i - 1]] > heights[peaks[i]] &&
+      heights[peaks[i]] < heights[peaks[i + 1]]
+    ) {
+      peaks.splice(i, 1);
+      i--;
+    }
+  }
+
+  // Count trapped rain
+  let rain = 0;
+  for (let i = 0; i < peaks.length - 1; i++) {
+    let lowestSide = Math.min(heights[peaks[i]], heights[peaks[i + 1]]);
+
+    let trapped = heights
+      .slice(peaks[i] + 1, peaks[i + 1])
+      .filter((x) => x < lowestSide);
+
+    rain += trapped.reduce((count, h) => count + lowestSide - h, 0);
+  }
+  return rain;
+};
+
+console.log(trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])); // 6
+console.log(trap([4, 2, 0, 3, 2, 5])); // 9
+console.log(trap([5, 4, 1, 2])); // 1
+console.log(trap([5, 5, 1, 7, 1, 1, 5, 2, 7, 6])); // 23
+
+// Doesn't work for all test cases
+
+function topVotedTrap(heights) {
+  if (heights == null || heights.length === 0) return 0;
+
+  let res = 0;
+  let l = heights.length;
+  let lMax = {};
+  let rMax = {};
+
+  lMax[0] = heights[0];
+  for (let i = 1; i < l; i++) {
+    lMax[i] = Math.max(heights[i], lMax[i - 1]);
+  }
+
+  rMax[l - 1] = heights[l - 1];
+  for (let i = l - 2; i >= 0; i--) {
+    rMax[i] = Math.max(heights[i], rMax[i + 1]);
+  }
+
+  for (let i = 0; i < heights.length; i++) {
+    res += Math.min(lMax[i], rMax[i]) - heights[i];
+  }
+
+  return res;
+}
+
+// Much better logic than mine
+
+const revisedTrap = (heights) => {
+  let l = { 0: heights[0] };
+  for (let i = 1; i < heights.length; i++) {
+    l[i] = Math.max(l[i - 1], heights[i]);
+  }
+
+  let r = {};
+  r[heights.length - 1] = heights[heights.length - 1];
+  for (let i = heights.length - 2; i >= 0; i--) {
+    r[i] = Math.max(r[i + 1], heights[i]);
+  }
+
+  return heights.reduce((water, h, i) => water + Math.min(l[i], r[i]) - h, 0);
+};
