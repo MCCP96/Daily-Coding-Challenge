@@ -11382,7 +11382,7 @@ const revisedTrap = (heights) => {
 }; */
 
 // Execute Asynchronous Functions in Parallel					6/12/2023
-
+/* 
 // Given an array of asynchronous functions functions, return a new promise promise. Each function in the array accepts no arguments and returns a promise.
 
 // promise resolves:
@@ -11452,10 +11452,10 @@ const promiseAll = async (fns) => {
 // console.log(await ex3);
 
 // Used Promise.all yesterday by accident when question clearly specified not to
-// Redid today
+// Redid today */
 
 // Calculator with Method Chaining					6/13/2023
-
+/* 
 // Design a Calculator class. The class should provide the mathematical operations of addition, subtraction, multiplication, division, and exponentiation. It should also allow consecutive operations to be performed using method chaining. The Calculator class constructor should accept a number which serves as the initial value of result.
 
 // Your Calculator class should have the following methods:
@@ -11534,4 +11534,50 @@ console.log(new Calculator(10).add(5).subtract(7).getResult()); // 10 + 5 - 7 = 
 console.log(new Calculator(2).multiply(5).power(2).getResult()); // (2 * 5) ^ 2 = 100
 console.log(new Calculator(20).divide(0).getResult()); // 20 / 0
 
-// Similar to top voted
+// Similar to top voted */
+
+// Is Object Empty					6/14/2023
+
+// Given an object or an array, return if it is empty.
+//    An empty object contains no key-value pairs.
+//    An empty array contains no elements.
+// You may assume the object or array is the output of JSON.parse.
+
+// Example 1:
+// 		Input: obj = {"x": 5, "y": 42}
+// 		Output: false
+// Explanation: The object has 2 key-value pairs so it is not empty.
+
+// Example 2:
+// 		Input: obj = {}
+// 		Output: true
+// Explanation: The object doesn't have any key-value pairs so it is empty.
+
+// Example 3:
+// 		Input: obj = [null, false, 0]
+// 		Output: false
+// Explanation: The array has 3 elements so it is not empty.
+
+// Constraints:
+//		2 <= JSON.stringify(obj).length <= 105
+
+// Can you solve it in O(1) time?
+
+const isEmpty = (obj) => {
+  if (Array.isArray(obj) && obj.length > 0) return false;
+  else if (Object.keys(obj).length > 0) return false;
+  else return true;
+};
+
+console.log(isEmpty({ x: 5, y: 42 })); // false
+console.log(isEmpty({})); // true
+console.log(isEmpty([null, false, 0])); // false
+
+// Works, not sure if O(1)
+
+var topVotedIsEmpty = function (obj) {
+  for (const _ in obj) return false;
+  return true;
+};
+
+// Nice
