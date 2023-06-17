@@ -11713,7 +11713,7 @@ var topVotedJoin = function (arr1, arr2) {
 // Same as top voted, although theirs is much faster */
 
 // Subrectangle Queries					6/16/2023
-
+/* 
 // Implement the class SubrectangleQueries which receives a rows x cols rectangle as a matrix of integers in the constructor and supports two methods:
 
 // 1. updateSubrectangle(int row1, int col1, int row2, int col2, int newValue)
@@ -11807,4 +11807,176 @@ console.log(ex1.getValue(0, 2));
 ex1.updateSubrectangle(0, 0, 3, 2, 5);
 console.log(ex1.getValue(3, 1));
 
-// Same as top voteds
+// Same as top voteds */
+
+// Unique Paths III					6/17/2023
+
+// You are given an m x n integer array grid where grid[i][j] could be:
+
+// 1 representing the starting square. There is exactly one starting square.
+// 2 representing the ending square. There is exactly one ending square.
+// 0 representing empty squares we can walk over.
+// -1 representing obstacles that we cannot walk over.
+
+// Return the number of 4-directional walks from the starting square to the ending square, that walk over every non-obstacle square exactly once.
+
+// Example 1:
+// 		Input: grid = [[1,0,0,0],[0,0,0,0],[0,0,2,-1]]
+// 		Output: 2
+// Explanation: We have the following two paths:
+// 		1. (0,0),(0,1),(0,2),(0,3),(1,3),(1,2),(1,1),(1,0),(2,0),(2,1),(2,2)
+// 		2. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2)
+
+// Example 2:
+// 		Input: grid = [[1,0,0,0],[0,0,0,0],[0,0,0,2]]
+// 		Output: 4
+// Explanation: We have the following four paths:
+// 		1. (0,0),(0,1),(0,2),(0,3),(1,3),(1,2),(1,1),(1,0),(2,0),(2,1),(2,2),(2,3)
+// 		2. (0,0),(0,1),(1,1),(1,0),(2,0),(2,1),(2,2),(1,2),(0,2),(0,3),(1,3),(2,3)
+// 		3. (0,0),(1,0),(2,0),(2,1),(2,2),(1,2),(1,1),(0,1),(0,2),(0,3),(1,3),(2,3)
+// 		4. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2),(2,3)
+
+// Example 3:
+// 		Input: grid = [[0,1],[2,0]]
+// 		Output: 0
+// Explanation: There is no path that walks over every empty square exactly once.
+// 		Note that the starting and ending square can be anywhere in the grid.
+
+// Constraints:
+//		m == grid.length
+//		n == grid[i].length
+//		1 <= m, n <= 20
+//		1 <= m * n <= 20
+//		-1 <= grid[i][j] <= 2
+//		There is exactly one starting cell and one ending cell.
+
+const uniquePathsIII = (grid) => {
+  let res = 0;
+
+  let zeros = grid.reduce(
+    (acc, row) => acc + row.filter((x) => x === 0).length,
+    0
+  );
+
+  let startx, starty;
+  for (let y = 0; y < grid.length; y++) {
+    startx = grid[y].indexOf(1);
+    if (startx !== -1) {
+      starty = y;
+      break;
+    }
+  }
+
+  const backtrack = (curGrid, x, y, squaresVisited) => {
+    if (squaresVisited === zeros) {
+      if (curGrid[y + 1] && curGrid[y + 1][x] === 2) res++;
+      if (curGrid[y][x + 1] === 2) res++;
+      if (curGrid[y - 1] && curGrid[y - 1][x] === 2) res++;
+      if (curGrid[y][x - 1] === 2) res++;
+      return;
+    }
+
+    if (curGrid[y + 1] && curGrid[y + 1][x] === 0) {
+      let nextGrid = JSON.parse(JSON.stringify(curGrid));
+      nextGrid[y + 1][x] = "X";
+      backtrack(nextGrid, x, y + 1, squaresVisited + 1);
+    }
+    if (curGrid[y][x + 1] === 0) {
+      let nextGrid = JSON.parse(JSON.stringify(curGrid));
+      nextGrid[y][x + 1] = "X";
+      backtrack(nextGrid, x + 1, y, squaresVisited + 1);
+    }
+    if (curGrid[y - 1] && curGrid[y - 1][x] === 0) {
+      let nextGrid = JSON.parse(JSON.stringify(curGrid));
+      nextGrid[y - 1][x] = "X";
+      backtrack(nextGrid, x, y - 1, squaresVisited + 1);
+    }
+    if (curGrid[y][x - 1] === 0) {
+      let nextGrid = JSON.parse(JSON.stringify(curGrid));
+      nextGrid[y][x - 1] = "X";
+      backtrack(nextGrid, x - 1, y, squaresVisited + 1);
+    }
+  };
+  backtrack(grid, startx, starty, 0);
+
+  return res;
+};
+
+console.log(
+  uniquePathsIII([
+    [1, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 2, -1],
+  ])
+); // 2
+console.log(
+  uniquePathsIII([
+    [1, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 2],
+  ])
+); // 4
+console.log(
+  uniquePathsIII([
+    [0, 1],
+    [2, 0],
+  ])
+); // 0
+
+// Not bad for a hard question
+// Definitely bulky, but gets the job done
+
+var topVotedUniquePathsIII = function (obstacleGrid) {
+  let rows = obstacleGrid.length;
+  let columns = obstacleGrid[0].length;
+
+  let directions = [
+    [1, 0],
+    [0, 1],
+    [-1, 0],
+    [0, -1],
+  ];
+  let nonObstacles = 0;
+  let startX, startY;
+
+  for (let g = 0; g < rows; g++) {
+    for (let k = 0; k < columns; k++) {
+      if (obstacleGrid[g][k] == 1) {
+        startX = g;
+        startY = k;
+      } else if (obstacleGrid[g][k] == 0) {
+        nonObstacles++;
+      }
+    }
+  }
+
+  const compute = (x, y, count) => {
+    if (x >= rows || y >= columns || x < 0 || y < 0) return 0;
+    if (obstacleGrid[x][y] == -1 || obstacleGrid[x][y] == "V") return 0;
+    if (obstacleGrid[x][y] == 2 && count == nonObstacles + 1) {
+      return 1;
+    }
+    let res = 0;
+    let oldValue = obstacleGrid[x][y];
+    obstacleGrid[x][y] = "V";
+    for (let [dx, dy] of directions) {
+      let curRes = compute(x + dx, y + dy, count + 1);
+      res = curRes + res;
+    }
+    obstacleGrid[x][y] = oldValue;
+    return res;
+  };
+  return compute(startX, startY, 0);
+};
+
+// Similar idea, much more compact
+
+// DAY 730 - 2 years of coding challenges!
+
+// This daily habit started off as a little off the cuff thing to practice coding and has since grown into so much more. 2 years ago I was just being introduced to Javascript and struggling on easy questions. Now, I still struggle with LeetCode questions but at least they've gotten harder.
+
+// In two years, with the help of Udemy, I've gained so much knowledge in web-design and can tackle websites I only dreamt of understanding before. It's been truly challenging and interesting to learn the technologies used by industry leaders, such as Javascript, HTML, CSS, NodeJS, React, and, just recently, NextJS. I've done several projects up to date, but I'm sure none will compare to what I will build over these next 2 years.
+
+// Also I graduated my first year of Software Engineering with straight A's, receiving the J. Lorne Gray scholarship and getting onto the Deans' honour list!
+
+// Let's keep it going 💯
