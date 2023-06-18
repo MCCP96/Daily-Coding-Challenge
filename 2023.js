@@ -11810,7 +11810,7 @@ console.log(ex1.getValue(3, 1));
 // Same as top voteds */
 
 // Unique Paths III					6/17/2023
-
+/* 
 // You are given an m x n integer array grid where grid[i][j] could be:
 
 // 1 representing the starting square. There is exactly one starting square.
@@ -11979,4 +11979,113 @@ var topVotedUniquePathsIII = function (obstacleGrid) {
 
 // Also I graduated my first year of Software Engineering with straight A's, receiving the J. Lorne Gray scholarship and getting onto the Deans' honour list!
 
-// Let's keep it going 💯
+// Let's keep it going 💯 */
+
+// Max Increase to Keep City Skyline					6/18/2023
+
+// There is a city composed of n x n blocks, where each block contains a single building shaped like a vertical square prism. You are given a 0-indexed n x n integer matrix grid where grid[r][c] represents the height of the building located in the block at row r and column c.
+
+// A city's skyline is the outer contour formed by all the building when viewing the side of the city from a distance. The skyline from each cardinal direction north, east, south, and west may be different.
+
+// We are allowed to increase the height of any number of buildings by any amount (the amount can be different per building). The height of a 0-height building can also be increased. However, increasing the height of a building should not affect the city's skyline from any cardinal direction.
+
+// Return the maximum total sum that the height of the buildings can be increased by without changing the city's skyline from any cardinal direction.
+
+// Example 1:
+// 		Input: grid = [[3,0,8,4],[2,4,5,7],[9,2,6,3],[0,3,1,0]]
+// 		Output: 35
+// Explanation: The building heights are shown in the center of the above image.
+// 		The skylines when viewed from each cardinal direction are drawn in red.
+// 		The grid after increasing the height of buildings without affecting skylines is:
+// 		gridNew = [ [8, 4, 8, 7],
+// 		[7, 4, 7, 7],
+// 		[9, 4, 8, 7],
+// 		[3, 3, 3, 3] ]
+
+// Example 2:
+// 		Input: grid = [[0,0,0],[0,0,0],[0,0,0]]
+// 		Output: 0
+// Explanation: Increasing the height of any building will result in the skyline changing.
+
+// Constraints:
+//		n == grid.length
+//		n == grid[r].length
+//		2 <= n <= 50
+//		0 <= grid[r][c] <= 100
+
+const maxIncreaseKeepingSkyline = (grid) => {
+  let dir = {
+    N: new Array(grid[0].length).fill(0),
+    E: new Array(grid.length).fill(0),
+  };
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      dir.N[col] = Math.max(dir.N[col], grid[row][col]);
+    }
+    dir.E[row] = Math.max(...grid[row]);
+  }
+
+  let res = 0;
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      res += Math.min(dir.N[col], dir.E[row]) - grid[row][col];
+    }
+  }
+  return res;
+};
+
+console.log(
+  maxIncreaseKeepingSkyline([
+    [3, 0, 8, 4],
+    [2, 4, 5, 7],
+    [9, 2, 6, 3],
+    [0, 3, 1, 0],
+  ])
+); // 35
+console.log(
+  maxIncreaseKeepingSkyline([
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+  ])
+); // 0
+console.log(
+  maxIncreaseKeepingSkyline([
+    [13, 47, 91, 34, 20, 33, 39, 22, 80, 62],
+    [73, 97, 88, 51, 38, 36, 52, 75, 25, 99],
+    [95, 43, 32, 26, 82, 74, 60, 69, 59, 55],
+    [20, 41, 77, 95, 79, 46, 70, 50, 17, 51],
+    [51, 0, 93, 27, 46, 41, 58, 49, 8, 5],
+    [92, 58, 38, 56, 73, 93, 34, 47, 23, 62],
+    [97, 66, 57, 72, 26, 46, 4, 90, 82, 74],
+    [7, 44, 67, 96, 0, 82, 75, 22, 53, 100],
+    [95, 48, 46, 68, 41, 53, 69, 42, 13, 87],
+    [79, 48, 96, 39, 21, 35, 3, 12, 22, 42],
+  ])
+); // 3673
+
+// Great runtime
+
+var topVotedMaxIncreaseKeepingSkyline = function (grid) {
+  let result = 0,
+    n = grid.length;
+  let rMax = new Array(grid.length).fill(0);
+  let cMax = new Array(grid.length).fill(0);
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      rMax[i] = Math.max(rMax[i], grid[i][j]);
+      cMax[j] = Math.max(cMax[j], grid[i][j]);
+    }
+  }
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      result += Math.min(rMax[i], cMax[j]) - grid[i][j];
+    }
+  }
+
+  return result;
+};
+
+// Same idea cleaner code
