@@ -12091,7 +12091,7 @@ var topVotedMaxIncreaseKeepingSkyline = function (grid) {
 // Same idea cleaner code */
 
 // Minimum Operations to Make Array Equal					6/19/2023
-
+/* 
 // You have an array arr of length n where arr[i] = (2 * i) + 1 for all valid values of i (i.e., 0 <= i < n).
 
 // In one operation, you can select two indices x and y where 0 <= x, y < n and subtract 1 from arr[x] and add 1 to arr[y] (i.e., perform arr[x] -=1 and arr[y] += 1). The goal is to make all the elements of the array equal. It is guaranteed that all the elements of the array can be made equal using some operations.
@@ -12123,4 +12123,81 @@ console.log(minOperations(31)); // 240
 var topVotedMinOperations = (n) => (n * n) / 4;
 
 // Much cleaner
-// My runtime is somehow better?
+// My runtime is somehow better? */
+
+// Find the Winner of the Circular Game					6/20/2023
+
+// There are n friends that are playing a game. The friends are sitting in a circle and are numbered from 1 to n in clockwise order. More formally, moving clockwise from the ith friend brings you to the (i+1)th friend for 1 <= i < n, and moving clockwise from the nth friend brings you to the 1st friend.
+
+// The rules of the game are as follows:
+
+// Start at the 1st friend.
+
+// Count the next k friends in the clockwise direction including the friend you started at. The counting wraps around the circle and may count some friends more than once.
+
+// The last friend you counted leaves the circle and loses the game.
+
+// If there is still more than one friend in the circle, go back to step 2 starting from the friend immediately clockwise of the friend who just lost and repeat.
+
+// Else, the last friend in the circle wins the game.
+
+// Given the number of friends, n, and an integer k, return the winner of the game.
+
+// Example 1:
+// 		Input: n = 5, k = 2
+// 		Output: 3
+// Explanation: Here are the steps of the game:
+// 		1) Start at friend 1.
+// 		2) Count 2 friends clockwise, which are friends 1 and 2.
+// 		3) Friend 2 leaves the circle. Next start is friend 3.
+// 		4) Count 2 friends clockwise, which are friends 3 and 4.
+// 		5) Friend 4 leaves the circle. Next start is friend 5.
+// 		6) Count 2 friends clockwise, which are friends 5 and 1.
+// 		7) Friend 1 leaves the circle. Next start is friend 3.
+// 		8) Count 2 friends clockwise, which are friends 3 and 5.
+// 		9) Friend 5 leaves the circle. Only friend 3 is left, so they are the winner.
+
+// Example 2:
+// 		Input: n = 6, k = 5
+// 		Output: 1
+// Explanation: The friends leave in this order: 5, 4, 6, 2, 3. The winner is friend 1.
+
+// Constraints:
+//		1 <= k <= n <= 500
+
+// Follow up:
+//		Could you solve this problem in linear time with constant space?
+
+const findTheWinner = (n, k) => {
+  let players = new Array(n).fill().map((_, i) => i + 1);
+  let pos = 0;
+
+  while (players.length > 1) {
+    pos += k - 1;
+    if (pos >= n) pos %= n;
+
+    players.splice(pos, 1);
+    n--;
+  }
+
+  return players[0];
+};
+
+console.log(findTheWinner(5, 2)); // 3
+console.log(findTheWinner(6, 5)); // 1
+console.log(findTheWinner(5, 3)); // 4
+
+// Beats 95% Runtimes
+
+const topVotedFindTheWinner = (n, k) => {
+  let a = [];
+  for (let i = 0; i < n; i++) a.push(i + 1);
+  let remove = 0;
+  while (a.length > 1) {
+    remove = (remove + k - 1) % a.length;
+    a.splice(remove, 1);
+  }
+  return a;
+};
+
+// Same idea
