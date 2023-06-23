@@ -12273,7 +12273,7 @@ const revisedMaxCoins = (params) => {
 }; */
 
 // Reveal Cards In Increasing Order					6/22/2023
-
+/* 
 // You are given an integer array deck. There is a deck of cards where every card has a unique integer. The integer on the ith card is deck[i].
 
 // You can order the deck in any order you want. Initially, all the cards start face down (unrevealed) in one deck.
@@ -12354,4 +12354,104 @@ const topVotedDeckRevealedIncreasing = (deck) => {
   return ans;
 };
 
-// Very clean
+// Very clean */
+
+// Next Permutation					6/23/2023
+
+// A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
+
+// For example, for arr = [1,2,3], the following are all the permutations of arr: [1,2,3], [1,3,2], [2, 1, 3], [2, 3, 1], [3,1,2], [3,2,1].
+
+// The next permutation of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the next permutation of that array is the permutation that follows it in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest possible order (i.e., sorted in ascending order).
+
+// For example, the next permutation of arr = [1,2,3] is [1,3,2].
+
+// Similarly, the next permutation of arr = [2,3,1] is [3,1,2].
+
+// While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] does not have a lexicographical larger rearrangement.
+
+// Given an array of integers nums, find the next permutation of nums.
+
+// The replacement must be in place and use only constant extra memory.
+
+// Example 1:
+// 		Input: nums = [1,2,3]
+// 		Output: [1,3,2]
+
+// Example 2:
+// 		Input: nums = [3,2,1]
+// 		Output: [1,2,3]
+
+// Example 3:
+// 		Input: nums = [1,1,5]
+// 		Output: [1,5,1]
+
+// Constraints:
+//		1 <= nums.length <= 100
+//		0 <= nums[i] <= 100
+
+const nextPermutation = (nums) => {
+  let isLargest = true;
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i - 1] < nums[i]) {
+      isLargest = false;
+      break;
+    }
+  }
+
+  if (isLargest) nums.sort((a, b) => a - b);
+  else {
+    for (let i = nums.length - 1; i > 0; i--) {
+      if (nums[i - 1] < nums[i]) {
+        [nums[i - 1], nums[i]] = [nums[i], nums[i - 1]];
+        nums.push(...nums.splice(i).sort((a, b) => a - b));
+        return nums;
+      }
+    }
+  }
+};
+
+console.log(nextPermutation([1, 2, 3])); // [1,3,2]
+console.log(nextPermutation([3, 2, 1])); // [1,2,3]
+console.log(nextPermutation([1, 1, 5])); // [1,5,1]
+console.log(nextPermutation([1, 3, 2])); // [2,1,3]
+console.log(nextPermutation([2, 3, 1])); // [3,1,2]
+console.log(nextPermutation([4, 2, 0, 2, 3, 2, 0])); // [4,2,0,3,0,2,2]
+
+// Doesn't work for all test cases
+
+var topVotedNextPermutation = function (nums) {
+  for (let i = nums.length - 1; i >= 0; i--) {
+    if (nums[i] < nums[i + 1]) {
+      const large = nextLarge(i);
+      swap(i, large);
+      reverse(i + 1);
+      return;
+    }
+  }
+
+  nums.reverse();
+
+  function swap(i, j) {
+    [nums[i], nums[j]] = [nums[j], nums[i]];
+  }
+
+  function reverse(idx) {
+    let start = idx,
+      end = nums.length - 1;
+
+    while (start < end) {
+      swap(start, end);
+      start++;
+      end--;
+    }
+  }
+
+  function nextLarge(idx) {
+    for (let i = nums.length - 1; i > idx; i--) {
+      if (nums[i] > nums[idx]) return i;
+    }
+  }
+};
+
+// Made very readable by splitting into 3 functions
