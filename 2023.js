@@ -12357,7 +12357,7 @@ const topVotedDeckRevealedIncreasing = (deck) => {
 // Very clean */
 
 // Next Permutation					6/23/2023
-
+/* 
 // A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
 
 // For example, for arr = [1,2,3], the following are all the permutations of arr: [1,2,3], [1,3,2], [2, 1, 3], [2, 3, 1], [3,1,2], [3,2,1].
@@ -12454,4 +12454,65 @@ var topVotedNextPermutation = function (nums) {
   }
 };
 
-// Made very readable by splitting into 3 functions
+// Made very readable by splitting into 3 functions */
+
+// Minimum Number of Steps to Make Two Strings Anagram					6/24/2023
+
+// You are given two strings of the same length s and t. In one step you can choose any character of t and replace it with another character.
+
+// Return the minimum number of steps to make t an anagram of s.
+
+// An Anagram of a string is a string that contains the same characters with a different (or the same) ordering.
+
+// Example 1:
+// 		Input: s = "bab", t = "aba"
+// 		Output: 1
+// Explanation: Replace the first 'a' in t with b, t = "bba" which is anagram of s.
+
+// Example 2:
+// 		Input: s = "leetcode", t = "practice"
+// 		Output: 5
+// Explanation: Replace 'p', 'r', 'a', 'i' and 'c' from t with proper characters to make t anagram of s.
+
+// Example 3:
+// 		Input: s = "anagram", t = "mangaar"
+// 		Output: 0
+// Explanation: "anagram" and "mangaar" are anagrams.
+
+// Constraints:
+//		1 <= s.length <= 5 * 104
+//		s.length == t.length
+//		s and t consist of lowercase English letters only.
+
+const minSteps = (s, t) => {
+  let count = new Map();
+  for (let i = 0; i < s.length; i++) {
+    count.set(s[i], count.get(s[i]) + 1 || 1);
+  }
+  return [...t].reduce((steps, char) => {
+    if (count.has(char) && count.get(char) > 0) {
+      count.set(char, count.get(char) - 1);
+    } else steps++;
+    return steps;
+  }, 0);
+};
+
+console.log(minSteps("bab", "aba")); // 1
+console.log(minSteps("leetcode", "practice")); // 5
+console.log(minSteps("anagram", "mangaar")); // 0
+
+var topVotedMinSteps = function (s, t) {
+  let hashMap = {};
+  for (let letter of s) {
+    if (hashMap[letter]) hashMap[letter]++;
+    else hashMap[letter] = 1;
+  }
+  let changes = 0;
+  for (let letter of t) {
+    if (hashMap[letter]) hashMap[letter]--;
+    else changes++;
+  }
+  return changes;
+};
+
+// Same same
