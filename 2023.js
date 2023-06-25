@@ -12457,7 +12457,7 @@ var topVotedNextPermutation = function (nums) {
 // Made very readable by splitting into 3 functions */
 
 // Minimum Number of Steps to Make Two Strings Anagram					6/24/2023
-
+/* 
 // You are given two strings of the same length s and t. In one step you can choose any character of t and replace it with another character.
 
 // Return the minimum number of steps to make t an anagram of s.
@@ -12515,4 +12515,98 @@ var topVotedMinSteps = function (s, t) {
   return changes;
 };
 
-// Same same
+// Same same */
+
+// Stone Game					6/25/2023
+
+// Alice and Bob play a game with piles of stones. There are an even number of piles arranged in a row, and each pile has a positive integer number of stones piles[i].
+
+// The objective of the game is to end with the most stones. The total number of stones across all the piles is odd, so there are no ties.
+
+// Alice and Bob take turns, with Alice starting first. Each turn, a player takes the entire pile of stones either from the beginning or from the end of the row. This continues until there are no more piles left, at which point the person with the most stones wins.
+
+// Assuming Alice and Bob play optimally, return true if Alice wins the game, or false if Bob wins.
+
+// Example 1:
+// 		Input: piles = [5,3,4,5]
+// 		Output: true
+// Explanation:
+// 		Alice starts first, and can only take the first 5 or the last 5.
+// 		Say she takes the first 5, so that the row becomes [3, 4, 5].
+// 		If Bob takes 3, then the board is [4, 5], and Alice takes 5 to win with 10 points.
+// 		If Bob takes the last 5, then the board is [3, 4], and Alice takes 4 to win with 9 points.
+// 		This demonstrated that taking the first 5 was a winning move for Alice, so we return true.
+
+// Example 2:
+// 		Input: piles = [3,7,2,3]
+// 		Output: true
+
+// Constraints:
+//		2 <= piles.length <= 500
+//		piles.length is even.
+//		1 <= piles[i] <= 500
+//		sum(piles[i]) is odd.
+
+const stoneGame = (piles) => {
+  let len = piles.length;
+  let alice = 0;
+  let bob = 0;
+
+  const pickBest = () => {
+    if (piles[0] > piles[len - 1]) return piles.shift();
+    else if (piles[0] < piles[len - 1]) return piles.pop();
+    else {
+      return piles[1] < piles[len - 2] ? piles.shift() : piles.pop();
+    }
+  };
+
+  while (len > 0) {
+    if (len % 2 === 0) {
+      alice += pickBest();
+    } else {
+      bob += pickBest();
+    }
+    len--;
+  }
+
+  return alice > bob;
+};
+
+console.log(stoneGame([5, 3, 4, 5])); // true
+console.log(stoneGame([3, 7, 2, 3])); // true
+console.log(stoneGame([3, 2, 10, 4])); // true
+
+// Does not work for all cases
+// My pickBest function needs to be more thorough
+
+var topVotedStoneGame = function (piles) {
+  return true; // Alice wins anyways
+};
+
+// Welp
+
+var AnotherStoneGame = function (piles) {
+  const n = piles.length;
+
+  const memo = [];
+
+  for (let i = 0; i < n; i++) {
+    memo[i] = [];
+  }
+
+  return topDown(0, n - 1) > 0;
+
+  function topDown(start, end) {
+    if (start == end) return piles[start];
+    if (memo[start][end]) return memo[start][end];
+
+    const startPick = piles[start] - topDown(start + 1, end);
+    const endPick = piles[end] - topDown(start, end - 1);
+
+    const res = Math.max(startPick, endPick);
+
+    memo[start][end] = res;
+
+    return res;
+  }
+};
