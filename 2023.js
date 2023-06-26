@@ -12518,7 +12518,7 @@ var topVotedMinSteps = function (s, t) {
 // Same same */
 
 // Stone Game					6/25/2023
-
+/* 
 // Alice and Bob play a game with piles of stones. There are an even number of piles arranged in a row, and each pile has a positive integer number of stones piles[i].
 
 // The objective of the game is to end with the most stones. The total number of stones across all the piles is odd, so there are no ties.
@@ -12609,4 +12609,71 @@ var AnotherStoneGame = function (piles) {
 
     return res;
   }
+}; */
+
+// Combinations					6/26/2023
+
+// Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n].
+
+// You may return the answer in any order.
+
+// Example 1:
+// 		Input: n = 4, k = 2
+// 		Output: [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+// Explanation: There are 4 choose 2 = 6 total combinations.
+// 		Note that combinations are unordered, i.e., [1,2] and [2,1] are considered to be the same combination.
+
+// Example 2:
+// 		Input: n = 1, k = 1
+// 		Output: [[1]]
+// Explanation: There is 1 choose 1 = 1 total combination.
+
+// Constraints:
+//		1 <= n <= 20
+//		1 <= k <= n
+
+const combine = (n, k) => {
+  let combos = [];
+
+  const backtrack = (combo, i) => {
+    if (combo.length === k) {
+      combos.push(combo);
+      return;
+    }
+    if (i > n) return;
+
+    while (i <= n) {
+      backtrack([...combo, i], i + 1);
+      i++;
+    }
+  };
+  backtrack([], 1);
+
+  return combos;
+};
+
+console.log(combine(4, 2)); // [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+console.log(combine(1, 1)); // [[1]]
+
+// Ça marche
+
+var topVotedCombine = function (n, k) {
+  result = [];
+
+  var comb = function (start, curComb) {
+    if (curComb.length == k) {
+      result.push([...curComb]);
+      return;
+    }
+
+    for (let i = start; i <= n; i++) {
+      curComb.push(i);
+      comb(i + 1, curComb);
+      curComb.pop();
+    }
+    return;
+  };
+  comb((start = 1), (curComb = []));
+
+  return result;
 };
