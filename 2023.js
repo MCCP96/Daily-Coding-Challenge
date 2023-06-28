@@ -12679,7 +12679,7 @@ var topVotedCombine = function (n, k) {
 }; */
 
 // Advent of Code - Day 12: Hill Climbing Algorithm         6/27/2023
-
+/* 
 // You try contacting the Elves using your handheld device, but the river you're following must be too low to get a decent signal.
 
 // You ask the device for a heightmap of the surrounding area (your puzzle input). The heightmap shows the local area from above broken into a grid; the elevation of each square of the grid is given by a single lowercase letter, where a is the lowest elevation, b is the next-lowest, and so on up to the highest elevation, z.
@@ -12824,4 +12824,165 @@ console.log(
 // Leetcode is down today so decided to try this advent problem again
 // The runtime is way too long using backtracking
 
-// Dijkstra's Algorithm is required
+// Dijkstra's Algorithm is required */
+
+// Word Search					6/28/2023
+
+// Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+
+// The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+// Example 1:
+// 		Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+// 		Output: true
+
+// Example 2:
+// 		Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+// 		Output: true
+
+// Example 3:
+// 		Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+// 		Output: false
+
+// Constraints:
+//		m == board.length
+//		n = board[i].length
+//		1 <= m, n <= 6
+//		1 <= word.length <= 15
+//		board and word consists of only lowercase and uppercase English letters.
+
+const exist = (board, word) => {
+  const isWord = (row, col) => {
+    let curBoard = JSON.parse(JSON.stringify(board));
+    curBoard[row][col] = "*"; // visited
+    let curWord = [...word.substring(1)];
+
+    let exists = false;
+    const backtrack = (board, row, col, word) => {
+      if (word.length === 0) {
+        exists = true;
+        return;
+      }
+
+      let curWord = [...word];
+      let char = curWord.shift();
+
+      if (board[row - 1] && board[row - 1][col] === char) {
+        // up
+        let nextBoard = JSON.parse(JSON.stringify(board));
+        nextBoard[row - 1][col] = "*";
+        backtrack(nextBoard, row - 1, col, curWord);
+      }
+      if (board[row][col + 1] === char) {
+        // right
+        let nextBoard = JSON.parse(JSON.stringify(board));
+        nextBoard[row][col + 1] = "*";
+        backtrack(nextBoard, row, col + 1, curWord);
+      }
+      if (board[row + 1] && board[row + 1][col] === char) {
+        // down
+        let nextBoard = JSON.parse(JSON.stringify(board));
+        nextBoard[row + 1][col] = "*";
+        backtrack(nextBoard, row + 1, col, curWord);
+      }
+      if (board[row][col - 1] === char) {
+        // left
+        let nextBoard = JSON.parse(JSON.stringify(board));
+        nextBoard[row][col - 1] = "*";
+        backtrack(nextBoard, row, col - 1, curWord);
+      }
+    };
+    backtrack(curBoard, row, col, curWord);
+
+    return exists;
+  };
+
+  for (let row = 0; row < board.length; row++)
+    for (let col = 0; col < board[row].length; col++)
+      if (board[row][col] === word[0] && isWord(row, col)) return true;
+
+  return false;
+};
+
+console.log(
+  exist(
+    [
+      ["A", "B", "C", "E"],
+      ["S", "F", "C", "S"],
+      ["A", "D", "E", "E"],
+    ],
+    "ABCCED"
+  )
+); // true
+console.log(
+  exist(
+    [
+      ["A", "B", "C", "E"],
+      ["S", "F", "C", "S"],
+      ["A", "D", "E", "E"],
+    ],
+    "SEE"
+  )
+); // true
+console.log(
+  exist(
+    [
+      ["A", "B", "C", "E"],
+      ["S", "F", "C", "S"],
+      ["A", "D", "E", "E"],
+    ],
+    "ABCB"
+  )
+); // false
+console.log(
+  exist(
+    [
+      ["A", "B", "C", "E"],
+      ["S", "F", "E", "S"],
+      ["A", "D", "E", "E"],
+    ],
+    "ABCEFSADEESE"
+  )
+); // true
+
+// My backtracks are too bulky
+
+const topVotedExist = (board, word) => {
+  if (board.length === 0) return false;
+
+  const h = board.length;
+  const w = board[0].length;
+  const dirs = [
+    [-1, 0],
+    [0, 1],
+    [1, 0],
+    [0, -1],
+  ];
+
+  const go = (x, y, k) => {
+    if (board[x][y] !== word[k]) return false;
+    if (k === word.length - 1) return true;
+
+    board[x][y] = "*"; // mark as visited
+    for (const [dx, dy] of dirs) {
+      const i = x + dx;
+      const j = y + dy;
+      if (i >= 0 && i < h && j >= 0 && j < w) {
+        if (go(i, j, k + 1)) return true;
+      }
+    }
+    board[x][y] = word[k]; // reset
+    return false;
+  };
+
+  for (let i = 0; i < h; i++) {
+    for (let j = 0; j < w; j++) {
+      if (go(i, j, 0)) return true;
+    }
+  }
+
+  return false;
+};
+
+// Same idea, much cleaner
+// Will use the dirs approach in future grid operations
