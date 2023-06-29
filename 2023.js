@@ -12827,7 +12827,7 @@ console.log(
 // Dijkstra's Algorithm is required */
 
 // Word Search					6/28/2023
-
+/* 
 // Given an m x n grid of characters board and a string word, return true if word exists in the grid.
 
 // The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
@@ -12986,3 +12986,114 @@ const topVotedExist = (board, word) => {
 
 // Same idea, much cleaner
 // Will use the dirs approach in future grid operations
+ */
+
+// Kth Largest Element in an Array					6/29/2023
+
+// Given an integer array nums and an integer k, return the kth largest element in the array.
+
+// Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+// Can you solve it without sorting?
+
+// Example 1:
+// 		Input: nums = [3,2,1,5,6,4], k = 2
+// 		Output: 5
+
+// Example 2:
+// 		Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+// 		Output: 4
+
+// Constraints:
+//		1 <= k <= nums.length <= 105
+//		-104 <= nums[i] <= 104
+
+const findKthLargest = (nums, k) => {
+  const isInBottomHalf = nums.length / 2 > nums.length - k;
+
+  if (isInBottomHalf) {
+    let kthSmallest = nums.length - k + 1;
+    while (kthSmallest > 1) {
+      nums.splice(nums.indexOf(Math.min(...nums)), 1);
+      kthSmallest--;
+    }
+    return Math.min(...nums);
+  } else {
+    while (k > 1) {
+      nums.splice(nums.indexOf(Math.max(...nums)), 1);
+      k--;
+    }
+    return Math.max(...nums);
+  }
+};
+
+console.log(findKthLargest([3, 2, 1, 5, 6, 4], 2)); // 5
+console.log(findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4)); // 4
+console.log(findKthLargest([-1, 2, 0], 2)); // 0
+
+// Slow runtime
+
+var topVotedFindKthLargest = function (nums, k) {
+  const maxHeap = new MaxHeap(nums);
+  for (let i = 0; i < k - 1; i++) {
+    maxHeap.pop();
+  }
+  return maxHeap.top();
+};
+
+class MaxHeap {
+  constructor(nums) {
+    this.heap = nums;
+    this.buildHeap();
+  }
+
+  buildHeap() {
+    for (let i = Math.floor(this.heap.length / 2) - 1; i >= 0; i--) {
+      this.shiftDown(i);
+    }
+  }
+
+  shiftDown(index) {
+    const leftChildIndex = 2 * index + 1;
+    const rightChildIndex = 2 * index + 2;
+    let maxIndex = index;
+
+    if (
+      leftChildIndex < this.heap.length &&
+      this.heap[leftChildIndex] > this.heap[maxIndex]
+    ) {
+      maxIndex = leftChildIndex;
+    }
+
+    if (
+      rightChildIndex < this.heap.length &&
+      this.heap[rightChildIndex] > this.heap[maxIndex]
+    ) {
+      maxIndex = rightChildIndex;
+    }
+
+    if (maxIndex !== index) {
+      [this.heap[index], this.heap[maxIndex]] = [
+        this.heap[maxIndex],
+        this.heap[index],
+      ];
+      this.shiftDown(maxIndex);
+    }
+  }
+
+  pop() {
+    [this.heap[0], this.heap[this.heap.length - 1]] = [
+      this.heap[this.heap.length - 1],
+      this.heap[0],
+    ];
+    const maxElement = this.heap.pop();
+    this.shiftDown(0);
+    return maxElement;
+  }
+
+  top() {
+    return this.heap[0];
+  }
+}
+
+// heap doesn't count as sorted it seems
