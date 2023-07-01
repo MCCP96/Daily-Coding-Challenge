@@ -13099,7 +13099,7 @@ class MaxHeap {
 // heap doesn't count as sorted it seems */
 
 // Group the People Given the Group Size They Belong To					6/30/2023
-
+/* 
 // There are n people that are split into some unknown number of groups. Each person is labeled with a unique ID from 0 to n - 1.
 
 // You are given an integer array groupSizes, where groupSizes[i] is the size of the group that person i is in. For example, if groupSizes[1] = 3, then person 1 must be in a group of size 3.
@@ -13167,4 +13167,51 @@ var topVotedGroupThePeople = function (group) {
   return result;
 };
 
-// Cleans as it goes, nice
+// Cleans as it goes, nice */
+
+// Neither Minimum nor Maximum					6/30/2023
+
+// Given an integer array nums containing distinct positive integers, find and return any number from the array that is neither the minimum nor the maximum value in the array, or -1 if there is no such number.
+
+// Return the selected integer.
+
+// Example 1:
+// 		Input: nums = [3,2,1,4]
+// 		Output: 2
+// Explanation: In this example, the minimum value is 1 and the maximum value is 4. Therefore, either 2 or 3 can be valid answers.
+
+// Example 2:
+// 		Input: nums = [1,2]
+// 		Output: -1
+// Explanation: Since there is no number in nums that is neither the maximum nor the minimum, we cannot select a number that satisfies the given condition. Therefore, there is no answer.
+
+// Example 3:
+// 		Input: nums = [2,1,3]
+// 		Output: 2
+// Explanation: Since 2 is neither the maximum nor the minimum value in nums, it is the only valid answer.
+
+// Constraints:
+//		1 <= nums.length <= 100
+//		1 <= nums[i] <= 100
+//		All values in nums are distinct
+
+const findNonMinOrMax = (nums) => {
+  let arr = [...new Set(nums)];
+  return arr.length <= 2 ? -1 : arr.sort((a, b) => a - b)[1];
+};
+
+console.log(findNonMinOrMax([3, 2, 1, 4])); // 2
+console.log(findNonMinOrMax([1, 2])); // -1
+console.log(findNonMinOrMax([2, 1, 3])); // 2
+
+// Done in Keene, New York
+
+// Climbing in the Adirondaks this weekend
+// Just did my first trad multipitch and rappel this morning!
+
+var topVotedFindNonMinOrMax = function (nums) {
+  return nums.length < 3 ? -1 : nums.sort((a, b) => a - b)[1];
+};
+
+// "All values in nums are distinct"
+// ah, no need for Set
