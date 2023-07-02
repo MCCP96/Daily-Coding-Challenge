@@ -13169,8 +13169,8 @@ var topVotedGroupThePeople = function (group) {
 
 // Cleans as it goes, nice */
 
-// Neither Minimum nor Maximum					6/30/2023
-
+// Neither Minimum nor Maximum					7/1/2023
+/* 
 // Given an integer array nums containing distinct positive integers, find and return any number from the array that is neither the minimum nor the maximum value in the array, or -1 if there is no such number.
 
 // Return the selected integer.
@@ -13214,4 +13214,54 @@ var topVotedFindNonMinOrMax = function (nums) {
 };
 
 // "All values in nums are distinct"
-// ah, no need for Set
+// ah, no need for Set */
+
+// Check if The Number is Fascinating					7/2/2023
+
+// You are given an integer n that consists of exactly 3 digits.
+
+// We call the number n fascinating if, after the following modification, the resulting number contains all the digits from 1 to 9 exactly once and does not contain any 0's:
+
+// Concatenate n with the numbers 2 * n and 3 * n.
+
+// Return true if n is fascinating, or false otherwise.
+
+// Concatenating two numbers means joining them together. For example, the concatenation of 121 and 371 is 121371.
+
+// Example 1:
+// 		Input: n = 192
+// 		Output: true
+// Explanation: We concatenate the numbers n = 192 and 2 * n = 384 and 3 * n = 576. The resulting number is 192384576. This number contains all the digits from 1 to 9 exactly once.
+
+// Example 2:
+// 		Input: n = 100
+// 		Output: false
+// Explanation: We concatenate the numbers n = 100 and 2 * n = 200 and 3 * n = 300. The resulting number is 100200300. This number does not satisfy any of the conditions.
+
+// Constraints:
+//		100 <= n <= 999
+
+const isFascinating = (n) => {
+  const num = `${n}${2 * n}${3 * n}`;
+  if (num.length !== 9 || /[0]/.test(num)) return false;
+  return new Set(num).size === 9;
+};
+
+console.log(isFascinating(192)); // true
+console.log(isFascinating(100)); // false
+
+// 90% runtime
+
+function topVotedIsFascinating(n) {
+  let allNumbers = "123456789";
+  let fancyNumber = `${n}${n * 2}${n * 3}`.split("").sort().join("");
+  if (allNumbers == fancyNumber) {
+    return true;
+  }
+  return false;
+}
+
+// Nice
+
+// Yesterday's climbing route was Regular Route at Chapel Pond!
+// 780ft of trad :)
