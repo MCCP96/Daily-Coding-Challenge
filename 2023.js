@@ -13267,7 +13267,7 @@ function topVotedIsFascinating(n) {
 // 780ft of trad :) */
 
 // Evaluate Reverse Polish Notation					7/3/2023
-
+/* 
 // You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
 
 // Evaluate the expression. Return an integer that represents the value of the expression.
@@ -13362,4 +13362,96 @@ function evalRPN(tokens) {
   return stack.pop();
 }
 
-// Very nice use of the ops object full of equations
+// Very nice use of the ops object full of equations */
+
+// Spiral Matrix II					7/4/2023
+
+// Given a positive integer n, generate an n x n matrix filled with elements from 1 to n2 in spiral order.
+
+// Example 1:
+// 		Input: n = 3
+// 		Output: [[1,2,3],[8,9,4],[7,6,5]]
+
+// Example 2:
+// 		Input: n = 1
+// 		Output: [[1]]
+
+// Constraints:
+//		1 <= n <= 20
+
+const generateMatrix = (n) => {
+  let res = new Array(n).fill("x").map(() => new Array(n).fill("x"));
+
+  let [x, y] = [0, 0];
+  let dir = "r";
+
+  const dirUpdate = {
+    u: () => (dir = res[y - 1] && res[y - 1][x] === "x" ? "u" : "r"),
+    r: () => (dir = res[y][x + 1] === "x" ? "r" : "d"),
+    d: () => (dir = res[y + 1] && res[y + 1][x] === "x" ? "d" : "l"),
+    l: () => (dir = res[y][x - 1] === "x" ? "l" : "u"),
+  };
+
+  const posUpdate = {
+    u: () => --y,
+    r: () => ++x,
+    d: () => ++y,
+    l: () => --x,
+  };
+
+  for (let i = 1; i <= n * n; i++) {
+    res[y][x] = i;
+    dirUpdate[dir]();
+    posUpdate[dir]();
+  }
+
+  return res;
+};
+
+console.log(generateMatrix(3)); // [[1,2,3],[8,9,4],[7,6,5]]
+console.log(generateMatrix(1)); // [[1]]
+
+// Inspired by yesterday's, I used a bunch of objects
+// Makes for a clean for loop
+
+var topVotedGenerateMatrix = function (n) {
+  let output = new Array(n).fill(0).map(() => new Array(n).fill(0));
+  let count = 0;
+  let size = n * n;
+  let left = 0;
+  let right = n - 1;
+  let top = 0;
+  let bottom = n - 1;
+
+  while (count < size) {
+    //going left
+    for (let i = left; i <= right; i++) {
+      count++;
+      output[top][i] = count;
+    }
+    top++;
+
+    // going down
+    for (let i = top; i <= bottom; i++) {
+      count++;
+      output[i][right] = count;
+    }
+    right--;
+
+    //going left
+    for (let i = right; i >= left; i--) {
+      count++;
+      output[bottom][i] = count;
+    }
+    bottom--;
+
+    //going up
+    for (let i = bottom; i >= top; i--) {
+      count++;
+      output[i][left] = count;
+    }
+    left++;
+  }
+
+  return output;
+};
