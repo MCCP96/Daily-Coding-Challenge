@@ -13548,7 +13548,7 @@ var topVotedPartition = function (s) {
 // Similar idea */
 
 // Best Time to Buy and Sell Stock II					7/6/2023
-
+/* 
 // You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
 
 // On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
@@ -13633,4 +13633,59 @@ var topVotedMaxProfit = function (prices) {
 
   // Max profit must come from notHold state finally.
   return curNotHold;
+}; */
+
+// Search a 2D Matrix					7/7/2023
+
+// You are given an m x n integer matrix matrix with the following two properties:
+// Each row is sorted in non-decreasing order.
+// The first integer of each row is greater than the last integer of the previous row.
+// Given an integer target, return true if target is in matrix or false otherwise.
+
+// You must write a solution in O(log(m * n)) time complexity.
+
+// Example 1:
+// 		Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3
+// 		Output: true
+
+// Example 2:
+// 		Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
+// 		Output: false
+
+// Constraints:
+//		m == matrix.length
+//		n == matrix[i].length
+//		1 <= m, n <= 100
+//		-104 <= matrix[i][j], target <= 104
+
+const searchMatrix = (mat, t) => {
+  const [n, m] = [mat.length - 1, mat[0].length - 1];
+  if (t < mat[0][0] || t > mat[n][m]) return false;
+
+  let i = 0;
+  while (t > mat[i][m]) i++;
+  const idx = mat[i].indexOf(t);
+  return idx !== -1;
 };
+
+// prettier-ignore
+console.log(searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], 3)) // true
+// prettier-ignore
+console.log(searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], 13)) // false
+
+// not sure if O(log(m * n)) time complexity, but pretty lightweight
+
+function topVotedSearchMatrix(matrix, target) {
+  if (!matrix.length || !matrix[0].length) return false;
+
+  let row = 0;
+  let col = matrix[0].length - 1;
+
+  while (col >= 0 && row <= matrix.length - 1) {
+    if (matrix[row][col] === target) return true;
+    else if (matrix[row][col] > target) col--;
+    else if (matrix[row][col] < target) row++;
+  }
+
+  return false;
+}
