@@ -13691,7 +13691,7 @@ function topVotedSearchMatrix(matrix, target) {
 } */
 
 // Kth Largest Element in a Stream					7/8/2023
-
+/* 
 // Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
 
 // Implement KthLargest class:
@@ -13740,4 +13740,64 @@ console.log(ex1.add(3)); // return 4
 ex1.add(5); // return 5
 ex1.add(10); // return 5
 ex1.add(9); // return 8
-ex1.add(4); // return 8
+ex1.add(4); // return 8 */
+
+// Triangle					7/9/2023
+
+// Given a triangle array, return the minimum path sum from top to bottom.
+
+// For each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.
+
+// Example 1:
+// 		Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
+// 		Output: 11
+// Explanation: The triangle looks like:
+// 		3 4
+// 		6 5 7
+// 		4 1 8 3
+// 		The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).
+
+// Example 2:
+// 		Input: triangle = [[-10]]
+// 		Output: -10
+
+// Constraints:
+//		1 <= triangle.length <= 200
+//		triangle[0].length == 1
+//		triangle[i].length == triangle[i - 1].length + 1
+//		-104 <= triangle[i][j] <= 104
+
+// Follow up: Could you do this using only O(n) extra space, where n is the total number of rows in the triangle?
+
+const minimumTotal = (triangle) => {
+  let sum = Infinity;
+
+  const dp = (arr, i, curSum, row) => {
+    if (row === arr.length) {
+      if (curSum < sum) sum = curSum;
+      return;
+    }
+
+    const [a, b] = [arr[row][i], arr[row][i + 1]];
+    dp(arr, i, curSum + a, row + 1);
+    dp(arr, i + 1, curSum + b, row + 1);
+  };
+  dp(triangle, 0, triangle[0][0], 1);
+
+  return sum;
+};
+
+console.log(minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]])); // 11
+console.log(minimumTotal([[-10]])); // -10
+console.log(minimumTotal([[-1], [2, 3], [1, -1, -3]])); // -1
+
+// Exceeds runtime
+
+var topVotedMinimumTotal = function (triangle) {
+  for (let i = triangle.length - 2; i >= 0; i--)
+    for (let j = 0; j < triangle[i].length; j++)
+      triangle[i][j] += Math.min(triangle[i + 1][j], triangle[i + 1][j + 1]);
+  return triangle[0][0];
+};
+
+// Nice
