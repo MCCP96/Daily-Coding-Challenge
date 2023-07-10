@@ -13743,7 +13743,7 @@ ex1.add(9); // return 8
 ex1.add(4); // return 8 */
 
 // Triangle					7/9/2023
-
+/* 
 // Given a triangle array, return the minimum path sum from top to bottom.
 
 // For each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.
@@ -13800,4 +13800,60 @@ var topVotedMinimumTotal = function (triangle) {
   return triangle[0][0];
 };
 
-// Nice
+// Nice */
+
+// Complex Number Multiplication					7/10/2023
+
+// A complex number can be represented as a string on the form "real+imaginaryi" where:
+
+// real is the real part and is an integer in the range [-100, 100].
+// imaginary is the imaginary part and is an integer in the range [-100, 100].
+// i2 == -1.
+
+// Given two complex numbers num1 and num2 as strings, return a string of the complex number that represents their multiplications.
+
+// Example 1:
+// 		Input: num1 = "1+1i", num2 = "1+1i"
+// 		Output: "0+2i"
+// Explanation: (1 + i) * (1 + i) = 1 + i2 + 2 * i = 2i, and you need convert it to the form of 0+2i.
+
+// Example 2:
+// 		Input: num1 = "1+-1i", num2 = "1+-1i"
+// 		Output: "0+-2i"
+// Explanation: (1 - i) * (1 - i) = 1 + i2 - 2 * i = -2i, and you need convert it to the form of 0+-2i.
+
+// Constraints:
+//		num1 and num2 are valid complex numbers.
+
+const complexNumberMultiply = (n1, n2) => {
+  // prettier-ignore
+  const toNums = (str) => str.substring(0, str.length-1).split("+").map(c => Number(c))
+
+  const [r1, i1] = toNums(n1);
+  const [r2, i2] = toNums(n2);
+
+  let f = r1 * r2;
+  let o = r1 * i2;
+  let i = i1 * r2;
+  let l = i1 * i2;
+
+  let real = f + l * -1;
+  let imag = o + i;
+
+  return `${real}+${imag}i`;
+};
+
+console.log(complexNumberMultiply("1+1i", "1+1i")); // "0+2i"
+console.log(complexNumberMultiply("1+-1i", "1+-1i")); // "0+-2i"
+
+// Definitely spelled it out here, nothing special
+
+var topVotdComplexNumberMultiply = function (num1, num2) {
+  var a = parseInt(num1.split("+")[0]);
+  var b = parseInt(num1.split("+")[1].replace("i", ""));
+  var c = parseInt(num2.split("+")[0]);
+  var d = parseInt(num2.split("+")[1].replace("i", ""));
+  return `${a * c - b * d}+${a * d + b * c}i`;
+};
+
+// .replace seems more obvious than .substring
