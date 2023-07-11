@@ -13803,7 +13803,7 @@ var topVotedMinimumTotal = function (triangle) {
 // Nice */
 
 // Complex Number Multiplication					7/10/2023
-
+/* 
 // A complex number can be represented as a string on the form "real+imaginaryi" where:
 
 // real is the real part and is an integer in the range [-100, 100].
@@ -13856,4 +13856,47 @@ var topVotdComplexNumberMultiply = function (num1, num2) {
   return `${a * c - b * d}+${a * d + b * c}i`;
 };
 
-// .replace seems more obvious than .substring
+// .replace seems more obvious than .substring */
+
+// Subarray Product Less Than K					7/11/2023
+
+// Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
+
+// Example 1:
+// 		Input: nums = [10,5,2,6], k = 100
+// 		Output: 8
+// Explanation: The 8 subarrays that have product less than 100 are:
+// 		[10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6]
+// 		Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.
+
+// Example 2:
+// 		Input: nums = [1,2,3], k = 0
+// 		Output: 0
+
+// Constraints:
+//		1 <= nums.length <= 3 * 10^4
+//		1 <= nums[i] <= 1000
+//		0 <= k <= 106
+
+var topVotedNumSubarrayProductLessThanK = function (nums, k) {
+  if (k <= 1) return 0;
+
+  let res = 0,
+    left = 0,
+    right = 0,
+    product = 1;
+
+  while (right < nums.length) {
+    product *= nums[right];
+    while (product >= k) {
+      product /= nums[left];
+      left++;
+    }
+    res += right - left + 1;
+    right++;
+  }
+  return res;
+};
+
+console.log(numSubarrayProductLessThanK([10, 5, 2, 6], 100)); // 8
+console.log(numSubarrayProductLessThanK([1, 2, 3], 0)); // 0
