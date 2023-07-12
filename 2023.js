@@ -13859,7 +13859,7 @@ var topVotdComplexNumberMultiply = function (num1, num2) {
 // .replace seems more obvious than .substring */
 
 // Subarray Product Less Than K					7/11/2023
-
+/* 
 // Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
 
 // Example 1:
@@ -13899,4 +13899,117 @@ var topVotedNumSubarrayProductLessThanK = function (nums, k) {
 };
 
 console.log(numSubarrayProductLessThanK([10, 5, 2, 6], 100)); // 8
-console.log(numSubarrayProductLessThanK([1, 2, 3], 0)); // 0
+console.log(numSubarrayProductLessThanK([1, 2, 3], 0)); // 0 */
+
+// Sender With Largest Word Count					7/12/2023
+
+// You have a chat log of n messages. You are given two string arrays messages and senders where messages[i] is a message sent by senders[i].
+
+// A message is list of words that are separated by a single space with no leading or trailing spaces. The word count of a sender is the total number of words sent by the sender. Note that a sender may send more than one message.
+
+// Return the sender with the largest word count. If there is more than one sender with the largest word count, return the one with the lexicographically largest name.
+
+// Note:
+
+// Uppercase letters come before lowercase letters in lexicographical order.
+
+// "Alice" and "alice" are distinct.
+
+// Example 1:
+// 		Input: messages = ["Hello userTwooo","Hi userThree","Wonderful day Alice","Nice day userThree"], senders = ["Alice","userTwo","userThree","Alice"]
+// 		Output: "Alice"
+// Explanation: Alice sends a total of 2 + 3 = 5 words.
+// 		userTwo sends a total of 2 words.
+// 		userThree sends a total of 3 words.
+// 		Since Alice has the largest word count, we return "Alice".
+
+// Example 2:
+// 		Input: messages = ["How is leetcode for everyone","Leetcode is useful for practice"], senders = ["Bob","Charlie"]
+// 		Output: "Charlie"
+// Explanation: Bob sends a total of 5 words.
+// 		Charlie sends a total of 5 words.
+// 		Since there is a tie for the largest word count, we return the sender with the lexicographically larger name, Charlie.
+
+// Constraints:
+//		n == messages.length == senders.length
+//		1 <= n <= 104
+//		1 <= messages[i].length <= 100
+//		1 <= senders[i].length <= 10
+//		messages[i] consists of uppercase and lowercase English letters and ' '.
+//		All the words in messages[i] are separated by a single space.
+//		messages[i] does not have leading or trailing spaces.
+//		senders[i] consists of uppercase and lowercase English letters only.
+
+var beforeLargestWordCount = function (messages, senders) {
+  let setOfSenders = new Set(senders);
+  let sendersObj = {};
+
+  for (let sender of setOfSenders) {
+    sendersObj = { ...sendersObj, [sender]: 0 };
+  }
+
+  senders.forEach((currentItem, index) => {
+    sendersObj = {
+      ...sendersObj,
+      [currentItem]:
+        sendersObj[currentItem] + messages[index].split(" ").length,
+    };
+  });
+
+  let maxWords = Math.max(...Object.values(sendersObj));
+  let sendersArray = Object.keys(sendersObj).filter(
+    (currentItem) => sendersObj[currentItem] === maxWords
+  );
+
+  //console.log(sendersArray);
+  return sendersArray.sort()[sendersArray.length - 1];
+};
+
+// This is a problem I'd already solved, but someone commented the above code under my solution
+// Decided to resolve why it was exceeding runtime limit as today's challenge
+
+var afterLargestWordCount = function (messages, senders) {
+  let setOfSenders = new Set(senders);
+  let sendersObj = {};
+
+  // initialize
+  for (let sender of setOfSenders) {
+    sendersObj[sender] = 0;
+  }
+
+  // count words
+  senders.forEach(
+    (currentItem, i) =>
+      (sendersObj[currentItem] += messages[i].split(" ").length)
+  );
+
+  // most words
+  let maxWords = Math.max(...Object.values(sendersObj));
+  let sendersArray = Object.keys(sendersObj).filter(
+    (currentItem) => sendersObj[currentItem] === maxWords
+  );
+
+  // lexicographically largest name
+  return sendersArray.sort().pop();
+};
+
+console.log(
+  largestWordCount(
+    [
+      "Hello userTwooo",
+      "Hi userThree",
+      "Wonderful day Alice",
+      "Nice day userThree",
+    ],
+    ["Alice", "userTwo", "userThree", "Alice"]
+  )
+); // "Alice"
+console.log(
+  largestWordCount(
+    ["How is leetcode for everyone", "Leetcode is useful for practice"],
+    ["Bob", "Charlie"]
+  )
+); // "Charlie"
+
+// Staying true to his logic, I suspect the copying of the sendersObj on every iteration was the problem
+// Code now passes all test cases
