@@ -13902,7 +13902,7 @@ console.log(numSubarrayProductLessThanK([10, 5, 2, 6], 100)); // 8
 console.log(numSubarrayProductLessThanK([1, 2, 3], 0)); // 0 */
 
 // Sender With Largest Word Count					7/12/2023
-
+/* 
 // You have a chat log of n messages. You are given two string arrays messages and senders where messages[i] is a message sent by senders[i].
 
 // A message is list of words that are separated by a single space with no leading or trailing spaces. The word count of a sender is the total number of words sent by the sender. Note that a sender may send more than one message.
@@ -14012,4 +14012,105 @@ console.log(
 ); // "Charlie"
 
 // Staying true to his logic, I suspect the copying of the sendersObj on every iteration was the problem
-// Code now passes all test cases
+// Code now passes all test cases */
+
+// Longest Word in Dictionary					7/13/2023
+
+// Given an array of strings words representing an English Dictionary, return the longest word in words that can be built one character at a time by other words in words.
+
+// If there is more than one possible answer, return the longest word with the smallest lexicographical order. If there is no answer, return the empty string.
+
+// Note that the word should be built from left to right with each additional character being added to the end of a previous word.
+
+// Example 1:
+// 		Input: words = ["w","wo","wor","worl","world"]
+// 		Output: "world"
+// Explanation: The word "world" can be built one character at a time by "w", "wo", "wor", and "worl".
+
+// Example 2:
+// 		Input: words = ["a","banana","app","appl","ap","apply","apple"]
+// 		Output: "apple"
+// Explanation: Both "apply" and "apple" can be built from other words in the dictionary. However, "apple" is lexicographically smaller than "apply".
+
+// Constraints:
+//		1 <= words.length <= 1000
+//		1 <= words[i].length <= 30
+//		words[i] consists of lowercase English letters.
+
+const longestWord = (words) => {
+  const wordsSet = [...new Set(words)];
+  let seen = wordsSet.reduce((map, word) => map.set(word, true), new Map());
+  wordsSet.sort((a, b) => b.length - a.length);
+
+  let res = "";
+
+  for (let word of wordsSet) {
+    if (res.length > word.length) break;
+    let cur = "";
+    for (let char of word) {
+      cur += char;
+      if (!seen.has(cur)) break;
+    }
+
+    if (cur === word) {
+      // successful word
+      if (res === "") res = word;
+      else if (word < res) res = word; // lexicographically smaller
+    }
+  }
+
+  return res;
+};
+
+console.log(longestWord(["w", "wo", "wor", "worl", "world"])); // "world"
+// prettier-ignore
+console.log(longestWord(["a","banana","app","appl","ap","apply","apple"])) // "apple"
+
+var topVotedLongestWord = function (words) {
+  words.sort();
+  let set = new Set();
+  let res = "";
+
+  for (let word of words) {
+    if (word.length === 1 || set.has(word.slice(0, -1))) {
+      set.add(word);
+      if (word.length > res.length) {
+        res = word;
+      }
+    }
+  }
+  return res;
+};
+
+// Clean
+
+const revisedLongestWord = (words) => {
+  const wordsSet = new Set(words);
+  words = [...wordsSet].sort((a, b) => b.length - a.length);
+
+  let res = "";
+
+  for (let word of words) {
+    if (res.length > word.length) break; // prev successful word is longer
+
+    let cur = "";
+    for (let char of word) {
+      cur += char;
+      if (!wordsSet.has(cur)) break;
+    }
+
+    if (cur === word) {
+      // successful word
+      if (res === "") res = word;
+      else if (word < res) res = word; // lexicographically smaller
+    }
+  }
+
+  return res;
+};
+
+console.log(revisedLongestWord(["w", "wo", "wor", "worl", "world"])); // "world"
+// prettier-ignore
+console.log(revisedLongestWord(["a","banana","app","appl","ap","apply","apple"])) // "apple"
+
+// Realized I didn't really need a Map
