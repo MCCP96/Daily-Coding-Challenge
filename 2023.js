@@ -14116,7 +14116,7 @@ console.log(revisedLongestWord(["a","banana","app","appl","ap","apply","apple"])
 // Realized I didn't really need a Map */
 
 // Subdomain Visit Count					7/14/2023
-
+/* 
 // A website domain "discuss.leetcode.com" consists of various subdomains. At the top level, we have "com", at the next level, we have "leetcode.com" and at the lowest level, "discuss.leetcode.com". When we visit a domain like "discuss.leetcode.com", we will also visit the parent domains "leetcode.com" and "com" implicitly.
 
 // A count-paired domain is a domain that has one of the two formats "rep d1.d2.d3" or "rep d1.d2" where rep is the number of visits to the domain and d1.d2.d3 is the domain itself.
@@ -14187,4 +14187,61 @@ var topVotedSubdomainVisits = function(cpdomains) {
     }
   });
   return Object.entries(map).map(entry => `${entry[1]} ${entry[0]}`);
-};
+}; */
+
+// New 21 Game					7/15/2023
+
+// Alice plays the following game, loosely based on the card game "21".
+
+// Alice starts with 0 points and draws numbers while she has less than k points. During each draw, she gains an integer number of points randomly from the range [1, maxPts], where maxPts is an integer. Each draw is independent and the outcomes have equal probabilities.
+
+// Alice stops drawing numbers when she gets k or more points.
+
+// Return the probability that Alice has n or fewer points.
+
+// Answers within 10^-5 of the actual answer are considered accepted.
+
+// Example 1:
+// 		Input: n = 10, k = 1, maxPts = 10
+// 		Output: 1.00000
+// Explanation: Alice gets a single card, then stops.
+
+// Example 2:
+// 		Input: n = 6, k = 1, maxPts = 10
+// 		Output: 0.60000
+// Explanation: Alice gets a single card, then stops.
+// 		In 6 out of 10 possibilities, she is at or below 6 points.
+
+// Example 3:
+// 		Input: n = 21, k = 17, maxPts = 10
+// 		Output: 0.73278
+
+// Constraints:
+//		0 <= k <= n <= 104
+//		1 <= maxPts <= 104
+
+function topVotedNew21Game(n, k, maxPts) {
+  let dp = new Array(n + 1);
+  dp[0] = 1;
+  s = k > 0 ? 1 : 0;
+  for (let i = 1; i <= n; i++) {
+    dp[i] = s / maxPts;
+    if (i < k) {
+      s += dp[i];
+    }
+    if (i - maxPts >= 0 && i - maxPts < k) {
+      s -= dp[i - maxPts];
+    }
+  }
+  let ans = 0;
+  for (let i = k; i <= n; i++) {
+    ans += dp[i];
+  }
+  return ans;
+}
+
+console.log(topVotedNew21Game(10, 1, 10)); // 1.00000
+console.log(topVotedNew21Game(6, 1, 10)); // 0.60000
+console.log(topVotedNew21Game(21, 17, 10)); // 0.73278
+
+// I got stuck looking for a mathematical solution
