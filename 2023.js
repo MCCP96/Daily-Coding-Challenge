@@ -14190,7 +14190,7 @@ var topVotedSubdomainVisits = function(cpdomains) {
 }; */
 
 // New 21 Game					7/15/2023
-
+/* 
 // Alice plays the following game, loosely based on the card game "21".
 
 // Alice starts with 0 points and draws numbers while she has less than k points. During each draw, she gains an integer number of points randomly from the range [1, maxPts], where maxPts is an integer. Each draw is independent and the outcomes have equal probabilities.
@@ -14244,4 +14244,86 @@ console.log(topVotedNew21Game(10, 1, 10)); // 1.00000
 console.log(topVotedNew21Game(6, 1, 10)); // 0.60000
 console.log(topVotedNew21Game(21, 17, 10)); // 0.73278
 
-// I got stuck looking for a mathematical solution
+// I got stuck looking for a mathematical solution */
+
+// My Calendar I					7/16/2023
+
+// You are implementing a program to use as your calendar. We can add a new event if adding the event will not cause a double booking.
+
+// A double booking happens when two events have some non-empty intersection (i.e., some moment is common to both events.).
+
+// The event can be represented as a pair of integers start and end that represents a booking on the half-open interval [start, end), the range of real numbers x such that start <= x < end.
+
+// Implement the MyCalendar class:
+
+// MyCalendar() Initializes the calendar object.
+
+// boolean book(int start, int end) Returns true if the event can be added to the calendar successfully without causing a double booking. Otherwise, return false and do not add the event to the calendar.
+
+// Example 1:
+// 		Input
+// 		["MyCalendar", "book", "book", "book"]
+// 		[[], [10, 20], [15, 25], [20, 30]]
+// 		Output
+// 		[null, true, false, true]
+// 		Explanation
+// 		MyCalendar myCalendar = new MyCalendar();
+// 		myCalendar.book(10, 20); // return True
+// 		myCalendar.book(15, 25); // return False, It can not be booked because time 15 is already booked by another event.
+// 		myCalendar.book(20, 30); // return True, The event can be booked, as the first event takes every time less than 20, but not including 20.
+
+// Constraints:
+//		0 <= start < end <= 109
+//		At most 1000 calls will be made to book.
+
+class MyCalendar {
+  constructor() {
+    this.calendar = [];
+  }
+
+  book(s, e) {
+    let doubleBooked = false;
+    for (const [bookS, bookE] of this.calendar) {
+      if (
+        (s <= bookS && e > bookS) ||
+        (s < bookE && e >= bookE) ||
+        (s < bookS && e > bookE) ||
+        (s > bookS && e < bookE)
+      ) {
+        doubleBooked = true;
+        break;
+      }
+    }
+    if (doubleBooked) return false;
+
+    this.calendar.push([s, e]);
+    return true;
+  }
+}
+
+const ex1 = new MyCalendar();
+ex1.book(10, 20);
+ex1.book(15, 25);
+ex1.book(20, 30);
+
+// Struggled with interval if statement, but works
+
+var TopVotedMyCalendar = function () {
+  this.events = [];
+};
+
+TopVotedMyCalendar.prototype.book = function (start, end) {
+  this.events.push([start, end]);
+  const sorted = this.events
+    .slice()
+    .sort((a, b) => (a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]));
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = sorted[i - 1];
+    const curr = sorted[i];
+    if (prev[1] > curr[0]) {
+      this.events.pop();
+      return false;
+    }
+  }
+  return true;
+};
