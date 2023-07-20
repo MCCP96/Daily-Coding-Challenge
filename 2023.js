@@ -14474,7 +14474,7 @@ var topVotedFlipgame = (fronts, backs) => {
 // Basically make list of impossibilities then find smallest possibility */
 
 // Minimum Number of Operations to Move All Balls to Each Box					7/19/2023
-
+/* 
 // You have n boxes. You are given a binary string boxes of length n, where boxes[i] is '0' if the ith box is empty, and '1' if it contains one ball.
 
 // In one operation, you can move one ball from a box to an adjacent box. Box i is adjacent to box j if abs(i - j) == 1. Note that after doing so, there may be more than one ball in some boxes.
@@ -14557,4 +14557,83 @@ function topVotedMinOperations(boxes) {
   return result;
 }
 
-// Much faster using memo
+// Much faster using memo */
+
+// Arithmetic Subarrays					7/20/2023
+
+// A sequence of numbers is called arithmetic if it consists of at least two elements, and the difference between every two consecutive elements is the same. More formally, a sequence s is arithmetic if and only if s[i+1] - s[i] == s[1] - s[0] for all valid i.
+
+// For example, these are arithmetic sequences:
+// 1, 3, 5, 7, 9
+// 7, 7, 7, 7
+// 3, -1, -5, -9
+
+// The following sequence is not arithmetic:
+// 1, 1, 2, 5, 7
+
+// You are given an array of n integers, nums, and two arrays of m integers each, l and r, representing the m range queries, where the ith query is the range [l[i], r[i]]. All the arrays are 0-indexed.
+
+// Return a list of boolean elements answer, where answer[i] is true if the subarray nums[l[i]], nums[l[i]+1], ... , nums[r[i]] can be rearranged to form an arithmetic sequence, and false otherwise.
+
+// Example 1:
+// 		Input: nums = [4,6,5,9,3,7], l = [0,0,2], r = [2,3,5]
+// 		Output: [true,false,true]
+// Explanation:
+// 		In the 0th query, the subarray is [4,6,5]. This can be rearranged as [6,5,4], which is an arithmetic sequence.
+// 		In the 1st query, the subarray is [4,6,5,9]. This cannot be rearranged as an arithmetic sequence.
+// 		In the 2nd query, the subarray is [5,9,3,7]. This can be rearranged as [3,5,7,9], which is an arithmetic sequence.
+
+// Example 2:
+// 		Input: nums = [-12,-9,-3,-12,-6,15,20,-25,-20,-15,-10], l = [0,1,6,4,8,7], r = [4,4,9,7,9,10]
+// 		Output: [false,true,false,false,true,true]
+
+// Constraints:
+//		n == nums.length
+//		m == l.length
+//		m == r.length
+//		2 <= n <= 500
+//		1 <= m <= 500
+//		0 <= l[i] < r[i] < n
+//		-105 <= nums[i] <= 105
+
+const checkArithmeticSubarrays = (nums, l, r) => {
+  let res = [];
+
+  for (let i = 0; i < l.length; i++) {
+    const arr = nums.slice(l[i], r[i] + 1).sort((a, b) => a - b);
+
+    let dif = arr[1] - arr[0];
+    for (let j = 1; j < arr.length - 1; j++) {
+      if (arr[j + 1] - arr[j] !== dif) {
+        dif = false;
+        break;
+      }
+    }
+    res[i] = Number.isInteger(dif);
+  }
+
+  return res;
+};
+
+console.log(checkArithmeticSubarrays([4, 6, 5, 9, 3, 7], [0, 0, 2], [2, 3, 5])); // [true,false,true]
+console.log(
+  checkArithmeticSubarrays(
+    [-12, -9, -3, -12, -6, 15, 20, -25, -20, -15, -10],
+    [0, 1, 6, 4, 8, 7],
+    [4, 4, 9, 7, 9, 10]
+  )
+); // [false,true,false,false,true,true]
+
+// Pretty straightforward logic here
+
+const topVotedCheckArithmeticSubarrays = (nums, l, r) =>
+  l.map((start, mapIdx) =>
+    nums
+      .slice(start, r[mapIdx] + 1)
+      .sort((a, b) => a - b)
+      .every((n, everyIdx, arr, diff = arr[1] - arr[0]) =>
+        everyIdx < 2 ? true : n - arr[everyIdx - 1] === diff
+      )
+  );
+
+// Great use of .every!
