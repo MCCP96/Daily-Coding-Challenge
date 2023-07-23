@@ -14689,7 +14689,7 @@ console.log(minPairSum([3, 5, 4, 2, 4, 6])); // 8
 // Same as top voted */
 
 // Finding the Users Active Minutes					7/22/2023
-
+/* 
 // You are given the logs for users' actions on LeetCode, and an integer k. The logs are represented by a 2D integer array logs where each logs[i] = [IDi, timei] indicates that the user with IDi performed an action at the minute timei.
 
 // Multiple users can perform actions simultaneously, and a single user can perform multiple actions in the same minute.
@@ -14767,4 +14767,74 @@ var topVotedFindingUsersActiveMinutes = function (logs, k) {
   return count;
 };
 
-// Same idea, much more concise
+// Same idea, much more concise */
+
+// Partition Labels					7/23/2023
+
+// You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part.
+
+// Note that the partition is done so that after concatenating all the parts in order, the resultant string should be s.
+
+// Return a list of integers representing the size of these parts.
+
+// Example 1:
+// 		Input: s = "ababcbacadefegdehijhklij"
+// 		Output: [9,7,8]
+// Explanation:
+// 		The partition is "ababcbaca", "defegde", "hijhklij".
+// 		This is a partition so that each letter appears in at most one part.
+// 		A partition like "ababcbacadefegde", "hijhklij" is incorrect, because it splits s into less parts.
+
+// Example 2:
+// 		Input: s = "eccbbbbdec"
+// 		Output: [10]
+
+// Constraints:
+//		1 <= s.length <= 500
+//		s consists of lowercase English letters.
+
+const partitionLabels = (s) => {
+  let res = [];
+  res.push(s.lastIndexOf(s[0]) + 1);
+  let acc = res[res.length - 1];
+
+  for (let i = 1; i < s.length; i++) {
+    const lastIdx = s.lastIndexOf(s[i]);
+
+    if (i + 1 > acc) {
+      // new partition
+      res.push(lastIdx - i + 1);
+      acc += res[res.length - 1];
+    } else if (lastIdx + 1 > acc) {
+      // extend partition
+      const prev = res.pop();
+      acc -= prev;
+      res.push(lastIdx - acc + 1);
+      acc += res[res.length - 1];
+    }
+  }
+
+  return res;
+};
+
+console.log(partitionLabels("ababcbacadefegdehijhklij")); // [9,7,8]
+console.log(partitionLabels("eccbbbbdec")); // [10]
+
+// Not very readable
+
+var topVotedPartitionLabels = function (s) {
+  let last = -1;
+  const res = [];
+  let left = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    last = Math.max(s.lastIndexOf(s[i]), last);
+    if (i === last) {
+      res.push(i - left + 1);
+      left = i + 1;
+    }
+  }
+  return res;
+};
+
+// Same runtime, but much more comprehensible
