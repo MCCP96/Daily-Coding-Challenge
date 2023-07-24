@@ -14770,7 +14770,7 @@ var topVotedFindingUsersActiveMinutes = function (logs, k) {
 // Same idea, much more concise */
 
 // Partition Labels					7/23/2023
-
+/* 
 // You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part.
 
 // Note that the partition is done so that after concatenating all the parts in order, the resultant string should be s.
@@ -14837,4 +14837,62 @@ var topVotedPartitionLabels = function (s) {
   return res;
 };
 
-// Same runtime, but much more comprehensible
+// Same runtime, but much more comprehensible */
+
+// Optimal Partition of String					7/24/2023
+
+// Given a string s, partition the string into one or more substrings such that the characters in each substring are unique. That is, no letter appears in a single substring more than once.
+
+// Return the minimum number of substrings in such a partition.
+
+// Note that each character should belong to exactly one substring in a partition.
+
+// Example 1:
+// 		Input: s = "abacaba"
+// 		Output: 4
+// Explanation:
+// 		Two possible partitions are ("a","ba","cab","a") and ("ab","a","ca","ba").
+// 		It can be shown that 4 is the minimum number of substrings needed.
+
+// Example 2:
+// 		Input: s = "ssssss"
+// 		Output: 6
+// Explanation:
+// 		The only valid partition is ("s","s","s","s","s","s").
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s consists of only English lowercase letters.
+
+const partitionString = (s) => {
+  let partitions = 0;
+
+  let seen = new Set();
+  for (let i = 0; i < s.length; i++) {
+    if (!seen.has(s[i])) {
+      seen.add(s[i]);
+    } else {
+      seen = new Set(s[i]);
+      partitions++;
+    }
+  }
+
+  return partitions + 1;
+};
+
+console.log(partitionString("abacaba")); // 4
+console.log(partitionString("ssssss")); // 6
+console.log(partitionString("gizfdfri")); // 2
+
+const topVotedPartitionString = (s, count = 1, map = new Map()) => {
+  for (let i = 0; i < s.length; i++) {
+    if (map.has(s[i])) {
+      count++;
+      map = new Map();
+    }
+    map.set(s[i], 1);
+  }
+  return count;
+};
+
+// same same
