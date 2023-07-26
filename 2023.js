@@ -14898,7 +14898,7 @@ const topVotedPartitionString = (s, count = 1, map = new Map()) => {
 // same same */
 
 // Design Browser History					7/25/2023
-
+/* 
 // You have a browser of one tab where you start on the homepage and you can visit another url, get back in the history number of steps or move forward in the history number of steps.
 // Implement the BrowserHistory class:
 // BrowserHistory(string homepage) Initializes the object with the homepage of the browser.
@@ -14954,3 +14954,60 @@ browserHistory.visit("linkedin.com"); // You are in "facebook.com". Visit "linke
 console.log(browserHistory.forward(2)); // You are in "linkedin.com", you cannot move forward any steps.
 console.log(browserHistory.back(2)); // You are in "linkedin.com", move back two steps to "facebook.com" then to "google.com". return "google.com"
 console.log(browserHistory.back(7)); // You are in "google.com", you can move back only one step to "leetcode.com". return "leetcode.com"
+ */
+
+// Find and Replace Pattern					7/26/2023
+
+// Given a list of strings words and a string pattern, return a list of words[i] that match pattern. You may return the answer in any order.
+
+// A word matches the pattern if there exists a permutation of letters p so that after replacing every letter x in the pattern with p(x), we get the desired word.
+
+// Recall that a permutation of letters is a bijection from letters to letters: every letter maps to another letter, and no two letters map to the same letter.
+
+// Example 1:
+// 		Input: words = ["abc","deq","mee","aqq","dkd","ccc"], pattern = "abb"
+// 		Output: ["mee","aqq"]
+// Explanation: "mee" matches the pattern because there is a permutation {a -> m, b -> e, ...}.
+// 		"ccc" does not match the pattern because {a -> c, b -> c, ...} is not a permutation, since a and b map to the same letter.
+
+// Example 2:
+// 		Input: words = ["a","b","c"], pattern = "a"
+// 		Output: ["a","b","c"]
+
+// Constraints:
+//		1 <= pattern.length <= 20
+//		1 <= words.length <= 50
+//		words[i].length == pattern.length
+//		pattern and words[i] are lowercase English letters.
+
+const findAndReplacePattern = (words, pattern) =>
+  words.filter((word) => {
+    let key = new Array(26);
+
+    for (let i = 0; i < word.length; i++) {
+      let charIdx = word[i].charCodeAt(0) - 97;
+
+      if (key[charIdx]) {
+        if (key[charIdx] !== pattern[i]) return false;
+      } else {
+        if (key.includes(pattern[i])) return false;
+        else key[charIdx] = pattern[i];
+      }
+    }
+
+    return true;
+  });
+
+console.log(
+  findAndReplacePattern(["abc", "deq", "mee", "aqq", "dkd", "ccc"], "abb")
+); // ["mee","aqq"]
+console.log(findAndReplacePattern(["a", "b", "c"], "a")); // ["a","b","c"]
+console.log(findAndReplacePattern(["abc", "cba", "xyx", "yxx", "yyx"], "abc")); // ["abc","cba"]
+
+// Decent
+
+const topVotedFindAndReplacePattern = (w, p) =>
+  w.filter((x) => pattern(p) == pattern(x));
+const pattern = (str) => str.replace(/(\w)/g, (x) => str.indexOf(x));
+
+// Nice
