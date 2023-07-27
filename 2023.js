@@ -14957,7 +14957,7 @@ console.log(browserHistory.back(7)); // You are in "google.com", you can move ba
  */
 
 // Find and Replace Pattern					7/26/2023
-
+/* 
 // Given a list of strings words and a string pattern, return a list of words[i] that match pattern. You may return the answer in any order.
 
 // A word matches the pattern if there exists a permutation of letters p so that after replacing every letter x in the pattern with p(x), we get the desired word.
@@ -15010,4 +15010,58 @@ const topVotedFindAndReplacePattern = (w, p) =>
   w.filter((x) => pattern(p) == pattern(x));
 const pattern = (str) => str.replace(/(\w)/g, (x) => str.indexOf(x));
 
-// Nice
+// Nice */
+
+// Find the Score of All Prefixes of an Array					7/27/2023
+
+// We define the conversion array conver of an array arr as follows:
+
+// conver[i] = arr[i] + max(arr[0..i]) where max(arr[0..i]) is the maximum value of arr[j] over 0 <= j <= i.
+
+// We also define the score of an array arr as the sum of the values of the conversion array of arr.
+
+// Given a 0-indexed integer array nums of length n, return an array ans of length n where ans[i] is the score of the prefix nums[0..i].
+
+// Example 1:
+// 		Input: nums = [2,3,7,5,10]
+// 		Output: [4,10,24,36,56]
+// Explanation:
+// 		For the prefix [2], the conversion array is [4] hence the score is 4
+// 		For the prefix [2, 3], the conversion array is [4, 6] hence the score is 10
+// 		For the prefix [2, 3, 7], the conversion array is [4, 6, 14] hence the score is 24
+// 		For the prefix [2, 3, 7, 5], the conversion array is [4, 6, 14, 12] hence the score is 36
+// 		For the prefix [2, 3, 7, 5, 10], the conversion array is [4, 6, 14, 12, 20] hence the score is 56
+
+// Example 2:
+// 		Input: nums = [1,1,2,4,8,16]
+// 		Output: [2,4,8,16,32,64]
+// Explanation:
+// 		For the prefix [1], the conversion array is [2] hence the score is 2
+// 		For the prefix [1, 1], the conversion array is [2, 2] hence the score is 4
+// 		For the prefix [1, 1, 2], the conversion array is [2, 2, 4] hence the score is 8
+// 		For the prefix [1, 1, 2, 4], the conversion array is [2, 2, 4, 8] hence the score is 16
+// 		For the prefix [1, 1, 2, 4, 8], the conversion array is [2, 2, 4, 8, 16] hence the score is 32
+// 		For the prefix [1, 1, 2, 4, 8, 16], the conversion array is [2, 2, 4, 8, 16, 32] hence the score is 64
+
+// Constraints:
+//		1 <= nums.length <= 10^5
+//		1 <= nums[i] <= 10^9
+
+const findPrefixScore = (nums) => {
+  let prefix = 0;
+  let max = 0;
+  return nums.map((num) => {
+    max = Math.max(max, num);
+    prefix += num + max;
+    return prefix;
+  });
+};
+
+console.log(findPrefixScore([2, 3, 7, 5, 10])); // [4,10,24,36,56]
+console.log(findPrefixScore([1, 1, 2, 4, 8, 16])); // [2,4,8,16,32,64]
+
+// 100% Runtime
+
+// Just left for Squamish, BC from Gatineau, QC
+// Going to spend the next 3 weeks crossing Canada in a van me and Hannah built out
+// Day 1 is 12hrs+ of driving :)
