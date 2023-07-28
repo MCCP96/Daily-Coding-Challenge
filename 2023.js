@@ -15013,7 +15013,7 @@ const pattern = (str) => str.replace(/(\w)/g, (x) => str.indexOf(x));
 // Nice */
 
 // Find the Score of All Prefixes of an Array					7/27/2023
-
+/* 
 // We define the conversion array conver of an array arr as follows:
 
 // conver[i] = arr[i] + max(arr[0..i]) where max(arr[0..i]) is the maximum value of arr[j] over 0 <= j <= i.
@@ -15064,4 +15064,62 @@ console.log(findPrefixScore([1, 1, 2, 4, 8, 16])); // [2,4,8,16,32,64]
 
 // Just left for Squamish, BC from Gatineau, QC
 // Going to spend the next 3 weeks crossing Canada in a van me and Hannah built out
-// Day 1 is 12hrs+ of driving :)
+// Day 1 is 12hrs+ of driving :) */
+
+// Sort Characters By Frequency					7/28/2023
+
+// Given a string s, sort it in decreasing order based on the frequency of the characters. The frequency of a character is the number of times it appears in the string.
+
+// Return the sorted string. If there are multiple answers, return any of them.
+
+// Example 1:
+// 		Input: s = "tree"
+// 		Output: "eert"
+// Explanation: 'e' appears twice while 'r' and 't' both appear once.
+// 		So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+
+// Example 2:
+// 		Input: s = "cccaaa"
+// 		Output: "aaaccc"
+// Explanation: Both 'c' and 'a' appear three times, so both "cccaaa" and "aaaccc" are valid answers.
+// 		Note that "cacaca" is incorrect, as the same characters must be together.
+
+// Example 3:
+// 		Input: s = "Aabb"
+// 		Output: "bbAa"
+// Explanation: "bbaA" is also a valid answer, but "Aabb" is incorrect.
+// 		Note that 'A' and 'a' are treated as two different characters.
+
+// Constraints:
+//		1 <= s.length <= 5 * 10^5
+//		s consists of uppercase and lowercase English letters and digits.
+
+const frequencySort = (s) => {
+  const map = new Map();
+  for (const c of s) {
+    if (map.has(c)) map.set(c, map.get(c) + c);
+    else map.set(c, c);
+  }
+  return [...map.values()]
+    .sort((a, b) => (a.length > b.length ? -1 : 1))
+    .join("");
+};
+
+console.log(frequencySort("tree")); // "eert"
+console.log(frequencySort("cccaaa")); // "aaaccc"
+console.log(frequencySort("Aabb")); // "bbAa"
+
+var topVotedFrequencySort = function (s) {
+  const charMap = s.split("").reduce((acc, cur) => {
+    acc[cur] = (acc[cur] || 0) + 1;
+    return acc;
+  }, {});
+
+  const sortedArr = Object.keys(charMap).sort(
+    (a, b) => charMap[b] - charMap[a]
+  );
+
+  return sortedArr.reduce((acc, cur) => acc + cur.repeat(charMap[cur]), "");
+};
+
+// Thought about this, but opted to sort by length rather than use .repeat
