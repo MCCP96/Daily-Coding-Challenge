@@ -15067,7 +15067,7 @@ console.log(findPrefixScore([1, 1, 2, 4, 8, 16])); // [2,4,8,16,32,64]
 // Day 1 is 12hrs+ of driving :) */
 
 // Sort Characters By Frequency					7/28/2023
-
+/* 
 // Given a string s, sort it in decreasing order based on the frequency of the characters. The frequency of a character is the number of times it appears in the string.
 
 // Return the sorted string. If there are multiple answers, return any of them.
@@ -15122,4 +15122,32 @@ var topVotedFrequencySort = function (s) {
   return sortedArr.reduce((acc, cur) => acc + cur.repeat(charMap[cur]), "");
 };
 
-// Thought about this, but opted to sort by length rather than use .repeat
+// Thought about this, but opted to sort by length rather than use .repeat */
+
+// Remove Trailing Zeros From a String					7/29/2023
+
+// Given a positive integer num represented as a string, return the integer num without trailing zeros as a string.
+
+// Example 1:
+// 		Input: num = "51230100"
+// 		Output: "512301"
+// Explanation: Integer "51230100" has 2 trailing zeros, we remove them and return integer "512301".
+
+// Example 2:
+// 		Input: num = "123"
+// 		Output: "123"
+// Explanation: Integer "123" has no trailing zeros, we return integer "123".
+
+// Constraints:
+//		1 <= num.length <= 1000
+//		num consists of only digits.
+//		num doesn't have any leading zeros.
+
+const removeTrailingZeros = (num) => num.replace(/0+$/, "");
+
+console.log(removeTrailingZeros("51230100")); // "512301"
+console.log(removeTrailingZeros("123")); // "123"
+console.log(removeTrailingZeros("1720865079269529096765717822459")); // "1720865079269529096765717822459"
+
+// 100% runtime, same as top voted
+// Done from 'across the board' in Winnipeg 🎲
