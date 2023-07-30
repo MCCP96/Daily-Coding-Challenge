@@ -15125,7 +15125,7 @@ var topVotedFrequencySort = function (s) {
 // Thought about this, but opted to sort by length rather than use .repeat */
 
 // Remove Trailing Zeros From a String					7/29/2023
-
+/* 
 // Given a positive integer num represented as a string, return the integer num without trailing zeros as a string.
 
 // Example 1:
@@ -15150,4 +15150,53 @@ console.log(removeTrailingZeros("123")); // "123"
 console.log(removeTrailingZeros("1720865079269529096765717822459")); // "1720865079269529096765717822459"
 
 // 100% runtime, same as top voted
-// Done from 'across the board' in Winnipeg 🎲
+// Done from 'across the board' in Winnipeg 🎲 */
+
+// Custom Sort String					7/30/2023
+
+// You are given two strings order and s. All the characters of order are unique and were sorted in some custom order previously.
+
+// Permute the characters of s so that they match the order that order was sorted. More specifically, if a character x occurs before a character y in order, then x should occur before y in the permuted string.
+
+// Return any permutation of s that satisfies this property.
+
+// Example 1:
+// 		Input: order = "cba", s = "abcd"
+// 		Output: "cbad"
+// Explanation:
+// 		"a", "b", "c" appear in order, so the order of "a", "b", "c" should be "c", "b", and "a".
+// 		Since "d" does not appear in order, it can be at any position in the returned string. "dcba", "cdba", "cbda" are also valid outputs.
+
+// Example 2:
+// 		Input: order = "cbafg", s = "abcd"
+// 		Output: "cbad"
+
+// Constraints:
+//		1 <= order.length <= 26
+//		1 <= s.length <= 200
+//		order and s consist of lowercase English letters.
+//		All the characters of order are unique.
+
+const customSortString = (order, s) =>
+  [...s].sort((a, b) => order.indexOf(a) - order.indexOf(b)).join("");
+
+console.log(customSortString("cba", "abcd")); // "cbad"
+console.log(customSortString("cbafg", "abcd")); // "cbad"
+
+// 95% runtime, same as top voted
+
+var topVotedCustomSortString = function (order, string) {
+  let map = {};
+  for (let i = 0; i < order.length; i++) {
+    map[order[i]] = i;
+  }
+  for (let i = 0; i < string.length; i++) {
+    if (map[string[i]] == undefined) {
+      map[string[i]] = Infinity;
+    }
+  }
+  string = string.split("");
+  return string.sort((a, b) => map[a] - map[b]).join("");
+};
+
+// Hash map is another good approach
