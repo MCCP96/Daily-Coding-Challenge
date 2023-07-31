@@ -15153,7 +15153,7 @@ console.log(removeTrailingZeros("1720865079269529096765717822459")); // "1720865
 // Done from 'across the board' in Winnipeg 🎲 */
 
 // Custom Sort String					7/30/2023
-
+/* 
 // You are given two strings order and s. All the characters of order are unique and were sorted in some custom order previously.
 
 // Permute the characters of s so that they match the order that order was sorted. More specifically, if a character x occurs before a character y in order, then x should occur before y in the permuted string.
@@ -15199,4 +15199,94 @@ var topVotedCustomSortString = function (order, string) {
   return string.sort((a, b) => map[a] - map[b]).join("");
 };
 
-// Hash map is another good approach
+// Hash map is another good approach */
+
+// Guess Number Higher or Lower II					7/31/2023
+
+// We are playing the Guessing Game. The game will work as follows:
+
+// I pick a number between 1 and n.
+// You guess a number.
+// If you guess the right number, you win the game.
+// If you guess the wrong number, then I will tell you whether the number I picked is higher or lower, and you will continue guessing.
+// Every time you guess a wrong number x, you will pay x dollars. If you run out of money, you lose the game.
+
+// Given a particular n, return the minimum amount of money you need to guarantee a win regardless of what number I pick.
+
+// Example 1:
+// 		Input: n = 10
+// 		Output: 16
+// Explanation: The winning strategy is as follows:
+// 		- The range is [1,10]. Guess 7.
+// 		- If this is my number, your total is $0. Otherwise, you pay $7.
+// 		- If my number is higher, the range is [8,10]. Guess 9.
+// 		- If this is my number, your total is $7. Otherwise, you pay $9.
+// 		- If my number is higher, it must be 10. Guess 10. Your total is $7 + $9 = $16.
+// 		- If my number is lower, it must be 8. Guess 8. Your total is $7 + $9 = $16.
+// 		- If my number is lower, the range is [1,6]. Guess 3.
+// 		- If this is my number, your total is $7. Otherwise, you pay $3.
+// 		- If my number is higher, the range is [4,6]. Guess 5.
+// 		- If this is my number, your total is $7 + $3 = $10. Otherwise, you pay $5.
+// 		- If my number is higher, it must be 6. Guess 6. Your total is $7 + $3 + $5 = $15.
+// 		- If my number is lower, it must be 4. Guess 4. Your total is $7 + $3 + $5 = $15.
+// 		- If my number is lower, the range is [1,2]. Guess 1.
+// 		- If this is my number, your total is $7 + $3 = $10. Otherwise, you pay $1.
+// 		- If my number is higher, it must be 2. Guess 2. Your total is $7 + $3 + $1 = $11.
+// 		The worst case in all these scenarios is that you pay $16. Hence, you only need $16 to guarantee a win.
+
+// Example 2:
+// 		Input: n = 1
+// 		Output: 0
+// Explanation: There is only one possible number, so you can guess 1 and not have to pay anything.
+
+// Example 3:
+// 		Input: n = 2
+// 		Output: 1
+// Explanation: There are two possible numbers, 1 and 2.
+// 		- Guess 1.
+// 		- If this is my number, your total is $0. Otherwise, you pay $1.
+// 		- If my number is higher, it must be 2. Guess 2. Your total is $1.
+// 		The worst case is that you pay $1.
+
+// Constraints:
+//		1 <= n <= 200
+
+const getMoneyAmount = (n) => {
+  let acc = 0;
+  let low = ~~(n / 2);
+
+  while (low < n) {
+    low += ~~((n - low) / 2);
+    acc += low;
+    low++;
+  }
+
+  return acc;
+};
+
+console.log(getMoneyAmount(10)); // 16
+console.log(getMoneyAmount(1)); // 0
+console.log(getMoneyAmount(2)); // 1
+
+// Can't get it working
+
+var topVotedGetMoneyAmount = function (n) {
+  const dp = Array(n + 1)
+    .fill(null)
+    .map(() => Array(n + 1).fill(Infinity));
+
+  const minimax = (l, r) => {
+    if (l >= r) return 0;
+    if (dp[l][r] !== Infinity) return dp[l][r];
+
+    for (let i = l; i <= r; i++) {
+      dp[l][r] = Math.min(
+        dp[l][r],
+        i + Math.max(minimax(i + 1, r), minimax(l, i - 1))
+      );
+    }
+    return dp[l][r];
+  };
+
+  return minimax(1, n);
+};
