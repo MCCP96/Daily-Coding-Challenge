@@ -15202,7 +15202,7 @@ var topVotedCustomSortString = function (order, string) {
 // Hash map is another good approach */
 
 // Guess Number Higher or Lower II					7/31/2023
-
+/* 
 // We are playing the Guessing Game. The game will work as follows:
 
 // I pick a number between 1 and n.
@@ -15289,4 +15289,60 @@ var topVotedGetMoneyAmount = function (n) {
   };
 
   return minimax(1, n);
+}; */
+
+// Palindromic Substrings					8/1/2023
+
+// Given a string s, return the number of palindromic substrings in it.
+// A string is a palindrome when it reads the same backward as forward.
+// A substring is a contiguous sequence of characters within the string.
+
+// Example 1:
+// 		Input: s = "abc"
+// 		Output: 3
+// Explanation: Three palindromic strings: "a", "b", "c".
+
+// Example 2:
+// 		Input: s = "aaa"
+// 		Output: 6
+// Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
+
+// Constraints:
+//		1 <= s.length <= 1000
+//		s consists of lowercase English letters.
+
+const countSubstrings = (s) => {
+  const isPalindrome = (str) => str === [...str].reverse().join("");
+
+  let count = s.length;
+  for (let i = 0; i < s.length; i++) {
+    let sub = s[i];
+    for (let j = i + 1; j < s.length; j++) {
+      sub += s[j];
+      if (isPalindrome(sub)) count++;
+    }
+  }
+  return count;
 };
+
+console.log(countSubstrings("abc")); // 3
+console.log(countSubstrings("aaa")); // 6
+
+// Slow but passes
+
+function topVotedCountSubstrings(s) {
+  let count = 0;
+  for (let i = 0; i < s.length; i++) {
+    expand(i, i); // odd length
+    expand(i, i + 1); // even length
+  }
+  return count;
+
+  function expand(l, r) {
+    while (l >= 0 && r < s.length && s[l] === s[r]) {
+      count++;
+      l--;
+      r++;
+    }
+  }
+}
