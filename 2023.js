@@ -15648,7 +15648,7 @@ var topVotedLongestAlternatingSubarray = function (nums, threshold) {
 // Skip elements that have already been considered is what I'm missing */
 
 // Check if Array is Good					8/6/2023
-
+/* 
 // You are given an integer array nums. We consider an array good if it is a permutation of an array base[n].
 
 // base[n] = [1, 2, ..., n - 1, n, n] (in other words, it is an array of length n + 1 which contains 1 to n - 1 exactly once, plus two occurrences of n). For example, base[1] = [1, 1] and base[3] = [1, 2, 3, 3].
@@ -15708,4 +15708,57 @@ const topVotedIsGood = (a) => {
   return true;
 };
 
-// Better runtime
+// Better runtime */
+
+// Rearrange Words in a Sentence					8/7/2023
+
+// Given a sentence text (A sentence is a string of space-separated words) in the following format:
+
+// First letter is in upper case.
+// Each word in text are separated by a single space.
+
+// Your task is to rearrange the words in text such that all words are rearranged in an increasing order of their lengths. If two words have the same length, arrange them in their original order.
+
+// Return the new text following the format shown above.
+
+// Example 1:
+// 		Input: text = "Leetcode is cool"
+// 		Output: "Is cool leetcode"
+// Explanation: There are 3 words, "Leetcode" of length 8, "is" of length 2 and "cool" of length 4.
+// 		Output is ordered by length and the new first word starts with capital letter.
+
+// Example 2:
+// 		Input: text = "Keep calm and code on"
+// 		Output: "On and keep calm code"
+// Explanation: Output is ordered as follows:
+// 		"On" 2 letters.
+// 		"and" 3 letters.
+// 		"keep" 4 letters in case of tie order by position in original text.
+// 		"calm" 4 letters.
+// 		"code" 4 letters.
+
+// Example 3:
+// 		Input: text = "To be or not to be"
+// 		Output: "To be or to be not"
+
+// Constraints:
+//		text begins with a capital letter and then contains lowercase letters and single space between words.
+//		1 <= text.length <= 10^5
+
+const arrangeWords = (text) => {
+  const res = text
+    .toLowerCase()
+    .split(" ")
+    .sort((a, b) => (a.length == b.length ? 0 : a.length > b.length ? 1 : -1))
+    .join(" ");
+
+  return res[0].toUpperCase() + res.slice(1);
+};
+
+console.log(arrangeWords("Leetcode is cool")); // "Is cool leetcode"
+console.log(arrangeWords("Keep calm and code on")); // "On and keep calm code"
+console.log(arrangeWords("To be or not to be")); // "To be or to be not"
+
+// 95% runtime
+// Others used maps saying .sort didn't work for equal length words
+// 'a.length == b.length ? 0' works around that
