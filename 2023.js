@@ -15764,7 +15764,7 @@ console.log(arrangeWords("To be or not to be")); // "To be or to be not"
 // 'a.length == b.length ? 0' works around that */
 
 // Evaluate the Bracket Pairs of a String					8/8/2023
-
+/* 
 // You are given a string s that contains some bracket pairs, with each pair containing a non-empty key.
 
 // For example, in the string "(name)is(age)yearsold", there are two bracket pairs that contain the keys "name" and "age".
@@ -15849,4 +15849,67 @@ var topVotedEvaluate = function (s, knowledge) {
 };
 
 // Didn't know you could build Map like that
-// Beauty!
+// Beauty! */
+
+// Longest Subarray of 1's After Deleting One Element					8/9/2023
+
+// Given a binary array nums, you should delete one element from it.
+
+// Return the size of the longest non-empty subarray containing only 1's in the resulting array. Return 0 if there is no such subarray.
+
+// Example 1:
+// 		Input: nums = [1,1,0,1]
+// 		Output: 3
+// Explanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's.
+
+// Example 2:
+// 		Input: nums = [0,1,1,1,0,1,1,0,1]
+// 		Output: 5
+// Explanation: After deleting the number in position 4, [0,1,1,1,1,1,0,1] longest subarray with value of 1's is [1,1,1,1,1].
+
+// Example 3:
+// 		Input: nums = [1,1,1]
+// 		Output: 2
+// Explanation: You must delete one element.
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		nums[i] is either 0 or 1.
+
+const longestSubarray = (nums) => {
+  if (!nums.includes(0)) return nums.length - 1;
+
+  let max = 0;
+  let prev = 0;
+  for (const sub of nums.join("").split("0")) {
+    if (prev > 0 && sub.length > 0) max = Math.max(max, prev + sub.length);
+    prev = sub.length;
+    max = Math.max(max, prev);
+  }
+
+  return max;
+};
+
+console.log(longestSubarray([1, 1, 0, 1])); // 3
+console.log(longestSubarray([0, 1, 1, 1, 0, 1, 1, 0, 1])); // 5
+console.log(longestSubarray([1, 1, 1])); // 2
+console.log(longestSubarray([0, 0, 1, 1])); // 2
+
+// Not a fan of running 'max = Math.max(max, prev)' on every iteration, but it works
+
+var topVotedLongestSubarray = function (nums) {
+  let i, j, max, skip;
+  skip = i = j = 0;
+  max = 1;
+  while (j < nums.length) {
+    if (nums[j] === 0) skip++;
+
+    while (skip === 2) {
+      if (nums[i] === 0) skip--;
+      i++;
+    }
+    max = Math.max(max, j - i + 1);
+    j++;
+  }
+  return max - 1; // least value of max is 1 which means --> all elements are zero
+};
