@@ -15950,7 +15950,7 @@ console.log(accountBalanceAfterPurchase(15)); // 80
 // Same as top voted */
 
 // Split Strings by Separator					8/11/2023
-
+/* 
 // Given an array of strings words and a character separator, split each string in words by separator.
 
 // Return an array of strings containing the new strings formed after the splits, excluding empty strings.
@@ -16004,4 +16004,96 @@ console.log(splitWordsBySeparator(["|||"], "|")); // []
 
 var topVotedSplitWordsBySeparator = function (words, separator) {
   return words.join(separator).split(separator).filter(Boolean);
+};
+
+// Meant to write a thing about climbing but posted already oops
+
+// Climbed The Chief in Squamish this morning (Aug 11th)
+// Started at 5:00 am and finished by noon, doing 15 pitches
+// We did Diedre > Boomstick Crack > Butt light
+
+// Very stoked, we've improved so much during this trip to Squamish and that was a real milestone! */
+
+// Search Suggestions System					8/12/2023
+
+// You are given an array of strings products and a string searchWord.
+
+// Design a system that suggests at most three product names from products after each character of searchWord is typed. Suggested products should have common prefix with searchWord. If there are more than three products with a common prefix return the three lexicographically minimums products.
+
+// Return a list of lists of the suggested products after each character of searchWord is typed.
+
+// Example 1:
+// 		Input: products = ["mobile","mouse","moneypot","monitor","mousepad"], searchWord = "mouse"
+// 		Output: [["mobile","moneypot","monitor"],["mobile","moneypot","monitor"],["mouse","mousepad"],["mouse","mousepad"],["mouse","mousepad"]]
+// Explanation: products sorted lexicographically = ["mobile","moneypot","monitor","mouse","mousepad"].
+// 		After typing m and mo all products match and we show user ["mobile","moneypot","monitor"].
+// 		After typing mou, mous and mouse the system suggests ["mouse","mousepad"].
+
+// Example 2:
+// 		Input: products = ["havana"], searchWord = "havana"
+// 		Output: [["havana"],["havana"],["havana"],["havana"],["havana"],["havana"]]
+// Explanation: The only word "havana" will be always suggested while typing the search word.
+
+// Constraints:
+//		1 <= products.length <= 1000
+//		1 <= products[i].length <= 3000
+//		1 <= sum(products[i].length) <= 2 * 104
+//		All the strings of products are unique.
+//		products[i] consists of lowercase English letters.
+//		1 <= searchWord.length <= 1000
+//		searchWord consists of lowercase English letters.
+
+const suggestedProducts = (prods, word) => {
+  let res = [];
+
+  let search = "";
+  let compatible = prods;
+  for (const c of word) {
+    search += c;
+
+    compatible = compatible
+      .filter((prod) => prod[search.length - 1] === c)
+      .sort((a, b) => a.localeCompare(b));
+
+    res.push(compatible.slice(0, 3));
+  }
+
+  return res;
+};
+
+console.log(
+  suggestedProducts(
+    ["mobile", "mouse", "moneypot", "monitor", "mousepad"],
+    "mouse"
+  )
+); // [["mobile","moneypot","monitor"],["mobile","moneypot","monitor"],["mouse","mousepad"],["mouse","mousepad"],["mouse","mousepad"]]
+console.log(suggestedProducts(["havana"], "havana")); // [["havana"],["havana"],["havana"],["havana"],["havana"],["havana"]]
+
+// Nice
+
+var suggestedProductsSort = function (products, searchWord) {
+  products.sort();
+  let res = [];
+  for (let i = 0; i < searchWord.length; i++) {
+    products = products.filter((p) => p[i] == searchWord[i]);
+    res.push(products.slice(0, 3));
+  }
+  return res;
+};
+
+// Sort first instead of every iteration
+// Also don't need localeCompare, not sure where I got that from
+
+const revisedSuggestedProducts = (prods, word) => {
+  let res = [];
+
+  let search = "";
+  let compatible = prods.sort();
+  for (const c of word) {
+    search += c;
+    compatible = compatible.filter((prod) => prod[search.length - 1] === c);
+    res.push(compatible.slice(0, 3));
+  }
+
+  return res;
 };
