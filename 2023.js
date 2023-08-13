@@ -16015,7 +16015,7 @@ var topVotedSplitWordsBySeparator = function (words, separator) {
 // Very stoked, we've improved so much during this trip to Squamish and that was a real milestone! */
 
 // Search Suggestions System					8/12/2023
-
+/* 
 // You are given an array of strings products and a string searchWord.
 
 // Design a system that suggests at most three product names from products after each character of searchWord is typed. Suggested products should have common prefix with searchWord. If there are more than three products with a common prefix return the three lexicographically minimums products.
@@ -16096,4 +16096,65 @@ const revisedSuggestedProducts = (prods, word) => {
   }
 
   return res;
+}; */
+
+// Daily Temperatures					8/13/2023
+
+// Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+// Example 1:
+// 		Input: temperatures = [73,74,75,71,69,72,76,73]
+// 		Output: [1,1,4,2,1,1,0,0]
+
+// Example 2:
+// 		Input: temperatures = [30,40,50,60]
+// 		Output: [1,1,1,0]
+
+// Example 3:
+// 		Input: temperatures = [30,60,90]
+// 		Output: [1,1,0]
+
+// Constraints:
+//		1 <= temperatures.length <= 105
+//		30 <= temperatures[i] <= 100
+
+const dailyTemperatures = (temps) => {
+  let res = new Array(temps.length).fill(0);
+
+  let key = [];
+  temps.forEach((temp, i) => {
+    let lessIdx = key.findIndex(([t, _]) => t < temp);
+
+    if (lessIdx !== -1) {
+      for (const [_, idx] of key.splice(lessIdx)) {
+        res[idx] = i - idx;
+      }
+    }
+
+    key.push([temp, i]);
+    key.sort(([t1, _], [t2, __]) => t2 - t1);
+  });
+
+  return res;
+};
+
+console.log(dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73])); // [1,1,4,2,1,1,0,0]
+console.log(dailyTemperatures([30, 40, 50, 60])); // [1,1,1,0]
+console.log(dailyTemperatures([30, 60, 90])); // [1,1,0]
+
+// Exceeds runtime
+
+var topVotedDailyTemperatures = function (T) {
+  let stack = [];
+  let result = new Array(T.length).fill(0);
+  for (let i = T.length - 1; i >= 0; i--) {
+    while (stack.length && T[i] >= T[stack[stack.length - 1]]) {
+      stack.pop();
+    }
+    if (stack.length) {
+      result[i] = stack[stack.length - 1] - i;
+    }
+    stack.push(i);
+  }
+  return result;
 };
