@@ -16099,7 +16099,7 @@ const revisedSuggestedProducts = (prods, word) => {
 }; */
 
 // Daily Temperatures					8/13/2023
-
+/* 
 // Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
 
 // Example 1:
@@ -16157,4 +16157,67 @@ var topVotedDailyTemperatures = function (T) {
     stack.push(i);
   }
   return result;
+}; */
+
+// K Closest Points to Origin					8/14/2023
+
+// Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0).
+
+// The distance between two points on the X-Y plane is the Euclidean distance (i.e., √(x1 - x2)2 + (y1 - y2)2).
+
+// You may return the answer in any order. The answer is guaranteed to be unique (except for the order that it is in).
+
+// Example 1:
+// 		Input: points = [[1,3],[-2,2]], k = 1
+// 		Output: [[-2,2]]
+// Explanation:
+// 		The distance between (1, 3) and the origin is sqrt(10).
+// 		The distance between (-2, 2) and the origin is sqrt(8).
+// 		Since sqrt(8) < sqrt(10), (-2, 2) is closer to the origin.
+// 		We only want the closest k = 1 points from the origin, so the answer is just [[-2,2]].
+
+// Example 2:
+// 		Input: points = [[3,3],[5,-1],[-2,4]], k = 2
+// 		Output: [[3,3],[-2,4]]
+// Explanation: The answer [[-2,4],[3,3]] would also be accepted.
+
+// Constraints:
+//		1 <= k <= points.length <= 104
+//		-104 <= xi, yi <= 104
+
+const kClosest = (points, k) => {
+  if (k === points.length) return points;
+
+  let closest = new Array(k).fill({ dist: Infinity, coords: [-1, -1] });
+
+  for (const [x, y] of points) {
+    const dist = Math.sqrt(x ** 2 + y ** 2);
+    if (dist < closest[k - 1].dist) {
+      closest[k - 1] = { dist, coords: [x, y] };
+      closest.sort((a, b) => a.dist - b.dist);
+    }
+  }
+
+  return closest.map(({ _, coords }) => coords);
 };
+
+// prettier-ignore
+console.log(kClosest([[1,3],[-2,2]], 1)) // [[-2,2]]
+// prettier-ignore
+console.log(kClosest([[3,3],[5,-1],[-2,4]], 2)) // [[3,3],[-2,4]]
+
+// Slow but passes
+
+var topVotedKClosest = function (points, K) {
+  return points.sort((a, b) => getLength(a) - getLength(b)).slice(0, K);
+};
+var getLength = function ([a, b]) {
+  return a * a + b * b;
+};
+
+// Wooooow, of course
+
+const revisedKClosest = (points, k) =>
+  points
+    .sort(([x1, y1], [x2, y2]) => x1 ** 2 + y1 ** 2 - (x2 ** 2 + y2 ** 2))
+    .slice(0, k);
