@@ -16224,7 +16224,7 @@ const revisedKClosest = (points, k) =>
  */
 
 // Faulty Keyboard					8/15/2023
-
+/* 
 // Your laptop keyboard is faulty, and whenever you type a character 'i' on it, it reverses the string that you have written. Typing other characters works as expected.
 
 // You are given a 0-indexed string s, and you type each character of s using your faulty keyboard.
@@ -16275,4 +16275,68 @@ console.log(finalString("poiinter")); // "ponter"
 console.log(finalString("goci")); // "cog"
 
 // Easy for today
-// Same as top voted
+// Same as top voted */
+
+// Reverse Substrings Between Each Pair of Parentheses					8/16/2023
+
+// You are given a string s that consists of lower case English letters and brackets.
+// Reverse the strings in each pair of matching parentheses, starting from the innermost one.
+// Your result should not contain any brackets.
+
+// Example 1:
+// 		Input: s = "(abcd)"
+// 		Output: "dcba"
+
+// Example 2:
+// 		Input: s = "(u(love)i)"
+// 		Output: "iloveu"
+// Explanation: The substring "love" is reversed first, then the whole string is reversed.
+
+// Example 3:
+// 		Input: s = "(ed(et(oc))el)"
+// 		Output: "leetcode"
+// Explanation: First, we reverse the substring "oc", then "etco", and finally, the whole string.
+
+// Constraints:
+//		1 <= s.length <= 2000
+//		s only contains lower case English characters and parentheses.
+//		It is guaranteed that all parentheses are balanced.
+
+const reverseParentheses = (s) => {
+  s = [...s];
+
+  const rev = (arr) =>
+    arr.reverse().reduce((res, c) => {
+      if (c === ")") res.push("(");
+      else if (c === "(") res.push(")");
+      else res.push(c);
+      return res;
+    }, []);
+
+  let i = 0;
+  while (s.includes("(")) {
+    const [open, close] = [s.indexOf("("), s.lastIndexOf(")")];
+    const bracketted = s.splice(open + 1, close - 1);
+    s.splice(open, 2, ...rev(bracketted));
+  }
+
+  return s.join("");
+};
+
+console.log(reverseParentheses("(abcd)")); // "dcba"
+console.log(reverseParentheses("(u(love)i)")); // "iloveu"
+console.log(reverseParentheses("(ed(et(oc))el)")); // "leetcode"
+
+// Stuck here
+
+var topVotedReverseParentheses = function (s) {
+  let stack = [[]];
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === "(") stack.push([]);
+    else if (s[i] === ")") {
+      let cur = stack.pop().reverse();
+      stack[stack.length - 1].push(...cur);
+    } else stack[stack.length - 1].push(s[i]);
+  }
+  return stack[0].join("");
+};
