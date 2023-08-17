@@ -16278,7 +16278,7 @@ console.log(finalString("goci")); // "cog"
 // Same as top voted */
 
 // Reverse Substrings Between Each Pair of Parentheses					8/16/2023
-
+/* 
 // You are given a string s that consists of lower case English letters and brackets.
 // Reverse the strings in each pair of matching parentheses, starting from the innermost one.
 // Your result should not contain any brackets.
@@ -16339,4 +16339,75 @@ var topVotedReverseParentheses = function (s) {
     } else stack[stack.length - 1].push(s[i]);
   }
   return stack[0].join("");
+}; */
+
+// Number of Zero-Filled Subarrays					8/17/2023
+
+// Given an integer array nums, return the number of subarrays filled with 0.
+// A subarray is a contiguous non-empty sequence of elements within an array.
+
+// Example 1:
+// 		Input: nums = [1,3,0,0,2,0,0,4]
+// 		Output: 6
+// Explanation:
+// 		There are 4 occurrences of [0] as a subarray.
+// 		There are 2 occurrences of [0,0] as a subarray.
+// 		There is no occurrence of a subarray with a size more than 2 filled with 0. Therefore, we return 6.
+
+// Example 2:
+// 		Input: nums = [0,0,0,2,0,0]
+// 		Output: 9
+// Explanation:
+// 		There are 5 occurrences of [0] as a subarray.
+// 		There are 3 occurrences of [0,0] as a subarray.
+// 		There is 1 occurrence of [0,0,0] as a subarray.
+// 		There is no occurrence of a subarray with a size more than 3 filled with 0. Therefore, we return 9.
+
+// Example 3:
+// 		Input: nums = [2,10,2019]
+// 		Output: 0
+// Explanation: There is no subarray filled with 0. Therefore, we return 0.
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		-109 <= nums[i] <= 109
+
+const zeroFilledSubarray = (nums) => {
+  let map = [];
+  let len = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 0) len++;
+    else {
+      map.push(len);
+      len = 0;
+    }
+  }
+  if (len > 0) map.push(len);
+
+  return map.reduce((count, n) => (count += (n * (n + 1)) / 2), 0);
 };
+
+console.log(zeroFilledSubarray([1, 3, 0, 0, 2, 0, 0, 4])); // 6
+console.log(zeroFilledSubarray([0, 0, 0, 2, 0, 0])); // 9
+console.log(zeroFilledSubarray([2, 10, 2019])); // 0
+
+// Happy with n*(n+1)/2 to calculate total possible subarray combinations
+// I'd like to optimize creation of subarray length map
+
+var topVotedZeroFilledSubarray = function (nums) {
+  let count = 0;
+  let subcount = 0;
+
+  for (const num of nums) {
+    if (num !== 0) {
+      subcount = 0;
+      continue;
+    }
+    subcount++;
+    count += subcount;
+  }
+
+  return count;
+};
+
+// Cleaner, but less fast
