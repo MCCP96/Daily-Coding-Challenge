@@ -16413,7 +16413,7 @@ var topVotedZeroFilledSubarray = function (nums) {
 // Cleaner, but less fast */
 
 // Find the Value of the Partition					8/18/2023
-
+/* 
 // You are given a positive integer array nums.
 
 // Partition nums into two arrays, nums1 and nums2, such that:
@@ -16467,4 +16467,100 @@ console.log(findValueOfPartition([100, 1, 10])); // 9
 console.log(findValueOfPartition([59, 51, 1, 98, 73])); // 8
 
 // 97% runtime
-// Same as top voted
+// Same as top voted */
+
+// Minimum Cost For Tickets					8/19/2023
+
+// You have planned some train traveling one year in advance. The days of the year in which you will travel are given as an integer array days. Each day is an integer from 1 to 365.
+
+// Train tickets are sold in three different ways:
+// a 1-day pass is sold for costs[0] dollars,
+// a 7-day pass is sold for costs[1] dollars, and
+// a 30-day pass is sold for costs[2] dollars.
+
+// The passes allow that many days of consecutive travel.
+// For example, if we get a 7-day pass on day 2, then we can travel for 7 days: 2, 3, 4, 5, 6, 7, and 8.
+
+// Return the minimum number of dollars you need to travel every day in the given list of days.
+
+// Example 1:
+// 		Input: days = [1,4,6,7,8,20], costs = [2,7,15]
+// 		Output: 11
+// Explanation: For example, here is one way to buy passes that lets you travel your travel plan:
+// 		On day 1, you bought a 1-day pass for costs[0] = $2, which covered day 1.
+// 		On day 3, you bought a 7-day pass for costs[1] = $7, which covered days 3, 4, ..., 9.
+// 		On day 20, you bought a 1-day pass for costs[0] = $2, which covered day 20.
+// 		In total, you spent $11 and covered all the days of your travel.
+
+// Example 2:
+// 		Input: days = [1,2,3,4,5,6,7,8,9,10,30,31], costs = [2,7,15]
+// 		Output: 17
+// Explanation: For example, here is one way to buy passes that lets you travel your travel plan:
+// 		On day 1, you bought a 30-day pass for costs[2] = $15 which covered days 1, 2, ..., 30.
+// 		On day 31, you bought a 1-day pass for costs[0] = $2 which covered day 31.
+// 		In total, you spent $17 and covered all the days of your travel.
+
+// Constraints:
+//		1 <= days.length <= 365
+//		1 <= days[i] <= 365
+//		days is in strictly increasing order.
+//		costs.length == 3
+//		1 <= costs[i] <= 1000
+
+const mincostTickets = (days, count) => {
+  let min = Infinity;
+
+  const dp = (days, cost) => {
+    if (cost >= min) return;
+    if (days.length === 0) {
+      min = Math.min(min, cost);
+      return;
+    }
+
+    dp([...days].slice(1), cost + count[0]);
+    dp(
+      [...days].filter((x) => x >= days[0] + 7),
+      cost + count[1]
+    );
+    dp(
+      [...days].filter((x) => x >= days[0] + 30),
+      cost + count[2]
+    );
+  };
+  dp(days, 0);
+
+  return min;
+};
+
+console.log(mincostTickets([1, 4, 6, 7, 8, 20], [2, 7, 15])); // 11
+console.log(
+  mincostTickets([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31], [2, 7, 15])
+); // 17
+
+// Exceeds runtime limit
+// Backtracking is not the right approach
+
+var topVotedMincostTickets = function (days, cost) {
+  // Initilize dp array to be the size of the last day plus 1
+  let dp = new Array(days[days.length - 1] + 1);
+  // Base case
+  dp[0] = 0;
+  // Loop through all the days
+  for (let i = 1; i < dp.length; i++) {
+    // If 'i' isn't in the days array we let it equal to the previous day because we don't need to buy a ticket for that day
+    if (!days.includes(i)) {
+      dp[i] = dp[i - 1];
+      // if dp[i] is in the days array we find the min value between our 3 cost possibilities
+    } else {
+      dp[i] = Math.min(
+        dp[Math.max(0, i - 1)] + cost[0],
+        dp[Math.max(0, i - 7)] + cost[1],
+        dp[Math.max(0, i - 30)] + cost[2]
+      );
+    }
+  }
+  // last element of dp will be our answer
+  return dp[dp.length - 1];
+};
+
+// Nice!
