@@ -16470,7 +16470,7 @@ console.log(findValueOfPartition([59, 51, 1, 98, 73])); // 8
 // Same as top voted */
 
 // Minimum Cost For Tickets					8/19/2023
-
+/* 
 // You have planned some train traveling one year in advance. The days of the year in which you will travel are given as an integer array days. Each day is an integer from 1 to 365.
 
 // Train tickets are sold in three different ways:
@@ -16563,4 +16563,92 @@ var topVotedMincostTickets = function (days, cost) {
   return dp[dp.length - 1];
 };
 
-// Nice!
+// Nice! */
+
+// Minimum Swaps to Make Strings Equal					8/20/2023
+
+// You are given two strings s1 and s2 of equal length consisting of letters "x" and "y" only. Your task is to make these two strings equal to each other. You can swap any two characters that belong to different strings, which means: swap s1[i] and s2[j].
+
+// Return the minimum number of swaps required to make s1 and s2 equal, or return -1 if it is impossible to do so.
+
+// Example 1:
+// 		Input: s1 = "xx", s2 = "yy"
+// 		Output: 1
+// Explanation: Swap s1[0] and s2[1], s1 = "yx", s2 = "yx".
+
+// Example 2:
+// 		Input: s1 = "xy", s2 = "yx"
+// 		Output: 2
+// Explanation: Swap s1[0] and s2[0], s1 = "yy", s2 = "xx".
+// 		Swap s1[0] and s2[1], s1 = "xy", s2 = "xy".
+// 		Note that you cannot swap s1[0] and s1[1] to make s1 equal to "yx", cause we can only swap chars in different strings.
+
+// Example 3:
+// 		Input: s1 = "xx", s2 = "xy"
+// 		Output: -1
+
+// Constraints:
+//		1 <= s1.length, s2.length <= 1000
+//		s1.length == s2.length
+//		s1, s2 only contain 'x' or 'y'.
+
+const minimumSwap = (s1, s2) => {
+  let [xcount, ycount] = [0, 0];
+  for (let i = 0; i < s1.length; i++) {
+    s1[i] === "x" ? xcount++ : ycount++;
+    s2[i] === "x" ? xcount++ : ycount++;
+  }
+  if (xcount % 2 || ycount % 2) return -1;
+
+  let [xdiff, ydiff] = [0, 0];
+  for (let i = 0; i < s1.length; i++) {
+    if (s1[i] !== s2[i]) {
+      s1[i] === "x" ? xdiff++ : ydiff++;
+    }
+  }
+
+  let swaps = Math.floor(xdiff / 2) + Math.floor(ydiff / 2);
+  if (xdiff % 2) swaps += 2;
+  return swaps;
+};
+
+console.log(minimumSwap("xx", "yy")); // 1
+console.log(minimumSwap("xy", "yx")); // 2
+console.log(minimumSwap("xx", "xy")); // -1
+
+// Ended up looking at top voted for xdiff, ydiff logic
+// Makes sense
+
+var topVotedMinimumSwap = function (s1, s2) {
+  if (s1.length !== s2.length) return -1;
+
+  let xCount = 0,
+    yCount = 0;
+  (s1 + s2).split("").forEach((c) => {
+    xCount += c == "x" ? 1 : 0;
+    yCount += c == "y" ? 1 : 0;
+  });
+  if (xCount % 2 || yCount % 2) return -1;
+
+  let xDiff = 0,
+    yDiff = 0;
+  for (let i = 0; i < s1.length; i++) {
+    if (s1[i] != s2[i]) {
+      xDiff += s1[i] == "x" ? 1 : 0;
+      yDiff += s1[i] == "y" ? 1 : 0;
+    }
+  }
+  // every 'xx' or 'yy' needs one swap
+  // if left one 'xy' pair, needs two more swaps.
+  // xDiff and yDiff should be both even or odd,
+  // because xCount and yCount are even number,
+  // if one odd and one even, then after %,
+  // there're only either one 'x' or one 'y' left,
+  // which contradicts with above
+  let res = 0;
+  res += Math.floor(xDiff / 2);
+  res += Math.floor(yDiff / 2);
+  res += xDiff % 2 ? 2 : 0;
+
+  return res;
+};
