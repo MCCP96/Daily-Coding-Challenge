@@ -16654,7 +16654,7 @@ var topVotedMinimumSwap = function (s1, s2) {
 }; */
 
 // Simple Bank System					8/21/2023
-
+/* 
 // You have been tasked with writing a program for a popular bank that will automate all its incoming transactions (transfer, deposit, and withdraw). The bank has n accounts numbered from 1 to n. The initial balance of each account is stored in a 0-indexed integer array balance, with the (i + 1)th account having an initial balance of balance[i].
 
 // Execute all the valid transactions. A transaction is valid if:
@@ -16729,4 +16729,62 @@ console.log(bank.transfer(3, 4, 15)); // return false, the current balance of ac
 console.log(bank.withdraw(10, 50)); // return false, it is invalid because account 10 does not exist.
 
 // Pretty straightforward
-// Other top voteds were much bulkier
+// Other top voteds were much bulkier */
+
+// The kth Factor of n					8/22/2023
+
+// You are given two positive integers n and k. A factor of an integer n is defined as an integer i where n % i == 0.
+
+// Consider a list of all factors of n sorted in ascending order, return the kth factor in this list or return -1 if n has less than k factors.
+
+// Example 1:
+// 		Input: n = 12, k = 3
+// 		Output: 3
+// Explanation: Factors list is [1, 2, 3, 4, 6, 12], the 3rd factor is 3.
+
+// Example 2:
+// 		Input: n = 7, k = 2
+// 		Output: 7
+// Explanation: Factors list is [1, 7], the 2nd factor is 7.
+
+// Example 3:
+// 		Input: n = 4, k = 4
+// 		Output: -1
+// Explanation: Factors list is [1, 2, 4], there is only 3 factors. We should return -1.
+
+// Constraints:
+//		1 <= k <= n <= 1000
+//		Follow up:
+
+// Could you solve this problem in less than O(n) complexity?
+
+const kthFactor = (n, k) => {
+  let factors = [];
+  for (let i = 1; i <= n; i++) {
+    if (n % i === 0) factors.push(i);
+    if (factors.length === k) return i;
+  }
+  return -1;
+};
+
+console.log(kthFactor(12, 3)); // 3
+console.log(kthFactor(7, 2)); // 7
+console.log(kthFactor(4, 4)); // -1
+
+// Same as top voted
+// Not less than O(n)
+
+var topVotedKthFactor = function (n, k) {
+  const factorsList = [];
+  const isEven = n % 2 === 0;
+
+  for (let i = n; i >= 1; ) {
+    if (n % i === 0) factorsList.unshift(i);
+    isEven ? i-- : (i -= 2);
+  }
+
+  return factorsList[k - 1] ?? -1;
+};
+
+// "If our entry number (N) is an odd number, we DONT need to look the past EVEN numbers of it, because not a single number that is EVEN multiplied by another number will result on an ODD number."
+// "Making it O(n/2) sometime"
