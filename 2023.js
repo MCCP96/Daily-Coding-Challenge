@@ -16790,7 +16790,7 @@ var topVotedKthFactor = function (n, k) {
 // "Making it O(n/2) sometime" */
 
 // Throne Inheritance					8/23/2023
-
+/* 
 // A kingdom consists of a king, his children, his grandchildren, and so on. Every once in a while, someone in the family dies or a child is born.
 
 // The kingdom has a well-defined order of inheritance that consists of the king as the first member. Let's define the recursive function Successor(x, curOrder), which given a person x and the inheritance order so far, returns who should be the next person after x in the order of inheritance.
@@ -16899,4 +16899,55 @@ TopVotedThroneInheritance.prototype.getInheritanceOrder = function () {
   return r("king", []);
 };
 
-// Ahhhhhh
+// Ahhhhhh */
+
+// Sum of Absolute Differences in a Sorted Array					8/24/2023
+
+// You are given an integer array nums sorted in non-decreasing order.
+
+// Build and return an integer array result with the same length as nums such that result[i] is equal to the summation of absolute differences between nums[i] and all the other elements in the array.
+
+// In other words, result[i] is equal to sum(|nums[i]-nums[j]|) where 0 <= j < nums.length and j != i (0-indexed).
+
+// Example 1:
+// 		Input: nums = [2,3,5]
+// 		Output: [4,3,5]
+// Explanation: Assuming the arrays are 0-indexed, then
+// 		result[0] = |2-2| + |2-3| + |2-5| = 0 + 1 + 3 = 4,
+// 		result[1] = |3-2| + |3-3| + |3-5| = 1 + 0 + 2 = 3,
+// 		result[2] = |5-2| + |5-3| + |5-5| = 3 + 2 + 0 = 5.
+
+// Example 2:
+// 		Input: nums = [1,4,6,8,10]
+// 		Output: [24,15,13,15,21]
+
+// Constraints:
+//		2 <= nums.length <= 105
+//		1 <= nums[i] <= nums[i + 1] <= 104
+
+const getSumAbsoluteDifferences = (nums) => {
+  let res = new Array(nums.length).fill(0);
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = 0; j < nums.length; j++) {
+      res[i] += Math.abs(nums[i] - nums[j]);
+    }
+  }
+  return res;
+};
+
+console.log(getSumAbsoluteDifferences([2, 3, 5])); // [4,3,5]
+console.log(getSumAbsoluteDifferences([1, 4, 6, 8, 10])); // [24,15,13,15,21]
+
+// Too slow
+
+var topVotedGetSumAbsoluteDifferences = function (nums) {
+  const N = nums.length;
+  const ans = new Array(N);
+  ans[0] = nums.reduce((a, b) => a + b, 0) - N * nums[0];
+  for (let i = 1; i < N; i++)
+    ans[i] =
+      ans[i - 1] +
+      (nums[i] - nums[i - 1]) * i -
+      (nums[i] - nums[i - 1]) * (N - i);
+  return ans;
+};
