@@ -16902,7 +16902,7 @@ TopVotedThroneInheritance.prototype.getInheritanceOrder = function () {
 // Ahhhhhh */
 
 // Sum of Absolute Differences in a Sorted Array					8/24/2023
-
+/* 
 // You are given an integer array nums sorted in non-decreasing order.
 
 // Build and return an integer array result with the same length as nums such that result[i] is equal to the summation of absolute differences between nums[i] and all the other elements in the array.
@@ -16950,4 +16950,69 @@ var topVotedGetSumAbsoluteDifferences = function (nums) {
       (nums[i] - nums[i - 1]) * i -
       (nums[i] - nums[i - 1]) * (N - i);
   return ans;
+}; */
+
+// Count Complete Subarrays in an Array					8/25/2023
+
+// You are given an array nums consisting of positive integers.
+
+// We call a subarray of an array complete if the following condition is satisfied:
+// The number of distinct elements in the subarray is equal to the number of distinct elements in the whole array.
+
+// Return the number of complete subarrays.
+
+// A subarray is a contiguous non-empty part of an array.
+
+// Example 1:
+// 		Input: nums = [1,3,1,2,2]
+// 		Output: 4
+// Explanation: The complete subarrays are the following: [1,3,1,2], [1,3,1,2,2], [3,1,2] and [3,1,2,2].
+
+// Example 2:
+// 		Input: nums = [5,5,5,5]
+// 		Output: 10
+// Explanation: The array consists only of the integer 5, so any subarray is complete. The number of subarrays that we can choose is 10.
+
+// Constraints:
+//		1 <= nums.length <= 1000
+//		1 <= nums[i] <= 2000
+
+const countCompleteSubarrays = (nums) => {
+  const distinct = new Set(nums).size;
+  let res = 0;
+  for (let i = 0; i < nums.length; i++) {
+    let sub = new Set();
+    for (let j = i; j < nums.length; j++) {
+      sub.add(nums[j]);
+      if (sub.size > distinct) break;
+      else if (sub.size === distinct) res++;
+    }
+  }
+  return res;
+};
+
+console.log(countCompleteSubarrays([1, 3, 1, 2, 2])); // 4
+console.log(countCompleteSubarrays([5, 5, 5, 5])); // 10
+
+var topVotedCountCompleteSubarrays = function (nums) {
+  let n = nums.length;
+  let distinct_elements = new Set(nums).size;
+  let count = 0;
+  let left = 0;
+  let right = 0;
+  let counter = new Map();
+
+  while (right < n) {
+    counter.set(nums[right], (counter.get(nums[right]) || 0) + 1);
+    while (counter.size === distinct_elements) {
+      counter.set(nums[left], counter.get(nums[left]) - 1);
+      if (counter.get(nums[left]) === 0) {
+        counter.delete(nums[left]);
+      }
+      left++;
+      count += n - right;
+    }
+    right++;
+  }
+  return count;
 };
