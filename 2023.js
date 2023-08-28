@@ -17018,7 +17018,7 @@ var topVotedCountCompleteSubarrays = function (nums) {
 }; */
 
 // Random Pick Index					8/26/2023
-
+/* 
 // Given an integer array nums with possible duplicates, randomly output the index of a given target number. You can assume that the given target number must exist in the array.
 
 // Implement the Solution class:
@@ -17091,4 +17091,56 @@ class TopVotedSolution {
 
 // Day 800!
 // Only 200 away from 1000!
-// Going climbing at montagne d'argent :-)
+// Going climbing at montagne d'argent :-) */
+
+// Reshape the Matrix					8/27/2023
+
+// In MATLAB, there is a handy function called reshape which can reshape an m x n matrix into a new one with a different size r x c keeping its original data.
+
+// You are given an m x n matrix mat and two integers r and c representing the number of rows and the number of columns of the wanted reshaped matrix.
+
+// The reshaped matrix should be filled with all the elements of the original matrix in the same row-traversing order as they were.
+
+// If the reshape operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.
+
+// Example 1:
+// 		Input: mat = [[1,2],[3,4]], r = 1, c = 4
+// 		Output: [[1,2,3,4]]
+
+// Example 2:
+// 		Input: mat = [[1,2],[3,4]], r = 2, c = 4
+// 		Output: [[1,2],[3,4]]
+
+// Constraints:
+//		m == mat.length
+//		n == mat[i].length
+//		1 <= m, n <= 100
+//		-1000 <= mat[i][j] <= 1000
+//		1 <= r, c <= 300
+
+const matrixReshape = (mat, r, c) => {
+  if (mat[0].length * mat.length !== r * c) return mat;
+
+  let res = [];
+  mat = mat.flat();
+  while (mat.length > 0) {
+    res.push(mat.splice(0, c));
+  }
+  return res;
+};
+
+// prettier-ignore
+console.log(matrixReshape([[1,2],[3,4]], 1, 4)) // [[1,2,3,4]]
+// prettier-ignore
+console.log(matrixReshape([[1,2],[3,4]], 2, 4)) // [[1,2],[3,4]]
+
+var topVotedMatrixReshape = function (nums, r, c) {
+  var arr = nums.flat();
+  if (r * c != arr.length) return nums;
+
+  var res = [];
+  while (arr.length) res.push(arr.splice(0, c));
+  return res;
+};
+
+// Same
