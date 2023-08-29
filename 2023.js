@@ -17146,7 +17146,7 @@ var topVotedMatrixReshape = function (nums, r, c) {
 // Same */
 
 // Minimum Index of a Valid Split					8/28/2023
-
+/* 
 // An element x of an integer array arr of length m is dominant if freq(x) * 2 > m, where freq(x) is the number of occurrences of x in arr. Note that this definition implies that arr can have at most one dominant element.
 
 // You are given a 0-indexed integer array nums of length n with one dominant element.
@@ -17263,4 +17263,110 @@ var topVotedMinimumIndex = function (a) {
   return an;
 };
 
-// Bit hard to read but works
+// Bit hard to read but works */
+
+// My Calendar II					8/29/2023
+
+// You are implementing a program to use as your calendar. We can add a new event if adding the event will not cause a triple booking.
+
+// A triple booking happens when three events have some non-empty intersection (i.e., some moment is common to all the three events.).
+
+// The event can be represented as a pair of integers start and end that represents a booking on the half-open interval [start, end), the range of real numbers x such that start <= x < end.
+
+// Implement the MyCalendarTwo class:
+
+// MyCalendarTwo() Initializes the calendar object.
+
+// boolean book(int start, int end) Returns true if the event can be added to the calendar successfully without causing a triple booking. Otherwise, return false and do not add the event to the calendar.
+
+// Example 1:
+// 		Input
+// 		["MyCalendarTwo", "book", "book", "book", "book", "book", "book"]
+// 		[[], [10, 20], [50, 60], [10, 40], [5, 15], [5, 10], [25, 55]]
+// 		Output
+// 		[null, true, true, true, false, true, true]
+// 		Explanation
+// 		MyCalendarTwo myCalendarTwo = new MyCalendarTwo();
+// 		myCalendarTwo.book(10, 20); // return True, The event can be booked.
+// 		myCalendarTwo.book(50, 60); // return True, The event can be booked.
+// 		myCalendarTwo.book(10, 40); // return True, The event can be double booked.
+// 		myCalendarTwo.book(5, 15);  // return False, The event cannot be booked, because it would result in a triple booking.
+// 		myCalendarTwo.book(5, 10); // return True, The event can be booked, as it does not use time 10 which is already double booked.
+// 		myCalendarTwo.book(25, 55); // return True, The event can be booked, as the time in [25, 40) will be double booked with the third event, the time [40, 50) will be single booked, and the time [50, 55) will be double booked with the second event.
+
+// Constraints:
+//		0 <= start < end <= 10^9
+//		At most 1000 calls will be made to book.
+
+const MyCalendarTwo = class {
+  constructor() {
+    this.calendar = [];
+  }
+
+  book(s, e) {
+    let hist = [];
+    for (let [bookS, bookE] of this.calendar) {
+      if (
+        (s <= bookS && e > bookS) ||
+        (s < bookE && e >= bookE) ||
+        (s < bookS && e > bookE) ||
+        (s > bookS && e < bookE)
+      ) {
+        hist.push([bookS, bookE]);
+      }
+    }
+    if (
+      !hist.every(([s, e], i) => {
+        for (let j = 0; j < hist.length; j++) {
+          if (j === i) continue;
+          const [histS, histE] = hist[j];
+          if (
+            (s <= histS && e > histS) ||
+            (s < histE && e >= histE) ||
+            (s < histS && e > histE) ||
+            (s > histS && e < histE)
+          )
+            return false;
+        }
+        return true;
+      })
+    )
+      return false;
+
+    this.calendar.push([s, e]);
+    return true;
+  }
+};
+
+const ex = new MyCalendarTwo();
+console.log(ex.book([10, 20])); // true
+console.log(ex.book([50, 60])); // true
+console.log(ex.book([10, 40])); // true
+console.log(ex.book([5, 15])); // false
+console.log(ex.book([5, 10])); // true
+console.log(ex.book([25, 55])); // true
+
+// Works but would be best to build a scalable function with a parameter for overlapping count
+
+var TopVotedMyCalendarTwo = function () {
+  this.calendar = [];
+  this.overlaps = [];
+};
+
+MyCalendarTwo.prototype.book = function (start, end) {
+  for (let date of this.overlaps) {
+    if (start < date[1] && end > date[0]) return false;
+  }
+
+  for (let date of this.calendar) {
+    if (start < date[1] && end > date[0]) {
+      this.overlaps.push([Math.max(date[0], start), Math.min(date[1], end)]);
+    }
+  }
+  this.calendar.push([start, end]);
+  return true;
+};
+
+// Smart, basically having a seperate array dedicated to overlaps
+// That way any doubly overlapped events are immediately detected
+// Also using Math.max and min to get an accurate timeline
