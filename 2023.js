@@ -17266,7 +17266,7 @@ var topVotedMinimumIndex = function (a) {
 // Bit hard to read but works */
 
 // My Calendar II					8/29/2023
-
+/* 
 // You are implementing a program to use as your calendar. We can add a new event if adding the event will not cause a triple booking.
 
 // A triple booking happens when three events have some non-empty intersection (i.e., some moment is common to all the three events.).
@@ -17369,4 +17369,107 @@ MyCalendarTwo.prototype.book = function (start, end) {
 
 // Smart, basically having a seperate array dedicated to overlaps
 // That way any doubly overlapped events are immediately detected
-// Also using Math.max and min to get an accurate timeline
+// Also using Math.max and min to get an accurate timeline */
+
+// Asteroid Collision					8/30/2023
+
+// We are given an array asteroids of integers representing asteroids in a row.
+
+// For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
+
+// Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+
+// Example 1:
+// 		Input: asteroids = [5,10,-5]
+// 		Output: [5,10]
+// Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
+
+// Example 2:
+// 		Input: asteroids = [8,-8]
+// 		Output: []
+// Explanation: The 8 and -8 collide exploding each other.
+
+// Example 3:
+// 		Input: asteroids = [10,2,-5]
+// 		Output: [10]
+// Explanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
+
+// Constraints:
+//		2 <= asteroids.length <= 10^4
+//		-1000 <= asteroids[i] <= 1000
+//		asteroids[i] != 0
+
+const asteroidCollision = (asteroids) => {
+  let collision = true;
+
+  while (collision) {
+    collision = false;
+
+    for (let i = 1; i < asteroids.length; i++) {
+      const [a1, a2] = [asteroids[i - 1], asteroids[i]];
+
+      if (a1 > 0 && a2 < 0) {
+        collision = true;
+
+        const sum = a1 + a2;
+
+        if (sum > 0) asteroids.splice(i, 1);
+        else if (sum < 0) asteroids.splice(i - 1, 1);
+        else asteroids.splice(i - 1, 2);
+
+        break;
+      }
+    }
+  }
+
+  return asteroids;
+};
+
+console.log(asteroidCollision([5, 10, -5])); // [5,10]
+console.log(asteroidCollision([8, -8])); // []
+console.log(asteroidCollision([10, 2, -5])); // [10]
+console.log(asteroidCollision([-2, -1, 1, 2])); // [-2,-1,1,2]
+
+var topVotedAsteroidCollision = function (asteroids) {
+  const s = [];
+  for (let i = 0; i < asteroids.length; i++) {
+    const a = asteroids[i];
+
+    // Negative asteroids to the left of the stack can be ignored.
+    // They'll never collide. Let's just add it to the answer stack and
+    // move on. I consider this a special case.
+    if ((s.length === 0 || s[s.length - 1] < 0) && a < 0) {
+      s.push(a);
+
+      // If an asteroid a is positive (l to r), it may still collide with an
+      // a negative asteroid further on in the asteroids array
+    } else if (a > 0) {
+      s.push(a);
+
+      // a is negative. It can only collide with positive ones in
+      // the stack. The following will keep on iterating
+      // until it is dealt with.
+    } else {
+      const pop = s.pop();
+
+      // positive pop beats negative a, so pick up pop
+      // and re-add it to the stack.
+      if (Math.abs(pop) > Math.abs(a)) {
+        s.push(pop);
+
+        // a has larger size than pop, so pop will get dropped
+        // and we'll retry another iteration with the same
+        // negative a asteroid and whatever the stack's state is.
+      } else if (Math.abs(pop) < Math.abs(a)) {
+        i--;
+        // magnitude of positive pop and negative a are the same
+        // so we can drop both of them.
+      } else {
+        continue;
+      }
+    }
+  }
+
+  // The stack should be the answer
+  return s;
+};
