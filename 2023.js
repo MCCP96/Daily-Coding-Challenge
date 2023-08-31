@@ -17372,7 +17372,7 @@ MyCalendarTwo.prototype.book = function (start, end) {
 // Also using Math.max and min to get an accurate timeline */
 
 // Asteroid Collision					8/30/2023
-
+/* 
 // We are given an array asteroids of integers representing asteroids in a row.
 
 // For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
@@ -17472,4 +17472,114 @@ var topVotedAsteroidCollision = function (asteroids) {
 
   // The stack should be the answer
   return s;
+}; */
+
+// Largest Plus Sign					8/31/2023
+
+// You are given an integer n. You have an n x n binary grid grid with all values initially 1's except for some indices given in the array mines. The ith element of the array mines is defined as mines[i] = [xi, yi] where grid[xi][yi] == 0.
+
+// Return the order of the largest axis-aligned plus sign of 1's contained in grid. If there is none, return 0.
+
+// An axis-aligned plus sign of 1's of order k has some center grid[r][c] == 1 along with four arms of length k - 1 going up, down, left, and right, and made of 1's. Note that there could be 0's or 1's beyond the arms of the plus sign, only the relevant area of the plus sign is checked for 1's.
+
+// Example 1:
+// 		Input: n = 5, mines = [[4,2]]
+// 		Output: 2
+// Explanation: In the above grid, the largest plus sign can only be of order 2. One of them is shown.
+
+// Example 2:
+// 		Input: n = 1, mines = [[0,0]]
+// 		Output: 0
+// Explanation: There is no plus sign, so return 0.
+
+// Constraints:
+//		1 <= n <= 500
+//		1 <= mines.length <= 5000
+//		0 <= xi, yi < n
+//		All the pairs (xi, yi) are unique.
+
+const orderOfLargestPlusSign = (n, mines) => {
+  const grid = new Array(n).fill().map((x) => new Array(n).fill(1));
+  for (const [r, c] of mines) grid[r][c] = 0;
+
+  let res = 0;
+  let seen = {};
+  for (let i = Math.round(n / 2) - 1; i >= 0; i--) {
+    for (let r = i; r < n - i; r++) {
+      for (let c = i; c < n - i; c++) {
+        if (seen[`${r},${c}`] || grid[r][c] === 0) continue;
+        seen[`${r},${c}`] = true;
+
+        let deg = 1;
+        let expand = true;
+        let [N, E, S, W] = [r - 1, c + 1, r + 1, c - 1];
+        while (expand) {
+          expand = false;
+          if (N < 0 || E >= n || S >= n || W < 0) break;
+
+          if (grid[N][c] && grid[r][E] && grid[S][c] && grid[r][W]) {
+            deg++;
+
+            N--;
+            E++;
+            S++;
+            W--;
+
+            expand = true;
+          }
+        }
+        if (deg > res) res = deg;
+      }
+    }
+  }
+  return res;
 };
+
+console.log(orderOfLargestPlusSign(5, [[4, 2]])); // 2
+console.log(orderOfLargestPlusSign(1, [[0, 0]])); // 0
+console.log(orderOfLargestPlusSign(4, [])); // 2
+
+// Too slow
+// for(for(for(while))) 💀
+
+var topVotedOrderOfLargestPlusSign = function (n, mines) {
+  const t = new Array(n).fill(0).map(() => new Array(n).fill(n));
+  mines.forEach((a) => (t[a[0]][a[1]] = 0));
+
+  // loop each rows and cols
+  // - for rows: calculate non-zero grid from left to right
+  // - for cols: calculate non-zero grid from top to bottom
+  // - when the loop is completed, all of non-zero values will be calculated by four directions
+  // - and these grids value will be updated by comparing. then we can obtain the minimum value of the four directions caculation, which is the maximum of the grid
+  for (let i = 0; i < n; i++) {
+    // save the maximum value of non-zeros with for directions
+    let [l, r, u, d] = [0, 0, 0, 0];
+
+    // l: left,  loop row i from left to right
+    // r: right, loop row i from right to left
+    // u: up,    loop col i from top to bottom
+    // d: down,  loop col i from bottom to top
+    for (let j = 0, k = n - 1; j < n; j++, k--) {
+      // if the value is `0`, then set variable to `0`, and indicates it's broken
+      l = t[i][j] && l + 1;
+      r = t[i][k] && r + 1;
+      u = t[j][i] && u + 1;
+      d = t[k][i] && d + 1;
+
+      // if current value is less than origin value
+      // one possibility: the origin value is default
+      // another possibility: the length of non-zero in a centain direction is langer than in the current direction, which the minimum value we need
+      if (l < t[i][j]) t[i][j] = l;
+      if (r < t[i][k]) t[i][k] = r;
+      if (u < t[j][i]) t[j][i] = u;
+      if (d < t[k][i]) t[k][i] = d;
+    }
+  }
+
+  // return maximum value be saved by all cells
+  return Math.max(...t.map((v) => Math.max(...v)));
+};
+
+// Smart to work within grid and return max
+
+// Happy birthday Hannah :^)
