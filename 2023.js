@@ -17475,7 +17475,7 @@ var topVotedAsteroidCollision = function (asteroids) {
 }; */
 
 // Largest Plus Sign					8/31/2023
-
+/* 
 // You are given an integer n. You have an n x n binary grid grid with all values initially 1's except for some indices given in the array mines. The ith element of the array mines is defined as mines[i] = [xi, yi] where grid[xi][yi] == 0.
 
 // Return the order of the largest axis-aligned plus sign of 1's contained in grid. If there is none, return 0.
@@ -17582,4 +17582,126 @@ var topVotedOrderOfLargestPlusSign = function (n, mines) {
 
 // Smart to work within grid and return max
 
-// Happy birthday Hannah :^)
+// Happy birthday Hannah :^) */
+
+// Reorganize String					9/1/2023
+
+// Given a string s, rearrange the characters of s so that any two adjacent characters are not the same.
+
+// Return any possible rearrangement of s or return "" if not possible.
+
+// Example 1:
+// 		Input: s = "aab"
+// 		Output: "aba"
+
+// Example 2:
+// 		Input: s = "aaab"
+// 		Output: ""
+
+// Constraints:
+//		1 <= s.length <= 500
+//		s consists of lowercase English letters.
+
+const reorganizeString = (s) => {
+  let count = [...s].reduce(
+    (map, c) => map.set(c, (map.get(c) || 0) + 1),
+    new Map()
+  );
+  let arr = [...count.entries()].sort(([_, l1], [__, l2]) => l2 - l1);
+
+  let res = "";
+  while (arr.length > 0) {
+    if (arr.length === 1) return arr[0][1] > 1 ? "" : res + arr[0][0];
+
+    let i = 0;
+    if (arr[0][0] === res[res.length - 1]) i++;
+    res += arr[0 + i][0];
+    arr[0 + i][1]--;
+
+    res += arr[1 + i][0];
+    arr[1 + i][1]--;
+
+    let removed = false;
+    if (arr[0 + i][1] === 0) removed = arr.splice(0 + i, 1);
+    if (removed && arr[0 + i][1] === 0) arr.splice(0 + i, 1);
+    else if (arr[1 + i][1] === 0) arr.splice(1 + i, 1);
+  }
+  return res;
+};
+
+// Doesn't pass
+// Not a fan of i, removed, and .splice
+
+var topVotedReorganizeString = function (s) {
+  const freqMap = {};
+  for (const c of s) {
+    freqMap[c] = (freqMap[c] || 0) + 1;
+  }
+
+  const maxHeap = [...Object.keys(freqMap)].sort(
+    (a, b) => freqMap[b] - freqMap[a]
+  );
+
+  let res = "";
+  while (maxHeap.length >= 2) {
+    const char1 = maxHeap.shift();
+    const char2 = maxHeap.shift();
+
+    res += char1;
+    res += char2;
+
+    if (--freqMap[char1] > 0) maxHeap.push(char1);
+    if (--freqMap[char2] > 0) maxHeap.push(char2);
+
+    maxHeap.sort((a, b) => freqMap[b] - freqMap[a]);
+  }
+
+  if (maxHeap.length) {
+    const char = maxHeap[0];
+    if (freqMap[char] > 1) return "";
+    res += char;
+  }
+
+  return res;
+};
+
+// Heap approach, sorting on every iteration
+// Draining most frequent chars first
+
+const revisedReorganizeString = (s) => {
+  let count = [...s].reduce(
+    (map, c) => map.set(c, (map.get(c) || 0) + 1),
+    new Map()
+  );
+  let heap = [...count.keys()].sort((a, b) => count.get(b) - count.get(a));
+
+  let res = "";
+  while (heap.length > 1) {
+    const [c1, c2] = [heap.shift(), heap.shift()];
+    res += c1 + c2;
+
+    if (count.get(c1) > 1) {
+      count.set(c1, count.get(c1) - 1);
+      heap.push(c1);
+    }
+    if (count.get(c2) > 1) {
+      count.set(c2, count.get(c2) - 1);
+      heap.push(c2);
+    }
+
+    heap.sort((a, b) => count.get(b) - count.get(a));
+  }
+
+  if (heap.length) {
+    if (count.get(heap[0]) > 1) return "";
+    else res += heap[0];
+  }
+
+  return res;
+};
+
+console.log(revisedReorganizeString("aab")); // "aba"
+console.log(revisedReorganizeString("aaab")); // ""
+console.log(revisedReorganizeString("ogccckcwmbmxtsbmozli")); // "cocgcickmlmsmtbwbxoz"
+
+// Makes sense now
