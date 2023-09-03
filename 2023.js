@@ -17707,7 +17707,7 @@ console.log(revisedReorganizeString("ogccckcwmbmxtsbmozli")); // "cocgcickmlmsmt
 // Makes sense now */
 
 // Valid Tic-Tac-Toe State					9/2/2023
-
+/* 
 // Given a Tic-Tac-Toe board as a string array board, return true if and only if it is possible to reach this board position during the course of a valid tic-tac-toe game.
 
 // The board is a 3 x 3 array that consists of characters ' ', 'X', and 'O'. The ' ' character represents an empty square.
@@ -17829,4 +17829,145 @@ var topVotedValidTicTacToe = function (board) {
   if (Array.from(winner)[0] === "O" && countO !== countX) return false;
   if (Array.from(winner)[0] === "X" && countO + 1 !== countX) return false;
   return true;
+}; */
+
+// Number of Matching Subsequences					9/3/2023
+
+// Given a string s and an array of strings words, return the number of words[i] that is a subsequence of s.
+
+// A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+
+// For example, "ace" is a subsequence of "abcde".
+
+// Example 1:
+// 		Input: s = "abcde", words = ["a","bb","acd","ace"]
+// 		Output: 3
+// Explanation: There are three strings in words that are a subsequence of s: "a", "acd", "ace".
+
+// Example 2:
+// 		Input: s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+// 		Output: 2
+
+// Constraints:
+//		1 <= s.length <= 5 * 104
+//		1 <= words.length <= 5000
+//		1 <= words[i].length <= 50
+//		s and words[i] consist of only lowercase English letters.
+
+const numMatchingSubseq = (s, words) => {
+  const idx = [...s].reduce(
+    (map, c, i) => map.set(c, map.has(c) ? [...map.get(c), i] : [i]),
+    new Map()
+  );
+
+  let res = 0;
+  let seen = new Map();
+  for (const word of words) {
+    if (seen.has(word)) {
+      // memoize result of repeated words
+      if (seen.get(word)) res++;
+      continue;
+    }
+
+    let valid = true;
+    let prevIdx = -1;
+
+    for (const c of word) {
+      const charIdxs = idx.get(c);
+      if (!charIdxs) {
+        // char does not exist
+        valid = false;
+        break;
+      }
+
+      const nextIdx = charIdxs.find((x) => x > prevIdx);
+      if (nextIdx === undefined) {
+        // char does not follow prev char
+        valid = false;
+        break;
+      }
+
+      prevIdx = nextIdx;
+    }
+
+    if (valid) {
+      res++;
+      seen.set(word, true);
+    } else seen.set(word, false);
+  }
+
+  return res;
 };
+
+console.log(numMatchingSubseq("abcde", ["a", "bb", "acd", "ace"])); // 3
+console.log(
+  numMatchingSubseq("dsahjpjauf", ["ahjpjau", "ja", "ahbwzgqnuk", "tnmlanowax"])
+); // 2
+
+// idx building is too slow on larger test cases
+
+var topVotedNumMatchingSubseq = function (s, words) {
+  var result = 0;
+  var map = new Map();
+  for (let i = 0; i < words.length; i++) {
+    if (words[i].length > s.length) continue;
+    if (isSubsequence(words[i], s, map)) {
+      result++;
+    }
+  }
+  return result;
+};
+
+const isSubsequence = (word, string, map) => {
+  //you can use any method to determine the substring but I used indexOf()
+  if (map.has(word)) return map.get(word); //this one line of code helps the time complexity so much
+  let index = -1;
+  for (const c of word) {
+    /*what this loop does is that is uses the indexOf() function to check for a valid index of the
+character in word. if the character in word doesn't exist in string it will return -1. We can also pass
+in a second parameter that gives the function a starting point so that it won't consider indexes
+that we have already considered. No repeats*/
+    index = string.indexOf(c, index + 1);
+    if (index == -1) {
+      map.set(word, false);
+      return false;
+    }
+  }
+  map.set(word, true);
+  return true;
+};
+
+// Did not know about .indexOf's second parameter!
+// Much quicker than idx Map and .find
+
+const revisedNumMatchingSubseq = (s, words) => {
+  let res = 0;
+  let memo = new Map();
+
+  for (const word of words) {
+    if (memo.has(word)) {
+      if (memo.get(word)) res++;
+      continue;
+    }
+
+    let idx = -1;
+    let valid = true;
+    for (const c of word) {
+      idx = s.indexOf(c, idx + 1);
+      if (idx === -1) {
+        valid = false;
+        memo.set(word, false);
+        break;
+      }
+    }
+
+    if (valid) {
+      res++;
+      memo.set(word, true);
+    }
+  }
+
+  return res;
+};
+
+// Same idea as mine, but .indexOf makes all the difference
