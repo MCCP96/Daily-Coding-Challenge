@@ -17832,7 +17832,7 @@ var topVotedValidTicTacToe = function (board) {
 }; */
 
 // Number of Matching Subsequences					9/3/2023
-
+/* 
 // Given a string s and an array of strings words, return the number of words[i] that is a subsequence of s.
 
 // A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
@@ -17923,10 +17923,10 @@ const isSubsequence = (word, string, map) => {
   if (map.has(word)) return map.get(word); //this one line of code helps the time complexity so much
   let index = -1;
   for (const c of word) {
-    /*what this loop does is that is uses the indexOf() function to check for a valid index of the
-character in word. if the character in word doesn't exist in string it will return -1. We can also pass
-in a second parameter that gives the function a starting point so that it won't consider indexes
-that we have already considered. No repeats*/
+    //     what this loop does is that is uses the indexOf() function to check for a valid index of the
+    // character in word. if the character in word doesn't exist in string it will return -1. We can also pass
+    // in a second parameter that gives the function a starting point so that it won't consider indexes
+    // that we have already considered. No repeats
     index = string.indexOf(c, index + 1);
     if (index == -1) {
       map.set(word, false);
@@ -17970,4 +17970,82 @@ const revisedNumMatchingSubseq = (s, words) => {
   return res;
 };
 
-// Same idea as mine, but .indexOf makes all the difference
+// Same idea as mine, but .indexOf makes all the difference */
+
+// Short Encoding of Words					9/4/2023
+
+// A valid encoding of an array of words is any reference string s and array of indices indices such that:
+
+// words.length == indices.length
+
+// The reference string s ends with the '#' character.
+
+// For each index indices[i], the substring of s starting from indices[i] and up to (but not including) the next '#' character is equal to words[i].
+
+// Given an array of words, return the length of the shortest reference string s possible of any valid encoding of words.
+
+// Example 1:
+// 		Input: words = ["time", "me", "bell"]
+// 		Output: 10
+// Explanation: A valid encoding would be s = "time#bell#" and indices = [0, 2, 5].
+// 		words[0] = "time", the substring of s starting from indices[0] = 0 to the next '#' is underlined in "time#bell#"
+// 		words[1] = "me", the substring of s starting from indices[1] = 2 to the next '#' is underlined in "time#bell#"
+// 		words[2] = "bell", the substring of s starting from indices[2] = 5 to the next '#' is underlined in "time#bell#"
+
+// Example 2:
+// 		Input: words = ["t"]
+// 		Output: 2
+// Explanation: A valid encoding would be s = "t#" and indices = [0].
+
+// Constraints:
+//		1 <= words.length <= 2000
+//		1 <= words[i].length <= 7
+//		words[i] consists of only lowercase letters.
+
+const minimumLengthEncoding = (words) => {
+  words = [...new Set(words)];
+  const seen = words.reduce((seen, word) => {
+    let sub = "";
+    for (let i = word.length - 1; i > 0; i--) {
+      sub = word[i] + sub;
+      seen.add(sub);
+    }
+    return seen;
+  }, new Set());
+
+  return words.filter((word) => !seen.has(word)).join("#").length + 1;
+};
+
+console.log(minimumLengthEncoding(["time", "me", "bell"])); // 10
+console.log(minimumLengthEncoding(["t"])); // 2
+
+// 95% Runtime
+
+var topVotedMinimumLengthEncoding = function (words) {
+  const trie = {};
+  const leavesMap = new Map();
+
+  // creating the trie
+  for (let word of words) {
+    let node = trie;
+    for (let i = word.length - 1; i >= 0; i--) {
+      const c = word[i];
+      if (!node[c]) {
+        node[c] = {};
+      }
+      node = node[c];
+    }
+    // for each potential leaf we set the word length, later we will check if this is realy a leaf
+    leavesMap.set(node, word.length);
+  }
+
+  let res = 0;
+
+  // if the key in leavesMap is empty (aka {}) then we know this is a leaf in the trie and we need
+  // to count its value
+  leavesMap.forEach((value, key) => {
+    if (Object.keys(key).length === 0) res += value + 1;
+  });
+
+  return res;
+};
