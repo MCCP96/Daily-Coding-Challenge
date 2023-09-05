@@ -17973,7 +17973,7 @@ const revisedNumMatchingSubseq = (s, words) => {
 // Same idea as mine, but .indexOf makes all the difference */
 
 // Short Encoding of Words					9/4/2023
-
+/* 
 // A valid encoding of an array of words is any reference string s and array of indices indices such that:
 
 // words.length == indices.length
@@ -18004,6 +18004,7 @@ const revisedNumMatchingSubseq = (s, words) => {
 
 const minimumLengthEncoding = (words) => {
   words = [...new Set(words)];
+
   const seen = words.reduce((seen, word) => {
     let sub = "";
     for (let i = word.length - 1; i > 0; i--) {
@@ -18048,4 +18049,146 @@ var topVotedMinimumLengthEncoding = function (words) {
   });
 
   return res;
+}; */
+
+// Most Profit Assigning Work					9/5/2023
+
+// You have n jobs and m workers. You are given three arrays: difficulty, profit, and worker where:
+
+// difficulty[i] and profit[i] are the difficulty and the profit of the ith job, and
+
+// worker[j] is the ability of jth worker (i.e., the jth worker can only complete a job with difficulty at most worker[j]).
+
+// Every worker can be assigned at most one job, but one job can be completed multiple times.
+
+// For example, if three workers attempt the same job that pays $1, then the total profit will be $3. If a worker cannot complete any job, their profit is $0.
+
+// Return the maximum profit we can achieve after assigning the workers to the jobs.
+
+// Example 1:
+// 		Input: difficulty = [2,4,6,8,10], profit = [10,20,30,40,50], worker = [4,5,6,7]
+// 		Output: 100
+// Explanation: Workers are assigned jobs of difficulty [4,4,6,6] and they get a profit of [20,20,30,30] separately.
+
+// Example 2:
+// 		Input: difficulty = [85,47,57], profit = [24,66,99], worker = [40,25,25]
+// 		Output: 0
+
+// Constraints:
+//		n == difficulty.length
+//		n == profit.length
+//		m == worker.length
+//		1 <= n, m <= 104
+//		1 <= difficulty[i], profit[i], worker[i] <= 10^5
+
+const maxProfitAssignment = (dif, prof, workers) => {
+  const tasks = dif.map((d, i) => [d, prof[i]]);
+  tasks.sort(([d1, p1], [d2, p2]) => d1 - d2);
+
+  workers = workers.filter((w) => w >= tasks[0][0]);
+  if (!workers.length) return 0; // strongest worker < easiest job
+
+  let maxProf = 0;
+  const balancedTasks = tasks.map(([d, p]) => {
+    if (p > maxProf) maxProf = p;
+    return [d, maxProf];
+  });
+
+  const len = balancedTasks.length;
+
+  return workers.reduce((tot, worker) => {
+    let hardestTaskIdx = balancedTasks.findIndex(([d, p]) => d > worker);
+    if (hardestTaskIdx === -1) hardestTaskIdx = len;
+    return tot + balancedTasks[hardestTaskIdx - 1][1];
+  }, 0);
 };
+
+// prettier-ignore
+console.log(maxProfitAssignment([2,4,6,8,10], [10,20,30,40,50], [4,5,6,7])) // 100
+console.log(maxProfitAssignment([85, 47, 57], [24, 66, 99], [40, 25, 25])); // 0
+console.log(maxProfitAssignment([64, 88, 97], [53, 86, 89], [98, 11, 6])); // 89
+
+// Works
+// findIndex on every iteration is what's slowing it down
+
+var topVotedMaxProfitAssignment = function (difficulty, profit, worker) {
+  const profitD = [];
+
+  // create difficulty and profit array
+  for (let i = 0; i < difficulty.length; i++) {
+    profitD.push({ d: difficulty[i], p: profit[i] });
+  }
+
+  // sort on difficulty
+  profitD.sort((a, b) => a.d - b.d);
+  // sort worker
+  worker.sort((a, b) => a - b);
+
+  // process to the array to get maxProfit So Far
+  let maxSoFar = -Infinity;
+  for (let i = 0; i < profitD.length; i++) {
+    maxSoFar = Math.max(profitD[i].p, maxSoFar);
+    profitD[i].p = maxSoFar;
+  }
+
+  let i = 0;
+  let j = 0;
+  let total = 0;
+  while (i <= profitD.length && j < worker.length) {
+    // use the last profit and assign it to all the remaining workers
+    // can do this in another for loop
+    if (i === profitD.length) {
+      total += profitD[i - 1].p;
+      j++;
+      continue;
+    }
+
+    const { p, d } = profitD[i];
+    // increment i if too difficult
+    if (d <= worker[j]) {
+      i++;
+    } else {
+      if (i - 1 >= 0) {
+        total += profitD[i - 1].p;
+      }
+      j++;
+    }
+  }
+  return total;
+};
+
+// 'increment i if too difficult', might help with .findIndex issue
+
+const revisedMaxProfitAssignment = (dif, prof, workers) => {
+  const tasks = dif.map((d, i) => [d, prof[i]]);
+  tasks.sort(([d1, p1], [d2, p2]) => d1 - d2);
+
+  workers = workers.filter((w) => w >= tasks[0][0]);
+  if (!workers.length) return 0; // strongest worker < easiest job
+
+  let maxProf = 0;
+  const balancedTasks = tasks.map(([d, p]) => {
+    if (p > maxProf) maxProf = p;
+    return [d, maxProf];
+  });
+
+  let i = 0;
+  const len = balancedTasks.length;
+  workers.sort((a, b) => a - b);
+
+  return workers.reduce((tot, worker) => {
+    while (i < len && balancedTasks[i][0] <= worker) i++;
+    return tot + balancedTasks[i - 1][1];
+  }, 0);
+};
+
+// prettier-ignore
+console.log(revisedMaxProfitAssignment([2,4,6,8,10], [10,20,30,40,50], [4,5,6,7])) // 100
+console.log(
+  revisedMaxProfitAssignment([85, 47, 57], [24, 66, 99], [40, 25, 25])
+); // 0
+console.log(
+  revisedMaxProfitAssignment([64, 88, 97], [53, 86, 89], [98, 11, 6])
+); // 89
+
+// MUCH better runtime
