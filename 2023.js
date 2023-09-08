@@ -18194,7 +18194,7 @@ console.log(
 // MUCH better runtime */
 
 // Masking Personal Information					9/6/2023
-
+/* 
 // You are given a personal information string s, representing either an email address or a phone number. Return the masked personal information using the below rules.
 
 // Email address:
@@ -18297,4 +18297,116 @@ const topVotedMaskPII = (s) => {
   }
 };
 
-// same same
+// same same */
+
+// Find And Replace in String					9/7/2023
+
+// You are given a 0-indexed string s that you must perform k replacement operations on. The replacement operations are given as three 0-indexed parallel arrays, indices, sources, and targets, all of length k.
+
+// To complete the ith replacement operation:
+
+// Check if the substring sources[i] occurs at index indices[i] in the original string s.
+
+// If it does not occur, do nothing.
+
+// Otherwise if it does occur, replace that substring with targets[i].
+
+// For example, if s = "abcd", indices[i] = 0, sources[i] = "ab", and targets[i] = "eee", then the result of this replacement will be "eeecd".
+
+// All replacement operations must occur simultaneously, meaning the replacement operations should not affect the indexing of each other. The testcases will be generated such that the replacements will not overlap.
+
+// For example, a testcase with s = "abc", indices = [0, 1], and sources = ["ab","bc"] will not be generated because the "ab" and "bc" replacements overlap.
+
+// Return the resulting string after performing all replacement operations on s.
+
+// A substring is a contiguous sequence of characters in a string.
+
+// Example 1:
+// 		Input: s = "abcd", indices = [0, 2], sources = ["a", "cd"], targets = ["eee", "ffff"]
+// 		Output: "eeebffff"
+// Explanation:
+// 		"a" occurs at index 0 in s, so we replace it with "eee".
+// 		"cd" occurs at index 2 in s, so we replace it with "ffff".
+
+// Example 2:
+// 		Input: s = "abcd", indices = [0, 2], sources = ["ab","ec"], targets = ["eee","ffff"]
+// 		Output: "eeecd"
+// Explanation:
+// 		"ab" occurs at index 0 in s, so we replace it with "eee".
+// 		"ec" does not occur at index 2 in s, so we do nothing.
+
+// Constraints:
+//		1 <= s.length <= 1000
+//		k == indices.length == sources.length == targets.length
+//		1 <= k <= 100
+//		0 <= indexes[i] < s.length
+//		1 <= sources[i].length, targets[i].length <= 50
+//		s consists of only lowercase English letters.
+//		sources[i] and targets[i] consist of only lowercase English letters.
+
+const findReplaceString = (s, idx, src, t) => {
+  let changes = idx
+    .reduce((changes, idx, i) => {
+      changes.push({
+        idx,
+        src: src[i],
+        t: t[i],
+      });
+      return changes;
+    }, [])
+    .sort((a, b) => a.idx - b.idx);
+
+  let res = s.slice(0, changes[0].idx);
+
+  let i = 0;
+  for (const { idx, src, t } of changes) {
+    if (s.indexOf(src, idx) === idx) {
+      res += t + s.slice(idx + src.length, changes[i + 1]?.idx);
+    } else {
+      res += s.slice(idx, changes[i + 1]?.idx);
+    }
+    i++;
+  }
+
+  return res;
+};
+
+console.log(findReplaceString("abcd", [0, 2], ["a", "cd"], ["eee", "ffff"])); // "eeebffff"
+console.log(findReplaceString("abcd", [0, 2], ["ab", "ec"], ["eee", "ffff"])); // "eeecd"
+console.log(
+  findReplaceString(
+    "vmokgggqzp",
+    [3, 5, 1],
+    ["kg", "ggq", "mo"],
+    ["s", "so", "bfr"]
+  )
+); // "vbfrssozp"
+console.log(findReplaceString("abcde", [2, 2], ["cde", "cdef"], ["fe", "f"])); // "abfe"
+
+// 54/55 test cases passed
+
+var topVotedFindReplaceString = function (S, indexes, sources, targets) {
+  const n = indexes.length;
+  const chars = S.split("");
+
+  for (let i = 0; i < n; i++) {
+    const [index, source, target] = [indexes[i], sources[i], targets[i]];
+
+    if (S.substring(index).startsWith(source)) {
+      replaceChars(chars, index, source, target);
+    }
+  }
+
+  return chars.join("");
+
+  function replaceChars(chars, start, source, target) {
+    chars[start] = target;
+
+    for (let i = 1; i < source.length; i++) {
+      chars[start + i] = "";
+    }
+  }
+};
+
+// That for loop within replaceChars is what's making this all work
+// Very nice
