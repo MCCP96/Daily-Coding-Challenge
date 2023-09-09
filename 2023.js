@@ -18412,7 +18412,7 @@ var topVotedFindReplaceString = function (S, indexes, sources, targets) {
 // Very nice */
 
 // Online Stock Span					9/8/2023
-
+/* 
 // Design an algorithm that collects daily price quotes for some stock and returns the span of that stock's price for the current day.
 
 // The span of the stock's price in one day is the maximum number of consecutive days (starting from that day and going backward) for which the stock price was less than or equal to the price of that day.
@@ -18493,4 +18493,102 @@ TopVotedStockSpanner.prototype.next = function (price) {
   return curSpan;
 };
 
-// Much faster
+// Much faster */
+
+// Word Subsets					9/9/2023
+
+// You are given two string arrays words1 and words2.
+
+// A string b is a subset of string a if every letter in b occurs in a including multiplicity.
+
+// For example, "wrr" is a subset of "warrior" but is not a subset of "world".
+
+// A string a from words1 is universal if for every string b in words2, b is a subset of a.
+
+// Return an array of all the universal strings in words1. You may return the answer in any order.
+
+// Example 1:
+// 		Input: words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["e","o"]
+// 		Output: ["facebook","google","leetcode"]
+
+// Example 2:
+// 		Input: words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["l","e"]
+// 		Output: ["apple","google","leetcode"]
+
+// Constraints:
+//		1 <= words1.length, words2.length <= 104
+//		1 <= words1[i].length, words2[i].length <= 10
+//		words1[i] and words2[i] consist only of lowercase English letters.
+//		All the strings of words1 are unique.
+
+const wordSubsets = (w1, w2) => {
+  const countChars = (s) =>
+    [...s].reduce((map, c) => map.set(c, (map.get(c) || 0) + 1), new Map());
+
+  const count1 = w1.map((s) => countChars(s));
+  const count2 = w2.map((s) => countChars(s));
+
+  let res = [];
+
+  for (let i = 0; i < count1.length; i++) {
+    if (
+      count2.every((chars2) => {
+        for (const [c, n] of [...chars2.entries()])
+          if (!count1[i].has(c) || count1[i].get(c) < n) return false;
+        return true;
+      })
+    )
+      res.push(w1[i]);
+  }
+
+  return res;
+};
+
+console.log(
+  wordSubsets(["amazon", "apple", "facebook", "google", "leetcode"], ["e", "o"])
+); // ["facebook","google","leetcode"]
+console.log(
+  wordSubsets(["amazon", "apple", "facebook", "google", "leetcode"], ["l", "e"])
+); // ["apple","google","leetcode"]
+
+// Too slow
+
+var topVotedWordSubsets = function (A, B) {
+  const output = [];
+  const freqB = Array(26).fill(0);
+
+  for (let wordB of B) {
+    const currFreq = getFreq(wordB);
+
+    for (let i = 0; i < freqB.length; i++) {
+      freqB[i] = Math.max(freqB[i], currFreq[i]);
+    }
+  }
+
+  for (let wordA of A) {
+    const freqA = getFreq(wordA);
+    const universal = isSubset(freqA);
+    if (universal) output.push(wordA);
+  }
+
+  function isSubset(freqA) {
+    for (let i = 0; i < freqA.length; i++) {
+      if (freqB[i] > freqA[i]) return false;
+    }
+    return true;
+  }
+
+  function getFreq(word) {
+    const map = Array(26).fill(0);
+
+    for (let char of word) {
+      const idx = char.charCodeAt() - "a".charCodeAt();
+      map[idx]++;
+    }
+    return map;
+  }
+  return output;
+};
+
+// "Combine Words in B into One"
+// Ahhhh
