@@ -18496,7 +18496,7 @@ TopVotedStockSpanner.prototype.next = function (price) {
 // Much faster */
 
 // Word Subsets					9/9/2023
-
+/* 
 // You are given two string arrays words1 and words2.
 
 // A string b is a subset of string a if every letter in b occurs in a including multiplicity.
@@ -18591,4 +18591,48 @@ var topVotedWordSubsets = function (A, B) {
 };
 
 // "Combine Words in B into One"
-// Ahhhh
+// Ahhhh */
+
+// Minimum Add to Make Parentheses Valid					9/10/2023
+
+// A parentheses string is valid if and only if:
+
+// It is the empty string,
+
+// It can be written as AB (A concatenated with B), where A and B are valid strings, or
+
+// It can be written as (A), where A is a valid string.
+
+// You are given a parentheses string s. In one move, you can insert a parenthesis at any position of the string.
+
+// For example, if s = "()))", you can insert an opening parenthesis to be "(()))" or a closing parenthesis to be "())))".
+
+// Return the minimum number of moves required to make s valid.
+
+// Example 1:
+// 		Input: s = "())"
+// 		Output: 1
+
+// Example 2:
+// 		Input: s = "((("
+// 		Output: 3
+
+// Constraints:
+//		1 <= s.length <= 1000
+//		s[i] is either '(' or ')'.
+
+const minAddToMakeValid = (s) => {
+  let moves = 0;
+  let l = 0;
+  for (const c of s) {
+    if (c === "(") l++;
+    else if (l <= 0) moves++;
+    else l--;
+  }
+  return moves + l;
+};
+
+console.log(minAddToMakeValid("())")); // 1
+console.log(minAddToMakeValid("(((")); // 3
+
+// Same as top voted
