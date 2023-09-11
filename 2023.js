@@ -18594,7 +18594,7 @@ var topVotedWordSubsets = function (A, B) {
 // Ahhhh */
 
 // Minimum Add to Make Parentheses Valid					9/10/2023
-
+/* 
 // A parentheses string is valid if and only if:
 
 // It is the empty string,
@@ -18635,4 +18635,84 @@ const minAddToMakeValid = (s) => {
 console.log(minAddToMakeValid("())")); // 1
 console.log(minAddToMakeValid("(((")); // 3
 
-// Same as top voted
+// Same as top voted */
+
+// Flip String to Monotone Increasing					9/11/2023
+
+// A binary string is monotone increasing if it consists of some number of 0's (possibly none), followed by some number of 1's (also possibly none).
+
+// You are given a binary string s. You can flip s[i] changing it from 0 to 1 or from 1 to 0.
+
+// Return the minimum number of flips to make s monotone increasing.
+
+// Example 1:
+// 		Input: s = "00110"
+// 		Output: 1
+// Explanation: We flip the last digit to get 00111.
+
+// Example 2:
+// 		Input: s = "010110"
+// 		Output: 2
+// Explanation: We flip to get 011111, or alternatively 000111.
+
+// Example 3:
+// 		Input: s = "00011000"
+// 		Output: 2
+// Explanation: We flip to get 00000000.
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s[i] is either '0' or '1'.
+
+const minFlipsMonoIncr = (s) => {
+  let arr = [...s.slice(s.indexOf("1"), s.lastIndexOf("0") + 1)].sort();
+  return Math.min(arr.lastIndexOf("0") + 1, arr.length - arr.indexOf("1"));
+};
+
+console.log(minFlipsMonoIncr("00110")); // 1
+console.log(minFlipsMonoIncr("010110")); // 2
+console.log(minFlipsMonoIncr("00011000")); // 2
+console.log(minFlipsMonoIncr("10011111110010111011")); // 5
+
+// Couldn't get it going
+
+var topVotedMinFlipsMonoIncr = function (s) {
+  // occurrence of 1 in strings s
+  // counter of flips of 1->0 and 0->1
+  let [occOf1, flips] = [0, 0];
+
+  // scan each character in input string
+  for (const char of s) {
+    if (char == "1") {
+      // update occurrence of '1'
+      occOf1 += 1;
+
+      // current digit is '1'
+      // no need to flip when 1 is on the tail of current substring
+    } else {
+      // current digit is '0'
+      // need to flip when 0 is on the tail of current substring
+
+      // option_1: flip current 0 to 1, keep leading digits, then substring is monotone increasing
+
+      // option_2: flip leading 1s to 0s, keep current 0, then substring is monotone increasing
+
+      // select optimal solution
+      flips = Math.min(flips + 1, occOf1);
+    }
+  }
+
+  return flips;
+};
+
+const revisedMinFlipsMonoIncr = (s) => {
+  let arr = [...s.slice(s.indexOf("1"), s.lastIndexOf("0") + 1)]; // flips required
+
+  let [count1s, flips] = [0, 0];
+  for (const c of arr) {
+    if (c == "1") count1s++;
+    else flips = Math.min(flips + 1, count1s);
+  }
+
+  return flips;
+};
