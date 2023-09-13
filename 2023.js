@@ -18718,7 +18718,7 @@ const revisedMinFlipsMonoIncr = (s) => {
 }; */
 
 // Validate IP Address					9/12/2023
-
+/* 
 // Given a string queryIP, return "IPv4" if IP is a valid IPv4 address, "IPv6" if IP is a valid IPv6 address or "Neither" if IP is not a correct IP of any type.
 
 // A valid IPv4 address is an IP in the form "x1.x2.x3.x4" where 0 <= xi <= 255 and xi cannot contain leading zeros. For example, "192.168.1.1" and "192.168.1.0" are valid IPv4 addresses while "192.168.01.1", "192.168.1.00", and "192.168@1.1" are invalid IPv4 addresses.
@@ -18787,4 +18787,82 @@ var topVotedValidIPAddress = function (IP) {
   return ipv4.test(IP + '.') ? 'IPv4' : ipv6.test(IP + ':') ? 'IPv6' : 'Neither';
 };
 
-// Good Regex!
+// Good Regex! */
+
+// Target Sum					9/13/2023
+
+// You are given an integer array nums and an integer target.
+
+// You want to build an expression out of nums by adding one of the symbols '+' and '-' before each integer in nums and then concatenate all the integers.
+
+// For example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 and concatenate them to build the expression "+2-1".
+
+// Return the number of different expressions that you can build, which evaluates to target.
+
+// Example 1:
+// 		Input: nums = [1,1,1,1,1], target = 3
+// 		Output: 5
+// Explanation: There are 5 ways to assign symbols to make the sum of nums be target 3.
+// 		-1 + 1 + 1 + 1 + 1 = 3
+// 		+1 - 1 + 1 + 1 + 1 = 3
+// 		+1 + 1 - 1 + 1 + 1 = 3
+// 		+1 + 1 + 1 - 1 + 1 = 3
+// 		+1 + 1 + 1 + 1 - 1 = 3
+
+// Example 2:
+// 		Input: nums = [1], target = 1
+// 		Output: 1
+
+// Constraints:
+//		1 <= nums.length <= 20
+//		0 <= nums[i] <= 1000
+//		0 <= sum(nums[i]) <= 1000
+//		-1000 <= target <= 1000
+
+const findTargetSumWays = (nums, t) => {
+  let count = 0;
+
+  const dp = (i, sum) => {
+    if (i == nums.length) {
+      if (sum == t) count++;
+      return;
+    }
+
+    dp(i + 1, sum + nums[i]);
+    dp(i + 1, sum - nums[i]);
+  };
+  dp(0, 0);
+
+  return count;
+};
+
+console.log(findTargetSumWays([1, 1, 1, 1, 1], 3)); // 5
+console.log(findTargetSumWays([1], 1)); // 1
+
+// Easy but slow
+
+var topVotedFindTargetSumWays = function (nums, S) {
+  const memo = new Map();
+  const n = nums.length;
+
+  return countWaysToSum(n - 1, S);
+
+  function countWaysToSum(index, rem) {
+    const key = `${index}#${rem}`;
+
+    // base case
+    if (index < 0) {
+      if (rem === 0) return 1;
+      return 0;
+    }
+    if (memo.has(key)) return memo.get(key);
+
+    const plus = countWaysToSum(index - 1, rem + nums[index]);
+    const minus = countWaysToSum(index - 1, rem - nums[index]);
+    const count = plus + minus;
+
+    memo.set(key, count);
+
+    return count;
+  }
+};
