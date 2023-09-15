@@ -18868,7 +18868,7 @@ var topVotedFindTargetSumWays = function (nums, S) {
 }; */
 
 // Ones and Zeroes					9/14/2023
-
+/* 
 // You are given an array of binary strings strs and two integers m and n.
 
 // Return the size of the largest subset of strs such that there are at most m 0's and n 1's in the subset.
@@ -18943,4 +18943,58 @@ var topVotedFindMaxForm = function (S, M, N) {
   }
 
   return dp[M][N];
+}; */
+
+// Minimum Moves to Equal Array Elements II					9/15/2023
+
+// Given an integer array nums of size n, return the minimum number of moves required to make all array elements equal.
+
+// In one move, you can increment or decrement an element of the array by 1.
+
+// Test cases are designed so that the answer will fit in a 32-bit integer.
+
+// Example 1:
+// 		Input: nums = [1,2,3]
+// 		Output: 2
+// Explanation:
+// 		Only two moves are needed (remember each move increments or decrements one element):
+// 		[1,2,3]  =>  [2,2,3]  =>  [2,2,2]
+
+// Example 2:
+// 		Input: nums = [1,10,2,9]
+// 		Output: 16
+
+// Constraints:
+//		n == nums.length
+//		1 <= nums.length <= 105
+//		-109 <= nums[i] <= 109
+
+const minMoves2 = (nums) => {
+  const avg = Math.round(nums.reduce((sum, n) => (sum += n), 0) / nums.length);
+  return nums.reduce((moves, n) => (moves += Math.abs(n - avg)), 0);
 };
+
+console.log(minMoves2([1, 2, 3])); // 2
+console.log(minMoves2([1, 10, 2, 9])); // 16
+console.log(minMoves2([1, 1, 2])); // 1
+console.log(minMoves2([1, 0, 0, 8, 6])); // 14
+
+// Doesn't work
+
+var topVotedMinMoves2 = function (nums) {
+  nums.sort((a, b) => a - b);
+  let ans = 0,
+    median = nums[~~(nums.length / 2)];
+  for (let i = 0; i < nums.length; i++) ans += Math.abs(median - nums[i]);
+  return ans;
+};
+
+// Ah, had to use median instead of average
+
+const revisedMinMoves2 = (nums) => {
+  nums.sort((a, b) => a - b);
+  let median = nums[~~(nums.length / 2)];
+  return nums.reduce((moves, n) => (moves += Math.abs(n - median)), 0);
+};
+
+// Beats 99%
