@@ -165,7 +165,7 @@ int main(void)
 // While loop cuts it in half and "... || x == check / 10" accounts for odd amount of digits */
 
 // Roman to Integer					9/18/2023
-
+/*
 // Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
 
 // Symbol       Value
@@ -321,4 +321,49 @@ int topVotedRomanToInt(char *s)
 }
 
 // Much more compact
-// First time seeing objects in C
+// First time seeing objects in C */
+
+// Longest Common Prefix					9/19/2023
+
+// Write a function to find the longest common prefix string amongst an array of strings.
+
+// If there is no common prefix, return an empty string "".
+
+// Example 1:
+// 		Input: strs = ["flower","flow","flight"]
+// 		Output: "fl"
+
+// Example 2:
+// 		Input: strs = ["dog","racecar","car"]
+// 		Output: ""
+// Explanation: There is no common prefix among the input strings.
+
+// Constraints:
+//		1 <= strs.length <= 200
+//		0 <= strs[i].length <= 200
+//		strs[i] consists of only lowercase English letters.
+
+char *longestCommonPrefix(char **strs, int strsSize)
+{
+  for (int c = 0;; ++c)
+  {
+    if (strs[0][c] == '\0') // the longest common prefix is the first string
+      return strs[0];
+
+    for (int s = 1; s < strsSize; ++s)
+    {
+      if (strs[s][c] != strs[0][c]) // compare all strings character to the first one
+      {
+        strs[0][c] = '\0'; // replace the current character with '\0'
+        return strs[0];
+      }
+    }
+  }
+}
+
+// No time today
+// 12 hrs of school!
+
+// "The null character '\0' (also null terminator), abbreviated NUL, is a control character with the value zero. Its the same in C and objective C"
+
+// "The character has much more significance in C and it serves as a reserved character used to signify the end of a string, often called a null-terminated string"
