@@ -324,7 +324,7 @@ int topVotedRomanToInt(char *s)
 // First time seeing objects in C */
 
 // Longest Common Prefix					9/19/2023
-
+/*
 // Write a function to find the longest common prefix string amongst an array of strings.
 
 // If there is no common prefix, return an empty string "".
@@ -366,4 +366,121 @@ char *longestCommonPrefix(char **strs, int strsSize)
 
 // "The null character '\0' (also null terminator), abbreviated NUL, is a control character with the value zero. Its the same in C and objective C"
 
-// "The character has much more significance in C and it serves as a reserved character used to signify the end of a string, often called a null-terminated string"
+// "The character has much more significance in C and it serves as a reserved character used to signify the end of a string, often called a null-terminated string" */
+
+// Valid Parentheses					9/20/2023
+
+// Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+// An input string is valid if:
+
+// Open brackets must be closed by the same type of brackets.
+
+// Open brackets must be closed in the correct order.
+
+// Every close bracket has a corresponding open bracket of the same type.
+
+// Example 1:
+// 		Input: s = "()"
+// 		Output: true
+
+// Example 2:
+// 		Input: s = "()[]{}"
+// 		Output: true
+
+// Example 3:
+// 		Input: s = "(]"
+// 		Output: false
+
+// Constraints:
+//		1 <= s.length <= 104
+//		s consists of parentheses only '()[]{}'.
+
+bool isValid(char *s)
+{
+  int p1 = 0, p2 = 0, p3 = 0;
+  char prevs[strlen(s)];
+  int idx = 0;
+
+  for (unsigned short i = 0; i < s[i]; i++)
+  {
+    switch (s[i])
+    {
+    case '(':
+      prevs[idx] = '(';
+      idx++;
+      p1++;
+      break;
+    case '[':
+      prevs[idx] = '[';
+      idx++;
+      p2++;
+      break;
+    case '{':
+      prevs[idx] = '{';
+      idx++;
+      p3++;
+      break;
+    case '}':
+      idx--;
+      if (p3 == 0 || prevs[idx] != '{')
+        return false;
+      p3--;
+      break;
+    case ']':
+      idx--;
+      if (p2 == 0 || prevs[idx] != '[')
+        return false;
+      p2--;
+      break;
+    case ')':
+      idx--;
+      if (p1 == 0 || prevs[idx] != '(')
+        return false;
+      p1--;
+      break;
+    }
+  }
+
+  return p1 == 0 && p2 == 0 && p3 == 0;
+}
+
+// 94/95 test cases pass
+// strlen is a good takeaway here
+
+bool topVotedIsValid(char *s)
+{
+  char *q = s;
+
+  for (char *p = s; *p; p++)
+    switch (*p)
+    {
+    case '(':
+      *q++ = ')';
+      continue;
+
+    case '{':
+      *q++ = '}';
+      continue;
+
+    case '[':
+      *q++ = ']';
+      continue;
+
+    default:
+      if (q == s || *p != *--q)
+        return false;
+    }
+
+  return q == s;
+}
+
+int main(void)
+{
+  bool ex1 = topVotedIsValid("()");     // true
+  bool ex2 = topVotedIsValid("()[]{}"); // true
+  bool ex3 = topVotedIsValid("(]");     // false
+  bool ex4 = topVotedIsValid("]");      // false
+}
+
+// memory shenanigans
