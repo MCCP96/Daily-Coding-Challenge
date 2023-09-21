@@ -369,7 +369,7 @@ char *longestCommonPrefix(char **strs, int strsSize)
 // "The character has much more significance in C and it serves as a reserved character used to signify the end of a string, often called a null-terminated string" */
 
 // Valid Parentheses					9/20/2023
-
+/*
 // Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
 // An input string is valid if:
@@ -483,4 +483,75 @@ int main(void)
   bool ex4 = topVotedIsValid("]");      // false
 }
 
-// memory shenanigans
+// memory shenanigans */
+
+// Find the Index of the First Occurrence in a String					9/21/2023
+
+// Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+// Example 1:
+// 		Input: haystack = "sadbutsad", needle = "sad"
+// 		Output: 0
+// Explanation: "sad" occurs at index 0 and 6.
+// 		The first occurrence is at index 0, so we return 0.
+
+// Example 2:
+// 		Input: haystack = "leetcode", needle = "leeto"
+// 		Output: -1
+// Explanation: "leeto" did not occur in "leetcode", so we return -1.
+
+// Constraints:
+//		1 <= haystack.length, needle.length <= 104
+//		haystack and needle consist of only lowercase English characters.
+
+int strStr(char *haystack, char *needle)
+{
+  for (unsigned int i = 0; i < strlen(haystack); i++)
+  {
+    if (haystack[i] == needle[0])
+    {
+      bool valid = true;
+      for (unsigned int j = 1; j < strlen(needle); j++)
+      {
+        if (haystack[i + j] != needle[j])
+        {
+          valid = false;
+          break;
+        }
+      }
+      if (valid)
+        return i;
+    }
+  }
+  return -1;
+}
+
+int main(void)
+{
+  strStr("sadbutsad", "sad");  // 0
+  strStr("leetcode", "leeto"); // -1
+  strStr("a", "a");            // 0
+}
+
+// 100% runtime!
+
+int topVotedStrStr(char *haystack, char *needle)
+{
+  if (strlen(needle) > strlen(haystack))
+    return -1;
+
+  for (int i = 0; i < strlen(haystack); i++)
+  {
+    if (!strncmp(haystack + i, needle, strlen(needle)))
+      return i;
+  }
+
+  return -1;
+}
+
+// strncmp: Compare characters of two strings
+
+// Parameters:
+// str1:  C string to be compared.
+// str2:  C string to be compared.
+// num:   Maximum number of characters to compare. size_t is an unsigned integral type.
