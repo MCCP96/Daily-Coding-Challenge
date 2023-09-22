@@ -486,7 +486,7 @@ int main(void)
 // memory shenanigans */
 
 // Find the Index of the First Occurrence in a String					9/21/2023
-
+/*
 // Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
 // Example 1:
@@ -554,4 +554,71 @@ int topVotedStrStr(char *haystack, char *needle)
 // Parameters:
 // str1:  C string to be compared.
 // str2:  C string to be compared.
-// num:   Maximum number of characters to compare. size_t is an unsigned integral type.
+// num:   Maximum number of characters to compare. size_t is an unsigned integral type. */
+
+// Search Insert Position					9/22/2023
+
+// Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+// You must write an algorithm with O(log n) runtime complexity.
+
+// Example 1:
+// 		Input: nums = [1,3,5,6], target = 5
+// 		Output: 2
+
+// Example 2:
+// 		Input: nums = [1,3,5,6], target = 2
+// 		Output: 1
+
+// Example 3:
+// 		Input: nums = [1,3,5,6], target = 7
+// 		Output: 4
+
+// Constraints:
+//		1 <= nums.length <= 104
+//		-104 <= nums[i] <= 104
+//		nums contains distinct values sorted in ascending order.
+//		-104 <= target <= 104
+
+int searchInsert(int *nums, int numsSize, int target)
+{
+  for (int i = 0; i < numsSize; i++)
+  {
+    if (nums[i] == target || nums[i] > target)
+      return i;
+  }
+  return numsSize;
+}
+
+int main(void)
+{
+  int nums[4] = {1, 3, 5, 6};
+
+  int ex1 = searchInsert(nums, 4, 5); // 2
+  int ex2 = searchInsert(nums, 4, 2); // 1
+  int ex3 = searchInsert(nums, 4, 7); // 4
+}
+
+// Not O(log n)
+
+int topVotedSearchInsert(int *nums, int numsSize, int target)
+{
+  int left = 0, right = numsSize - 1, mid;
+
+  while (left <= right)
+  {
+    mid = (right + left) / 2;
+
+    if (nums[mid] < target)
+      left = mid + 1;
+
+    else if (nums[mid] > target)
+      right = mid - 1;
+
+    else
+      return mid;
+  }
+  return left;
+}
+
+// Binary search is the way to go
