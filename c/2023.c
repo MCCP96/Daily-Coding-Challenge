@@ -557,7 +557,7 @@ int topVotedStrStr(char *haystack, char *needle)
 // num:   Maximum number of characters to compare. size_t is an unsigned integral type. */
 
 // Search Insert Position					9/22/2023
-
+/*
 // Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
 
 // You must write an algorithm with O(log n) runtime complexity.
@@ -621,4 +621,76 @@ int topVotedSearchInsert(int *nums, int numsSize, int target)
   return left;
 }
 
-// Binary search is the way to go
+// Binary search is the way to go */
+
+// Length of Last Word					9/23/2023
+
+// Given a string s consisting of words and spaces, return the length of the last word in the string.
+
+// A word is a maximal
+
+// substring
+
+// consisting of non-space characters only.
+
+// Example 1:
+// 		Input: s = "Hello World"
+// 		Output: 5
+// Explanation: The last word is "World" with length 5.
+
+// Example 2:
+// 		Input: s = "   fly me   to   the moon  "
+// 		Output: 4
+// Explanation: The last word is "moon" with length 4.
+
+// Example 3:
+// 		Input: s = "luffy is still joyboy"
+// 		Output: 6
+// Explanation: The last word is "joyboy" with length 6.
+
+// Constraints:
+//		1 <= s.length <= 104
+//		s consists of only English letters and spaces ' '.
+//		There will be at least one word in s.
+
+int lengthOfLastWord(char *s)
+{
+  int last = 0;
+  int cur = 0;
+
+  for (int i = 0; i < strlen(s); i++)
+  {
+    if (s[i] == ' ')
+      cur = 0;
+    else
+    {
+      cur++;
+      last = cur;
+    }
+  }
+
+  return last;
+}
+
+int main(void)
+{
+  int ex1 = lengthOfLastWord("Hello World");                                      // 5
+  int ex2 = lengthOfLastWord("   fly me   to   the moon  ");                      // 4
+  int ex3 = lengthOfLastWord("luffy is still joyboy");                            // 6
+  int ex4 = lengthOfLastWord("qWnqNICa   ADGZNrBw  DdxMEuhNuvTJaETF   KhKKfVFX"); // 8
+}
+
+int topVotedLengthOfLastWord(char *s)
+{
+  int len = 0;
+  int i = strlen(s) - 1;
+
+  while (s[i] == ' ' && i >= 0)
+    i--;
+  while (i >= 0 && s[i--] != ' ')
+    len++;
+
+  return len;
+}
+
+// Big day of climbing in Calabogie!
