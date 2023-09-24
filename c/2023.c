@@ -624,7 +624,7 @@ int topVotedSearchInsert(int *nums, int numsSize, int target)
 // Binary search is the way to go */
 
 // Length of Last Word					9/23/2023
-
+/*
 // Given a string s consisting of words and spaces, return the length of the last word in the string.
 
 // A word is a maximal
@@ -693,4 +693,97 @@ int topVotedLengthOfLastWord(char *s)
   return len;
 }
 
-// Big day of climbing in Calabogie!
+// Big day of climbing in Calabogie! */
+
+// Add Binary					9/24/2023
+
+// Given two binary strings a and b, return their sum as a binary string.
+
+// Example 1:
+// 		Input: a = "11", b = "1"
+// 		Output: "100"
+
+// Example 2:
+// 		Input: a = "1010", b = "1011"
+// 		Output: "10101"
+
+// Constraints:
+//		1 <= a.length, b.length <= 104
+//		a and b consist only of '0' or '1' characters.
+//		Each string does not contain leading zeros except for the zero itself.
+
+char *addBinary(char *a, char *b)
+{
+  int alen = strlen(a);
+  int blen = strlen(b);
+  int maxlen = fmax(alen, blen) + 1;
+
+  char res[maxlen];
+  int carry = 0;
+
+  while (alen > 0 || blen > 0)
+  {
+    int cura = a[--alen] == '1' ? 1 : 0;
+    int curb = b[--blen] == '1' ? 1 : 0;
+
+    int op = cura + curb + carry;
+    switch (op)
+    {
+    case 3:
+      res[--maxlen] = '1';
+      break;
+    case 2:
+      carry = 1;
+      res[--maxlen] = '0';
+      break;
+    case 1:
+      carry = 0;
+      res[--maxlen] = '1';
+      break;
+    case 0:
+      res[--maxlen] = '0';
+      break;
+    }
+  }
+
+  return res;
+}
+
+int main(void)
+{
+  char *ex1 = addBinary("11", "1");      // "100"
+  char *ex2 = addBinary("1010", "1011"); // "10101"
+}
+
+// res is returning 0x0
+// My logic works (I think) but I'm not assigning correctly to res
+
+char *topVotedAddBinary(char *a, char *b)
+{
+  int sizeA = strlen(a);
+  int sizeB = strlen(b);
+  int sizeOutput = (sizeA > sizeB ? sizeA : sizeB) + 1;
+  char *output = (char *)malloc(sizeOutput + 1);
+  int sum = 0;
+
+  output[sizeOutput] = '\0';
+
+  while (sizeA > 0 || sizeB > 0 || sum > 0)
+  {
+
+    if (sizeA > 0)
+    {
+      sum += a[--sizeA] - '0';
+    }
+    if (sizeB > 0)
+    {
+      sum += b[--sizeB] - '0';
+    }
+    output[--sizeOutput] = sum % 2 + '0';
+    sum /= 2;
+  }
+  return output + sizeOutput;
+}
+
+// char *output = (char *)malloc(sizeOutput + 1);
+// I've got to work on memory allocation and dynamically filling arrays
