@@ -789,7 +789,7 @@ char *topVotedAddBinary(char *a, char *b)
 // I've got to work on memory allocation and dynamically filling arrays */
 
 // Merge Sorted Array					9/25/2023
-
+/*
 // You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
 
 // Merge nums1 and nums2 into a single array sorted in non-decreasing order.
@@ -890,4 +890,86 @@ void topVotedMerge(int *nums1, int nums1Size, int m, int *nums2, int nums2Size, 
   {
     nums1[i--] = nums2[i2--];
   }
+} */
+
+// Best Time to Buy and Sell Stock					9/26/2023
+
+// You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+// You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+// Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+// Example 1:
+// 		Input: prices = [7,1,5,3,6,4]
+// 		Output: 5
+// Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+// 		Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+
+// Example 2:
+// 		Input: prices = [7,6,4,3,1]
+// 		Output: 0
+// Explanation: In this case, no transactions are done and the max profit = 0.
+
+// Constraints:
+//		1 <= prices.length <= 105
+//		0 <= prices[i] <= 104
+
+int maxProfit(int *prices, int pricesSize)
+{
+  int max = 0;
+  for (int i = 0; i < pricesSize - 1; i++)
+  {
+    for (int j = i + 1; j < pricesSize; j++)
+    {
+      int dif = prices[j] - prices[i];
+      if (dif > max)
+        max = dif;
+    }
+  }
+  return max;
+}
+
+int main(void)
+{
+  int prices1[] = {7, 1, 5, 3, 6, 4};
+  int ex1 = maxProfit(prices1, 6); // 5
+  int prices2[] = {7, 6, 4, 3, 1};
+  int ex2 = maxProfit(prices2, 5); // 0
+}
+
+// Too slow
+
+int topVotedMaxProfit(int *prices, int pricesSize)
+{
+  int min = prices[0], profit = 0;
+
+  for (int i = 0; i < pricesSize; i++)
+  {
+    if (prices[i] > min)
+      (profit = profit > prices[i] - min ? profit : prices[i] - min);
+    else
+      min = prices[i];
+  }
+  return profit;
+}
+
+int RevisedMaxProfit(int *prices, int pricesSize)
+{
+  int min = prices[0];
+  int max = 0;
+
+  for (int i = 1; i < pricesSize; i++)
+  {
+    if (prices[i] > min)
+    {
+      int dif = prices[i] - min;
+      if (dif > max)
+        max = dif;
+    }
+    else
+      min = prices[i];
+  }
+
+  return max;
 }
