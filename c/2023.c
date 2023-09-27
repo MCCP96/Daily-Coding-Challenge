@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
+#include <ctype.h>
 
 // Hello World					9/16/2023
 /*
@@ -893,7 +894,7 @@ void topVotedMerge(int *nums1, int nums1Size, int m, int *nums2, int nums2Size, 
 } */
 
 // Best Time to Buy and Sell Stock					9/26/2023
-
+/*
 // You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
 // You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
@@ -972,4 +973,120 @@ int RevisedMaxProfit(int *prices, int pricesSize)
   }
 
   return max;
+} */
+
+// Valid Palindrome					9/27/2023
+
+// A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+// Given a string s, return true if it is a palindrome, or false otherwise.
+
+// Example 1:
+// 		Input: s = "A man, a plan, a canal: Panama"
+// 		Output: true
+// Explanation: "amanaplanacanalpanama" is a palindrome.
+
+// Example 2:
+// 		Input: s = "race a car"
+// 		Output: false
+// Explanation: "raceacar" is not a palindrome.
+
+// Example 3:
+// 		Input: s = " "
+// 		Output: true
+// Explanation: s is an empty string "" after removing non-alphanumeric characters.
+// 		Since an empty string reads the same forward and backward, it is a palindrome.
+
+// Constraints:
+//		1 <= s.length <= 2 * 105
+//		s consists only of printable ASCII characters.
+
+char toLower(char c)
+{
+  return c + 32;
+}
+
+bool isPalindrome(char *s)
+{
+  int len = strlen(s);
+  for (int i = 0, j = len - 1; i < j; i++, j--)
+  {
+    char l = s[i];
+    while (!(l >= 65 && l <= 90) && !(l >= 97 && l <= 122))
+    {
+      l = s[++i];
+      if (i >= j)
+        return true;
+    }
+    if (l >= 65 && l <= 90)
+      l = toLower(l);
+
+    char r = s[j];
+    while (!(r >= 65 && r <= 90) && !(r >= 97 && r <= 122))
+    {
+      r = s[--j];
+      if (j <= i)
+        return true;
+    }
+    if (r >= 65 && r <= 90)
+      r = toLower(r);
+
+    if (l != r)
+      return false;
+  }
+  return true;
+}
+
+int main(void)
+{
+  bool ex1 = isPalindrome("A man, a plan, a canal: Panama"); // true
+  bool ex2 = isPalindrome("race a car");                     // false
+  bool ex3 = isPalindrome(" ");                              // true
+  bool ex4 = isPalindrome(".,");                             // true
+}
+
+// There's definitely a better way of doing this
+
+bool topVotedIsPalindrome(char *s)
+{
+  char *first = s;
+  char *last = s + strlen(s) - 1;
+
+  while (first <= last)
+  {
+    if (isalnum(*first) && isalnum(*last))
+    {
+      if (tolower(*first++) != tolower(*last--))
+        return false;
+    }
+    else
+    {
+      if (!isalnum(*first))
+        ++first;
+      if (!isalnum(*last))
+        --last;
+    }
+  }
+
+  return true;
+}
+
+// <ctype.h> provides tolower and isalnum, two very useful methods in this case.
+
+// 'The isalnum() method returns True if all characters in the string are alphanumeric (either alphabets or numbers). If not, it returns False.'
+
+// I also enjoy incrementing/decrementing the pointers instead of i/j to navigate the string.
+
+int navigateString(void)
+{
+  char *s = "abcdefghijklmnopqrstuvwxyz";
+
+  char *c = s;
+  while (c < s + strlen(s))
+  {
+    printf("%c", *c);
+    c++;
+  }
+
+  return EXIT_SUCCESS;
 }
