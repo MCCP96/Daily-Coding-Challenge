@@ -976,7 +976,7 @@ int RevisedMaxProfit(int *prices, int pricesSize)
 } */
 
 // Valid Palindrome					9/27/2023
-
+/*
 // A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
 // Given a string s, return true if it is a palindrome, or false otherwise.
@@ -1089,4 +1089,75 @@ int navigateString(void)
   }
 
   return EXIT_SUCCESS;
+} */
+
+// Single Number					9/28/2023
+
+// Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+
+// You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+// Example 1:
+// 		Input: nums = [2,2,1]
+// 		Output: 1
+
+// Example 2:
+// 		Input: nums = [4,1,2,1,2]
+// 		Output: 4
+
+// Example 3:
+// 		Input: nums = [1]
+// 		Output: 1
+
+// Constraints:
+//		1 <= nums.length <= 3 * 104
+//		-3 * 104 <= nums[i] <= 3 * 104
+//		Each element in the array appears twice except for one element which appears only once.
+
+int singleNumber(int *nums, int numsSize)
+{
+  for (int i = 0; i < numsSize - 1; i++)
+  {
+    if (nums[i] == '_')
+      continue;
+
+    bool found = true;
+    for (int j = i + 1; j < numsSize; j++)
+    {
+      if (nums[i] == nums[j])
+      {
+        found = false;
+        nums[j] = '_';
+        break;
+      }
+    }
+
+    if (found)
+      return nums[i];
+  }
+
+  return nums[numsSize - 1];
 }
+
+int main(void)
+{
+  int nums1[] = {2, 2, 1};
+  int ex1 = singleNumber(nums1, 3); // 1
+
+  int nums2[] = {4, 1, 2, 1, 2};
+  int ex2 = singleNumber(nums2, 5); // 4
+
+  int nums3[] = {1};
+  int ex3 = singleNumber(nums3, 1); // 1
+}
+
+int topVotedSingleNumber(int *nums, int numsSize)
+{
+  int val = 0;
+  while (numsSize--)
+    val ^= nums[numsSize];
+  return val;
+}
+
+// Glad to see bitwise XOR alive and well in C
+// XORing a number by itself returns 0, and since they all occur exactly twice, this works
