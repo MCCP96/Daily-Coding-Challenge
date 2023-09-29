@@ -1092,7 +1092,7 @@ int navigateString(void)
 } */
 
 // Single Number					9/28/2023
-
+/*
 // Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
 
 // You must implement a solution with a linear runtime complexity and use only constant extra space.
@@ -1160,4 +1160,85 @@ int topVotedSingleNumber(int *nums, int numsSize)
 }
 
 // Glad to see bitwise XOR alive and well in C
-// XORing a number by itself returns 0, and since they all occur exactly twice, this works
+// XORing a number by itself returns 0, and since they all occur exactly twice, this works */
+
+// Majority Element					9/29/2023
+
+// Given an array nums of size n, return the majority element.
+
+// The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+// Example 1:
+// 		Input: nums = [3,2,3]
+// 		Output: 3
+
+// Example 2:
+// 		Input: nums = [2,2,1,1,1,2,2]
+// 		Output: 2
+
+// Constraints:
+//		n == nums.length
+//		1 <= n <= 5 * 104
+//		-109 <= nums[i] <= 109
+
+int majorityElement(int *nums, int numsSize)
+{
+  for (int i = 0; i < numsSize; i++)
+  {
+    if (nums[i] == '_')
+      continue;
+
+    int cur = nums[i];
+    int count = 0;
+    for (int j = i; j < numsSize; j++)
+    {
+      if (nums[j] == cur)
+      {
+        count++;
+        nums[j] = '_';
+      }
+    }
+
+    if (count > numsSize / 2)
+      return cur;
+  }
+
+  return -1;
+}
+
+int main(void)
+{
+  int nums1[] = {3, 2, 3};
+  int ex1 = majorityElement(nums1, 3); // 3
+  int nums2[] = {2, 2, 1, 1, 1, 2, 2};
+  int ex2 = majorityElement(nums2, 7); // 2
+}
+
+// Same solution as yesterday
+// I've got to learn how to make objects to count without nested for loops
+
+int topVotedMajorityElement(int *nums, int numsSize)
+{
+  int candidate = nums[0];
+  int count = 1;
+  for (int i = 1; i < numsSize; i++)
+  {
+    if (nums[i] == candidate)
+    {
+      count++;
+    }
+    else
+    {
+      count--;
+      if (count == 0)
+      {
+        candidate = nums[i];
+        count = 1;
+      }
+    }
+  }
+  return candidate;
+}
+
+// "Boyer-Moore: The Efficient Majority Element Finder"
+// cool
