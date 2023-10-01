@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
@@ -1244,7 +1245,7 @@ int topVotedMajorityElement(int *nums, int numsSize)
 // cool */
 
 // Excel Sheet Column Number					9/30/2023
-
+/*
 // Given a string columnTitle that represents the column title as appears in an Excel sheet, return its corresponding column number.
 
 // For example:
@@ -1295,4 +1296,72 @@ int main(void)
 }
 
 // 100% Runtime
-// Very little C solutions, all C++
+// Very little C solutions, all C++ */
+
+// Contains Duplicate					10/1/2023
+
+// Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+// Example 1:
+// 		Input: nums = [1,2,3,1]
+// 		Output: true
+
+// Example 2:
+// 		Input: nums = [1,2,3,4]
+// 		Output: false
+
+// Example 3:
+// 		Input: nums = [1,1,1,3,3,4,3,2,4,2]
+// 		Output: true
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		-109 <= nums[i] <= 109
+
+bool containsDuplicate(int *nums, int numsSize)
+{
+  for (int i = 0; i < numsSize - 1; i++)
+  {
+    for (int j = i + 1; j < numsSize; j++)
+    {
+      if (nums[i] == nums[j])
+        return true;
+    }
+  }
+  return false;
+}
+
+int main(void)
+{
+  int nums1[] = {1, 2, 3, 1};
+  int ex1 = containsDuplicate(nums1, 4); // true
+  int nums2[] = {1, 2, 3, 4};
+  int ex2 = containsDuplicate(nums2, 4); // false
+  int nums3[] = {1, 1, 1, 3, 3, 4, 3, 2, 4, 2};
+  int ex3 = containsDuplicate(nums3, 10); // true
+}
+
+// Time limit exceeded
+
+int cmp(const void *a, const void *b)
+{
+  return (*(int *)a - *(int *)b);
+}
+
+bool topVotedContainsDuplicate(int *nums, int numsSize)
+{
+  qsort(nums, numsSize, sizeof(int), cmp);
+
+  for (int i = 1; i < numsSize; i++)
+    if (nums[i] == nums[i - 1])
+      return true;
+
+  return false;
+}
+
+// "The C library function void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)) sorts an array."
+
+// base − This is the pointer to the first element of the array to be sorted.
+// nitems − This is the number of elements in the array pointed by base.
+// size − This is the size in bytes of each element in the array.
+// compar − This is the function that compares two elements.
