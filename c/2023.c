@@ -1163,7 +1163,7 @@ int topVotedSingleNumber(int *nums, int numsSize)
 // XORing a number by itself returns 0, and since they all occur exactly twice, this works */
 
 // Majority Element					9/29/2023
-
+/*
 // Given an array nums of size n, return the majority element.
 
 // The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
@@ -1241,4 +1241,58 @@ int topVotedMajorityElement(int *nums, int numsSize)
 }
 
 // "Boyer-Moore: The Efficient Majority Element Finder"
-// cool
+// cool */
+
+// Excel Sheet Column Number					9/30/2023
+
+// Given a string columnTitle that represents the column title as appears in an Excel sheet, return its corresponding column number.
+
+// For example:
+// A -> 1
+// B -> 2
+// C -> 3
+// ...
+// Z -> 26
+// AA -> 27
+// AB -> 28
+// ...
+
+// Example 1:
+// 		Input: columnTitle = "A"
+// 		Output: 1
+
+// Example 2:
+// 		Input: columnTitle = "AB"
+// 		Output: 28
+
+// Example 3:
+// 		Input: columnTitle = "ZY"
+// 		Output: 701
+
+// Constraints:
+//		1 <= columnTitle.length <= 7
+//		columnTitle consists only of uppercase English letters.
+//		columnTitle is in the range ["A", "FXSHRXW"].
+
+int titleToNumber(char *columnTitle)
+{
+  int res = 0;
+  int power = 0;
+  for (int i = strlen(columnTitle) - 1; i >= 0; i--)
+  {
+    int c = (columnTitle[i] - 64);
+    res += c * (pow(26, power));
+    power++;
+  }
+  return res;
+}
+
+int main(void)
+{
+  int ex1 = titleToNumber("A");  // 1
+  int ex2 = titleToNumber("AB"); // 28
+  int ex3 = titleToNumber("ZY"); // 701
+}
+
+// 100% Runtime
+// Very little C solutions, all C++
