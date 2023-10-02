@@ -1299,7 +1299,7 @@ int main(void)
 // Very little C solutions, all C++ */
 
 // Contains Duplicate					10/1/2023
-
+/*
 // Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
 
 // Example 1:
@@ -1364,4 +1364,57 @@ bool topVotedContainsDuplicate(int *nums, int numsSize)
 // base − This is the pointer to the first element of the array to be sorted.
 // nitems − This is the number of elements in the array pointed by base.
 // size − This is the size in bytes of each element in the array.
-// compar − This is the function that compares two elements.
+// compar − This is the function that compares two elements. */
+
+// Contains Duplicate II					10/2/2023
+
+// Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.
+
+// Example 1:
+// 		Input: nums = [1,2,3,1], k = 3
+// 		Output: true
+
+// Example 2:
+// 		Input: nums = [1,0,1,1], k = 1
+// 		Output: true
+
+// Example 3:
+// 		Input: nums = [1,2,3,1,2,3], k = 2
+// 		Output: false
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		-109 <= nums[i] <= 109
+//		0 <= k <= 105
+
+bool containsNearbyDuplicate(int *nums, int numsSize, int k)
+{
+  for (int i = 0; i < numsSize - 1; i++)
+  {
+    for (int j = i + 1; j < numsSize; j++)
+    {
+      if (abs(i - j) > k)
+        break;
+      if (nums[i] == nums[j])
+      {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+int main(void)
+{
+  int nums1[] = {1, 2, 3, 1};
+  bool ex1 = containsNearbyDuplicate(nums1, 4, 3); // true
+  int nums2[] = {1, 0, 1, 1};
+  bool ex2 = containsNearbyDuplicate(nums2, 4, 1); // true
+  int nums3[] = {1, 2, 3, 1, 2, 3};
+  bool ex3 = containsNearbyDuplicate(nums3, 6, 2); // false
+}
+
+// Time limit exceeded
+// Sliding window seems to be the way
+
+// All C++, very few C solutions
