@@ -1367,7 +1367,7 @@ bool topVotedContainsDuplicate(int *nums, int numsSize)
 // compar − This is the function that compares two elements. */
 
 // Contains Duplicate II					10/2/2023
-
+/*
 // Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.
 
 // Example 1:
@@ -1417,4 +1417,117 @@ int main(void)
 // Time limit exceeded
 // Sliding window seems to be the way
 
-// All C++, very few C solutions
+// All C++, very few C solutions */
+
+// Height Checker					10/3/2023
+
+// A school is trying to take an annual photo of all the students. The students are asked to stand in a single file line in non-decreasing order by height. Let this ordering be represented by the integer array expected where expected[i] is the expected height of the ith student in line.
+
+// You are given an integer array heights representing the current order that the students are standing in. Each heights[i] is the height of the ith student in line (0-indexed).
+
+// Return the number of indices where heights[i] != expected[i].
+
+// Example 1:
+// 		Input: heights = [1,1,4,2,1,3]
+// 		Output: 3
+// Explanation:
+// 		heights:  [1,1,4,2,1,3]
+// 		expected: [1,1,1,2,3,4]
+// 		Indices 2, 4, and 5 do not match.
+
+// Example 2:
+// 		Input: heights = [5,1,2,3,4]
+// 		Output: 5
+// Explanation:
+// 		heights:  [5,1,2,3,4]
+// 		expected: [1,2,3,4,5]
+// 		All indices do not match.
+
+// Example 3:
+// 		Input: heights = [1,2,3,4,5]
+// 		Output: 0
+// Explanation:
+// 		heights:  [1,2,3,4,5]
+// 		expected: [1,2,3,4,5]
+// 		All indices match.
+
+// Constraints:
+//		1 <= heights.length <= 100
+//		1 <= heights[i] <= 100
+
+int heightChecker(int *heights, int heightsSize)
+{
+  int original[heightsSize];
+  for (int i = 0; i < heightsSize; i++)
+  {
+    original[i] = heights[i];
+  }
+
+  bool sorted = false;
+  while (!sorted)
+  {
+    sorted = true;
+    for (int i = 0; i < heightsSize - 1; i++)
+    {
+      for (int j = i + 1; j < heightsSize; j++)
+      {
+        if (heights[i] > heights[j])
+        {
+          sorted = false;
+          int temp = heights[i];
+          heights[i] = heights[j];
+          heights[j] = temp;
+          break;
+        }
+      }
+    }
+  }
+
+  int count = 0;
+  for (int i = 0; i < heightsSize; i++)
+  {
+    if (original[i] != heights[i])
+      count++;
+  }
+  return count;
+}
+
+int main(void)
+{
+  int heights1[] = {1, 1, 4, 2, 1, 3};
+  int ex1 = heightChecker(heights1, 6); // 3
+  int heights2[] = {5, 1, 2, 3, 4};
+  int ex2 = heightChecker(heights2, 6); // 5
+  int heights3[] = {1, 2, 3, 4, 5};
+  int ex3 = heightChecker(heights3, 6); // 0
+}
+
+// Works, but slow
+
+int topVotedHeightChecker(int *heights, int heightsSize)
+{
+  int result = 0;
+
+  int max_height = 102;
+  int *counter = (int *)calloc(max_height, sizeof(int));
+
+  // int expected[heightsSize];
+
+  for (int i = 0; i < heightsSize; i++)
+    counter[heights[i]]++;
+
+  int pos = 1;
+  for (int i = 0; i < heightsSize; i++)
+  {
+    while (counter[pos] == 0)
+      pos++;
+
+    if (heights[i] != pos)
+      result++;
+
+    counter[pos]--;
+  }
+  return result;
+}
+
+// "The calloc function allocates storage space for an array of number elements, each of length size bytes. Each element is initialized to 0.""
