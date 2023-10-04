@@ -1420,7 +1420,7 @@ int main(void)
 // All C++, very few C solutions */
 
 // Height Checker					10/3/2023
-
+/*
 // A school is trying to take an annual photo of all the students. The students are asked to stand in a single file line in non-decreasing order by height. Let this ordering be represented by the integer array expected where expected[i] is the expected height of the ith student in line.
 
 // You are given an integer array heights representing the current order that the students are standing in. Each heights[i] is the height of the ith student in line (0-indexed).
@@ -1530,4 +1530,181 @@ int topVotedHeightChecker(int *heights, int heightsSize)
   return result;
 }
 
-// "The calloc function allocates storage space for an array of number elements, each of length size bytes. Each element is initialized to 0.""
+// "The calloc function allocates storage space for an array of number elements, each of length size bytes. Each element is initialized to 0."" */
+
+// Implement Stack using Queues					10/4/2023
+
+// Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).
+
+// Implement the MyStack class:
+
+// void push(int x) Pushes element x to the top of the stack.
+
+// int pop() Removes the element on the top of the stack and returns it.
+
+// int top() Returns the element on the top of the stack.
+
+// boolean empty() Returns true if the stack is empty, false otherwise.
+
+// Notes:
+
+// You must use only standard operations of a queue, which means that only push to back, peek/pop from front, size and is empty operations are valid.
+
+// Depending on your language, the queue may not be supported natively. You may simulate a queue using a list or deque (double-ended queue) as long as you use only a queue's standard operations.
+
+// Example 1:
+// 		Input
+// 		["MyStack", "push", "push", "top", "pop", "empty"]
+// 		[[], [1], [2], [], [], []]
+// 		Output
+// 		[null, null, null, 2, 2, false]
+// 		Explanation
+// 		MyStack myStack = new MyStack();
+// 		myStack.push(1);
+// 		myStack.push(2);
+// 		myStack.top(); // return 2
+// 		myStack.pop(); // return 2
+// 		myStack.empty(); // return False
+
+// Constraints:
+//		1 <= x <= 9
+//		At most 100 calls will be made to push, pop, top, and empty.
+//		All the calls to pop and top are valid.
+//		Follow-up: Can you implement the stack using only one queue?
+
+typedef struct
+{
+  int stack[100];
+  int idx;
+} MyStack;
+
+MyStack *myStackCreate()
+{
+  return MyStack;
+}
+
+void myStackPush(MyStack *obj, int x)
+{
+  MyStack.stack[++MyStack.idx] = x;
+}
+
+int myStackPop(MyStack *obj)
+{
+  MyStack.idx--;
+  return MyStack.stack[MyStack.idx + 1];
+}
+
+int myStackTop(MyStack *obj)
+{
+  return MyStack.stack[MyStack.idx];
+}
+
+bool myStackEmpty(MyStack *obj)
+{
+  return MyStack.idx == 0;
+}
+
+void myStackFree(MyStack *obj)
+{
+}
+
+int main(void)
+{
+  MyStack *obj = myStackCreate();
+  myStackPush(obj, x);
+  int param_2 = myStackPop(obj);
+  int param_3 = myStackTop(obj);
+  bool param_4 = myStackEmpty(obj);
+  myStackFree(obj);
+}
+
+// Out of my depths on this one
+// Haven't seen classes yet
+
+typedef struct
+{
+  int *arr;
+  int top;
+} MyTopVotedStack;
+
+MyTopVotedStack *myTopVotedStackCreate()
+{
+  MyTopVotedStack *obj = (MyTopVotedStack *)malloc(sizeof(MyTopVotedStack));
+  obj->arr = (int *)malloc(sizeof(int) * 100);
+  obj->top = -1;
+  return obj;
+}
+
+void myTopVotedStackPush(MyTopVotedStack *obj, int x)
+{
+  obj->arr[++obj->top] = x;
+}
+
+int myTopVotedStackPop(MyTopVotedStack *obj)
+{
+  return obj->arr[obj->top--];
+}
+
+int myTopVotedStackTop(MyTopVotedStack *obj)
+{
+  return obj->arr[obj->top];
+}
+
+bool myTopVotedStackEmpty(MyTopVotedStack *obj)
+{
+  return obj->top == -1;
+}
+
+void myTopVotedStackFree(MyTopVotedStack *obj)
+{
+  free(obj->arr);
+  free(obj);
+}
+
+// "The -> (arrow) operator is used to access class, structure or union members using a pointer. A postfix expression, followed by an -> (arrow) operator, followed by a possibly qualified identifier or a pseudo-destructor name, designates a member of the object to which the pointer points."
+
+// So not "."
+
+typedef struct
+{
+  int *stack;
+  int idx;
+} MyRevisedStack;
+
+MyRevisedStack *myRevisedStackCreate()
+{
+  MyRevisedStack *obj = (MyRevisedStack *)malloc(sizeof(MyRevisedStack));
+  obj->stack = (int *)malloc(sizeof(int) * 100); // def array of size 100
+  obj->idx = -1;                                 // -1 (not 0) so that it's  compatible with first push
+  return obj;
+}
+
+void myRevisedStackPush(MyRevisedStack *obj, int x)
+{
+  obj->stack[++obj->idx] = x;
+}
+
+int myRevisedStackPop(MyRevisedStack *obj)
+{
+  return obj->stack[obj->idx--];
+}
+
+int myRevisedStackTop(MyRevisedStack *obj)
+{
+  return obj->stack[obj->idx];
+}
+
+bool myRevisedStackEmpty(MyRevisedStack *obj)
+{
+  return obj->idx == -1;
+}
+
+void myRevisedStackFree(MyRevisedStack *obj)
+{
+  free(obj->stack);
+  free(obj);
+}
+
+// I had the logic, but not the syntax
+
+// "The C library function void free(void *ptr) deallocates the memory previously allocated by a call to calloc, malloc, or realloc."
