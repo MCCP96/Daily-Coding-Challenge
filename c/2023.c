@@ -1533,7 +1533,7 @@ int topVotedHeightChecker(int *heights, int heightsSize)
 // "The calloc function allocates storage space for an array of number elements, each of length size bytes. Each element is initialized to 0."" */
 
 // Implement Stack using Queues					10/4/2023
-
+/*
 // Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).
 
 // Implement the MyStack class:
@@ -1707,4 +1707,116 @@ void myRevisedStackFree(MyRevisedStack *obj)
 
 // I had the logic, but not the syntax
 
-// "The C library function void free(void *ptr) deallocates the memory previously allocated by a call to calloc, malloc, or realloc."
+// "The C library function void free(void *ptr) deallocates the memory previously allocated by a call to calloc, malloc, or realloc." */
+
+// Summary Ranges					10/5/2023
+
+// You are given a sorted unique integer array nums.
+
+// A range [a,b] is the set of all integers from a to b (inclusive).
+
+// Return the smallest sorted list of ranges that cover all the numbers in the array exactly. That is, each element of nums is covered by exactly one of the ranges, and there is no integer x such that x is in one of the ranges but not in nums.
+
+// Each range [a,b] in the list should be output as:
+
+// "a->b" if a != b
+
+// "a" if a == b
+
+// Example 1:
+// 		Input: nums = [0,1,2,4,5,7]
+// 		Output: ["0->2","4->5","7"]
+// Explanation: The ranges are:
+// 		[0,2] --> "0->2"
+// 		[4,5] --> "4->5"
+// 		[7,7] --> "7"
+
+// Example 2:
+// 		Input: nums = [0,2,3,4,6,8,9]
+// 		Output: ["0","2->4","6","8->9"]
+// Explanation: The ranges are:
+// 		[0,0] --> "0"
+// 		[2,4] --> "2->4"
+// 		[6,6] --> "6"
+// 		[8,9] --> "8->9"
+
+// Constraints:
+//		0 <= nums.length <= 20
+//		-231 <= nums[i] <= 231 - 1
+//		All the values of nums are unique.
+//		nums is sorted in ascending order.
+
+char **summaryRanges(int *nums, int numsSize, int *returnSize)
+{
+  char res[*returnSize];
+  int residx = 0;
+
+  int num = nums[0];
+  for (int i = 1; i < numsSize; i++)
+  {
+    if (nums[i] != nums[i - 1] + 1)
+    {
+      if (num != nums[i])
+      {
+        res[residx] = {num, '-', '>', nums[i - 1]};
+        num = nums[i];
+        residx++;
+      }
+    }
+  }
+
+  return res;
+}
+
+int main(void)
+{
+  char **ex1 = summaryRanges((int[]){0, 1, 2, 4, 5, 7}, 6, (int[3]){0});    // ["0->2","4->5","7"]
+  char **ex2 = summaryRanges((int[]){0, 2, 3, 4, 6, 8, 9}, 7, (int[4]){0}); // ["0","2->4","6","8->9"]
+}
+
+// Unfamiliar with how to define returnSize and res memory allocation
+// Struggling to build strings
+
+char **topVotedSummaryRanges(int *nums, int numsSize, int *returnSize)
+{
+  *returnSize = 0;
+  char **ret = NULL;
+  if (numsSize == 1)
+  {
+    int stlen = (log10(INT_MAX) + 3); // enough space for ints of max length, null terminator, and neg sign
+    ret = (char **)malloc(sizeof(char *) * numsSize);
+
+    ret[0] = (char *)malloc(sizeof(char) * stlen);
+    sprintf(ret[0], "%d", nums[0]);
+
+    (*returnSize)++;
+  }
+  else if (numsSize > 1)
+  {
+    int i, start, j;
+    int stlen = ((log10(INT_MAX) + 2) * 2) + 3; // enough space for ints of max length, null terminator, arrow, and neg sign
+    ret = (char **)malloc(sizeof(char *) * numsSize);
+
+    for (i = 1, start = nums[0], j = 0; i < numsSize; i++)
+    {
+      if (nums[i] != (nums[i - 1] + 1))
+      {
+        ret[j] = (char *)malloc(sizeof(char) * stlen);
+        (nums[i - 1] - start > 0) ? sprintf(ret[j++], "%d->%d", start, nums[i - 1]) : sprintf(ret[j++], "%d", nums[i - 1]);
+        start = nums[i];
+        (*returnSize)++;
+      }
+    }
+
+    (*returnSize)++;
+    ret[j] = (char *)malloc(sizeof(char) * stlen);
+    (nums[i - 1] - start > 0) ? sprintf(ret[j++], "%d->%d", start, nums[i - 1]) : sprintf(ret[j++], "%d", nums[i - 1]);
+  }
+
+  return ret;
+}
+
+// Man, memory allocation is really something
+
+// sprintf to build string:
+// "The C library function int sprintf(char *str, const char *format, ...) sends formatted output to a string pointed to, by str."
