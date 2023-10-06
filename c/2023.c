@@ -1710,7 +1710,7 @@ void myRevisedStackFree(MyRevisedStack *obj)
 // "The C library function void free(void *ptr) deallocates the memory previously allocated by a call to calloc, malloc, or realloc." */
 
 // Summary Ranges					10/5/2023
-
+/*
 // You are given a sorted unique integer array nums.
 
 // A range [a,b] is the set of all integers from a to b (inclusive).
@@ -1819,4 +1819,69 @@ char **topVotedSummaryRanges(int *nums, int numsSize, int *returnSize)
 // Man, memory allocation is really something
 
 // sprintf to build string:
-// "The C library function int sprintf(char *str, const char *format, ...) sends formatted output to a string pointed to, by str."
+// "The C library function int sprintf(char *str, const char *format, ...) sends formatted output to a string pointed to, by str." */
+
+// Power of Two					10/6/2023
+
+// Given an integer n, return true if it is a power of two. Otherwise, return false.
+
+// An integer n is a power of two, if there exists an integer x such that n == 2x.
+
+// Example 1:
+// 		Input: n = 1
+// 		Output: true
+// Explanation: 20 = 1
+
+// Example 2:
+// 		Input: n = 16
+// 		Output: true
+// Explanation: 24 = 16
+
+// Example 3:
+// 		Input: n = 3
+// 		Output: false
+
+// Constraints:
+//		-231 <= n <= 231 - 1
+
+// Follow up: Could you solve it without loops/recursion?
+
+bool isPowerOfTwo(int n)
+{
+  return (int)(log(n) / log(2)) == (log(n) / log(2));
+}
+
+int main(void)
+{
+  bool ex1 = isPowerOfTwo(1);  // true
+  bool ex2 = isPowerOfTwo(16); // true
+  bool ex3 = isPowerOfTwo(3);  // false
+}
+
+// Don't know how else to check if int
+
+bool topVotedIsPowerOfTwo(int n)
+{
+  if (n <= 0)
+    return false;
+  return !(n & (n - 1));
+}
+
+// "If a number is in power of 2 it will have only 1 set bit i.e., the most significant bit
+
+// Example:
+//    64: 1000000
+//    16: 10000
+// and when the number is subtracted by 1 results in all 1s.
+
+// Example:
+//    8 - 1: 0111
+//    2 - 1: 01
+// Now we can use the property if bitwise and operator, which gives 0 if the set bits are opposite and while returning we just return ! (not) of the result.
+
+// Suppose 8 is in power of 2 so 8 & 8-1 will result 0, so return 1 (true)
+// 1000 & 0111= 0000
+
+// and consider a number not in power of 2, lets say 7
+// 7 & 7-1 will result in 1
+// 111 & 110 = 1, so just return !1 which is false"
