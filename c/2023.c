@@ -1822,7 +1822,7 @@ char **topVotedSummaryRanges(int *nums, int numsSize, int *returnSize)
 // "The C library function int sprintf(char *str, const char *format, ...) sends formatted output to a string pointed to, by str." */
 
 // Power of Two					10/6/2023
-
+/*
 // Given an integer n, return true if it is a power of two. Otherwise, return false.
 
 // An integer n is a power of two, if there exists an integer x such that n == 2x.
@@ -1884,4 +1884,78 @@ bool topVotedIsPowerOfTwo(int n)
 
 // and consider a number not in power of 2, lets say 7
 // 7 & 7-1 will result in 1
-// 111 & 110 = 1, so just return !1 which is false"
+// 111 & 110 = 1, so just return !1 which is false" */
+
+// Valid Anagram					10/7/2023
+
+// Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+// An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+// Example 1:
+// 		Input: s = "anagram", t = "nagaram"
+// 		Output: true
+
+// Example 2:
+// 		Input: s = "rat", t = "car"
+// 		Output: false
+
+// Constraints:
+//		1 <= s.length, t.length <= 5 * 104
+//		s and t consist of lowercase English letters.
+
+// Follow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
+
+bool isAnagram(char *s, char *t)
+{
+  for (int i = 0; i < strlen(s); i++)
+  {
+    bool isValid = false;
+    for (int j = 0; j < strlen(t); j++)
+    {
+      if (s[i] == t[j])
+      {
+        isValid = true;
+        t[j] = '_'; // doesn't work locally, works in leetcode
+        break;
+      }
+    }
+    if (!isValid)
+      return false;
+  }
+
+  for (int i = 0; i < strlen(t); i++)
+  {
+    if (t[i] != '_')
+      return false;
+  }
+  return true;
+}
+
+int main(void)
+{
+  bool ex1 = isAnagram("anagram", "nagaram"); // true
+  bool ex2 = isAnagram("rat", "car");         // false
+}
+
+// Could also be done by sorting and comparing
+
+bool topVotedIsAnagram(char *s, char *t)
+{
+  int chars[26] = {0, 0}, index;
+
+  for (index = 0; s[index]; ++index)
+    chars[s[index] - 'a']++;
+
+  for (index = 0; t[index]; ++index)
+    chars[t[index] - 'a']--;
+
+  for (index = 0; index < 26; ++index)
+    if (chars[index])
+      return false;
+
+  return true;
+}
+
+// Increments chars with s, decrements with t
+// If not equal to 0, return false
