@@ -1887,7 +1887,7 @@ bool topVotedIsPowerOfTwo(int n)
 // 111 & 110 = 1, so just return !1 which is false" */
 
 // Valid Anagram					10/7/2023
-
+/*
 // Given two strings s and t, return true if t is an anagram of s, and false otherwise.
 
 // An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
@@ -1958,4 +1958,60 @@ bool topVotedIsAnagram(char *s, char *t)
 }
 
 // Increments chars with s, decrements with t
-// If not equal to 0, return false
+// If not equal to 0, return false */
+
+// Add Digits					10/8/2023
+
+// Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.
+
+// Example 1:
+// 		Input: num = 38
+// 		Output: 2
+// Explanation: The process is
+// 		38 --> 3 + 8 --> 11
+// 		11 --> 1 + 1 --> 2
+// 		Since 2 has only one digit, return it.
+
+// Example 2:
+// 		Input: num = 0
+// 		Output: 0
+
+// Constraints:
+//		0 <= num <= 231 - 1
+
+// Follow up: Could you do it without any loop/recursion in O(1) runtime?
+
+int addDigits(int num)
+{
+  while (num >= 10)
+  {
+    int new = 0;
+    while (num >= 10)
+    {
+      new += num % 10;
+      num /= 10;
+    }
+    num += new;
+  }
+  return num;
+}
+
+int main(void)
+{
+  int ex1 = addDigits(38); // 2
+  int ex2 = addDigits(0);  // 0
+}
+
+// 100% Runtime
+
+int topVotedAddDigits(int num)
+{
+  if (num == 0)
+    return 0;
+  return num % 9 == 0 ? 9 : num % 9;
+}
+
+// O(1) Runtime
+
+// Noticeable pattern:
+// https://leetcode.com/problems/add-digits/solutions/1754049/easy-o-1-explanation-with-example/
