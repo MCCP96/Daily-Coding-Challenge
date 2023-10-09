@@ -1961,7 +1961,7 @@ bool topVotedIsAnagram(char *s, char *t)
 // If not equal to 0, return false */
 
 // Add Digits					10/8/2023
-
+/*
 // Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.
 
 // Example 1:
@@ -2014,4 +2014,75 @@ int topVotedAddDigits(int num)
 // O(1) Runtime
 
 // Noticeable pattern:
-// https://leetcode.com/problems/add-digits/solutions/1754049/easy-o-1-explanation-with-example/
+// https://leetcode.com/problems/add-digits/solutions/1754049/easy-o-1-explanation-with-example/ */
+
+// Ugly Number					10/9/2023
+
+// An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
+
+// Given an integer n, return true if n is an ugly number.
+
+// Example 1:
+// 		Input: n = 6
+// 		Output: true
+// Explanation: 6 = 2 × 3
+
+// Example 2:
+// 		Input: n = 1
+// 		Output: true
+// Explanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.
+
+// Example 3:
+// 		Input: n = 14
+// 		Output: false
+// Explanation: 14 is not ugly since it includes the prime factor 7.
+
+// Constraints:
+//		-231 <= n <= 231 - 1
+
+bool isUgly(int n)
+{
+  int prime = 7;
+  int mult = 2;
+
+  if (n % prime == 0)
+    return false;
+
+  while (prime <= abs(n / 2))
+  {
+    if (n % (6 * mult - 1) == 0 || n % (6 * mult + 1) == 0)
+      return false;
+
+    prime = 6 * mult + 1;
+    mult++;
+  }
+
+  return true;
+}
+
+int main(void)
+{
+  bool ex1 = isUgly(6);           // true
+  bool ex2 = isUgly(1);           // true
+  bool ex3 = isUgly(14);          // false
+  bool ex4 = isUgly(-2147483648); // false, breaks here
+}
+
+bool topVotedIsUgly(int n)
+{
+
+  while (n % 2 == 0 && (n = n / 2))
+    ;
+  while (n % 3 == 0 && (n = n / 3))
+    ;
+  while (n % 5 == 0 && (n = n / 5))
+    ;
+
+  return n == 1;
+}
+
+// "Using modulo operator, check whether the given number is divisible by 2 if yes, divide untill it becomes not divisible by 2.
+
+// check whether the given number is divisible by 3 if yes, divide untill it becomes not divisible by 3.
+
+// check whether the given number is divisible by 5 if yes, divide untill it becomes not divisible by 5."
