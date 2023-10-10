@@ -2017,7 +2017,7 @@ int topVotedAddDigits(int num)
 // https://leetcode.com/problems/add-digits/solutions/1754049/easy-o-1-explanation-with-example/ */
 
 // Ugly Number					10/9/2023
-
+/*
 // An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
 
 // Given an integer n, return true if n is an ugly number.
@@ -2085,4 +2085,67 @@ bool topVotedIsUgly(int n)
 
 // check whether the given number is divisible by 3 if yes, divide untill it becomes not divisible by 3.
 
-// check whether the given number is divisible by 5 if yes, divide untill it becomes not divisible by 5."
+// check whether the given number is divisible by 5 if yes, divide untill it becomes not divisible by 5." */
+
+// Missing Number					10/10/2023
+
+// Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+// Example 1:
+// 		Input: nums = [3,0,1]
+// 		Output: 2
+// Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+
+// Example 2:
+// 		Input: nums = [0,1]
+// 		Output: 2
+// Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+
+// Example 3:
+// 		Input: nums = [9,6,4,2,3,5,7,0,1]
+// 		Output: 8
+// Explanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+
+// Constraints:
+//		n == nums.length
+//		1 <= n <= 104
+//		0 <= nums[i] <= n
+//		All the numbers of nums are unique.
+
+// Follow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?
+
+int inc(const void *a, const void *b)
+{
+  return (*(int *)a - *(int *)b);
+}
+
+int missingNumber(int *nums, int numsSize)
+{
+  qsort(nums, numsSize, sizeof(int), inc);
+
+  for (int i = 0; i < numsSize; i++)
+  {
+    if (nums[i] != i)
+      return i;
+  }
+  return numsSize;
+}
+
+int main(void)
+{
+  int ex1 = missingNumber((int[]){3, 0, 1}, 3);                   // 2
+  int ex2 = missingNumber((int[]){0, 1}, 2);                      // 2
+  int ex3 = missingNumber((int[]){9, 6, 4, 2, 3, 5, 7, 0, 1}, 9); // 8
+}
+
+// First time using qsort
+
+int topVotedMissingNumber(int *nums, int numsSize)
+{
+  int index = 0, res = 0;
+  for (; index < numsSize; res += -nums[index] + ++index)
+    ;
+  return res;
+}
+
+// That for loop tho
