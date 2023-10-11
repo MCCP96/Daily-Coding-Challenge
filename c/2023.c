@@ -2088,7 +2088,7 @@ bool topVotedIsUgly(int n)
 // check whether the given number is divisible by 5 if yes, divide untill it becomes not divisible by 5." */
 
 // Missing Number					10/10/2023
-
+/*
 // Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
 
 // Example 1:
@@ -2148,4 +2148,87 @@ int topVotedMissingNumber(int *nums, int numsSize)
   return res;
 }
 
-// That for loop tho
+// That for loop tho */
+
+// First Bad Version					10/11/2023
+
+// You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
+
+// Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
+
+// You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
+
+// Example 1:
+// 		Input: n = 5, bad = 4
+// 		Output: 4
+// Explanation:
+// 		call isBadVersion(3) -> false
+// 		call isBadVersion(5) -> true
+// 		call isBadVersion(4) -> true
+// 		Then 4 is the first bad version.
+
+// Example 2:
+// 		Input: n = 1, bad = 1
+// 		Output: 1
+
+// Constraints:
+//		1 <= bad <= n <= 231 - 1
+
+// The API isBadVersion is defined for you.
+// bool isBadVersion(int version);
+
+int firstBadVersion(int n)
+{
+  int v = n / 2;
+  while (!isBadVersion(v))
+    v += (n - v) / 2;
+  while (isBadVersion(v))
+    v--;
+  return v + 1;
+}
+
+int main(void)
+{
+  int ex1 = firstBadVersion(5); // 4
+  int ex2 = firstBadVersion(1); // 1
+}
+
+// A lazy binary search
+
+int topVotedFirstBadVersion(int n)
+{
+  long int f = 1, mid;
+  while (f < n)
+  {
+    mid = (f + n) / 2;
+    if (isBadVersion(mid))
+    {
+      n = mid;
+    }
+    else
+    {
+      f = mid + 1;
+    }
+  }
+  return f;
+}
+
+// An actual binary search
+
+int revisedFirstBadVersion(int n)
+{
+  long int f = 0, m; // leetcode test case overflows int
+
+  while (f < n)
+  {
+    m = (f + n) / 2;
+    if (isBadVersion(m))
+      n = m;
+    else
+      f = m + 1;
+  }
+
+  return f;
+}
+
+// Good refresher
