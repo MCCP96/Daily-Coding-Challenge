@@ -2151,7 +2151,7 @@ int topVotedMissingNumber(int *nums, int numsSize)
 // That for loop tho */
 
 // First Bad Version					10/11/2023
-
+/*
 // You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
 
 // Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
@@ -2231,4 +2231,72 @@ int revisedFirstBadVersion(int n)
   return f;
 }
 
-// Good refresher
+// Good refresher */
+
+// Move Zeroes					10/12/2023
+
+// Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+// Note that you must do this in-place without making a copy of the array.
+
+// Example 1:
+// 		Input: nums = [0,1,0,3,12]
+// 		Output: [1,3,12,0,0]
+
+// Example 2:
+// 		Input: nums = [0]
+// 		Output: [0]
+
+// Constraints:
+//		1 <= nums.length <= 104
+//		-231 <= nums[i] <= 231 - 1
+//		Follow up: Could you minimize the total number of operations done?
+
+void moveZeroes(int *nums, int numsSize)
+{
+  bool sorted = false;
+  while (!sorted)
+  {
+    sorted = true;
+    for (int i = 0; i < numsSize - 1; i++)
+    {
+      if (nums[i] == 0 && nums[i + 1] != 0)
+      {
+        nums[i] = nums[i + 1];
+        nums[i + 1] = 0;
+
+        sorted = false;
+        break;
+      }
+    }
+  }
+}
+
+int main(void)
+{
+  moveZeroes((int[]){0, 1, 0, 3, 12}, 5); // [1,3,12,0,0]
+  moveZeroes((int[]){0}, 1);              // [0]
+}
+
+// Too slow
+
+void topVotedMoveZeroes(int *nums, int numsSize)
+{
+  int index = 0;
+  for (int i = 0; i < numsSize; i++)
+  {
+    if (nums[i] != 0)
+    {
+      nums[index] = nums[i];
+      index++;
+    }
+  }
+  for (int i = index; i < numsSize; i++)
+  {
+    nums[i] = 0;
+  }
+}
+
+// 1. Create a separate index starting at 0 and insert non-zero num in nums array. And increment index.
+// 2. Insert 0 at the remaining spaces left
+// 3. Time Complexity: O(n) | Space Complexity: O(1)
