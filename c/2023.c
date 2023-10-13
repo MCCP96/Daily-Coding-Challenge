@@ -2234,7 +2234,7 @@ int revisedFirstBadVersion(int n)
 // Good refresher */
 
 // Move Zeroes					10/12/2023
-
+/*
 // Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
 // Note that you must do this in-place without making a copy of the array.
@@ -2299,4 +2299,133 @@ void topVotedMoveZeroes(int *nums, int numsSize)
 
 // 1. Create a separate index starting at 0 and insert non-zero num in nums array. And increment index.
 // 2. Insert 0 at the remaining spaces left
-// 3. Time Complexity: O(n) | Space Complexity: O(1)
+// 3. Time Complexity: O(n) | Space Complexity: O(1) */
+
+// Word Pattern					10/13/2023
+
+// Given a pattern and a string s, find if s follows the same pattern.
+
+// Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s.
+
+// Example 1:
+// 		Input: pattern = "abba", s = "dog cat cat dog"
+// 		Output: true
+
+// Example 2:
+// 		Input: pattern = "abba", s = "dog cat cat fish"
+// 		Output: false
+
+// Example 3:
+// 		Input: pattern = "aaaa", s = "dog cat cat dog"
+// 		Output: false
+
+// Constraints:
+//		1 <= pattern.length <= 300
+//		pattern contains only lower-case English letters.
+//		1 <= s.length <= 3000
+//		s contains only lowercase English letters and spaces ' '.
+//		s does not contain any leading or trailing spaces.
+//		All the words in s are separated by a single space.
+
+bool wordPattern(char *pattern, char *s)
+{
+  char map[26][3000] = {""};
+
+  int start = 0;
+  for (int i = 0; i < strlen(pattern); i++)
+  {
+    // Find word
+    int end = start;
+    int j = 0;
+    char word[3000];
+    while (s[end] != ' ')
+    {
+      word[j] = s[end];
+      j++;
+      end++;
+    }
+    start = end + 1;
+
+    // Does pattern exist?
+    char p = pattern[i] - 'a';
+    if (strlen(map[p]) == 0)
+      strcpy(map[p], word);
+
+    // Else compare them
+    else if (strcmp(map[p], word) != 0) // 0 is true
+      return false;
+  }
+
+  return true;
+}
+
+int main(void)
+{
+  bool ex1 = wordPattern("abba", "dog cat cat dog");  // true
+  bool ex2 = wordPattern("abba", "dog cat cat fish"); // false
+  bool ex3 = wordPattern("aaaa", "dog cat cat dog");  // false
+}
+
+// map[26][3000] feels illegal 💀
+// I need to learn some better array building
+
+bool topVotedWordPattern(char *pattern, char *s)
+{
+  char **result = (char **)malloc(26 * sizeof(char *));
+
+  // word count matches pattern count
+  int count = 0;
+  for (int i = 0; i < strlen(s) - 1; i++)
+    if (s[i] == ' ' && s[i + 1] != ' ')
+      count++;
+  if (count + 1 != strlen(pattern))
+    return false;
+
+  // init map
+  for (int i = 0; i < 26; i++)
+  {
+    result[i] = malloc(3000); // 3000 is ok it seems
+    result[i][0] = 0;
+  }
+
+  int index = 0;
+  for (int i = 0; i < strlen(s); i++)
+  {
+    if (s[i] != ' ')
+    {
+      int start = i, idx = 0;
+      char temp[3000] = {0};
+
+      // find word
+      while (s[start] != ' ' && start < strlen(s))
+      {
+        temp[idx++] = s[start++];
+      }
+
+      // if pattern already exists
+      if (result[pattern[index] - 'a'][0] != 0)
+      {
+        if (strcmp(result[pattern[index] - 'a'], temp))
+          return false;
+      }
+      // else compare
+      else
+        strcpy(result[pattern[index] - 'a'], temp);
+
+      index++;
+      i = start;
+    }
+  }
+
+  // different patterns having same word
+  for (int i = 0; i < 25; i++)
+  {
+    if (result[i][0] != 0)
+      for (int j = i + 1; j < 26; j++)
+        if (result[j][0] != 0 && strcmp(result[i], result[j]) == 0)
+          return false;
+  }
+  return true;
+}
+
+// Easy Leetcode questions are something else in C
