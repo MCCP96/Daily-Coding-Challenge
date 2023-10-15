@@ -2431,7 +2431,7 @@ bool topVotedWordPattern(char *pattern, char *s)
 // Easy Leetcode questions are something else in C */
 
 // Nim Game					10/14/2023
-
+/*
 // You are playing the following Nim Game with your friend:
 
 // Initially, there is a heap of stones on the table.
@@ -2476,4 +2476,50 @@ int main(void)
   bool ex3 = canWinNim(2); // true
 }
 
-// Same as top voted
+// Same as top voted */
+
+// Power of Three					10/15/2023
+
+// Given an integer n, return true if it is a power of three. Otherwise, return false.
+
+// An integer n is a power of three, if there exists an integer x such that n == 3x.
+
+// Example 1:
+// 		Input: n = 27
+// 		Output: true
+// Explanation: 27 = 3^3
+
+// Example 2:
+// 		Input: n = 0
+// 		Output: false
+// Explanation: There is no x where 3x = 0.
+
+// Example 3:
+// 		Input: n = -1
+// 		Output: false
+// Explanation: There is no x where 3x = (-1).
+
+// Constraints:
+//		-2^31 <= n <= 2^31 - 1
+
+// Follow up: Could you solve it without loops/recursion?
+
+bool isPowerOfThree(int n)
+{
+  return (log(n) / log(3)) == (int)(log(n) / log(3)); // power of 3 is int
+}
+
+int main(void)
+{
+  isPowerOfThree(27); // true
+  isPowerOfThree(0);  // false
+  isPowerOfThree(-1); // false
+}
+
+bool topVotedIsPowerOfThree(int n)
+{
+  return (n > 0) && (1162261467 % n == 0);
+}
+
+// "Because 3^19(1,162,261,467) is the largest power of three under 2^31 - 1
+// So we just neet to check if n > 0 and whether 3^19 % n is 0"
