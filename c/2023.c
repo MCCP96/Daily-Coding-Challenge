@@ -2479,7 +2479,7 @@ int main(void)
 // Same as top voted */
 
 // Power of Three					10/15/2023
-
+/*
 // Given an integer n, return true if it is a power of three. Otherwise, return false.
 
 // An integer n is a power of three, if there exists an integer x such that n == 3x.
@@ -2522,4 +2522,89 @@ bool topVotedIsPowerOfThree(int n)
 }
 
 // "Because 3^19(1,162,261,467) is the largest power of three under 2^31 - 1
-// So we just neet to check if n > 0 and whether 3^19 % n is 0"
+// So we just neet to check if n > 0 and whether 3^19 % n is 0" */
+
+// Counting Bits					10/16/2023
+
+// Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+// Example 1:
+// 		Input: n = 2
+// 		Output: [0,1,1]
+// Explanation:
+// 		0 --> 0
+// 		1 --> 1
+// 		2 --> 10
+
+// Example 2:
+// 		Input: n = 5
+// 		Output: [0,1,1,2,1,2]
+// Explanation:
+// 		0 --> 0
+// 		1 --> 1
+// 		2 --> 10
+// 		3 --> 11
+// 		4 --> 100
+// 		5 --> 101
+
+// Constraints:
+//		0 <= n <= 105
+
+// Follow up:
+//		It is very easy to come up with a solution with a runtime of O(n log n). Can you do it in linear time O(n) and possibly in a single pass?
+//		Can you do it without using any built-in function (i.e., like __builtin_popcount in C++)?
+
+int *topVotedCountBits(int n, int *returnSize)
+{
+
+  n++;
+  int *tempArray = (int *)calloc(n, sizeof(int));
+
+  *returnSize = n;
+
+  int targetPower = 1, counter = 0;
+  for (int i = 1; i < n; i++, counter++)
+  {
+    if (counter == targetPower)
+    {
+      counter = 0;
+      targetPower *= 2;
+    }
+    tempArray[i] = tempArray[counter] + 1;
+  }
+
+  return tempArray;
+}
+
+// "When the length of the array is the power of two, we start from the beginning of the array and new elements are created by incrementing them by 1."
+
+int *countBits(int n, int *returnSize)
+{
+  int *res = (int *)calloc(n + 1, sizeof(int));
+  *returnSize = n + 1;
+
+  int bit = 1, k = 0;
+  for (int i = 1; i <= n; i++)
+  {
+    if (bit == k)
+    {
+      bit *= 2;
+      k = 0;
+    }
+    res[i] = res[k] + 1;
+    k++;
+  }
+
+  return res;
+}
+
+int main(void)
+{
+  int ex1Size = 3;
+  countBits(2, &ex1Size); // [0,1,1]
+  int ex2Size = 6;
+  countBits(5, &ex2Size); // [0,1,1,2,1,2]
+}
+
+// Logic makes sense but I wouldn't have come up with it
+// Also still getting used to calloc and returnSize
