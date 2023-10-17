@@ -2525,7 +2525,7 @@ bool topVotedIsPowerOfThree(int n)
 // So we just neet to check if n > 0 and whether 3^19 % n is 0" */
 
 // Counting Bits					10/16/2023
-
+/*
 // Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
 
 // Example 1:
@@ -2607,4 +2607,59 @@ int main(void)
 }
 
 // Logic makes sense but I wouldn't have come up with it
-// Also still getting used to calloc and returnSize
+// Also still getting used to calloc and returnSize */
+
+// Power of Four					10/17/2023
+
+// Given an integer n, return true if it is a power of four. Otherwise, return false.
+
+// An integer n is a power of four, if there exists an integer x such that n == 4x.
+
+// Example 1:
+// 		Input: n = 16
+// 		Output: true
+
+// Example 2:
+// 		Input: n = 5
+// 		Output: false
+
+// Example 3:
+// 		Input: n = 1
+// 		Output: true
+
+// Constraints:
+//		-231 <= n <= 231 - 1
+
+// Follow up: Could you solve it without loops/recursion?
+
+bool isPowerOfFour(int n)
+{
+  return (log(n) / log(4)) == (int)(log(n) / log(4));
+}
+
+int main(void)
+{
+  int ex1 = isPowerOfFour(16); // true
+  int ex2 = isPowerOfFour(5);  // false
+  int ex3 = isPowerOfFour(1);  // true
+  int ex4 = isPowerOfFour(2);  // false
+  int ex5 = isPowerOfFour(8);  // false
+}
+
+// Same as 2 days ago
+// Top voted from 2 days ago didn't work
+
+bool topVotedIsPowerOfFour(int n)
+{
+  if (n == 0)
+    return false;
+
+  float x = log(n) / log(4);
+
+  if (ceil(x) == floor(x))
+    return true;
+
+  return false;
+}
+
+// Ceil == floor is good to check if int
