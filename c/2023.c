@@ -2610,7 +2610,7 @@ int main(void)
 // Also still getting used to calloc and returnSize */
 
 // Power of Four					10/17/2023
-
+/*
 // Given an integer n, return true if it is a power of four. Otherwise, return false.
 
 // An integer n is a power of four, if there exists an integer x such that n == 4x.
@@ -2662,4 +2662,68 @@ bool topVotedIsPowerOfFour(int n)
   return false;
 }
 
-// Ceil == floor is good to check if int
+// Ceil == floor is good to check if int */
+
+// Reverse String					10/18/2023
+
+// Write a function that reverses a string. The input string is given as an array of characters s.
+
+// You must do this by modifying the input array in-place with O(1) extra memory.
+
+// Example 1:
+// 		Input: s = ["h","e","l","l","o"]
+// 		Output: ["o","l","l","e","h"]
+
+// Example 2:
+// 		Input: s = ["H","a","n","n","a","h"]
+// 		Output: ["h","a","n","n","a","H"]
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s[i] is a printable ascii character.
+
+void reverseString(char *s, int sSize)
+{
+  for (int l = 0, r = sSize - 1; r > (sSize - 1) / 2; l++, r--)
+  {
+    char temp = s[l];
+    s[l] = s[r];
+    s[r] = temp;
+  }
+}
+
+int main(void)
+{
+  reverseString((char[]){'h', 'e', 'l', 'l', 'o'}, 5);      // ["o","l","l","e","h"]
+  reverseString((char[]){'H', 'a', 'n', 'n', 'a', 'h'}, 6); // ["h","a","n","n","a","H"]
+}
+
+char *topVotedReverseString(char *s)
+{
+  int l = 0;
+  int r = strlen(s) - 1;
+  char c;
+
+  while (l < r)
+  {
+    c = s[l];
+    s[l] = s[r];
+    s[r] = c;
+    l++;
+    r--;
+  }
+
+  return s;
+}
+
+// Much easier than my for loop declaration
+
+void revisedReverseString(char *s, int sSize)
+{
+  for (int l = 0, r = sSize - 1; r > l; l++, r--)
+  {
+    char temp = s[l];
+    s[l] = s[r];
+    s[r] = temp;
+  }
+}
