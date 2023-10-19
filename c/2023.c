@@ -2665,7 +2665,7 @@ bool topVotedIsPowerOfFour(int n)
 // Ceil == floor is good to check if int */
 
 // Reverse String					10/18/2023
-
+/*
 // Write a function that reverses a string. The input string is given as an array of characters s.
 
 // You must do this by modifying the input array in-place with O(1) extra memory.
@@ -2726,4 +2726,108 @@ void revisedReverseString(char *s, int sSize)
     s[l] = s[r];
     s[r] = temp;
   }
+} */
+
+// Reverse Vowels of a String					10/19/2023
+
+// Given a string s, reverse only all the vowels in the string and return it.
+
+// The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+// Example 1:
+// 		Input: s = "hello"
+// 		Output: "holle"
+
+// Example 2:
+// 		Input: s = "leetcode"
+// 		Output: "leotcede"
+
+// Constraints:
+//		1 <= s.length <= 3 * 105
+//		s consist of printable ASCII characters.
+
+char *reverseVowels(char *s)
+{
+  char vowels[] = "aeiouAEIOU";
+
+  int l = 0, r = strlen(s) - 1;
+  while (l < r)
+  {
+    bool swapReady = true;
+    if (strchr(vowels, s[l]) == NULL)
+    {
+      l++;
+      swapReady = false;
+    }
+    if (strchr(vowels, s[r]) == NULL)
+    {
+      r--;
+      swapReady = false;
+    }
+
+    if (!swapReady)
+      continue;
+
+    char temp = s[l];
+    s[l] = s[r];
+    s[r] = temp;
+
+    l++;
+    r--;
+  }
+
+  return s;
 }
+
+int main(void)
+{
+  char ex1[] = "hello";
+  reverseVowels(ex1); // "holle"
+  char ex2[] = "leetcode";
+  reverseVowels(ex2); // "leotcede"
+}
+
+// strchr:
+// Returns a pointer to the first occurrence of character in the C string str.
+// If the character is not found, the function returns a null pointer
+
+int isVowel(char c)
+{
+  c = tolower(c); // Convert character to lowercase for case-insensitive comparison
+
+  return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+}
+char *topVotedReverseVowels(char *s)
+{
+  int i = 0;
+  int j = strlen(s) - 1; // Initialize j to the last index of the string
+
+  while (i < j)
+  {
+    if (isVowel(s[i]) && isVowel(s[j]))
+    {
+      // Swap the vowels at positions i and j
+      char temp = s[i];
+      s[i] = s[j];
+      s[j] = temp;
+
+      i++; // Move to the next vowel
+      j--; // Move to the previous vowel
+    }
+    else
+    {
+      if (!isVowel(s[i]))
+      {
+        i++; // Move to the next character if s[i] is not a vowel
+      }
+      if (!isVowel(s[j]))
+      {
+        j--; // Move to the previous character if s[j] is not a vowel
+      }
+    }
+  }
+
+  return s;
+}
+
+// same same
