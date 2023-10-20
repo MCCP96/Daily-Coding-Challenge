@@ -2729,7 +2729,7 @@ void revisedReverseString(char *s, int sSize)
 } */
 
 // Reverse Vowels of a String					10/19/2023
-
+/*
 // Given a string s, reverse only all the vowels in the string and return it.
 
 // The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
@@ -2830,4 +2830,60 @@ char *topVotedReverseVowels(char *s)
   return s;
 }
 
-// same same
+// same same */
+
+// Valid Perfect Square					10/20/2023
+
+// Given a positive integer num, return true if num is a perfect square or false otherwise.
+
+// A perfect square is an integer that is the square of an integer. In other words, it is the product of some integer with itself.
+
+// You must not use any built-in library function, such as sqrt.
+
+// Example 1:
+// 		Input: num = 16
+// 		Output: true
+// Explanation: We return true because 4 * 4 = 16 and 4 is an integer.
+
+// Example 2:
+// 		Input: num = 14
+// 		Output: false
+// Explanation: We return false because 3.742 * 3.742 = 14 and 3.742 is not an integer.
+
+// Constraints:
+//		1 <= num <= 2^31 - 1
+
+bool isPerfectSquare(int num)
+{
+  // return sqrt(num) == (int)sqrt(num); // not allowed
+  if (num == 1)
+    return true;
+
+  for (int i = 1; i <= num / 2; i++)
+  {
+    if (i * i == num)
+      return true;
+  }
+  return false;
+}
+
+int main(void)
+{
+  bool ex1 = isPerfectSquare(16); // true
+  bool ex2 = isPerfectSquare(14); // false
+  bool ex3 = isPerfectSquare(1);  // false
+}
+
+// Slow
+
+bool topVotedIsPerfectSquare(int num)
+{
+  long r = num;
+  while (r * r > num)
+  {
+    r = (r + num / r) / 2;
+  }
+  return r * r == num;
+}
+
+// much faster
