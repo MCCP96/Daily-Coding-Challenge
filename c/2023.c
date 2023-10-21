@@ -2833,7 +2833,7 @@ char *topVotedReverseVowels(char *s)
 // same same */
 
 // Valid Perfect Square					10/20/2023
-
+/*
 // Given a positive integer num, return true if num is a perfect square or false otherwise.
 
 // A perfect square is an integer that is the square of an integer. In other words, it is the product of some integer with itself.
@@ -2886,4 +2886,96 @@ bool topVotedIsPerfectSquare(int num)
   return r * r == num;
 }
 
-// much faster
+// much faster */
+
+// Guess Number Higher or Lower					10/21/2023
+
+// We are playing the Guess Game. The game is as follows:
+
+// I pick a number from 1 to n. You have to guess which number I picked.
+
+// Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.
+
+// You call a pre-defined API int guess(int num), which returns three possible results:
+
+// -1: Your guess is higher than the number I picked (i.e. num > pick).
+// 1: Your guess is lower than the number I picked (i.e. num < pick).
+// 0: your guess is equal to the number I picked (i.e. num == pick).
+
+// Return the number that I picked.
+
+// Example 1:
+// 		Input: n = 10, pick = 6
+// 		Output: 6
+
+// Example 2:
+// 		Input: n = 1, pick = 1
+// 		Output: 1
+
+// Example 3:
+// 		Input: n = 2, pick = 1
+// 		Output: 1
+
+// Constraints:
+//		1 <= n <= 231 - 1
+//		1 <= pick <= n
+
+int guess(int n)
+{
+  if (n == 6)
+    return 0;
+  else if (n > 6)
+    return -1;
+  return 1;
+}
+
+int guessNumber(int h)
+{
+  int l = 1;
+  unsigned int pick = h / 2;
+
+  bool guessing = true;
+  while (guessing)
+  {
+    int res = guess(pick);
+
+    if (res == 0)
+      break;
+    else if (res == -1)
+      h = pick - 1;
+    else // res == 1
+      l = pick + 1;
+
+    pick = l + (h - l) / 2;
+  }
+  return pick;
+}
+
+int main(void)
+{
+  int ex1 = guessNumber(10);
+}
+
+// Poor runtime
+
+int topVotedGuessNumber(int n)
+{
+  int left = 1;
+  int right = n;
+
+  while (left <= right)
+  {
+    int mid = left + (right - left) / 2;
+    int result = guess(mid);
+
+    if (result == 0)
+      return mid;
+    else if (result == -1)
+      right = mid - 1;
+    else
+      left = mid + 1;
+  }
+  return -1;
+}
+
+// Same same
