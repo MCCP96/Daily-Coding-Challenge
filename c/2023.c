@@ -2889,7 +2889,7 @@ bool topVotedIsPerfectSquare(int num)
 // much faster */
 
 // Guess Number Higher or Lower					10/21/2023
-
+/*
 // We are playing the Guess Game. The game is as follows:
 
 // I pick a number from 1 to n. You have to guess which number I picked.
@@ -2978,4 +2978,74 @@ int topVotedGuessNumber(int n)
   return -1;
 }
 
-// Same same
+// Same same */
+
+// Ransom Note					10/22/2023
+
+// Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
+
+// Each letter in magazine can only be used once in ransomNote.
+
+// Example 1:
+// 		Input: ransomNote = "a", magazine = "b"
+// 		Output: false
+
+// Example 2:
+// 		Input: ransomNote = "aa", magazine = "ab"
+// 		Output: false
+
+// Example 3:
+// 		Input: ransomNote = "aa", magazine = "aab"
+// 		Output: true
+
+// Constraints:
+//		1 <= ransomNote.length, magazine.length <= 105
+//		ransomNote and magazine consist of lowercase English letters.
+
+bool canConstruct(char *ransomNote, char *magazine)
+{
+  int count[26] = {0};
+  for (int i = 0; i < strlen(magazine); i++)
+    count[magazine[i] - 'a']++;
+
+  for (int i = 0; i < strlen(ransomNote); i++)
+  {
+    count[ransomNote[i] - 'a']--;
+    if (count[ransomNote[i] - 'a'] < 0)
+      return false;
+  }
+  return true;
+}
+
+int main(void)
+{
+  bool ex1 = canConstruct("a", "b");    // false
+  bool ex2 = canConstruct("aa", "ab");  // false
+  bool ex3 = canConstruct("aa", "aab"); // true
+}
+
+bool topVotedCanConstruct(char *ransomNote, char *magazine)
+{
+  // create a map to store the frequency of char in ransomNote
+  int map[26] = {0};
+
+  // check what is in ransomNote and magazine
+  while (*ransomNote)
+  {
+    map[*ransomNote - 'a']++;
+    ransomNote++;
+  }
+  while (*magazine)
+  {
+    map[*magazine - 'a']--;
+    magazine++;
+  }
+
+  // check if frequency of any char in ransomNote is greater than in magazine
+  for (int i = 0; i < 26; i++)
+    if (map[i] > 0)
+      return false;
+  return true;
+}
+
+// This is much faster than mine although very similar
