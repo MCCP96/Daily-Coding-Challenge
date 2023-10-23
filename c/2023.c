@@ -2981,7 +2981,7 @@ int topVotedGuessNumber(int n)
 // Same same */
 
 // Ransom Note					10/22/2023
-
+/*
 // Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
 
 // Each letter in magazine can only be used once in ransomNote.
@@ -3048,4 +3048,79 @@ bool topVotedCanConstruct(char *ransomNote, char *magazine)
   return true;
 }
 
-// This is much faster than mine although very similar
+// This is much faster than mine although very similar */
+
+// First Unique Character in a String					10/23/2023
+
+// Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+// Example 1:
+// 		Input: s = "leetcode"
+// 		Output: 0
+
+// Example 2:
+// 		Input: s = "loveleetcode"
+// 		Output: 2
+
+// Example 3:
+// 		Input: s = "aabb"
+// 		Output: -1
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s consists of only lowercase English letters.
+
+int firstUniqChar(char *s)
+{
+  int map[26] = {0};
+
+  for (int i = 0; i < strlen(s); i++)
+    map[s[i] - 'a']++;
+
+  for (int i = 0; i < strlen(s); i++)
+    if (map[s[i] - 'a'] == 1)
+      return i;
+
+  return -1;
+}
+
+int main(void)
+{
+  int ex1 = firstUniqChar("leetcode");     // 0
+  int ex2 = firstUniqChar("loveleetcode"); // 2
+  int ex3 = firstUniqChar("aabb");         // -1
+}
+
+int topVotedFirstUniqChar(char *s)
+{
+  int i = 0, map[26], sSize = strlen(s);
+
+  for (i; i < 26; i++)
+    map[i] = 0;
+
+  for (i = 0; i < sSize; i++)
+    map[s[i] - 'a']++;
+
+  for (i = 0; i < sSize; i++)
+    if (map[s[i] - 'a'] == 1)
+      return i;
+
+  return -1;
+}
+
+// How is this so much faster?
+
+int revisedFirstUniqChar(char *s)
+{
+  int map[26] = {0}, sSize = strlen(s);
+  for (int i = 0; i < sSize; i++)
+    map[s[i] - 'a']++;
+
+  for (int i = 0; i < sSize; i++)
+    if (map[s[i] - 'a'] == 1)
+      return i;
+
+  return -1;
+}
+
+// Just implementing sSize saves a lot of runtime
