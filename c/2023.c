@@ -3184,7 +3184,7 @@ char topVotedFindTheDifference(char *s, char *t)
 // Bitwise */
 
 // Is Subsequence					10/25/2023
-
+/*
 // Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
 
 // A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
@@ -3239,4 +3239,57 @@ bool topVotedIsSubsequence(char *s, char *t)
   if (i >= 0)
     return false;
   return true;
+} */
+
+// Convert a Number to Hexadecimal					10/26/2023
+
+// Given an integer num, return a string representing its hexadecimal representation. For negative integers, two’s complement method is used.
+
+// All the letters in the answer string should be lowercase characters, and there should not be any leading zeros in the answer except for the zero itself.
+
+// Note: You are not allowed to use any built-in library method to directly solve this problem.
+
+// Example 1:
+// 		Input: num = 26
+// 		Output: "1a"
+
+// Example 2:
+// 		Input: num = -1
+// 		Output: "ffffffff"
+
+// Constraints:
+//		-2^31 <= num <= 2^31 - 1
+
+char *topVotedToHex(int num)
+{
+  char *hex = (char *)malloc(sizeof(char) * 10);
+  char nib;
+  int i = 0;
+  unsigned int x = num;
+  hex[9] = '\0';
+  while (1)
+  {
+    nib = (x & 0xF);
+    hex[8 - i] = (nib > 9) ? ('a' + nib - 10) : ('0' + nib);
+    x >>= 4;
+    if (!x)
+      break;
+    i++;
+  }
+  return &hex[8 - i];
 }
+
+int main(void)
+{
+  topVotedToHex(26); // "1a"
+  topVotedToHex(-1); // "ffffffff"
+}
+
+//  couldn't get it working
+
+// "The expression set >>= 1; means set = set >> 1; that is right shift bits of set by 1"
+// "Additionally, because you are shifting all bits to right (towards lower significant number) so one right shift is = divide number by two."
+
+// Basically dividing by 16 with "x >>= 4"
+
+// I believe "nib = (x & 0xF);" is remainder of x/16
