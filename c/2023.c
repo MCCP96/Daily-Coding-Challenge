@@ -3242,7 +3242,7 @@ bool topVotedIsSubsequence(char *s, char *t)
 } */
 
 // Convert a Number to Hexadecimal					10/26/2023
-
+/*
 // Given an integer num, return a string representing its hexadecimal representation. For negative integers, two’s complement method is used.
 
 // All the letters in the answer string should be lowercase characters, and there should not be any leading zeros in the answer except for the zero itself.
@@ -3292,4 +3292,100 @@ int main(void)
 
 // Basically dividing by 16 with "x >>= 4"
 
-// I believe "nib = (x & 0xF);" is remainder of x/16
+// I believe "nib = (x & 0xF);" is remainder of x/16 */
+
+// Longest Palindrome					10/27/2023
+
+// Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+// Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
+
+// Example 1:
+// 		Input: s = "abccccdd"
+// 		Output: 7
+// Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
+
+// Example 2:
+// 		Input: s = "a"
+// 		Output: 1
+// Explanation: The longest palindrome that can be built is "a", whose length is 1.
+
+// Constraints:
+//		1 <= s.length <= 2000
+//		s consists of lowercase and/or uppercase English letters only.
+
+int longestPalindrome(char *s)
+{
+  int res = 0;
+  int count['z' - 'A' + 1] = {0};
+
+  int sSize = strlen(s);
+  for (int i = 0; i < sSize; i++)
+  {
+    count[s[i] - 'A'] = count[s[i] - 'A'] == 0 ? 1 : 0;
+
+    if (count[s[i] - 'A'] == 0)
+      res += 2;
+  }
+
+  for (int i = 0; i < 'z' - 'A'; i++)
+  {
+    if (count[i] == 1)
+    {
+      res++;
+      break;
+    }
+  }
+
+  return res;
+}
+
+int main(void)
+{
+  int ex1 = longestPalindrome("abccccdd"); // 7
+  int ex2 = longestPalindrome("a");        // 1
+}
+
+int topVotedLongestPalindrome(char *s)
+{
+  int count[58]; // ASCII A-z
+  memset(count, 0x0, 58 * sizeof(int));
+  int len = strlen(s);
+
+  for (int i = 0; i < len; ++i)
+    count[s[i] - 'A']++;
+
+  int result = 0;
+  for (int i = 0; i < 58; ++i)
+    result += count[i] / 2 * 2;
+
+  if (result < len)
+    result++;
+
+  return result;
+}
+
+//  "if (result < len)" is much better than my second loop
+
+int revisedLongestPalindrome(char *s)
+{
+  int res = 0;
+  int count['z' - 'A' + 1] = {0};
+
+  int sSize = strlen(s);
+  for (int i = 0; i < sSize; i++)
+  {
+    count[s[i] - 'A']++;
+
+    if (count[s[i] - 'A'] == 2)
+    {
+      res += 2;
+      count[s[i] - 'A'] = 0;
+    }
+  }
+
+  if (res < sSize)
+    res++;
+
+  return res;
+}
