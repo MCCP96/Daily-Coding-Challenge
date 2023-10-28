@@ -3295,7 +3295,7 @@ int main(void)
 // I believe "nib = (x & 0xF);" is remainder of x/16 */
 
 // Longest Palindrome					10/27/2023
-
+/*
 // Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
 
 // Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
@@ -3388,4 +3388,117 @@ int revisedLongestPalindrome(char *s)
     res++;
 
   return res;
+} */
+
+// Fizz Buzz					10/28/2023
+
+// Given an integer n, return a string array answer (1-indexed) where:
+
+// answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
+// answer[i] == "Fizz" if i is divisible by 3.
+// answer[i] == "Buzz" if i is divisible by 5.
+// answer[i] == i (as a string) if none of the above conditions are true.
+
+// Example 1:
+// 		Input: n = 3
+// 		Output: ["1","2","Fizz"]
+
+// Example 2:
+// 		Input: n = 5
+// 		Output: ["1","2","Fizz","4","Buzz"]
+
+// Example 3:
+// 		Input: n = 15
+// 		Output: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+
+// Constraints:
+//		1 <= n <= 104
+
+char **fizzBuzz(int n, int *returnSize)
+{
+  char **res;
+  *res = (char *)malloc(8);
+
+  while (n > 0)
+  {
+    if (n % 3 == 0 && n % 5 == 0)
+      strcpy(res[n - 1], "FizzBuzz");
+    else if (n % 3 == 0)
+      strcpy(res[n - 1], "Fizz");
+    else if (n % 5 == 0)
+      strcpy(res[n - 1], "Buzz");
+    else
+    {
+      char c = n + '0';
+      strcpy(res[n - 1], &c);
+    }
+    n--;
+  }
+
+  return res;
 }
+
+// Doesn't work
+// Need to learn proper returnSize and malloc
+
+char **topVotedFizzBuzz(int n, int *returnSize)
+{
+  int i;
+  *returnSize = n; // since n = number of elements to be returned
+  char **answer;   // the string of strings where the right elements will be copied
+  char str[5];     // every string contains at most 5 character (max number is 10000 => 5 characters)
+
+  i = 1; // first number we want to return is 1
+  answer = NULL;
+  answer = malloc(sizeof(*answer) * n); // our string of strings will have the same number of element than the returning one (n)
+  if (!answer)
+    return (answer); // securizing our malloc => returning NULL if something went wrong
+  while (i <= n)
+  {
+    if (i % 15 == 0)
+      answer[i - 1] = strdup("FizzBuzz"); // NB we need to start duplicating from position 0 => (i - 1)
+    else if (i % 3 == 0)
+      answer[i - 1] = strdup("Fizz");
+    else if (i % 5 == 0)
+      answer[i - 1] = strdup("Buzz");
+    else
+    {
+      sprintf(str, "%d", i); // converting integer i into char and storing it in str
+      answer[i - 1] = strdup(str);
+    }
+    i++;
+  }
+  return (answer);
+}
+
+char **revisedFizzBuzz(int n, int *returnSize)
+{
+  int i;
+  *returnSize = n;
+  char **res;
+  char str[5];
+
+  i = 1;
+  res = NULL;
+  res = malloc(sizeof(*res) * n);
+
+  while (i <= n)
+  {
+    if (i % 15 == 0)
+      res[i - 1] = strdup("FizzBuzz");
+    else if (i % 3 == 0)
+      res[i - 1] = strdup("Fizz");
+    else if (i % 5 == 0)
+      res[i - 1] = strdup("Buzz");
+    else
+    {
+      sprintf(str, "%d", i);
+      res[i - 1] = strdup(str);
+    }
+    i++;
+  }
+
+  return res;
+}
+
+// strdup instead of strcpy, nice
