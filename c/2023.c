@@ -3391,7 +3391,7 @@ int revisedLongestPalindrome(char *s)
 } */
 
 // Fizz Buzz					10/28/2023
-
+/*
 // Given an integer n, return a string array answer (1-indexed) where:
 
 // answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
@@ -3501,4 +3501,100 @@ char **revisedFizzBuzz(int n, int *returnSize)
   return res;
 }
 
-// strdup instead of strcpy, nice
+// strdup instead of strcpy, nice */
+
+// Third Maximum Number					10/29/2023
+
+// Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.
+
+// Example 1:
+// 		Input: nums = [3,2,1]
+// 		Output: 1
+// Explanation:
+// 		The first distinct maximum is 3.
+// 		The second distinct maximum is 2.
+// 		The third distinct maximum is 1.
+
+// Example 2:
+// 		Input: nums = [1,2]
+// 		Output: 2
+// Explanation:
+// 		The first distinct maximum is 2.
+// 		The second distinct maximum is 1.
+// 		The third distinct maximum does not exist, so the maximum (2) is returned instead.
+
+// Example 3:
+// 		Input: nums = [2,2,3,1]
+// 		Output: 1
+// Explanation:
+// 		The first distinct maximum is 3.
+// 		The second distinct maximum is 2 (both 2's are counted together since they have the same value).
+// 		The third distinct maximum is 1.
+
+// Constraints:
+//		1 <= nums.length <= 104
+//		-231 <= nums[i] <= 231 - 1
+
+// Follow up: Can you find an O(n) solution?
+
+int dec(const void *a, const void *b)
+{
+  return (*(int *)b - *(int *)a);
+}
+
+int thirdMax(int *nums, int numsSize)
+{
+  qsort(nums, numsSize, sizeof(int), dec);
+
+  int i = 0;
+  while (*nums)
+  {
+    if (*nums != *(nums + 1))
+      i++;
+    if (i == 3)
+      return *nums;
+    nums++;
+  }
+  return *(nums - 1);
+}
+
+int main(void)
+{
+  int ex1 = thirdMax((int[]){3, 2, 1}, 3);    // 1
+  int ex2 = thirdMax((int[]){1, 2}, 2);       // 2
+  int ex3 = thirdMax((int[]){2, 2, 3, 1}, 4); // 1
+}
+
+// Runtime error in LeetCode
+
+#include <limits.h>
+
+int topVotedThirdMax(int *nums, int numsSize)
+{
+  int max_1 = nums[0];
+  long max_2 = LONG_MIN;
+  long max_3 = LONG_MIN;
+
+  for (int i = 1; i < numsSize; i++)
+  {
+    if (nums[i] > max_1)
+    {
+      max_3 = max_2;
+      max_2 = max_1;
+      max_1 = nums[i];
+    }
+    else if (nums[i] > max_2 && nums[i] < max_1)
+    {
+      max_3 = max_2;
+      max_2 = nums[i];
+    }
+    else if (nums[i] > max_3 && nums[i] < max_2)
+    {
+      max_3 = nums[i];
+    }
+  }
+  return (max_3 == LONG_MIN) ? max_1 : max_3;
+}
+
+// Thought about this approach too
+// Simpler is better
