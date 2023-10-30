@@ -3504,7 +3504,7 @@ char **revisedFizzBuzz(int n, int *returnSize)
 // strdup instead of strcpy, nice */
 
 // Third Maximum Number					10/29/2023
-
+/*
 // Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.
 
 // Example 1:
@@ -3597,4 +3597,72 @@ int topVotedThirdMax(int *nums, int numsSize)
 }
 
 // Thought about this approach too
-// Simpler is better
+// Simpler is better */
+
+// Number of Segments in a String					10/30/2023
+
+// Given a string s, return the number of segments in the string.
+
+// A segment is defined to be a contiguous sequence of non-space characters.
+
+// Example 1:
+// 		Input: s = "Hello, my name is John"
+// 		Output: 5
+// Explanation: The five segments are ["Hello,", "my", "name", "is", "John"]
+
+// Example 2:
+// 		Input: s = "Hello"
+// 		Output: 1
+
+// Constraints:
+//		0 <= s.length <= 300
+//		s consists of lowercase and uppercase English letters, digits, or one of the following characters "!@#$%^&*()_+-=',.:".
+//		The only space character in s is ' '.
+
+int countSegments(char *s)
+{
+  int count = 0;
+  int sSize = strlen(s);
+
+  int i = 0;
+  if (s[0] == ' ')
+    i++;
+
+  for (; i < sSize; i++)
+  {
+    if (s[i] == ' ' && s[i - 1] != ' ')
+      count++;
+  }
+
+  return count + (sSize > 0 && s[sSize - 1] != ' ' ? 1 : 0);
+}
+
+int main(void)
+{
+  int ex1 = countSegments("Hello, my name is John"); // 5
+  int ex2 = countSegments("Hello");                  // 1
+  int ex3 = countSegments("");                       // 0
+  int ex4 = countSegments("           ");            // 0
+}
+
+// Bit scuffed, but 100% runtime
+
+int topVotedCountSegments(char *s)
+{
+  int Segementcount = 0;
+
+  if (s == NULL)
+    return 0;
+
+  char *token;
+  token = strtok(s, " ");
+  while (token != NULL)
+  {
+    token = strtok(NULL, " ");
+    Segementcount++;
+  }
+
+  return Segementcount;
+}
+
+// "The C library function char *strtok(char *str, const char *delim) breaks string str into a series of tokens using the delimiter delim."
