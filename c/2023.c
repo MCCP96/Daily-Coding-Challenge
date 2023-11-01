@@ -3668,7 +3668,7 @@ int topVotedCountSegments(char *s)
 // "The C library function char *strtok(char *str, const char *delim) breaks string str into a series of tokens using the delimiter delim." */
 
 // Arranging Coins					10/31/2023
-
+/*
 // You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.
 
 // Given the integer n, return the number of complete rows of the staircase you will build.
@@ -3706,4 +3706,79 @@ int main(void)
 int topVotedArrangeCoins(int n)
 {
   return (int)floor(-0.5 + sqrt((double)2 * n + 0.25));
+} */
+
+// Find All Numbers Disappeared in an Array					11/1/2023
+
+// Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums.
+
+// Example 1:
+// 		Input: nums = [4,3,2,7,8,2,3,1]
+// 		Output: [5,6]
+
+// Example 2:
+// 		Input: nums = [1,1]
+// 		Output: [2]
+
+// Constraints:
+//		n == nums.length
+//		1 <= n <= 105
+//		1 <= nums[i] <= n
+
+// Follow up: Could you do it without extra space and in O(n) runtime? You may assume the returned list does not count as extra space.
+
+int inc(const void *a, const void *b)
+{
+  return (*(int *)a - *(int *)b);
+}
+
+int *findDisappearedNumbers(int *nums, int numsSize, int *returnSize)
+{
+  int *res = malloc(sizeof(int) * numsSize);
+
+  qsort(nums, numsSize, sizeof(int), inc);
+  int i = 1;
+  while (i <= numsSize)
+  {
+    while (*nums < i)
+      nums++;
+    while (*nums > i)
+    {
+      *res = i;
+      i++;
+      res++;
+    }
+    i++;
+    nums++;
+  }
+
+  *res = '\0';
+  return res;
+}
+
+int main(void)
+{
+  findDisappearedNumbers((int[]){4, 3, 2, 7, 8, 2, 3, 1}, 8, 0); // [5,6]
+  findDisappearedNumbers((int[]){1, 1}, 2, 0);                   // [2]
+}
+
+// Runtime error
+
+int *topVotedFindDisappearedNumbers(int *const nums, const int numsSize, int *const resSize)
+{
+  int i, *res;
+
+  for (i = 0; i < numsSize; ++i)
+    nums[abs(nums[i]) - 1] = -abs(nums[abs(nums[i]) - 1]);
+
+  res = malloc((*resSize = 0) * sizeof(int));
+
+  for (i = 0; i < numsSize; ++i)
+    if (nums[i] > 0)
+    {
+      res = realloc(res, ++*resSize * sizeof(int));
+      res[*resSize - 1] = i + 1;
+    }
+
+  return res;
 }
