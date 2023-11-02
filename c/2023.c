@@ -3709,7 +3709,7 @@ int topVotedArrangeCoins(int n)
 } */
 
 // Find All Numbers Disappeared in an Array					11/1/2023
-
+/*
 // Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums.
 
 // Example 1:
@@ -3781,4 +3781,109 @@ int *topVotedFindDisappearedNumbers(int *const nums, const int numsSize, int *co
     }
 
   return res;
+} */
+
+// Assign Cookies					11/2/2023
+
+// Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie.
+
+// Each child i has a greed factor g[i], which is the minimum size of a cookie that the child will be content with; and each cookie j has a size s[j]. If s[j] >= g[i], we can assign the cookie j to the child i, and the child i will be content. Your goal is to maximize the number of your content children and output the maximum number.
+
+// Example 1:
+// 		Input: g = [1,2,3], s = [1,1]
+// 		Output: 1
+// Explanation: You have 3 children and 2 cookies. The greed factors of 3 children are 1, 2, 3.
+// 		And even though you have 2 cookies, since their size is both 1, you could only make the child whose greed factor is 1 content.
+// 		You need to output 1.
+
+// Example 2:
+// 		Input: g = [1,2], s = [1,2,3]
+// 		Output: 2
+// Explanation: You have 2 children and 3 cookies. The greed factors of 2 children are 1, 2.
+// 		You have 3 cookies and their sizes are big enough to gratify all of the children,
+// 		You need to output 2.
+
+// Constraints:
+//		1 <= g.length <= 3 * 10^4
+//		0 <= s.length <= 3 * 10^4
+//		1 <= g[i], s[j] <= 231 - 1
+
+int inc(const void *a, const void *b)
+{
+  return (*(int *)a - *(int *)b);
+}
+
+int findContentChildren(int *kids, int kidsSize, int *cookies, int cookiesSize)
+{
+  qsort(cookies, cookiesSize, sizeof(int), inc);
+  int contentChildren = 0;
+
+  for (int i = 0; i < kidsSize; i++)
+    for (int j = 0; j < cookiesSize; j++)
+      if (cookies[j] != -1 && cookies[j] >= kids[i])
+      {
+        contentChildren++;
+        cookies[j] = -1;
+        break;
+      }
+
+  return contentChildren;
+}
+
+int main(void)
+{
+  int ex1 = findContentChildren((int[]){1, 2, 3}, 3, (int[]){1, 1}, 2); // 1
+  int ex2 = findContentChildren((int[]){1, 2}, 2, (int[]){1, 2, 3}, 3); // 2
+}
+
+// Slow but works
+// Managed to recall qsort without referencing anything :)
+
+int cmp(const void *a, const void *b)
+{
+  return *(int *)a - *(int *)b;
+}
+int topVotedFindContentChildren(int *g, int gSize, int *s, int sSize)
+{
+  // Sort the children's and cookie's sizes in non-decreasing order
+  qsort(g, gSize, sizeof(int), cmp);
+  qsort(s, sSize, sizeof(int), cmp);
+
+  // Initialize variables for the current child and cookie indices
+  int i = 0, j = 0;
+
+  // Iterate through the children and try to assign cookies to them
+  while (i < gSize && j < sSize)
+  {
+    // If the current cookie is big enough to satisfy the current child, move to the next child and cookie
+    if (s[j] >= g[i])
+    {
+      i++;
+      j++;
+    }
+    // Otherwise, move to the next cookie
+    else
+    {
+      j++;
+    }
+  }
+
+  // Return the number of satisfied children
+  return i;
+}
+
+int revisedFindContentChildren(int *g, int gSize, int *s, int sSize)
+{
+  qsort(g, gSize, sizeof(int), inc);
+  qsort(s, sSize, sizeof(int), inc);
+
+  int kidIdx = 0, cookieIdx = 0;
+  while (kidIdx < gSize && cookieIdx < sSize)
+  {
+    if (s[cookieIdx] >= g[kidIdx])
+      kidIdx++;
+    cookieIdx++;
+  }
+
+  return kidIdx;
 }
