@@ -3784,7 +3784,7 @@ int *topVotedFindDisappearedNumbers(int *const nums, const int numsSize, int *co
 } */
 
 // Assign Cookies					11/2/2023
-
+/*
 // Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie.
 
 // Each child i has a greed factor g[i], which is the minimum size of a cookie that the child will be content with; and each cookie j has a size s[j]. If s[j] >= g[i], we can assign the cookie j to the child i, and the child i will be content. Your goal is to maximize the number of your content children and output the maximum number.
@@ -3886,4 +3886,109 @@ int revisedFindContentChildren(int *g, int gSize, int *s, int sSize)
   }
 
   return kidIdx;
+} */
+
+// Repeated Substring Pattern					11/3/2023
+
+// Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
+
+// Example 1:
+// 		Input: s = "abab"
+// 		Output: true
+// Explanation: It is the substring "ab" twice.
+
+// Example 2:
+// 		Input: s = "aba"
+// 		Output: false
+
+// Example 3:
+// 		Input: s = "abcabcabcabc"
+// 		Output: true
+// Explanation: It is the substring "abc" four times or the substring "abcabc" twice.
+
+// Constraints:
+//		1 <= s.length <= 104
+//		s consists of lowercase English letters.
+
+bool repeatedSubstringPattern(char *s)
+{
+  int sSize = strlen(s);
+  if (sSize == 1)
+    return false;
+
+  char sub[sSize / 2 + 1];
+
+  for (int i = 0; i <= sSize / 2; i++)
+  {
+    if (sSize % (i + 1) != 0) // incompatible substring length
+      continue;
+
+    sub[i] = s[i]; // add char to substring
+    sub[i + 1] = '\0';
+
+    char rep[sSize + 1]; // repeat substring until matches s length
+    rep[0] = '\0';
+    while (strlen(rep) <= sSize)
+      strcat(rep, sub);
+
+    if (strcmp(rep, s) == 0) // compare the two
+      return true;
+  }
+
+  return false;
 }
+
+// int main(void)
+// {
+//   bool ex1 = repeatedSubstringPattern("abab");               // true
+//   bool ex2 = repeatedSubstringPattern("aba");                // false
+//   bool ex3 = repeatedSubstringPattern("abcabcabcabc");       // true
+//   bool ex4 = repeatedSubstringPattern("ababba");             // false
+//   bool ex5 = repeatedSubstringPattern("abaababaab"); // true
+// }
+
+// "abaababaab" expects true
+
+#include <stdbool.h>
+#include <string.h>
+
+bool topVotedRepeatedSubstringPattern(char *s)
+{
+  int n = strlen(s);
+
+  // Check divisors of n
+  for (int i = 1; i <= n / 2; i++)
+  {
+    if (n % i == 0)
+    {
+      int numRepeats = n / i;
+
+      // Create the potential substring
+      char substring[i + 1];
+      strncpy(substring, s, i);
+      substring[i] = '\0';
+
+      // Construct the repeated string
+      char repeatedString[n + 1];
+      repeatedString[0] = '\0';
+      for (int j = 0; j < numRepeats; j++)
+        strcat(repeatedString, substring);
+
+      // Check if the constructed string matches the original string
+      if (strcmp(repeatedString, s) == 0)
+      {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+int main(void)
+{
+  bool ex5 = topVotedRepeatedSubstringPattern("abaababaab"); // true
+}
+
+// Similar, but passes
+// Something to do with how repeatedString is built
