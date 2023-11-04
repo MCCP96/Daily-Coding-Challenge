@@ -3889,7 +3889,7 @@ int revisedFindContentChildren(int *g, int gSize, int *s, int sSize)
 } */
 
 // Repeated Substring Pattern					11/3/2023
-
+/*
 // Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
 
 // Example 1:
@@ -3991,4 +3991,61 @@ int main(void)
 }
 
 // Similar, but passes
-// Something to do with how repeatedString is built
+// Something to do with how repeatedString is built */
+
+// Hamming Distance					11/4/2023
+
+// The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
+
+// Given two integers x and y, return the Hamming distance between them.
+
+// Example 1:
+// 		Input: x = 1, y = 4
+// 		Output: 2
+// Explanation:
+// 		1   (0 0 0 1)
+// 		4   (0 1 0 0)
+// 		       ↑   ↑
+// 		The above arrows point to positions where the corresponding bits are different.
+
+// Example 2:
+// 		Input: x = 3, y = 1
+// 		Output: 1
+
+// Constraints:
+//		0 <= x, y <= 231 - 1
+
+int hammingDistance(int x, int y)
+{
+  int dif = 0;
+  while (x > 0 || y > 0)
+  {
+    if ((x & 1) != (y & 1))
+      dif++;
+    x = x >> 1;
+    y = y >> 1;
+  }
+  return dif;
+}
+
+int main(void)
+{
+  printf("%d\n", hammingDistance(1, 4)); // 2
+  printf("%d\n", hammingDistance(3, 1)); // 1
+}
+
+// 100% Runtime
+// first time really using bitwise
+
+int topVotedHammingDistance(int x, int y)
+{
+  int d = 0, n = x ^ y;
+  while (n)
+  {
+    n &= n - 1;
+    d++;
+  }
+  return d;
+}
+
+// Brian Kernighan's algorithm
