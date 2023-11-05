@@ -3994,7 +3994,7 @@ int main(void)
 // Something to do with how repeatedString is built */
 
 // Hamming Distance					11/4/2023
-
+/*
 // The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
 
 // Given two integers x and y, return the Hamming distance between them.
@@ -4048,4 +4048,92 @@ int topVotedHammingDistance(int x, int y)
   return d;
 }
 
-// Brian Kernighan's algorithm
+// Brian Kernighan's algorithm */
+
+// Island Perimeter					11/5/2023
+
+// You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water.
+
+// Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells).
+
+// The island doesn't have "lakes", meaning the water inside isn't connected to the water around the island. One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
+
+// Example 1:
+// 		Input: grid = [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]
+// 		Output: 16
+// Explanation: The perimeter is the 16 yellow stripes in the image above.
+
+// Example 2:
+// 		Input: grid = [[1]]
+// 		Output: 4
+
+// Example 3:
+// 		Input: grid = [[1,0]]
+// 		Output: 4
+
+// Constraints:
+//		row == grid.length
+//		col == grid[i].length
+//		1 <= row, col <= 100
+//		grid[i][j] is 0 or 1.
+//		There is exactly one island in grid.
+
+int islandPerimeter(int **grid, int gridSize, int *gridColSize)
+{
+  int perim = 0;
+  for (int r = 0; r < gridSize; r++)
+    for (int c = 0; c < *gridColSize; c++)
+      if (grid[r][c] == 1)
+      {
+        int count = 4;
+        if (grid[r - 1] && grid[r - 1][c] == 1)
+          count--;
+        if (grid[r + 1] && grid[r + 1][c] == 1)
+          count--;
+        if (grid[r][c - 1] && grid[r][c - 1] == 1)
+          count--;
+        if (grid[r][c - 1] && grid[r][c + 1] == 1)
+          count--;
+        perim += count;
+      }
+
+  return perim;
+}
+
+int main(void)
+{
+  int ex1[4][4] = {{0, 1, 0, 0},
+                   {1, 1, 1, 0},
+                   {0, 1, 0, 0},
+                   {1, 1, 0, 0}};
+  int colSize = 4;
+
+  printf("%d", islandPerimeter(ex1, 4, &colSize)); // 16
+}
+
+// Runtime error
+
+int dfs(int **grid, int r, int c, int gridSize, int *gridColSize)
+{
+  if (r < 0 || c < 0 || r >= gridSize || c >= *gridColSize || grid[r][c] == 0)
+    return 1;
+  if (grid[r][c] == 2)
+    return 0;
+
+  grid[r][c] = 2;
+  return dfs(grid, r + 1, c, gridSize, gridColSize) + dfs(grid, r - 1, c, gridSize, gridColSize) +
+         dfs(grid, r, c + 1, gridSize, gridColSize) + dfs(grid, r, c - 1, gridSize, gridColSize);
+}
+
+int topVotedIslandPerimeter(int **grid, int gridSize, int *gridColSize)
+{
+  for (int r = 0; r < gridSize; r++)
+  {
+    for (int c = 0; c < *gridColSize; c++)
+    {
+      if (grid[r][c] == 1)
+        return dfs(grid, r, c, gridSize, gridColSize);
+    }
+  }
+  return 0;
+}
