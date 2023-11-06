@@ -4051,7 +4051,7 @@ int topVotedHammingDistance(int x, int y)
 // Brian Kernighan's algorithm */
 
 // Island Perimeter					11/5/2023
-
+/*
 // You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water.
 
 // Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells).
@@ -4136,4 +4136,57 @@ int topVotedIslandPerimeter(int **grid, int gridSize, int *gridColSize)
     }
   }
   return 0;
+} */
+
+// Number Complement					11/6/2023
+
+// The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
+
+// For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
+
+// Given an integer num, return its complement.
+
+// Example 1:
+// 		Input: num = 5
+// 		Output: 2
+// Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
+
+// Example 2:
+// 		Input: num = 1
+// 		Output: 0
+// Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+
+// Constraints:
+//		1 <= num < 231
+
+// Note: This question is the same as 1009: https://leetcode.com/problems/complement-of-base-10-integer/
+
+int findComplement(int num)
+{
+  double max = pow(2, ceil(log2(num))) - 1;
+  return max - num;
 }
+
+int main(void)
+{
+  printf("%d\n", findComplement(5)); // 2
+  printf("%d\n", findComplement(1)); // 0
+  printf("%d\n", findComplement(2)); // 1
+}
+
+// not working cause of leading 0s
+
+int topVotedFindComplement(int num)
+{
+  int temp = num, c = 0;
+  while (temp > 0)
+  {
+    c = (c << 1) | 1;
+    temp >>= 1;
+  }
+  return num ^ c;
+}
+
+// Ex: 5 (101)
+// after while: c = 111
+// num ^ c (XOR) = 101 ^ 111 = 010 (2)
