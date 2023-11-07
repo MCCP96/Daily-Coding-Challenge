@@ -4139,7 +4139,7 @@ int topVotedIslandPerimeter(int **grid, int gridSize, int *gridColSize)
 } */
 
 // Number Complement					11/6/2023
-
+/*
 // The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
 
 // For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
@@ -4189,4 +4189,121 @@ int topVotedFindComplement(int num)
 
 // Ex: 5 (101)
 // after while: c = 111
-// num ^ c (XOR) = 101 ^ 111 = 010 (2)
+// num ^ c (XOR) = 101 ^ 111 = 010 (2) */
+
+// License Key Formatting					11/7/2023
+
+// You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.
+
+// We want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
+
+// Return the reformatted license key.
+
+// Example 1:
+// 		Input: s = "5F3Z-2e-9-w", k = 4
+// 		Output: "5F3Z-2E9W"
+// Explanation: The string s has been split into two parts, each part has 4 characters.
+// 		Note that the two extra dashes are not needed and can be removed.
+
+// Example 2:
+// 		Input: s = "2-5g-3-J", k = 2
+// 		Output: "2-5G-3J"
+// Explanation: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s consists of English letters, digits, and dashes '-'.
+//		1 <= k <= 104
+
+char *licenseKeyFormatting(char *s, int k)
+{
+  int charCount = 0;
+  int sSize = strlen(s);
+  for (int i = 0; i < sSize; i++)
+    if (s[i] != '-')
+      charCount++;
+  if (charCount == 0)
+    return NULL;
+
+  int first = charCount % k;
+  char *res = malloc(2 * sSize * sizeof(char));
+
+  int i = 0;
+  while (first-- > 0)
+  {
+    while (*s == '-')
+      s++;
+
+    res[i] = toupper(*s);
+    i++;
+    s++;
+
+    if (first == 0 && charCount >= k)
+    {
+      res[i] = '-';
+      i++;
+    }
+  }
+
+  int curK = k;
+  while (*s)
+  {
+    if (*s != '-')
+    {
+      res[i] = toupper(*s);
+      curK--;
+      i++;
+
+      if (curK == 0)
+      {
+        res[i] = '-';
+        curK = k;
+        i++;
+      }
+    }
+    s++;
+  }
+
+  res[i - 1] = '\0';
+  return res;
+}
+
+int main(void)
+{
+  printf("%s\n", licenseKeyFormatting("5F3Z-2e-9-w", 4)); // "5F3Z-2E9W"
+  printf("%s\n", licenseKeyFormatting("2-5g-3-J", 2));    // "2-5G-3J"
+  printf("%s\n", licenseKeyFormatting("2-4A0r7-4k", 3));  // "24-A0R-74K"
+}
+
+// Could definitely shorten it
+
+char convert(char c)
+{
+  if (c >= 'a' && c <= 'z')
+    return c - 0x20;
+  else
+    return c;
+}
+
+char *topVotedLicenseKeyFormatting(char *s, int k)
+{
+  int len = strlen(s), size = len + len / k + 1, counter = 0;
+  char *ans = (char *)calloc(size, sizeof(char));
+  ans[--size] = '\0';
+  for (int i = len - 1; i >= 0; i--)
+  {
+    if (s[i] == '-')
+      continue;
+    ans[--size] = convert(s[i]);
+    counter++;
+    if (counter == k && i != 0)
+    {
+      ans[--size] = '-';
+      counter = 0;
+    }
+  }
+  /* no leading '-' */
+  if (ans[size] == '-')
+    size++;
+  return ans + size;
+}
