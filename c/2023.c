@@ -4192,7 +4192,7 @@ int topVotedFindComplement(int num)
 // num ^ c (XOR) = 101 ^ 111 = 010 (2) */
 
 // License Key Formatting					11/7/2023
-
+/*
 // You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.
 
 // We want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
@@ -4302,8 +4302,65 @@ char *topVotedLicenseKeyFormatting(char *s, int k)
       counter = 0;
     }
   }
-  /* no leading '-' */
+  // no leading '-'
   if (ans[size] == '-')
     size++;
   return ans + size;
+} */
+
+// Max Consecutive Ones					11/8/2023
+
+// Given a binary array nums, return the maximum number of consecutive 1's in the array.
+
+// Example 1:
+// 		Input: nums = [1,1,0,1,1,1]
+// 		Output: 3
+// Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+
+// Example 2:
+// 		Input: nums = [1,0,1,1,0,1]
+// 		Output: 2
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		nums[i] is either 0 or 1.
+
+int findMaxConsecutiveOnes(int *nums, int numsSize)
+{
+  int max = 0;
+  int count = 0;
+
+  while (numsSize-- > 0)
+  {
+    *(nums++) == 1 ? count++ : (count = 0);
+
+    if (count > max)
+      max = count;
+  }
+
+  return max;
 }
+
+int main(void)
+{
+  printf("%d\n", findMaxConsecutiveOnes((int[]){1, 1, 0, 1, 1, 1}, 6)); // 3
+  printf("%d\n", findMaxConsecutiveOnes((int[]){1, 0, 1, 1, 0, 1}, 6)); // 2
+}
+
+int topVotedFindMaxConsecutiveOnes(int *nums, int numsSize)
+{
+  int max = 0;
+  int count = 0;
+  for (int i = 0; i < numsSize; i++)
+  {
+    if (nums[i] == 0)
+      count = 0;
+    else if (nums[i] == 1)
+      count++;
+    if (count > max)
+      max = count;
+  }
+  return max;
+}
+
+// same same
