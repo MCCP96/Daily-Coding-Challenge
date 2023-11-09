@@ -4309,7 +4309,7 @@ char *topVotedLicenseKeyFormatting(char *s, int k)
 } */
 
 // Max Consecutive Ones					11/8/2023
-
+/*
 // Given a binary array nums, return the maximum number of consecutive 1's in the array.
 
 // Example 1:
@@ -4363,4 +4363,91 @@ int topVotedFindMaxConsecutiveOnes(int *nums, int numsSize)
   return max;
 }
 
-// same same
+// same same */
+
+// Construct the Rectangle					11/9/2023
+
+// A web developer needs to know how to design a web page's size. So, given a specific rectangular web page’s area, your job by now is to design a rectangular web page, whose length L and width W satisfy the following requirements:
+
+// The area of the rectangular web page you designed must equal to the given target area.
+
+// The width W should not be larger than the length L, which means L >= W.
+
+// The difference between length L and width W should be as small as possible.
+
+// Return an array [L, W] where L and W are the length and width of the web page you designed in sequence.
+
+// Example 1:
+// 		Input: area = 4
+// 		Output: [2,2]
+// Explanation: The target area is 4, and all the possible ways to construct it are [1,4], [2,2], [4,1].
+// 		But according to requirement 2, [1,4] is illegal; according to requirement 3,  [4,1] is not optimal compared to [2,2]. So the length L is 2, and the width W is 2.
+
+// Example 2:
+// 		Input: area = 37
+// 		Output: [37,1]
+
+// Example 3:
+// 		Input: area = 122122
+// 		Output: [427,286]
+
+// Constraints:
+//		1 <= area <= 107
+
+int *constructRectangle(int area, int *returnSize)
+{
+  int *res = malloc(2 * sizeof(int));
+
+  for (int l = 1; l <= area / 2 + 1; l++)
+  {
+    for (int r = l; r * l <= area; r++)
+    {
+      if (l * r == area)
+      {
+        res[0] = l;
+        res[1] = r;
+      }
+    }
+  }
+
+  return res;
+}
+
+int main(void)
+{
+  int retSize = 2 * sizeof(int);
+  int *ex1 = constructRectangle(4, &retSize);      // [2,2]
+  int *ex2 = constructRectangle(37, &retSize);     // [37,1]
+  int *ex3 = constructRectangle(122122, &retSize); // [427,286]
+}
+
+// 'r * l <= area' overflows
+
+int *topVotedConstructRectangle(int area, int *returnSize)
+{
+  int *arr = (int *)malloc(sizeof(int) * 2);
+  int width = sqrt(area);
+  while (area % width != 0)
+    width--;
+  arr[0] = area / width;
+  arr[1] = width;
+  *returnSize = 2;
+  return arr;
+}
+
+// Much better than my brute force
+
+int *revisedConstructRectangle(int area, int *retSize)
+{
+  *retSize = 2;
+  int *res = malloc(2 * sizeof(int));
+
+  int width = sqrt(area);
+  while (area % width != 0)
+    width--;
+
+  res[0] = area / width;
+  res[1] = width;
+
+  return res;
+}
