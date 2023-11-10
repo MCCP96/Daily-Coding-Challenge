@@ -4366,7 +4366,7 @@ int topVotedFindMaxConsecutiveOnes(int *nums, int numsSize)
 // same same */
 
 // Construct the Rectangle					11/9/2023
-
+/*
 // A web developer needs to know how to design a web page's size. So, given a specific rectangular web page’s area, your job by now is to design a rectangular web page, whose length L and width W satisfy the following requirements:
 
 // The area of the rectangular web page you designed must equal to the given target area.
@@ -4450,4 +4450,68 @@ int *revisedConstructRectangle(int area, int *retSize)
   res[1] = width;
 
   return res;
+} */
+
+// Teemo Attacking					11/10/2023
+
+// Our hero Teemo is attacking an enemy Ashe with poison attacks! When Teemo attacks Ashe, Ashe gets poisoned for a exactly duration seconds. More formally, an attack at second t will mean Ashe is poisoned during the inclusive time interval [t, t + duration - 1]. If Teemo attacks again before the poison effect ends, the timer for it is reset, and the poison effect will end duration seconds after the new attack.
+
+// You are given a non-decreasing integer array timeSeries, where timeSeries[i] denotes that Teemo attacks Ashe at second timeSeries[i], and an integer duration.
+
+// Return the total number of seconds that Ashe is poisoned.
+
+// Example 1:
+// 		Input: timeSeries = [1,4], duration = 2
+// 		Output: 4
+// Explanation: Teemo's attacks on Ashe go as follows:
+// 		- At second 1, Teemo attacks, and Ashe is poisoned for seconds 1 and 2.
+// 		- At second 4, Teemo attacks, and Ashe is poisoned for seconds 4 and 5.
+// 		Ashe is poisoned for seconds 1, 2, 4, and 5, which is 4 seconds in total.
+
+// Example 2:
+// 		Input: timeSeries = [1,2], duration = 2
+// 		Output: 3
+// Explanation: Teemo's attacks on Ashe go as follows:
+// 		- At second 1, Teemo attacks, and Ashe is poisoned for seconds 1 and 2.
+// 		- At second 2 however, Teemo attacks again and resets the poison timer. Ashe is poisoned for seconds 2 and 3.
+// 		Ashe is poisoned for seconds 1, 2, and 3, which is 3 seconds in total.
+
+// Constraints:
+//		1 <= timeSeries.length <= 104
+//		0 <= timeSeries[i], duration <= 107
+//		timeSeries is sorted in non-decreasing order.
+
+int findPoisonedDuration(int *timeSeries, int timeSeriesSize, int duration)
+{
+  int time = duration;
+  for (int i = 1; i < timeSeriesSize; i++)
+  {
+    int dif = timeSeries[i] - timeSeries[i - 1];
+    if (dif < duration)
+      time -= duration - dif;
+    time += duration;
+  }
+  return time;
 }
+
+int main(void)
+{
+  printf("%d\n", findPoisonedDuration((int[]){1, 4}, 2, 2));          // 4
+  printf("%d\n", findPoisonedDuration((int[]){1, 2}, 2, 2));          // 3
+  printf("%d\n", findPoisonedDuration((int[]){1, 2, 3, 4, 5}, 5, 5)); // 9
+}
+
+int topVotedFindPoisonedDuration(int *timeSeries, int timeSeriesSize, int duration)
+{
+  int total = 0;
+  for (int i = 0; i < timeSeriesSize - 1; i++)
+  {
+    if (timeSeries[i] + duration > timeSeries[i + 1])
+      total += timeSeries[i + 1] - timeSeries[i];
+    else
+      total += duration;
+  }
+  return total + duration;
+}
+
+// same idea
