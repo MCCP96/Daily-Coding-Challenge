@@ -4453,7 +4453,7 @@ int *revisedConstructRectangle(int area, int *retSize)
 } */
 
 // Teemo Attacking					11/10/2023
-
+/*
 // Our hero Teemo is attacking an enemy Ashe with poison attacks! When Teemo attacks Ashe, Ashe gets poisoned for a exactly duration seconds. More formally, an attack at second t will mean Ashe is poisoned during the inclusive time interval [t, t + duration - 1]. If Teemo attacks again before the poison effect ends, the timer for it is reset, and the poison effect will end duration seconds after the new attack.
 
 // You are given a non-decreasing integer array timeSeries, where timeSeries[i] denotes that Teemo attacks Ashe at second timeSeries[i], and an integer duration.
@@ -4514,4 +4514,110 @@ int topVotedFindPoisonedDuration(int *timeSeries, int timeSeriesSize, int durati
   return total + duration;
 }
 
-// same idea
+// same idea */
+
+// Next Greater Element I					11/11/2023
+
+// The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
+
+// You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
+
+// For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2. If there is no next greater element, then the answer for this query is -1.
+
+// Return an array ans of length nums1.length such that ans[i] is the next greater element as described above.
+
+// Example 1:
+// 		Input: nums1 = [4,1,2], nums2 = [1,3,4,2]
+// 		Output: [-1,3,-1]
+// Explanation: The next greater element for each value of nums1 is as follows:
+// 		- 4 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so the answer is -1.
+// 		- 1 is underlined in nums2 = [1,3,4,2]. The next greater element is 3.
+// 		- 2 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so the answer is -1.
+
+// Example 2:
+// 		Input: nums1 = [2,4], nums2 = [1,2,3,4]
+// 		Output: [3,-1]
+// Explanation: The next greater element for each value of nums1 is as follows:
+// 		- 2 is underlined in nums2 = [1,2,3,4]. The next greater element is 3.
+// 		- 4 is underlined in nums2 = [1,2,3,4]. There is no next greater element, so the answer is -1.
+
+// Constraints:
+//		1 <= nums1.length <= nums2.length <= 1000
+//		0 <= nums1[i], nums2[i] <= 104
+//		All integers in nums1 and nums2 are unique.
+//		All the integers of nums1 also appear in nums2.
+
+// Follow up: Could you find an O(nums1.length + nums2.length) solution?
+
+int *nextGreaterElement(int *nums1, int nums1Size, int *nums2, int nums2Size, int *returnSize)
+{
+  *returnSize = nums1Size;
+
+  // Create array of next greatest element in nums2
+  int next[nums2Size];
+  for (int i = 0; i < nums2Size; i++)
+  {
+    next[i] = -1;
+    for (int j = i + 1; j < nums2Size; j++)
+    {
+      if (nums2[j] > nums2[i])
+      {
+        next[i] = nums2[j];
+        break;
+      }
+    }
+  }
+
+  // Find index of nums1 in nums2 then take element of that index from 'next'
+  int *res = malloc(*returnSize * sizeof(int));
+  for (int i = 0; i < nums1Size; i++)
+  {
+    for (int j = 0; j < nums2Size; j++)
+    {
+      if (nums1[i] == nums2[j])
+      {
+        res[i] = next[j];
+        break;
+      }
+    }
+  }
+
+  return res;
+}
+
+int main(void)
+{
+  int ret = 0;
+  int *ex1 = nextGreaterElement((int[]){4, 1, 2}, 3, (int[]){1, 3, 4, 2}, 4, &ret); // [-1,3,-1]
+  int *ex2 = nextGreaterElement((int[]){2, 4}, 2, (int[]){1, 2, 3, 4}, 4, &ret);    // [3,-1]
+}
+
+// First time getting *returnSize and malloc
+// Helpful that we covered them in class :^)
+
+int *topVotedNextGreaterElement(int *nums1, int nums1Size, int *nums2, int nums2Size, int *returnSize)
+{
+  int *result = (int *)malloc(nums1Size * sizeof(int));
+  *returnSize = nums1Size;
+
+  int count = 0;
+  int temp[10000] = {0};
+
+  for (int i = 0; i < nums2Size; i++)
+    temp[nums2[i]] = i;
+
+  for (int i = 0; i < nums1Size; i++)
+  {
+    int j;
+    for (j = temp[nums1[i]] + 1; j < nums2Size; j++)
+      if (nums2[j] > nums1[i])
+      {
+        result[count++] = nums2[j];
+        break;
+      }
+    if (j == nums2Size)
+      result[count++] = -1;
+  }
+
+  return result;
+}
