@@ -4517,7 +4517,7 @@ int topVotedFindPoisonedDuration(int *timeSeries, int timeSeriesSize, int durati
 // same idea */
 
 // Next Greater Element I					11/11/2023
-
+/*
 // The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
 
 // You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
@@ -4619,5 +4619,96 @@ int *topVotedNextGreaterElement(int *nums1, int nums1Size, int *nums2, int nums2
       result[count++] = -1;
   }
 
+  return result;
+} */
+
+// Keyboard Row					11/12/2023
+
+// Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
+
+// In the American keyboard:
+
+// the first row consists of the characters "qwertyuiop",
+
+// the second row consists of the characters "asdfghjkl", and
+
+// the third row consists of the characters "zxcvbnm".
+
+// Example 1:
+// 		Input: words = ["Hello","Alaska","Dad","Peace"]
+// 		Output: ["Alaska","Dad"]
+
+// Example 2:
+// 		Input: words = ["omk"]
+// 		Output: []
+
+// Example 3:
+// 		Input: words = ["adsdf","sfd"]
+// 		Output: ["adsdf","sfd"]
+
+// Constraints:
+//		1 <= words.length <= 20
+//		1 <= words[i].length <= 100
+//		words[i] consists of English letters (both lowercase and uppercase).
+
+char **findWords(char **words, int wordsSize, int *returnSize)
+{
+  char keyboard[3][10] = {"qwertyuiop", "asdfghjkl", "zxcvbnm"};
+
+  char **res = (char **)malloc(wordsSize * sizeof(char *)); // taken from top voted
+  int i = 0;
+  while (wordsSize-- > 0)
+  {
+    int row = 0;
+    if (strchr(keyboard[1], words[i][0]))
+      row = 1;
+    else if (strchr(keyboard[2], words[i][0]))
+      row = 2;
+
+    bool valid = true;
+    while (*(words++)[i])
+    {
+      if (strchr(keyboard[row], *words[i]) == NULL)
+      {
+        valid = false;
+        break;
+      }
+    }
+    if (valid)
+      strcpy(res++, words[i]);
+  }
+
+  return res;
+}
+
+int main(void)
+{
+  int ret = 0;
+  char ex1[4][6] = {"Hello", "Alaska", "Dad", "Peace"};
+  findWords(ex1, 4, &ret); // ["Alaska","Dad"]
+}
+
+// 'Incompatible values types', sending ex1[][] instead of char **
+// Not sure how to send 2d array, and can't troubleshoot without it
+
+bool checkWord(char *word)
+{
+  char count[26] = {2, 3, 3, 2, 1, 2, 2, 2, 1, 2, 2, 2, 3, 3, 1, 1, 1, 1, 2, 1, 1, 3, 1, 3, 1, 3};
+  for (int i = 1; i < strlen(word); i++)
+    if (count[tolower(word[i - 1]) - 'a'] != count[tolower(word[i]) - 'a'])
+      return false;
+  return true;
+}
+char **topVotedFindWords(char **words, int wordsSize, int *returnSize)
+{
+  char **result = (char **)malloc(wordsSize * sizeof(char *));
+  int count = 0;
+  for (int i = 0; i < wordsSize; i++)
+    if (checkWord(words[i]))
+    {
+      result[count] = (char *)malloc((strlen(words[i]) + 1) * sizeof(char));
+      strcpy(result[count++], words[i]);
+    }
+  *returnSize = count;
   return result;
 }
