@@ -4623,7 +4623,7 @@ int *topVotedNextGreaterElement(int *nums1, int nums1Size, int *nums2, int nums2
 } */
 
 // Keyboard Row					11/12/2023
-
+/*
 // Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
 
 // In the American keyboard:
@@ -4710,5 +4710,83 @@ char **topVotedFindWords(char **words, int wordsSize, int *returnSize)
       strcpy(result[count++], words[i]);
     }
   *returnSize = count;
+  return result;
+} */
+
+// Base 7					11/13/2023
+
+// Given an integer num, return a string of its base 7 representation.
+
+// Example 1:
+// 		Input: num = 100
+// 		Output: "202"
+
+// Example 2:
+// 		Input: num = -7
+// 		Output: "-10"
+
+// Constraints:
+//		-107 <= num <= 107
+
+char *convertToBase7(int num)
+{
+  if (num == 0)
+    return "0";
+
+  char *res = (char *)malloc(12 * sizeof(char));
+  int i = 0;
+
+  int neg = num < 0;
+  if (neg)
+  {
+    num = abs(num);
+    res[i++] = '-';
+  }
+
+  while (num > 0)
+  {
+    res[i++] = (char)(num % 7);
+    num /= 7;
+  }
+
+  return res;
+}
+
+int main(void)
+{
+  printf("%s", convertToBase7(100)); // "202"
+  printf("%s", convertToBase7(-7));  // "-10"
+}
+
+char *topVotedConvertToBase7(int num)
+{
+  if (num == 0)
+    return "0";
+
+  char *result = (char *)malloc(12 * sizeof(char));
+  int count = 0;
+
+  bool checkNeg = num < 0 ? true : false;
+
+  if (num < 0)
+    num = abs(num);
+
+  while (num > 0)
+  {
+    result[count++] = num % 7 + '0';
+    num /= 7;
+  }
+
+  if (checkNeg)
+    result[count++] = '-';
+
+  for (int i = 0; i < count / 2; i++)
+  {
+    int temp = result[i];
+    result[i] = result[count - i - 1];
+    result[count - i - 1] = temp;
+  }
+
+  result[count] = 0;
   return result;
 }
