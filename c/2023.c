@@ -4714,7 +4714,7 @@ char **topVotedFindWords(char **words, int wordsSize, int *returnSize)
 } */
 
 // Base 7					11/13/2023
-
+/*
 // Given an integer num, return a string of its base 7 representation.
 
 // Example 1:
@@ -4789,4 +4789,133 @@ char *topVotedConvertToBase7(int num)
 
   result[count] = 0;
   return result;
+} */
+
+// Relative Ranks					11/14/2023
+
+// You are given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.
+
+// The athletes are placed based on their scores, where the 1st place athlete has the highest score, the 2nd place athlete has the 2nd highest score, and so on. The placement of each athlete determines their rank:
+
+// The 1st place athlete's rank is "Gold Medal".
+// The 2nd place athlete's rank is "Silver Medal".
+// The 3rd place athlete's rank is "Bronze Medal".
+
+// For the 4th place to the nth place athlete, their rank is their placement number (i.e., the xth place athlete's rank is "x").
+
+// Return an array answer of size n where answer[i] is the rank of the ith athlete.
+
+// Example 1:
+// 		Input: score = [5,4,3,2,1]
+// 		Output: ["Gold Medal","Silver Medal","Bronze Medal","4","5"]
+// Explanation: The placements are [1st, 2nd, 3rd, 4th, 5th].
+
+// Example 2:
+// 		Input: score = [10,3,8,9,4]
+// 		Output: ["Gold Medal","5","Bronze Medal","Silver Medal","4"]
+// Explanation: The placements are [1st, 5th, 3rd, 2nd, 4th].
+
+// Constraints:
+//		n == score.length
+//		1 <= n <= 104
+//		0 <= score[i] <= 106
+//		All the values in score are unique.
+
+char **findRelativeRanks(int *score, int scoreSize, int *returnSize)
+{
+  // Rank every element in score array
+  int rank[scoreSize];
+  for (int i = 0; i < scoreSize; i++)
+  {
+    int el_rank = 1;
+
+    for (int j = 0; j < scoreSize; j++)
+      if (score[j] > score[i])
+        el_rank++;
+
+    rank[i] = el_rank;
+  }
+
+  // malloc
+  *returnSize = scoreSize;
+  char **res = (char **)malloc((*returnSize) * sizeof(char *)); // taken from top voted
+  for (int i = 0; i < (*returnSize); i++)
+    res[i] = (char *)malloc(13 * sizeof(char));
+
+  // Filled res based on rank
+  for (int i = 0; i < scoreSize; i++)
+  {
+    if (rank[i] > 3)
+      sprintf(res[i], "%d", rank[i]);
+    else if (rank[i] == 3)
+      res[i] = "Bronze Medal";
+    else if (rank[i] == 2)
+      res[i] = "Silver Medal";
+    else if (rank[i] == 1)
+      res[i] = "Gold Medal";
+  }
+
+  return res;
 }
+
+int main(void)
+{
+  int ret = 5;
+  findRelativeRanks((int[]){5, 4, 3, 2, 1}, 5, &ret);  // ["Gold Medal","Silver Medal","Bronze Medal","4","5"]
+  findRelativeRanks((int[]){10, 3, 8, 9, 4}, 5, &ret); // ["Gold Medal","5","Bronze Medal","Silver Medal","4"]
+}
+
+// Slow but works
+
+struct pair
+{
+  int idx;
+  int score;
+};
+
+int cmp(const void *a, const void *b)
+{
+  struct pair pa = *(const struct pair *)a;
+  struct pair pb = *(const struct pair *)b;
+  return pb.score - pa.score;
+}
+
+char **topVotedFindRelativeRanks(int *score, int scoreSize, int *returnSize)
+{
+  struct pair *arr = (struct pair *)calloc(scoreSize, sizeof(struct pair));
+  for (int i = 0; i < scoreSize; i++)
+  {
+    arr[i].idx = i;
+    arr[i].score = score[i];
+  }
+  qsort(arr, scoreSize, sizeof(struct pair), cmp);
+  *returnSize = scoreSize;
+  char **res = (char **)malloc((*returnSize) * sizeof(char *));
+  for (int i = 0; i < (*returnSize); i++)
+  {
+    res[i] = (char *)malloc(13 * sizeof(char));
+  }
+  for (int i = 0; i < scoreSize; i++)
+  {
+    if (i == 0)
+    {
+      res[arr[0].idx] = "Gold Medal";
+    }
+    else if (i == 1)
+    {
+      res[arr[1].idx] = "Silver Medal";
+    }
+    else if (i == 2)
+    {
+      res[arr[2].idx] = "Bronze Medal";
+    }
+    else
+    {
+      sprintf(res[arr[i].idx], "%d", i + 1);
+    }
+  }
+  free(arr);
+  return res;
+}
+
+// Pair and sorting saves from having nested for loop
