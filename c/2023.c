@@ -4792,7 +4792,7 @@ char *topVotedConvertToBase7(int num)
 } */
 
 // Relative Ranks					11/14/2023
-
+/*
 // You are given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.
 
 // The athletes are placed based on their scores, where the 1st place athlete has the highest score, the 2nd place athlete has the 2nd highest score, and so on. The placement of each athlete determines their rank:
@@ -4918,4 +4918,42 @@ char **topVotedFindRelativeRanks(int *score, int scoreSize, int *returnSize)
   return res;
 }
 
-// Pair and sorting saves from having nested for loop
+// Pair and sorting saves from having nested for loop */
+
+// Perfect Number					11/15/2023
+
+// A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. A divisor of an integer x is an integer that can divide x evenly.
+
+// Given an integer n, return true if n is a perfect number, otherwise return false.
+
+// Example 1:
+// 		Input: num = 28
+// 		Output: true
+// Explanation: 28 = 1 + 2 + 4 + 7 + 14
+// 		1, 2, 4, 7, and 14 are all divisors of 28.
+
+// Example 2:
+// 		Input: num = 7
+// 		Output: false
+
+// Constraints:
+//		1 <= num <= 108
+
+bool checkPerfectNumber(int num)
+{
+  int count = 0;
+  for (int i = 1; i <= num / 2; i++)
+    if (num % i == 0)
+      count += i;
+  return count == num;
+}
+
+int main(void)
+{
+  printf("%d", checkPerfectNumber(28)); // true
+  printf("%d", checkPerfectNumber(7));  // false
+  printf("%d", checkPerfectNumber(2));  // false
+  printf("%d", checkPerfectNumber(1));  // false
+}
+
+// Same as top voted
