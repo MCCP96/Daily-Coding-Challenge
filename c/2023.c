@@ -4921,7 +4921,7 @@ char **topVotedFindRelativeRanks(int *score, int scoreSize, int *returnSize)
 // Pair and sorting saves from having nested for loop */
 
 // Perfect Number					11/15/2023
-
+/*
 // A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. A divisor of an integer x is an integer that can divide x evenly.
 
 // Given an integer n, return true if n is a perfect number, otherwise return false.
@@ -4956,4 +4956,62 @@ int main(void)
   printf("%d", checkPerfectNumber(1));  // false
 }
 
-// Same as top voted
+// Same as top voted */
+
+// Fibonacci Number					11/16/2023
+
+// The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
+
+// F(0) = 0, F(1) = 1
+
+// F(n) = F(n - 1) + F(n - 2), for n > 1.
+
+// Given n, calculate F(n).
+
+// Example 1:
+// 		Input: n = 2
+// 		Output: 1
+// Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1.
+
+// Example 2:
+// 		Input: n = 3
+// 		Output: 2
+// Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2.
+
+// Example 3:
+// 		Input: n = 4
+// 		Output: 3
+// Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3.
+
+// Constraints:
+//		0 <= n <= 30
+
+int fib(int n)
+{
+  int f_0 = 0;
+  int f_1 = 1;
+
+  if (n == 0)
+    return f_0;
+
+  for (int i = 2; i < n; i++)
+  {
+    int temp = f_1;
+    f_1 = f_0 + f_1;
+    f_0 = temp;
+  }
+
+  return f_0 + f_1;
+}
+
+int main(void)
+{
+  printf("%d\n", fib(2)); // 1
+  printf("%d\n", fib(3)); // 2
+  printf("%d\n", fib(4)); // 3
+}
+
+int fib(int n)
+{
+  return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+}
