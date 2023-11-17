@@ -4959,7 +4959,7 @@ int main(void)
 // Same as top voted */
 
 // Fibonacci Number					11/16/2023
-
+/*
 // The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
 
 // F(0) = 0, F(1) = 1
@@ -5014,4 +5014,52 @@ int main(void)
 int topVotedFib(int n)
 {
   return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+}*/
+
+// Detect Capital					11/17/2023
+
+// We define the usage of capitals in a word to be right when one of the following cases holds:
+
+// All letters in this word are capitals, like "USA".
+
+// All letters in this word are not capitals, like "leetcode".
+
+// Only the first letter in this word is capital, like "Google".
+
+// Given a string word, return true if the usage of capitals in it is right.
+
+// Example 1:
+// 		Input: word = "USA"
+// 		Output: true
+
+// Example 2:
+// 		Input: word = "FlaG"
+// 		Output: false
+
+// Constraints:
+//		1 <= word.length <= 100
+//		word consists of lowercase and uppercase English letters.
+
+bool detectCapitalUse(char *word)
+{
+  int count = 0;
+  int len = strlen(word);
+  bool first = *word < 'a';
+
+  while (*word)
+  {
+    if (*word < 'a')
+      count++;
+    word++;
+  }
+
+  return count == 0 || (count == 1 && first) || count == len;
 }
+
+int main(void)
+{
+  printf("%d", detectCapitalUse("USA"));  // true
+  printf("%d", detectCapitalUse("FlaG")); // false
+}
+
+// Beats 100% Runtime
