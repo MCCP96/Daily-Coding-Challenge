@@ -5065,7 +5065,7 @@ int main(void)
 // Beats 100% Runtime */
 
 // Longest Uncommon Subsequence I					11/18/2023
-
+/*
 // Given two strings a and b, return the length of the longest uncommon subsequence between a and b. If the longest uncommon subsequence does not exist, return -1.
 
 // An uncommon subsequence between two strings is a string that is a subsequence of one but not the other.
@@ -5124,4 +5124,90 @@ int topVotedFindLUSlength(char *a, char *b)
     return -1;
   }
   return MAX(strlen(a), strlen(b));
+} */
+
+// Reverse String II					11/19/2023
+
+// Given a string s and an integer k, reverse the first k characters for every 2k characters counting from the start of the string.
+
+// If there are fewer than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and leave the other as original.
+
+// Example 1:
+// 		Input: s = "abcdefg", k = 2
+// 		Output: "bacdfeg"
+
+// Example 2:
+// 		Input: s = "abcd", k = 2
+// 		Output: "bacd"
+
+// Constraints:
+//		1 <= s.length <= 104
+//		s consists of only lowercase English letters.
+//		1 <= k <= 104
+
+char *reverseStr(char *s, int k)
+{
+  int len = strlen(s);
+  char *res = malloc(len * sizeof(char));
+  int count = 0;
+
+  for (int i = 0; i < len;)
+  {
+    if (count < k)
+    {
+      res[i + count] = s[i + (k - 1) - count];
+      count++;
+    }
+    else
+    {
+      i += k;
+      while (count > 0 && i < len)
+      {
+        res[i] = s[i];
+        i++;
+        count--;
+      }
+    }
+  }
+
+  return res;
 }
+
+int main(void)
+{
+  printf("%s\n", reverseStr("abcdefg", 2)); // "bacdfeg"
+  printf("%s\n", reverseStr("abcd", 2));    // "bacd"
+}
+
+// Runtime error
+
+void reverse_fn(char *s, int ind1, int ind2)
+{
+  for (int i = 0; i < ((ind2 - ind1 + 1) / 2); i++)
+  {
+    char temp = s[ind1 + i];
+    s[ind1 + i] = s[ind2 - i];
+    s[ind2 - i] = temp;
+  }
+}
+
+char *topVotedReverseStr(char *s, int k)
+{
+  int n, l, i;
+
+  l = strlen(s);
+  n = l / k;
+
+  for (i = 1; i <= n; i++)
+    if (i % 2 == 1)
+      reverse_fn(s, (i - 1) * k, i * k - 1);
+
+  if (l % k != 0)
+    if (n % 2 == 0)
+      reverse_fn(s, n * k, ((n * k) + (l % k) - 1));
+
+  return s;
+}
+
+// Final 'if' covers trailing chars to swap
+// Not of length k
