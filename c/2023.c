@@ -5213,7 +5213,7 @@ char *topVotedReverseStr(char *s, int k)
 // Not of length k */
 
 // Student Attendance Record I					11/20/2023
-
+/*
 // You are given a string s representing an attendance record for a student where each character signifies whether the student was absent, late, or present on that day. The record only contains the following three characters:
 
 // 'A': Absent.
@@ -5296,4 +5296,84 @@ bool topVotedCheckRecord(char *s)
   return true;
 }
 
-// same same
+// same same */
+
+// Reverse Words in a String III					11/21/2023
+
+// Given a string s, reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
+
+// Example 1:
+// 		Input: s = "Let's take LeetCode contest"
+// 		Output: "s'teL ekat edoCteeL tsetnoc"
+
+// Example 2:
+// 		Input: s = "God Ding"
+// 		Output: "doG gniD"
+
+// Constraints:
+//		1 <= s.length <= 5 * 104
+//		s contains printable ASCII characters.
+//		s does not contain any leading or trailing spaces.
+//		There is at least one word in s.
+//		All the words in s are separated by a single space.
+
+char *reverseWords(char *s)
+{
+  int sLen = strlen(s);
+  int l = 0;
+
+  for (int i = 0; i <= sLen; i++)
+  {
+    if (s[i] == ' ' || s[i] == '\0')
+    {
+      int r = i - 1;
+      while (l < r)
+      {
+        char temp = s[l];
+        s[l++] = s[r];
+        s[r--] = temp;
+      }
+      l = i + 1;
+    }
+  }
+
+  return s;
+}
+
+int main(void)
+{
+  printf("%s", reverseWords("Let's take LeetCode contest")); // "s'teL ekat edoCteeL tsetnoc"
+  printf("%s", reverseWords("God Ding"));                    // "doG gniD"
+}
+
+// Getting segmentation fault trying to change chars here
+// Works on Leetcode
+
+void reverse(int b, int e, char *s)
+{
+  while (b < e)
+  {
+    s[b] = s[b] ^ s[e];
+    s[e] = s[b] ^ s[e];
+    s[b] = s[b] ^ s[e];
+    b++;
+    e--;
+  }
+}
+
+char *topVotedReverseWords(char *s)
+{
+  int i, s_len = strlen(s), index = 0;
+
+  for (i = 0; i <= s_len; i++)
+  {
+    if ((s[i] == ' ') || (s[i] == '\0'))
+    {
+      reverse(index, i - 1, s);
+      index = i + 1;
+    }
+  }
+  return s;
+}
+
+// That reverse!
