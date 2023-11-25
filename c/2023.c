@@ -5486,7 +5486,7 @@ int main(void)
 // same as top voted */
 
 // Binary Tree Tilt					11/24/2023
-
+/*
 // Given the root of a binary tree, return the sum of every tree node's tilt.
 
 // The tilt of a tree node is the absolute difference between the sum of all left subtree node values and all right subtree node values. If a node does not have a left child, then the sum of the left subtree node values is treated as 0. The rule is similar if the node does not have a right child.
@@ -5566,4 +5566,60 @@ int findTilt(struct TreeNode *root)
   int res = 0;
   explore(root, &res);
   return res;
+} */
+
+// Distribute Candies					11/25/2023
+
+// Alice has n candies, where the ith candy is of type candyType[i]. Alice noticed that she started to gain weight, so she visited a doctor.
+
+// The doctor advised Alice to only eat n / 2 of the candies she has (n is always even). Alice likes her candies very much, and she wants to eat the maximum number of different types of candies while still following the doctor's advice.
+
+// Given the integer array candyType of length n, return the maximum number of different types of candies she can eat if she only eats n / 2 of them.
+
+// Example 1:
+// 		Input: candyType = [1,1,2,2,3,3]
+// 		Output: 3
+// Explanation: Alice can only eat 6 / 2 = 3 candies. Since there are only 3 types, she can eat one of each type.
+
+// Example 2:
+// 		Input: candyType = [1,1,2,3]
+// 		Output: 2
+// Explanation: Alice can only eat 4 / 2 = 2 candies. Whether she eats types [1,2], [1,3], or [2,3], she still can only eat 2 different types.
+
+// Example 3:
+// 		Input: candyType = [6,6,6,6]
+// 		Output: 1
+// Explanation: Alice can only eat 4 / 2 = 2 candies. Even though she can eat 2 candies, she only has 1 type.
+
+// Constraints:
+//		n == candyType.length
+//		2 <= n <= 104
+//		n is even.
+//		-105 <= candyType[i] <= 105
+
+int inc(const void *a, const void *b)
+{
+  return *(int *)a - *(int *)b;
 }
+
+int distributeCandies(int *candyType, int candyTypeSize)
+{
+  qsort(candyType, candyTypeSize, sizeof(int), inc);
+
+  int types = 1;
+  for (int i = 1; i < candyTypeSize; i++)
+    if (candyType[i] != candyType[i - 1])
+      types++;
+
+  int allowed = candyTypeSize / 2;
+  return types > allowed ? allowed : types;
+}
+
+int main(void)
+{
+  printf("%d", distributeCandies((int[]){1, 1, 2, 2, 3, 3}, 6)); // 3
+  printf("%d", distributeCandies((int[]){1, 1, 2, 3}, 4));       // 2
+  printf("%d", distributeCandies((int[]){6, 6, 6, 6}, 4));       // 1
+}
+
+// same as top voted
