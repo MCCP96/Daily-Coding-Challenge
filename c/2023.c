@@ -5569,7 +5569,7 @@ int findTilt(struct TreeNode *root)
 } */
 
 // Distribute Candies					11/25/2023
-
+/*
 // Alice has n candies, where the ith candy is of type candyType[i]. Alice noticed that she started to gain weight, so she visited a doctor.
 
 // The doctor advised Alice to only eat n / 2 of the candies she has (n is always even). Alice likes her candies very much, and she wants to eat the maximum number of different types of candies while still following the doctor's advice.
@@ -5622,4 +5622,71 @@ int main(void)
   printf("%d", distributeCandies((int[]){6, 6, 6, 6}, 4));       // 1
 }
 
-// same as top voted
+// same as top voted */
+
+// Subtree of Another Tree					11/26/2023
+
+// Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
+
+// A subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.
+
+// Example 1:
+// 		Input: root = [3,4,5,1,2], subRoot = [4,1,2]
+// 		Output: true
+
+// Example 2:
+// 		Input: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
+// 		Output: false
+
+// Constraints:
+//		The number of nodes in the root tree is in the range [1, 2000].
+//		The number of nodes in the subRoot tree is in the range [1, 1000].
+//		-104 <= root.val <= 104
+//		-104 <= subRoot.val <= 104
+
+struct TreeNode
+{
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+};
+
+bool equals(struct TreeNode *s, struct TreeNode *t)
+{
+  if (s == NULL && t == NULL)
+    return true;
+  else if (s == NULL || t == NULL)
+    return false;
+
+  return (s->val == t->val) && equals(s->right, t->right) && equals(s->left, t->left);
+}
+
+bool topVotedIsSubtree(struct TreeNode *s, struct TreeNode *t)
+{
+  if (s == NULL && t == NULL)
+    return true;
+
+  return s != NULL && (equals(s, t) || topVotedIsSubtree(s->left, t) || topVotedIsSubtree(s->right, t));
+}
+
+// Looked at top voted
+
+bool compare(struct TreeNode *a, struct TreeNode *b)
+{
+  if (a == NULL && b == NULL)
+    return true;
+  else if (a == NULL || b == NULL)
+    return false;
+
+  return (a->val == b->val) && compare(a->left, b->left) && compare(a->right, b->right);
+}
+
+bool isSubtree(struct TreeNode *root, struct TreeNode *subRoot)
+{
+  if (root == NULL && subRoot == NULL)
+    return true;
+
+  return root != NULL && (compare(root, subRoot) || isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot));
+}
+
+// Makes sense
