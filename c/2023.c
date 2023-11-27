@@ -5625,7 +5625,7 @@ int main(void)
 // same as top voted */
 
 // Subtree of Another Tree					11/26/2023
-
+/*
 // Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
 
 // A subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.
@@ -5689,4 +5689,119 @@ bool isSubtree(struct TreeNode *root, struct TreeNode *subRoot)
   return root != NULL && (compare(root, subRoot) || isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot));
 }
 
-// Makes sense
+// Makes sense */
+
+// Longest Harmonious Subsequence					11/27/2023
+
+// We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.
+
+// Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
+
+// A subsequence of array is a sequence that can be derived from the array by deleting some or no elements without changing the order of the remaining elements.
+
+// Example 1:
+// 		Input: nums = [1,3,2,2,5,2,3,7]
+// 		Output: 5
+// Explanation: The longest harmonious subsequence is [3,2,2,2,3].
+
+// Example 2:
+// 		Input: nums = [1,2,3,4]
+// 		Output: 2
+
+// Example 3:
+// 		Input: nums = [1,1,1,1]
+// 		Output: 0
+
+// Constraints:
+//		1 <= nums.length <= 2 * 104
+//		-10^9 <= nums[i] <= 10^9
+
+int findLHS(int *nums, int numsSize)
+{
+  int max = 0;
+  for (int i = 0; i < numsSize; i++)
+  {
+    bool allSame = true;
+    int less = 0, more = 0;
+
+    for (int j = 0; j < numsSize; j++)
+      if (abs(nums[i] - nums[j]) <= 1)
+      {
+        if (nums[i] != nums[j])
+          allSame = false;
+        nums[j] < nums[i] ? less++ : more++;
+      }
+
+    if (!allSame && (less > max || more > max))
+      max = fmax(less, more);
+  }
+  return max;
+}
+
+// Exceeds runtime
+
+int cmp(const void *a, const void *b)
+{
+  return *(int *)a - *(int *)b;
+}
+
+int timso(int *nums, int n, int a, int b)
+{
+  int c = 0;
+  for (int i = 0; i < n; i++)
+  {
+    if (nums[i] == a || nums[i] == b)
+      c++;
+  }
+  return c;
+}
+
+int topVotedFindLHS(int *nums, int n)
+{
+  int c = 0, max = 0;
+  qsort(nums, n, sizeof(int), cmp);
+
+  for (int i = 0; i < n - 1; i++)
+  {
+    if (nums[i + 1] - nums[i] == 1)
+    {
+      int count = timso(nums, n, nums[i + 1], nums[i]);
+      if (count > max)
+        max = count;
+    }
+  }
+
+  return max;
+}
+
+// Thought about going the sort way
+
+int revisedFindLHS(int *nums, int numsSize)
+{
+  int max = 0;
+  qsort(nums, numsSize, sizeof(int), cmp);
+
+  for (int i = 1; i < numsSize; i++)
+  {
+    if (nums[i] - nums[i - 1] == 1)
+    {
+      int count = 0;
+
+      for (int j = 0; j < numsSize; j++)
+        if (nums[j] == nums[i] || nums[j] == nums[i - 1])
+          count++;
+
+      max = fmax(max, count);
+    }
+  }
+  return max;
+}
+
+int main(void)
+{
+  printf("%d", revisedFindLHS((int[]){1, 3, 2, 2, 5, 2, 3, 7}, 8)); // 5
+  printf("%d", revisedFindLHS((int[]){1, 2, 3, 4}, 4));             // 2
+  printf("%d", revisedFindLHS((int[]){1, 1, 1, 1}, 4));             // 0
+}
+
+// Not great runtime
