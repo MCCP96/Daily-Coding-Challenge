@@ -5807,7 +5807,7 @@ int main(void)
 // Not great runtime */
 
 // Range Addition II					11/28/2023
-
+/*
 // You are given an m x n matrix M initialized with all 0's and an array of operations ops, where ops[i] = [ai, bi] means M[x][y] should be incremented by one for all 0 <= x < ai and 0 <= y < bi.
 
 // Count and return the number of maximum integers in the matrix after performing all the operations.
@@ -5841,6 +5841,49 @@ int maxCount(int m, int n, int **ops, int opsSize, int *opsColSize)
     col = fmin(col, ops[opsSize][1]);
   }
   return row * col;
+}
+
+// same as top voted */
+
+// Can Place Flowers					11/29/2023
+
+// You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+
+// Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
+
+// Example 1:
+// 		Input: flowerbed = [1,0,0,0,1], n = 1
+// 		Output: true
+
+// Example 2:
+// 		Input: flowerbed = [1,0,0,0,1], n = 2
+// 		Output: false
+
+// Constraints:
+//		1 <= flowerbed.length <= 2 * 104
+//		flowerbed[i] is 0 or 1.
+//		There are no two adjacent flowers in flowerbed.
+//		0 <= n <= flowerbed.length
+
+bool canPlaceFlowers(int *flowerbed, int flowerbedSize, int n)
+{
+  for (int i = 0; i < flowerbedSize; i++)
+  {
+    if ((i == 0 || flowerbed[i - 1] == 0) && flowerbed[i] == 0 && (i == flowerbedSize - 1 || flowerbed[i + 1] == 0))
+    {
+      n--;
+      flowerbed[i] = 1;
+    }
+    if (n <= 0)
+      break;
+  }
+  return n <= 0;
+}
+
+int main(void)
+{
+  printf("%d", canPlaceFlowers((int[]){1, 0, 0, 0, 1}, 5, 1)); // true
+  printf("%d", canPlaceFlowers((int[]){1, 0, 0, 0, 1}, 5, 2)); // false
 }
 
 // same as top voted
