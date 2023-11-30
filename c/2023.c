@@ -5846,7 +5846,7 @@ int maxCount(int m, int n, int **ops, int opsSize, int *opsColSize)
 // same as top voted */
 
 // Can Place Flowers					11/29/2023
-
+/*
 // You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
 
 // Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
@@ -5886,4 +5886,57 @@ int main(void)
   printf("%d", canPlaceFlowers((int[]){1, 0, 0, 0, 1}, 5, 2)); // false
 }
 
-// same as top voted
+// same as top voted */
+
+// Merge Two Binary Trees					11/30/2023
+
+// You are given two binary trees root1 and root2.
+
+// Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.
+
+// Return the merged tree.
+
+// Note: The merging process must start from the root nodes of both trees.
+
+// Example 1:
+// 		Input: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
+// 		Output: [3,4,5,5,4,null,7]
+
+// Example 2:
+// 		Input: root1 = [1], root2 = [1,2]
+// 		Output: [2,2]
+
+// Constraints:
+//		The number of nodes in both trees is in the range [0, 2000].
+//		-104 <= Node.val <= 104
+
+struct TreeNode
+{
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+};
+
+struct TreeNode *topVotedMergeTrees(struct TreeNode *t1, struct TreeNode *t2)
+{
+  if (!t1)
+    return t2;
+  if (!t2)
+    return t1;
+  t1->val += t2->val;
+  t1->left = topVotedMergeTrees(t1->left, t2->left);
+  t1->right = topVotedMergeTrees(t1->right, t2->right);
+  return t1;
+}
+
+struct TreeNode *revisedMergeTrees(struct TreeNode *r1, struct TreeNode *r2)
+{
+  if (!r1)
+    return r2;
+  if (!r2)
+    return r1;
+  r1->val += r2->val;
+  r1->left = revisedMergeTrees(r1->left, r2->left);
+  r1->right = revisedMergeTrees(r1->right, r2->right);
+  return r1;
+}
