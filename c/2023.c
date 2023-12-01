@@ -5889,7 +5889,7 @@ int main(void)
 // same as top voted */
 
 // Merge Two Binary Trees					11/30/2023
-
+/*
 // You are given two binary trees root1 and root2.
 
 // Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.
@@ -5939,4 +5939,46 @@ struct TreeNode *revisedMergeTrees(struct TreeNode *r1, struct TreeNode *r2)
   r1->left = revisedMergeTrees(r1->left, r2->left);
   r1->right = revisedMergeTrees(r1->right, r2->right);
   return r1;
+} */
+
+// Maximum Product of Three Numbers					12/1/2023
+
+// Given an integer array nums, find three numbers whose product is maximum and return the maximum product.
+
+// Example 1:
+// 		Input: nums = [1,2,3]
+// 		Output: 6
+
+// Example 2:
+// 		Input: nums = [1,2,3,4]
+// 		Output: 24
+
+// Example 3:
+// 		Input: nums = [-1,-2,-3]
+// 		Output: -6
+
+// Constraints:
+//		3 <= nums.length <= 104
+//		-1000 <= nums[i] <= 1000
+
+int cmp(const void *a, const void *b)
+{
+  return *(int *)a - *(int *)b;
+}
+
+int maximumProduct(int *nums, int numsSize)
+{
+  qsort(nums, numsSize, sizeof(int), cmp);
+
+  int neg = nums[0] * nums[1] * nums[numsSize - 1];                       // 2 negatives
+  int max = nums[numsSize - 3] * nums[numsSize - 2] * nums[numsSize - 1]; // 3 largest
+
+  return fmax(neg, max);
+}
+
+int main(void)
+{
+  printf("%d\n", maximumProduct((int[]){1, 2, 3}, 3));    // 6
+  printf("%d\n", maximumProduct((int[]){1, 2, 3, 4}, 4)); // 24
+  printf("%d\n", maximumProduct((int[]){-1, -2, -3}, 3)); // -6
 }
