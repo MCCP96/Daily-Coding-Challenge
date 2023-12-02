@@ -5942,7 +5942,7 @@ struct TreeNode *revisedMergeTrees(struct TreeNode *r1, struct TreeNode *r2)
 } */
 
 // Maximum Product of Three Numbers					12/1/2023
-
+/*
 // Given an integer array nums, find three numbers whose product is maximum and return the maximum product.
 
 // Example 1:
@@ -5981,4 +5981,112 @@ int main(void)
   printf("%d\n", maximumProduct((int[]){1, 2, 3}, 3));    // 6
   printf("%d\n", maximumProduct((int[]){1, 2, 3, 4}, 4)); // 24
   printf("%d\n", maximumProduct((int[]){-1, -2, -3}, 3)); // -6
+} */
+
+// Average of Levels in Binary Tree					12/2/2023
+
+// Given the root of a binary tree, return the average value of the nodes on each level in the form of an array. Answers within 10-5 of the actual answer will be accepted.
+
+// Example 1:
+// 		Input: root = [3,9,20,null,null,15,7]
+// 		Output: [3.00000,14.50000,11.00000]
+// Explanation: The average value of nodes on level 0 is 3, on level 1 is 14.5, and on level 2 is 11.
+// 		Hence return [3, 14.5, 11].
+
+// Example 2:
+// 		Input: root = [3,9,20,15,7]
+// 		Output: [3.00000,14.50000,11.00000]
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 104].
+//		-2^31 <= Node.val <= 2^31 - 1
+
+struct TreeNode
+{
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+};
+
+void explore(struct TreeNode *node, int depth, double *res, int *numEls)
+{
+  if (node == NULL)
+    return;
+
+  res[depth] += node->val;
+  numEls[depth]++;
+
+  explore(node->left, depth + 1, res, numEls);
+  explore(node->right, depth + 1, res, numEls);
+}
+
+double *averageOfLevels(struct TreeNode *root, int *returnSize)
+{
+  double *acc = malloc(10 ^ 4 * sizeof(double));
+  int *numEls = malloc(10 ^ 4 * sizeof(int));
+
+  explore(root, 0, acc, numEls);
+
+  double *res = acc;
+  for (int i = 0; *(acc++); i++)
+    res[i] /= numEls[i];
+
+  return res;
+}
+
+// Runtime Error, but logic is there
+
+int height(struct TreeNode *root)
+{
+  if (root == NULL)
+    return 0;
+  else
+  {
+    int lheight = height(root->left);
+    int rheight = height(root->right);
+
+    if (lheight > rheight)
+      return (lheight + 1);
+    else
+      return (rheight + 1);
+  }
+}
+
+long long sumCurrentLevel(struct TreeNode *root, int level, int *count)
+{
+  if (root == NULL)
+    return 0;
+
+  long long sum = 0;
+  if (level == 1)
+  {
+    sum = root->val;
+    (*count)++;
+  }
+  else if (level > 1)
+  {
+    sum += sumCurrentLevel(root->left, level - 1, count);
+    sum += sumCurrentLevel(root->right, level - 1, count);
+  }
+
+  return sum;
+}
+
+double *topVotedAverageOfLevels(struct TreeNode *root, int *returnSize)
+{
+  int i, h = height(root), count;
+  double *ans = (double *)malloc(sizeof(double) * h);
+  long long sum;
+
+  *returnSize = h;
+
+  for (i = 1; i <= h; i++)
+  {
+    count = 0;
+    sum = sumCurrentLevel(root, i, &count);
+    // printf("sum : %d count : %d\n", sum, count);
+    ans[i - 1] = ((double)sum / (double)count);
+  }
+
+  return ans;
 }
