@@ -6092,7 +6092,7 @@ double *topVotedAverageOfLevels(struct TreeNode *root, int *returnSize)
 } */
 
 // Maximum Average Subarray I					12/3/2023
-
+/*
 // You are given an integer array nums consisting of n elements, and an integer k.
 
 // Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.
@@ -6135,4 +6135,85 @@ int main(void)
 }
 
 // Sliding window
-// Same as top voted
+// Same as top voted */
+
+// Set Mismatch					12/4/2023
+
+// You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
+
+// You are given an integer array nums representing the data status of this set after the error.
+
+// Find the number that occurs twice and the number that is missing and return them in the form of an array.
+
+// Example 1:
+// 		Input: nums = [1,2,2,4]
+// 		Output: [2,3]
+
+// Example 2:
+// 		Input: nums = [1,1]
+// 		Output: [1,2]
+
+// Constraints:
+//		2 <= nums.length <= 104
+//		1 <= nums[i] <= 104
+
+int *findErrorNums(int *nums, int numsSize, int *returnSize)
+{
+  int original[numsSize];
+  for (int i = 1; i <= numsSize; i++)
+    original[i - 1] = i;
+
+  *returnSize = 2;
+  int *res = malloc(*returnSize * sizeof(int));
+  for (int i = 0; i < numsSize; i++)
+  {
+    if (original[nums[i] - 1] > 0)
+      original[nums[i] - 1] = -1;
+    else
+      res[0] = nums[i];
+  }
+
+  for (int i = 0; i < numsSize; i++)
+    if (original[i] != -1)
+    {
+      res[1] = original[i];
+      break;
+    }
+
+  return res;
+}
+
+int main(void)
+{
+  int ret = 2;
+  findErrorNums((int[]){1, 2, 2, 4}, 4, &ret); // [2,3]
+  findErrorNums((int[]){1, 1}, 2, &ret);       // [1,2]
+}
+
+// O(3n) == O(n)
+
+int *topVotedFindErrorNums(int *nums, int numsSize, int *returnSize)
+{
+  *returnSize = 2;
+  int *a = malloc(sizeof(int) * (*returnSize));
+  int count[10000] = {0}, i;
+
+  for (i = 0; i < numsSize; i++)
+    count[nums[i] - 1]++;
+
+  for (i = 0; i < numsSize; i++)
+  {
+    if (count[i] == 2)
+      a[0] = i + 1;
+    if (count[i] == 0)
+      a[1] = i + 1;
+  }
+
+  return a;
+}
+
+// Riiiiight
+
+// Day 900, that's 2.5 years of coding daily!
+// C has been a pain, but made me realize how nice javascript is.
+// I think I'll be doing java next semester :)
