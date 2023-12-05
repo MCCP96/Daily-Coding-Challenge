@@ -6138,7 +6138,7 @@ int main(void)
 // Same as top voted */
 
 // Set Mismatch					12/4/2023
-
+/*
 // You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
 
 // You are given an integer array nums representing the data status of this set after the error.
@@ -6216,4 +6216,100 @@ int *topVotedFindErrorNums(int *nums, int numsSize, int *returnSize)
 
 // Day 900, that's 2.5 years of coding daily!
 // C has been a pain, but made me realize how nice javascript is.
-// I think I'll be doing java next semester :)
+// I think I'll be doing java next semester :) */
+
+// Two Sum IV - Input is a BST					12/5/2023
+
+// Given the root of a binary search tree and an integer k, return true if there exist two elements in the BST such that their sum is equal to k, or false otherwise.
+
+// Example 1:
+// 		Input: root = [5,3,6,2,4,null,7], k = 9
+// 		Output: true
+
+// Example 2:
+// 		Input: root = [5,3,6,2,4,null,7], k = 28
+// 		Output: false
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 104].
+//		-104 <= Node.val <= 104
+//		root is guaranteed to be a valid binary search tree.
+//		-105 <= k <= 105
+
+struct TreeNode
+{
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+};
+
+typedef struct node
+{
+  int val;
+  struct node *next;
+} node_t;
+
+bool explore(struct TreeNode *node, node_t *t, int k)
+{
+  if (node == NULL)
+    return false;
+
+  node_t *head = t;
+  for (; t != NULL; t = t->next)
+    if (node->val == t->val)
+      return true;
+
+  node_t *new_t = malloc(sizeof(node_t));
+  new_t->val = k - node->val;
+  t->next = new_t;
+
+  return explore(node->left, head, k) || explore(node->left, head, k);
+}
+
+bool findTarget(struct TreeNode *root, int k)
+{
+  node_t *targets = malloc(sizeof(node_t));
+  targets->val = k - root->val;
+  return explore(root->left, targets, k) || explore(root->right, targets, k);
+}
+
+// tried to implement linked list
+
+int num, i;
+int arr[10000];
+
+void inorder(struct TreeNode *root)
+{
+  if (root != NULL)
+  {
+    inorder(root->left);
+    arr[i++] = root->val;
+    // printf("%d-",root->val);
+    inorder(root->right);
+  }
+}
+
+bool find(int k)
+{
+  int l = 0, r = num - 1;
+  while (l < r)
+  {
+    if (arr[l] + arr[r] == k)
+      return true;
+    else if (arr[l] + arr[r] > k)
+      r--;
+    else
+      l++;
+  }
+  return false;
+}
+
+bool topVotedFindTarget(struct TreeNode *root, int k)
+{
+  i = 0;
+  inorder(root);
+  num = i;
+  return find(k);
+}
+
+// keep it simple
