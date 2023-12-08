@@ -6365,7 +6365,7 @@ int main(void)
 // same as top voted */
 
 // Longest Continuous Increasing Subsequence					12/7/2023
-
+/*
 // Given an unsorted array of integers nums, return the length of the longest continuous increasing subsequence (i.e. subarray). The subsequence must be strictly increasing.
 
 // A continuous increasing subsequence is defined by two indices l and r (l < r) such that it is [nums[l], nums[l + 1], ..., nums[r - 1], nums[r]] and for each l <= i < r, nums[i] < nums[i + 1].
@@ -6402,4 +6402,118 @@ int main(void)
   printf("%d\n", findLengthOfLCIS((int[]){2, 2, 2, 2, 2}, 5)); // 1
 }
 
-// same logic as top voted
+// same logic as top voted */
+
+// Valid Palindrome II					12/8/2023
+
+// Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+
+// Example 1:
+// 		Input: s = "aba"
+// 		Output: true
+
+// Example 2:
+// 		Input: s = "abca"
+// 		Output: true
+// Explanation: You could delete the character 'c'.
+
+// Example 3:
+// 		Input: s = "abc"
+// 		Output: false
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s consists of lowercase English letters.
+
+bool test_removal(char *s, int l, int r)
+{
+  while (l < r)
+    if (s[l++] != s[r--])
+      return false;
+  return true;
+}
+
+bool validPalindrome(char *s)
+{
+  int l = 0, r = strlen(s) - 1;
+
+  while (l < r)
+  {
+    if (s[l] != s[r])
+    {
+      bool rem_l = false, rem_r = false;
+
+      if (s[l + 1] == s[r])
+        rem_l = test_removal(s, l + 1, r);
+      if (s[l] == s[r - 1])
+        rem_r = test_removal(s, l, r - 1);
+
+      return rem_l || rem_r;
+    }
+    l++;
+    r--;
+  }
+
+  return true;
+}
+
+int main(void)
+{
+  printf("%d", validPalindrome("aba"));          // true
+  printf("%d", validPalindrome("abca"));         // true
+  printf("%d", validPalindrome("abc"));          // false
+  printf("%d", validPalindrome("acxcybycxcxa")); // true
+}
+
+// could add another variable to allow for more than 1 char removal
+
+bool isPalindrom(char *left, char *right)
+{
+  while (left < right)
+  {
+    if (*left++ != *right--)
+      return false;
+  }
+
+  return true;
+}
+
+bool topVotedValidPalindrome(char *s)
+{
+  char *left = s;
+  char *right = s + strlen(s) - 1;
+
+  while (left < right)
+  {
+    if (*left == *right)
+    {
+      left++;
+      right--;
+    }
+    else
+    {
+      return isPalindrom(left + 1, right) || isPalindrom(left, right - 1);
+    }
+  }
+
+  return true;
+}
+
+// same logic
+
+bool RevisedValidPalindrome(char *s)
+{
+  int l = 0, r = strlen(s) - 1;
+
+  while (l < r)
+  {
+    if (s[l] != s[r])
+      return test_removal(s, l + 1, r) || test_removal(s, l, r - 1);
+    l++;
+    r--;
+  }
+
+  return true;
+}
+
+// Much faster
