@@ -6405,7 +6405,7 @@ int main(void)
 // same logic as top voted */
 
 // Valid Palindrome II					12/8/2023
-
+/*
 // Given a string s, return true if the s can be palindrome after deleting at most one character from it.
 
 // Example 1:
@@ -6516,4 +6516,105 @@ bool RevisedValidPalindrome(char *s)
   return true;
 }
 
-// Much faster
+// Much faster */
+
+// Degree of an Array					12/9/2023
+
+// Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
+
+// Your task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.
+
+// Example 1:
+// 		Input: nums = [1,2,2,3,1]
+// 		Output: 2
+// Explanation:
+// 		The input array has a degree of 2 because both elements 1 and 2 appear twice.
+// 		Of the subarrays that have the same degree:
+// 		[1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]
+// 		The shortest length is 2. So return 2.
+
+// Example 2:
+// 		Input: nums = [1,2,2,3,1,4,2]
+// 		Output: 6
+// Explanation:
+// 		The degree is 3 because the element 2 is repeated 3 times.
+// 		So [2,2,3,1,4,2] is the shortest subarray, therefore returning 6.
+
+// Constraints:
+//		nums.length will be between 1 and 50,000.
+//		nums[i] will be an integer between 0 and 49,999.
+
+int findShortestSubArray(int *nums, int numsSize)
+{
+  int max_deg = 1, min_len = 1;
+  for (int i = 0; i < numsSize; i++)
+  {
+    if (nums[i] == -1) // avoid repeat counting
+      continue;
+
+    int deg = 1, len = 1;
+    for (int j = i + 1; j < numsSize; j++)
+    {
+      if (nums[i] == nums[j])
+      {
+        deg++;
+        len = j - i + 1;
+        nums[j] = -1;
+      }
+    }
+
+    if (deg > max_deg)
+    {
+      max_deg = deg;
+      min_len = len;
+    }
+    else if (deg == max_deg && min_len > len)
+      min_len = len;
+  }
+  return min_len;
+}
+
+int main(void)
+{
+  printf("%d\n", findShortestSubArray((int[]){1, 2, 2, 3, 1}, 5));       // 2
+  printf("%d\n", findShortestSubArray((int[]){1, 2, 2, 3, 1, 4, 2}, 7)); // 6
+}
+
+// Ça marche
+
+int topVotedFindShortestSubArray(int *nums, int numsSize)
+{
+  int freq[50000], beg[50000], end[50000];
+  memset(freq, 0, sizeof(freq));
+
+  int n = numsSize;
+  for (int i = 0; i < n; i++)
+  {
+    if (freq[nums[i]] == 0)
+    {
+      beg[nums[i]] = i;
+    }
+    end[nums[i]] = i;
+    freq[nums[i]]++;
+  }
+
+  int ans = INT_MAX;
+  int max_freq = 0;
+
+  for (int i = 0; i < n; i++)
+    if (max_freq < freq[nums[i]])
+      max_freq = freq[nums[i]];
+
+  for (int i = 0; i < n; i++)
+    if (freq[nums[i]] == max_freq)
+      if (ans > end[nums[i]] - beg[nums[i]] + 1)
+        ans = end[nums[i]] - beg[nums[i]] + 1;
+
+  return ans;
+}
+
+// I was wondering if arr[50000] was the right approach
+
+// "The C library function void *memset(void *str, int c, size_t n) copies the character c (an unsigned char) to the first n characters of the string pointed to, by the argument str."
+
+// Good way to initialize 50000 zeros
