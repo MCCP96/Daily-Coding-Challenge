@@ -6519,7 +6519,7 @@ bool RevisedValidPalindrome(char *s)
 // Much faster */
 
 // Degree of an Array					12/9/2023
-
+/*
 // Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
 
 // Your task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.
@@ -6617,4 +6617,69 @@ int topVotedFindShortestSubArray(int *nums, int numsSize)
 
 // "The C library function void *memset(void *str, int c, size_t n) copies the character c (an unsigned char) to the first n characters of the string pointed to, by the argument str."
 
-// Good way to initialize 50000 zeros
+// Good way to initialize 50000 zeros */
+
+// Search in a Binary Search Tree					12/10/2023
+
+// You are given the root of a binary search tree (BST) and an integer val.
+
+// Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+
+// Example 1:
+// 		Input: root = [4,2,7,1,3], val = 2
+// 		Output: [2,1,3]
+
+// Example 2:
+// 		Input: root = [4,2,7,1,3], val = 5
+// 		Output: []
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 5000].
+//		1 <= Node.val <= 107
+//		root is a binary search tree.
+//		1 <= val <= 107
+
+struct TreeNode
+{
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+};
+
+struct TreeNode *searchBST(struct TreeNode *root, int val)
+{
+  if (root == NULL || root->val == val)
+    return root;
+
+  struct TreeNode *left = searchBST(root->left, val);
+  if (left != NULL)
+    return left;
+
+  return searchBST(root->right, val);
+}
+
+// First time doing a binary tree question where I get it right away :)
+
+struct TreeNode *topVotedSearchBST(struct TreeNode *root, int val)
+{
+  if (!root)
+    return NULL;
+  if (root->val == val)
+    return root;
+  if (val < root->val)
+    return searchBST(root->left, val);
+  else
+    return searchBST(root->right, val);
+}
+
+// Ah, BSTs left elements are smaller than their right
+
+struct TreeNode *revisedSearchBST(struct TreeNode *root, int val)
+{
+  if (root == NULL || root->val == val)
+    return root;
+
+  return root->val > val ? searchBST(root->left, val) : searchBST(root->right, val);
+}
+
+// Somehow much slower than my initial solution
