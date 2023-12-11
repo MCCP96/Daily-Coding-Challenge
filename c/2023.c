@@ -5,6 +5,7 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 
 // Hello World					9/16/2023
 /*
@@ -6620,7 +6621,7 @@ int topVotedFindShortestSubArray(int *nums, int numsSize)
 // Good way to initialize 50000 zeros */
 
 // Search in a Binary Search Tree					12/10/2023
-
+/*
 // You are given the root of a binary search tree (BST) and an integer val.
 
 // Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
@@ -6682,4 +6683,224 @@ struct TreeNode *revisedSearchBST(struct TreeNode *root, int val)
   return root->val > val ? searchBST(root->left, val) : searchBST(root->right, val);
 }
 
-// Somehow much slower than my initial solution
+// Somehow much slower than my initial solution */
+
+// Kth Largest Element in a Stream					12/11/2023
+
+// Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+// Implement KthLargest class:
+
+// KthLargest(int k, int[] nums) Initializes the object with the integer k and the stream of integers nums.
+
+// int add(int val) Appends the integer val to the stream and returns the element representing the kth largest element in the stream.
+
+// Example 1:
+// 		Input
+// 		["KthLargest", "add", "add", "add", "add", "add"]
+// 		[[3, [4, 5, 8, 2]], [3], [5], [10], [9], [4]]
+// 		Output
+// 		[null, 4, 5, 5, 8, 8]
+// 		Explanation
+// 		KthLargest kthLargest = new KthLargest(3, [4, 5, 8, 2]);
+// 		kthLargest.add(3);   // return 4
+// 		kthLargest.add(5);   // return 5
+// 		kthLargest.add(10);  // return 5
+// 		kthLargest.add(9);   // return 8
+// 		kthLargest.add(4);   // return 8
+
+// Constraints:
+//		1 <= k <= 104
+//		0 <= nums.length <= 104
+//		-104 <= nums[i] <= 104
+//		-104 <= val <= 104
+//		At most 104 calls will be made to add.
+//		It is guaranteed that there will be at least k elements in the array when you search for the kth element.
+
+typedef struct
+{
+  int k;
+  int *nums;
+  int numsSize;
+} KthLargest;
+
+KthLargest *kthLargestCreate(int k, int *nums, int numsSize)
+{
+  KthLargest *new_kthLargest = malloc(sizeof(KthLargest));
+  assert(new_kthLargest != NULL);
+
+  new_kthLargest->k = k;
+  new_kthLargest->numsSize = numsSize;
+  new_kthLargest->nums = nums;
+
+  return new_kthLargest;
+}
+
+int dec(const void *a, const void *b)
+{
+  return *(int *)b - *(int *)a;
+}
+
+int kthLargestAdd(KthLargest *obj, int val)
+{
+  int *new_nums = malloc((obj->numsSize + 1) * sizeof(int));
+  assert(new_nums != NULL);
+
+  for (int i = 0; i < obj->numsSize; i++)
+    new_nums[i] = obj->nums[i];
+  new_nums[obj->numsSize] = val;
+
+  qsort(new_nums, sizeof(new_nums), sizeof(int), dec);
+  obj->numsSize++;
+  obj->nums = new_nums;
+
+  return new_nums[obj->k - 1];
+}
+
+void kthLargestFree(KthLargest *obj)
+{
+  free(obj);
+}
+
+int main(void)
+{
+  KthLargest *kthLargest = kthLargestCreate(3, (int[]){4, 5, 8, 2}, 4);
+  printf("%d\n", kthLargestAdd(kthLargest, 3));  // 4
+  printf("%d\n", kthLargestAdd(kthLargest, 5));  // 5
+  printf("%d\n", kthLargestAdd(kthLargest, 10)); // 5
+  printf("%d\n", kthLargestAdd(kthLargest, 9));  // 8
+  printf("%d\n", kthLargestAdd(kthLargest, 4));  // 8
+}
+
+// Could improve runtime by sorting them once and working off that for following iterations
+
+/// Swap two objects by swapping each of their bytes.
+static inline void swap(char *a, char *b, size_t size)
+{
+  do
+  {
+    char tmp = *a;
+    *(a++) = *b;
+    *(b++) = tmp;
+  } while (--size > 0);
+}
+
+/// Take an (otherwise valid) heap where the last element may be out of
+/// order and restore the heap property.
+void heap_sift_up(void *base, size_t nmemb, size_t size,
+                  int (*cmp)(const void *, const void *))
+{
+  assert(!nmemb || (base && size && cmp));
+  if (nmemb)
+    for (size_t child_idx = nmemb - 1; child_idx;)
+    {
+      size_t parent_idx = (child_idx + 1) / 2 - 1;
+      void *parent = (char *)base + parent_idx * size;
+      void *child = (char *)base + child_idx * size;
+      if (cmp(parent, child) <= 0)
+        break;
+      swap(parent, child, size);
+      child_idx = parent_idx;
+    }
+}
+
+/// Take an (otherwise valid) heap where the first element may be out of
+/// order and restore the heap property.
+void heap_sift_down(void *base, size_t nmemb, size_t size,
+                    int (*cmp)(const void *, const void *))
+{
+  assert(!nmemb || (base && size && cmp));
+  size_t parent_idx = 0;
+  size_t limit = nmemb / 2;
+  while (parent_idx < limit)
+  {
+    size_t child_idx = (parent_idx + 1) * 2 - 1;
+    void *parent = (char *)base + parent_idx * size;
+    void *child = (char *)base + child_idx * size;
+    if (child_idx + 1 < nmemb && cmp(child, (char *)child + size) > 0)
+    {
+      ++child_idx;
+      child = (char *)child + size;
+    }
+    if (cmp(parent, child) <= 0)
+      break;
+    swap(parent, child, size);
+    parent_idx = child_idx;
+  }
+}
+
+/// Reorder an array so that it becomes a valid binary min heap.
+void heap_heapify(void *base, size_t nmemb, size_t size,
+                  int (*cmp)(const void *, const void *))
+{
+  assert(!nmemb || (base && size && cmp));
+  for (size_t i = 2; i <= nmemb; ++i)
+    heap_sift_up(base, i, size, cmp);
+}
+
+/// Return -1/0/1 if the first argument is
+/// smaller than / equal to / greater than
+/// the second argument.
+static int cmp_int(const void *ptr1, const void *ptr2)
+{
+  int a = *(int *)ptr1, b = *(int *)ptr2;
+  return (a > b) - (a < b);
+}
+
+// KthLargest stores the k largest elements seen so far.
+// They are organized in a min-heap, that means
+// arr[0] contains the kth-largest element
+// if we've already seen at least k elements.
+typedef struct
+{
+  size_t max_size; // the size of arr, equals k
+  size_t size;     // the current number of elements in k
+  int arr[];       // the k largest elements, in min-heap order
+} topVotedKthLargest;
+
+int topVotedKthLargestAdd(topVotedKthLargest *kth_largest, int val)
+{
+  if (kth_largest->size < kth_largest->max_size)
+  {
+    // if there are currently less than k elements in the heap
+    // add the new one at the end
+    // and call `heap_sift_up` to restore the heap property
+    kth_largest->arr[kth_largest->size++] = val;
+    heap_sift_up(kth_largest->arr, kth_largest->size, sizeof(int), cmp_int);
+  }
+  else if (val > kth_largest->arr[0])
+  {
+    // if there are k elements stored in the heap
+    // and 'val' is greater than the smallest of them
+    // replace that smallest one (the first element of the heap)
+    // with 'val' and call `heap_sift_down` to restore the heap property
+    kth_largest->arr[0] = val;
+    heap_sift_down(kth_largest->arr, kth_largest->size, sizeof(int), cmp_int);
+  }
+  // return the smallest element on the heap,
+  // i.e. the k-th largest one if we've already seen at least k numbers
+  return kth_largest->arr[0];
+}
+
+topVotedKthLargest *topVotedKthLargestCreate(int k, int *nums, size_t nums_size)
+{
+  assert(k >= 1);
+  assert(nums_size >= (size_t)k - 1);
+
+  topVotedKthLargest *kth_largest = malloc(sizeof(*kth_largest) + (size_t)k * sizeof(int));
+  if (kth_largest)
+  {
+    kth_largest->size = 0;
+    kth_largest->max_size = (size_t)k;
+    for (size_t i = 0; i < nums_size; ++i)
+      topVotedKthLargestAdd(kth_largest, nums[i]);
+  }
+  return kth_largest;
+}
+
+void topVotedKthLargestFree(KthLargest *kth_largest)
+{
+  free(kth_largest);
+}
+
+// oof.
