@@ -6686,7 +6686,7 @@ struct TreeNode *revisedSearchBST(struct TreeNode *root, int val)
 // Somehow much slower than my initial solution */
 
 // Kth Largest Element in a Stream					12/11/2023
-
+/*
 // Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
 
 // Implement KthLargest class:
@@ -6903,4 +6903,157 @@ void topVotedKthLargestFree(KthLargest *kth_largest)
   free(kth_largest);
 }
 
-// oof.
+// oof. */
+
+// Study: Linked list          12/12/2023
+
+// I have my Imperative Programming final the 16th so I'm going to study some material instead of doing LeetCode challenges.
+
+// I'll be looking into:
+// - Linked lists
+// - Stacks
+// - Queues
+// - Dictionaries (maybe/lightly)
+
+// Today will be linked lists with functions to:
+// - Initialize it
+// - Print it
+// - Get a value at an index
+// - Get it's length
+// - Insert at an index
+// - Delete at an index
+
+#ifndef __2023_C__ // not applicable here, but lost points on midterm for omitting this
+
+typedef struct node
+{
+  int val;
+  struct node *next;
+} node_t;
+
+node_t *init(int *arr, int arrSize)
+{
+  node_t *head = malloc(sizeof(node_t));
+  assert(head != NULL);
+
+  head->val = arr[0];
+  head->next = NULL;
+
+  node_t *cur = head;
+  for (int i = 1; i < arrSize; i++)
+  {
+    node_t *node = malloc(sizeof(node_t));
+    assert(head != NULL);
+
+    node->val = arr[i];
+    node->next = NULL;
+
+    cur->next = node;
+    cur = cur->next;
+  }
+
+  return head;
+}
+
+void print_list(node_t *head)
+{
+  printf("[");
+  while (head != NULL)
+  {
+    printf("%d", head->val);
+    if (head->next != NULL)
+      printf(", ");
+    head = head->next;
+  }
+  printf("]\n");
+}
+
+int get(node_t *head, int k)
+{
+  // return val stored at index k
+
+  while (k-- > 0 && head != NULL)
+    head = head->next;
+
+  if (head == NULL)
+    return -1; // invalid k
+
+  return head->val;
+}
+
+int len(node_t *head)
+{
+  // Return length of linked list
+
+  int count = 0;
+  while (head != NULL)
+  {
+    head = head->next;
+    count++;
+  }
+  return count;
+}
+
+bool insert(node_t *head, int val, int k)
+{
+  // Insert val at index k
+
+  while (--k > 0 && head != NULL)
+    head = head->next;
+
+  if (head == NULL)
+    return false;
+
+  node_t *new_node = malloc(sizeof(node_t));
+  assert(new_node != NULL);
+
+  new_node->val = val;
+  new_node->next = head->next;
+  head->next = new_node;
+
+  return true;
+}
+
+int delete(node_t *head, int k)
+{
+  // Delete and return val at index k
+
+  node_t *prev = NULL;
+  while (k-- > 0 && head != NULL)
+  {
+    prev = head;
+    head = head->next;
+  }
+
+  if (head == NULL)
+    return -1;
+
+  int val = head->val;
+  prev->next = head->next;
+  free(head);
+
+  return val;
+}
+
+int main(void)
+{
+  node_t *list = init((int[]){1, 2, 3, 4, 5}, 5);
+  print_list(list);
+
+  printf("index 2: %d\nindex 4: %d\nindex 7: %d\n", get(list, 2), get(list, 4), get(list, 7));
+
+  printf("length: %d\n", len(list));
+
+  insert(list, 10, 2);
+  insert(list, 20, 2);
+  print_list(list);
+  printf("length: %d\n", len(list));
+
+  delete (list, 2);
+  print_list(list);
+  printf("length: %d\n", len(list));
+}
+
+#endif
+
+// It ignores inserting/deleting at first and last index, but the gist is there
