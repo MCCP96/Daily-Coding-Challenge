@@ -6906,7 +6906,7 @@ void topVotedKthLargestFree(KthLargest *kth_largest)
 // oof. */
 
 // Study: Linked list          12/12/2023
-
+/*
 // I have my Imperative Programming final the 16th so I'm going to study some material instead of doing LeetCode challenges.
 
 // I'll be looking into:
@@ -7056,4 +7056,135 @@ int main(void)
 
 #endif
 
-// It ignores inserting/deleting at first and last index, but the gist is there
+// It ignores inserting/deleting at first and last index, but the gist is there */
+
+// Study: Stacks          12/13/2023
+
+// Today's study of stacks:
+// - Initialization
+// - Print
+// - Push, Pop, Peek
+// - Empty
+
+#ifndef __2023_C__
+
+typedef struct node
+{
+  struct node *next;
+  int val;
+} node_t;
+
+typedef struct
+{
+  node_t *top;
+  int size;
+} stack_t;
+
+stack_t *init(void)
+{
+  stack_t *new_stack = malloc(sizeof(stack_t));
+  assert(new_stack != NULL);
+
+  new_stack->top = NULL;
+  new_stack->size = 0;
+
+  return new_stack;
+}
+
+void print_stack(stack_t *stack)
+{
+  node_t *node = stack->top;
+
+  printf("[");
+  for (int i = 0; i < stack->size; i++, node = node->next)
+  {
+    printf("%d", node->val);
+    if (i != stack->size - 1)
+      printf(", ");
+  }
+  printf("]\n");
+}
+
+void push(stack_t *stack, int val)
+{
+  assert(stack != NULL);
+
+  node_t *new_node = malloc(sizeof(node_t));
+  assert(new_node != NULL);
+
+  new_node->val = val;
+
+  if (stack->size == 0)
+    new_node->next = NULL;
+  else
+    new_node->next = stack->top;
+
+  stack->top = new_node;
+  stack->size++;
+}
+
+int pop(stack_t *stack)
+{
+  assert(stack != NULL);
+  if (stack->size == 0)
+    return -1;
+
+  node_t *prev_top = stack->top;
+  int val = prev_top->val;
+  stack->top = prev_top->next;
+  free(prev_top);
+  stack->size--;
+
+  return val;
+}
+
+int peek(stack_t *stack)
+{
+  assert(stack != NULL);
+  if (stack->size == 0)
+    return -1;
+
+  return stack->top->val;
+}
+
+void empty(stack_t *stack)
+{
+  node_t *node = stack->top;
+
+  while (node != NULL)
+  {
+    node_t *old_node = node;
+    node = node->next;
+    free(old_node);
+  }
+
+  stack->size = 0;
+}
+
+int main(void)
+{
+  stack_t *stack = init();
+  push(stack, 3);
+  push(stack, 2);
+  push(stack, 1);
+  print_stack(stack);
+
+  printf("%d\n", pop(stack)); // 1
+  print_stack(stack);
+
+  printf("%d\n", peek(stack)); // 2
+  print_stack(stack);
+
+  push(stack, 100);
+  print_stack(stack);
+
+  empty(stack);
+  print_stack(stack);
+}
+
+#endif
+
+// LIFO: Last in, first out
+
+// pop and peek return booleans in the lecture slides
+// instead, they're passed an integer pointer to be set as the value
