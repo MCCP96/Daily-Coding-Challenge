@@ -7059,7 +7059,7 @@ int main(void)
 // It ignores inserting/deleting at first and last index, but the gist is there */
 
 // Study: Stacks          12/13/2023
-
+/*
 // Today's study of stacks:
 // - Initialization
 // - Print
@@ -7187,4 +7187,172 @@ int main(void)
 // LIFO: Last in, first out
 
 // pop and peek return booleans in the lecture slides
-// instead, they're passed an integer pointer to be set as the value
+// instead, they're passed an integer pointer to be set as the value */
+
+// Study: Queues          12/14/2023
+
+// A queue is a first-in, first-out (FIFO) container: elements are removed in the same order they were added
+// - Elements are added (enqueued) to the back or rear of the queue
+// - Elements are removed (dequeued) from the front of the queue
+
+// Today's study of queues:
+// - Initialization
+// - Print
+// - Enqueue/Dequeue
+// - Front (peek)
+// - Empty/Destroy
+
+#ifndef __2023_c__
+
+typedef struct node
+{
+  int val;
+  struct node *next;
+} node_t;
+
+typedef struct queue
+{
+  node_t *front;
+  node_t *back;
+  int size;
+} queue_t;
+
+queue_t *init(void)
+{
+  queue_t *new_queue = malloc(sizeof(queue_t));
+  assert(new_queue != NULL);
+  new_queue->front = NULL;
+  new_queue->back = NULL;
+  new_queue->size = 0;
+  return new_queue;
+}
+
+void print_queue(queue_t *queue)
+{
+  assert(queue != NULL);
+  node_t *node = queue->front;
+
+  printf("[");
+  while (node != NULL)
+  {
+    printf("%d", node->val);
+    node = node->next;
+    if (node != NULL)
+      printf(", ");
+  }
+  printf("]\n");
+}
+
+void enqueue(queue_t *queue, int val)
+{
+  assert(queue != NULL);
+
+  node_t *new_node = malloc(sizeof(node_t));
+  assert(new_node != NULL);
+  new_node->val = val;
+  new_node->next = NULL;
+
+  if (queue->size == 0)
+  {
+    queue->front = new_node;
+    queue->back = new_node;
+  }
+  else
+  {
+    queue->back->next = new_node;
+    queue->back = new_node;
+  }
+  queue->size++;
+}
+
+int dequeue(queue_t *queue)
+{
+  assert(queue != NULL);
+
+  if (queue->size == 0)
+    return -1;
+
+  node_t *old_front = queue->front;
+  int val = old_front->val;
+
+  queue->front = old_front->next;
+
+  if (queue->size == 1)
+    queue->back = NULL;
+
+  free(old_front);
+  queue->size--;
+
+  return val;
+}
+
+bool front(queue_t *queue, int *val)
+{
+  assert(queue != NULL);
+  if (queue->size >= 1)
+  {
+    *val = queue->front->val;
+    return true;
+  }
+  else
+    return false;
+}
+
+void empty(queue_t *queue)
+{
+  node_t *node = queue->front;
+
+  while (node != NULL)
+  {
+    node_t *old_node = node;
+    node = node->next;
+    free(old_node);
+  }
+
+  queue->front = NULL;
+  queue->back = NULL;
+  queue->size = 0;
+}
+
+void destroy(queue_t *queue)
+{
+  empty(queue);
+  free(queue);
+}
+
+int main(void)
+{
+  queue_t *queue = init();
+
+  enqueue(queue, 1);
+  enqueue(queue, 2);
+  enqueue(queue, 3);
+  print_queue(queue); // [1,2,3]
+
+  dequeue(queue);
+  dequeue(queue);
+  print_queue(queue); // [3]
+
+  dequeue(queue);
+  print_queue(queue); // []
+
+  int front_val;
+  printf("%d\n", front(queue, &front_val)); // 0 (fail)
+  printf("front: %d\n", front_val);         // RAND
+
+  enqueue(queue, 4);
+  printf("%d\n", front(queue, &front_val)); // 1 (success)
+  printf("front: %d\n", front_val);         // 4
+
+  empty(queue);
+  print_queue(queue); // []
+
+  destroy(queue);
+}
+
+#endif
+
+// We can use a circular linked list to implement a queue
+// Eliminate variable front from the queue_t structure
+// The tail node (pointed to by rear) is the rear of the queue
+// The head node (pointed to by rear->next) is the front of the queue
