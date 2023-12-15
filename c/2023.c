@@ -7190,7 +7190,7 @@ int main(void)
 // instead, they're passed an integer pointer to be set as the value */
 
 // Study: Queues          12/14/2023
-
+/*
 // A queue is a first-in, first-out (FIFO) container: elements are removed in the same order they were added
 // - Elements are added (enqueued) to the back or rear of the queue
 // - Elements are removed (dequeued) from the front of the queue
@@ -7355,4 +7355,157 @@ int main(void)
 // We can use a circular linked list to implement a queue
 // Eliminate variable front from the queue_t structure
 // The tail node (pointed to by rear) is the rear of the queue
-// The head node (pointed to by rear->next) is the front of the queue
+// The head node (pointed to by rear->next) is the front of the queue */
+
+// Study: Dictionaries          12/15/2023
+
+// There are different designs for hash tables, but we'll consider only one, which is implemented in C as an array of singly-linked lists
+
+// A hash table is an array
+// A hash function maps a key to a non-negative integer hash value
+// For a table of size (length) TABLESIZE, hash values are in the range 0 .. TABLESIZE - 1
+// The hash value is used as the index of a slot or bucket in the hash table (an element in the array)
+
+// To implement a dictionary using a hash table, we store the keys and the value associated with each key in the table
+// Given key k and associated value v, store (k, v) in the slot with index hash(k)
+
+// One technique for resolving collisions is known as closed addressing or open hashing or chaining
+// Change the hash table design slightly: each slot in the table refers to a chain of entries
+// Each entry stores one (key, value) pair
+// All keys that map to the same slot are stored in the same chain
+
+// Call the hash function to map the key to a slot in the hash table
+// This returns the reference to the chain
+// Search the chain for an entry containing the key
+// If the key isn't found, create a new entry and insert it in the chain
+// If the key is found, update the entry (replace the value associated with the key)
+
+// Today's study of dictionaries:
+// - Initialization
+// - Print
+// - Search
+// - Add a (key, value) pair
+// - Lookup the value that is mapped to a specified key
+
+#ifndef __2023_C__
+
+const int TABLESIZE = 19;
+
+unsigned int hash(char *s) // s = key
+{
+  unsigned int hashvalue = 0;
+  while (*s != '\0')
+  {
+    hashvalue = *s + 31 * hashvalue;
+    s++;
+  }
+  return hashvalue % TABLESIZE;
+}
+
+typedef struct entry
+{
+  char *key;
+  char *val;
+  struct entry *next;
+} entry_t;
+typedef entry_t *dict_t;
+
+dict_t *init(void)
+{
+  dict_t *dict = malloc(sizeof(entry_t *) * TABLESIZE);
+  assert(dict != NULL);
+
+  for (int i = 0; i < TABLESIZE; i++)
+    dict[i] = NULL;
+
+  return dict;
+}
+
+void print_dict(dict_t *dict)
+{
+  assert(dict != NULL);
+
+  for (int i = 0; i < TABLESIZE; i++)
+  {
+    entry_t *entry = dict[i];
+    printf("hash %d: ", i);
+    if (entry)
+    {
+      while (entry != NULL)
+      {
+        printf("%s: %s", entry->key, entry->val);
+
+        entry = entry->next;
+
+        if (entry)
+          printf(", "); // multiple entries of same hash
+      }
+    }
+    else
+      printf("NULL");
+    printf("\n");
+  }
+  printf("\n\n");
+}
+
+entry_t *search(entry_t *head, char *key)
+{
+  while (head != NULL)
+  {
+    if (strcmp(head->key, key) == 0)
+      return head;
+    head = head->next;
+  }
+  return NULL;
+}
+
+void put(dict_t *dict, char *key, char *val)
+{
+  unsigned int hashvalue = hash(key);
+  entry_t *entry = search(dict[hashvalue], key);
+
+  if (entry == NULL)
+  {
+    entry = malloc(sizeof(entry_t));
+    assert(entry != NULL);
+
+    entry->key = strdup(key); // duplicate string
+    assert(entry->key != NULL);
+
+    entry->next = dict[hashvalue]; // insert at front of hash linked list
+    dict[hashvalue] = entry;
+  }
+
+  entry->val = strdup(val);
+  assert(entry->val != NULL);
+}
+
+char *lookup(dict_t *dict, char *key)
+{
+  unsigned int hashvalue = hash(key);
+  entry_t *entry = dict[hashvalue];
+  while (entry != NULL)
+  {
+    if (strcmp(entry->key, key) == 0)
+      return entry->val;
+    entry = entry->next;
+  }
+  return "NO VALUE FOUND";
+}
+
+int main(void)
+{
+  dict_t *dict = init();
+  put(dict, "Tobey", "Maguire");
+  put(dict, "Mobey", "Maguire"); // hash lands randomly
+  print_dict(dict);
+  put(dict, "Mobey", "Taguire"); // overwrite key's (Mobey) value
+  print_dict(dict);
+
+  printf("Lookup key: %s = %s\n", "Tobey", lookup(dict, "Tobey"));
+  printf("Lookup key: %s = %s\n", "Sobey", lookup(dict, "Sobey"));
+}
+
+#endif
+
+// Basically a 2d array of hashvalues and linked lists containing nodes of (non-hashed) keys and their associated values
