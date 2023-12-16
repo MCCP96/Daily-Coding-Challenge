@@ -7358,7 +7358,7 @@ int main(void)
 // The head node (pointed to by rear->next) is the front of the queue */
 
 // Study: Dictionaries          12/15/2023
-
+/*
 // There are different designs for hash tables, but we'll consider only one, which is implemented in C as an array of singly-linked lists
 
 // A hash table is an array
@@ -7508,4 +7508,141 @@ int main(void)
 
 #endif
 
-// Basically a 2d array of hashvalues and linked lists containing nodes of (non-hashed) keys and their associated values
+// Basically a 2d array of hashvalues and linked lists containing nodes of (non-hashed) keys and their associated values */
+
+// Study: Sample Final          12/16/2023
+
+// What does this code fragment do?
+int main_1(void)
+{
+  int *arr = malloc(sizeof(int) * 4);
+  arr[0] = 1;
+  arr[1] = 2;
+  arr[2] = 3;
+  arr[3] = 4;
+
+  int *ptr = &arr[0];
+  arr++;
+  free(ptr);
+}
+// [1,2,3,4] to [2,3,4]
+
+// What does this program print?
+void mystery(int *var1, int *var2)
+{
+  int *temp = malloc(sizeof(int));
+  assert(temp != NULL);
+  *temp = *var1;
+  *var1 = *var2;
+  *var2 = *temp;
+}
+int main_2(void)
+{
+  int *x = malloc(sizeof(int));
+  assert(x != NULL);
+  *x = 50;
+
+  int *y = malloc(sizeof(int));
+  assert(y != NULL);
+  *y = 100;
+
+  mystery(x, y);
+  printf("%d %d\n", *x, *y);
+  return 0;
+}
+// 100 50
+
+// What's equivalent to arr[10]=7?
+int main_3(void)
+{
+  int *arr = malloc(sizeof(int) * 100);
+  arr[10] = 7;
+  printf("%d", *(arr + 10));
+}
+// *(arr + 10) = 7
+
+// Write last 2 statements of for loop to iterate through arr
+int main_4(void)
+{
+  int n = 5;
+  int arr[5] = {
+      1,
+      2,
+      3,
+      4};
+  int sum = 0;
+  int *p;
+  for (p = arr; p != arr + n; p += 1)
+  {
+    printf("%d, %d\n", sum, *p);
+    sum += *p;
+  }
+}
+
+// What does function silly do?
+_Bool silly(int nums[], int n)
+{
+  int cur = 1;
+  _Bool flag = true;
+  while (cur < n && flag)
+  {
+    if (nums[cur] < nums[cur - 1])
+      flag = false;
+    cur++;
+  }
+  return flag;
+}
+int main_5(void)
+{
+  int nums1[3] = {1, 3, 3};
+  int nums2[3] = {3, 5, 4};
+  printf("%d\n", silly(nums1, 3));
+  printf("%d\n", silly(nums2, 3));
+}
+// Checks (loosely) ascending
+
+// A function named intlist_take takes two arguments, a pointer to a list and an integer:
+
+// This function returns a pointer to a new array (not a list) that has room for exactly n integers. The function removes the first n elements from the list, and stores them in the new array.
+
+// For example, suppose parameter list points to a list containing [3, 2, 5, 7, 8, 2] and parameter n equals 4. The function will return a new array containing [3, 2, 5, 7]. The list now contains [8, 2].
+
+// The function must terminate (via assert) if it is passed a NULL pointer or if n is nonpositive or if the list contains fewer than n elements.
+
+// Your intlist_take function can call functions from the C standard library (see the crib sheet at the end of this question paper); however, it cannot call any functions from the list module you developed in the labs; e.g., intlist_construct, intlist_append, etc.
+
+// Complete the definition of intlist_take:
+typedef struct
+{
+  int *elems;
+  int capacity;
+  int size;
+} intlist_t;
+
+int *intlist_take(intlist_t *list, int n)
+{
+  assert(list != NULL && n >= 0 && list->size >= n);
+  int *res = malloc(sizeof(int) * n);
+
+  for (int i = 0; i < n; i++, list->elems++, list->size--)
+    res[i] = list->elems[0];
+
+  return res;
+}
+
+int main(void)
+{
+  intlist_t list;
+  list.elems = (int[]){1,
+                       2,
+                       3};
+  list.capacity = 3;
+  list.size = 3;
+
+  int *res = intlist_take(&list, 2);
+}
+
+// Practice some memory diagrams and I'm good to go
+// Imperative Programming final is today at 7:00pm
+
+// Back to javascript tomorrow :)
