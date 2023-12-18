@@ -19000,7 +19000,7 @@ const revisedMinMoves2 = (nums) => {
 // Beats 99% */
 
 // Construct String from Binary Tree					12/17/2023
-
+/* 
 // Given the root of a binary tree, construct a string consisting of parenthesis and integers from a binary tree with the preorder traversal way, and return it.
 
 // Omit all the empty parenthesis pairs that do not affect the one-to-one mapping relationship between the string and the original binary tree.
@@ -19067,4 +19067,43 @@ var topVotedTree2str = function (t) {
       res.push(")");
     }
   }
+}; */
+
+// Maximum Depth of Binary Tree					12/18/2023
+
+// Given the root of a binary tree, return its maximum depth.
+
+// A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+// Example 1:
+// 		Input: root = [3,9,20,null,null,15,7]
+// 		Output: 3
+
+// Example 2:
+// 		Input: root = [1,null,2]
+// 		Output: 2
+
+// Constraints:
+//		The number of nodes in the tree is in the range [0, 104].
+//		-100 <= Node.val <= 100
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+var maxDepth = function (root, depth = 0) {
+  if (root == null) return depth;
+  return Math.max(
+    maxDepth(root.left, depth + 1),
+    maxDepth(root.right, depth + 1)
+  );
+};
+
+// Getting through these easy binary tree quesitions I'd neglected in the past
+
+var topVotedMaxDepth = function (root) {
+  if (root === undefined || root === null) return 0;
+  return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 };
