@@ -19352,7 +19352,7 @@ const topVotedHasCycle = (head) => {
 // if the fast pointer get to the end, then it's not a circular linked list" */
 
 // Intersection of Two Linked Lists					12/23/2023
-
+/* 
 // Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.
 
 // For example, the following two linked lists begin to intersect at node c1:
@@ -19437,4 +19437,55 @@ var topVotedGetIntersectionNode = function (headA, headB) {
     curB = curB == null ? headA : curB.next;
   }
   return curA;
+}; */
+
+// Excel Sheet Column Title					12/24/2023
+
+// Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
+
+// For example:
+// A -> 1
+// B -> 2
+// C -> 3
+// ...
+// Z -> 26
+// AA -> 27
+// AB -> 28
+// ...
+
+// Example 1:
+// 		Input: columnNumber = 1
+// 		Output: "A"
+
+// Example 2:
+// 		Input: columnNumber = 28
+// 		Output: "AB"
+
+// Example 3:
+// 		Input: columnNumber = 701
+// 		Output: "ZY"
+
+// Constraints:
+//		1 <= columnNumber <= 231 - 1
+
+var topVotedConvertToTitle = function (n) {
+  if (n == 0) return null;
+  let result = "";
+
+  while (n > 0) {
+    let r = n % 26;
+    let d = parseInt(n / 26);
+    if (r == 0) {
+      r = 26;
+      d = d - 1;
+    }
+    result += String.fromCharCode(64 + r);
+    n = d;
+  }
+
+  return result.split("").reverse().join("");
 };
+
+console.log(convertToTitle(1)); // "A"
+console.log(convertToTitle(28)); // "AB"
+console.log(convertToTitle(701)); // "ZY"
