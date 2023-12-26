@@ -19491,7 +19491,7 @@ console.log(convertToTitle(28)); // "AB"
 console.log(convertToTitle(701)); // "ZY" */
 
 // Reverse Linked List					12/25/2023
-
+/* 
 // Given the head of a singly linked list, reverse the list, and return the reversed list.
 
 // Example 1:
@@ -19537,4 +19537,70 @@ var topVotedReverseList = function (head) {
   return res; // Return the reverse linked list...
 };
 
-// Merry Christmas :^)
+// Merry Christmas :^) */
+
+// Count Complete Tree Nodes					12/26/2023
+
+// Given the root of a complete binary tree, return the number of the nodes in the tree.
+
+// According to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+// Design an algorithm that runs in less than O(n) time complexity.
+
+// Example 1:
+// 		Input: root = [1,2,3,4,5,6]
+// 		Output: 6
+
+// Example 2:
+// 		Input: root = []
+// 		Output: 0
+
+// Example 3:
+// 		Input: root = [1]
+// 		Output: 1
+
+// Constraints:
+//		The number of nodes in the tree is in the range [0, 5 * 104].
+//		0 <= Node.val <= 5 * 104
+//		The tree is guaranteed to be complete.
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+const countNodes = (node) => {
+  if (node == null) return 0;
+  return countNodes(node.left) + countNodes(node.right) + 1;
+};
+
+console.log(FUNCTION([1, 2, 3, 4, 5, 6])); // 6
+console.log(FUNCTION([])); // 0
+console.log(FUNCTION([1])); // 1
+
+// Not less than O(n), but works
+
+var topVotedCountNodes = function (root) {
+  function leftDepth(node) {
+    if (!node) return 0;
+    return leftDepth(node.left) + 1;
+  }
+
+  function rightDepth(node) {
+    if (!node) return 0;
+    return rightDepth(node.right) + 1;
+  }
+
+  function traverse(node) {
+    const leftLen = leftDepth(node);
+    const rightLen = rightDepth(node);
+
+    if (leftLen === rightLen) return Math.pow(2, leftLen) - 1;
+    return traverse(node.left) + traverse(node.right) + 1;
+  }
+
+  return traverse(root);
+};
+
+// O(logN * logN)
