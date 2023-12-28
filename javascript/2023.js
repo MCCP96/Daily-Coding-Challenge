@@ -19606,7 +19606,7 @@ var topVotedCountNodes = function (root) {
 // O(logN * logN) */
 
 // Palindrome Linked List					12/27/2023
-
+/* 
 // Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
 
 // Example 1:
@@ -19667,4 +19667,91 @@ var topVotedIsPalindrome = function (head) {
   return true;
 };
 
-// Readability wasn't the focus here
+// Readability wasn't the focus here */
+
+// Find Mode in Binary Search Tree					12/28/2023
+
+// Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.
+
+// If the tree has more than one mode, return them in any order.
+
+// Assume a BST is defined as follows:
+// The left subtree of a node contains only nodes with keys less than or equal to the node's key.
+// The right subtree of a node contains only nodes with keys greater than or equal to the node's key.
+// Both the left and right subtrees must also be binary search trees.
+
+// Example 1:
+// 		Input: root = [1,null,2,2]
+// 		Output: [2]
+
+// Example 2:
+// 		Input: root = [0]
+// 		Output: [0]
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 104].
+//		-105 <= Node.val <= 105
+
+// Follow up: Could you do that without using any extra space? (Assume that the implicit stack space incurred due to recursion does not count).
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+let map = new Map();
+let max = 0;
+
+const explore = (node) => {
+  if (node == null) return;
+
+  if (!map.has(node.val)) map.set(node.val, 1);
+  else map.set(node.val, map.get(node.val) + 1);
+  max = Math.max(max, map.get(node.val));
+
+  explore(node.left);
+  explore(node.right);
+};
+
+const findMode = (root) => {
+  explore(root);
+  const res = [...map.entries()].filter((c) => c[1] == max).map((c) => c[0]);
+  map = new Map();
+  max = 0;
+  return res;
+};
+
+console.log(FUNCTION([1, null, 2, 2])); // [2]
+console.log(FUNCTION([0])); // [0]
+
+var topVotedFindMode = function (root) {
+  const counts = {};
+  let maxCount = 0;
+  const modes = [];
+
+  const inorder = function (node) {
+    if (!node) {
+      return;
+    }
+
+    inorder(node.left);
+
+    const count = (counts[node.val] || 0) + 1;
+    counts[node.val] = count;
+
+    if (count > maxCount) {
+      maxCount = count;
+      modes.length = 0;
+      modes.push(node.val);
+    } else if (count === maxCount) {
+      modes.push(node.val);
+    }
+
+    inorder(node.right);
+  };
+
+  inorder(root);
+
+  return modes;
+};
