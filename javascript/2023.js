@@ -19670,7 +19670,7 @@ var topVotedIsPalindrome = function (head) {
 // Readability wasn't the focus here */
 
 // Find Mode in Binary Search Tree					12/28/2023
-
+/* 
 // Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.
 
 // If the tree has more than one mode, return them in any order.
@@ -19754,4 +19754,62 @@ var topVotedFindMode = function (root) {
   inorder(root);
 
   return modes;
+}; */
+
+// Invert Binary Tree					12/29/2023
+
+// Given the root of a binary tree, invert the tree, and return its root.
+
+// Example 1:
+// 		Input: root = [4,2,7,1,3,6,9]
+// 		Output: [4,7,2,9,6,3,1]
+
+// Example 2:
+// 		Input: root = [2,1,3]
+// 		Output: [2,3,1]
+
+// Example 3:
+// 		Input: root = []
+// 		Output: []
+
+// Constraints:
+//		The number of nodes in the tree is in the range [0, 100].
+//		-100 <= Node.val <= 100
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+const explore = (node) => {
+  if (node) {
+    [node.left, node.right] = [node.right, node.left]; // swap
+    explore(node.left);
+    explore(node.right);
+  }
 };
+
+const invertTree = (root) => {
+  explore(root);
+  return root;
+};
+
+// Runtime: 64 ms, faster than 92.88% of JavaScript online submissions for Invert Binary Tree.
+var topVotedInvertTree = function (root) {
+  // Base case...
+  if (root == null) {
+    return root;
+  }
+  // Call the function recursively for the left subtree...
+  invertTree(root.left);
+  // Call the function recursively for the right subtree...
+  invertTree(root.right);
+  // swapping process...
+  const curr = root.left;
+  root.left = root.right;
+  root.right = curr;
+  return root; // Return the root...
+};
+
+// same same
