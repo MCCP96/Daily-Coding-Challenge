@@ -19815,7 +19815,7 @@ var topVotedInvertTree = function (root) {
 // same same */
 
 // Minimum Absolute Difference in BST					12/30/2023
-
+/* 
 // Given the root of a Binary Search Tree (BST), return the minimum absolute difference between the values of any two different nodes in the tree.
 
 // Example 1:
@@ -19883,4 +19883,74 @@ function toArray(root, out = []) {
   }
 }
 
-// Ahhh BST, they're avoiding sorting the array by filling it in starting with left-most nodes
+// Ahhh BST, they're avoiding sorting the array by filling it in starting with left-most nodes */
+
+// N-ary Tree Preorder Traversal					12/31/2023
+
+// Given the root of an n-ary tree, return the preorder traversal of its nodes' values.
+
+// Nary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)
+
+// Example 1:
+// 		Input: root = [1,null,3,2,4,null,5,6]
+// 		Output: [1,3,5,6,2,4]
+
+// Example 2:
+// 		Input: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+// 		Output: [1,2,3,6,7,11,14,4,8,12,5,9,13,10]
+
+// Constraints:
+//		The number of nodes in the tree is in the range [0, 104].
+//		0 <= Node.val <= 104
+//		The height of the n-ary tree is less than or equal to 1000.
+
+// Follow up: Recursive solution is trivial, could you do it iteratively?
+
+function Node(val, children) {
+  this.val = val;
+  this.children = children;
+}
+
+const preorder = (root) => {
+  let res = [];
+
+  const explore = (node) => {
+    if (node) {
+      res.push(node.val);
+      node.children.map((n) => explore(n));
+    }
+  };
+
+  explore(root);
+  return res;
+};
+
+// Recursive, not iterative
+
+var topVotedPreorder = function (root) {
+  const stack = [];
+  const result = [];
+  if (!root) {
+    return result;
+  }
+  stack.push(root);
+  while (stack.length) {
+    const node = stack.pop();
+    result.push(node.val);
+    for (let i = node.children.length - 1; i >= 0; i--) {
+      stack.push(node.children[i]);
+    }
+  }
+  return result;
+};
+
+// Stack makes it work
+
+// Final coding challenge of 2023!
+
+// Another year, another badge.
+// 0.4% of users got the annual badge for coding over 300 days in 2023 and I'm glad to be one of them.
+
+// 2023 has been great, I'm now a second year Software Engineering student and we're finally touching some interesting/relevant topics in class.
+
+// Looking forward to what's in store for 2024. (probably Java)
