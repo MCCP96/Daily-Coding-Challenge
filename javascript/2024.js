@@ -1,5 +1,5 @@
 // Image Smoother					1/1/2024
-
+/* 
 // An image smoother is a filter of the size 3 x 3 that can be applied to each cell of an image by rounding down the average of the cell and the eight surrounding cells (i.e., the average of the nine cells in the blue smoother). If one or more of the surrounding cells of a cell is not present, we do not consider it in the average (i.e., the average of the four cells in the red smoother).
 
 // Given an m x n integer matrix img representing the grayscale of an image, return the image after applying the smoother on each cell of it.
@@ -143,4 +143,71 @@ var topVotedImageSmoother = function (img) {
 // Very clean
 // Boundary definition is what's saving a lot of runtime here
 
-// Also love the use of Array.from, never seen it quite like this before!
+// Also love the use of Array.from, never seen it quite like this before! */
+
+// Second Minimum Node In a Binary Tree					1/2/2024
+
+// Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes. More formally, the property root.val = min(root.left.val, root.right.val) always holds.
+
+// Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
+
+// If no such second minimum value exists, output -1 instead.
+
+// Example 1:
+// 		Input: root = [2,2,5,null,null,5,7]
+// 		Output: 5
+// Explanation: The smallest value is 2, the second smallest value is 5.
+
+// Example 2:
+// 		Input: root = [2,2,2]
+// 		Output: -1
+// Explanation: The smallest value is 2, but there isn't any second smallest value.
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 25].
+//		1 <= Node.val <= 231 - 1
+//		root.val == min(root.left.val, root.right.val) for each internal node of the tree.
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+const findSecondMinimumValue = (root) => {
+  let seen = new Set();
+  let min = [Number.MAX_SAFE_INTEGER];
+
+  const explore = (node) => {
+    if (node) {
+      if (!seen.has(node.val)) {
+        if (node.val < min[0]) min.unshift(node.val);
+        else if (node.val < min[1]) min[1] = node.val;
+        seen.add(node.val);
+      }
+      explore(node.left);
+      explore(node.right);
+    }
+  };
+  explore(root);
+
+  return seen.size > 1 ? min[1] : -1;
+};
+
+// ça marche
+
+var topVotedFindSecondMinimumValue = function (root) {
+  if (!root) return -1;
+  const min1 = root.val;
+  let min2 = Infinity;
+  const stack = [root];
+  while (stack.length) {
+    const node = stack.pop();
+    if (min1 < node.val && node.val < min2) min2 = node.val;
+    if (node.left) stack.push(node.left);
+    if (node.right) stack.push(node.right);
+  }
+  return min2 === Infinity ? -1 : min2;
+};
+
+// same same
