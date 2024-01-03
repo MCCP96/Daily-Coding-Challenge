@@ -146,7 +146,7 @@ var topVotedImageSmoother = function (img) {
 // Also love the use of Array.from, never seen it quite like this before! */
 
 // Second Minimum Node In a Binary Tree					1/2/2024
-
+/* 
 // Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes. More formally, the property root.val = min(root.left.val, root.right.val) always holds.
 
 // Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
@@ -210,4 +210,52 @@ var topVotedFindSecondMinimumValue = function (root) {
   return min2 === Infinity ? -1 : min2;
 };
 
-// same same
+// same same */
+
+// Binary Number with Alternating Bits					1/3/2024
+
+// Given a positive integer, check whether it has alternating bits: namely, if two adjacent bits will always have different values.
+
+// Example 1:
+// 		Input: n = 5
+// 		Output: true
+// Explanation: The binary representation of 5 is: 101
+
+// Example 2:
+// 		Input: n = 7
+// 		Output: false
+// Explanation: The binary representation of 7 is: 111.
+
+// Example 3:
+// 		Input: n = 11
+// 		Output: false
+// Explanation: The binary representation of 11 is: 1011.
+
+// Constraints:
+//		1 <= n <= 231 - 1
+
+const hasAlternatingBits = (n) => {
+  while (n > 0) {
+    let endBit = n % 2;
+    n = n >> 1;
+    if (endBit == n % 2) return false;
+  }
+  return true;
+};
+
+console.log(hasAlternatingBits(5)); // true
+console.log(hasAlternatingBits(7)); // false
+console.log(hasAlternatingBits(11)); // false
+
+// good old bitwise operators
+
+var topVotedHasAlternatingBits = function (n) {
+  while (n > 0) {
+    let lastBit = n % 2;
+    n = parseInt(n / 2);
+    if (lastBit === n % 2) {
+      return false;
+    }
+  }
+  return true;
+};
