@@ -261,7 +261,7 @@ var topVotedHasAlternatingBits = function (n) {
 }; */
 
 // Count Binary Substrings					1/4/2024
-
+/* 
 // Given a binary string s, return the number of non-empty substrings that have the same number of 0's and 1's, and all the 0's and all the 1's in these substrings are grouped consecutively.
 
 // Substrings that occur multiple times are counted the number of times they occur.
@@ -317,4 +317,84 @@ const topVotedCountBinarySubstrings = (s) => {
     }
   }
   return sum;
+}; */
+
+// Binary Search					1/5/2024
+
+// Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
+
+// You must write an algorithm with O(log n) runtime complexity.
+
+// Example 1:
+// 		Input: nums = [-1,0,3,5,9,12], target = 9
+// 		Output: 4
+// Explanation: 9 exists in nums and its index is 4
+
+// Example 2:
+// 		Input: nums = [-1,0,3,5,9,12], target = 2
+// 		Output: -1
+// Explanation: 2 does not exist in nums so return -1
+
+// Constraints:
+//		1 <= nums.length <= 104
+//		-104 < nums[i], target < 104
+//		All the integers in nums are unique.
+//		nums is sorted in ascending order.
+
+const search = (nums, t) => {
+  let l = 0,
+    r = nums.length - 1;
+  let m = ~~(r / 2);
+
+  // arr length < 3
+  if (nums[m] == t) return m;
+  if (nums[l] == t) return l;
+  if (nums[r] == t) return r;
+
+  // arr length >= 3
+  while (l != m && r != m) {
+    if (nums[m] == t) return m;
+
+    if (nums[m] < t) l = m;
+    else if (nums[m] > t) r = m;
+
+    m = ~~((l + r) / 2);
+  }
+
+  return -1;
 };
+
+console.log(search([-1, 0, 3, 5, 9, 12], 9)); // 4
+console.log(search([-1, 0, 3, 5, 9, 12], 2)); // -1
+
+// Not a fan of arr length < 3 section
+// I've forgotten the correct while loop definition
+
+var topVotedSearch = function (nums, target) {
+  let lo = 0,
+    hi = nums.length - 1;
+
+  while (lo < hi) {
+    let mid = lo + Math.floor((hi - lo + 1) / 2);
+    if (target < nums[mid]) hi = mid - 1;
+    else lo = mid;
+  }
+
+  return nums[lo] == target ? lo : -1;
+};
+
+const revisedSearch = (nums, t) => {
+  let l = 0,
+    r = nums.length - 1;
+
+  while (l < r) {
+    let m = l + ~~((r - l + 1) / 2);
+    if (t < nums[m]) r = m - 1;
+    else l = m;
+  }
+
+  return nums[l] == t ? l : -1;
+};
+
+console.log(revisedSearch([-1, 0, 3, 5, 9, 12], 9)); // 4
+console.log(revisedSearch([-1, 0, 3, 5, 9, 12], 2)); // -1
