@@ -320,7 +320,7 @@ const topVotedCountBinarySubstrings = (s) => {
 }; */
 
 // Binary Search					1/5/2024
-
+/* 
 // Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
 
 // You must write an algorithm with O(log n) runtime complexity.
@@ -397,4 +397,53 @@ const revisedSearch = (nums, t) => {
 };
 
 console.log(revisedSearch([-1, 0, 3, 5, 9, 12], 9)); // 4
-console.log(revisedSearch([-1, 0, 3, 5, 9, 12], 2)); // -1
+console.log(revisedSearch([-1, 0, 3, 5, 9, 12], 2)); // -1 */
+
+// Design HashSet					1/6/2024
+
+// Design a HashSet without using any built-in hash table libraries.
+
+// Implement MyHashSet class:
+// void add(key) Inserts the value key into the HashSet.
+// bool contains(key) Returns whether the value key exists in the HashSet or not.
+// void remove(key) Removes the value key in the HashSet. If key does not exist in the HashSet, do nothing.
+
+// Example 1:
+// 		Input
+// 		["MyHashSet", "add", "add", "contains", "contains", "add", "contains", "remove", "contains"]
+// 		[[], [1], [2], [1], [3], [2], [2], [2], [2]]
+// 		Output
+// 		[null, null, null, true, false, null, true, null, false]
+// 		Explanation
+// 		MyHashSet myHashSet = new MyHashSet();
+// 		myHashSet.add(1);      // set = [1]
+// 		myHashSet.add(2);      // set = [1, 2]
+// 		myHashSet.contains(1); // return True
+// 		myHashSet.contains(3); // return False, (not found)
+// 		myHashSet.add(2);      // set = [1, 2]
+// 		myHashSet.contains(2); // return True
+// 		myHashSet.remove(2);   // set = [1]
+// 		myHashSet.contains(2); // return False, (already removed)
+
+// Constraints:
+//		0 <= key <= 106
+//		At most 104 calls will be made to add, remove, and contains.
+
+var MyHashSet = function () {
+  this.arr = [];
+};
+
+MyHashSet.prototype.add = function (key) {
+  if (!this.contains(key)) this.arr.push(key);
+};
+
+MyHashSet.prototype.remove = function (key) {
+  if (this.contains(key)) this.arr.splice(this.arr.indexOf(key), 1);
+};
+
+MyHashSet.prototype.contains = function (key) {
+  return this.arr.indexOf(key) != -1;
+};
+
+// Top voteds are doing it using objects, which I didn't think was allowed
+// Easy either way
