@@ -449,7 +449,7 @@ MyHashSet.prototype.contains = function (key) {
 // Easy either way */
 
 // Design HashMap					1/7/2024
-
+/* 
 // Design a HashMap without using any built-in hash table libraries.
 
 // Implement the MyHashMap class:
@@ -528,4 +528,66 @@ class TopVotedMyHashMap {
 }
 
 // Avoid looping by using a large array
-// Much better!
+// Much better! */
+
+// Sum of Left Leaves					1/8/2024
+
+// Given the root of a binary tree, return the sum of all left leaves.
+
+// A leaf is a node with no children. A left leaf is a leaf that is the left child of another node.
+
+// Example 1:
+// 		Input: root = [3,9,20,null,null,15,7]
+// 		Output: 24
+// Explanation: There are two left leaves in the binary tree, with values 9 and 15 respectively.
+
+// Example 2:
+// 		Input: root = [1]
+// 		Output: 0
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 1000].
+//		-1000 <= Node.val <= 1000
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+const sumOfLeftLeaves = (root) => {
+  let sum = 0;
+
+  const explore = (node, depth = 0) => {
+    if (node == null) return;
+    if (node.left == null && node.right == null && depth > 0) sum += node.val;
+
+    explore(node.left, depth + 1);
+    if (node.right && node.right.left) explore(node.right, depth + 1);
+  };
+  explore(root);
+
+  return sum;
+};
+
+const topVotedSumOfLeftLeaves = (x, isLeft) => {
+  if (!x) return 0;
+  if (!x.left && !x.right && isLeft) return x.val;
+
+  return (
+    topVotedSumOfLeftLeaves(x.left, true) +
+    topVotedSumOfLeftLeaves(x.right, false)
+  );
+};
+
+// Much easier to go with a boolean
+
+const revisedSumOfLeftLeaves = (node, isLeft) => {
+  if (node == null) return 0;
+  if (node.left == null && node.right == null && isLeft) return node.val;
+
+  return (
+    revisedSumOfLeftLeaves(node.left, true) +
+    revisedSumOfLeftLeaves(node.right, false)
+  );
+};
