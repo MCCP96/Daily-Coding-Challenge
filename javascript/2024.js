@@ -531,7 +531,7 @@ class TopVotedMyHashMap {
 // Much better! */
 
 // Sum of Left Leaves					1/8/2024
-
+/* 
 // Given the root of a binary tree, return the sum of all left leaves.
 
 // A leaf is a node with no children. A left leaf is a leaf that is the left child of another node.
@@ -590,4 +590,67 @@ const revisedSumOfLeftLeaves = (node, isLeft) => {
     revisedSumOfLeftLeaves(node.left, true) +
     revisedSumOfLeftLeaves(node.right, false)
   );
+}; */
+
+// Minimum Distance Between BST Nodes					1/9/2024
+
+// Given the root of a Binary Search Tree (BST), return the minimum difference between the values of any two different nodes in the tree.
+
+// Example 1:
+// 		Input: root = [4,2,6,1,3]
+// 		Output: 1
+
+// Example 2:
+// 		Input: root = [1,0,48,null,null,12,49]
+// 		Output: 1
+
+// Constraints:
+//		The number of nodes in the tree is in the range [2, 100].
+//		0 <= Node.val <= 105
+//		Note: This question is the same as 530: https://leetcode.com/problems/minimum-absolute-difference-in-bst/
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+const minDiffInBST = (root) => {
+  let seen = [];
+
+  const explore = (node) => {
+    if (!node) return;
+    seen.push(node.val);
+    explore(node.left);
+    explore(node.right);
+  };
+  explore(root);
+
+  let diff = Infinity;
+  seen = seen.sort((a, b) => a - b);
+  for (let i = 1; i < seen.length; i++) {
+    diff = Math.min(diff, Math.abs(seen[i] - seen[i - 1]));
+    if (diff == 1) break;
+  }
+  return diff;
 };
+
+var topVotedMinDiffInBST = function (root) {
+  let min = Number.MAX_VALUE;
+  let prev = Number.MAX_VALUE;
+
+  const getMin = function (node) {
+    if (node == null) return;
+
+    getMin(node.right);
+    if (min > prev - node.val) min = prev - node.val;
+    prev = node.val;
+    getMin(node.left);
+  };
+
+  getMin(root);
+  return min;
+};
+
+// BST allows you to check as you go
+// Saving the sorting and comparing loop
