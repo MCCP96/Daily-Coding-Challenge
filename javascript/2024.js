@@ -593,7 +593,7 @@ const revisedSumOfLeftLeaves = (node, isLeft) => {
 }; */
 
 // Minimum Distance Between BST Nodes					1/9/2024
-
+/* 
 // Given the root of a Binary Search Tree (BST), return the minimum difference between the values of any two different nodes in the tree.
 
 // Example 1:
@@ -653,4 +653,57 @@ var topVotedMinDiffInBST = function (root) {
 };
 
 // BST allows you to check as you go
-// Saving the sorting and comparing loop
+// Saving the sorting and comparing loop */
+
+// Transpose Matrix					1/10/2024
+
+// Given a 2D integer array matrix, return the transpose of matrix.
+
+// The transpose of a matrix is the matrix flipped over its main diagonal, switching the matrix's row and column indices.
+
+// Example 1:
+// 		Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+// 		Output: [[1,4,7],[2,5,8],[3,6,9]]
+
+// Example 2:
+// 		Input: matrix = [[1,2,3],[4,5,6]]
+// 		Output: [[1,4],[2,5],[3,6]]
+
+// Constraints:
+//		m == matrix.length
+//		n == matrix[i].length
+//		1 <= m, n <= 1000
+//		1 <= m * n <= 105
+//		-109 <= matrix[i][j] <= 109
+
+const transpose = (matrix) => {
+  let res = [];
+
+  for (let row = 0; row < matrix[0].length; row++) {
+    let cur = [];
+
+    for (let col = 0; col < matrix.length; col++) {
+      cur.push(matrix[col][row]);
+    }
+
+    res.push(cur);
+  }
+
+  return res;
+};
+
+console.log(
+  transpose([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ])
+); // [[1,4,7],[2,5,8],[3,6,9]]
+console.log(
+  transpose([
+    [1, 2, 3],
+    [4, 5, 6],
+  ])
+); // [[1,4],[2,5],[3,6]]
+
+// Same as top voted
