@@ -656,7 +656,7 @@ var topVotedMinDiffInBST = function (root) {
 // Saving the sorting and comparing loop */
 
 // Transpose Matrix					1/10/2024
-
+/* 
 // Given a 2D integer array matrix, return the transpose of matrix.
 
 // The transpose of a matrix is the matrix flipped over its main diagonal, switching the matrix's row and column indices.
@@ -706,4 +706,53 @@ console.log(
   ])
 ); // [[1,4],[2,5],[3,6]]
 
-// Same as top voted
+// Same as top voted */
+
+// Range Sum of BST					1/11/2024
+
+// Given the root node of a binary search tree and two integers low and high, return the sum of values of all nodes with a value in the inclusive range [low, high].
+
+// Example 1:
+// 		Input: root = [10,5,15,3,7,null,18], low = 7, high = 15
+// 		Output: 32
+// Explanation: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
+
+// Example 2:
+// 		Input: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
+// 		Output: 23
+// Explanation: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 2 * 104].
+//		1 <= Node.val <= 105
+//		1 <= low <= high <= 105
+//		All Node.val are unique.
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+const rangeSumBST = (node, l, h) => {
+  if (!node) return 0;
+  if (node.val < l) return rangeSumBST(node.right, l, h);
+  if (node.val > h) return rangeSumBST(node.left, l, h);
+
+  return (
+    node.val + rangeSumBST(node.left, l, h) + rangeSumBST(node.right, l, h)
+  );
+};
+
+var topVotedRangeSumBST = function (root, low, high) {
+  if (!root) return 0;
+
+  const currentVal = root.val >= low && root.val <= high ? root.val : 0;
+
+  const leftSum = rangeSumBST(root.left, low, high);
+  const rightSum = rangeSumBST(root.right, low, high);
+
+  return currentVal + leftSum + rightSum;
+};
+
+// same same
