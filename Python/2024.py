@@ -93,7 +93,7 @@ class Solution(object):
 # Same as top voted """
 
 # Roman to Integer					1/14/2024
-
+""" 
 # Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
 
 # Symbol       Value
@@ -185,4 +185,66 @@ class Solution:
 
 # "The Romans would most likely be angered by how it butchers their numeric system. Sorry guys."
 
-# Haha great solution
+# Haha great solution """
+
+# Longest Common Prefix					1/15/2024
+
+# Write a function to find the longest common prefix string amongst an array of strings.
+
+# If there is no common prefix, return an empty string "".
+
+# Example 1:
+# 		Input: strs = ["flower","flow","flight"]
+# 		Output: "fl"
+
+# Example 2:
+# 		Input: strs = ["dog","racecar","car"]
+# 		Output: ""
+# Explanation: There is no common prefix among the input strings.
+
+# Constraints:
+# 		1 <= strs.length <= 200
+# 		0 <= strs[i].length <= 200
+# 		strs[i] consists of only lowercase English letters.
+
+
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        pref = strs[0]
+
+        for i in range(1, len(strs)):
+            cur = pref
+            pref = ""
+
+            for j in range(len(strs[i])):
+                if (j < len(cur)) and (cur[j] == strs[i][j]):
+                    pref += strs[i][j]
+                else:
+                    break
+
+            if len(pref) == 0:
+                break
+
+        return pref
+
+    print(longestCommonPrefix(None, ["flower", "flow", "flight"]))  # "fl"
+    print(longestCommonPrefix(None, ["dog", "racecar", "car"]))  # ""
+    print(longestCommonPrefix(None, ["", "b"]))  # ""
+
+
+# Definitely still pretty stiff with python
+# I'm sure knowing a few more string methods would speed this up
+
+
+class Solution:
+    def topVotedLongestCommonPrefix(self, strs: List[str]) -> str:
+        pre = strs[0]
+
+        for i in strs:
+            while not i.startswith(pre):
+                pre = pre[:-1]
+
+        return pre
+
+
+# '.startswith' is a good start
