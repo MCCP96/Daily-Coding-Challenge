@@ -188,7 +188,7 @@ class Solution:
 # Haha great solution """
 
 # Longest Common Prefix					1/15/2024
-
+""" 
 # Write a function to find the longest common prefix string amongst an array of strings.
 
 # If there is no common prefix, return an empty string "".
@@ -247,4 +247,80 @@ class Solution:
         return pre
 
 
-# '.startswith' is a good start
+# '.startswith' is a good start """
+
+# Valid Parentheses					1/16/2024
+
+# Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+# An input string is valid if:
+#   Open brackets must be closed by the same type of brackets.
+#   Open brackets must be closed in the correct order.
+#   Every close bracket has a corresponding open bracket of the same type.
+
+# Example 1:
+# 		Input: s = "()"
+# 		Output: true
+
+# Example 2:
+# 		Input: s = "()[]{}"
+# 		Output: true
+
+# Example 3:
+# 		Input: s = "(]"
+# 		Output: false
+
+# Constraints:
+# 		1 <= s.length <= 104
+# 		s consists of parentheses only '()[]{}'.
+
+
+class Solution(object):
+    def isValid(self, s):
+        stack = []
+
+        for c in s:
+            if c in ["(", "{", "["]:
+                stack.append(c)
+            else:
+                if len(stack) == 0:
+                    return False
+
+                prev = stack.pop()
+
+                if (
+                    (prev != "(" and c == ")")
+                    or (prev != "{" and c == "}")
+                    or (prev != "[" and c == "]")
+                ):
+                    return False
+
+        return len(stack) == 0
+
+    print(isValid(None, "()"))  #  true
+    print(isValid(None, "()[]{}"))  #  true
+    print(isValid(None, "(]"))  #  false
+
+
+# Beats 95% of runtimes
+
+
+class Solution(object):
+    def topVotedIsValid(self, s):
+        stack = []  # create an empty stack to store opening brackets
+        for c in s:  # loop through each character in the string
+            if c in "([{":  # if the character is an opening bracket
+                stack.append(c)  # push it onto the stack
+            else:  # if the character is a closing bracket
+                if (
+                    not stack
+                    or (c == ")" and stack[-1] != "(")
+                    or (c == "}" and stack[-1] != "{")
+                    or (c == "]" and stack[-1] != "[")
+                ):
+                    return False
+                stack.pop()
+        return not stack
+
+
+# 'not stack' is a great way of checking len(stack) == 0
