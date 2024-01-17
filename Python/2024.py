@@ -250,7 +250,7 @@ class Solution:
 # '.startswith' is a good start """
 
 # Valid Parentheses					1/16/2024
-
+""" 
 # Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
 # An input string is valid if:
@@ -323,4 +323,112 @@ class Solution(object):
         return not stack
 
 
-# 'not stack' is a great way of checking len(stack) == 0
+# 'not stack' is a great way of checking len(stack) == 0 """
+
+# Merge Two Sorted Lists					1/17/2024
+
+# You are given the heads of two sorted linked lists list1 and list2.
+
+# Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+# Return the head of the merged linked list.
+
+# Example 1:
+# 		Input: list1 = [1,2,4], list2 = [1,3,4]
+# 		Output: [1,1,2,3,4,4]
+
+# Example 2:
+# 		Input: list1 = [], list2 = []
+# 		Output: []
+
+# Example 3:
+# 		Input: list1 = [], list2 = [0]
+# 		Output: [0]
+
+# Constraints:
+# 		The number of nodes in both lists is in the range [0, 50].
+# 		-100 <= Node.val <= 100
+# 		Both list1 and list2 are sorted in non-decreasing order.
+
+
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution(object):
+    def mergeTwoLists(self, l1, l2):
+        merged = ListNode(0)
+        head = merged
+
+        while l1 or l2:
+            if l1 and not l2:
+                merged.next = l1
+                break
+            elif l2 and not l1:
+                merged.next = l2
+                break
+            elif l1.val <= l2.val:
+                merged.next = l1
+                l1 = l1.next
+            else:
+                merged.next = l2
+                l2 = l2.next
+
+            merged = merged.next
+
+        return head.next
+
+
+# Got it working
+
+
+# iteratively
+def topVotedMergeTwoLists1(self, l1, l2):
+    dummy = cur = ListNode(0)
+    while l1 and l2:
+        if l1.val < l2.val:
+            cur.next = l1
+            l1 = l1.next
+        else:
+            cur.next = l2
+            l2 = l2.next
+        cur = cur.next
+    cur.next = l1 or l2
+    return dummy.next
+
+
+# recursively
+def topVotedMergeTwoLists2(self, l1, l2):
+    if not l1 or not l2:
+        return l1 or l2
+    if l1.val < l2.val:
+        l1.next = self.mergeTwoLists(l1.next, l2)
+        return l1
+    else:
+        l2.next = self.mergeTwoLists(l1, l2.next)
+        return l2
+
+
+# in-place, iteratively
+def topVotedMergeTwoLists(self, l1, l2):
+    if None in (l1, l2):
+        return l1 or l2
+    dummy = cur = ListNode(0)
+    dummy.next = l1
+    while l1 and l2:
+        if l1.val < l2.val:
+            l1 = l1.next
+        else:
+            nxt = cur.next
+            cur.next = l2
+            tmp = l2.next
+            l2.next = nxt
+            l2 = tmp
+        cur = cur.next
+    cur.next = l1 or l2
+    return dummy.next
+
+
+# 'dummy = cur = ListNode(0)' and 'cur.next = l1 or l2' are nice
