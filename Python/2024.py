@@ -506,7 +506,7 @@ def removeDuplicates(self, nums: List[int]) -> int:
 # 'sort in place using [:]'! """
 
 # Remove Element					1/19/2024
-
+""" 
 # Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
 
 # Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
@@ -576,4 +576,44 @@ def topVotedRemoveElement(self, nums, val):
         if x != val:
             nums[i] = x
             i += 1
-    return i
+    return i """
+
+# Find the Index of the First Occurrence in a String					1/20/2024
+
+# Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+# Example 1:
+# 		Input: haystack = "sadbutsad", needle = "sad"
+# 		Output: 0
+# Explanation: "sad" occurs at index 0 and 6.
+# 		The first occurrence is at index 0, so we return 0.
+
+# Example 2:
+# 		Input: haystack = "leetcode", needle = "leeto"
+# 		Output: -1
+# Explanation: "leeto" did not occur in "leetcode", so we return -1.
+
+# Constraints:
+# 		1 <= haystack.length, needle.length <= 104
+# 		haystack and needle consist of only lowercase English characters.
+
+
+class Solution(object):
+    def strStr(self, haystack, needle):
+        try:
+            return haystack.index(needle)
+        except:
+            return -1
+
+    print(strStr(None, "sadbutsad", "sad"))  #  0
+    print(strStr(None, "leetcode", "leeto"))  #  -1
+
+
+# I'm suprised .index returns a ValueError when substring is not found instead of -1 like in JavaScript
+
+
+def topVotedStrStr(self, haystack, needle):
+    return haystack.find(needle)
+
+
+# ah, .find does tho
