@@ -1,3 +1,5 @@
+import math
+
 # Two Sum					1/12/2024
 """ 
 # Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
@@ -579,7 +581,7 @@ def topVotedRemoveElement(self, nums, val):
     return i """
 
 # Find the Index of the First Occurrence in a String					1/20/2024
-
+""" 
 # Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
 # Example 1:
@@ -616,4 +618,98 @@ def topVotedStrStr(self, haystack, needle):
     return haystack.find(needle)
 
 
-# ah, .find does tho
+# ah, .find does tho """
+
+# Search Insert Position					1/21/2024
+
+# Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+# You must write an algorithm with O(log n) runtime complexity.
+
+# Example 1:
+# 		Input: nums = [1,3,5,6], target = 5
+# 		Output: 2
+
+# Example 2:
+# 		Input: nums = [1,3,5,6], target = 2
+# 		Output: 1
+
+# Example 3:
+# 		Input: nums = [1,3,5,6], target = 7
+# 		Output: 4
+
+# Constraints:
+# 		1 <= nums.length <= 104
+# 		-104 <= nums[i] <= 104
+# 		nums contains distinct values sorted in ascending order.
+# 		-104 <= target <= 104
+
+
+class Solution(object):
+    def searchInsert(self, nums, t):
+        if nums[0] > t:
+            return 0
+
+        l = 0
+        r = len(nums) - 1
+
+        while l <= r:
+            m = int((l + r) / 2)
+            if nums[m] < t:
+                l = m + 1
+            elif nums[m] > t:
+                r = m - 1
+            else:
+                return m
+
+        if nums[m] > t:
+            return m
+        else:
+            return m + 1
+
+    print(searchInsert(None, [1, 3, 5, 6], 5))  #  2
+    print(searchInsert(None, [1, 3, 5, 6], 2))  #  1
+    print(searchInsert(None, [1, 3, 5, 6], 7))  #  4
+    print(searchInsert(None, [1, 3, 5, 6], 0))  #  0
+    print(searchInsert(None, [1, 3], 2))  #  1
+
+
+# Binary search
+
+
+def topVotedSearchInsert(self, nums, target):  # works even if there are duplicates.
+    l, r = 0, len(nums) - 1
+    while l <= r:
+        mid = (l + r) / 2
+        if nums[mid] < target:
+            l = mid + 1
+        else:
+            if nums[mid] == target and nums[mid - 1] != target:
+                return mid
+            else:
+                r = mid - 1
+    return l
+
+
+# Return l was my problem
+# Should do that instead of the first & final if statements
+
+
+class Solution(object):
+    def revisedSearchInsert(self, nums, t):
+        l = 0
+        r = len(nums) - 1
+
+        while l <= r:
+            m = int((l + r) / 2)
+            if nums[m] < t:
+                l = m + 1
+            elif nums[m] > t:
+                r = m - 1
+            else:
+                return m
+
+        return l
+
+
+# Gotten rusty with my binary search
