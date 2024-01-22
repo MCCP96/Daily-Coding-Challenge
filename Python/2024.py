@@ -621,7 +621,7 @@ def topVotedStrStr(self, haystack, needle):
 # ah, .find does tho """
 
 # Search Insert Position					1/21/2024
-
+""" 
 # Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
 
 # You must write an algorithm with O(log n) runtime complexity.
@@ -712,4 +712,82 @@ class Solution(object):
         return l
 
 
-# Gotten rusty with my binary search
+# Gotten rusty with my binary search """
+
+# Length of Last Word					1/22/2024
+
+# Given a string s consisting of words and spaces, return the length of the last word in the string.
+
+# A word is a maximal
+
+# substring
+
+# consisting of non-space characters only.
+
+# Example 1:
+# 		Input: s = "Hello World"
+# 		Output: 5
+# Explanation: The last word is "World" with length 5.
+
+# Example 2:
+# 		Input: s = "   fly me   to   the moon  "
+# 		Output: 4
+# Explanation: The last word is "moon" with length 4.
+
+# Example 3:
+# 		Input: s = "luffy is still joyboy"
+# 		Output: 6
+# Explanation: The last word is "joyboy" with length 6.
+
+# Constraints:
+# 		1 <= s.length <= 104
+# 		s consists of only English letters and spaces ' '.
+# 		There will be at least one word in s.
+
+
+class Solution(object):
+    def lengthOfLastWord(self, s):
+        return len(s.rstrip().split(" ").pop())
+
+    print(lengthOfLastWord(None, "Hello World"))  #  5
+    print(lengthOfLastWord(None, "   fly me   to   the moon  "))  #  4
+    print(lengthOfLastWord(None, "luffy is still joyboy"))  #  6
+
+
+# Nice, but took me no more than 1 minute to write
+
+
+class Solution(object):
+    def revisedLengthOfLastWord(self, s):
+        res = 0
+        prev = " "
+        for c in s:
+            if prev == " " and c != " ":
+                res = 1
+            elif c != " ":
+                res += 1
+            prev = c
+        return res
+
+    print(revisedLengthOfLastWord(None, "Hello World"))  #  5
+    print(revisedLengthOfLastWord(None, "   fly me   to   the moon  "))  #  4
+    print(revisedLengthOfLastWord(None, "luffy is still joyboy"))  #  6
+
+
+# Something to practice my Python with, slightly faster runtime
+
+
+class Solution(object):
+    def topVotedLengthOfLastWord(self, s):
+        wordlist = s.split()
+        if wordlist:
+            return len(wordlist[-1])
+        return 0
+
+
+# [-1] instead of .pop
+
+
+class Solution(object):
+    def lengthOfLastWord(self, s):
+        return len(s.rstrip().split(" ")[-1])
