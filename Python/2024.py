@@ -715,7 +715,7 @@ class Solution(object):
 # Gotten rusty with my binary search """
 
 # Length of Last Word					1/22/2024
-
+""" 
 # Given a string s consisting of words and spaces, return the length of the last word in the string.
 
 # A word is a maximal
@@ -790,4 +790,72 @@ class Solution(object):
 
 class Solution(object):
     def lengthOfLastWord(self, s):
-        return len(s.rstrip().split(" ")[-1])
+        return len(s.rstrip().split(" ")[-1]) """
+
+# Plus One					1/23/2024
+
+# You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+# Increment the large integer by one and return the resulting array of digits.
+
+# Example 1:
+# 		Input: digits = [1,2,3]
+# 		Output: [1,2,4]
+# Explanation: The array represents the integer 123.
+# 		Incrementing by one gives 123 + 1 = 124.
+# 		Thus, the result should be [1,2,4].
+
+# Example 2:
+# 		Input: digits = [4,3,2,1]
+# 		Output: [4,3,2,2]
+# Explanation: The array represents the integer 4321.
+# 		Incrementing by one gives 4321 + 1 = 4322.
+# 		Thus, the result should be [4,3,2,2].
+
+# Example 3:
+# 		Input: digits = [9]
+# 		Output: [1,0]
+# Explanation: The array represents the integer 9.
+# 		Incrementing by one gives 9 + 1 = 10.
+# 		Thus, the result should be [1,0].
+
+# Constraints:
+# 		1 <= digits.length <= 100
+# 		0 <= digits[i] <= 9
+# 		digits does not contain any leading 0's.
+
+
+class Solution(object):
+    def plusOne(self, digits):
+        i = len(digits) - 1
+        c = 1
+
+        while i >= 0 and c == 1:
+            digits[i] += c
+            if digits[i] < 10:
+                c = 0
+            else:
+                digits[i] = 0
+            i -= 1
+
+        if c:
+            digits.insert(0, c)
+
+        return digits
+
+    print(plusOne(None, [1, 2, 3]))  #  [1,2,4]
+    print(plusOne(None, [4, 3, 2, 1]))  #  [4,3,2,2]
+    print(plusOne(None, [9]))  #  [1,0]
+
+
+# Beats 95% runtimes
+
+
+def topVotedPlusOne(digits):
+    num = 0
+    for i in range(len(digits)):
+        num += digits[i] * pow(10, (len(digits) - 1 - i))
+    return [int(i) for i in str(num + 1)]
+
+
+# Converts from int to string
