@@ -793,7 +793,7 @@ class Solution(object):
         return len(s.rstrip().split(" ")[-1]) """
 
 # Plus One					1/23/2024
-
+""" 
 # You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
 
 # Increment the large integer by one and return the resulting array of digits.
@@ -858,4 +858,54 @@ def topVotedPlusOne(digits):
     return [int(i) for i in str(num + 1)]
 
 
-# Converts from int to string
+# Converts from int to string """
+
+# Add Binary					1/24/2024
+
+# Given two binary strings a and b, return their sum as a binary string.
+
+# Example 1:
+# 		Input: a = "11", b = "1"
+# 		Output: "100"
+
+# Example 2:
+# 		Input: a = "1010", b = "1011"
+# 		Output: "10101"
+
+# Constraints:
+# 		1 <= a.length, b.length <= 104
+# 		a and b consist only of '0' or '1' characters.
+# 		Each string does not contain leading zeros except for the zero itself.
+
+
+class Solution(object):
+    def addBinary(self, a, b):
+        sum = bin(int(a, 2) + int(b, 2))
+        return sum[2:]  # remove '0b' prefix
+
+    print(addBinary(None, "11", "1"))  #  "100"
+    print(addBinary(None, "1010", "1011"))  #  "10101"
+
+
+# Was going to do it the long way with carry but good to learn about int and bin methods
+
+
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        res = ""
+        i, j, carry = len(a) - 1, len(b) - 1, 0
+        while i >= 0 or j >= 0:
+            sum = carry
+            if i >= 0:
+                sum += ord(a[i]) - ord(
+                    "0"
+                )  # ord is use to get value of ASCII character
+            if j >= 0:
+                sum += ord(b[j]) - ord("0")
+            i, j = i - 1, j - 1
+            carry = 1 if sum > 1 else 0
+            res += str(sum % 2)
+
+        if carry != 0:
+            res += str(carry)
+        return res[::-1]
