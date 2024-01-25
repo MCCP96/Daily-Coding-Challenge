@@ -861,7 +861,7 @@ def topVotedPlusOne(digits):
 # Converts from int to string """
 
 # Add Binary					1/24/2024
-
+""" 
 # Given two binary strings a and b, return their sum as a binary string.
 
 # Example 1:
@@ -908,4 +908,64 @@ class Solution:
 
         if carry != 0:
             res += str(carry)
-        return res[::-1]
+        return res[::-1] """
+
+# Sqrt(x)					1/25/2024
+
+# Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.
+
+# You must not use any built-in exponent function or operator.
+
+# For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.
+
+# Example 1:
+# 		Input: x = 4
+# 		Output: 2
+# Explanation: The square root of 4 is 2, so we return 2.
+
+# Example 2:
+# 		Input: x = 8
+# 		Output: 2
+# Explanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
+
+# Constraints:
+# 		0 <= x <= 231 - 1
+
+
+class Solution(object):
+    def mySqrt(self, x):
+        if x == 0 or x == 1:
+            return x
+
+        l = 0
+        r = x
+
+        while l < r:
+            m = (r + l) / 2
+            if m * m <= x:
+                l = m + 1
+            else:
+                r = m - 1
+
+        return int(l - 1)
+
+    print(mySqrt(None, 2))  #  1
+    print(mySqrt(None, 4))  #  2
+    print(mySqrt(None, 8))  #  2
+
+
+class Solution(object):
+    def topVotedMySqrt(self, x):
+        l, r = 0, x
+        while l <= r:
+            mid = l + (r - l) // 2
+            if mid * mid <= x < (mid + 1) * (mid + 1):
+                return mid
+            elif x < mid * mid:
+                r = mid - 1
+            else:
+                l = mid + 1
+
+
+# setting l to null makes it work for 0 and 1 exceptions
+# // is integer division
