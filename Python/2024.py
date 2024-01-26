@@ -911,7 +911,7 @@ class Solution:
         return res[::-1] """
 
 # Sqrt(x)					1/25/2024
-
+""" 
 # Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.
 
 # You must not use any built-in exponent function or operator.
@@ -968,4 +968,54 @@ class Solution(object):
 
 
 # setting l to null makes it work for 0 and 1 exceptions
-# // is integer division
+# // is integer division """
+
+# Climbing Stairs					1/26/2024
+
+# You are climbing a staircase. It takes n steps to reach the top.
+
+# Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+# Example 1:
+# 		Input: n = 2
+# 		Output: 2
+# Explanation: There are two ways to climb to the top.
+# 		1. 1 step + 1 step
+# 		2. 2 steps
+
+# Example 2:
+# 		Input: n = 3
+# 		Output: 3
+# Explanation: There are three ways to climb to the top.
+# 		1. 1 step + 1 step + 1 step
+# 		2. 1 step + 2 steps
+# 		3. 2 steps + 1 step
+
+# Constraints:
+# 		1 <= n <= 45
+
+
+class Solution(object):
+    def climbStairs(self, n):
+        def step(n):
+            if n == 1 or n == 2:
+                return n
+            return step(n - 1) + step(n - 2)
+
+        return step(n)
+
+    print(climbStairs(None, 2))  #  2
+    print(climbStairs(None, 3))  #  3
+    print(climbStairs(None, 4))  #  5
+
+
+# I'm seeing this type of counting in Discrete Structures II right now
+# Surely a mathematical approach is possible
+
+
+class Solution:
+    def climbStairs(self, n):
+        p2, p1 = 0, 1
+        for i in range(n):
+            p2, p1 = p1, (p1 + p2)
+        return p1
