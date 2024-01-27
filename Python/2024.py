@@ -971,7 +971,7 @@ class Solution(object):
 # // is integer division """
 
 # Climbing Stairs					1/26/2024
-
+""" 
 # You are climbing a staircase. It takes n steps to reach the top.
 
 # Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
@@ -1018,4 +1018,62 @@ class Solution:
         p2, p1 = 0, 1
         for i in range(n):
             p2, p1 = p1, (p1 + p2)
-        return p1
+        return p1 """
+
+# Remove Duplicates from Sorted List					1/27/2024
+
+# Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
+
+# Example 1:
+# 		Input: head = [1,1,2]
+# 		Output: [1,2]
+
+# Example 2:
+# 		Input: head = [1,1,2,3,3]
+# 		Output: [1,2,3]
+
+# Constraints:
+# 		The number of nodes in the list is in the range [0, 300].
+# 		-100 <= Node.val <= 100
+# 		The list is guaranteed to be sorted in ascending order.
+
+
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution(object):
+    def deleteDuplicates(self, head):
+        if head == None:
+            return head
+
+        seen = [head.val]
+
+        def explore(prev, node):
+            if node == None:
+                return
+            elif node.val not in seen:
+                seen.append(node.val)
+                prev = node
+            else:
+                prev.next = node.next
+
+            explore(prev, node.next)
+
+        explore(head, head.next)
+        return head
+
+
+# Bit bulky
+
+
+def deleteDuplicates(self, head):
+    cur = head
+    while cur:
+        while cur.next and cur.next.val == cur.val:
+            cur.next = cur.next.next  # skip duplicated node
+        cur = cur.next  # not duplicate of current node, move to next node
+    return head
