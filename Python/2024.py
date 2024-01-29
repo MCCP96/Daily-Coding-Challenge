@@ -1079,7 +1079,7 @@ def deleteDuplicates(self, head):
     return head """
 
 # Merge Sorted Array					1/28/2024
-
+""" 
 # You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
 
 # Merge nums1 and nums2 into a single array sorted in non-decreasing order.
@@ -1144,4 +1144,64 @@ class Solution(object):
     def merge(self, nums1, m, nums2, n):
         for j in range(n):
             nums1[m + j] = nums2[j]
-        nums1.sort()
+        nums1.sort() """
+
+# Same Tree					1/29/2024
+
+# Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+# Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+# Example 1:
+# 		Input: p = [1,2,3], q = [1,2,3]
+# 		Output: true
+
+# Example 2:
+# 		Input: p = [1,2], q = [1,null,2]
+# 		Output: false
+
+# Example 3:
+# 		Input: p = [1,2,1], q = [1,1,2]
+# 		Output: false
+
+# Constraints:
+# 		The number of nodes in both trees is in the range [0, 100].
+# 		-104 <= Node.val <= 104
+
+
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution(object):
+    def isSameTree(self, p, q):
+        def explore(l, r):
+            if l == None and r == None:
+                return True
+            if (
+                (l != None and r == None)
+                or (l == None and r != None)
+                or (l.val != r.val)
+            ):
+                return False
+            return explore(l.left, r.left) and explore(l.right, r.right)
+
+        return explore(p, q)
+
+    print(isSameTree(None, [1, 2, 3], [1, 2, 3]))  #  true
+    print(isSameTree(None, [1, 2], [1, null, 2]))  #  false
+    print(isSameTree(None, [1, 2, 1], [1, 1, 2]))  #  false
+
+
+def topVotedIsSameTree(self, p, q):
+    if p and q:
+        return (
+            p.val == q.val
+            and self.topVotedIsSameTree(p.left, q.left)
+            and self.topVotedIsSameTree(p.right, q.right)
+        )
+    return p is q
