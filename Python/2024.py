@@ -1147,7 +1147,7 @@ class Solution(object):
         nums1.sort() """
 
 # Same Tree					1/29/2024
-
+""" 
 # Given the roots of two binary trees p and q, write a function to check if they are the same or not.
 
 # Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
@@ -1204,4 +1204,67 @@ def topVotedIsSameTree(self, p, q):
             and self.topVotedIsSameTree(p.left, q.left)
             and self.topVotedIsSameTree(p.right, q.right)
         )
-    return p is q
+    return p is q """
+
+# Symmetric Tree					1/30/2024
+
+# Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+# Example 1:
+# 		Input: root = [1,2,2,3,4,4,3]
+# 		Output: true
+
+# Example 2:
+# 		Input: root = [1,2,2,null,3,null,3]
+# 		Output: false
+
+# Constraints:
+# 		The number of nodes in the tree is in the range [1, 1000].
+# 		-100 <= Node.val <= 100
+# 		Follow up: Could you solve it both recursively and iteratively?
+
+
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution(object):
+    def isSymmetric(self, root):
+        def explore(l, r):
+            if not l and not r:  # both end
+                return True
+            if not l or not r:  # one of the two ends
+                return False
+            return (
+                l.val == r.val and explore(l.left, r.right) and explore(l.right, r.left)
+            )
+
+        return explore(root.left, root.right)
+
+    print(isSymmetric(None, [1, 2, 2, 3, 4, 4, 3]))  #  true
+    print(isSymmetric(None, [1, 2, 2, None, 3, None, 3]))  #  false
+
+
+class Solution(object):
+    def isMirror(self, left, right):
+        if not left and not right:
+            return True
+        if not left or not right:
+            return False
+        return (
+            left.val == right.val
+            and self.isMirror(left.left, right.right)
+            and self.isMirror(left.right, right.left)
+        )
+
+    def topVotedIsSymmetric(self, root):
+        if not root:
+            return True
+        return self.isMirror(root.left, root.right)
+
+
+# same same
