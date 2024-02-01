@@ -1270,7 +1270,7 @@ class Solution(object):
 # same same """
 
 # Maximum Depth of Binary Tree					1/31/2024
-
+""" 
 # Given the root of a binary tree, return its maximum depth.
 
 # A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
@@ -1313,4 +1313,57 @@ class Solution:
         return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
 
 
-# Omits depth variable
+# Omits depth variable """
+
+# Climbing Stairs					2/1/2024
+
+# You are climbing a staircase. It takes n steps to reach the top.
+
+# Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+# Example 1:
+# 		Input: n = 2
+# 		Output: 2
+# Explanation: There are two ways to climb to the top.
+# 		1. 1 step + 1 step
+# 		2. 2 steps
+
+# Example 2:
+# 		Input: n = 3
+# 		Output: 3
+# Explanation: There are three ways to climb to the top.
+# 		1. 1 step + 1 step + 1 step
+# 		2. 1 step + 2 steps
+# 		3. 2 steps + 1 step
+
+# Constraints:
+# 		1 <= n <= 45
+
+
+class Solution:
+    def climbStairs(self, n):
+        return int(
+            ((((1 + 5**0.5) / 2) ** (n + 1)) - (((1 - 5**0.5) / 2) ** (n + 1)))
+            / (5**0.5)
+        )
+
+    print(climbStairs(None, 2))  #  2
+    print(climbStairs(None, 3))  #  3
+
+
+# Thought I'd revisit this problem since we covered it in Discrete Structures II
+
+# The equation seen above is the solution to fib(n)
+
+
+class Solution:
+    def topVotedClimbStairs(self, n: int) -> int:
+        # with math
+        phi = 1.618033988749894
+        phimenus = -0.618033988749894
+
+        return round((phi ** (n + 1) - phimenus ** (1 + n)) / 5**0.5)
+
+
+# Much clearer
+# Phi is the golden ratio
