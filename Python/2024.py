@@ -1316,7 +1316,7 @@ class Solution:
 # Omits depth variable """
 
 # Climbing Stairs					2/1/2024
-
+""" 
 # You are climbing a staircase. It takes n steps to reach the top.
 
 # Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
@@ -1366,4 +1366,63 @@ class Solution:
 
 
 # Much clearer
-# Phi is the golden ratio
+# Phi is the golden ratio """
+
+# Balanced Binary Tree					2/2/2024
+
+# Given a binary tree, determine if it is height-balanced.
+
+# Example 1:
+# 		Input: root = [3,9,20,null,null,15,7]
+# 		Output: true
+
+# Example 2:
+# 		Input: root = [1,2,2,3,3,null,null,4,4]
+# 		Output: false
+
+# Example 3:
+# 		Input: root = []
+# 		Output: true
+
+# Constraints:
+# 		The number of nodes in the tree is in the range [0, 5000].
+# 		-104 <= Node.val <= 104
+
+
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution(object):
+    def isBalanced(self, node):
+        if not node:
+            return 1
+
+        l = self.isBalanced(node.left)
+        r = self.isBalanced(node.right)
+
+        if abs(l - r) > 1 or l == -1 or r == -1:
+            return 0
+
+        return 1 + max(l, r)
+
+
+# Doesn't pass all test cases
+
+
+class Solution(object):
+    def topVotedIsBalanced(self, root):
+        def check(root):
+            if root is None:
+                return 0
+            left = check(root.left)
+            right = check(root.right)
+            if left == -1 or right == -1 or abs(left - right) > 1:
+                return -1
+            return 1 + max(left, right)
+
+        return check(root) != -1
