@@ -1487,7 +1487,7 @@ def topVotedMinDepth(self, root):
 # Cool, does max when non-leaf end is encountered, else min """
 
 # Path Sum					2/4/2024
-
+""" 
 # Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
 
 # A leaf is a node with no children.
@@ -1555,4 +1555,57 @@ class Solution:
         return self.hasPathSum(root.left, sum) or self.hasPathSum(root.right, sum)
 
 
-# same same
+# same same """
+
+# Pascal's Triangle					2/5/2024
+
+# Given an integer numRows, return the first numRows of Pascal's triangle.
+
+# In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+
+# Example 1:
+# 		Input: numRows = 5
+# 		Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+# Example 2:
+# 		Input: numRows = 1
+# 		Output: [[1]]
+
+# Constraints:
+# 		1 <= numRows <= 30
+
+
+class Solution(object):
+    def generate(self, numRows):
+        res = [[1]]
+
+        for i in range(2, numRows + 1):
+            row = []
+            for j in range(i):
+                if j == 0 or j == (i - 1):
+                    row.append(1)
+                else:
+                    row.append(res[i - 2][j - 1] + res[i - 2][j])
+            res.append(row)
+
+        return res
+
+    print(generate(None, 5))  #  [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+    print(generate(None, 1))  #  [[1]]
+
+
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        if numRows == 0:
+            return []
+        if numRows == 1:
+            return [[1]]
+
+        prevRows = self.generate(numRows - 1)
+        newRow = [1] * numRows
+
+        for i in range(1, numRows - 1):
+            newRow[i] = prevRows[-1][i - 1] + prevRows[-1][i]
+
+        prevRows.append(newRow)
+        return prevRows
