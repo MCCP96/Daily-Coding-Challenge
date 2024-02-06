@@ -1558,7 +1558,7 @@ class Solution:
 # same same """
 
 # Pascal's Triangle					2/5/2024
-
+""" 
 # Given an integer numRows, return the first numRows of Pascal's triangle.
 
 # In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
@@ -1608,4 +1608,67 @@ class Solution:
             newRow[i] = prevRows[-1][i - 1] + prevRows[-1][i]
 
         prevRows.append(newRow)
-        return prevRows
+        return prevRows """
+
+# Pascal's Triangle II					2/6/2024
+
+# Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
+
+# In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+
+# Example 1:
+# 		Input: rowIndex = 3
+# 		Output: [1,3,3,1]
+
+# Example 2:
+# 		Input: rowIndex = 0
+# 		Output: [1]
+
+# Example 3:
+# 		Input: rowIndex = 1
+# 		Output: [1,1]
+
+# Constraints:
+# 		0 <= rowIndex <= 33
+# 		Follow up: Could you optimize your algorithm to use only O(rowIndex) extra space?
+
+
+class Solution(object):
+    def getRow(self, row):
+        def fact(n):
+            nFact = 1
+            while n > 0:
+                nFact *= n
+                n -= 1
+            return nFact
+
+        res = []
+        xFact = fact(row)
+
+        for i in range(row + 1):
+            res.append(int(xFact / ((fact(i) * fact(row - i)))))
+
+        return res
+
+    print(getRow(None, 3))  #  [1,3,3,1]
+    print(getRow(None, 0))  #  [1]
+    print(getRow(None, 1))  #  [1,1]
+
+
+# Discrete Structures II taught us the equation X!/(Y!(X-Y)!) for pascal's triangle
+# 90% Runtime
+
+
+class Solution(object):
+    def getRow(self, r):
+        ans = [1] * (r + 1)
+        up = r
+        down = 1
+        for i in range(1, r):
+            ans[i] = ans[i - 1] * up / down
+            up = up - 1
+            down = down + 1
+        return ans
+
+
+# Shorter code, slower runtime
