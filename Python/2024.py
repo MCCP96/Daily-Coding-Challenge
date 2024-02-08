@@ -1674,7 +1674,7 @@ class Solution(object):
 # Shorter code, slower runtime """
 
 # Best Time to Buy and Sell Stock					2/7/2024
-
+""" 
 # You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
 # You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
@@ -1720,4 +1720,74 @@ class Solution:
             else:
                 left = right
             right += 1
-        return max_profit
+        return max_profit """
+
+# Valid Palindrome					2/8/2024
+
+# A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+# Given a string s, return true if it is a palindrome, or false otherwise.
+
+# Example 1:
+# 		Input: s = "A man, a plan, a canal: Panama"
+# 		Output: true
+# Explanation: "amanaplanacanalpanama" is a palindrome.
+
+# Example 2:
+# 		Input: s = "race a car"
+# 		Output: false
+# Explanation: "raceacar" is not a palindrome.
+
+# Example 3:
+# 		Input: s = " "
+# 		Output: true
+# Explanation: s is an empty string "" after removing non-alphanumeric characters.
+# 		Since an empty string reads the same forward and backward, it is a palindrome.
+
+# Constraints:
+# 		1 <= s.length <= 2 * 105
+# 		s consists only of printable ASCII characters.
+
+
+class Solution(object):
+    def isPalindrome(self, s):
+        n = len(s)
+        i = 0
+        j = n - 1
+        s = s.lower()
+
+        while i < j:
+            while not s[i].isalnum():
+                i += 1
+            while not s[j].isalnum():
+                j -= 1
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+
+        return True
+
+    print(isPalindrome(None, "A man, a plan, a canal: Panama"))  #  true
+    print(isPalindrome(None, "race a car"))  #  false
+    print(isPalindrome(None, " "))  #  true
+
+
+class Solution(object):
+    def topVotedIsPalindrome(self, s):
+        l, r = 0, len(s) - 1
+        while l < r:
+            if not s[l].isalnum():
+                l += 1
+            elif not s[r].isalnum():
+                r -= 1
+            else:
+                if s[l].lower() != s[r].lower():
+                    return False
+                else:
+                    l += 1
+                    r -= 1
+        return True
+
+
+# Same but avoids additional while loops
