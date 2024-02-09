@@ -1723,7 +1723,7 @@ class Solution:
         return max_profit """
 
 # Valid Palindrome					2/8/2024
-
+""" 
 # A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
 # Given a string s, return true if it is a palindrome, or false otherwise.
@@ -1790,4 +1790,50 @@ class Solution(object):
         return True
 
 
-# Same but avoids additional while loops
+# Same but avoids additional while loops """
+
+# Single Number					2/9/2024
+
+# Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+
+# You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+# Example 1:
+# 		Input: nums = [2,2,1]
+# 		Output: 1
+
+# Example 2:
+# 		Input: nums = [4,1,2,1,2]
+# 		Output: 4
+
+# Example 3:
+# 		Input: nums = [1]
+# 		Output: 1
+
+# Constraints:
+# 		1 <= nums.length <= 3 * 104
+# 		-3 * 104 <= nums[i] <= 3 * 104
+# 		Each element in the array appears twice except for one element which appears only once.
+
+
+class Solution(object):
+    def singleNumber(self, nums):
+        res = 0
+        for n in nums:
+            res ^= n
+        return res
+
+    print(singleNumber(None, [2, 2, 1]))  #  1
+    print(singleNumber(None, [4, 1, 2, 1, 2]))  #  4
+    print(singleNumber(None, [1]))  #  1
+
+
+# Bitwise XOR is built for this problem
+
+
+class Solution(object):
+    def topVotedSingleNumber(self, nums):
+        return sum(list(set(nums))) * 2 - sum(nums)
+
+
+# 'The sum() function returns a number, the sum of all items in an iterable'
