@@ -1839,7 +1839,7 @@ class Solution(object):
 # 'The sum() function returns a number, the sum of all items in an iterable' """
 
 # Linked List Cycle					2/10/2024
-
+""" 
 # Given head, the head of a linked list, determine if the linked list has a cycle in it.
 
 # There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
@@ -1906,4 +1906,61 @@ def hasCycle(self, head):
         return False
 
 
-# right, I remember the tortoise and the hare
+# right, I remember the tortoise and the hare """
+
+# Excel Sheet Column Title					2/11/2024
+
+# Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
+
+# For example:
+# A -> 1
+# B -> 2
+# C -> 3
+# ...
+# Z -> 26
+# AA -> 27
+# AB -> 28
+# ...
+
+# Example 1:
+# 		Input: columnNumber = 1
+# 		Output: "A"
+
+# Example 2:
+# 		Input: columnNumber = 28
+# 		Output: "AB"
+
+# Example 3:
+# 		Input: columnNumber = 701
+# 		Output: "ZY"
+
+# Constraints:
+# 		1 <= columnNumber <= 231 - 1
+
+
+class Solution(object):
+    def convertToTitle(self, col):
+        ALPH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        res = ""
+        while col > 0:
+            res = ALPH[(col - 1) % 26] + res
+            col = (col - 1) // 26
+        return res
+
+    print(convertToTitle(None, 1))  #  "A"
+    print(convertToTitle(None, 28))  #  "AB"
+    print(convertToTitle(None, 701))  #  "ZY"
+
+
+# Ça marche
+
+
+class Solution:
+    def topVotedConvertToTitle(self, num):
+        capitals = [chr(x) for x in range(ord("A"), ord("Z") + 1)]
+        result = []
+        while num > 0:
+            result.append(capitals[(num - 1) % 26])
+            num = (num - 1) // 26
+        result.reverse()
+        return "".join(result)
