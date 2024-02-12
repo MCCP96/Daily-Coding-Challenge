@@ -1909,7 +1909,7 @@ def hasCycle(self, head):
 # right, I remember the tortoise and the hare """
 
 # Excel Sheet Column Title					2/11/2024
-
+""" 
 # Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
 
 # For example:
@@ -1963,4 +1963,50 @@ class Solution:
             result.append(capitals[(num - 1) % 26])
             num = (num - 1) // 26
         result.reverse()
-        return "".join(result)
+        return "".join(result) """
+
+# Majority Element					2/12/2024
+
+# Given an array nums of size n, return the majority element.
+
+# The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+# Example 1:
+# 		Input: nums = [3,2,3]
+# 		Output: 3
+
+# Example 2:
+# 		Input: nums = [2,2,1,1,1,2,2]
+# 		Output: 2
+
+# Constraints:
+# 		n == nums.length
+# 		1 <= n <= 5 * 104
+# 		-109 <= nums[i] <= 109
+
+# Follow-up: Could you solve the problem in linear time and in O(1) space?
+
+
+class Solution(object):
+    def majorityElement(self, nums):
+        res = [-1, 0]
+        count = {}
+        for n in nums:
+            try:
+                count[n] += 1
+            except:
+                count[n] = 1
+
+            if count[n] > res[1]:
+                res = [n, count[n]]
+
+        return res[0]
+
+    print(majorityElement(None, [3, 2, 3]))  #  3
+    print(majorityElement(None, [2, 2, 1, 1, 1, 2, 2]))  #  2
+
+
+class Solution(object):
+    def topVotedMajorityElement1(self, nums):
+        nums.sort()
+        return nums[len(nums) // 2]
