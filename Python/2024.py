@@ -2012,7 +2012,7 @@ class Solution(object):
         return nums[len(nums) // 2] """
 
 # Excel Sheet Column Number					2/13/2024
-
+""" 
 # Given a string columnTitle that represents the column title as appears in an Excel sheet, return its corresponding column number.
 
 # For example:
@@ -2065,4 +2065,58 @@ def titleToNumber(self, s):
     return res
 
 
-# 'The ord() function returns the number representing the unicode code of a specified character.'
+# 'The ord() function returns the number representing the unicode code of a specified character.' """
+
+# Reverse Bits					2/14/2024
+
+# Reverse bits of a given 32 bits unsigned integer.
+
+# Example 1:
+# 		Input: n = 00000010100101000001111010011100
+# 		Output:    964176192 (00111001011110000010100101000000)
+# Explanation: The input binary string 00000010100101000001111010011100 represents the unsigned integer 43261596, so return 964176192 which its binary representation is 00111001011110000010100101000000.
+
+# Example 2:
+# 		Input: n = 11111111111111111111111111111101
+# 		Output:   3221225471 (10111111111111111111111111111111)
+# Explanation: The input binary string 11111111111111111111111111111101 represents the unsigned integer 4294967293, so return 3221225471 which its binary representation is 10111111111111111111111111111111.
+
+# Constraints:
+# 		The input must be a binary string of length 32
+
+# Follow up: If this function is called many times, how would you optimize it?
+
+
+class Solution:
+    def reverseBits(self, n):
+        deg = len(n) - 1
+        res = 0
+        for c in n[::-1]:
+            if c == "1":
+                res += pow(2, deg)
+            deg -= 1
+        return res
+
+    print(
+        reverseBits(None, "00000010100101000001111010011100")
+    )  #     964176192 (00111001011110000010100101000000)
+    print(
+        reverseBits(None, "11111111111111111111111111111101")
+    )  #    3221225471 (10111111111111111111111111111111)
+
+
+# Oops, did it for string input
+
+
+class Solution:
+    def topVotedReverseBits1(self, n):
+        oribin = "{0:032b}".format(n)
+        reversebin = oribin[::-1]
+        return int(reversebin, 2)
+
+    def topVotedReverseBits2(self, n):
+        res = 0
+        for _ in range(32):
+            res = (res << 1) + (n & 1)
+            n >>= 1
+        return res
