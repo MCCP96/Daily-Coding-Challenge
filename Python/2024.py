@@ -2122,7 +2122,7 @@ class Solution:
         return res """
 
 # Number of 1 Bits					2/15/2024
-
+""" 
 # Write a function that takes the binary representation of an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).
 
 # Example 1:
@@ -2158,4 +2158,75 @@ class Solution(object):
     print(hammingWeight(None, 11111111111111111111111111111101))  #  31
 
 
-# same as top voted
+# same as top voted """
+
+# Happy Number					2/16/2024
+
+# Write an algorithm to determine if a number n is happy.
+
+# A happy number is a number defined by the following process:
+
+# Starting with any positive integer, replace the number by the sum of the squares of its digits.
+
+# Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.
+
+# Those numbers for which this process ends in 1 are happy.
+
+# Return true if n is a happy number, and false if not.
+
+# Example 1:
+# 		Input: n = 19
+# 		Output: true
+# Explanation:
+# 		1^2 + 9^2 = 82
+# 		8^2 + 2^2 = 68
+# 		6^2 + 8^2 = 100
+# 		1^2 + 0^2 + 0^2 = 1
+
+# Example 2:
+# 		Input: n = 2
+# 		Output: false
+
+# Constraints:
+# 		1 <= n <= 231 - 1
+
+
+class Solution(object):
+    def isHappy(self, n):
+        seen = []
+        while n != 1:
+            cur = 0
+            while n > 0:
+                cur += pow(n % 10, 2)
+                n //= 10
+
+            if cur in seen:
+                return False
+
+            n = cur
+            seen.append(n)
+
+        return True
+
+    print(isHappy(None, 19))  #  true
+    print(isHappy(None, 2))  #  false
+    print(isHappy(None, 3))  #  false
+    print(isHappy(None, 7))  #  true
+
+
+# Beats 95% of submissions runtimes
+
+
+def topVotedIsHappy(self, n):
+    mem = set()
+    while n != 1:
+        n = sum([int(i) ** 2 for i in str(n)])
+        if n in mem:
+            return False
+        else:
+            mem.add(n)
+    else:
+        return True
+
+
+# 'n = sum([int(i) ** 2 for i in str(n)])'!
