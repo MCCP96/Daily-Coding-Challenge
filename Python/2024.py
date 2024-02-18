@@ -2161,7 +2161,7 @@ class Solution(object):
 # same as top voted """
 
 # Happy Number					2/16/2024
-
+""" 
 # Write an algorithm to determine if a number n is happy.
 
 # A happy number is a number defined by the following process:
@@ -2229,4 +2229,51 @@ def topVotedIsHappy(self, n):
         return True
 
 
-# 'n = sum([int(i) ** 2 for i in str(n)])'!
+# 'n = sum([int(i) ** 2 for i in str(n)])'! """
+
+# Remove Linked List Elements					2/17/2024
+
+# Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+# Example 1:
+# 		Input: head = [1,2,6,3,4,5,6], val = 6
+# 		Output: [1,2,3,4,5]
+
+# Example 2:
+# 		Input: head = [], val = 1
+# 		Output: []
+
+# Example 3:
+# 		Input: head = [7,7,7,7], val = 7
+# 		Output: []
+
+# Constraints:
+# 		The number of nodes in the list is in the range [0, 104].
+# 		1 <= Node.val <= 50
+# 		0 <= val <= 50
+
+
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution(object):
+    def removeElements(self, head, val):
+        newHead = ListNode(None)
+        newHead.next = head
+
+        node = newHead
+        while node.next:
+            if node.next.val == val:
+                node.next = node.next.next
+            else:
+                node = node.next
+
+        return newHead.next
+
+
+# Not a fan of newHead
+# Same as top voted
