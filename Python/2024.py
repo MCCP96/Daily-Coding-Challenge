@@ -2232,7 +2232,7 @@ def topVotedIsHappy(self, n):
 # 'n = sum([int(i) ** 2 for i in str(n)])'! """
 
 # Remove Linked List Elements					2/17/2024
-
+""" 
 # Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
 
 # Example 1:
@@ -2276,4 +2276,73 @@ class Solution(object):
 
 
 # Not a fan of newHead
-# Same as top voted
+# Same as top voted """
+
+# Isomorphic Strings					2/18/2024
+
+# Given two strings s and t, determine if they are isomorphic.
+
+# Two strings s and t are isomorphic if the characters in s can be replaced to get t.
+
+# All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
+
+# Example 1:
+# 		Input: s = "egg", t = "add"
+# 		Output: true
+
+# Example 2:
+# 		Input: s = "foo", t = "bar"
+# 		Output: false
+
+# Example 3:
+# 		Input: s = "paper", t = "title"
+# 		Output: true
+
+# Constraints:
+# 		1 <= s.length <= 5 * 104
+# 		t.length == s.length
+# 		s and t consist of any valid ascii character.
+
+
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        map1 = {}
+        for i in range(len(t)):
+            if t[i] in map1 and map1[t[i]] != s[i]:
+                return False
+            elif t[i] not in map1:
+                map1[t[i]] = s[i]
+
+        map2 = {}
+        for i in range(len(s)):
+            if s[i] in map2 and map2[s[i]] != t[i]:
+                return False
+            elif s[i] not in map2:
+                map2[s[i]] = t[i]
+
+        return True
+
+    print(isIsomorphic(None, "egg", "add"))  #  true
+    print(isIsomorphic(None, "foo", "bar"))  #  false
+    print(isIsomorphic(None, "paper", "title"))  #  true
+    print(isIsomorphic(None, "badc", "baba"))  #  false
+
+
+# definitely a better way of doing this
+
+# struggled with the if statement
+# python returns an error when looking up an undefined key in object, while javascript outputs false
+# had to check with 'in' first
+
+
+class Solution(object):
+    def topVotedIsIsomorphic(self, s, t):
+        s2t, t2s = {}, {}
+        for i in range(len(s)):
+            if s[i] in s2t and s2t[s[i]] != t[i]:
+                return False
+            if t[i] in t2s and t2s[t[i]] != s[i]:
+                return False
+            s2t[s[i]] = t[i]
+            t2s[t[i]] = s[i]
+        return True
