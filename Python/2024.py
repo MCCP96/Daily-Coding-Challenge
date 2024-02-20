@@ -2348,7 +2348,7 @@ class Solution(object):
         return True """
 
 # Reverse Linked List					2/19/2024
-
+""" 
 # Given the head of a singly linked list, reverse the list, and return the reversed list.
 
 # Example 1:
@@ -2402,4 +2402,51 @@ class Solution(object):
         return prev
 
 
-# same same
+# same same """
+
+# Contains Duplicate					2/20/2024
+
+# Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+# Example 1:
+# 		Input: nums = [1,2,3,1]
+# 		Output: true
+
+# Example 2:
+# 		Input: nums = [1,2,3,4]
+# 		Output: false
+
+# Example 3:
+# 		Input: nums = [1,1,1,3,3,4,3,2,4,2]
+# 		Output: true
+
+# Constraints:
+# 		1 <= nums.length <= 105
+# 		-109 <= nums[i] <= 109
+
+
+class Solution(object):
+    def tooSlowContainsDuplicate(self, nums):
+        seen = []
+        for n in nums:
+            if n in seen:
+                return True
+            seen.append(n)
+        return False
+
+    def containsDuplicate(self, nums):
+        return len(set(nums)) != len(nums)
+
+    print(containsDuplicate(None, [1, 2, 3, 1]))  #  true
+    print(containsDuplicate(None, [1, 2, 3, 4]))  #  false
+    print(containsDuplicate(None, [1, 1, 1, 3, 3, 4, 3, 2, 4, 2]))  #  true
+
+
+class Solution(object):
+    def containsDuplicate(self, nums):
+        hset = set()
+        for idx in nums:
+            if idx in hset:
+                return True
+            else:
+                hset.add(idx)
