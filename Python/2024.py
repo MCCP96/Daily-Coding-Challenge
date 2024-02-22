@@ -2452,7 +2452,7 @@ class Solution(object):
                 hset.add(idx) """
 
 # Contains Duplicate II					2/21/2024
-
+""" 
 # Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.
 
 # Example 1:
@@ -2497,4 +2497,64 @@ def containsNearbyDuplicate(self, nums, k):
 
 
 # first time seeing enumerate
-# similar to javascript's forEach
+# similar to javascript's forEach """
+
+# Count Complete Tree Nodes					2/22/2024
+
+# Given the root of a complete binary tree, return the number of the nodes in the tree.
+
+# According to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+# Design an algorithm that runs in less than O(n) time complexity.
+
+# Example 1:
+# 		Input: root = [1,2,3,4,5,6]
+# 		Output: 6
+
+# Example 2:
+# 		Input: root = []
+# 		Output: 0
+
+# Example 3:
+# 		Input: root = [1]
+# 		Output: 1
+
+# Constraints:
+# 		The number of nodes in the tree is in the range [0, 5 * 104].
+# 		0 <= Node.val <= 5 * 104
+# 		The tree is guaranteed to be complete.
+
+
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution(object):
+    def countNodes(self, node):
+        if node == None:
+            return 0
+        return self.countNodes(node.left) + self.countNodes(node.right) + 1
+
+
+# not less than O(n)
+
+
+class Solution:
+    def countNodes(self, root):
+        if not root:
+            return 0
+        leftDepth = self.getDepth(root.left)
+        rightDepth = self.getDepth(root.right)
+        if leftDepth == rightDepth:
+            return pow(2, leftDepth) + self.countNodes(root.right)
+        else:
+            return pow(2, rightDepth) + self.countNodes(root.left)
+
+    def getDepth(self, root):
+        if not root:
+            return 0
+        return 1 + self.getDepth(root.left)
