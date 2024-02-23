@@ -2500,7 +2500,7 @@ def containsNearbyDuplicate(self, nums, k):
 # similar to javascript's forEach """
 
 # Count Complete Tree Nodes					2/22/2024
-
+""" 
 # Given the root of a complete binary tree, return the number of the nodes in the tree.
 
 # According to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
@@ -2557,4 +2557,81 @@ class Solution:
     def getDepth(self, root):
         if not root:
             return 0
-        return 1 + self.getDepth(root.left)
+        return 1 + self.getDepth(root.left) """
+
+# Implement Stack using Queues					2/23/2024
+
+# Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).
+
+# Implement the MyStack class:
+# void push(int x) Pushes element x to the top of the stack.
+# int pop() Removes the element on the top of the stack and returns it.
+# int top() Returns the element on the top of the stack.
+# boolean empty() Returns true if the stack is empty, false otherwise.
+
+# Notes:
+# You must use only standard operations of a queue, which means that only push to back, peek/pop from front, size and is empty operations are valid.
+
+# Depending on your language, the queue may not be supported natively. You may simulate a queue using a list or deque (double-ended queue) as long as you use only a queue's standard operations.
+
+# Example 1:
+# 		Input
+# 		["MyStack", "push", "push", "top", "pop", "empty"]
+# 		[[], [1], [2], [], [], []]
+# 		Output
+# 		[null, null, null, 2, 2, false]
+# 		Explanation
+# 		MyStack myStack = new MyStack();
+# 		myStack.push(1);
+# 		myStack.push(2);
+# 		myStack.top(); // return 2
+# 		myStack.pop(); // return 2
+# 		myStack.empty(); // return False
+
+# Constraints:
+# 		1 <= x <= 9
+# 		At most 100 calls will be made to push, pop, top, and empty.
+# 		All the calls to pop and top are valid.
+
+# Follow-up: Can you implement the stack using only one queue?
+
+import collections
+
+
+class MyStack(object):
+
+    def __init__(self):
+        self.queue = collections.deque()
+
+    def push(self, x):
+        self.queue.appendleft(x)
+
+    def pop(self):
+        return self.queue.popleft()
+
+    def top(self):
+        return self.queue[0]
+
+    def empty(self):
+        return len(self.queue) <= 0
+
+
+class TopVotedStack:
+
+    def __init__(self):
+        self._queue = collections.deque()
+
+    def push(self, x):
+        q = self._queue
+        q.append(x)
+        for _ in range(len(q) - 1):
+            q.append(q.popleft())
+
+    def pop(self):
+        return self._queue.popleft()
+
+    def top(self):
+        return self._queue[0]
+
+    def empty(self):
+        return not len(self._queue)
