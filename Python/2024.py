@@ -2560,7 +2560,7 @@ class Solution:
         return 1 + self.getDepth(root.left) """
 
 # Implement Stack using Queues					2/23/2024
-
+""" 
 # Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).
 
 # Implement the MyStack class:
@@ -2634,4 +2634,57 @@ class TopVotedStack:
         return self._queue[0]
 
     def empty(self):
-        return not len(self._queue)
+        return not len(self._queue) """
+
+# Invert Binary Tree					2/24/2024
+
+# Given the root of a binary tree, invert the tree, and return its root.
+
+# Example 1:
+# 		Input: root = [4,2,7,1,3,6,9]
+# 		Output: [4,7,2,9,6,3,1]
+
+# Example 2:
+# 		Input: root = [2,1,3]
+# 		Output: [2,3,1]
+
+# Example 3:
+# 		Input: root = []
+# 		Output: []
+
+# Constraints:
+# 		The number of nodes in the tree is in the range [0, 100].
+# 		-100 <= Node.val <= 100
+
+
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution(object):
+    def invertTree(self, root):
+        def swap(node):
+            if node == None:
+                return
+
+            node.left, node.right = node.right, node.left
+
+            swap(node.left)
+            swap(node.right)
+
+        swap(root)
+        return root
+
+# glad to see 'temp' wasn't required to swap left and right nodes
+
+class Solution(object):
+    def topVotedInvertTree(self, root):
+        if root:
+            root.left, root.right = self.invertTree(root.right), self.invertTree(
+                root.left
+            )
+            return root
