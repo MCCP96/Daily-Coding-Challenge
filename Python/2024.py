@@ -2637,7 +2637,7 @@ class TopVotedStack:
         return not len(self._queue) """
 
 # Invert Binary Tree					2/24/2024
-
+""" 
 # Given the root of a binary tree, invert the tree, and return its root.
 
 # Example 1:
@@ -2687,4 +2687,103 @@ class Solution(object):
             root.left, root.right = self.invertTree(root.right), self.invertTree(
                 root.left
             )
-            return root
+            return root """
+
+# Summary Ranges					2/25/2024
+
+# You are given a sorted unique integer array nums.
+
+# A range [a,b] is the set of all integers from a to b (inclusive).
+
+# Return the smallest sorted list of ranges that cover all the numbers in the array exactly. That is, each element of nums is covered by exactly one of the ranges, and there is no integer x such that x is in one of the ranges but not in nums.
+
+# Each range [a,b] in the list should be output as:
+
+# "a->b" if a != b
+
+# "a" if a == b
+
+# Example 1:
+# 		Input: nums = [0,1,2,4,5,7]
+# 		Output: ["0->2","4->5","7"]
+# Explanation: The ranges are:
+# 		[0,2] --> "0->2"
+# 		[4,5] --> "4->5"
+# 		[7,7] --> "7"
+
+# Example 2:
+# 		Input: nums = [0,2,3,4,6,8,9]
+# 		Output: ["0","2->4","6","8->9"]
+# Explanation: The ranges are:
+# 		[0,0] --> "0"
+# 		[2,4] --> "2->4"
+# 		[6,6] --> "6"
+# 		[8,9] --> "8->9"
+
+# Constraints:
+# 		0 <= nums.length <= 20
+# 		-231 <= nums[i] <= 231 - 1
+# 		All the values of nums are unique.
+# 		nums is sorted in ascending order.
+
+
+class Solution(object):
+    def summaryRanges(self, nums):
+        res = []
+
+        if len(nums) == 0:
+            return res
+
+        prev = nums[0]
+
+        for i, n in enumerate(nums):
+            if nums[i - 1] < n - 1:
+                if prev != nums[i - 1]:
+                    res.append(str(prev) + "->" + str(nums[i - 1]))
+                else:
+                    res.append(str(prev))
+                prev = nums[i]
+
+        if prev != nums[-1]:
+            res.append(str(prev) + "->" + str(nums[-1]))
+        else:
+            res.append(str(prev))
+
+        return res
+
+    print(summaryRanges(None, [0, 1, 2, 4, 5, 7]))  #  ["0->2","4->5","7"]
+    print(summaryRanges(None, [0, 2, 3, 4, 6, 8, 9]))  #  ["0","2->4","6","8->9"]
+
+
+# bulky, but logic is there
+
+
+def topVotedSummaryRanges(self, nums):
+    ranges = []
+    for n in nums:
+        if not ranges or n > ranges[-1][-1] + 1:
+            ranges += ([],)
+        ranges[-1][1:] = (n,)
+    return ["->".join(map(str, r)) for r in ranges]
+
+
+# comment by user:
+
+# "About the commas :-)
+
+# Three people asked about them in the comments, so I'll also explain it here as well. I have these two basic cases:
+
+# ranges += [],
+# r[1:] = n,
+# Why the trailing commas? Because it turns the right hand side into a tuple and I get the same effects as these more common alternatives:
+
+# ranges += [[]]
+# or
+# ranges.append([])
+
+# r[1:] = [n]
+# Without the comma, ...
+
+# ranges += [] wouldn't add [] itself but only its elements, i.e., nothing.
+# r[1:] = n wouldn't work, because my n is not an iterable.
+# Why do it this way instead of the more common alternatives I showed above? Because it's shorter and faster (according to tests I did a while back)."
