@@ -2690,7 +2690,7 @@ class Solution(object):
             return root """
 
 # Summary Ranges					2/25/2024
-
+""" 
 # You are given a sorted unique integer array nums.
 
 # A range [a,b] is the set of all integers from a to b (inclusive).
@@ -2786,4 +2786,57 @@ def topVotedSummaryRanges(self, nums):
 
 # ranges += [] wouldn't add [] itself but only its elements, i.e., nothing.
 # r[1:] = n wouldn't work, because my n is not an iterable.
-# Why do it this way instead of the more common alternatives I showed above? Because it's shorter and faster (according to tests I did a while back)."
+# Why do it this way instead of the more common alternatives I showed above? Because it's shorter and faster (according to tests I did a while back)." """
+
+# Power of Two					2/26/2024
+
+# Given an integer n, return true if it is a power of two. Otherwise, return false.
+
+# An integer n is a power of two, if there exists an integer x such that n == 2x.
+
+# Example 1:
+# 		Input: n = 1
+# 		Output: true
+# Explanation: 20 = 1
+
+# Example 2:
+# 		Input: n = 16
+# 		Output: true
+# Explanation: 24 = 16
+
+# Example 3:
+# 		Input: n = 3
+# 		Output: false
+
+# Constraints:
+# 		-2^31 <= n <= 2^31 - 1
+
+# Follow up: Could you solve it without loops/recursion?
+
+
+class Solution(object):
+    def oneLineIsPowerOfTwo(self, n):
+        return round(math.log(n, 2), 8).is_integer()
+
+    # breaks down at higher values
+
+    def isPowerOfTwo(self, n):
+        for i in range(31):
+            if 2**i == n:
+                return True
+        return False
+
+    print(isPowerOfTwo(None, 1))  #  true
+    print(isPowerOfTwo(None, 16))  #  true
+    print(isPowerOfTwo(None, 3))  #  false
+    print(isPowerOfTwo(None, 536870912))  #  true
+    print(isPowerOfTwo(None, 536870911))  #  false
+
+
+class Solution:
+    def topVotedIsPowerOfTwo(self, n: int) -> bool:
+        for i in range(31):
+            ans = 2**i
+            if ans == n:
+                return True
+        return False
