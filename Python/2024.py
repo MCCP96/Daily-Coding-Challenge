@@ -2789,7 +2789,7 @@ def topVotedSummaryRanges(self, nums):
 # Why do it this way instead of the more common alternatives I showed above? Because it's shorter and faster (according to tests I did a while back)." """
 
 # Power of Two					2/26/2024
-
+""" 
 # Given an integer n, return true if it is a power of two. Otherwise, return false.
 
 # An integer n is a power of two, if there exists an integer x such that n == 2x.
@@ -2839,4 +2839,68 @@ class Solution:
             ans = 2**i
             if ans == n:
                 return True
-        return False
+        return False """
+
+# Palindrome Linked List					2/27/2024
+
+# Given the head of a singly linked list, return true if it is a
+
+# palindrome
+
+# or false otherwise.
+
+# Example 1:
+# 		Input: head = [1,2,2,1]
+# 		Output: true
+
+# Example 2:
+# 		Input: head = [1,2]
+# 		Output: false
+
+# Constraints:
+# 		The number of nodes in the list is in the range [1, 105].
+# 		0 <= Node.val <= 9
+
+# Follow up: Could you do it in O(n) time and O(1) space?
+
+
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution(object):
+    def isPalindrome(self, head):
+        vals = []
+        while head:
+            vals.append(head.val)
+            head = head.next
+        while len(vals) > 1:
+            if vals.pop(0) != vals.pop(-1):
+                return False
+        return True
+
+
+# We learnt that O(n) == O(2n), but I don't think that's what they wanted here
+
+
+class Solution:
+    def topVotedIsPalindrome(self, head: ListNode) -> bool:
+        slow, fast, prev = head, head, None
+        while fast and fast.next:
+            slow, fast = slow.next, fast.next.next
+        prev, slow, prev.next = slow, slow.next, None
+        while slow:
+            slow.next, prev, slow = prev, slow, slow.next
+        fast, slow = head, prev
+        while slow:
+            if fast.val != slow.val:
+                return False
+            fast, slow = fast.next, slow.next
+        return True
+
+
+# Explanation:
+# https://leetcode.com/problems/palindrome-linked-list/solutions/1137027/js-python-java-c-easy-floyd-s-reversal-solution-w-explanation/
