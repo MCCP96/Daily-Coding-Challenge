@@ -2842,7 +2842,7 @@ class Solution:
         return False """
 
 # Palindrome Linked List					2/27/2024
-
+""" 
 # Given the head of a singly linked list, return true if it is a
 
 # palindrome
@@ -2903,4 +2903,42 @@ class Solution:
 
 
 # Explanation:
-# https://leetcode.com/problems/palindrome-linked-list/solutions/1137027/js-python-java-c-easy-floyd-s-reversal-solution-w-explanation/
+# https://leetcode.com/problems/palindrome-linked-list/solutions/1137027/js-python-java-c-easy-floyd-s-reversal-solution-w-explanation/ """
+
+# Valid Anagram					2/28/2024
+
+# Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+# An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+# Example 1:
+# 		Input: s = "anagram", t = "nagaram"
+# 		Output: true
+
+# Example 2:
+# 		Input: s = "rat", t = "car"
+# 		Output: false
+
+# Constraints:
+# 		1 <= s.length, t.length <= 5 * 104
+# 		s and t consist of lowercase English letters.
+# 		Follow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
+
+
+class Solution(object):
+    def isAnagram(self, s, t):
+        s, t = list(s), list(t)
+        s.sort()
+        t.sort()
+        return s == t
+
+    print(isAnagram(None, "anagram", "nagaram"))  #  true
+    print(isAnagram(None, "rat", "car"))  #  false
+
+
+class Solution(object):
+    def topVotedIsAnagram(self, s, t):
+        return sorted(s) == sorted(t)
+
+
+# Python has a function for that
