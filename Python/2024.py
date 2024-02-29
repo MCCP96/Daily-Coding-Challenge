@@ -2906,7 +2906,7 @@ class Solution:
 # https://leetcode.com/problems/palindrome-linked-list/solutions/1137027/js-python-java-c-easy-floyd-s-reversal-solution-w-explanation/ """
 
 # Valid Anagram					2/28/2024
-
+""" 
 # Given two strings s and t, return true if t is an anagram of s, and false otherwise.
 
 # An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
@@ -2941,4 +2941,75 @@ class Solution(object):
         return sorted(s) == sorted(t)
 
 
-# Python has a function for that
+# Python has a function for that """
+
+# Binary Tree Paths					2/29/2024
+
+# Given the root of a binary tree, return all root-to-leaf paths in any order.
+
+# A leaf is a node with no children.
+
+# Example 1:
+# 		Input: root = [1,2,3,null,5]
+# 		Output: ["1->2->5","1->3"]
+
+# Example 2:
+# 		Input: root = [1]
+# 		Output: ["1"]
+
+# Constraints:
+# 		The number of nodes in the tree is in the range [1, 100].
+# 		-100 <= Node.val <= 100
+
+
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution(object):
+    def binaryTreePaths(self, root):
+        if root == None:
+            return []
+
+        def explore(node, cur):
+            if len(cur) == 0:
+                cur = str(node.val)
+            else:
+                cur = cur + "->" + str(node.val)
+
+            if node.left == None and node.right == None:
+                paths.append(cur)
+                return
+
+            if node.left:
+                explore(node.left, cur)
+            if node.right:
+                explore(node.right, cur)
+
+        paths = []
+        explore(root, "")
+        return paths
+
+
+# Beats 99% of runtimes
+
+
+class Solution(object):
+    # dfs + stack
+    def topVotedBinaryTreePaths1(self, root):
+        if not root:
+            return []
+        res, stack = [], [(root, "")]
+        while stack:
+            node, ls = stack.pop()
+            if not node.left and not node.right:
+                res.append(ls + str(node.val))
+            if node.right:
+                stack.append((node.right, ls + str(node.val) + "->"))
+            if node.left:
+                stack.append((node.left, ls + str(node.val) + "->"))
+        return res
