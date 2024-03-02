@@ -3015,7 +3015,7 @@ class Solution(object):
         return res """
 
 # Add Digits					3/1/2024
-
+""" 
 # Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.
 
 # Example 1:
@@ -3071,4 +3071,61 @@ class Solution:
 # So for any number that isn't 0 and isn't divisible by 9, the root will always n % 9 for a given number n. (AKA the difference between given number n and the nearest number that is divisible by 9, since numbers divisible by 9 always have a digital root of 9).
 # For examples: 100 % 9 = 1 (one greater than 99, which is divisible by 9).
 # 101 % 9 = 2
-# 102 % 9 = 3 and so on.
+# 102 % 9 = 3 and so on. """
+
+# Ugly Number					3/2/2024
+
+# An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
+
+# Given an integer n, return true if n is an ugly number.
+
+# Example 1:
+# 		Input: n = 6
+# 		Output: true
+# Explanation: 6 = 2 × 3
+
+# Example 2:
+# 		Input: n = 1
+# 		Output: true
+# Explanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.
+
+# Example 3:
+# 		Input: n = 14
+# 		Output: false
+# Explanation: 14 is not ugly since it includes the prime factor 7.
+
+# Constraints:
+# 		-231 <= n <= 231 - 1
+
+
+class Solution(object):
+    def isUgly(self, n):
+        pows = [2, 3, 5]
+        p = pows.pop(-1)
+        while n >= 2:
+            if n % p == 0:
+                n /= p
+            else:
+                if len(pows) == 0:
+                    break
+                p = pows.pop(-1)
+        return n == 1
+
+    print(isUgly(None, 6))  #  true
+    print(isUgly(None, 1))  #  true
+    print(isUgly(None, 14))  #  false
+
+
+# I remember you divide continually by those factors
+# bit scuffed, but works
+
+
+class Solution(object):
+    def topVotedIsUgly(self, n):
+        for p in 2, 3, 5:
+            while n % p == 0 < n:
+                n /= p
+        return n == 1
+
+
+# much better looping
