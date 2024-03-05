@@ -3183,7 +3183,7 @@ def topVotedMissingNumber(self, nums):
     return n * (n + 1) / 2 - sum(nums) """
 
 # First Bad Version					3/4/2024
-
+""" 
 # You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
 
 # Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
@@ -3235,4 +3235,49 @@ class Solution:
         return bisect.bisect_left(self, True, 1, n)
 
 
-# "The module is called bisect because it uses a basic bisection algorithm to do its work. Unlike other bisection tools that search for a specific value, the functions in this module are designed to locate an insertion point."
+# "The module is called bisect because it uses a basic bisection algorithm to do its work. Unlike other bisection tools that search for a specific value, the functions in this module are designed to locate an insertion point." """
+
+# Move Zeroes					3/5/2024
+
+# Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+# Note that you must do this in-place without making a copy of the array.
+
+# Example 1:
+# 		Input: nums = [0,1,0,3,12]
+# 		Output: [1,3,12,0,0]
+
+# Example 2:
+# 		Input: nums = [0]
+# 		Output: [0]
+
+# Constraints:
+# 		1 <= nums.length <= 104
+# 		-231 <= nums[i] <= 231 - 1
+# 		Follow up: Could you minimize the total number of operations done?
+
+
+class Solution(object):
+    def moveZeroes(self, nums):
+        pos, n = 0, len(nums)
+        for j in range(n):
+            if nums[j] != 0:
+                nums[pos], nums[j] = nums[j], nums[pos]
+                pos += 1
+        # return nums
+
+    print(moveZeroes(None, [0, 1, 0, 3, 12]))  #  [1,3,12,0,0]
+    print(moveZeroes(None, [0]))  #  [0]
+
+
+# track pos to be replaced
+
+
+def moveZeroes(self, nums):
+    zero = 0  # records the position of "0"
+    for i in xrange(len(nums)):
+        if nums[i] != 0:
+            nums[i], nums[zero] = nums[zero], nums[i]
+            zero += 1
+
+# same same
