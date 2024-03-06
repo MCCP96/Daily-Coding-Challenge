@@ -1,3 +1,4 @@
+import collections
 import math
 
 # Two Sum					1/12/2024
@@ -3238,7 +3239,7 @@ class Solution:
 # "The module is called bisect because it uses a basic bisection algorithm to do its work. Unlike other bisection tools that search for a specific value, the functions in this module are designed to locate an insertion point." """
 
 # Move Zeroes					3/5/2024
-
+""" 
 # Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
 # Note that you must do this in-place without making a copy of the array.
@@ -3280,4 +3281,131 @@ def moveZeroes(self, nums):
             nums[i], nums[zero] = nums[zero], nums[i]
             zero += 1
 
-# same same
+# same same """
+
+# Task Scheduler					3/6/2024
+
+# You are given an array of CPU tasks, each represented by letters A to Z, and a cooling time, n. Each cycle or interval allows the completion of one task. Tasks can be completed in any order, but there's a constraint: identical tasks must be separated by at least n intervals due to cooling time.
+
+# ​Return the minimum number of intervals required to complete all tasks.
+
+# Example 1:
+# 		Input: tasks = ["A","A","A","B","B","B"], n = 2
+# 		Output: 8
+# Explanation: A possible sequence is: A -> B -> idle -> A -> B -> idle -> A -> B.
+# 		After completing task A, you must wait two cycles before doing A again. The same applies to task B. In the 3rd interval, neither A nor B can be done, so you idle. By the 4th cycle, you can do A again as 2 intervals have passed.
+
+# Example 2:
+# 		Input: tasks = ["A","C","A","B","D","B"], n = 1
+# 		Output: 6
+# Explanation: A possible sequence is: A -> B -> C -> D -> A -> B.
+# 		With a cooling interval of 1, you can repeat a task after just one other task.
+
+# Example 3:
+# 		Input: tasks = ["A","A","A", "B","B","B"], n = 3
+# 		Output: 10
+# Explanation: A possible sequence is: A -> B -> idle -> idle -> A -> B -> idle -> idle -> A -> B.
+# 		There are only two types of tasks, A and B, which need to be separated by 3 intervals. This leads to idling twice between repetitions of these tasks.
+
+# Constraints:
+# 		1 <= tasks.length <= 104
+# 		tasks[i] is an uppercase English letter.
+# 		0 <= n <= 100
+
+
+class Solution(object):
+    def leastInterval(self, tasks, n):
+        if n == 1:
+            return len(tasks)
+
+        freq = {}
+        coolingTimer = {}
+        for t in tasks:
+            if t not in freq:
+                freq[t] = 1
+                coolingTimer[t] = 0
+            else:
+                freq[t] += 1
+
+        tasks = list(sorted(freq))
+
+        intervals = 0
+        while len(tasks) > 0:
+            taskChosen = False
+            for t in tasks:
+                if freq[t] == 0:  # all tasks complete
+                    del freq[t]
+                    tasks.remove(t)
+                    continue
+
+                coolingTimer[t] -= 1  # decrement cooling time
+
+                if coolingTimer[t] <= 0 and not taskChosen:  # chose task
+                    taskChosen = True
+                    coolingTimer[t] = n
+                    freq[t] -= 1
+
+            intervals += 1
+
+        return intervals
+
+
+# Doesn't work, there's surely better logic to be had
+
+
+class Solution:
+    # LOGIC : TAKE THE MAXIMUM FREQUENCY ELEMENT AND MAKE THOSE MANY NUMBER OF SLOTS
+    # Slot size = (n+1) if n= 2 => slotsize = 3 Example: {A:5, B:1} => ABxAxxAxxAxxAxx => indices of A = 0,2 and middle there should be n elements, so slot size should be n+1
+
+    # EX:
+    # [
+    #     [A, B,      C],
+    #     [A, B,      C],
+    #     [A, B,      idle],
+    #     [A, B,      idle],
+    #     [A, idle,   idle],
+    #     [A   -        - ],
+    # ]
+    def topVotedLeastInterval(self, tasks, n):
+        freq = collections.Counter(tasks)
+        max_freq = max(freq.values())
+        freq = list(freq.values())
+        max_freq_ele_count = 0  # total_elements_with_max_freq, last row elements
+        i = 0
+        while i < len(freq):
+            if freq[i] == max_freq:
+                max_freq_ele_count += 1
+            i += 1
+
+        ans = (max_freq - 1) * (n + 1) + max_freq_ele_count
+
+        return max(ans, len(tasks))
+
+
+# 'collections.Counter(tasks)' is very useful to build the freq dictionary
+
+# (max_freq - 1): number of rows, minus last (no trailing idles)
+# (n + 1): size of each row
+# max_freq_ele_count: number of tasks in last row
+
+
+class Solution(object):
+    def revisedLeastInterval(self, tasks, n):
+        freq = collections.Counter(tasks)
+        max_freq = max(freq.values())
+        num_max = 0
+
+        for t in freq:
+            num_max += freq[t] == max_freq
+
+        res = (max_freq - 1) * (n + 1) + num_max
+        return max(res, len(tasks))  # minimum is number of tasks
+
+    print(revisedLeastInterval(None, ["A", "A", "A", "B", "B", "B"], 2))  #  8
+    print(revisedLeastInterval(None, ["A", "C", "A", "B", "D", "B"], 1))  #  6
+    print(revisedLeastInterval(None, ["A", "A", "A", "B", "B", "B"], 3))  #  10
+    print(
+        revisedLeastInterval(
+            None, ["A", "B", "C", "D", "E", "A", "B", "C", "D", "E"], 4
+        )
+    )  #  10
