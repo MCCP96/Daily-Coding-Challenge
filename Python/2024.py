@@ -3284,7 +3284,7 @@ def moveZeroes(self, nums):
 # same same """
 
 # Task Scheduler					3/6/2024
-
+""" 
 # You are given an array of CPU tasks, each represented by letters A to Z, and a cooling time, n. Each cycle or interval allows the completion of one task. Tasks can be completed in any order, but there's a constraint: identical tasks must be separated by at least n intervals due to cooling time.
 
 # ​Return the minimum number of intervals required to complete all tasks.
@@ -3408,4 +3408,96 @@ class Solution(object):
         revisedLeastInterval(
             None, ["A", "B", "C", "D", "E", "A", "B", "C", "D", "E"], 4
         )
-    )  #  10
+    )  #  10 """
+
+# Bag of Tokens					3/7/2024
+
+# You start with an initial power of power, an initial score of 0, and a bag of tokens given as an integer array tokens, where each tokens[i] denotes the value of tokeni.
+
+# Your goal is to maximize the total score by strategically playing these tokens. In one move, you can play an unplayed token in one of the two ways (but not both for the same token):
+
+# Face-up: If your current power is at least tokens[i], you may play tokeni, losing tokens[i] power and gaining 1 score.
+
+# Face-down: If your current score is at least 1, you may play tokeni, gaining tokens[i] power and losing 1 score.
+
+# Return the maximum possible score you can achieve after playing any number of tokens.
+
+# Example 1:
+# 		Input: tokens = [100], power = 50
+# 		Output: 0
+# Explanation: Since your score is 0 initially, you cannot play the token face-down. You also cannot play it face-up since your power (50) is less than tokens[0] (100).
+
+# Example 2:
+# 		Input: tokens = [200,100], power = 150
+# 		Output: 1
+# Explanation: Play token1 (100) face-up, reducing your power to 50 and increasing your score to 1.
+# 		There is no need to play token0, since you cannot play it face-up to add to your score. The maximum score achievable is 1.
+
+# Example 3:
+# 		Input: tokens = [100,200,300,400], power = 200
+# 		Output: 2
+# Explanation: Play the tokens in this order to get a score of 2:
+# 		Play token0 (100) face-up, reducing power to 100 and increasing score to 1.
+# 		Play token3 (400) face-down, increasing power to 500 and reducing score to 0.
+# 		Play token1 (200) face-up, reducing power to 300 and increasing score to 1.
+# 		Play token2 (300) face-up, reducing power to 0 and increasing score to 2.
+# 		The maximum score achievable is 2.
+
+# Constraints:
+# 		0 <= tokens.length <= 1000
+# 		0 <= tokens[i], power < 104
+
+
+class Solution(object):
+    def bagOfTokensScore(self, tokens, power):
+        tokens = sorted(tokens)
+        if len(tokens) == 0 or power < tokens[0]:
+            return 0
+
+        score = 0
+        play = True
+        while play:
+            while len(tokens) > 0 and power >= tokens[0]:  # face-up low tokens
+                power -= tokens.pop(0)
+                score += 1
+
+            if len(tokens) >= 3:  # worth continuing to play
+                power += tokens.pop(-1)  # face-down highest token
+                score -= 1
+
+            else:  # max score achieved
+                play = False
+
+        return score
+
+    print(bagOfTokensScore(None, [100], 50))  #  0
+    print(bagOfTokensScore(None, [200, 100], 150))  #  1
+    print(bagOfTokensScore(None, [100, 200, 300, 400], 200))  #  2
+
+
+class Solution(object):
+    def topVotedBagOfTokensScore(self, tokens, power):
+        tokens.sort()
+        n = len(tokens)
+        score = 0
+        max_score = 0
+        left = 0
+        right = n - 1
+
+        while left <= right:
+            if power >= tokens[left]:
+                power -= tokens[left]
+                score += 1
+                left += 1
+                max_score = max(max_score, score)
+            elif score > 0:
+                power += tokens[right]
+                score -= 1
+                right -= 1
+            else:
+                break
+
+        return max_score
+
+
+# similar logic, better list navigation
