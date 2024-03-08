@@ -3411,7 +3411,7 @@ class Solution(object):
     )  #  10 """
 
 # Bag of Tokens					3/7/2024
-
+""" 
 # You start with an initial power of power, an initial score of 0, and a bag of tokens given as an integer array tokens, where each tokens[i] denotes the value of tokeni.
 
 # Your goal is to maximize the total score by strategically playing these tokens. In one move, you can play an unplayed token in one of the two ways (but not both for the same token):
@@ -3500,4 +3500,65 @@ class Solution(object):
         return max_score
 
 
-# similar logic, better list navigation
+# similar logic, better list navigation """
+
+# Word Pattern					3/8/2024
+
+# Given a pattern and a string s, find if s follows the same pattern.
+
+# Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s.
+
+# Example 1:
+# 		Input: pattern = "abba", s = "dog cat cat dog"
+# 		Output: true
+
+# Example 2:
+# 		Input: pattern = "abba", s = "dog cat cat fish"
+# 		Output: false
+
+# Example 3:
+# 		Input: pattern = "aaaa", s = "dog cat cat dog"
+# 		Output: false
+
+# Constraints:
+# 		1 <= pattern.length <= 300
+# 		pattern contains only lower-case English letters.
+# 		1 <= s.length <= 3000
+# 		s contains only lowercase English letters and spaces ' '.
+# 		s does not contain any leading or trailing spaces.
+# 		All the words in s are separated by a single space.
+
+
+class Solution(object):
+    def wordPattern(self, pattern, s):
+        pair, seen = {}, set()
+        s = s.split(" ")
+
+        if len(pattern) != len(s):
+            return False
+
+        for i, c in enumerate(pattern):
+            if c not in pair:
+                if s[i] in seen:
+                    return False
+                pair[c] = s[i]
+                seen.add(s[i])
+            elif pair[c] != s[i]:
+                return False
+
+        return True
+
+    print(wordPattern(None, "abba", "dog cat cat dog"))  #  true
+    print(wordPattern(None, "abba", "dog cat cat fish"))  #  false
+    print(wordPattern(None, "aaaa", "dog cat cat dog"))  #  false
+
+
+class Solution(object):
+    def wordPattern(self, pattern, str):
+        s = pattern
+        t = str.split()
+        return map(s.find, s) == map(t.index, t)
+
+
+# map constructor takes function and iterable and builds accordingly
+# here we're building two maps, index as key and char/word as value
