@@ -3564,7 +3564,7 @@ class Solution(object):
 # here we're building two maps, index as key and char/word as value """
 
 # Nim Game					3/9/2024
-
+""" 
 # You are playing the following Nim Game with your friend:
 
 # Initially, there is a heap of stones on the table.
@@ -3607,4 +3607,59 @@ class Solution(object):
     print(canWinNim(None, 2))  #  true
 
 
-# same as top voted solution
+# same as top voted solution """
+
+# Power of Three					3/10/2024
+
+# Given an integer n, return true if it is a power of three. Otherwise, return false.
+
+# An integer n is a power of three, if there exists an integer x such that n == 3x.
+
+# Example 1:
+# 		Input: n = 27
+# 		Output: true
+# Explanation: 27 = 33
+
+# Example 2:
+# 		Input: n = 0
+# 		Output: false
+# Explanation: There is no x where 3x = 0.
+
+# Example 3:
+# 		Input: n = -1
+# 		Output: false
+# Explanation: There is no x where 3x = (-1).
+
+# Constraints:
+# 		-231 <= n <= 231 - 1
+
+# Follow up: Could you solve it without loops/recursion?
+
+
+class Solution(object):
+    def isPowerOfThree(self, n):
+        if n == 1:
+            return True
+
+        p = 1
+        while 3**p <= n:
+            if 3**p != n:
+                p += 1
+            else:
+                return True
+        return False
+
+    print(isPowerOfThree(None, 27))  #  true
+    print(isPowerOfThree(None, 0))  #  false
+    print(isPowerOfThree(None, -1))  #  false
+    print(isPowerOfThree(None, 9))  #  false
+
+
+class Solution:
+    def noLoopIsPowerOfThree(self, n):
+        return (n > 0) and 1162261467 % n == 0
+
+
+# Explanation:
+# "Because 3^19(1,162,261,467) is the largest power of three under 2^31 - 1
+# So we just neet to check if n > 0 and whether 3^19 % n is 0"
