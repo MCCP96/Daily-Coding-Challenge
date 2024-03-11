@@ -3610,7 +3610,7 @@ class Solution(object):
 # same as top voted solution """
 
 # Power of Three					3/10/2024
-
+""" 
 # Given an integer n, return true if it is a power of three. Otherwise, return false.
 
 # An integer n is a power of three, if there exists an integer x such that n == 3x.
@@ -3662,4 +3662,55 @@ class Solution:
 
 # Explanation:
 # "Because 3^19(1,162,261,467) is the largest power of three under 2^31 - 1
-# So we just neet to check if n > 0 and whether 3^19 % n is 0"
+# So we just neet to check if n > 0 and whether 3^19 % n is 0" """
+
+# Counting Bits					3/11/2024
+
+# Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+# Example 1:
+# 		Input: n = 2
+# 		Output: [0,1,1]
+# Explanation:
+# 		0 --> 0
+# 		1 --> 1
+# 		2 --> 10
+
+# Example 2:
+# 		Input: n = 5
+# 		Output: [0,1,1,2,1,2]
+# Explanation:
+# 		0 --> 0
+# 		1 --> 1
+# 		2 --> 10
+# 		3 --> 11
+# 		4 --> 100
+# 		5 --> 101
+
+# Constraints:
+# 		0 <= n <= 10^5
+
+# Follow up:
+# It is very easy to come up with a solution with a runtime of O(n log n). Can you do it in linear time O(1) and possibly in a single pass?
+
+
+class Solution(object):
+    def countBits(self, n):
+        res = [0]
+        for i in range(1, n + 1):
+            res.append(bin(i).count("1"))
+        return res
+
+    print(countBits(None, 2))  #  [0,1,1]
+    print(countBits(None, 5))  #  [0,1,1,2,1,2]
+
+
+class Solution(object):
+    def topVotedCountBits(self, num):
+        counter = [0]
+        for i in range(1, num + 1):
+            counter.append(counter[i >> 1] + i % 2)
+        return counter
+
+
+# "counter[i >> 1]" is what's needed to make the pattern work
