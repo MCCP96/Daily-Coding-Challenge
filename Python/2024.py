@@ -3665,7 +3665,7 @@ class Solution:
 # So we just neet to check if n > 0 and whether 3^19 % n is 0" """
 
 # Counting Bits					3/11/2024
-
+""" 
 # Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
 
 # Example 1:
@@ -3713,4 +3713,43 @@ class Solution(object):
         return counter
 
 
-# "counter[i >> 1]" is what's needed to make the pattern work
+# "counter[i >> 1]" is what's needed to make the pattern work """
+
+# Power of Four					3/12/2024
+
+# Given an integer n, return true if it is a power of four. Otherwise, return false.
+
+# An integer n is a power of four, if there exists an integer x such that n == 4x.
+
+# Example 1:
+# 		Input: n = 16
+# 		Output: true
+
+# Example 2:
+# 		Input: n = 5
+# 		Output: false
+
+# Example 3:
+# 		Input: n = 1
+# 		Output: true
+
+# Constraints:
+# 		-231 <= n <= 231 - 1
+# 		Follow up: Could you solve it without loops/recursion?
+
+
+class Solution(object):
+    def isPowerOfFour(self, n):
+        return n > 0 and (4**15) % n == 0 and math.log(n, 4).is_integer()
+
+    print(isPowerOfFour(None, 16))  #  true
+    print(isPowerOfFour(None, 5))  #  false
+    print(isPowerOfFour(None, 1))  #  true
+    print(isPowerOfFour(None, 2))  #  false
+    print(isPowerOfFour(None, 8))  #  false
+
+
+# 90% Runtime
+# Having both 4**15%n and log4 covers numbers too large and divisible by 2
+
+# Similar to top voted solution
