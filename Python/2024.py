@@ -3716,7 +3716,7 @@ class Solution(object):
 # "counter[i >> 1]" is what's needed to make the pattern work """
 
 # Power of Four					3/12/2024
-
+""" 
 # Given an integer n, return true if it is a power of four. Otherwise, return false.
 
 # An integer n is a power of four, if there exists an integer x such that n == 4x.
@@ -3752,4 +3752,153 @@ class Solution(object):
 # 90% Runtime
 # Having both 4**15%n and log4 covers numbers too large and divisible by 2
 
-# Similar to top voted solution
+# Similar to top voted solution """
+
+# Minimum Number of Groups to Create a Valid Assignment					3/13/2024
+
+# You are given a collection of numbered balls and instructed to sort them into boxes for a nearly balanced distribution. There are two rules you must follow:
+
+# Balls with the same box must have the same value. But, if you have more than one ball with the same number, you can put them in different boxes.
+
+# The biggest box can only have one more ball than the smallest box.
+
+# ​Return the fewest number of boxes to sort these balls following these rules.
+
+# Example 1:
+# 		Input:  balls = [3,2,3,2,3]
+# 		Output:  2
+# Explanation:
+# 		We can sort balls into boxes as follows:
+# 		[3,3,3]
+# 		[2,2]
+# 		The size difference between the two boxes doesn't exceed one.
+
+# Example 2:
+# 		Input:  balls = [10,10,10,3,1,1]
+# 		Output:  4
+# Explanation:
+# 		We can sort balls into boxes as follows:
+# 		[10]
+# 		[10,10]
+# 		[3]
+# 		[1,1]
+# 		You can't use fewer than four boxes while still following the rules. For example, putting all three balls numbered 10 in one box would break the rule about the maximum size difference between boxes.
+
+# Constraints:
+# 		1 <= nums.length <= 10^5
+# 		1 <= nums[i] <= 10^9
+
+
+class Solution(object):
+    def minGroupsForValidAssignment(self, balls):
+        # count freq of each type of ball
+        freq = list(map(balls.count, set(balls)))
+
+        # loop until valid min found
+        min_freq = min(freq)
+        found = False
+        while not found:
+            found = True
+            for f in freq:
+                if f > min_freq + 1:  # overflow
+                    if (  # incompatible remainder
+                        0 < (f % min_freq) < min_freq
+                        and 0 < (f % (min_freq + 1)) < min_freq
+                    ):
+                        min_freq -= 1
+                        found = False
+
+        # count boxes
+        res = 0
+        for f in freq:
+            if f > min_freq + 1:  # overflow
+                boxes = f // (min_freq + 1)
+                rem = f % (min_freq + 1)
+
+                if rem < min_freq:  # smaller boxes are compatible
+                    res += f // min_freq
+                else:
+                    res += boxes
+            else:
+                res += 1
+        return res
+
+    print(minGroupsForValidAssignment(None, [3, 2, 3, 2, 3]))  #   2
+    print(minGroupsForValidAssignment(None, [10, 10, 10, 3, 1, 1]))  #   4
+    print(minGroupsForValidAssignment(None, [2, 3, 2, 2, 2]))  #   3
+    print(
+        minGroupsForValidAssignment(None, [1, 1, 3, 3, 1, 1, 2, 2, 3, 1, 3, 2])
+    )  #   5
+    print(
+        minGroupsForValidAssignment(None, [2, 1, 1, 2, 2, 3, 1, 3, 1, 1, 1, 1, 2])
+    )  #   6
+
+
+# Doesn't work for last test case
+
+
+class Solution(object):
+    def topVotedSol(self, nums):
+        counts = collections.Counter(nums)
+        min_freq = min(counts.values())
+
+        for i in range(min_freq, 0, -1):
+            curr_groups = 0
+            for f in counts.values():
+                a = f // (i + 1)
+                b = f % (i + 1)
+
+                if b == 0:
+                    curr_groups += a
+                elif i - b <= a:
+                    curr_groups += a + 1
+                else:
+                    curr_groups = float("inf")
+
+            if curr_groups != float("inf"):
+                return curr_groups
+
+        return len(nums)
+
+
+class Solution(object):
+    def revisedSol(self, balls):
+        # count number of each type of ball
+        freq = collections.Counter(balls)
+        min_freq = min(freq.values())
+
+        # starting with best case scenario,
+        # decrement min_freq until valid output is found
+        for i in range(min_freq, 0, -1):
+            res = 0
+            valid = True
+            for f in freq.values():
+                boxes = f // (i + 1)
+                rem = f % (i + 1)
+
+                if rem == 0:  # perfect fit
+                    res += boxes
+                elif i - rem <= boxes:  # smaller size fits
+                    res += boxes + 1
+                else:  # invalid
+                    valid = False
+                    break
+
+            if valid:  # least boxes found
+                return res
+
+        # worst case
+        return len(balls)
+
+
+# 'elif i - rem <= boxes:' seems to be the key here
+
+# Day 1000 🔥
+
+# 1000 days feels crazy, but diversifying into different languages has really been the key.
+# I picked up C and Python since we we're seeing them in class, and its made a huge impact.
+
+# I am currently half-way through my Software Engineering degree and looking for my first co-op placement.
+# Studying has been easy now that its all coding relevant and grades are showing that :^)
+
+# I look forward to graduating sometime around day 2000!
