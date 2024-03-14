@@ -3755,7 +3755,7 @@ class Solution(object):
 # Similar to top voted solution """
 
 # Minimum Number of Groups to Create a Valid Assignment					3/13/2024
-
+""" 
 # You are given a collection of numbered balls and instructed to sort them into boxes for a nearly balanced distribution. There are two rules you must follow:
 
 # Balls with the same box must have the same value. But, if you have more than one ball with the same number, you can put them in different boxes.
@@ -3901,4 +3901,44 @@ class Solution(object):
 # I am currently half-way through my Software Engineering degree and looking for my first co-op placement.
 # Studying has been easy now that its all coding relevant and grades are showing that :^)
 
-# I look forward to graduating sometime around day 2000!
+# I look forward to graduating sometime around day 2000! """
+
+# Reverse String					3/14/2024
+
+# Write a function that reverses a string. The input string is given as an array of characters s.
+
+# You must do this by modifying the input array in-place with O(1) extra memory.
+
+# Example 1:
+# 		Input: s = ["h","e","l","l","o"]
+# 		Output: ["o","l","l","e","h"]
+
+# Example 2:
+# 		Input: s = ["H","a","n","n","a","h"]
+# 		Output: ["h","a","n","n","a","H"]
+
+# Constraints:
+# 		1 <= s.length <= 105
+# 		s[i] is a printable ascii character.
+
+
+class Solution(object):
+    def reverseString(self, s):
+        i, j = 0, len(s) - 1
+        while i < j:
+            s[i], s[j] = s[j], s[i]
+            i += 1
+            j -= 1
+
+    print(reverseString(None, ["h", "e", "l", "l", "o"]))  #  ["o","l","l","e","h"]
+    print(
+        reverseString(None, ["H", "a", "n", "n", "a", "h"])
+    )  #  ["h","a","n","n","a","H"]
+
+
+class Solution(object):
+    def topVotedReverseString(self, s):
+        s[:] = s[::-1]
+
+
+# forgot about this python trick
