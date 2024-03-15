@@ -3904,7 +3904,7 @@ class Solution(object):
 # I look forward to graduating sometime around day 2000! """
 
 # Reverse String					3/14/2024
-
+""" 
 # Write a function that reverses a string. The input string is given as an array of characters s.
 
 # You must do this by modifying the input array in-place with O(1) extra memory.
@@ -3941,4 +3941,46 @@ class Solution(object):
         s[:] = s[::-1]
 
 
-# forgot about this python trick
+# forgot about this python trick """
+
+# Reverse Vowels of a String					3/15/2024
+
+# Given a string s, reverse only all the vowels in the string and return it.
+
+# The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+# Example 1:
+# 		Input: s = "hello"
+# 		Output: "holle"
+
+# Example 2:
+# 		Input: s = "leetcode"
+# 		Output: "leotcede"
+
+# Constraints:
+# 		1 <= s.length <= 3 * 105
+# 		s consist of printable ASCII characters.
+
+
+class Solution(object):
+    def reverseVowels(self, s):
+        vowels = "aeiouAEIOU"
+        s = list(s)
+        i, j = 0, len(s) - 1
+        while i < j:
+            if s[i] in vowels and s[j] in vowels:
+                s[i], s[j] = s[j], s[i]
+                i += 1
+                j -= 1
+            if s[i] not in vowels:
+                i += 1
+            if s[j] not in vowels:
+                j -= 1
+        return "".join(s)
+
+    print(reverseVowels(None, "hello"))  #  "holle"
+    print(reverseVowels(None, "leetcode"))  #  "leotcede"
+
+
+# 92% Runtime
+# Same as top voted
