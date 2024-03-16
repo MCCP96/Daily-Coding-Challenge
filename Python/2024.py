@@ -3944,7 +3944,7 @@ class Solution(object):
 # forgot about this python trick """
 
 # Reverse Vowels of a String					3/15/2024
-
+""" 
 # Given a string s, reverse only all the vowels in the string and return it.
 
 # The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
@@ -3983,4 +3983,92 @@ class Solution(object):
 
 
 # 92% Runtime
-# Same as top voted
+# Same as top voted """
+
+# Find the K-or of an Array					3/16/2024
+
+# You are given an integer array nums, and an integer k. Let's introduce K-or operation by extending the standard bitwise OR. In K-or, a bit position in the result is set to 1 if at least k numbers in nums have a 1 in that position.
+
+# Return the K-or of nums.
+
+# Example 1:
+# 		Input: nums = [7,12,9,8,9,15], k = 4
+# 		Output: 9
+# Explanation:
+# 		Represent numbers in binary:
+# 		Number	Bit 3	Bit 2	Bit 1	Bit 0
+# 		7	0	1	1	1
+# 		12	1	1	0	0
+# 		9	1	0	0	1
+# 		8	1	0	0	0
+# 		9	1	0	0	1
+# 		15	1	1	1	1
+# 		Result = 9	1	0	0	1
+# 		Bit 0 is set in 7, 9, 9, and 15. Bit 3 is set in 12, 9, 8, 9, and 15.
+# 		Only bits 0 and 3 qualify. The result is (1001)2 = 9.
+
+# Example 2:
+# 		Input: nums = [2,12,1,11,4,5], k = 6
+# 		Output: 0
+# Explanation: No bit appears as 1 in all six array numbers, as required for K-or with k = 6. Thus, the result is 0.
+
+# Example 3:
+# 		Input: nums = [10,8,5,9,11,6,8], k = 1
+# 		Output: 15
+# Explanation: Since k == 1, the 1-or of the array is equal to the bitwise OR of all its elements. Hence, the answer is 10 OR 8 OR 5 OR 9 OR 11 OR 6 OR 8 = 15.
+
+# Constraints:
+# 		1 <= nums.length <= 50
+# 		0 <= nums[i] < 2^31
+# 		1 <= k <= nums.length
+
+
+class Solution(object):
+    def findKOr(self, nums, k):
+        res = 0
+        cont = True
+        p = 0
+
+        while cont:
+            cont = False
+            count = 0
+            for i, n in enumerate(nums):
+                count += n % 2  # least significant bit is 1
+                nums[i] = n >> 1  # shift bits
+
+                if nums[i] > 0:  # not all bits have been counted (continue looping)
+                    cont = True
+
+            res += (2 * (count >= k)) ** p
+
+            if p == 0:  # resolve 0^0 == 1
+                res -= count < k
+
+            p += 1  # increment power
+
+        return res
+
+    print(findKOr(None, [7, 12, 9, 8, 9, 15], 4))  #  9
+    print(findKOr(None, [2, 12, 1, 11, 4, 5], 6))  #  0
+    print(findKOr(None, [10, 8, 5, 9, 11, 6, 8], 1))  #  15
+
+
+# 90% Runtime
+# Wish I could remove some variables
+
+
+class Solution:
+    def topVotedFindKOr(self, nums, k):
+        ans = 0
+
+        for i in range(32):
+            count = 0
+
+            for num in nums:
+                if 2**i & num == 2**i:
+                    count += 1
+
+            if count >= k:
+                ans |= 2**i
+
+        return ans
