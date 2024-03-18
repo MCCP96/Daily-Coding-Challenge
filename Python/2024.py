@@ -4074,7 +4074,7 @@ class Solution:
         return ans """
 
 # Intersection of Two Arrays					3/17/2024
-
+""" 
 # Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.
 
 # Example 1:
@@ -4105,4 +4105,93 @@ class Solution(object):
 
 class Solution(object):
     def topVotedIntersection(self, nums1, nums2):
-        return list(set(nums1) & set(nums2))
+        return list(set(nums1) & set(nums2)) """
+
+# Water and Jug Problem					3/18/2024
+
+# You are given two jugs with capacities x liters and y liters. You have an infinite water supply. Return whether the total amount of water in both jugs may reach target using the following operations:
+
+# Fill either jug completely with water.
+# Completely empty either jug.
+# Pour water from one jug into another until the receiving jug is full, or the transferring jug is empty.
+
+# Example 1:
+# 		Input:  x = 3, y = 5, target = 4
+# 		Output:  true
+# Explanation:
+# 		Follow these steps to reach a total of 4 liters:
+# 		Fill the 5-liter jug (0, 5).
+# 		Pour from the 5-liter jug into the 3-liter jug, leaving 2 liters (3, 2).
+# 		Empty the 3-liter jug (0, 2).
+# 		Transfer the 2 liters from the 5-liter jug to the 3-liter jug (2, 0).
+# 		Fill the 5-liter jug again (2, 5).
+# 		Pour from the 5-liter jug into the 3-liter jug until the 3-liter jug is full. This leaves 4 liters in the 5-liter jug (3, 4).
+# 		Empty the 3-liter jug. Now, you have exactly 4 liters in the 5-liter jug (0, 4).
+# 		Reference: The Die Hard example.
+
+# Example 2:
+# 		Input:  x = 2, y = 6, target = 5
+# 		Output:  false
+
+# Example 3:
+# 		Input:  x = 1, y = 2, target = 3
+# 		Output:  true
+# Explanation: Fill both jugs. The total amount of water in both jugs is equal to 3 now.
+
+# Constraints:
+# 		1 <= x, y, target <= 103
+
+
+class Solution(object):
+    def canMeasureWater(self, x, y, t):
+        # easy cases
+        if x + y < t:
+            return False
+        if x + y == t or x == 1 or y == 1 or x == t or y == t:
+            return True
+
+        seen = set()
+
+        def state(a, b):
+            # a: contents of jug 1
+            # b: contents of jug 2
+            if (a, b) in seen:  # avoid infinite loops
+                return False
+            seen.add((a, b))
+
+            if a + b == t:
+                return True
+
+            # 6 possible alternatives to each state:
+            return (
+                state(x, b)  # fill jug 1
+                or state(a, y)  # fill jug 2
+                or state(0, b)  # empty jug 1
+                or state(a, 0)  # empty jug 2
+                or state(
+                    0 if ((y - b) > a) else (a - (y - b)), min(y, a + b)
+                )  # jug 1 empties into jug 2
+                or state(
+                    min(x, a + b), 0 if ((x - a) > b) else (b - (x - a))
+                )  # jug 2 empties into jug 1
+            )
+
+        return state(0, 0)
+
+    print(canMeasureWater(None, 3, 5, 4))  #   true
+    print(canMeasureWater(None, 2, 6, 5))  #   false
+    print(canMeasureWater(None, 1, 2, 3))  #   true
+    print(canMeasureWater(None, 34, 5, 6))  #   true
+
+
+# There is clearly a math solution
+
+
+class Solution(object):
+    def topVotedCanMeasureWater(self, x, y, z):
+        a, b = x, y
+        while y:
+            r = x % y
+            x = y
+            y = r
+        return bool(not z or (x and z <= a + b and not z % x))
