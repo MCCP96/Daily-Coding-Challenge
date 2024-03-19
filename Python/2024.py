@@ -4108,7 +4108,7 @@ class Solution(object):
         return list(set(nums1) & set(nums2)) """
 
 # Water and Jug Problem					3/18/2024
-
+""" 
 # You are given two jugs with capacities x liters and y liters. You have an infinite water supply. Return whether the total amount of water in both jugs may reach target using the following operations:
 
 # Fill either jug completely with water.
@@ -4194,4 +4194,62 @@ class Solution(object):
             r = x % y
             x = y
             y = r
-        return bool(not z or (x and z <= a + b and not z % x))
+        return bool(not z or (x and z <= a + b and not z % x)) """
+
+# Intersection of Two Arrays II					3/19/2024
+
+# Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+# Example 1:
+# 		Input: nums1 = [1,2,2,1], nums2 = [2,2]
+# 		Output: [2,2]
+
+# Example 2:
+# 		Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+# 		Output: [4,9]
+# Explanation: [9,4] is also accepted.
+
+# Constraints:
+# 		1 <= nums1.length, nums2.length <= 1000
+# 		0 <= nums1[i], nums2[i] <= 1000
+
+# Follow up:
+#   What if the given array is already sorted? How would you optimize your algorithm?
+#   What if nums1's size is small compared to nums2's size? Which algorithm is better?
+#   What if elements of nums2 are stored on disk, and the memory is limited such that you cannot load all elements into the memory at once?
+
+
+class Solution(object):
+    def intersect(self, nums1, nums2):
+        count1, count2 = collections.Counter(nums1), collections.Counter(nums2)
+        res = []
+        for k in count1:
+            if k in count2:
+                res += [k] * min(count1[k], count2[k])
+        return res
+
+    print(intersect(None, [1, 2, 2, 1], [2, 2]))  #  [2,2]
+    print(intersect(None, [4, 9, 5], [9, 4, 9, 8, 4]))  #  [4,9]
+
+
+class Solution(object):
+    def topVotedIntersect(self, nums1, nums2):
+
+        nums1, nums2 = sorted(nums1), sorted(nums2)
+        pt1 = pt2 = 0
+        res = []
+
+        while True:
+            try:
+                if nums1[pt1] > nums2[pt2]:
+                    pt2 += 1
+                elif nums1[pt1] < nums2[pt2]:
+                    pt1 += 1
+                else:
+                    res.append(nums1[pt1])
+                    pt1 += 1
+                    pt2 += 1
+            except IndexError:
+                break
+
+        return res
