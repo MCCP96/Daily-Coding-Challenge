@@ -4197,7 +4197,7 @@ class Solution(object):
         return bool(not z or (x and z <= a + b and not z % x)) """
 
 # Intersection of Two Arrays II					3/19/2024
-
+""" 
 # Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
 
 # Example 1:
@@ -4252,4 +4252,60 @@ class Solution(object):
             except IndexError:
                 break
 
-        return res
+        return res """
+
+# Valid Perfect Square					3/20/2024
+
+# Given a positive integer num, return true if num is a perfect square or false otherwise.
+
+# A perfect square is an integer that is the square of an integer. In other words, it is the product of some integer with itself.
+
+# You must not use any built-in library function, such as sqrt.
+
+# Example 1:
+# 		Input: num = 16
+# 		Output: true
+# Explanation: We return true because 4 * 4 = 16 and 4 is an integer.
+
+# Example 2:
+# 		Input: num = 14
+# 		Output: false
+# Explanation: We return false because 3.742 * 3.742 = 14 and 3.742 is not an integer.
+
+# Constraints:
+# 		1 <= num <= 2^31 - 1
+
+
+class Solution(object):
+    def isPerfectSquare(self, num):
+        for i in range(46341):
+            if i**2 == num:
+                return True
+            elif i**2 > num:
+                return False
+
+    print(isPerfectSquare(None, 16))  #  true
+    print(isPerfectSquare(None, 14))  #  false
+
+
+# 46341**2 = 2^31 - 1
+
+
+class Solution(object):
+    def isPerfectSquare(self, num):
+        if num < 0:
+            return False
+        x, i = 0, 1
+        while x < num:
+            x += i
+            i += 2
+        return x == num
+
+
+# 1*1 = 1
+# 2*2 = 4     -> 3 + 1
+# 3*3 = 9     -> 5 + 4
+# 4*4 = 16    -> 7 + 9
+# 5*5 = 25    -> 9 + 16
+# 6*6 = 36    -> 11 + 25
+# ...
