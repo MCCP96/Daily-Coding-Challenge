@@ -4255,7 +4255,7 @@ class Solution(object):
         return res """
 
 # Valid Perfect Square					3/20/2024
-
+""" 
 # Given a positive integer num, return true if num is a perfect square or false otherwise.
 
 # A perfect square is an integer that is the square of an integer. In other words, it is the product of some integer with itself.
@@ -4308,4 +4308,60 @@ class Solution(object):
 # 4*4 = 16    -> 7 + 9
 # 5*5 = 25    -> 9 + 16
 # 6*6 = 36    -> 11 + 25
-# ...
+# ... """
+
+# Make Three Strings Equal					3/21/2024
+
+# You are given three strings: s1, s2, and s3. In one operation you can choose one of these strings and delete its rightmost character. Note that you cannot completely empty a string.
+
+# Return the minimum number of operations required to make the strings equal. If it is impossible to make them equal, return -1.
+
+# Example 1:
+# 		Input: s1 = "abc", s2 = "abb", s3 = "ab"
+# 		Output: 2
+# Explanation: Deleting the rightmost character from both s1 and s2 will result in three equal strings.
+
+# Example 2:
+# 		Input: s1 = "dac", s2 = "bac", s3 = "cac"
+# 		Output: -1
+# Explanation: Since the first letters of s1 and s2 differ, they cannot be made equal.
+
+# Constraints:
+# 		1 <= s1.length, s2.length, s3.length <= 100
+# 		s1, s2 and s3 consist only of lowercase English letters.
+
+
+class Solution(object):
+    def findMinimumOperations(self, s1, s2, s3):
+        if s1[0] != s2[0] or s1[0] != s3[0] or s2[0] != s3[0]:  # impossible
+            return -1
+        if s1 == s2 and s1 == s3 and s2 == s3:  # no operations required
+            return 0
+
+        minlen = min(len(s1), len(s2), len(s3))
+        i = 0
+        while i < minlen:  # find first char where they no longer equal
+            if s1[i] != s2[i] or s1[i] != s3[i] or s2[i] != s3[i]:
+                break
+            i += 1
+
+        return len(s1[i:]) + len(s2[i:]) + len(s3[i:])  # cut off remainders
+
+    print(findMinimumOperations(None, "abc", "abb", "ab"))  #  2
+    print(findMinimumOperations(None, "dac", "bac", "bac"))  #  -1
+    print(findMinimumOperations(None, "k", "kfb", "krcnf"))  #  6
+
+    # 100% runtime
+
+
+class Solution:
+    def topVotedFindMinimumOperations(self, s1, s2, s3):
+        size, l1, l2, l3 = 0, len(s1), len(s2), len(s3)
+
+        for a, b, c in zip(s1, s2, s3):
+            if a == b == c:
+                size += 1
+            else:
+                break
+
+        return (l1 + l2 + l3) - 3 * size if size > 0 else -1
