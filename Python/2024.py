@@ -4311,7 +4311,7 @@ class Solution(object):
 # ... """
 
 # Make Three Strings Equal					3/21/2024
-
+""" 
 # You are given three strings: s1, s2, and s3. In one operation you can choose one of these strings and delete its rightmost character. Note that you cannot completely empty a string.
 
 # Return the minimum number of operations required to make the strings equal. If it is impossible to make them equal, return -1.
@@ -4364,4 +4364,106 @@ class Solution:
             else:
                 break
 
-        return (l1 + l2 + l3) - 3 * size if size > 0 else -1
+        return (l1 + l2 + l3) - 3 * size if size > 0 else -1 """
+
+# Maximize Area of Square Hole in Grid					3/22/2024
+
+# You are given the two integers, n and m and two integer arrays, hBars and vBars. The grid has n + 2 horizontal and m + 2 vertical bars, creating 1 x 1 unit cells. The bars are indexed starting from 1.
+
+# You can remove some of the bars in hBars from horizontal bars and some of the bars in vBars from vertical bars. Note that other bars are fixed and cannot be removed.
+
+# Return an integer denoting the maximum area of a square-shaped hole in the grid, after removing some bars (possibly none).
+
+# Example 1:
+# 		Input: n = 2, m = 1, hBars = [2,3], vBars = [2]
+# 		Output: 4
+# Explanation:
+# 		The left image shows the initial grid formed by the bars. The horizontal bars are [1,2,3,4], and the vertical bars are [1,2,3].
+# 		One way to get the maximum square-shaped hole is by removing horizontal bar 2 and vertical bar 2.
+
+# Example 2:
+# 		Input: n = 1, m = 1, hBars = [2], vBars = [2]
+# 		Output: 4
+# Explanation:
+# 		To get the maximum square-shaped hole, we remove horizontal bar 2 and vertical bar 2.
+
+# Example 3:
+# 		Input: n = 2, m = 3, hBars = [2,3], vBars = [2,4]
+# 		Output: 4
+# Explanation:
+# 		One way to get the maximum square-shaped hole is by removing horizontal bar 3, and vertical bar 4.
+
+# Constraints:
+# 		1 <= n <= 109
+# 		1 <= m <= 109
+# 		1 <= hBars.length <= 100
+# 		2 <= hBars[i] <= n + 1
+# 		1 <= vBars.length <= 100
+# 		2 <= vBars[i] <= m + 1
+# 		All values in hBars are distinct.
+# 		All values in vBars are distinct.
+
+
+class Solution(object):
+    def maximizeSquareHoleArea(self, n, m, hBars, vBars):
+        # To maximize the area, look for max consecutive hBars and max consecutive vBars
+        hBars = sorted(hBars)
+        vBars = sorted(vBars)
+
+        curCount = 1
+        hMax = 1
+        for i in range(1, len(hBars)):
+            if hBars[i] == hBars[i - 1] + 1:
+                curCount += 1
+            else:
+                hMax = max(hMax, curCount)
+                curCount = 1
+        hMax = max(hMax, curCount)
+
+        curCount = 1
+        vMax = 1
+        for i in range(1, len(vBars)):
+            if vBars[i] == vBars[i - 1] + 1:
+                curCount += 1
+            else:
+                vMax = max(vMax, curCount)
+                curCount = 1
+        vMax = max(vMax, curCount)
+
+        # Must also be square, therefore use min of both
+        return (min(hMax, vMax) + 1) ** 2
+
+    print(maximizeSquareHoleArea(None, 2, 1, [2, 3], [2]))  #  4
+    print(maximizeSquareHoleArea(None, 1, 1, [2], [2]))  #  4
+    print(maximizeSquareHoleArea(None, 2, 3, [2, 3], [2, 4]))  #  4
+    print(maximizeSquareHoleArea(None, 3, 2, [3, 2, 4], [3, 2]))  #  9
+    print(maximizeSquareHoleArea(None, 2, 4, [2, 3], [4, 2, 3, 5]))  #  9
+
+
+# 80% Runtime
+
+
+class Solution:
+    def maximizeSquareHoleArea(self, n, m, hBars, vBars):
+        def findLongestConsecutiveElements(numsSet):
+            res = 1
+            for num in numsSet:
+                count = 1
+                current = num
+                while current + 1 in numsSet:
+                    current += 1
+                    count += 1
+                res = max(res, count)
+            return res
+
+        res = 1
+        if len(hBars) == 0 or len(vBars) == 0:
+            return 1
+        hSet, vSet = set(hBars), set(vBars)
+        maxHBars, maxVBars = findLongestConsecutiveElements(
+            hSet
+        ), findLongestConsecutiveElements(vSet)
+        return (min(maxHBars, maxVBars) + 1) ** 2
+
+
+# same same
