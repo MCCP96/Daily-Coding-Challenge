@@ -4367,7 +4367,7 @@ class Solution:
         return (l1 + l2 + l3) - 3 * size if size > 0 else -1 """
 
 # Maximize Area of Square Hole in Grid					3/22/2024
-
+""" 
 # You are given the two integers, n and m and two integer arrays, hBars and vBars. The grid has n + 2 horizontal and m + 2 vertical bars, creating 1 x 1 unit cells. The bars are indexed starting from 1.
 
 # You can remove some of the bars in hBars from horizontal bars and some of the bars in vBars from vertical bars. Note that other bars are fixed and cannot be removed.
@@ -4466,4 +4466,85 @@ class Solution:
         return (min(maxHBars, maxVBars) + 1) ** 2
 
 
-# same same
+# same same """
+
+# Guess Number Higher or Lower					3/23/2024
+
+# We are playing the Guess Game. The game is as follows:
+# I pick a number from 1 to n. You have to guess which number I picked.
+# Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.
+
+# You call a pre-defined API int guess(int num), which returns three possible results:
+# -1: Your guess is higher than the number I picked (i.e. num > pick).
+# 1: Your guess is lower than the number I picked (i.e. num < pick).
+# 0: your guess is equal to the number I picked (i.e. num == pick).
+
+# Return the number that I picked.
+
+# Example 1:
+# 		Input: n = 10, pick = 6
+# 		Output: 6
+
+# Example 2:
+# 		Input: n = 1, pick = 1
+# 		Output: 1
+
+# Example 3:
+# 		Input: n = 2, pick = 1
+# 		Output: 1
+
+# Constraints:
+# 		1 <= n <= 231 - 1
+# 		1 <= pick <= n
+
+
+# The guess API is already defined for you.
+# @param num, your guess
+# @return -1 if num is higher than the picked number
+#          1 if num is lower than the picked number
+#          otherwise return 0
+def guess(num):
+    if num < 6:
+        return 1
+    elif num > 6:
+        return -1
+    else:
+        return 0
+
+
+class Solution(object):
+    def guessNumber(self, n):
+        l, r = 1, n
+        while l < r:
+            m = (l + r) // 2
+            g = guess(m)
+            if g == -1:  # guess is higher
+                r = m - 1
+            elif g == 1:  # guess is lower
+                l = m + 1
+            else:  # found num
+                return m
+        return l
+
+    print(guessNumber(None, 10))  #  6
+    # print(guessNumber(None, 1, 1))  #  1
+    # print(guessNumber(None, 2, 1))  #  1
+
+
+# Binary Search
+
+
+def topVotedGuessNumber(self, n):
+    lowerBound, upperBound = 1, n
+    # Binary division faster than (lowerBound + upperBound) //2
+    myGuess = (lowerBound + upperBound) >> 1
+    # walrus operator ':=' - assigns value of the function to the variable 'res'
+    # and then compare res with 0
+    while (res := guess(myGuess)) != 0:
+        if res == 1:
+            lowerBound = myGuess + 1
+        else:
+            upperBound = myGuess - 1
+        myGuess = (lowerBound + upperBound) >> 1
+
+    return myGuess
