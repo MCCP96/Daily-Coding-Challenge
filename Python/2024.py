@@ -4469,7 +4469,7 @@ class Solution:
 # same same """
 
 # Guess Number Higher or Lower					3/23/2024
-
+""" 
 # We are playing the Guess Game. The game is as follows:
 # I pick a number from 1 to n. You have to guess which number I picked.
 # Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.
@@ -4548,3 +4548,53 @@ def topVotedGuessNumber(self, n):
         myGuess = (lowerBound + upperBound) >> 1
 
     return myGuess
+ """
+
+# Ransom Note					3/24/2024
+
+# Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
+
+# Each letter in magazine can only be used once in ransomNote.
+
+# Example 1:
+# 		Input: ransomNote = "a", magazine = "b"
+# 		Output: false
+
+# Example 2:
+# 		Input: ransomNote = "aa", magazine = "ab"
+# 		Output: false
+
+# Example 3:
+# 		Input: ransomNote = "aa", magazine = "aab"
+# 		Output: true
+
+# Constraints:
+# 		1 <= ransomNote.length, magazine.length <= 105
+# 		ransomNote and magazine consist of lowercase English letters.
+
+
+class Solution(object):
+    def canConstruct(self, ransomNote, magazine):
+        count = [0] * 26
+        for c in magazine:
+            count[ord(c) - 97] += 1
+        for c in ransomNote:
+            if count[ord(c) - 97] <= 0:
+                return False
+            count[ord(c) - 97] -= 1
+        return True
+
+    print(canConstruct(None, "a", "b"))  #  false
+    print(canConstruct(None, "aa", "ab"))  #  false
+    print(canConstruct(None, "aa", "aab"))  #  true
+
+
+class Solution(object):
+    def canConstruct(self, ransomNote, magazine):
+        st1, st2 = collections.Counter(ransomNote), collections.Counter(magazine)
+        if st1 & st2 == st1:
+            return True
+        return False
+
+
+# Counter showing up again
