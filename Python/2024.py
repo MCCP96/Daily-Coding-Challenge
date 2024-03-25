@@ -4551,7 +4551,7 @@ def topVotedGuessNumber(self, n):
  """
 
 # Ransom Note					3/24/2024
-
+""" 
 # Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
 
 # Each letter in magazine can only be used once in ransomNote.
@@ -4597,4 +4597,49 @@ class Solution(object):
         return False
 
 
-# Counter showing up again
+# Counter showing up again """
+
+# First Unique Character in a String					3/25/2024
+
+# Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+# Example 1:
+# 		Input: s = "leetcode"
+# 		Output: 0
+
+# Example 2:
+# 		Input: s = "loveleetcode"
+# 		Output: 2
+
+# Example 3:
+# 		Input: s = "aabb"
+# 		Output: -1
+
+# Constraints:
+# 		1 <= s.length <= 105
+# 		s consists of only lowercase English letters.
+
+
+class Solution(object):
+    def firstUniqChar(self, s):
+        count = collections.Counter(s)
+        for i, c in enumerate(s):
+            if count[c] == 1:
+                return i
+        return -1
+
+    print(firstUniqChar(None, "leetcode"))  #  0
+    print(firstUniqChar(None, "loveleetcode"))  #  2
+    print(firstUniqChar(None, "aabb"))  #  -1
+
+
+class Solution(object):
+    def firstUniqChar(self, s):
+        hset = collections.Counter(s)
+        for idx in range(len(s)):
+            if hset[s[idx]] == 1:
+                return idx
+        return -1
+
+
+# same same
