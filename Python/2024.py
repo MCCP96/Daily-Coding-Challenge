@@ -4691,7 +4691,7 @@ class Solution:
 # XORing everything, you're left with the outlier """
 
 # Is Subsequence					3/27/2024
-
+""" 
 # Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
 
 # A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
@@ -4742,4 +4742,78 @@ class Solution:
                 print(s[subsequence])
                 if s[subsequence] == t[i]:
                     subsequence += 1
-        return subsequence == len(s)
+        return subsequence == len(s) """
+
+# Binary Watch					3/28/2024
+
+# A binary watch has 4 LEDs on the top to represent the hours (0-11), and 6 LEDs on the bottom to represent the minutes (0-59). Each LED represents a zero or one, with the least significant bit on the right.
+
+# For example, the below binary watch reads "4:51".
+
+# Given an integer turnedOn which represents the number of LEDs that are currently on (ignoring the PM), return all possible times the watch could represent. You may return the answer in any order.
+
+# The hour must not contain a leading zero.
+# For example, "01:00" is not valid. It should be "1:00".
+
+# The minute must consist of two digits and may contain a leading zero.
+# For example, "10:2" is not valid. It should be "10:02".
+
+# Example 1:
+# 		Input: turnedOn = 1
+# 		Output: ["0:01","0:02","0:04","0:08","0:16","0:32","1:00","2:00","4:00","8:00"]
+
+# Example 2:
+# 		Input: turnedOn = 9
+# 		Output: []
+
+# Constraints:
+# 		0 <= turnedOn <= 10
+
+
+class Solution(object):
+    def readBinaryWatch(self, on):
+        res = []
+        for n in range(2**10):
+            # All 10 bit binary nums that have correct amount of 1s
+            if bin(n).count("1") == on:
+                # Avoid illegal states
+                if (
+                    n & 0b1100000000 != 0b1100000000  # 8+4=12 hrs
+                    and n & 0b0000111100 != 0b0000111100  # 32+16+8+4=60 mins
+                ):
+                    time = ""
+
+                    # hours
+                    h = (n & 0b1111000000) >> 6
+                    time += str(h) + ":"
+
+                    # mins
+                    m = n & 0b111111
+                    time += ("0" if m < 10 else "") + str(m)  # leading 0
+
+                    res.append(time)
+        return res
+
+    print(
+        readBinaryWatch(None, 1)
+    )  #  ["0:01","0:02","0:04","0:08","0:16","0:32","1:00","2:00","4:00","8:00"]
+    print(readBinaryWatch(None, 9))  #  []
+
+
+class Solution:
+    def readBinaryWatch(self, turnedOn):
+        output = []
+        # Loop through all possible combinations of hours and minutes and count the number of set bits
+        for h in range(12):
+            for m in range(60):
+                if (
+                    bin(h).count("1") + bin(m).count("1") == turnedOn
+                ):  # Check if the number of set bits in hours and minutes equals the target number
+                    output.append(
+                        f"{h}:{m:02d}"
+                    )  # Add the valid combination of hours and minutes to the output list
+        return output
+
+
+# So much cleaner
+# Nested for loop avoids invalid times
