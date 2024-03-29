@@ -4745,7 +4745,7 @@ class Solution:
         return subsequence == len(s) """
 
 # Binary Watch					3/28/2024
-
+""" 
 # A binary watch has 4 LEDs on the top to represent the hours (0-11), and 6 LEDs on the bottom to represent the minutes (0-59). Each LED represents a zero or one, with the least significant bit on the right.
 
 # For example, the below binary watch reads "4:51".
@@ -4816,4 +4816,60 @@ class Solution:
 
 
 # So much cleaner
-# Nested for loop avoids invalid times
+# Nested for loop avoids invalid times """
+
+# Sum of Left Leaves					3/29/2024
+
+# Given the root of a binary tree, return the sum of all left leaves.
+
+# A leaf is a node with no children. A left leaf is a leaf that is the left child of another node.
+
+# Example 1:
+# 		Input: root = [3,9,20,null,null,15,7]
+# 		Output: 24
+# Explanation: There are two left leaves in the binary tree, with values 9 and 15 respectively.
+
+# Example 2:
+# 		Input: root = [1]
+# 		Output: 0
+
+# Constraints:
+# 		The number of nodes in the tree is in the range [1, 1000].
+# 		-1000 <= Node.val <= 1000
+
+
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution(object):
+    def sumOfLeftLeaves(self, root):
+        def traverse(node, dir):
+            if not node:
+                return 0
+            if not node.left and not node.right:
+                return node.val if dir == "l" else 0
+            return traverse(node.left, "l") + traverse(node.right, "r")
+
+        return traverse(root.left, "l") + traverse(root.right, "r")
+
+
+class Solution:
+    def topVotedSumOfLeftLeaves(self, root: TreeNode) -> int:
+        result = 0
+        stack = [(root, False)]
+        while stack:
+            curr, is_left = stack.pop()
+            if not curr:
+                continue
+            if not curr.left and not curr.right:
+                if is_left:
+                    result += curr.val
+            else:
+                stack.append((curr.left, True))
+                stack.append((curr.right, False))
+        return result
