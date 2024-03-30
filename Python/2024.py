@@ -4819,7 +4819,7 @@ class Solution:
 # Nested for loop avoids invalid times """
 
 # Sum of Left Leaves					3/29/2024
-
+""" 
 # Given the root of a binary tree, return the sum of all left leaves.
 
 # A leaf is a node with no children. A left leaf is a leaf that is the left child of another node.
@@ -4872,4 +4872,63 @@ class Solution:
             else:
                 stack.append((curr.left, True))
                 stack.append((curr.right, False))
-        return result
+        return result """
+
+# Convert a Number to Hexadecimal					3/30/2024
+
+# Given an integer num, return a string representing its hexadecimal representation. For negative integers, two’s complement method is used.
+
+# All the letters in the answer string should be lowercase characters, and there should not be any leading zeros in the answer except for the zero itself.
+
+# Note: You are not allowed to use any built-in library method to directly solve this problem.
+
+# Example 1:
+# 		Input: num = 26
+# 		Output: "1a"
+
+# Example 2:
+# 		Input: num = -1
+# 		Output: "ffffffff"
+
+# Constraints:
+# 		-231 <= num <= 231 - 1
+
+
+class Solution(object):
+    def toHex(self, num):
+        if num == 0:
+            return "0"
+        if num < 0:
+            num = 2**32 + num
+
+        res = ""
+        hexDict = {10: "a", 11: "b", 12: "c", 13: "d", 14: "e", 15: "f"}
+        while num > 0:
+            n = num % 16
+            if n >= 10:
+                n = hexDict[n]
+            res = str(n) + res
+            num //= 16
+
+        return res
+
+    print(toHex(None, 26))  #  "1a"
+    print(toHex(None, -1))  #  "ffffffff"
+
+
+def toHex(self, num: int) -> str:
+    if num == 0:
+        return "0"
+    map = "0123456789abcdef"
+    result = ""
+    # if negative (two's compliment)
+    if num < 0:
+        num += 2**32
+    while num > 0:
+        digit = num % 16
+        num = (num - digit) // 16
+        result += str(map[digit])
+    return result[::-1]
+
+
+# I prefer their 'map' over my dict
