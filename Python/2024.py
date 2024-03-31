@@ -4875,7 +4875,7 @@ class Solution:
         return result """
 
 # Convert a Number to Hexadecimal					3/30/2024
-
+""" 
 # Given an integer num, return a string representing its hexadecimal representation. For negative integers, two’s complement method is used.
 
 # All the letters in the answer string should be lowercase characters, and there should not be any leading zeros in the answer except for the zero itself.
@@ -4931,4 +4931,58 @@ def toHex(self, num: int) -> str:
     return result[::-1]
 
 
-# I prefer their 'map' over my dict
+# I prefer their 'map' over my dict """
+
+# Longest Palindrome					3/31/2024
+
+# Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+# Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
+
+# Example 1:
+# 		Input: s = "abccccdd"
+# 		Output: 7
+# Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
+
+# Example 2:
+# 		Input: s = "a"
+# 		Output: 1
+# Explanation: The longest palindrome that can be built is "a", whose length is 1.
+
+# Constraints:
+# 		1 <= s.length <= 2000
+# 		s consists of lowercase and/or uppercase English letters only.
+
+
+class Solution(object):
+    def longestPalindrome(self, s):
+        res = 0
+        count = [0] * (ord("z") - ord("A"))
+        for c in s:
+            idx = ord(c) - 66  # ord('A') = 65
+            if count[idx] == 1:
+                res += 2
+                count[idx] = 0
+            else:
+                count[idx] += 1
+
+        if 1 in count:  # middle unique char
+            res += 1
+
+        return res
+
+    print(longestPalindrome(None, "abccccdd"))  #  7
+    print(longestPalindrome(None, "a"))  #  1
+
+
+def topVotedLongestPalindrome_set(s):
+    ss = set()
+    for letter in s:
+        if letter not in ss:
+            ss.add(letter)
+        else:
+            ss.remove(letter)
+    if len(ss) != 0:
+        return len(s) - len(ss) + 1
+    else:
+        return len(s)
