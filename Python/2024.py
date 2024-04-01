@@ -4934,7 +4934,7 @@ def toHex(self, num: int) -> str:
 # I prefer their 'map' over my dict """
 
 # Longest Palindrome					3/31/2024
-
+""" 
 # Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
 
 # Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
@@ -4985,4 +4985,60 @@ def topVotedLongestPalindrome_set(s):
     if len(ss) != 0:
         return len(s) - len(ss) + 1
     else:
-        return len(s)
+        return len(s) """
+
+# Fizz Buzz					4/1/2024
+
+# Given an integer n, return a string array answer (1-indexed) where:
+# answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
+# answer[i] == "Fizz" if i is divisible by 3.
+# answer[i] == "Buzz" if i is divisible by 5.
+# answer[i] == i (as a string) if none of the above conditions are true.
+
+# Example 1:
+# 		Input: n = 3
+# 		Output: ["1","2","Fizz"]
+
+# Example 2:
+# 		Input: n = 5
+# 		Output: ["1","2","Fizz","4","Buzz"]
+
+# Example 3:
+# 		Input: n = 15
+# 		Output: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+
+# Constraints:
+# 		1 <= n <= 104
+
+
+class Solution(object):
+    def fizzBuzz(self, n):
+        res = [None] * n
+        for i in range(1, n + 1):
+            c = ""
+            if i % 3 == 0:
+                c += "Fizz"
+            if i % 5 == 0:
+                c += "Buzz"
+            if len(c) == 0:
+                c = str(i)
+            res[i - 1] = c
+        return res
+
+    print(fizzBuzz(None, 3))  #  ["1","2","Fizz"]
+    print(fizzBuzz(None, 5))  #  ["1","2","Fizz","4","Buzz"]
+    print(
+        fizzBuzz(None, 15)
+    )  #  ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+
+
+def topVotedFizzBuzz(self, n):
+    f, b, fb = "Fizz", "Buzz", "FizzBuzz"
+    arr = [str(x + 1) for x in range(n)]
+    for i in range(2, n, 3):
+        arr[i] = f
+    for i in range(4, n, 5):
+        arr[i] = b
+    for i in range(14, n, 15):
+        arr[i] = fb
+    return arr
