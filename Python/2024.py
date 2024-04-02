@@ -4988,7 +4988,7 @@ def topVotedLongestPalindrome_set(s):
         return len(s) """
 
 # Fizz Buzz					4/1/2024
-
+""" 
 # Given an integer n, return a string array answer (1-indexed) where:
 # answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
 # answer[i] == "Fizz" if i is divisible by 3.
@@ -5041,4 +5041,77 @@ def topVotedFizzBuzz(self, n):
         arr[i] = b
     for i in range(14, n, 15):
         arr[i] = fb
-    return arr
+    return arr """
+
+# Third Maximum Number					4/2/2024
+
+# Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.
+
+# Example 1:
+# 		Input: nums = [3,2,1]
+# 		Output: 1
+# Explanation:
+# 		The first distinct maximum is 3.
+# 		The second distinct maximum is 2.
+# 		The third distinct maximum is 1.
+
+# Example 2:
+# 		Input: nums = [1,2]
+# 		Output: 2
+# Explanation:
+# 		The first distinct maximum is 2.
+# 		The second distinct maximum is 1.
+# 		The third distinct maximum does not exist, so the maximum (2) is returned instead.
+
+# Example 3:
+# 		Input: nums = [2,2,3,1]
+# 		Output: 1
+# Explanation:
+# 		The first distinct maximum is 3.
+# 		The second distinct maximum is 2 (both 2's are counted together since they have the same value).
+# 		The third distinct maximum is 1.
+
+# Constraints:
+# 		1 <= nums.length <= 104
+# 		-231 <= nums[i] <= 231 - 1
+
+# Follow up: Can you find an O(n) solution?
+
+
+class Solution(object):
+    def thirdMax(self, nums):
+        maxs = [-float("inf")] * 3
+        nums = set(nums)
+
+        for n in nums:
+            if n > maxs[0]:
+                maxs = [n] + maxs[:2]
+            elif n > maxs[1]:
+                maxs = maxs[:1] + [n] + maxs[1:2]
+            elif n > maxs[2]:
+                maxs = maxs[:2] + [n]
+
+        return maxs[2] if len(nums) > 2 else maxs[0]
+
+    print(thirdMax(None, [3, 2, 1]))  #  1
+    print(thirdMax(None, [1, 2]))  #  2
+    print(thirdMax(None, [2, 2, 3, 1]))  #  1
+    print(thirdMax(None, [-4, -5, -3, -2, -1]))  #  -3
+
+
+class Solution:
+    def topVotedThirdMax(self, nums):
+        n, T = list(set(nums)), [float("-inf")] * 3
+        for i in n:
+            if i > T[0]:
+                T = [i, T[0], T[1]]
+                continue
+            if i > T[1]:
+                T = [T[0], i, T[1]]
+                continue
+            if i > T[2]:
+                T = [T[0], T[1], i]
+        return T[2] if T[2] != float("-inf") else T[0]
+
+
+# same idea
