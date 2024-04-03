@@ -5044,7 +5044,7 @@ def topVotedFizzBuzz(self, n):
     return arr """
 
 # Third Maximum Number					4/2/2024
-
+""" 
 # Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.
 
 # Example 1:
@@ -5114,4 +5114,74 @@ class Solution:
         return T[2] if T[2] != float("-inf") else T[0]
 
 
-# same idea
+# same idea """
+
+# Add Strings					4/3/2024
+
+# Given two non-negative integers, num1 and num2 represented as string, return the sum of num1 and num2 as a string.
+
+# You must solve the problem without using any built-in library for handling large integers (such as BigInteger). You must also not convert the inputs to integers directly.
+
+# Example 1:
+# 		Input: num1 = "11", num2 = "123"
+# 		Output: "134"
+
+# Example 2:
+# 		Input: num1 = "456", num2 = "77"
+# 		Output: "533"
+
+# Example 3:
+# 		Input: num1 = "0", num2 = "0"
+# 		Output: "0"
+
+# Constraints:
+# 		1 <= num1.length, num2.length <= 104
+# 		num1 and num2 consist of only digits.
+# 		num1 and num2 don't have any leading zeros except for the zero itself.
+
+
+class Solution(object):
+    def addStrings(self, n1, n2):
+        i, j = len(n1) - 1, len(n2) - 1
+        c = 0
+        res = ""
+
+        while i >= 0 or j >= 0:
+            if i >= 0:
+                a = int(n1[i])
+                i -= 1
+            if j >= 0:
+                b = int(n2[j])
+                j -= 1
+
+            sum = a + b + c
+            a, b, c = 0, 0, 0
+            if sum >= 10:
+                c = 1
+                sum %= 10
+
+            res = str(sum) + res
+
+        if c == 1:
+            res = "1" + res
+
+        return res
+
+    print(addStrings(None, "11", "123"))  #  "134"
+    print(addStrings(None, "456", "77"))  #  "533"
+    print(addStrings(None, "0", "0"))  #  "0"
+    print(addStrings(None, "1", "9"))  #  "10"
+
+
+class Solution:
+    def topVotedAddStrings(self, num1, num2):
+        def str2int(num):
+            result = 0
+            for n in num:
+                result = result * 10 + ord(n) - ord("0")
+            return result
+
+        return str(str2int(num1) + str2int(num2))
+
+
+# Much leaner
