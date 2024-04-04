@@ -5117,7 +5117,7 @@ class Solution:
 # same idea """
 
 # Add Strings					4/3/2024
-
+""" 
 # Given two non-negative integers, num1 and num2 represented as string, return the sum of num1 and num2 as a string.
 
 # You must solve the problem without using any built-in library for handling large integers (such as BigInteger). You must also not convert the inputs to integers directly.
@@ -5184,4 +5184,47 @@ class Solution:
         return str(str2int(num1) + str2int(num2))
 
 
-# Much leaner
+# Much leaner """
+
+# Number of Segments in a String					4/4/2024
+
+# Given a string s, return the number of segments in the string.
+
+# A segment is defined to be a contiguous sequence of non-space characters.
+
+# Example 1:
+# 		Input: s = "Hello, my name is John"
+# 		Output: 5
+# Explanation: The five segments are ["Hello,", "my", "name", "is", "John"]
+
+# Example 2:
+# 		Input: s = "Hello"
+# 		Output: 1
+
+# Constraints:
+# 		0 <= s.length <= 300
+# 		s consists of lowercase and uppercase English letters, digits, or one of the following characters "!@#$%^&*()_+-=',.:".
+# 		The only space character in s is ' '.
+
+
+class Solution(object):
+    def countSegments(self, s):
+        count = 0
+        prev = " "
+        for c in s:
+            if prev == " " and c != " ":
+                count += 1
+            prev = c
+        return count
+
+    print(countSegments(None, "Hello, my name is John"))  #  5
+    print(countSegments(None, "Hello"))  #  1
+
+
+class Solution:
+    def topVotedCountSegments(self, s: str) -> int:
+        count = 0
+        for i in range(len(s)):
+            if s[i] != " " and (i == 0 or s[i - 1] == " "):
+                count += 1
+        return count
