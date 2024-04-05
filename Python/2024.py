@@ -5187,7 +5187,7 @@ class Solution:
 # Much leaner """
 
 # Number of Segments in a String					4/4/2024
-
+""" 
 # Given a string s, return the number of segments in the string.
 
 # A segment is defined to be a contiguous sequence of non-space characters.
@@ -5227,4 +5227,51 @@ class Solution:
         for i in range(len(s)):
             if s[i] != " " and (i == 0 or s[i - 1] == " "):
                 count += 1
-        return count
+        return count """
+
+# Arranging Coins					4/5/2024
+
+# You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.
+
+# Given the integer n, return the number of complete rows of the staircase you will build.
+
+# Example 1:
+# 		Input: n = 5
+# 		Output: 2
+# Explanation: Because the 3rd row is incomplete, we return 2.
+
+# Example 2:
+# 		Input: n = 8
+# 		Output: 3
+# Explanation: Because the 4th row is incomplete, we return 3.
+
+# Constraints:
+# 		1 <= n <= 231 - 1
+
+
+class Solution(object):
+    def arrangeCoins(self, n):
+        rows = 0
+        for i in range(1, n + 1):
+            n -= i
+            if n >= 0:
+                rows += 1
+            else:
+                break
+        return rows
+
+    print(arrangeCoins(None, 5))  #  2
+    print(arrangeCoins(None, 8))  #  3
+
+
+class Solution(object):
+    def topVotedArrangeCoins(self, n):
+        completeStairs = 0
+        i = 1
+        while n >= 0:
+            n -= i
+            if n >= 0:
+                completeStairs += 1
+            i += 1
+
+        return completeStairs
