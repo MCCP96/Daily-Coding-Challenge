@@ -5230,7 +5230,7 @@ class Solution:
         return count """
 
 # Arranging Coins					4/5/2024
-
+""" 
 # You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.
 
 # Given the integer n, return the number of complete rows of the staircase you will build.
@@ -5274,4 +5274,40 @@ class Solution(object):
                 completeStairs += 1
             i += 1
 
-        return completeStairs
+        return completeStairs """
+
+# Find All Numbers Disappeared in an Array					4/6/2024
+
+# Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums.
+
+# Example 1:
+# 		Input: nums = [4,3,2,7,8,2,3,1]
+# 		Output: [5,6]
+
+# Example 2:
+# 		Input: nums = [1,1]
+# 		Output: [2]
+
+# Constraints:
+# 		n == nums.length
+# 		1 <= n <= 105
+# 		1 <= nums[i] <= n
+
+# Follow up: Could you do it without extra space and in O(n) runtime? You may assume the returned list does not count as extra space.
+
+
+class Solution(object):
+    def findDisappearedNumbers(self, nums):
+        res = []
+        for i in range(1, len(nums) + 1):
+            if i not in nums:
+                res.append(i)
+        return res
+
+    print(findDisappearedNumbers(None, [4, 3, 2, 7, 8, 2, 3, 1]))  #  [5,6]
+    print(findDisappearedNumbers(None, [1, 1]))  #  [2]
+
+
+class Solution:
+    def findDisappearedNumbers(self, nums):
+        return set(range(1, len(nums) + 1)) - set(nums)
