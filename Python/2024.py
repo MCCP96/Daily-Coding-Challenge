@@ -5313,7 +5313,7 @@ class Solution:
         return set(range(1, len(nums) + 1)) - set(nums) """
 
 # Assign Cookies					4/7/2024
-
+""" 
 # Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie.
 
 # Each child i has a greed factor g[i], which is the minimum size of a cookie that the child will be content with; and each cookie j has a size s[j]. If s[j] >= g[i], we can assign the cookie j to the child i, and the child i will be content. Your goal is to maximize the number of your content children and output the maximum number.
@@ -5375,4 +5375,49 @@ class Solution(object):
             else:
                 childIndex -= 1
 
-        return maxNum
+        return maxNum """
+
+# Repeated Substring Pattern					4/8/2024
+
+# Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
+
+# Example 1:
+# 		Input: s = "abab"
+# 		Output: true
+# Explanation: It is the substring "ab" twice.
+
+# Example 2:
+# 		Input: s = "aba"
+# 		Output: false
+
+# Example 3:
+# 		Input: s = "abcabcabcabc"
+# 		Output: true
+# Explanation: It is the substring "abc" four times or the substring "abcabc" twice.
+
+# Constraints:
+# 		1 <= s.length <= 104
+# 		s consists of lowercase English letters.
+
+
+class Solution(object):
+    def repeatedSubstringPattern(self, s):
+        for i in range(len(s) // 2):
+            sub = s[0 : i + 1]
+            dif = set(s.split(sub))
+            if len(dif) == 1 and dif.pop() == "":
+                return True
+        return False
+
+    print(repeatedSubstringPattern(None, "abab"))  #  true
+    print(repeatedSubstringPattern(None, "aba"))  #  false
+    print(repeatedSubstringPattern(None, "abcabcabcabc"))  #  true
+
+
+# Slow
+
+
+class Solution:
+    def topVotedRepeatedSubstringPattern(self, s: str) -> bool:
+        s_fold = "".join((s[1:], s[:-1]))
+        return s in s_fold
