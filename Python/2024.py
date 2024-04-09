@@ -5378,7 +5378,7 @@ class Solution(object):
         return maxNum """
 
 # Repeated Substring Pattern					4/8/2024
-
+""" 
 # Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
 
 # Example 1:
@@ -5420,4 +5420,37 @@ class Solution(object):
 class Solution:
     def topVotedRepeatedSubstringPattern(self, s: str) -> bool:
         s_fold = "".join((s[1:], s[:-1]))
-        return s in s_fold
+        return s in s_fold """
+
+# Hamming Distance					4/9/2024
+
+# The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
+
+# Given two integers x and y, return the Hamming distance between them.
+
+# Example 1:
+# 		Input: x = 1, y = 4
+# 		Output: 2
+# Explanation:
+# 		1   (0 0 0 1)
+# 		4   (0 1 0 0)
+# 		       ↑   ↑
+# 		The above arrows point to positions where the corresponding bits are different.
+
+# Example 2:
+# 		Input: x = 3, y = 1
+# 		Output: 1
+
+# Constraints:
+# 		0 <= x, y <= 231 - 1
+
+
+class Solution(object):
+    def hammingDistance(self, x, y):
+        return bin(x ^ y).count("1")
+
+    print(hammingDistance(None, 1, 4))  #  2
+    print(hammingDistance(None, 3, 1))  #  1
+
+
+# Same as top voted
