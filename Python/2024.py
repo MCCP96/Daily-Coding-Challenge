@@ -5423,7 +5423,7 @@ class Solution:
         return s in s_fold """
 
 # Hamming Distance					4/9/2024
-
+""" 
 # The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
 
 # Given two integers x and y, return the Hamming distance between them.
@@ -5453,4 +5453,75 @@ class Solution(object):
     print(hammingDistance(None, 3, 1))  #  1
 
 
-# Same as top voted
+# Same as top voted """
+
+# Sorting Three Groups					4/10/2024
+
+# You are given an integer array nums. Each element in nums is 1, 2 or 3. In each operation, you can remove an element from nums. Return the minimum number of operations to make nums non-decreasing.
+
+# Example 1:
+# 		Input: nums = [2,1,3,2,1]
+# 		Output: 3
+# Explanation:
+# 		One of the optimal solutions is to remove nums[0], nums[2] and nums[3].
+
+# Example 2:
+# 		Input: nums = [1,3,2,1,3,3]
+# 		Output: 2
+# Explanation:
+# 		One of the optimal solutions is to remove nums[1] and nums[2].
+
+# Example 3:
+# 		Input: nums = [2,2,2,2,3,3]
+# 		Output: 0
+# Explanation:
+# 		nums is already non-decreasing.
+
+# Constraints:
+# 		1 <= nums.length <= 100
+# 		1 <= nums[i] <= 3
+# 		Follow-up: Can you come up with an algorithm that runs in O(n) time complexity?
+
+
+class Solution(object):
+    def minimumOperations(self, nums):
+        minOps = 101
+
+        def dfs(arr, i=0, ops=0):
+            if i > 0 and arr[i - 1] > arr[i]:
+                return  # current test invalid (stop)
+
+            if len(arr) - 1 == i:  # current test complete
+                nonlocal minOps
+                minOps = min(minOps, ops)
+                return
+
+            dfs(arr, i + 1, ops)  # no removal
+            dfs(arr[:i] + arr[i + 1 :], i, ops + 1)  # removal
+
+        dfs(nums)
+
+        return minOps
+
+
+# Works, but LeetCode doesn't like 'nonlocal'
+
+
+class Solution(object):
+    def topVotedMinimumOperations(self, A):
+        a, b, c = 0, 0, 0
+        for x in A:
+            a += x != 1
+            b = min(a, b + (x != 2))
+            c = min(b, c + (x != 3))
+        return c
+
+    print(topVotedMinimumOperations(None, [2, 1, 3, 2, 1]))  #  3
+    print(topVotedMinimumOperations(None, [1, 3, 2, 1, 3, 3]))  #  2
+    print(topVotedMinimumOperations(None, [2, 2, 2, 2, 3, 3]))  #  0
+
+
+# Explanation:
+# a presents the operation to make sequence all 1s
+# b presents the operation to make sequence incresing from 1 to 2
+# c presents the operation to make sequence incresing from 1 to 3
