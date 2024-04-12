@@ -5527,7 +5527,7 @@ class Solution(object):
 # c presents the operation to make sequence incresing from 1 to 3 """
 
 # Maximum Number That Sum of the Prices Is Less Than or Equal to K					4/11/2024
-
+""" 
 # You are given an integer k and an integer x. The price of a number num is calculated by the count of
 
 # set bits
@@ -5624,4 +5624,70 @@ def topVotedFindMaximumNumber(self, k: int, x: int) -> int:
     return l
 
 
-# Ah, binary search
+# Ah, binary search """
+
+# Minimum Processing Time					4/12/2024
+
+# You have a certain number of processors, each having 4 cores. The number of tasks to be executed is four times the number of processors. Each task must be assigned to a unique core, and each core can only be used once.
+
+# You are given an array processorTime representing the time each processor becomes available and an array tasks representing how long each task takes to complete. Return the minimum time needed to complete all tasks.
+
+# Example 1:
+# 		Input: processorTime = [8,10], tasks = [2,2,3,1,8,7,4,5]
+# 		Output: 16
+# Explanation:
+# 		Assign the tasks at indices 4, 5, 6, 7 to the first processor which becomes available at time = 8, and the tasks at indices 0, 1, 2, 3 to the second processor which becomes available at time = 10.
+# 		The time taken by the first processor to finish the execution of all tasks is max(8 + 8, 8 + 7, 8 + 4, 8 + 5) = 16.
+# 		The time taken by the second processor to finish the execution of all tasks is max(10 + 2, 10 + 2, 10 + 3, 10 + 1) = 13.
+
+# Example 2:
+# 		Input: processorTime = [10,20], tasks = [2,3,1,2,5,8,4,3]
+# 		Output: 23
+# Explanation:
+# 		Assign the tasks at indices 1, 4, 5, 6 to the first processor and the others to the second processor.
+# 		The time taken by the first processor to finish the execution of all tasks is max(10 + 3, 10 + 5, 10 + 8, 10 + 4) = 18.
+# 		The time taken by the second processor to finish the execution of all tasks is max(20 + 2, 20 + 1, 20 + 2, 20 + 3) = 23.
+
+# Constraints:
+# 		1 <= n == processorTime.length <= 25000
+# 		1 <= tasks.length <= 105
+# 		0 <= processorTime[i] <= 109
+# 		1 <= tasks[i] <= 109
+# 		tasks.length == 4 * n
+
+
+class Solution(object):
+    def minProcessingTime(self, pTime, tasks):
+        # Divide tasks into groups to be paired with processors
+        # Higher the processor time, smaller the task
+        pTime, tasks = sorted(pTime, reverse=True), sorted(tasks)
+        tasksPerProcessor = len(tasks) // len(pTime)
+        i = 1
+        maxTime = 0
+        for p in pTime:
+            maxTime = max(
+                maxTime, p + tasks[((i * tasksPerProcessor) - 1)]
+            )  # largest of group
+            i += 1  # next group
+        return maxTime
+
+    print(minProcessingTime(None, [8, 10], [2, 2, 3, 1, 8, 7, 4, 5]))  #  16
+    print(minProcessingTime(None, [10, 20], [2, 3, 1, 2, 5, 8, 4, 3]))  #  23
+    print(minProcessingTime(None, [291], [125, 169, 269, 32]))  #  560
+
+
+class Solution:
+    def TopVotedMinProcessingTime(self, t, v):
+        n = len(v)
+        t.sort()
+        v.sort()
+        j = n - 1
+        m = len(t)
+        ans = 0
+        for i in range(m):
+            c = 0
+            while c < 4:
+                ans = max(ans, t[i] + v[j])
+                c += 1
+                j -= 1
+        return ans
