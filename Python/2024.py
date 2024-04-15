@@ -5768,7 +5768,7 @@ class Solution:
         return ans """
 
 # Longest Unequal Adjacent Groups Subsequence I					4/14/2024
-
+""" 
 # You are given a string array words and a binary array groups both of length n, where words[i] is associated with groups[i].
 
 # Your task is to select the longest alternating subsequence from words. A subsequence of words is alternating if for any two consecutive strings in the sequence, their corresponding elements in the binary array groups differ. Essentially, you are to choose strings such that adjacent elements have non-matching corresponding bits in the groups array.
@@ -5813,4 +5813,116 @@ class Solution(object):
     )  #  ["a","b","c"]
 
 
-# Same as top voted
+# Same as top voted """
+
+# Study: Selection and Insertion Sort                  4/15/2024
+
+# I have an Algorithms & Data Structures final the 20th so I'm going to study some sorting algorithms instead of doing LeetCode challenges.
+
+# I'll be looking into:
+# - SelectionSort
+# - InsertionSort
+# - QuickSort
+# - HeapSort
+# - MergeSort
+# - BucketSort
+# - Radix Sorting
+#   - MSD
+#   - LSD
+
+# Today will be Selection and Insertion Sort
+
+unsorted = [
+    4873,
+    1874,
+    8917,
+    1626,
+    4982,
+    9132,
+    9573,
+    1876,
+    6973,
+    1897,
+    9587,
+    3492,
+    9877,
+    2212,
+    6152,
+    7121,
+]
+
+# Selection Sort:
+
+# "The algorithm repeatedly selects the smallest (or largest) element from the unsorted portion of the list and swaps it with the first element of the unsorted part. This process is repeated for the remaining unsorted portion until the entire list is sorted."
+
+
+def selectionSort(arr):
+    print("UNSORTED: " + str(arr) + "\n")
+
+    for i in range(len(arr) - 1):
+        print("Before:\t" + str(arr[:i]) + " < Sorted/Unsorted > " + str(arr[i + 1 :]))
+
+        minIdx = i  # index of current iteration's smallest value
+        for j in range(i + 1, len(arr)):
+            if arr[j] < arr[minIdx]:
+                minIdx = j  # smaller value found further in unsorted portion
+
+        print(("\t" * 4) + "Smallest value: " + str(arr[minIdx]))
+
+        arr[i], arr[minIdx] = arr[minIdx], arr[i]  # swap smallest into sorted portion
+
+        print(
+            "After:\t"
+            + str(arr[: i + 1])
+            + " < Sorted/Unsorted > "
+            + str(arr[i + 2 :])
+            + "\n"
+        )
+
+    return "SORTED: " + str(arr)
+
+
+# print(selectionSort(unsorted))
+
+# O(n^2) in-place sorting
+# Slow
+
+# Insertion Sort:
+
+# "Insertion sort iterates, consuming one input element each repetition, and grows a sorted output list. At each iteration, insertion sort removes one element from the input data, finds the location it belongs within the sorted list, and inserts it there. It repeats until no input elements remain."
+
+
+def insertionSort(arr):
+    print("UNSORTED: " + str(arr) + "\n")
+
+    for i in range(0, len(arr)):
+        print(
+            "Before:\t"
+            + str(arr[:i])
+            + " < Sorted "
+            + str(arr[i : i + 1])
+            + " Unsorted > "
+            + str(arr[i + 1 :])
+        )
+
+        for j in range(i):
+            if arr[j] >= arr[i]:
+                # Insert leading value of unsorted array portion into correct index of sorted portion
+                arr = arr[:j] + arr[i : i + 1] + arr[j:i] + arr[i + 1 :]
+                break
+
+        print(
+            "After:\t"
+            + str(arr[: i + 1])
+            + " < Sorted/Unsorted > "
+            + str(arr[i + 2 :])
+            + "\n"
+        )
+
+    return "SORTED: " + str(arr)
+
+
+print(insertionSort(unsorted))
+
+# O(n^2) in-place sorting
+# Slow
