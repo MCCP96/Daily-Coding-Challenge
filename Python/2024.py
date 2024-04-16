@@ -5816,7 +5816,7 @@ class Solution(object):
 # Same as top voted """
 
 # Study: Selection and Insertion Sort                  4/15/2024
-
+""" 
 # I have an Algorithms & Data Structures final the 20th so I'm going to study some sorting algorithms instead of doing LeetCode challenges.
 
 # I'll be looking into:
@@ -5925,4 +5925,109 @@ def insertionSort(arr):
 print(insertionSort(unsorted))
 
 # O(n^2) in-place sorting
-# Slow
+# Slow """
+
+# Study: Merge and Quick Sort                   4/16/2024
+
+# I'll be looking into:
+# - SelectionSort ✓
+# - InsertionSort ✓
+# - QuickSort
+# - HeapSort
+# - MergeSort
+# - BucketSort
+# - Radix Sorting
+#   - MSD
+#   - LSD
+
+# Today will focus on recursive sorts: MergeSort and QuickSort
+
+unsorted = [
+    4873,
+    1874,
+    8917,
+    1626,
+    4982,
+    9132,
+    9573,
+    1876,
+    6973,
+    1897,
+    9587,
+    3492,
+    9877,
+    2212,
+    6152,
+    7121,
+]
+
+# Merge Sort:
+
+# "Conceptually, a merge sort works as follows:
+# - Divide the unsorted list into n sublists, each containing one element (a list of one element is considered sorted).
+# - Repeatedly merge sublists to produce new sorted sublists until there is only one sublist remaining. This will be the sorted list."
+
+
+def mergeSort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        mid = len(arr) // 2
+        print("Split: " + "\t" * 6 + str(arr[:mid]), str(arr[mid:]))
+        l = mergeSort(arr[:mid])
+        r = mergeSort(arr[mid:])
+
+    print("Merged & Sorted: \t" + str(sorted(l + r)))
+    return sorted(l + r)
+
+
+# print(mergeSort(unsorted))
+
+# O(n log n), sequential data access
+# Fast
+
+
+# Quick Sort:
+
+# "Quick-sort is a sorting algorithm based on the divide-and-conquer paradigm:
+#  - Divide: pick an element x (called pivot) and partition S into:
+#   - L elements less than x
+#   - E elements equal x
+#   - G elements greater than x
+# - Recur: sort L and G
+# - Conquer: join L, E and G"
+
+
+def quickSort(arr):
+    print("\nCurrent arr: \t" + str(arr))
+
+    if len(arr) <= 1:
+        return arr
+    else:
+        pivotIdx = len(arr) // 2
+        l, e, g = [], [], []
+        for n in arr:
+            if n < arr[pivotIdx]:  # less than pivot
+                l.append(n)
+            elif n > arr[pivotIdx]:  # greater than pivot
+                g.append(n)
+            else:  # equal to pivot
+                e.append(n)
+
+        print(
+            "Pivot: \t\t\t\t"
+            + str(e)
+            + "\nLess than: \t\t"
+            + str(l)
+            + "\nGreater than: \t"
+            + str(g)
+        )
+
+        return quickSort(l) + e + quickSort(g)
+
+
+print(quickSort(unsorted))
+
+# O(n log n), but O(n^2) worst case
+# in-place (not in this case), randomized
+# Fastest
