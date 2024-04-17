@@ -5928,7 +5928,7 @@ print(insertionSort(unsorted))
 # Slow """
 
 # Study: Merge and Quick Sort                   4/16/2024
-
+""" 
 # I'll be looking into:
 # - SelectionSort ✓
 # - InsertionSort ✓
@@ -6030,4 +6030,137 @@ print(quickSort(unsorted))
 
 # O(n log n), but O(n^2) worst case
 # in-place (not in this case), randomized
-# Fastest
+# Fastest """
+
+# Study: Heap Sort                   4/17/2024
+
+# I'll be looking into:
+# - SelectionSort ✓
+# - InsertionSort ✓
+# - QuickSort ✓
+# - HeapSort
+# - MergeSort ✓
+# - BucketSort
+# - Radix Sorting
+#   - MSD
+#   - LSD
+
+# Today is HeapSort
+
+unsorted = [
+    4873,
+    1874,
+    8917,
+    1626,
+    4982,
+    9132,
+    9573,
+    1876,
+    6973,
+    1897,
+    9587,
+    3492,
+    9877,
+    2212,
+    6152,
+    7121,
+]
+
+# Heap Sort:
+
+# "In computer science, heapsort is a comparison-based sorting algorithm which can be thought of as "an implementation of selection sort using the right data structure."[3] Like selection sort, heapsort divides its input into a sorted and an unsorted region, and it iteratively shrinks the unsorted region by extracting the largest element from it and inserting it into the sorted region. Unlike selection sort, heapsort does not waste time with a linear-time scan of the unsorted region; rather, heap sort maintains the unsorted region in a heap data structure to efficiently find the largest element in each step."
+
+import heapq
+
+
+def heapSort(arr):
+    heap = []
+
+    for elem in arr:  # push to min heap, n calls
+        heapq.heappush(heap, elem)  # O(log n)
+
+    for i in range(len(arr)):  # pop back into arr, n calls
+        arr[i] = heapq.heappop(heap)  # O(log n)
+
+    return arr
+
+
+# Easy with backing heap data structure
+# Can also be done in-place:
+
+
+def left(i):
+    """index of left child"""
+    return 2 * i + 1
+
+
+def right(i):
+    """index of right child"""
+    return 2 * (i + 1)
+
+
+def parent(i):
+    """index of parent"""
+    return (i - 1) // 2
+
+
+def bubble_up(a, i):
+    """new element, bubble up the tree until the heap has been reformed"""
+    # Repeatedly swap the element at index i with its parent, until the
+    # element is is no longer smaller than its parent.
+
+    p = parent(i)
+    while i > 0 and a[i] < a[p]:
+        a[i], a[p] = a[p], a[i]
+        i = p
+        p = parent(i)
+
+
+def trickle_down(a, i, n):
+    """element stored at index i, trickle down the tree until the heap has been reformed"""
+    # Repeatedly swap the element at index i with its smallest child,
+    # until the element is no longer larger than its children.
+
+    while i >= 0:
+        j = -1
+        r = right(i)
+        if r < n and a[r] < a[i]:
+            l = left(i)
+            if a[l] < a[r]:
+                j = l
+            else:
+                j = r
+        else:
+            l = left(i)
+            if l < n and a[l] < a[i]:
+                j = l
+
+        if j >= 0:
+            a[j], a[i] = a[i], a[j]
+        i = j
+
+
+def reverse(a, n):
+    """Reverse the first n elements of sequence a in place."""
+    for i in range(n // 2):
+        a[i], a[n - 1 - i] = a[n - 1 - i], a[i]
+
+
+def heapSortInPlane(arr):
+    for i in range(1, len(arr)):
+        bubble_up(arr, i)
+
+    i = len(arr)
+    while i > 1:
+        i -= 1
+        arr[i], arr[0] = arr[0], arr[i]
+        trickle_down(arr, 0, i)
+
+    reverse(arr, len(arr))
+    return arr
+
+
+print(heapSortInPlane(unsorted))
+
+# O(n log n), in-place
+# fast
