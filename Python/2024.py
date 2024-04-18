@@ -6033,7 +6033,7 @@ print(quickSort(unsorted))
 # Fastest """
 
 # Study: Heap Sort                   4/17/2024
-
+""" 
 # I'll be looking into:
 # - SelectionSort ✓
 # - InsertionSort ✓
@@ -6090,22 +6090,22 @@ def heapSort(arr):
 
 
 def left(i):
-    """index of left child"""
+    # index of left child
     return 2 * i + 1
 
 
 def right(i):
-    """index of right child"""
+    # index of right child
     return 2 * (i + 1)
 
 
 def parent(i):
-    """index of parent"""
+    # index of parent
     return (i - 1) // 2
 
 
 def bubble_up(a, i):
-    """new element, bubble up the tree until the heap has been reformed"""
+    # new element, bubble up the tree until the heap has been reformed
     # Repeatedly swap the element at index i with its parent, until the
     # element is is no longer smaller than its parent.
 
@@ -6117,7 +6117,7 @@ def bubble_up(a, i):
 
 
 def trickle_down(a, i, n):
-    """element stored at index i, trickle down the tree until the heap has been reformed"""
+    # element stored at index i, trickle down the tree until the heap has been reformed
     # Repeatedly swap the element at index i with its smallest child,
     # until the element is no longer larger than its children.
 
@@ -6141,7 +6141,7 @@ def trickle_down(a, i, n):
 
 
 def reverse(a, n):
-    """Reverse the first n elements of sequence a in place."""
+    # Reverse the first n elements of sequence a in place.
     for i in range(n // 2):
         a[i], a[n - 1 - i] = a[n - 1 - i], a[i]
 
@@ -6163,4 +6163,72 @@ def heapSortInPlane(arr):
 print(heapSortInPlane(unsorted))
 
 # O(n log n), in-place
-# fast
+# fast """
+
+# Study: Bucket Sort                   4/18/2024
+
+# I'll be looking into:
+# - SelectionSort ✓
+# - InsertionSort ✓
+# - QuickSort ✓
+# - HeapSort ✓
+# - MergeSort ✓
+# - BucketSort
+# - Radix Sorting
+#   - MSD
+#   - LSD
+
+# Today is Bucket Sort
+
+unsorted = [12, 9, 24, 4, 19, 21, 14, 6, 2, 16]
+
+# BucketSort:
+# - Create a list of "buckets" that are initially empty
+#       [0 to 5], [5 to 10], [10 to 15], [15 to 20], [20 to 25]
+# -	Go through the original list, placing each item in its appropriate bucket
+#       [4,2], [9,6], [12,14], [19,16], [24,21]
+# -	Each non-empty bucket should be sorted
+#       [2,4], [6,9], [12,14], [16,19], [21,24]
+# -	Gather: Return all elements to the original array after visiting the buckets in order
+#       [2,4,6,9,12,14,16,19,21,24]
+
+# "Imagine putting 200 student papers in alphabetical order according to the first letter of the last name. An insertion sort (or selection sort, or bubbleSort) would have us try to deal with the whole pile at once. Merge-sort would require spreading out all 200 papers and then comparing and piling them back up again in order.Bucket-Sort has us place them into 26 piles by first letter and then stacking those piles together."
+
+# Also works for tuples/objects:
+unsortedTuples = [(7, "d"), (1, "c"), (3, "a"), (7, "g"), (3, "b"), (7, "e")]
+
+# BucketSort:
+# - Create a list of "buckets" that are initially empty
+#       key range [0,9], therefore: [[],[],[],[],[],[],[],[],[],[]]
+# -	Go through the original list, placing each item in its appropriate bucket
+#       [[],[(1, "c")],[],[(3, "a"), (3, "b")],[],[],[],[(7, "d"), (7, "g"), (7, "e")],[],[]]
+# -	Gather: Return all elements to the original array after visiting the buckets in order
+#       [(1, "c"), (3, "a"), (3, "b"), (7, "d"), (7, "g"), (7, "e")]
+
+# Stable Sort Property:
+# The relative order of any two items with the same key is preserved after the execution of the algorithm
+
+
+def bucketSort(arr):
+    print(arr)
+    buckets = [None] * 10
+
+    for key, val in arr:
+        if buckets[key] == None:
+            buckets[key] = []
+        buckets[key].append((key, val))
+    print(buckets)
+
+    i = 0
+    for el in buckets:
+        if el != None:
+            for pair in el:
+                arr[i] = pair
+                i += 1
+    return arr
+
+
+print(bucketSort(unsortedTuples))
+
+# Notice (7, "g") comes before (7, "e") even though "e" < "g"
+# This is due to stable sort property
