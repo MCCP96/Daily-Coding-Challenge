@@ -6166,7 +6166,7 @@ print(heapSortInPlane(unsorted))
 # fast """
 
 # Study: Bucket Sort                   4/18/2024
-
+""" 
 # I'll be looking into:
 # - SelectionSort ✓
 # - InsertionSort ✓
@@ -6231,4 +6231,79 @@ def bucketSort(arr):
 print(bucketSort(unsortedTuples))
 
 # Notice (7, "g") comes before (7, "e") even though "e" < "g"
-# This is due to stable sort property
+# This is due to stable sort property """
+
+# Study: Radix Sort                   4/19/2024
+
+# I'll be looking into:
+# - SelectionSort ✓
+# - InsertionSort ✓
+# - QuickSort ✓
+# - HeapSort ✓
+# - MergeSort ✓
+# - BucketSort ✓
+# - Radix Sorting
+#   - MSD
+#   - LSD
+
+# Today is Least/Most Significant Digit Radix Sort
+
+# LSD:
+# Keys are integers in the range [0, 999]
+#   [746, 515, 246, 214, 324]
+# Covert keys to tuples
+#   746 = (7, 4, 6), 515 = (5, 1, 5), 246 = (2, 4, 6), 214 = (2, 1, 4) , 324 = (3, 2, 4)
+# Sort according to right-most dimension first
+#   1st pass:   (2,1,4) (3,2,4) (5,1,5) (7,4,6) (2,4,6)
+#   2nd pass:   (2,1,4) (5,1,5) (3,2,4) (7,4,6) (2,4,6)
+#   3rd pass:   (2,1,4) (2,4,6) (3,2,4) (5,1,5) (7,4,6)
+
+
+def radixLSD(arr):
+    d = 3  # max digits count
+
+    for i, el in enumerate(arr):  # to tuples
+        arr[i] = tuple([*str(el)])
+
+    while d > 0:
+        d -= 1
+        arr.sort(key=lambda a: a[d])  # sort by digits, right to left
+        print(arr)
+
+
+radixLSD([746, 515, 246, 214, 324])
+
+
+# MSD:
+# Keys are 3 char strings
+#   ['add', 'cab', 'fad', 'fee', 'bad', 'bee', 'fed', 'bed', 'ace']
+# Covert keys to tuples
+#   ["add" = (0,3,3), "cab" = (2,0,1), ...]
+# Sort according to left-most dimension first
+#   1st pass:   ['add', 'ace', 'bad', 'bee', 'bed', 'cab', 'fad', 'fee', 'fed']
+#   2nd pass:   ['ace', 'add', 'bad', 'bee', 'bed', 'cab', 'fad', 'fee', 'fed']
+#   3rd pass:   ['ace', 'add', 'bad', 'bed', 'bee', 'cab', 'fad', 'fed', 'fee']
+# *Key idea: Sort each subproblem separately.
+#   1st pass:   [['add', 'ace'], ['bad', 'bee', 'bed'], ['cab'], ['fad', 'fee', 'fed']]
+#   2nd pass:   [['ace'], ['add'], ['bad'], ['bee', 'bed'], ['cab'], ['fad'], ['fee', 'fed']]
+#   3rd pass:   [['ace'], ['add'], ['bad'], ['bed'], ['bee'], ['cab'], ['fad'], ['fed'], ['fee']]
+
+
+def radixMSD(arr):
+    l = 3  # string len
+
+    # no need to convert to tuple, python can compare chars
+
+    # WITHOUT SEPERATING SUBPROBLEMS
+    badArr = arr.copy()
+    for i in range(l):
+        badArr.sort(key=lambda a: a[i])  # sort by chars, left to right
+        print(badArr)  # notice faulty order. Instead, group by MSD and sort that group
+
+    # WITH SEPERATE SUBPROBLEMS (basically keeping track of MSD)
+    for i in range(1, l + 1):
+        arr.sort(key=lambda a: a[0:i])
+        print(arr)
+
+
+radixMSD(["add", "cab", "fad", "fee", "bad", "bee", "fed", "bed", "ace"])
