@@ -6234,7 +6234,7 @@ print(bucketSort(unsortedTuples))
 # This is due to stable sort property """
 
 # Study: Radix Sort                   4/19/2024
-
+""" 
 # I'll be looking into:
 # - SelectionSort ✓
 # - InsertionSort ✓
@@ -6306,4 +6306,50 @@ def radixMSD(arr):
         print(arr)
 
 
-radixMSD(["add", "cab", "fad", "fee", "bad", "bee", "fed", "bed", "ace"])
+radixMSD(["add", "cab", "fad", "fee", "bad", "bee", "fed", "bed", "ace"]) """
+
+# Diameter of Binary Tree					4/20/2024
+
+# Given the root of a binary tree, return the length of the diameter of the tree.
+
+# The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+# The length of a path between two nodes is represented by the number of edges between them.
+
+# Example 1:
+# 		Input: root = [1,2,3,4,5]
+# 		Output: 3
+# Explanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
+
+# Example 2:
+# 		Input: root = [1,2]
+# 		Output: 1
+
+# Constraints:
+# 		The number of nodes in the tree is in the range [1, 104].
+# 		-100 <= Node.val <= 100
+
+
+class Solution(object):
+    def diameterOfBinaryTree(self, root):
+        # longest path is depth of deepest left node + depth of deepest right node
+
+        def maxDepth(node, depth=0):
+            if node == None:
+                return 0
+            return max(maxDepth(node.left, depth), maxDepth(node.right, depth)) + 1
+
+        return maxDepth(root.left) + maxDepth(root.right)
+
+
+class Solution(object):
+    def topVotedDiameterOfBinaryTree(self, root):
+        # Implement depth
+        def depth(node):
+            return 1 + max(depth(node.left), depth(node.right)) if node else 0
+
+        return depth(root.left) + depth(root.right)  # calculate diameter
+
+
+# Algorithms & Data Structures final went well this morning
+# Sorting algorithm studied here were most of it :)
