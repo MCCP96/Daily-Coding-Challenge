@@ -6427,7 +6427,7 @@ def topVotedIslandPerimeter(self, grid):
     return perimeter """
 
 # Number Complement					4/22/2024
-
+""" 
 # The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
 
 # For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
@@ -6469,4 +6469,69 @@ def topVotedFindComplement(self, num):
     return num ^ (2 ** num.bit_length() - 1)
 
 
-# Et voilà
+# Et voilà """
+
+# License Key Formatting					4/23/2024
+
+# You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.
+
+# We want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
+
+# Return the reformatted license key.
+
+# Example 1:
+# 		Input: s = "5F3Z-2e-9-w", k = 4
+# 		Output: "5F3Z-2E9W"
+# Explanation: The string s has been split into two parts, each part has 4 characters.
+# 		Note that the two extra dashes are not needed and can be removed.
+
+# Example 2:
+# 		Input: s = "2-5g-3-J", k = 2
+# 		Output: "2-5G-3J"
+# Explanation: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
+
+# Constraints:
+# 		1 <= s.length <= 105
+# 		s consists of English letters, digits, and dashes '-'.
+# 		1 <= k <= 104
+
+
+class Solution(object):
+    def licenseKeyFormatting(self, s, k):
+        res = ""
+        i = len(s)
+        j = k
+        while i > 0:
+            i -= 1
+            if s[i] != "-":  # else skip
+                if j == 0:
+                    res = "-" + res
+                    j = k
+                res = s[i] + res
+                j -= 1
+        return res.upper()
+
+    print(licenseKeyFormatting(None, "5F3Z-2e-9-w", 4))  #  "5F3Z-2E9W"
+    print(licenseKeyFormatting(None, "2-5g-3-J", 2))  #  "2-5G-3J"
+
+
+class Solution:
+    def topVotedLicenseKeyFormatting(self, S: str, K: int) -> str:
+
+        # Eliminate all dashes
+        S = S.replace("-", "")
+
+        head = len(S) % K
+
+        grouping = []
+
+        # Special handle for first group
+        if head:
+            grouping.append(S[:head])
+
+        # General case:
+        for index in range(head, len(S), K):
+            grouping.append(S[index : index + K])
+
+        # Link each group togetger and separated by dash '-'
+        return "-".join(grouping).upper()
