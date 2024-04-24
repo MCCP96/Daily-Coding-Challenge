@@ -6472,7 +6472,7 @@ def topVotedFindComplement(self, num):
 # Et voilà """
 
 # License Key Formatting					4/23/2024
-
+""" 
 # You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.
 
 # We want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
@@ -6534,4 +6534,47 @@ class Solution:
             grouping.append(S[index : index + K])
 
         # Link each group togetger and separated by dash '-'
-        return "-".join(grouping).upper()
+        return "-".join(grouping).upper() """
+
+# Max Consecutive Ones					4/24/2024
+
+# Given a binary array nums, return the maximum number of consecutive 1's in the array.
+
+# Example 1:
+# 		Input: nums = [1,1,0,1,1,1]
+# 		Output: 3
+# Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+
+# Example 2:
+# 		Input: nums = [1,0,1,1,0,1]
+# 		Output: 2
+
+# Constraints:
+# 		1 <= nums.length <= 105
+# 		nums[i] is either 0 or 1.
+
+
+class Solution(object):
+    def findMaxConsecutiveOnes(self, nums):
+        res = 0
+        cur = 0
+        for n in nums:
+            cur += n
+            res = max(res, cur)
+            if n == 0:
+                cur = 0
+        return res
+
+    print(findMaxConsecutiveOnes(None, [1, 1, 0, 1, 1, 1]))  #  3
+    print(findMaxConsecutiveOnes(None, [1, 0, 1, 1, 0, 1]))  #  2
+
+
+class Solution:
+    def topVotedFindMaxConsecutiveOnes(self, nums):
+        l, zeros = 0, 0
+        for r, n in enumerate(nums):
+            zeros += n == 0
+            if zeros > 0:
+                zeros -= nums[l] == 0
+                l += 1
+        return r - l + 1
