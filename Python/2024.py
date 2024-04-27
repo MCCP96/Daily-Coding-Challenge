@@ -6624,7 +6624,7 @@ class Solution(object):
         return [int(area / mid), mid] """
 
 # Next Greater Element I					4/25/2024
-
+""" 
 # The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
 
 # You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
@@ -6717,4 +6717,80 @@ def topVotedNextGreaterElement(self, nums1, nums2):
 
     for i in range(len(nums1)):
         result.append(mapping[nums1[i]])
-    return result
+    return result """
+
+# Keyboard Row					4/27/2024
+
+# Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
+
+# In the American keyboard:
+# the first row consists of the characters "qwertyuiop",
+# the second row consists of the characters "asdfghjkl", and
+# the third row consists of the characters "zxcvbnm".
+
+# Example 1:
+# 		Input: words = ["Hello","Alaska","Dad","Peace"]
+# 		Output: ["Alaska","Dad"]
+
+# Example 2:
+# 		Input: words = ["omk"]
+# 		Output: []
+
+# Example 3:
+# 		Input: words = ["adsdf","sfd"]
+# 		Output: ["adsdf","sfd"]
+
+# Constraints:
+# 		1 <= words.length <= 20
+# 		1 <= words[i].length <= 100
+# 		words[i] consists of English letters (both lowercase and uppercase).
+
+
+class Solution(object):
+    def findWords(self, words):
+        def rowNum(c):
+            if c in "qwertyuiopQWERTYUIOP":
+                return 1
+            elif c in "asdfghjklASDFGHJKL":
+                return 2
+            else:
+                return 3
+
+        res = []
+        for word in words:
+            row = rowNum(word[0])
+            valid = True
+            for i in range(1, len(word)):
+                if rowNum(word[i]) != row:
+                    valid = False
+                    break
+            if valid:
+                res.append(word)
+
+        return res
+
+    print(findWords(None, ["Hello", "Alaska", "Dad", "Peace"]))  #  ["Alaska","Dad"]
+    print(findWords(None, ["omk"]))  #  []
+    print(findWords(None, ["adsdf", "sfd"]))  #  ["adsdf","sfd"]
+
+
+# 100% Runtime
+
+
+class Solution:
+    def findWords(self, words):
+        #
+        set1 = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p"}
+        set2 = {"a", "s", "d", "f", "g", "h", "j", "k", "l"}
+        set3 = {"z", "x", "c", "v", "b", "n", "m"}
+
+        res = []
+        for i in words:
+            wordset = set(i.lower())
+            if (
+                (wordset & set1 == wordset)
+                or (wordset & set2 == wordset)
+                or (wordset & set3 == wordset)
+            ):
+                res.append(i)
+        return res
