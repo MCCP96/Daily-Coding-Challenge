@@ -6720,7 +6720,7 @@ def topVotedNextGreaterElement(self, nums1, nums2):
     return result """
 
 # Keyboard Row					4/27/2024
-
+""" 
 # Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
 
 # In the American keyboard:
@@ -6793,4 +6793,43 @@ class Solution:
                 or (wordset & set3 == wordset)
             ):
                 res.append(i)
-        return res
+        return res """
+
+# Base 7					4/28/2024
+
+# Given an integer num, return a string of its base 7 representation.
+
+# Example 1:
+# 		Input: num = 100
+# 		Output: "202"
+
+# Example 2:
+# 		Input: num = -7
+# 		Output: "-10"
+
+# Constraints:
+# 		-10^7 <= num <= 10^7
+
+
+class Solution(object):
+    def convertToBase7(self, num):
+        if num == 0:
+            return "0"
+
+        negative = False
+        if num < 0:
+            negative = True
+            num = -num  # convert to positive
+
+        res = ""
+        while num > 0:
+            res = str(num % 7) + res
+            num //= 7
+
+        return res if not negative else "-" + res
+
+    print(convertToBase7(None, 100))  #  "202"
+    print(convertToBase7(None, -7))  #  "-10"
+
+
+# same as top voted
