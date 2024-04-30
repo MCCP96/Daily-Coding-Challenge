@@ -6835,7 +6835,7 @@ class Solution(object):
 # same as top voted """
 
 # Divide Two Integers					4/29/2024
-
+""" 
 # Given two integers dividend and divisor, divide two integers without using multiplication, division, and mod operator.
 
 # The integer division should truncate toward zero, which means losing its fractional part. For example, 8.345 would be truncated to 8, and -2.7335 would be truncated to -2.
@@ -6912,4 +6912,94 @@ class Solution:
 # "To not over-complicate, here is a simple explanation. A naive method here is to repeatedly subtract divisor from dividend, until there is none enough left. Then the count of subtractions will be the answer. Yet this takes linear time and is thus slow. A better method is to subtract divisor in a more efficient way. We can subtract divisor, 2divisor, 4divisor, 8divisor... as is implemented above. Now the subtracting process only takes log-time."
 
 # Better is_negative, better logic
-# People are calling the bitshifts cheating, but it beats the linear approach
+# People are calling the bitshifts cheating, but it beats the linear approach """
+
+# Combination Sum II					4/30/2024
+
+# Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+
+# Each number in candidates may only be used once in the combination.
+
+# Note: The solution set must not contain duplicate combinations.
+
+# Example 1:
+# 		Input: candidates = [10,1,2,7,6,1,5], target = 8
+# 		Output:
+# 		[
+# 		[1,1,6],
+# 		[1,2,5],
+# 		[1,7],
+# 		[2,6]
+# 		]
+
+# Example 2:
+# 		Input: candidates = [2,5,2,1,2], target = 5
+# 		Output:
+# 		[
+# 		[1,2,2],
+# 		[5]
+# 		]
+
+# Constraints:
+# 		1 <= candidates.length <= 100
+# 		1 <= candidates[i] <= 50
+# 		1 <= target <= 30
+
+
+class Solution(object):
+    def combinationSum2(self, candidates, t):
+        candidates = [n for n in candidates if n <= t]
+        count = len(candidates)
+        seen = set()
+        res = []
+
+        def dp(cur, acc, idx):
+            if acc == t:
+                id = str(sorted(cur))
+                if id not in seen:
+                    seen.add(id)
+                    res.append(cur)
+                return
+            if acc > t or idx == count:
+                return
+            dp(cur, acc, idx + 1)  # skip candidate
+            dp(cur + [candidates[idx]], acc + candidates[idx], idx + 1)  # use candidate
+
+        dp([], 0, 0)
+        return res
+
+    print(combinationSum2(None, [10, 1, 2, 7, 6, 1, 5], 8))
+    print(combinationSum2(None, [2, 5, 2, 1, 2], 5))
+
+
+class Solution(object):
+    def topVotedCombinationSum2(self, candidates, target):
+        # Sorting is really helpful, se we can avoid over counting easily
+        candidates.sort()
+        result = []
+        self.combine_sum_2(candidates, 0, [], result, target)
+        return result
+
+    def combine_sum_2(self, nums, start, path, result, target):
+        # Base case: if the sum of the path satisfies the target, we will consider
+        # it as a solution, and stop there
+        if not target:
+            result.append(path)
+            return
+
+        for i in xrange(start, len(nums)):
+            # Very important here! We don't use `i > 0` because we always want
+            # to count the first element in this recursive step even if it is the same
+            # as one before. To avoid overcounting, we just ignore the duplicates
+            # after the first element.
+            if i > start and nums[i] == nums[i - 1]:
+                continue
+
+            # If the current element is bigger than the assigned target, there is
+            # no need to keep searching, since all the numbers are positive
+            if nums[i] > target:
+                break
+
+            # We change the start to `i + 1` because one element only could
+            # be used once
+            self.combine_sum_2(nums, i + 1, path + [nums[i]], result, target - nums[i])
