@@ -6915,7 +6915,7 @@ class Solution:
 # People are calling the bitshifts cheating, but it beats the linear approach """
 
 # Combination Sum II					4/30/2024
-
+""" 
 # Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
 
 # Each number in candidates may only be used once in the combination.
@@ -7002,4 +7002,83 @@ class Solution(object):
 
             # We change the start to `i + 1` because one element only could
             # be used once
-            self.combine_sum_2(nums, i + 1, path + [nums[i]], result, target - nums[i])
+            self.combine_sum_2(nums, i + 1, path + [nums[i]], result, target - nums[i]) """
+
+# Multiply Strings					5/1/2024
+
+# Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
+
+# Note: You must not use any built-in BigInteger library or convert the inputs to integer directly.
+
+# Example 1:
+# 		Input: num1 = "2", num2 = "3"
+# 		Output: "6"
+
+# Example 2:
+# 		Input: num1 = "123", num2 = "456"
+# 		Output: "56088"
+
+# Constraints:
+# 		1 <= num1.length, num2.length <= 200
+# 		num1 and num2 consist of digits only.
+# 		Both num1 and num2 do not contain any leading zero, except the number 0 itself.
+
+
+class Solution(object):
+    def topVotedMultiply(self, num1, num2):
+        res = [0] * (len(num1) + len(num2))
+        for i in range(len(num1) - 1, -1, -1):
+            carry = 0
+            for j in range(len(num2) - 1, -1, -1):
+                tmp = (ord(num1[i]) - ord("0")) * (ord(num2[j]) - ord("0")) + carry
+                carry = (res[i + j + 1] + tmp) // 10
+                res[i + j + 1] = (res[i + j + 1] + tmp) % 10
+            res[i] += carry
+        res = "".join(map(str, res))
+        return "0" if not res.lstrip("0") else res.lstrip("0")
+
+
+class Solution:
+    def stringToNum(self, string):
+        digit = {
+            "0": 0,
+            "1": 1,
+            "2": 2,
+            "3": 3,
+            "4": 4,
+            "5": 5,
+            "6": 6,
+            "7": 7,
+            "8": 8,
+            "9": 9,
+        }
+        num = digit[string[-1]]
+        for idx, s in enumerate(reversed(string[: len(string) - 1])):
+            num += digit[s] * (10 ** (idx + 1))
+        return num
+
+    def numToString(self, num):
+        digit = {
+            0: "0",
+            1: "1",
+            2: "2",
+            3: "3",
+            4: "4",
+            5: "5",
+            6: "6",
+            7: "7",
+            8: "8",
+            9: "9",
+        }
+        string = ""
+        if num == 0:
+            string = digit[0]
+        while num:
+            string = digit[(num % 10)] + string
+            num = num // 10
+        return string
+
+    def anotherTopVotedMultiply(self, num1, num2):
+        num1 = self.stringToNum(num1)
+        num2 = self.stringToNum(num2)
+        return self.numToString(num1 * num2)
