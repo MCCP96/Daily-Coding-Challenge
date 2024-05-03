@@ -7084,7 +7084,7 @@ class Solution:
         return self.numToString(num1 * num2) """
 
 # Additive Number					5/2/2024
-
+""" 
 # An additive number is a string whose digits can form an additive sequence.
 
 # A valid additive sequence should contain at least three numbers. Except for the first two numbers, each subsequent number in the sequence must be the sum of the preceding two.
@@ -7147,4 +7147,52 @@ class Solution:
         return False
 
     print(topVotedIsAdditiveNumber(None, "112358"))  #  true
-    print(topVotedIsAdditiveNumber(None, "199100199"))  #  true
+    print(topVotedIsAdditiveNumber(None, "199100199"))  #  true """
+
+# Binary Prefix Divisible By 5					5/3/2024
+
+# You are given a binary array nums (0-indexed).
+
+# We define xi as the number whose binary representation is the subarray nums[0..i] (from most-significant-bit to least-significant-bit).
+
+# For example, if nums = [1,0,1], then x0 = 1, x1 = 2, and x2 = 5.
+
+# Return an array of booleans answer where answer[i] is true if xi is divisible by 5.
+
+# Example 1:
+# 		Input: nums = [0,1,1]
+# 		Output: [true,false,false]
+# Explanation: The input numbers in binary are 0, 01, 011; which are 0, 1, and 3 in base-10.
+# 		Only the first number is divisible by 5, so answer[0] is true.
+
+# Example 2:
+# 		Input: nums = [1,1,1]
+# 		Output: [false,false,false]
+
+# Constraints:
+# 		1 <= nums.length <= 105
+# 		nums[i] is either 0 or 1.
+
+
+class Solution(object):
+    def prefixesDivBy5(self, nums):
+        res = [False] * len(nums)
+        num = 0
+        for i, x in enumerate(nums):
+            num <<= 1
+            num += x
+            res[i] = num % 5 == 0
+        return res
+
+    print(prefixesDivBy5(None, [0, 1, 1]))  #  [true,false,false]
+    print(prefixesDivBy5(None, [1, 1, 1]))  #  [false,false,false]
+
+
+class Solution:
+    def topVotedPrefixesDivBy5(self, nums):
+        res = []
+        num = 0
+        for n in nums:
+            num = (num * 2 + n) % 5
+            res.append(num == 0)
+        return res
