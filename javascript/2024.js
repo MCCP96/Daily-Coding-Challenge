@@ -709,7 +709,7 @@ console.log(
 // Same as top voted */
 
 // Range Sum of BST					1/11/2024
-
+/* 
 // Given the root node of a binary search tree and two integers low and high, return the sum of values of all nodes with a value in the inclusive range [low, high].
 
 // Example 1:
@@ -755,4 +755,94 @@ var topVotedRangeSumBST = function (root, low, high) {
   return currentVal + leftSum + rightSum;
 };
 
-// same same
+// same same */
+
+// Simplify Path					5/5/2024
+
+// Given an absolute path for a Unix-style file system, which begins with a slash '/', transform this path into its simplified canonical path.
+
+// In Unix-style file system context, a single period '.' signifies the current directory, a double period ".." denotes moving up one directory level, and multiple slashes such as "//" are interpreted as a single slash. In this problem, treat sequences of periods not covered by the previous rules (like "...") as valid names for files or directories.
+
+// The simplified canonical path should adhere to the following rules:
+// It must start with a single slash '/'.
+// Directories within the path should be separated by only one slash '/'.
+// It should not end with a slash '/', unless it's the root directory.
+// It should exclude any single or double periods used to denote current or parent directories.
+
+// Return the new path.
+
+// Example 1:
+// 		Input: path = "/home/"
+// 		Output: "/home"
+// Explanation:
+// 		The trailing slash should be removed.
+
+// Example 2:
+// 		Input: path = "/home//foo/"
+// 		Output: "/home/foo"
+// Explanation:
+// 		Multiple consecutive slashes are replaced by a single one.
+
+// Example 3:
+// 		Input: path = "/home/user/Documents/../Pictures"
+// 		Output: "/home/user/Pictures"
+// Explanation:
+// 		A double period ".." refers to the directory up a level.
+
+// Example 4:
+// 		Input: path = "/../"
+// 		Output: "/"
+// Explanation:
+// 		Going one level up from the root directory is not possible.
+
+// Example 5:
+// 		Input: path = "/.../a/../b/c/../d/./"
+// 		Output: "/.../b/d"
+// Explanation:
+// 		"..." is a valid name for a directory in this problem.
+
+// Constraints:
+//		1 <= path.length <= 3000
+//		path consists of English letters, digits, period '.', slash '/' or '_'.
+//		path is a valid absolute Unix path.
+
+const simplifyPath = (path) => {
+  path = path.replaceAll(/\/+/g, "/"); // replace repeated '/' with single '/'
+  if (path.slice(-1) == "/") path = path.substring(0, path.length - 1); // remove trailing '/'
+
+  let stack = [];
+  for (let dir of path.split("/")) {
+    if (dir == "..") stack?.pop();
+    else if (dir != ".") stack.push(dir); // ignore current dir calls
+  }
+
+  path = stack.join("/");
+  if (path[0] != "/") path = "/" + path;
+  return path;
+};
+
+console.log(simplifyPath("/home/")); //  "/home"
+console.log(simplifyPath("/home//foo/")); //  "/home/foo"
+console.log(simplifyPath("/home/user/Documents/../Pictures")); //  "/home/user/Pictures"
+console.log(simplifyPath("/../")); //  "/"
+console.log(simplifyPath("/.../a/../b/c/../d/./")); //  "/.../b/d"
+console.log(simplifyPath("/a//b////c/d//././/..")); //  "/a/b/c"
+
+// Good runtime
+
+var topVotedSimplifyPath = function (path) {
+  const stack = [];
+  const directories = path.split("/");
+  for (const dir of directories) {
+    if (dir === "." || !dir) {
+      continue;
+    } else if (dir === "..") {
+      if (stack.length > 0) {
+        stack.pop();
+      }
+    } else {
+      stack.push(dir);
+    }
+  }
+  return "/" + stack.join("/");
+};
