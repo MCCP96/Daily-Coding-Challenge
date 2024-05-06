@@ -758,7 +758,7 @@ var topVotedRangeSumBST = function (root, low, high) {
 // same same */
 
 // Simplify Path					5/5/2024
-
+/* 
 // Given an absolute path for a Unix-style file system, which begins with a slash '/', transform this path into its simplified canonical path.
 
 // In Unix-style file system context, a single period '.' signifies the current directory, a double period ".." denotes moving up one directory level, and multiple slashes such as "//" are interpreted as a single slash. In this problem, treat sequences of periods not covered by the previous rules (like "...") as valid names for files or directories.
@@ -845,4 +845,95 @@ var topVotedSimplifyPath = function (path) {
     }
   }
   return "/" + stack.join("/");
+}; */
+
+// Edit Distance					5/5/2024
+
+// Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
+
+// You have the following three operations permitted on a word:
+// Insert a character
+// Delete a character
+// Replace a character
+
+// Example 1:
+// 		Input: word1 = "horse", word2 = "ros"
+// 		Output: 3
+// Explanation:
+// 		horse -> rorse (replace 'h' with 'r')
+// 		rorse -> rose (remove 'r')
+// 		rose -> ros (remove 'e')
+
+// Example 2:
+// 		Input: word1 = "intention", word2 = "execution"
+// 		Output: 5
+// Explanation:
+// 		intention -> inention (remove 't')
+// 		inention -> enention (replace 'i' with 'e')
+// 		enention -> exention (replace 'n' with 'x')
+// 		exention -> exection (replace 'n' with 'c')
+// 		exection -> execution (insert 'u')
+
+// Constraints:
+//		0 <= word1.length, word2.length <= 500
+//		word1 and word2 consist of lowercase English letters.
+
+const minDistance = (word1, word2) => {
+  let levenshtein = Array(word1.length + 1)
+    .fill(null)
+    .map(() => Array(word2.length + 1).fill(0));
+
+  // init first row and col
+  for (let i = 0; i < levenshtein.length; i++) levenshtein[i][0] = i;
+  for (let i = 0; i < levenshtein[0].length; i++) levenshtein[0][i] = i;
+
+  // other cells are decided based on min of left, diagonal, and top cells
+  // diagonal checks if words have matching chars, saving an operation
+  for (let i = 1; i < levenshtein.length; i++) {
+    for (let j = 1; j < levenshtein[0].length; j++) {
+      const l = levenshtein[i][j - 1] + 1; // left
+      const d = levenshtein[i - 1][j - 1] + (word1[i - 1] != word2[j - 1]); // diagonal
+      const u = levenshtein[i - 1][j] + 1; // top
+      levenshtein[i][j] = Math.min(l, d, u);
+    }
+  }
+
+  return levenshtein.pop().pop(); // final cell of grid is cummulative dif between words
 };
+
+console.log(minDistance("horse", "ros")); //  3
+console.log(minDistance("intention", "execution")); //  5
+
+// Great video explanation:
+// https://www.youtube.com/watch?v=ZkgBinDx9Kg&t=1289s&ab_channel=KnowledgeCenter
+// https://en.wikipedia.org/wiki/Levenshtein_distance
+
+var topVotedMinDistance = function (word1, word2) {
+  let dp = Array(word1.length + 1)
+    .fill(null)
+    .map(() => Array(word2.length + 1).fill(0));
+
+  for (let i = 0; i < dp.length; i++) {
+    dp[i][0] = i;
+  }
+
+  for (let i = 0; i < dp[0].length; i++) {
+    dp[0][i] = i;
+  }
+
+  for (let i = 1; i < dp.length; i++) {
+    for (let j = 1; j < dp[0].length; j++) {
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1, // left
+        dp[i][j - 1] + 1, // right
+        dp[i - 1][j - 1] + (word1[i - 1] != word2[j - 1] ? 1 : 0) // diagonal
+      );
+    }
+  }
+  return dp[dp.length - 1][dp[0].length - 1];
+};
+
+// The Idea:
+// Use lavenshtein distance algorithm and dynamic programming implementation
+// Build a matrix from word1 and word2, each cell represents the minimum difference between the words up the current character
+// Each cell is trying to become the locally minimum difference, so we have 3 options, 1 + left cell, 1 + top cell, 1 + diagonal (two characters aren't the same) or 0 + diagonal (two characters are the same)
