@@ -847,8 +847,8 @@ var topVotedSimplifyPath = function (path) {
   return "/" + stack.join("/");
 }; */
 
-// Edit Distance					5/5/2024
-
+// Edit Distance					5/6/2024
+/* 
 // Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
 
 // You have the following three operations permitted on a word:
@@ -936,4 +936,71 @@ var topVotedMinDistance = function (word1, word2) {
 // The Idea:
 // Use lavenshtein distance algorithm and dynamic programming implementation
 // Build a matrix from word1 and word2, each cell represents the minimum difference between the words up the current character
-// Each cell is trying to become the locally minimum difference, so we have 3 options, 1 + left cell, 1 + top cell, 1 + diagonal (two characters aren't the same) or 0 + diagonal (two characters are the same)
+// Each cell is trying to become the locally minimum difference, so we have 3 options, 1 + left cell, 1 + top cell, 1 + diagonal (two characters aren't the same) or 0 + diagonal (two characters are the same) */
+
+// Remove Nth Node From End of List					5/7/2024
+
+// Given the head of a linked list, remove the nth node from the end of the list and return its head.
+
+// Example 1:
+// 		Input: head = [1,2,3,4,5], n = 2
+// 		Output: [1,2,3,5]
+
+// Example 2:
+// 		Input: head = [1], n = 1
+// 		Output: []
+
+// Example 3:
+// 		Input: head = [1,2], n = 1
+// 		Output: [1]
+
+// Constraints:
+//		The number of nodes in the list is sz.
+//		1 <= sz <= 30
+//		0 <= Node.val <= 100
+//		1 <= n <= sz
+
+// Follow up: Could you do this in one pass?
+
+function ListNode(val, next) {
+  this.val = val === undefined ? 0 : val;
+  this.next = next === undefined ? null : next;
+}
+
+var removeNthFromEnd = (head, n) => {
+  let len = 0;
+  let node = head;
+  while (node) {
+    node = node.next;
+    len++;
+  }
+  if (len == 1) return null; // remove first and only el
+  if (len == n) return head.next; // remove first el
+
+  let i = 0;
+  node = head;
+  while (++i < len - n) {
+    node = node.next;
+  }
+  node.next = node?.next?.next || null;
+
+  return head;
+};
+
+console.log(removeNthFromEnd([1, 2, 3, 4, 5], 2)); //  [1,2,3,5]
+console.log(removeNthFromEnd([1], 1)); //  []
+console.log(removeNthFromEnd([1, 2], 1)); //  [1]
+
+// Not sure how to one pass this
+
+var removeNthFromEnd = function (head, n) {
+  let fast = head,
+    slow = head;
+  for (let i = 0; i < n; i++) fast = fast.next;
+  if (!fast) return head.next;
+  while (fast.next) (fast = fast.next), (slow = slow.next);
+  slow.next = slow.next.next;
+  return head;
+};
+
+// https://i.imgur.com/BSiLKj0.png
