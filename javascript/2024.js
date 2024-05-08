@@ -939,7 +939,7 @@ var topVotedMinDistance = function (word1, word2) {
 // Each cell is trying to become the locally minimum difference, so we have 3 options, 1 + left cell, 1 + top cell, 1 + diagonal (two characters aren't the same) or 0 + diagonal (two characters are the same) */
 
 // Remove Nth Node From End of List					5/7/2024
-
+/* 
 // Given the head of a linked list, remove the nth node from the end of the list and return its head.
 
 // Example 1:
@@ -1003,4 +1003,70 @@ var removeNthFromEnd = function (head, n) {
   return head;
 };
 
-// https://i.imgur.com/BSiLKj0.png
+// https://i.imgur.com/BSiLKj0.png */
+
+// Jump Game II					5/8/2024
+
+// You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].
+
+// Each element nums[i] represents the maximum length of a forward jump from index i. In other words, if you are at nums[i], you can jump to any nums[i + j] where:
+// 0 <= j <= nums[i] and
+// i + j < n
+
+// Return the minimum number of jumps to reach nums[n - 1]. The test cases are generated such that you can reach nums[n - 1].
+
+// Example 1:
+// 		Input: nums = [2,3,1,1,4]
+// 		Output: 2
+// Explanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.
+
+// Example 2:
+// 		Input: nums = [2,3,0,1,4]
+// 		Output: 2
+
+// Constraints:
+//		1 <= nums.length <= 10^4
+//		0 <= nums[i] <= 1000
+//		It's guaranteed that you can reach nums[n - 1].
+
+const jump = (nums) => {
+  let [idx, jumps] = [0, 0];
+  while (idx != nums.length - 1) {
+    if (idx + nums[idx] >= nums.length - 1) return jumps + 1; // nums[n-1] is within reach
+    const next = nums.slice(idx + 1, idx + nums[idx] + 1); // next jump choices
+
+    let [maxReach, nextIdx] = [0, 0];
+    for (let i = 0; i < next.length; i++) {
+      const reach = next[i] + i - next.length + 1; // actual reach of chosen jump
+      if (reach <= 0) continue; // jump offers no progress
+
+      if (reach > maxReach) {
+        maxReach = reach; // better jump found
+        nextIdx = i;
+      }
+    }
+
+    idx += nextIdx + 1;
+    jumps++;
+  }
+
+  return jumps;
+};
+
+console.log(jump([2, 3, 1, 1, 4])); //  2
+console.log(jump([2, 3, 0, 1, 4])); //  2
+
+// Bit bulky, but logic is there
+// Would be best to use indexes instead of nums.slice to define 'next'
+
+var topVotedJump = function (N) {
+  let len = N.length - 1,
+    curr = -1,
+    next = 0,
+    ans = 0;
+  for (let i = 0; next < len; i++) {
+    if (i > curr) ans++, (curr = next);
+    next = Math.max(next, N[i] + i);
+  }
+  return ans;
+};
