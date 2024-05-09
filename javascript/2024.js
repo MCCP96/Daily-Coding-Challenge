@@ -1006,7 +1006,7 @@ var removeNthFromEnd = function (head, n) {
 // https://i.imgur.com/BSiLKj0.png */
 
 // Jump Game II					5/8/2024
-
+/* 
 // You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].
 
 // Each element nums[i] represents the maximum length of a forward jump from index i. In other words, if you are at nums[i], you can jump to any nums[i + j] where:
@@ -1069,4 +1069,74 @@ var topVotedJump = function (N) {
     next = Math.max(next, N[i] + i);
   }
   return ans;
+}; */
+
+// Permutations II					5/9/2024
+
+// Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
+
+// Example 1:
+// 		Input: nums = [1,1,2]
+// 		Output:
+// 		[[1,1,2],
+// 		[1,2,1],
+// 		[2,1,1]]
+
+// Example 2:
+// 		Input: nums = [1,2,3]
+// 		Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+// Constraints:
+//		1 <= nums.length <= 8
+//		-10 <= nums[i] <= 10
+
+var permuteUnique = (nums) => {
+  let perms = [];
+  let seen = new Set();
+
+  const dp = (cur, rem) => {
+    if (rem.length == 0) {
+      if (!seen.has(cur)) {
+        perms.push(cur);
+        seen.add(cur);
+      }
+      return;
+    }
+
+    for (let i = 0; i < rem.length; i++) {
+      dp([...cur, rem[i]], [rem.slice(0, i), rem.slice(i + 1)]);
+    }
+  };
+  dp([], nums);
+
+  return perms;
+};
+
+console.log(permuteUnique([1, 1, 2])); // [[1,1,2],[1,2,1],[2,1,1]]
+console.log(permuteUnique([1, 2, 3])); // [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+// Maximum call stack size exceeded
+// Need to trim repeated permutations before they reach base case
+
+var topVotedPermuteUnique = function (nums) {
+  let res = [];
+  dfs(nums.sort(), res, new Set());
+  return res;
+};
+
+const dfs = (nums, res, visited) => {
+  if (nums.length === visited.size) {
+    let arr = [];
+    for (let idx of visited) arr.push(nums[idx]);
+    res.push(arr);
+    return;
+  }
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === nums[i - 1] && !visited.has(i - 1)) continue;
+    if (visited.has(i)) continue;
+    visited.add(i);
+    dfs(nums, res, visited);
+    visited.delete(i);
+  }
 };
