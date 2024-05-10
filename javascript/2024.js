@@ -1072,7 +1072,7 @@ var topVotedJump = function (N) {
 }; */
 
 // Permutations II					5/9/2024
-
+/* 
 // Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
 
 // Example 1:
@@ -1139,4 +1139,72 @@ const dfs = (nums, res, visited) => {
     dfs(nums, res, visited);
     visited.delete(i);
   }
+}; */
+
+// Pow(x, n)					5/10/2024
+
+// Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+
+// Example 1:
+// 		Input: x = 2.00000, n = 10
+// 		Output: 1024.00000
+
+// Example 2:
+// 		Input: x = 2.10000, n = 3
+// 		Output: 9.26100
+
+// Example 3:
+// 		Input: x = 2.00000, n = -2
+// 		Output: 0.25000
+// Explanation: 2-2 = 1/22 = 1/4 = 0.25
+
+// Constraints:
+//		-100.0 < x < 100.0
+//		-2^31 <= n <= 2^31-1
+//		n is an integer.
+//		Either x is not zero or n > 0.
+//		-104 <= xn <= 104
+
+var myPow = (x, n) => {
+  if (n == 0 || x == 1) return 1;
+  if (n < 0) {
+    x = 1 / x;
+    n = -n;
+  }
+  let res = x;
+  while (n-- > 1) {
+    res *= x;
+  }
+  return res;
 };
+
+console.log(myPow(2.0, 10)); //  1024.00000
+console.log(myPow(2.1, 3)); //  9.26100
+console.log(myPow(2.0, -2)); //  0.25000
+
+var topVotedMyPow = function (x, n) {
+  if (n === 0) return 1;
+
+  let pow = Math.abs(n);
+
+  let result =
+    pow % 2 === 0 ? myPow(x * x, pow / 2) : myPow(x * x, (pow - 1) / 2) * x;
+
+  return n < 0 ? 1 / result : result;
+};
+
+// Exponentially faster
+
+const revisedMyPow = (x, n) => {
+  if (n == 0 || x == 1) return 1;
+  if (n < 0) {
+    x = 1 / x;
+    n = -n;
+  }
+  return n % 2 == 0
+    ? revisedMyPow(x * x, n / 2)
+    : revisedMyPow(x * x, (n - 1) / 2) * x;
+};
+
+// Too bad 'if(n<0)' is checked on every iteration when you only need it once
+// Still 95% runtime
