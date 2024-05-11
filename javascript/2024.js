@@ -1142,7 +1142,7 @@ const dfs = (nums, res, visited) => {
 }; */
 
 // Pow(x, n)					5/10/2024
-
+/* 
 // Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
 
 // Example 1:
@@ -1207,4 +1207,69 @@ const revisedMyPow = (x, n) => {
 };
 
 // Too bad 'if(n<0)' is checked on every iteration when you only need it once
-// Still 95% runtime
+// Still 95% runtime */
+
+// Spiral Matrix					5/11/2024
+
+// Given an m x n matrix, return all elements of the matrix in spiral order.
+
+// Example 1:
+// 		Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+// 		Output: [1,2,3,6,9,8,7,4,5]
+
+// Example 2:
+// 		Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+// 		Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+
+// Constraints:
+//		m == matrix.length
+//		n == matrix[i].length
+//		1 <= m, n <= 10
+//		-100 <= matrix[i][j] <= 100
+
+const spiralOrder = (mat) => {
+  let [m, n] = [mat.length, mat[0].length];
+  let res = [];
+
+  while (mat.length > 0) {
+    res.push(...mat.shift());
+    if (mat.length > 1)
+      for (let i = 0; i < mat.length - 1; i++) res.push(mat[i].pop());
+    if (mat.length > 0) res.push(...[...mat?.pop()].reverse());
+    if (mat.length > 1)
+      for (let i = mat.length - 1; i >= 0; i--) res.push(mat[i].shift());
+  }
+  return res;
+};
+
+console.log(
+  spiralOrder([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ])
+); //  [1,2,3,6,9,8,7,4,5]
+console.log(
+  spiralOrder([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+  ])
+); //  [1,2,3,4,8,12,11,10,9,5,6,7]
+
+// Scuffed
+
+var topVotedSpiralOrder = function (matrix) {
+  const res = [];
+  while (matrix.length) {
+    const first = matrix.shift();
+    res.push(...first);
+    for (const m of matrix) {
+      let val = m.pop();
+      if (val) res.push(val);
+      m.reverse();
+    }
+    matrix.reverse();
+  }
+  return res;
+};
