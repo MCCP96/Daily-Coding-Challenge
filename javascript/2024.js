@@ -1210,7 +1210,7 @@ const revisedMyPow = (x, n) => {
 // Still 95% runtime */
 
 // Spiral Matrix					5/11/2024
-
+/* 
 // Given an m x n matrix, return all elements of the matrix in spiral order.
 
 // Example 1:
@@ -1272,4 +1272,79 @@ var topVotedSpiralOrder = function (matrix) {
     matrix.reverse();
   }
   return res;
+}; */
+
+// Jump Game					5/12/2024
+
+// You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
+
+// Return true if you can reach the last index, or false otherwise.
+
+// Example 1:
+// 		Input: nums = [2,3,1,1,4]
+// 		Output: true
+// Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+
+// Example 2:
+// 		Input: nums = [3,2,1,0,4]
+// 		Output: false
+// Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
+
+// Constraints:
+//		1 <= nums.length <= 10^4
+//		0 <= nums[i] <= 10^5
+
+const canJump = (nums) => {
+  if (nums.length == 1) return true; // always at last index
+  if (nums[0] == 0) return false; // impossible start
+
+  // Find position of all zeroes (ignoring last element)
+  let zeroIdxs = [];
+  for (let i = 0; i < nums.length - 1; i++) {
+    if (nums[i] >= nums.length - i) break; // end within reach
+    if (nums[i] == 0) zeroIdxs.push(i);
+  }
+  if (zeroIdxs.length == 0) return true;
+
+  // Check numbers preceeding zeroes, ensuring we don't get stuck
+  for (let i = zeroIdxs.length - 1; i >= 0; i--) {
+    let valid = false;
+    for (let j = zeroIdxs[i] - 1; j >= 0; j--) {
+      if (j + nums[j] > zeroIdxs[i]) {
+        valid = true;
+        break;
+      }
+    }
+    if (!valid) return false;
+  }
+
+  // All zeros are jumpable
+  return true;
+};
+
+console.log(canJump([2, 3, 1, 1, 4])); //  true
+console.log(canJump([3, 2, 1, 0, 4])); //  false
+console.log(canJump([0])); //  true
+console.log(canJump([2, 0, 0])); //  true (something something, last 0 is different)
+
+// Bit busy, but gets there
+
+var topVotedCanJump = function (nums) {
+  // Base condition...
+  if (nums.length <= 1) return true;
+  // To keep the maximum index that can be reached...
+  let maximum = nums[0];
+  // Traverse all the elements through loop...
+  for (let i = 0; i < nums.length; i++) {
+    //if there is no way to jump to next...
+    // so we should return false...
+    if (maximum <= i && nums[i] == 0) return false;
+    //update the maximum jump...
+    if (i + nums[i] > maximum) {
+      maximum = i + nums[i];
+    }
+    //maximum is enough to reach the end...
+    if (maximum >= nums.length - 1) return true;
+  }
+  return false;
 };
