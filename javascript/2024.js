@@ -1275,7 +1275,7 @@ var topVotedSpiralOrder = function (matrix) {
 }; */
 
 // Jump Game					5/12/2024
-
+/* 
 // You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
 
 // Return true if you can reach the last index, or false otherwise.
@@ -1336,15 +1336,85 @@ var topVotedCanJump = function (nums) {
   let maximum = nums[0];
   // Traverse all the elements through loop...
   for (let i = 0; i < nums.length; i++) {
-    //if there is no way to jump to next...
+    // if there is no way to jump to next...
     // so we should return false...
     if (maximum <= i && nums[i] == 0) return false;
-    //update the maximum jump...
+    // update the maximum jump...
     if (i + nums[i] > maximum) {
       maximum = i + nums[i];
     }
-    //maximum is enough to reach the end...
+    // maximum is enough to reach the end...
     if (maximum >= nums.length - 1) return true;
   }
   return false;
+}; */
+
+// Merge Intervals					5/13/2024
+
+// Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+// Example 1:
+// 		Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+// 		Output: [[1,6],[8,10],[15,18]]
+// Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+
+// Example 2:
+// 		Input: intervals = [[1,4],[4,5]]
+// 		Output: [[1,5]]
+// Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+
+// Constraints:
+//		1 <= intervals.length <= 104
+//		intervals[i].length == 2
+//		0 <= starti <= endi <= 104
+
+const merge = (intervals) => {
+  intervals = intervals.sort((a, b) => a[0] - b[0]);
+  let res = [[intervals[0][0], intervals[0][0]]]; // starting point
+
+  let lastIdx = 0;
+  for (const [s, e] of intervals) {
+    if (s <= res[lastIdx][1]) {
+      if (e > res[lastIdx][1]) {
+        res[lastIdx][1] = e;
+      }
+    } else {
+      res.push([s, e]);
+      lastIdx++;
+    }
+  }
+  return res;
 };
+
+console.log(
+  merge([
+    [1, 3],
+    [2, 6],
+    [8, 10],
+    [15, 18],
+  ])
+); //  [[1,6],[8,10],[15,18]]
+console.log(
+  merge([
+    [1, 4],
+    [4, 5],
+  ])
+); //  [[1,5]]
+
+function topVotedMerge(intervals) {
+  if (!intervals.length) return intervals;
+  intervals.sort((a, b) =>
+    a.start !== b.start ? a.start - b.start : a.end - b.end
+  );
+  var prev = intervals[0];
+  var res = [prev];
+  for (var curr of intervals) {
+    if (curr.start <= prev.end) {
+      prev.end = Math.max(prev.end, curr.end);
+    } else {
+      res.push(curr);
+      prev = curr;
+    }
+  }
+  return res;
+}
