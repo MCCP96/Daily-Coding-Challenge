@@ -1420,7 +1420,7 @@ function topVotedMerge(intervals) {
 } */
 
 // Insert Interval					5/14/2024
-
+/* 
 // You are given an array of non-overlapping intervals intervals where intervals[i] = [starti, endi] represent the start and the end of the ith interval and intervals is sorted in ascending order by starti. You are also given an interval newInterval = [start, end] that represents the start and end of another interval.
 
 // Insert newInterval into intervals such that intervals is still sorted in ascending order by starti and intervals still does not have any overlapping intervals (merge overlapping intervals if necessary).
@@ -1520,4 +1520,91 @@ var topVotedInsert = function (intervals, newInterval) {
   return merged;
 };
 
-// nice
+// nice */
+
+// Rotate List					5/15/2024
+
+// Given the head of a linked list, rotate the list to the right by k places.
+
+// Example 1:
+// 		Input: head = [1,2,3,4,5], k = 2
+// 		Output: [4,5,1,2,3]
+
+// Example 2:
+// 		Input: head = [0,1,2], k = 4
+// 		Output: [2,0,1]
+
+// Constraints:
+//		The number of nodes in the list is in the range [0, 500].
+//		-100 <= Node.val <= 100
+//		0 <= k <= 2 * 109
+
+const rotateRight = (head, k) => {
+  let len = 0;
+  let node = head;
+  while (node) {
+    node = node.next;
+    len++;
+  }
+  if (len <= 1) return head;
+  k = k % len; // avoid unnecessary swaps (example 2)
+  if (k == 0) return head;
+
+  let i = 0;
+  let prev = null;
+  node = head;
+  while (i++ < len - k) {
+    prev = node;
+    node = node.next; // navigate to new head
+  }
+  const newHead = node;
+  prev.next = null; // new tail
+
+  while (node.next != null) {
+    node = node.next; // navigate to old tail
+  }
+  node.next = head; // attach old head to old tail
+
+  return newHead;
+};
+
+// prettier-ignore
+console.log(rotateRight({val: 1, next: {val: 2, next: {val: 3, next: {val: 4, next: {val: 5, next: null}}}}}, 2)); //  [4,5,1,2,3]
+// prettier-ignore
+console.log(rotateRight({val: 0, next: {val: 1, next: {val: 2, next: null}}}, 4)); //  [2,0,1]
+
+// Ça marche
+
+const topVotedRotateRight = function (head, k) {
+  if (!head) return head;
+  let count = 0,
+    ptr = head;
+
+  //Step 1 of the algo, count list nodes
+  while (ptr) {
+    count++;
+    ptr = ptr.next;
+  }
+
+  //Ste 2: Number of rotations are now restricted within limit
+  k = k % count;
+  let prev = head;
+  ptr = head;
+
+  //Step 3: Moving one pointer k positions ahead
+  while (k--) {
+    ptr = ptr.next;
+  }
+
+  //Step 4: The actual magic, explained above
+  while (ptr.next) {
+    prev = prev.next;
+    ptr = ptr.next;
+  }
+
+  //Step 5: Simply modifying the head and last node
+  ptr.next = head;
+  head = prev.next;
+  prev.next = null;
+  return head;
+};
