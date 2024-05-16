@@ -1523,7 +1523,7 @@ var topVotedInsert = function (intervals, newInterval) {
 // nice */
 
 // Rotate List					5/15/2024
-
+/* 
 // Given the head of a linked list, rotate the list to the right by k places.
 
 // Example 1:
@@ -1607,4 +1607,58 @@ const topVotedRotateRight = function (head, k) {
   head = prev.next;
   prev.next = null;
   return head;
+}; */
+
+// Binary Tree Preorder Traversal					5/16/2024
+
+// Given the root of a binary tree, return the preorder traversal of its nodes' values.
+
+// Example 1:
+// 		Input: root = [1,null,2,3]
+// 		Output: [1,2,3]
+
+// Example 2:
+// 		Input: root = []
+// 		Output: []
+
+// Example 3:
+// 		Input: root = [1]
+// 		Output: [1]
+
+// Constraints:
+//		The number of nodes in the tree is in the range [0, 100].
+//		-100 <= Node.val <= 100
+
+const preorderTraversal = (root) => {
+  let res = [];
+  const explore = (node) => {
+    if (!node) return;
+    res.push(node.val);
+    explore(node.left);
+    explore(node.right);
+  };
+  explore(root);
+  return res;
 };
+
+console.log(preorderTraversal([1, null, 2, 3])); //  [1,2,3]
+console.log(preorderTraversal([])); //  []
+console.log(preorderTraversal([1])); //  [1]
+
+// Follow up: Recursive solution is trivial, could you do it iteratively?
+
+const topVotedPreorderTraversal = (root) => {
+  if (!root) return [];
+  var result = [];
+  var stack = [root];
+
+  while (stack.length) {
+    var node = stack.pop();
+    result.push(node.val);
+    if (node.right) stack.push(node.right);
+    if (node.left) stack.push(node.left);
+  }
+  return result;
+};
+
+// Stack to do it iteratively
