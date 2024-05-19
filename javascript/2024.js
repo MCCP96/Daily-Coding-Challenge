@@ -1664,7 +1664,7 @@ const topVotedPreorderTraversal = (root) => {
 // Stack to do it iteratively */
 
 // Binary Tree Postorder Traversal0					5/17/2024
-
+/* 
 //Given the root of a binary tree, return the postorder traversal of its nodes' values.
 
 // Example 1:
@@ -1715,4 +1715,50 @@ var topVotedPostorderTraversal = function (root) {
   return res;
   // Time Complexity: O(n)
   // Space Complexity: O(n)
+}; */
+
+// Convert Sorted Array to Binary Search Tree					5/18/2024
+
+// Given an integer array nums where the elements are sorted in ascending order, convert it to a
+
+// height-balanced
+
+// binary search tree.
+
+// Example 1:
+// 		Input: nums = [-10,-3,0,5,9]
+// 		Output: [0,-3,9,-10,null,5]
+// Explanation: [0,-10,5,null,-3,null,9] is also accepted:
+
+// Example 2:
+// 		Input: nums = [1,3]
+// 		Output: [3,1]
+// Explanation: [1,null,3] and [3,1] are both height-balanced BSTs.
+
+// Constraints:
+//		1 <= nums.length <= 104
+//		-104 <= nums[i] <= 104
+//		nums is sorted in a strictly increasing order.
+
+var topVotedSortedArrayToBST = function (nums) {
+  // Call the function recursively...
+  return ConvToBST(nums, 0, nums.length - 1);
 };
+// Create a function which will convert any particular range of given nums array...
+// & return its corresponding BST root node....
+var ConvToBST = function (nums, beg, end) {
+  // If beg > end, return NULL, as we receive a wrong range...
+  if (beg > end) return null;
+  // set the middle node...
+  var mid = Math.ceil((beg + end) / 2);
+  // Initialise root node with value same as nums[mid]...
+  var root = new TreeNode(nums[mid]);
+  // Assign left subtrees as the same function called on left subranges...
+  root.left = ConvToBST(nums, beg, mid - 1);
+  // Assign right subtrees as the same function called on right subranges...
+  root.right = ConvToBST(nums, mid + 1, end);
+  // Return the root node...
+  return root;
+};
+
+// No time today, busy climbing in Red River Gorge Kentucky :)
