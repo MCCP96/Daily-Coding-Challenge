@@ -1764,7 +1764,7 @@ var ConvToBST = function (nums, beg, end) {
 // No time today, busy climbing in Red River Gorge Kentucky :) */
 
 // Minimum Number Game					5/19/2024
-
+/* 
 // You are given a 0-indexed integer array nums of even length and there is also an empty array arr. Alice and Bob decided to play a game where in every round Alice and Bob will do one move. The rules of the game are as follows:
 
 // Every round, first Alice will remove the minimum element from nums, and then Bob does the same.
@@ -1819,4 +1819,71 @@ var topVotedNumberGame = function (nums) {
   return nums;
 };
 
-// same same
+// same same */
+
+// Largest Triangle Area					5/20/2024
+
+// Given an array of points on the X-Y plane points where points[i] = [xi, yi], return the area of the largest triangle that can be formed by any three different points. Answers within 10-5 of the actual answer will be accepted.
+
+// Example 1:
+// 		Input: points = [[0,0],[0,1],[1,0],[0,2],[2,0]]
+// 		Output: 2.00000
+// Explanation: The five points are shown in the above figure. The red triangle is the largest.
+
+// Example 2:
+// 		Input: points = [[1,0],[0,0],[0,1]]
+// 		Output: 0.50000
+
+// Constraints:
+//		3 <= points.length <= 50
+//		-50 <= xi, yi <= 50
+//		All the given points are unique.
+
+var topVotedLargestTriangleArea = function (points) {
+  const n = points.length;
+  let maxArea = 0;
+
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      for (k = j + 1; k < n; k++) {
+        const area = calcArea(points[i], points[j], points[k]);
+        maxArea = Math.max(maxArea, area);
+      }
+    }
+  }
+
+  return maxArea;
+};
+
+function calcArea(coordA, coordB, coordC) {
+  const [xCoordA, yCoordA] = coordA;
+  const [xCoordB, yCoordB] = coordB;
+  const [xCoordC, yCoordC] = coordC;
+
+  const sideA = xCoordA * (yCoordB - yCoordC);
+  const sideB = xCoordB * (yCoordC - yCoordA);
+  const sideC = xCoordC * (yCoordA - yCoordB);
+
+  return Math.abs((sideA + sideB + sideC) / 2);
+}
+
+console.log(
+  topVotedLargestTriangleArea([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [0, 2],
+    [2, 0],
+  ])
+); //  2.00000
+console.log(
+  topVotedLargestTriangleArea([
+    [1, 0],
+    [0, 0],
+    [0, 1],
+  ])
+); //  0.50000
+
+// couldn't find a solution that wasnt brute force
+// turns out that's a viable approach
+// constraints should've been my hint
