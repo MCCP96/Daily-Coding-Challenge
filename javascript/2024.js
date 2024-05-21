@@ -1822,7 +1822,7 @@ var topVotedNumberGame = function (nums) {
 // same same */
 
 // Largest Triangle Area					5/20/2024
-
+/* 
 // Given an array of points on the X-Y plane points where points[i] = [xi, yi], return the area of the largest triangle that can be formed by any three different points. Answers within 10-5 of the actual answer will be accepted.
 
 // Example 1:
@@ -1886,4 +1886,109 @@ console.log(
 
 // couldn't find a solution that wasnt brute force
 // turns out that's a viable approach
-// constraints should've been my hint
+// constraints should've been my hint */
+
+// Unique Paths II					5/21/2024
+
+// You are given an m x n integer array grid. There is a robot initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
+
+// An obstacle and space are marked as 1 or 0 respectively in grid. A path that the robot takes cannot include any square that is an obstacle.
+
+// Return the number of possible unique paths that the robot can take to reach the bottom-right corner.
+
+// The testcases are generated so that the answer will be less than or equal to 2 * 109.
+
+// Example 1:
+// 		Input: obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
+// 		Output: 2
+// Explanation: There is one obstacle in the middle of the 3x3 grid above.
+// 		There are two ways to reach the bottom-right corner:
+// 		1. Right -> Right -> Down -> Down
+// 		2. Down -> Down -> Right -> Right
+
+// Example 2:
+// 		Input: obstacleGrid = [[0,1],[0,0]]
+// 		Output: 1
+
+// Constraints:
+//		m == obstacleGrid.length
+//		n == obstacleGrid[i].length
+//		1 <= m, n <= 100
+//		obstacleGrid[i][j] is 0 or 1.
+
+const uniquePathsWithObstacles = (grid) => {
+  let [m, n] = [grid.length, grid[0].length];
+  let paths = 0;
+
+  if (grid[0][0] || grid[m - 1][n - 1]) {
+    return paths; // start or end is obstacle
+  }
+  if (grid[0][1] && grid[1][0]) {
+    return paths; // top-left blocked
+  }
+  if (grid[m - 1][n - 2] && grid[m - 2][n - 1]) {
+    return paths; // bottom-right blocked
+  }
+
+  const dfs = (x, y) => {
+    if (x == n - 1 && y == m - 1) {
+      paths++; // end reached
+      return;
+    }
+    if (grid[y][x + 1] == 0) {
+      dfs(x + 1, y); // go right
+    }
+    if (grid[y + 1] && grid[y + 1][x] == 0) {
+      dfs(x, y + 1); // go down
+    }
+  };
+  dfs(0, 0);
+
+  return paths;
+};
+
+console.log(
+  uniquePathsWithObstacles([
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 0, 0],
+  ])
+); //  2
+console.log(
+  uniquePathsWithObstacles([
+    [0, 1],
+    [0, 0],
+  ])
+); //  1
+console.log(uniquePathsWithObstacles([[1]])); //  0
+
+// Exceeds runtime
+
+var topVotedUniquePathsWithObstacles = function (obstacleGrid) {
+  if (
+    !obstacleGrid.length ||
+    !obstacleGrid[0].length ||
+    obstacleGrid[0][0] === 1
+  ) {
+    return 0;
+  }
+
+  let m = obstacleGrid.length;
+  let n = obstacleGrid[0].length;
+
+  let previous = new Array(n).fill(0);
+  let current = new Array(n).fill(0);
+  previous[0] = 1;
+
+  for (let i = 0; i < m; i++) {
+    current[0] = obstacleGrid[i][0] === 1 ? 0 : previous[0];
+    for (let j = 1; j < n; j++) {
+      current[j] = obstacleGrid[i][j] === 1 ? 0 : current[j - 1] + previous[j];
+    }
+    previous = [...current];
+  }
+
+  return previous[n - 1];
+};
+
+// cumulative counting instead of every path being its own iteration
