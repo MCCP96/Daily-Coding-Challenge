@@ -1889,7 +1889,7 @@ console.log(
 // constraints should've been my hint */
 
 // Unique Paths II					5/21/2024
-
+/* 
 // You are given an m x n integer array grid. There is a robot initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
 
 // An obstacle and space are marked as 1 or 0 respectively in grid. A path that the robot takes cannot include any square that is an obstacle.
@@ -1991,4 +1991,93 @@ var topVotedUniquePathsWithObstacles = function (obstacleGrid) {
   return previous[n - 1];
 };
 
-// cumulative counting instead of every path being its own iteration
+// cumulative counting instead of every path being its own iteration */
+
+// Set Matrix Zeroes					5/22/2024
+
+// Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+
+// You must do it in place.
+
+// Example 1:
+// 		Input: matrix = [[1,1,1],[1,0,1],[1,1,1]]
+// 		Output: [[1,0,1],[0,0,0],[1,0,1]]
+
+// Example 2:
+// 		Input: matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+// 		Output: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+
+// Constraints:
+//		m == matrix.length
+//		n == matrix[0].length
+//		1 <= m, n <= 200
+//		-231 <= matrix[i][j] <= 231 - 1
+
+// Follow up:
+//		A straightforward solution using O(mn) space is probably a bad idea.
+//		A simple improvement uses O(m + n) space, but still not the best solution.
+//		Could you devise a constant space solution?
+
+const setZeroes = (mat) => {
+  let [zeroRows, zeroCols] = [new Set(), new Set()];
+
+  mat.forEach((row, i) => {
+    row.forEach((_, j) => {
+      if (mat[i][j] == 0) {
+        // find target rows/cols
+        zeroRows.add(i);
+        zeroCols.add(j);
+      }
+    });
+  });
+
+  const m = mat[0].length;
+  zeroRows.forEach((row) => (mat[row] = new Array(m).fill(0))); // replace rows
+  zeroCols.forEach((col) => mat.forEach((row) => (row[col] = 0))); // replace cols
+
+  return mat;
+};
+
+console.log(
+  setZeroes([
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ])
+); //  [[1,0,1],[0,0,0],[1,0,1]]
+console.log(
+  setZeroes([
+    [0, 1, 2, 0],
+    [3, 4, 5, 2],
+    [1, 3, 1, 5],
+  ])
+); //  [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+
+// >90% runtime
+
+var topVotedSetZeroes = function (matrix) {
+  var track = [];
+
+  // find zeros
+  for (var i = 0; i < matrix.length; i++) {
+    for (var j = 0; j < matrix[0].length; j++) {
+      if (matrix[i][j] === 0) track.push([i, j]);
+    }
+  }
+
+  for (var i = 0; i < track.length; i++) {
+    var [x, y] = track[i];
+
+    // update row
+    for (var j = 0; j < matrix[0].length; j++) {
+      matrix[x][j] = 0;
+    }
+
+    // udpate column
+    for (var j = 0; j < matrix.length; j++) {
+      matrix[j][y] = 0;
+    }
+  }
+};
+
+// same same
