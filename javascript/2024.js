@@ -1994,7 +1994,7 @@ var topVotedUniquePathsWithObstacles = function (obstacleGrid) {
 // cumulative counting instead of every path being its own iteration */
 
 // Set Matrix Zeroes					5/22/2024
-
+/* 
 // Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
 
 // You must do it in place.
@@ -2080,4 +2080,97 @@ var topVotedSetZeroes = function (matrix) {
   }
 };
 
-// same same
+// same same */
+
+// Remove Duplicates from Sorted Array II					5/23/2024
+
+// Given an integer array nums sorted in non-decreasing order, remove some duplicates in-place such that each unique element appears at most twice. The relative order of the elements should be kept the same.
+
+// Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
+
+// Return k after placing the final result in the first k slots of nums.
+
+// Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+
+// Custom Judge:
+// The judge will test your solution with the following code:
+
+//    int[] nums = [...]; // Input array
+//    int[] expectedNums = [...]; // The expected answer with correct length
+
+//    int k = removeDuplicates(nums); // Calls your implementation
+
+//    assert k == expectedNums.length;
+//    for (int i = 0; i < k; i++) {
+//      assert nums[i] == expectedNums[i];
+//    }
+
+// If all assertions pass, then your solution will be accepted.
+
+// Example 1:
+// 		Input: nums = [1,1,1,2,2,3]
+// 		Output: 5, nums = [1,1,2,2,3,_]
+// Explanation: Your function should return k = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.
+// 		It does not matter what you leave beyond the returned k (hence they are underscores).
+
+// Example 2:
+// 		Input: nums = [0,0,1,1,1,1,2,3,3]
+// 		Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+// Explanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.
+// 		It does not matter what you leave beyond the returned k (hence they are underscores).
+
+// Constraints:
+//		1 <= nums.length <= 3 * 104
+//		-104 <= nums[i] <= 104
+//		nums is sorted in non-decreasing order.
+
+const removeDuplicates = (nums) => {
+  let len = nums.length;
+  let k = Math.min(len, 2);
+
+  for (let i = 2; i < len; i++, k++) {
+    if (nums[i] == nums[i - 1] && nums[i - 1] == nums[i - 2]) {
+      // >2 same elements found
+      let idx = i;
+      while (nums[idx] == nums[idx - 1]) idx++; // navigate to next element
+
+      if (idx >= len) k--; // last element edge case
+      len -= idx - i; // adjust end
+
+      let pos = i;
+      while (idx < nums.length) nums[pos++] = nums[idx++]; // shift elements forward
+    }
+  }
+
+  return k;
+};
+
+console.log(removeDuplicates([1, 1, 1, 2, 2, 3])); //  5, nums = [1,1,2,2,3,_]
+console.log(removeDuplicates([0, 0, 1, 1, 1, 1, 2, 3, 3])); //  7, nums = [0,0,1,1,2,3,3,_,_]
+console.log(removeDuplicates([0, 0, 1, 1, 1, 1, 2, 2, 2, 4])); //  7, nums = [0,0,1,1,2,2,4]
+console.log(removeDuplicates([0, 1, 2, 2, 2, 2, 2, 3, 4, 4, 4])); //  7, nums = [0,1,2,2,3,4,4]
+
+// started by shifting elements using .splice and .slice
+// keeping it simple made it much easier to read
+
+var topVotedRemoveDuplicates = function (nums) {
+  // Special case
+  if (nums.length <= 2) {
+    return nums.length;
+  }
+  // Initialize an integer k that updates the kth index of the array
+  // only when the current element does not match either of the two previous indexes
+  let k = 2;
+  // Traverse elements through loop
+  for (let i = 2; i < nums.length; i++) {
+    // If the index does not match the (k-1)th and (k-2)th elements, count that element
+    if (nums[i] != nums[k - 2] || nums[i] != nums[k - 1]) {
+      nums[k] = nums[i];
+      k++;
+      // If the index matches the (k-1)th and (k-2)th elements, we skip it
+    }
+  }
+  return k; //Return k after placing the final result in the first k slots of nums
+};
+
+// keeping it even simpler!
