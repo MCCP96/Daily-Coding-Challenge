@@ -2083,7 +2083,7 @@ var topVotedSetZeroes = function (matrix) {
 // same same */
 
 // Remove Duplicates from Sorted Array II					5/23/2024
-
+/* 
 // Given an integer array nums sorted in non-decreasing order, remove some duplicates in-place such that each unique element appears at most twice. The relative order of the elements should be kept the same.
 
 // Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
@@ -2173,4 +2173,65 @@ var topVotedRemoveDuplicates = function (nums) {
   return k; //Return k after placing the final result in the first k slots of nums
 };
 
-// keeping it even simpler!
+// keeping it even simpler! */
+
+// Search in Rotated Sorted Array II					5/24/2024
+
+// There is an integer array nums sorted in non-decreasing order (not necessarily with distinct values).
+
+// Before being passed to your function, nums is rotated at an unknown pivot index k (0 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,4,4,5,6,6,7] might be rotated at pivot index 5 and become [4,5,6,6,7,0,1,2,4,4].
+
+// Given the array nums after the rotation and an integer target, return true if target is in nums, or false if it is not in nums.
+
+// You must decrease the overall operation steps as much as possible.
+
+// Example 1:
+// 		Input: nums = [2,5,6,0,0,1,2], target = 0
+// 		Output: true
+
+// Example 2:
+// 		Input: nums = [2,5,6,0,0,1,2], target = 3
+// 		Output: false
+
+// Constraints:
+//		1 <= nums.length <= 5000
+//		-104 <= nums[i] <= 104
+//		nums is guaranteed to be rotated at some pivot.
+//		-104 <= target <= 104
+
+// Follow up: This problem is similar to Search in Rotated Sorted Array, but nums may contain duplicates. Would this affect the runtime complexity? How and why?
+
+const setSearch = (nums, t) => new Set(nums).has(t);
+
+// technically, not the worst solution:
+// https://stackoverflow.com/questions/55750234/how-does-set-actually-work-internal-when-checking-for-values
+
+// nvm, converting array to set is O(n)
+// might aswell iterate through looking for target
+
+const search = (nums, t) => {
+  // Need a binary search that accomodates pivot
+  let [l, h] = [0, nums.length - 1];
+  while (l <= h) {
+    const m = ~~((l + h) / 2);
+    if (nums[m] == t) return true; // target found
+
+    if (nums[l] == nums[m]) {
+      l++; // accomodate non-distinct values, continue
+    } else if (nums[l] <= nums[m]) {
+      // normal binary search
+      if (nums[l] <= t && t <= nums[m]) h = m - 1;
+      else l = m + 1;
+    } else {
+      // l > m (accomodate pivot)
+      if (nums[m] <= t && t <= nums[h]) l = m + 1;
+      else h = m - 1;
+    }
+  }
+  return false; // target not found
+};
+
+console.log(search([2, 5, 6, 0, 0, 1, 2], 0)); //  true
+console.log(search([2, 5, 6, 0, 0, 1, 2], 3)); //  false
+
+// same as top voted
