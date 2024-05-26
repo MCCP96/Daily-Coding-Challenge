@@ -2237,7 +2237,7 @@ console.log(search([2, 5, 6, 0, 0, 1, 2], 3)); //  false
 // same as top voted */
 
 // Permutation Difference between Two Strings					5/25/2024
-
+/* 
 // You are given two strings s and t such that every character occurs at most once in s and t is a permutation of s.
 
 // The permutation difference between s and t is defined as the sum of the absolute difference between the index of the occurrence of each character in s and the index of the occurrence of the same character in t.
@@ -2272,8 +2272,8 @@ const findPermutationDifference = (s, t) => {
     tDict[t[i]] = i;
   }
   let dif = 0;
-  for (let i = 0; i < s.length; i++) {
-    dif += Math.abs(sDict[s[i]] - tDict[s[i]]);
+  for (const c of s) {
+    dif += Math.abs(sDict[c] - tDict[c]);
   }
   return dif;
 };
@@ -2290,4 +2290,81 @@ var topVotedFindPermutationDifference = function (s, t) {
     permutation_diff += Math.abs(i - j);
   }
   return permutation_diff;
+}; */
+
+// Remove Duplicates from Sorted List II					5/26/2024
+
+// Given the head of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. Return the linked list sorted as well.
+
+// Example 1:
+// 		Input: head = [1,2,3,3,4,4,5]
+// 		Output: [1,2,5]
+
+// Example 2:
+// 		Input: head = [1,1,1,2,3]
+// 		Output: [2,3]
+
+// Constraints:
+//		The number of nodes in the list is in the range [0, 300].
+//		-100 <= Node.val <= 100
+//		The list is guaranteed to be sorted in ascending order.
+
+function ListNode(val, next) {
+  this.val = val === undefined ? 0 : val;
+  this.next = next === undefined ? null : next;
+}
+
+const deleteDuplicates = (head) => {
+  let newHead = new ListNode(null, head); // accomodates 1st node being duplicate
+  let node = newHead;
+
+  while (node.next && node.next.next) {
+    // probe two ahead
+    if (node.next.val == node.next.next.val) {
+      let dup = node.next.val; // duplicate found
+      while (node.next?.val == dup) {
+        node.next = node.next.next; // navigate to next val
+      }
+    } else {
+      node = node.next;
+    }
+  }
+
+  return newHead.next;
 };
+
+// prettier-ignore
+console.log(deleteDuplicates({val: 1, next: {val: 2, next: {val: 3, next: {val: 3, next: {val: 4, next: {val: 4, next: {val: 5, next: null}}}}}}})); //  [1,2,5]
+// prettier-ignore
+console.log(deleteDuplicates({val: 1, next: {val: 1, next: {val: 1, next: {val: 2, next: {val: 3, next: null}}}}})); //  [2,3]
+console.log(deleteDuplicates({ val: 1, next: { val: 1, next: null } })); //  []
+
+var topVotedDeleteDuplicates = function (head) {
+  // Special case
+  if (head == null || head.next == null) return head;
+  // create a fake node that acts like a fake head of list pointing to the original head and it points to the original head
+  var fake = new ListNode(0);
+  fake.next = head;
+  var curr = fake;
+  // Loop till curr.next and curr.next.next not null
+  while (curr.next != null && curr.next.next != null) {
+    // curr.next means the next node of curr pointer and curr.next.next means the next of next of curr pointer
+    // if the value of curr.next and curr.next.next is same
+    // There is a duplicate value present in the list
+    if (curr.next.val == curr.next.next.val) {
+      let duplicate = curr.next.val;
+      // If the next node of curr is not null and its value is eual to the duplicate value
+      while (curr.next != null && curr.next.val == duplicate) {
+        // Skip those element and keep updating curr
+        curr.next = curr.next.next;
+      }
+    }
+    // Otherwise, move curr forward
+    else {
+      curr = curr.next;
+    }
+  }
+  return fake.next; // Return the linked list
+};
+
+// same same
