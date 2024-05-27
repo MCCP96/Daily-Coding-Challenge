@@ -2293,7 +2293,7 @@ var topVotedFindPermutationDifference = function (s, t) {
 }; */
 
 // Remove Duplicates from Sorted List II					5/26/2024
-
+/* 
 // Given the head of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. Return the linked list sorted as well.
 
 // Example 1:
@@ -2367,4 +2367,81 @@ var topVotedDeleteDuplicates = function (head) {
   return fake.next; // Return the linked list
 };
 
-// same same
+// same same */
+
+// Partition List					5/27/2024
+
+// Given the head of a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+
+// You should preserve the original relative order of the nodes in each of the two partitions.
+
+// Example 1:
+// 		Input: head = [1,4,3,2,5,2], x = 3
+// 		Output: [1,2,2,4,3,5]
+
+// Example 2:
+// 		Input: head = [2,1], x = 2
+// 		Output: [1,2]
+
+// Constraints:
+//		The number of nodes in the list is in the range [0, 200].
+//		-100 <= Node.val <= 100
+//		-200 <= x <= 200
+
+function ListNode(val, next) {
+  this.val = val === undefined ? 0 : val;
+  this.next = next === undefined ? null : next;
+}
+
+const partition = (head, x) => {
+  let lowHead = new ListNode(),
+    highHead = new ListNode();
+
+  let node = head,
+    l = lowHead,
+    h = highHead;
+  while (node) {
+    if (node.val < x) {
+      l.next = node;
+      l = l.next;
+    } else {
+      h.next = node;
+      h = h.next;
+    }
+    node = node.next;
+  }
+  l.next = highHead.next;
+  h.next = null;
+
+  return lowHead.next;
+};
+
+// prettier-ignore
+console.log(partition({val: 1, next: {val: 4, next: {val: 3, next: {val: 2, next: {val: 5, next: {val: 2, next: null}}}}}}, 3)); //  [1,2,2,4,3,5]
+
+// 100% Runtime
+
+var topVotedPartition = function (head, x) {
+  let before = new ListNode(0);
+  let after = new ListNode(0);
+  let before_curr = before;
+  let after_curr = after;
+
+  while (head !== null) {
+    if (head.val < x) {
+      before_curr.next = head;
+      before_curr = before_curr.next;
+    } else {
+      after_curr.next = head;
+      after_curr = after_curr.next;
+    }
+    head = head.next;
+  }
+
+  after_curr.next = null;
+  before_curr.next = after.next;
+
+  return before.next;
+};
+
+// same idea
