@@ -2370,7 +2370,7 @@ var topVotedDeleteDuplicates = function (head) {
 // same same */
 
 // Partition List					5/27/2024
-
+/* 
 // Given the head of a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
 
 // You should preserve the original relative order of the nodes in each of the two partitions.
@@ -2444,4 +2444,64 @@ var topVotedPartition = function (head, x) {
   return before.next;
 };
 
-// same idea
+// same idea */
+
+// Gray Code					5/28/2024
+
+// An n-bit gray code sequence is a sequence of 2n integers where:
+// - Every integer is in the inclusive range [0, 2n - 1],
+// - The first integer is 0,
+// - An integer appears no more than once in the sequence,
+// - The binary representation of every pair of adjacent integers differs by exactly one bit, and
+// - The binary representation of the first and last integers differs by exactly one bit.
+
+// Given an integer n, return any valid n-bit gray code sequence.
+
+// Example 1:
+// 		Input: n = 2
+// 		Output: [0,1,3,2]
+// Explanation:
+// 		The binary representation of [0,1,3,2] is [00,01,11,10].
+// 		- 00 and 01 differ by one bit
+// 		- 01 and 11 differ by one bit
+// 		- 11 and 10 differ by one bit
+// 		- 10 and 00 differ by one bit
+// 		[0,2,3,1] is also a valid gray code sequence, whose binary representation is [00,10,11,01].
+// 		- 00 and 10 differ by one bit
+// 		- 10 and 11 differ by one bit
+// 		- 11 and 01 differ by one bit
+// 		- 01 and 00 differ by one bit
+
+// Example 2:
+// 		Input: n = 1
+// 		Output: [0,1]
+
+// Constraints:
+//		1 <= n <= 16
+
+var topVotedGrayCode = function (n) {
+  // total 2^n codes for bit length n
+  const codeCount = 1 << n;
+  let result = [];
+
+  // generate gray code from 0, and toggle 1 bit on each iteration
+  // toggle mask: ( i >> 1 )
+  for (let i = 0; i < codeCount; i++) {
+    code = i ^ (i >> 1);
+    result.push(code);
+  }
+
+  return result;
+};
+
+const grayCode = (n) => {
+  let res = [];
+  for (let i = 0; i < 2 ** n; i++) {
+    code = i ^ (i >> 1);
+    res.push(code);
+  }
+  return res;
+};
+
+console.log(grayCode(2)); //  [0,1,3,2]
+console.log(grayCode(1)); //  [0,1]
