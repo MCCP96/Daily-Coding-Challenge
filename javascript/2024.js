@@ -2508,7 +2508,7 @@ console.log(grayCode(1)); //  [0,1]
  */
 
 // Find Missing and Repeated Values					5/29/2024
-
+/* 
 // You are given a 0-indexed 2D integer matrix grid of size n * n with values in the range [1, n2]. Each integer appears exactly once except a which appears twice and b which is missing. The task is to find the repeating and missing numbers a and b.
 
 // Return a 0-indexed integer array ans of size 2 where ans[0] equals to a and ans[1] equals to b.
@@ -2587,4 +2587,87 @@ function topVotedFindMissingAndRepeatedValues(grid) {
   }
 
   return [repeated, missing];
-}
+} */
+
+// Restore IP Addresses					5/30/2024
+
+// A valid IP address consists of exactly four integers separated by single dots. Each integer is between 0 and 255 (inclusive) and cannot have leading zeros.
+
+// For example, "0.1.2.201" and "192.168.1.1" are valid IP addresses, but "0.011.255.245", "192.168.1.312" and "192.168@1.1" are invalid IP addresses.
+
+// Given a string s containing only digits, return all possible valid IP addresses that can be formed by inserting dots into s. You are not allowed to reorder or remove any digits in s. You may return the valid IP addresses in any order.
+
+// Example 1:
+// 		Input: s = "25525511135"
+// 		Output: ["255.255.11.135","255.255.111.35"]
+
+// Example 2:
+// 		Input: s = "0000"
+// 		Output: ["0.0.0.0"]
+
+// Example 3:
+// 		Input: s = "101023"
+// 		Output: ["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+
+// Constraints:
+//		1 <= s.length <= 20
+//		s consists of digits only.
+
+const restoreIpAddresses = (s) => {
+  const len = s.length;
+  if (len < 4 || len > 12) return []; // impossible
+
+  let res = [];
+  const dfs = (ip, rem) => {
+    if (ip.length == 3) {
+      if (+rem <= 255 && !(rem.length > 1 && rem[0] == "0"))
+        res.push([...ip, rem].join(".")); // valid iteration found
+    }
+
+    for (let i = 1; i <= Math.min(rem.length - 1, 3); i++) {
+      const seg = rem.slice(0, i);
+      if (+seg <= 255 && !(seg.length > 1 && seg[0] == "0"))
+        dfs([...ip, seg], rem.substring(i)); // valid segment added
+    }
+  };
+  dfs([], s);
+
+  return res;
+};
+
+console.log(restoreIpAddresses("25525511135")); //  ["255.255.11.135","255.255.111.35"]
+console.log(restoreIpAddresses("0000")); //  ["0.0.0.0"]
+console.log(restoreIpAddresses("101023")); //  ["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+
+// took me a minute
+
+var topVoedRestoreIpAddresses = function (s) {
+  const result = [];
+
+  function permute(arr, str) {
+    if (arr.length === 3) {
+      if (isValid(str)) result.push([...arr, str]);
+      return;
+    }
+
+    for (let i = 1; i < 4; i++) {
+      let subStr = str.slice(0, i);
+      if (!isValid(subStr)) continue;
+      permute([...arr, subStr], str.slice(i));
+    }
+  }
+
+  function isValid(str) {
+    if (+str > 255 || !str.length) return false;
+    if (str.length >= 2 && str[0] === "0") return false;
+    return true;
+  }
+
+  permute([], s);
+  return result.map((x) => x.join("."));
+};
+
+// same but better
+
+// Discontinuing 'Day ####' in commit messages from now on
+// I don't want to focus on the number and 1000s seems like a good end point
