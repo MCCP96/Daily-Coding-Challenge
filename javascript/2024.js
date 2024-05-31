@@ -1,3 +1,13 @@
+const linkedList = (arr) => {
+  let head = { val: null, next: null };
+  let node = head;
+  for (const x of arr) {
+    node.next = { val: x, next: null };
+    node = node.next;
+  }
+  return head.next;
+};
+
 // Image Smoother					1/1/2024
 /* 
 // An image smoother is a filter of the size 3 x 3 that can be applied to each cell of an image by rounding down the average of the cell and the eight surrounding cells (i.e., the average of the nine cells in the blue smoother). If one or more of the surrounding cells of a cell is not present, we do not consider it in the average (i.e., the average of the four cells in the red smoother).
@@ -2590,7 +2600,7 @@ function topVotedFindMissingAndRepeatedValues(grid) {
 } */
 
 // Restore IP Addresses					5/30/2024
-
+/* 
 // A valid IP address consists of exactly four integers separated by single dots. Each integer is between 0 and 255 (inclusive) and cannot have leading zeros.
 
 // For example, "0.1.2.201" and "192.168.1.1" are valid IP addresses, but "0.011.255.245", "192.168.1.312" and "192.168@1.1" are invalid IP addresses.
@@ -2670,4 +2680,77 @@ var topVoedRestoreIpAddresses = function (s) {
 // same but better
 
 // Discontinuing 'Day ####' in commit messages from now on
-// I don't want to focus on the number and 1000s seems like a good end point
+// I don't want to focus on the number and 1000s seems like a good end point */
+
+// Reverse Linked List II					5/31/2024
+
+// Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
+
+// Example 1:
+// 		Input: head = [1,2,3,4,5], left = 2, right = 4
+// 		Output: [1,4,3,2,5]
+
+// Example 2:
+// 		Input: head = [5], left = 1, right = 1
+// 		Output: [5]
+
+// Constraints:
+//		The number of nodes in the list is n.
+//		1 <= n <= 500
+//		-500 <= Node.val <= 500
+//		1 <= left <= right <= n
+
+// Follow up: Could you do it in one pass?
+
+const reverseBetween = (head, l, r) => {
+  if (l == r) return head; // no changes necessary
+
+  let node = head,
+    i = 1;
+  while (++i < l) node = node.next; // stop before 'left'
+  let prev = node; // prev.next is where reversing begins
+
+  let nodes = new Array(r - l + 1); // store nodes to be reversed
+  while (i++ <= r) {
+    node = node.next;
+    nodes[r - i + 1] = node;
+  }
+  nodes[nodes.length - 1].next = node.next; // reversing ends ('right')
+
+  node = prev;
+  for (let n of nodes) {
+    node.next = n; // rebuild linked list
+    node = node.next;
+  }
+
+  return head;
+};
+
+console.log(reverseBetween(linkedList([1, 2, 3, 4, 5]), 2, 4)); //  [1,4,3,2,5]
+console.log(reverseBetween(linkedList([5]), 1, 1)); //  [5]
+// console.log(reverseBetween(linkedList([3, 5]), 1, 2)); //  [5]
+
+var topVotedReverseBetween = function (head, left, right) {
+  if (!head || left === right) return head;
+
+  const dummy = new ListNode(0);
+  dummy.next = head;
+  let prev = dummy;
+
+  for (let i = 0; i < left - 1; ++i) {
+    prev = prev.next;
+  }
+
+  let current = prev.next;
+
+  for (let i = 0; i < right - left; ++i) {
+    const nextNode = current.next;
+    current.next = nextNode.next;
+    nextNode.next = prev.next;
+    prev.next = nextNode;
+  }
+
+  return dummy.next;
+};
+
+// two pointers makes things easier to navigate
