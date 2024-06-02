@@ -2756,7 +2756,7 @@ var topVotedReverseBetween = function (head, left, right) {
 // two pointers makes things easier to navigate */
 
 // Interleaving String					6/1/2024
-
+/* 
 // Given strings s1, s2, and s3, find whether s3 is formed by an interleaving of s1 and s2.
 
 // An interleaving of two strings s and t is a configuration where s and t are divided into n and m substrings respectively, such that:
@@ -2845,4 +2845,66 @@ var topVotedIsInterleave = function (s1, s2, s3) {
   return dp[n];
 };
 
-// https://leetcode.com/problems/interleaving-string/solutions/3956393/99-78-2-approaches-dp-recursion/
+// https://leetcode.com/problems/interleaving-string/solutions/3956393/99-78-2-approaches-dp-recursion/ */
+
+// Validate Binary Search Tree					6/2/2024
+
+// Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+// A valid BST is defined as follows:
+// - The left subtree of a node contains only nodes with keys less than the node's key.
+// - The right subtree of a node contains only nodes with keys greater than the node's key.
+// - Both the left and right subtrees must also be binary search trees.
+
+// Example 1:
+// 		Input: root = [2,1,3]
+// 		Output: true
+
+// Example 2:
+// 		Input: root = [5,1,4,null,null,3,6]
+// 		Output: false
+// Explanation: The root node's value is 5 but its right child's value is 4.
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 10^4].
+//		-2^31 <= Node.val <= 2^31 - 1
+
+const badIsValidBST = (root) => {
+  const explore = (parent, node, dir) => {
+    if (node == null) return true;
+    if (dir == "l" && node.val >= parent.val) return false;
+    if (dir == "r" && node.val <= parent.val) return false;
+    return explore(node, node.left, "l") && explore(node, node.right, "r");
+  };
+  return explore(root, root.left, "l") && explore(root, root.right, "r");
+};
+
+// only checking immediate parent
+
+const isValidBST = (root) => {
+  const explore = (node, min, max) => {
+    if (node == null) return true;
+    if (min != null && node.val <= min) return false;
+    if (max != null && node.val >= max) return false;
+    return (
+      explore(node.left, min, node.val) && explore(node.right, node.val, max)
+    );
+  };
+  return (
+    explore(root.left, null, root.val) && explore(root.right, root.val, null)
+  );
+};
+
+console.log(isValidBST([2, 1, 3])); //  true
+console.log(isValidBST([5, 1, 4, null, null, 3, 6])); //  false
+
+// better
+
+var topVotedIsValidBST = function (root, min = null, max = null) {
+  if (!root) return true;
+  if (min && root.val <= min.val) return false;
+  if (max && root.val >= max.val) return false;
+  return isValidBST(root.left, min, root) && isValidBST(root.right, root, max);
+};
+
+// same same
