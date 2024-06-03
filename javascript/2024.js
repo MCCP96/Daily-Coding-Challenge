@@ -2848,7 +2848,7 @@ var topVotedIsInterleave = function (s1, s2, s3) {
 // https://leetcode.com/problems/interleaving-string/solutions/3956393/99-78-2-approaches-dp-recursion/ */
 
 // Validate Binary Search Tree					6/2/2024
-
+/* 
 // Given the root of a binary tree, determine if it is a valid binary search tree (BST).
 
 // A valid BST is defined as follows:
@@ -2907,4 +2907,72 @@ var topVotedIsValidBST = function (root, min = null, max = null) {
   return isValidBST(root.left, min, root) && isValidBST(root.right, root, max);
 };
 
-// same same
+// same same */
+
+// Binary Tree Level Order Traversal					6/3/2024
+
+// Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+// Example 1:
+// 		Input: root = [3,9,20,null,null,15,7]
+// 		Output: [[3],[9,20],[15,7]]
+
+// Example 2:
+// 		Input: root = [1]
+// 		Output: [[1]]
+
+// Example 3:
+// 		Input: root = []
+// 		Output: []
+
+// Constraints:
+//		The number of nodes in the tree is in the range [0, 2000].
+//		-1000 <= Node.val <= 1000
+
+const levelOrder = (root) => {
+  let res = {};
+
+  const traverse = (node, depth = 0) => {
+    if (node == null) return;
+
+    if (res[depth]) res[depth].push(node.val);
+    else res[depth] = [node.val];
+
+    traverse(node.left, depth + 1);
+    traverse(node.right, depth + 1);
+  };
+  traverse(root);
+
+  return Object.values(res);
+};
+
+console.log(
+  levelOrder({
+    val: 3,
+    left: { val: 9, left: null, right: null },
+    right: {
+      val: 20,
+      left: { val: 15, left: null, right: null },
+      right: { val: 7, left: null, right: null },
+    },
+  })
+); //  [[3],[9,20],[15,7]]
+
+var topVotedLevelOrder = function (root) {
+  let q = [root],
+    ans = [];
+  while (q[0]) {
+    let qlen = q.length,
+      row = [];
+    for (let i = 0; i < qlen; i++) {
+      let curr = q.shift();
+      row.push(curr.val);
+      if (curr.left) q.push(curr.left);
+      if (curr.right) q.push(curr.right);
+    }
+    ans.push(row);
+  }
+  return ans;
+};
+
+// This uses iterative binary tree traversal
