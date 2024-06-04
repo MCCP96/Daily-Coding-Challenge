@@ -2910,7 +2910,7 @@ var topVotedIsValidBST = function (root, min = null, max = null) {
 // same same */
 
 // Binary Tree Level Order Traversal					6/3/2024
-
+/* 
 // Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
 
 // Example 1:
@@ -2975,4 +2975,80 @@ var topVotedLevelOrder = function (root) {
   return ans;
 };
 
-// This uses iterative binary tree traversal
+// This uses iterative binary tree traversal */
+
+// Binary Tree Zigzag Level Order Traversal					6/4/2024
+
+// Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).
+
+// Example 1:
+// 		Input: root = [3,9,20,null,null,15,7]
+// 		Output: [[3],[20,9],[15,7]]
+
+// Example 2:
+// 		Input: root = [1]
+// 		Output: [[1]]
+
+// Example 3:
+// 		Input: root = []
+// 		Output: []
+
+// Constraints:
+//		The number of nodes in the tree is in the range [0, 2000].
+//		-100 <= Node.val <= 100
+
+const zigzagLevelOrder = (root) => {
+  let res = {};
+
+  const traverse = (node, depth = 0) => {
+    if (node == null) return;
+
+    if (res[depth]) {
+      if (depth % 2 == 0) res[depth].push(node.val);
+      else res[depth].unshift(node.val);
+    } else res[depth] = [node.val];
+
+    traverse(node.left, depth + 1);
+    traverse(node.right, depth + 1);
+  };
+  traverse(root);
+
+  return Object.values(res);
+};
+
+console.log(
+  zigzagLevelOrder({
+    val: 3,
+    left: { val: 9, left: null, right: null },
+    right: {
+      val: 20,
+      left: { val: 15, left: null, right: null },
+      right: { val: 7, left: null, right: null },
+    },
+  })
+); //  [[3],[20,9],[15,7]]
+
+// Good runtime
+
+const topVotedZigzagLevelOrder = (root) => {
+  let res = [];
+
+  const go = (node, lvl) => {
+    if (node == null) return;
+    if (res[lvl] == null) res[lvl] = [];
+
+    if (lvl % 2 === 0) {
+      res[lvl].push(node.val);
+    } else {
+      res[lvl].unshift(node.val);
+    }
+
+    go(node.left, lvl + 1);
+    go(node.right, lvl + 1);
+  };
+
+  go(root, 0);
+  return res;
+};
+
+// Same
