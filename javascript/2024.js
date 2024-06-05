@@ -2978,7 +2978,7 @@ var topVotedLevelOrder = function (root) {
 // This uses iterative binary tree traversal */
 
 // Binary Tree Zigzag Level Order Traversal					6/4/2024
-
+/* 
 // Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).
 
 // Example 1:
@@ -3051,4 +3051,81 @@ const topVotedZigzagLevelOrder = (root) => {
   return res;
 };
 
-// Same
+// Same */
+
+// Sum Root to Leaf Numbers					6/5/2024
+
+// You are given the root of a binary tree containing digits from 0 to 9 only.
+
+// Each root-to-leaf path in the tree represents a number.
+// - For example, the root-to-leaf path 1 -> 2 -> 3 represents the number 123.
+
+// Return the total sum of all root-to-leaf numbers. Test cases are generated so that the answer will fit in a 32-bit integer.
+
+// A leaf node is a node with no children.
+
+// Example 1:
+// 		Input: root = [1,2,3]
+// 		Output: 25
+// Explanation:
+// 		The root-to-leaf path 1->2 represents the number 12.
+// 		The root-to-leaf path 1->3 represents the number 13.
+// 		Therefore, sum = 12 + 13 = 25.
+
+// Example 2:
+// 		Input: root = [4,9,0,5,1]
+// 		Output: 1026
+// Explanation:
+// 		The root-to-leaf path 4->9->5 represents the number 495.
+// 		The root-to-leaf path 4->9->1 represents the number 491.
+// 		The root-to-leaf path 4->0 represents the number 40.
+// 		Therefore, sum = 495 + 491 + 40 = 1026.
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 1000].
+//		0 <= Node.val <= 9
+//		The depth of the tree will not exceed 10.
+
+const sumNumbers = (root) => {
+  let res = 0;
+
+  const dfs = (node, acc = "") => {
+    if (node.left == null && node.right == null) {
+      res += +(acc + node.val);
+      return;
+    }
+    acc += node.val;
+    if (node.left) dfs(node.left, acc);
+    if (node.right) dfs(node.right, acc);
+  };
+  dfs(root);
+
+  return res;
+};
+
+console.log(
+  sumNumbers({
+    val: 1,
+    left: { val: 2, left: null, right: null },
+    right: { val: 3, left: null, right: null },
+  })
+); //  25
+
+var topVotedSumNumbers = function (root) {
+  let ans = 0;
+
+  const dfs = (node, path) => {
+    if (!node) return;
+    if (!node.left && !node.right) {
+      ans += path * 10 + node.val;
+      return;
+    }
+    dfs(node.left, path * 10 + node.val);
+    dfs(node.right, path * 10 + node.val);
+  };
+
+  dfs(root, 0);
+  return ans;
+};
+
+// path*10 to avoid converting from string to int
