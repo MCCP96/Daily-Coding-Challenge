@@ -3054,7 +3054,7 @@ const topVotedZigzagLevelOrder = (root) => {
 // Same */
 
 // Sum Root to Leaf Numbers					6/5/2024
-
+/* 
 // You are given the root of a binary tree containing digits from 0 to 9 only.
 
 // Each root-to-leaf path in the tree represents a number.
@@ -3128,4 +3128,69 @@ var topVotedSumNumbers = function (root) {
   return ans;
 };
 
-// path*10 to avoid converting from string to int
+// path*10 to avoid converting from string to int */
+
+// Longest Consecutive Sequence					6/6/2024
+
+// Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+
+// You must write an algorithm that runs in O(n) time.
+
+// Example 1:
+// 		Input: nums = [100,4,200,1,3,2]
+// 		Output: 4
+// Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+
+// Example 2:
+// 		Input: nums = [0,3,7,2,5,8,4,6,0,1]
+// 		Output: 9
+
+// Constraints:
+//		0 <= nums.length <= 10^5
+//		-10^9 <= nums[i] <= 10^9
+
+const longestConsecutive = (nums) => {
+  const seen = new Set(nums);
+
+  let res = 0;
+  for (let n of nums) {
+    let cur = 0;
+    while (seen.has(n++)) cur++;
+    if (cur > res) res = cur;
+  }
+  return res;
+};
+
+console.log(longestConsecutive([100, 4, 200, 1, 3, 2])); //  4
+console.log(longestConsecutive([0, 3, 7, 2, 5, 8, 4, 6, 0, 1])); //  9
+
+// Not O(n)
+
+var topVotedLongestConsecutive = function (arr) {
+  if (arr.length <= 0) return 0;
+
+  let map = new Map();
+  for (let elem of arr) {
+    map.set(elem, 1);
+  }
+
+  for (let i in arr) {
+    if (map.has(arr[i] - 1)) {
+      map.set(arr[i], 0);
+    }
+  }
+
+  let maxLen = 1;
+  for (let elem of arr) {
+    if (map.get(elem) == 1) {
+      let seqCount = 1;
+      while (map.has(elem + seqCount)) {
+        seqCount += 1;
+      }
+
+      maxLen = Math.max(maxLen, seqCount);
+    }
+  }
+
+  return maxLen;
+};
