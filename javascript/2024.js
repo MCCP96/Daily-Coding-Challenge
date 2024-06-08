@@ -1,8 +1,13 @@
+function ListNode(val, next) {
+  this.val = val === undefined ? 0 : val;
+  this.next = next === undefined ? null : next;
+}
+
 const linkedList = (arr) => {
-  let head = { val: null, next: null };
+  let head = new ListNode();
   let node = head;
   for (const x of arr) {
-    node.next = { val: x, next: null };
+    node.next = new ListNode(x);
     node = node.next;
   }
   return head.next;
@@ -3196,7 +3201,7 @@ var topVotedLongestConsecutive = function (arr) {
 }; */
 
 // Gas Station					6/7/2024
-
+/* 
 // There are n gas stations along a circular route, where the amount of gas at the ith station is gas[i].
 
 // You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from the ith station to its next (i + 1)th station. You begin the journey with an empty tank at one of the gas stations.
@@ -3278,4 +3283,119 @@ var topVotedCanCompleteCircuit = function (gas, cost) {
   }
 
   return totalTank < 0 ? -1 : startingStation;
+}; */
+
+// Sort List					6/8/2024
+
+// Given the head of a linked list, return the list after sorting it in ascending order.
+
+// Example 1:
+// 		Input: head = [4,2,1,3]
+// 		Output: [1,2,3,4]
+
+// Example 2:
+// 		Input: head = [-1,5,3,4,0]
+// 		Output: [-1,0,3,4,5]
+
+// Example 3:
+// 		Input: head = []
+// 		Output: []
+
+// Constraints:
+//		The number of nodes in the list is in the range [0, 5 * 104].
+//		-105 <= Node.val <= 105
+
+// Follow up: Can you sort the linked list in O(n logn) time and O(1) memory (i.e. constant space)?
+
+const sortList = (head) => {
+  let vals = [];
+  while (head) {
+    vals.push(head.val);
+    head = head.next;
+  }
+  vals.sort((a, b) => a - b);
+
+  let newHead = new ListNode();
+  let node = newHead;
+  for (const x of vals) {
+    node.next = new ListNode(x);
+    node = node.next;
+  }
+
+  return newHead.next;
 };
+
+console.log(sortList(linkedList([4, 2, 1, 3]))); //  [1,2,3,4]
+console.log(sortList(linkedList([-1, 5, 3, 4, 0]))); //  [-1,0,3,4,5]
+console.log(sortList(linkedList([]))); //  []
+
+// O(n log n) runtime, but not O(1) memory
+
+var topVotedSortList = function (head) {
+  if (head === null || head.next === null) return head;
+
+  const getLength = function (head) {
+    let length = 0;
+    let curr = head;
+    while (curr) {
+      length++;
+      curr = curr.next;
+    }
+    return length;
+  };
+
+  const split = function (head, step) {
+    if (head === null) return null;
+
+    for (let i = 1; i < step && head.next; i++) {
+      head = head.next;
+    }
+
+    const right = head.next;
+    head.next = null;
+    return right;
+  };
+
+  const merge = function (left, right, tail) {
+    let curr = tail;
+    while (left && right) {
+      if (left.val < right.val) {
+        curr.next = left;
+        left = left.next;
+      } else {
+        curr.next = right;
+        right = right.next;
+      }
+      curr = curr.next;
+    }
+
+    curr.next = left ? left : right;
+    while (curr.next) curr = curr.next;
+
+    return curr;
+  };
+
+  const length = getLength(head);
+  const dummy = new ListNode(0);
+  dummy.next = head;
+
+  let step = 1;
+  while (step < length) {
+    let curr = dummy.next;
+    let tail = dummy;
+
+    while (curr) {
+      const left = curr;
+      const right = split(left, step);
+      curr = split(right, step);
+
+      tail = merge(left, right, tail);
+    }
+
+    step *= 2;
+  }
+
+  return dummy.next;
+};
+
+// Merge sort
