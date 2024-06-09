@@ -13,6 +13,23 @@ const linkedList = (arr) => {
   return head.next;
 };
 
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+const binaryTree = (arr, i = 0) => {
+  const len = arr.length;
+  let root = null;
+  if (i < len && arr[i]) {
+    root = new TreeNode(arr[i]);
+    root.left = binaryTree(arr, 2 * i + 1);
+    root.right = binaryTree(arr, 2 * i + 2);
+  }
+  return root;
+};
+
 // Image Smoother					1/1/2024
 /* 
 // An image smoother is a filter of the size 3 x 3 that can be applied to each cell of an image by rounding down the average of the cell and the eight surrounding cells (i.e., the average of the nine cells in the blue smoother). If one or more of the surrounding cells of a cell is not present, we do not consider it in the average (i.e., the average of the four cells in the red smoother).
@@ -3286,7 +3303,7 @@ var topVotedCanCompleteCircuit = function (gas, cost) {
 }; */
 
 // Sort List					6/8/2024
-
+/* 
 // Given the head of a linked list, return the list after sorting it in ascending order.
 
 // Example 1:
@@ -3398,4 +3415,65 @@ var topVotedSortList = function (head) {
   return dummy.next;
 };
 
-// Merge sort
+// Merge sort */
+
+// Path Sum II					6/9/2024
+
+// Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
+
+// A root-to-leaf path is a path starting from the root and ending at any leaf node. A leaf is a node with no children.
+
+// Example 1:
+// 		Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+// 		Output: [[5,4,11,2],[5,8,4,5]]
+// Explanation: There are two paths whose sum equals targetSum:
+// 		5 + 4 + 11 + 2 = 22
+// 		5 + 8 + 4 + 5 = 22
+
+// Example 2:
+// 		Input: root = [1,2,3], targetSum = 5
+// 		Output: []
+
+// Example 3:
+// 		Input: root = [1,2], targetSum = 0
+// 		Output: []
+
+// Constraints:
+//		The number of nodes in the tree is in the range [0, 5000].
+//		-1000 <= Node.val <= 1000
+//		-1000 <= targetSum <= 1000
+
+const pathSum = (root, t) => {
+  if (root == null) return [];
+
+  let paths = [];
+  const dfs = (node, path = [], acc = 0) => {
+    if (acc + node.val == t && node.left == null && node.right == null) {
+      paths.push([...path, node.val]);
+    } else {
+      if (node.left) dfs(node.left, [...path, node.val], acc + node.val);
+      if (node.right) dfs(node.right, [...path, node.val], acc + node.val);
+    }
+  };
+  dfs(root);
+
+  return paths;
+};
+
+console.log(
+  pathSum(binaryTree([5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1]), 22)
+); //  [[5,4,11,2],[5,8,4,5]]
+console.log(pathSum(binaryTree([1, 2, 3]), 5)); //  []
+console.log(pathSum(binaryTree([1, 2]), 0)); //  []
+console.log(pathSum(binaryTree([-2, null, -3]), -5)); //  []
+
+var topVotedPathSum = function (root, sum, res = [], path = []) {
+  if (root) {
+    path.push(root.val);
+    if (!root.left && !root.right && sum - root.val === 0) res.push([...path]);
+    topVotedPathSum(root.left, sum - root.val, res, path);
+    topVotedPathSum(root.right, sum - root.val, res, path);
+    path.pop();
+  }
+  return res;
+};
