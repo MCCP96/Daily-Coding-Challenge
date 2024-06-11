@@ -3479,7 +3479,7 @@ var topVotedPathSum = function (root, sum, res = [], path = []) {
 }; */
 
 // Flatten Binary Tree to Linked List					6/10/2024
-
+/* 
 // Given the root of a binary tree, flatten the tree into a "linked list":
 
 // The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
@@ -3518,4 +3518,69 @@ var topVotedFlatten = function (root) {
 
 console.log(topVotedFlatten(binaryTree([1, 2, 5, 3, 4, null, 6]))); //  [1,null,2,null,3,null,4,null,5,null,6]
 console.log(topVotedFlatten(binaryTree([]))); //  []
-console.log(topVotedFlatten(binaryTree([0]))); //  [0]
+console.log(topVotedFlatten(binaryTree([0]))); //  [0] */
+
+// Word Break					6/11/2024
+
+// Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+// Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+// Example 1:
+// 		Input: s = "leetcode", wordDict = ["leet","code"]
+// 		Output: true
+// Explanation: Return true because "leetcode" can be segmented as "leet code".
+
+// Example 2:
+// 		Input: s = "applepenapple", wordDict = ["apple","pen"]
+// 		Output: true
+// Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+// 		Note that you are allowed to reuse a dictionary word.
+
+// Example 3:
+// 		Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+// 		Output: false
+
+// Constraints:
+//		1 <= s.length <= 300
+//		1 <= wordDict.length <= 1000
+//		1 <= wordDict[i].length <= 20
+//		s and wordDict[i] consist of only lowercase English letters.
+//		All the strings of wordDict are unique.
+
+const wordBreak = (s, dict) => {
+  if (/^(_)\1*$/.test(s)) return true; // s == 1 or more '_'
+  if (dict.length == 0) return false;
+  const word = dict[0];
+  return (
+    wordBreak(s.replaceAll(word, "_"), dict.slice(1)) || // '_' to avoid reshuffling of segments
+    wordBreak(s, dict.slice(1))
+  );
+};
+
+console.log(wordBreak("leetcode", ["leet", "code"])); //  true
+console.log(wordBreak("applepenapple", ["apple", "pen"])); //  true
+console.log(wordBreak("catsandog", ["cats", "dog", "sand", "and", "cat"])); //  false
+console.log(wordBreak("cars", ["car", "ca", "rs"])); //  true
+console.log(wordBreak("cbca", ["bc", "ca"])); //  false
+console.log(wordBreak("a", ["b"])); //  false
+
+// Doesn't pass all test cases
+
+var topVotedWordBreak = function (s, wordDict) {
+  let n = s.length;
+  let dp = new Array(n + 1).fill(false);
+  dp[0] = true;
+  let max_len = Math.max(...wordDict.map((word) => word.length));
+
+  for (let i = 1; i <= n; i++) {
+    for (let j = i - 1; j >= Math.max(i - max_len - 1, 0); j--) {
+      if (dp[j] && wordDict.includes(s.substring(j, i))) {
+        dp[i] = true;
+        break;
+      }
+    }
+  }
+
+  return dp[n];
+};
