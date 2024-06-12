@@ -13,6 +13,15 @@ const linkedList = (arr) => {
   return head.next;
 };
 
+const arrLinkedList = (head) => {
+  let els = [];
+  while (head) {
+    els.push(head.val);
+    head = head.next;
+  }
+  return els;
+};
+
 function TreeNode(val, left, right) {
   this.val = val === undefined ? 0 : val;
   this.left = left === undefined ? null : left;
@@ -3521,7 +3530,7 @@ console.log(topVotedFlatten(binaryTree([]))); //  []
 console.log(topVotedFlatten(binaryTree([0]))); //  [0] */
 
 // Word Break					6/11/2024
-
+/* 
 // Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
 
 // Note that the same word in the dictionary may be reused multiple times in the segmentation.
@@ -3583,4 +3592,114 @@ var topVotedWordBreak = function (s, wordDict) {
   }
 
   return dp[n];
+}; */
+
+// Insertion Sort List					6/12/2024
+
+// Given the head of a singly linked list, sort the list using insertion sort, and return the sorted list's head.
+
+// The steps of the insertion sort algorithm:
+
+// Insertion sort iterates, consuming one input element each repetition and growing a sorted output list.
+
+// At each iteration, insertion sort removes one element from the input data, finds the location it belongs within the sorted list and inserts it there.
+
+// It repeats until no input elements remain.
+
+// The following is a graphical example of the insertion sort algorithm. The partially sorted list (black) initially contains only the first element in the list. One element (red) is removed from the input data and inserted in-place into the sorted list with each iteration.
+
+// Example 1:
+// 		Input: head = [4,2,1,3]
+// 		Output: [1,2,3,4]
+
+// Example 2:
+// 		Input: head = [-1,5,3,4,0]
+// 		Output: [-1,0,3,4,5]
+
+// Constraints:
+//		The number of nodes in the list is in the range [1, 5000].
+//		-5000 <= Node.val <= 5000
+
+const insertionSortList = (head) => {
+  if (!head) return null; // empty linked list
+  if (!head.next) return head; // head.length == 1
+
+  let newHead = head;
+  let node = head.next;
+  newHead.next = null;
+
+  const sort = (cur) => {
+    if (cur.val <= newHead.val) {
+      // 1st el edge case
+      cur.next = newHead;
+      newHead = cur;
+    } else {
+      let node = newHead;
+      while (node.next) {
+        if (cur.val < node.next.val) {
+          // insert case
+          cur.next = node.next;
+          node.next = cur;
+          return;
+        }
+        node = node.next;
+      }
+      // last el edge case
+      node.next = cur;
+      cur.next = null;
+    }
+  };
+
+  while (node) {
+    let next = node.next;
+    sort(node);
+    node = next;
+  }
+  return newHead;
 };
+
+console.log(arrLinkedList(insertionSortList(linkedList([4, 2, 1, 3])))); //  [1,2,3,4]
+console.log(arrLinkedList(insertionSortList(linkedList([-1, 5, 3, 4, 0])))); //  [-1,0,3,4,5]
+
+function topVotedInsertionSortList(head) {
+  if (!head) return null;
+  if (!head.next) return head;
+
+  let output = head;
+  let curr = head.next;
+
+  head.next = null;
+
+  while (curr) {
+    const next = curr.next;
+    const insertion = curr;
+
+    output = insert(output, insertion);
+    curr = next;
+  }
+
+  return output;
+}
+
+function insert(head, other) {
+  let curr = head;
+  const val = other.val;
+
+  if (val <= head.val) {
+    other.next = head;
+    return other;
+  }
+
+  while (curr) {
+    if ((val > curr.val && curr.next && val <= curr.next.val) || !curr.next) {
+      other.next = curr.next;
+      curr.next = other;
+
+      return head;
+    }
+
+    curr = curr.next;
+  }
+
+  return head;
+}
