@@ -13,7 +13,7 @@ const linkedList = (arr) => {
   return head.next;
 };
 
-const arrLinkedList = (head) => {
+const printLinkedList = (head) => {
   let els = [];
   while (head) {
     els.push(head.val);
@@ -3595,7 +3595,7 @@ var topVotedWordBreak = function (s, wordDict) {
 }; */
 
 // Insertion Sort List					6/12/2024
-
+/* 
 // Given the head of a singly linked list, sort the list using insertion sort, and return the sorted list's head.
 
 // The steps of the insertion sort algorithm:
@@ -3658,8 +3658,8 @@ const insertionSortList = (head) => {
   return newHead;
 };
 
-console.log(arrLinkedList(insertionSortList(linkedList([4, 2, 1, 3])))); //  [1,2,3,4]
-console.log(arrLinkedList(insertionSortList(linkedList([-1, 5, 3, 4, 0])))); //  [-1,0,3,4,5]
+console.log(printLinkedList(insertionSortList(linkedList([4, 2, 1, 3])))); //  [1,2,3,4]
+console.log(printLinkedList(insertionSortList(linkedList([-1, 5, 3, 4, 0])))); //  [-1,0,3,4,5]
 
 function topVotedInsertionSortList(head) {
   if (!head) return null;
@@ -3702,4 +3702,100 @@ function insert(head, other) {
   }
 
   return head;
-}
+} */
+
+// Reorder List					6/13/2024
+
+// You are given the head of a singly linked-list. The list can be represented as:
+// L0 → L1 → … → Ln - 1 → Ln
+
+// Reorder the list to be on the following form:
+// L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+
+// You may not modify the values in the list's nodes. Only nodes themselves may be changed.
+
+// Example 1:
+// 		Input: head = [1,2,3,4]
+// 		Output: [1,4,2,3]
+
+// Example 2:
+// 		Input: head = [1,2,3,4,5]
+// 		Output: [1,5,2,4,3]
+
+// Constraints:
+//		The number of nodes in the list is in the range [1, 5 * 104].
+//		1 <= Node.val <= 1000
+
+const reorderList = (head) => {
+  if (!head || !head.next) return head;
+
+  let refs = [];
+  let node = head;
+  let n = 0;
+
+  while (node) {
+    refs.push(node);
+    node = node.next;
+    n++;
+  }
+  let m = Math.ceil(n / 2);
+  refs.splice(0, m); // only keep second half
+
+  node = head;
+  for (let i = 0; i < m; i++) {
+    let cur = refs.pop(); // tail
+    cur.next = node.next; // insert
+    node.next = cur;
+
+    node = node.next.next;
+    if (refs.length == 0) {
+      // when end is reached, tail.next = null
+      node.next = null;
+      break;
+    }
+  }
+
+  return head;
+};
+
+console.log(printLinkedList(reorderList(linkedList([1, 2, 3, 4])))); //  [1,4,2,3]
+console.log(printLinkedList(reorderList(linkedList([1, 2, 3, 4, 5])))); //  [1,5,2,4,3]
+
+// O(n) amortized
+
+var topVotedReorderList = function (head) {
+  if (!head || !head.next) return;
+
+  // Find the middle of the linked list
+  let slow = head;
+  let fast = head;
+  while (fast.next && fast.next.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  // Reverse the second half of the linked list
+  let prev = null;
+  let curr = slow.next;
+  while (curr) {
+    let nextNode = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = nextNode;
+  }
+  slow.next = null;
+
+  // Merge the two halves
+  let p1 = head;
+  let p2 = prev;
+  while (p1 && p2) {
+    let nextP1 = p1.next;
+    let nextP2 = p2.next;
+    p1.next = p2;
+    p2.next = nextP1;
+    p1 = nextP1;
+    p2 = nextP2;
+  }
+};
+
+// clean
