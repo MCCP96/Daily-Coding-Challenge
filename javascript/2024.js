@@ -3,12 +3,19 @@ function ListNode(val, next) {
   this.next = next === undefined ? null : next;
 }
 
-const linkedList = (arr) => {
+const linkedList = (arr, cyclePos = -1) => {
   let head = new ListNode();
   let node = head;
   for (const x of arr) {
     node.next = new ListNode(x);
     node = node.next;
+  }
+  if (cyclePos != -1) {
+    const tail = node;
+    let i = 0;
+    node = head.next;
+    while (i++ < cyclePos) node = node.next;
+    tail.next = node;
   }
   return head.next;
 };
@@ -3705,7 +3712,7 @@ function insert(head, other) {
 } */
 
 // Reorder List					6/13/2024
-
+/* 
 // You are given the head of a singly linked-list. The list can be represented as:
 // L0 → L1 → … → Ln - 1 → Ln
 
@@ -3798,4 +3805,63 @@ var topVotedReorderList = function (head) {
   }
 };
 
-// clean
+// clean */
+
+// Linked List Cycle II					6/14/2024
+
+// Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+// There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to (0-indexed). It is -1 if there is no cycle. Note that pos is not passed as a parameter.
+
+// Do not modify the linked list.
+
+// Example 1:
+// 		Input: head = [3,2,0,-4], pos = 1
+// 		Output: tail connects to node index 1
+// Explanation: There is a cycle in the linked list, where tail connects to the second node.
+
+// Example 2:
+// 		Input: head = [1,2], pos = 0
+// 		Output: tail connects to node index 0
+// Explanation: There is a cycle in the linked list, where tail connects to the first node.
+
+// Example 3:
+// 		Input: head = [1], pos = -1
+// 		Output: no cycle
+// Explanation: There is no cycle in the linked list.
+
+// Constraints:
+//		The number of the nodes in the list is in the range [0, 10^4].
+//		-105 <= Node.val <= 105
+//		pos is -1 or a valid index in the linked-list.
+
+// Follow up: Can you solve it using O(1) (i.e. constant) memory?
+
+var detectCycle = function (head) {
+  let slow = head;
+  let fast = head;
+  while (fast && fast.next && fast.next.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow == fast) {
+      // cycle occurs
+      // couldn't get this part working
+      // ended up comparing with top voted
+      slow = head;
+      while (slow != fast) {
+        // see explanation below for why this works
+        slow = slow.next;
+        fast = fast.next;
+      }
+      return slow; // node where cycle begins
+    }
+  }
+  return null; // tail.next = null
+};
+
+console.log(detectCycle(linkedList([3, 2, 0, -4], 1))); //  tail connects to node index 1
+console.log(detectCycle(linkedList([1, 2], 0))); //  tail connects to node index 0
+console.log(detectCycle(linkedList([1], -1))); //  no cycle
+
+// Explanation:
+// https://leetcode.com/problems/linked-list-cycle-ii/solutions/495311/javascript-two-pointers-w-extended-notes/
