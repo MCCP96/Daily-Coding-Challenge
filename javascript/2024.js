@@ -3808,7 +3808,7 @@ var topVotedReorderList = function (head) {
 // clean */
 
 // Linked List Cycle II					6/14/2024
-
+/* 
 // Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
 
 // There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to (0-indexed). It is -1 if there is no cycle. Note that pos is not passed as a parameter.
@@ -3864,4 +3864,61 @@ console.log(detectCycle(linkedList([1, 2], 0))); //  tail connects to node index
 console.log(detectCycle(linkedList([1], -1))); //  no cycle
 
 // Explanation:
-// https://leetcode.com/problems/linked-list-cycle-ii/solutions/495311/javascript-two-pointers-w-extended-notes/
+// https://leetcode.com/problems/linked-list-cycle-ii/solutions/495311/javascript-two-pointers-w-extended-notes/ */
+
+// Maximum Gap					6/15/2024
+
+// Given an integer array nums, return the maximum difference between two successive elements in its sorted form. If the array contains less than two elements, return 0.
+
+// You must write an algorithm that runs in linear time and uses linear extra space.
+
+// Example 1:
+// 		Input: nums = [3,6,9,1]
+// 		Output: 3
+// Explanation: The sorted form of the array is [1,3,6,9], either (3,6) or (6,9) has the maximum difference 3.
+
+// Example 2:
+// 		Input: nums = [10]
+// 		Output: 0
+// Explanation: The array contains less than 2 elements, therefore return 0.
+
+// Constraints:
+//		1 <= nums.length <= 105
+//		0 <= nums[i] <= 109
+
+var topVotedMaximumGap = function (nums) {
+  let max = Math.max(...nums);
+  let min = Math.min(...nums);
+
+  let bucketSize = Math.max(1, Math.floor((max - min) / nums.length - 1));
+  let buckets = {};
+
+  for (let i = 0; i < nums.length; i++) {
+    let bucketId = Math.floor((nums[i] - min) / bucketSize);
+    buckets[bucketId] = {
+      min: Math.min(
+        nums[i],
+        buckets[bucketId] ? buckets[bucketId].min : Infinity
+      ),
+      max: Math.max(
+        nums[i],
+        buckets[bucketId] ? buckets[bucketId].max : -Infinity
+      ),
+    };
+  }
+
+  let prevBucketMax = min,
+    maxGap = 0;
+
+  Object.values(buckets).forEach((b) => {
+    maxGap = Math.max(maxGap, b.min - prevBucketMax);
+    prevBucketMax = b.max;
+  });
+
+  return maxGap;
+};
+
+console.log(topVotedMaximumGap([3, 6, 9, 1])); //  3
+console.log(topVotedMaximumGap([10])); //  0
+
+// using pigeonhole principle and bucket size
