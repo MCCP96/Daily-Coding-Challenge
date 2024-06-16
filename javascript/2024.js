@@ -3867,7 +3867,7 @@ console.log(detectCycle(linkedList([1], -1))); //  no cycle
 // https://leetcode.com/problems/linked-list-cycle-ii/solutions/495311/javascript-two-pointers-w-extended-notes/ */
 
 // Maximum Gap					6/15/2024
-
+/* 
 // Given an integer array nums, return the maximum difference between two successive elements in its sorted form. If the array contains less than two elements, return 0.
 
 // You must write an algorithm that runs in linear time and uses linear extra space.
@@ -3921,4 +3921,91 @@ var topVotedMaximumGap = function (nums) {
 console.log(topVotedMaximumGap([3, 6, 9, 1])); //  3
 console.log(topVotedMaximumGap([10])); //  0
 
-// using pigeonhole principle and bucket size
+// using pigeonhole principle and bucket size */
+
+// Matrix Similarity After Cyclic Shifts					6/16/2024
+
+// You are given an m x n integer matrix mat and an integer k. The matrix rows are 0-indexed.
+
+// The following proccess happens k times:
+
+// Even-indexed rows (0, 2, 4, ...) are cyclically shifted to the left.
+
+// Odd-indexed rows (1, 3, 5, ...) are cyclically shifted to the right.
+
+// Return true if the final modified matrix after k steps is identical to the original matrix, and false otherwise.
+
+// Example 1:
+// 		Input: mat = [[1,2,3],[4,5,6],[7,8,9]], k = 4
+// 		Output: false
+// Explanation:
+// 		In each step left shift is applied to rows 0 and 2 (even indices), and right shift to row 1 (odd index).
+
+// Example 2:
+// 		Input: mat = [[1,2,1,2],[5,5,5,5],[6,3,6,3]], k = 2
+// 		Output: true
+// Explanation:
+
+// Example 3:
+// 		Input: mat = [[2,2],[2,2]], k = 3
+// 		Output: true
+// Explanation:
+// 		As all the values are equal in the matrix, even after performing cyclic shifts the matrix will remain the same.
+
+// Constraints:
+//		1 <= mat.length <= 25
+//		1 <= mat[i].length <= 25
+//		1 <= mat[i][j] <= 25
+//		1 <= k <= 50
+
+const areSimilar = (mat, k) => {
+  let n = mat[0].length;
+  if (k % n == 0) return true; // back to starting pos, no change
+
+  for (const row of mat) {
+    let i = 0; // 1st el of original row
+    let j = k % n; // 1st el of shifted row
+
+    while (j < n) {
+      if (row[i++] != row[j++]) return false;
+    }
+    j = 0; // shifted row wraps around
+    while (i < n) {
+      if (row[i++] != row[j++]) return false;
+    }
+  }
+  return true;
+};
+
+console.log(
+  areSimilar(
+    [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ],
+    4
+  )
+); //  false
+console.log(
+  areSimilar(
+    [
+      [1, 2, 1, 2],
+      [5, 5, 5, 5],
+      [6, 3, 6, 3],
+    ],
+    2
+  )
+); //  true
+console.log(
+  areSimilar(
+    [
+      [2, 2],
+      [2, 2],
+    ],
+    3
+  )
+); //  true
+
+// part of LeetCode content feedback
+// same as top voteds
