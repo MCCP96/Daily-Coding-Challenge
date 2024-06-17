@@ -3924,7 +3924,7 @@ console.log(topVotedMaximumGap([10])); //  0
 // using pigeonhole principle and bucket size */
 
 // Matrix Similarity After Cyclic Shifts					6/16/2024
-
+/* 
 // You are given an m x n integer matrix mat and an integer k. The matrix rows are 0-indexed.
 
 // The following proccess happens k times:
@@ -4008,4 +4008,109 @@ console.log(
 ); //  true
 
 // part of LeetCode content feedback
-// same as top voteds
+// same as top voteds */
+
+// Determine the Winner of a Bowling Game					6/17/2024
+
+// You are given two 0-indexed integer arrays player1 and player2, representing the number of pins that player 1 and player 2 hit in a bowling game, respectively.
+
+// The bowling game consists of n turns, and the number of pins in each turn is exactly 10.
+
+// Assume a player hits xi pins in the ith turn. The value of the ith turn for the player is:
+// 2xi if the player hits 10 pins in either (i - 1)th or (i - 2)th turn.
+// Otherwise, it is xi.
+
+// The score of the player is the sum of the values of their n turns.
+
+// Return
+// 1 if the score of player 1 is more than the score of player 2,
+// 2 if the score of player 2 is more than the score of player 1, and
+// 0 in case of a draw.
+
+// Example 1:
+// 		Input: player1 = [5,10,3,2], player2 = [6,5,7,3]
+// 		Output: 1
+// Explanation:
+// 		The score of player 1 is 5 + 10 + 2*3 + 2*2 = 25.
+// 		The score of player 2 is 6 + 5 + 7 + 3 = 21.
+
+// Example 2:
+// 		Input: player1 = [3,5,7,6], player2 = [8,10,10,2]
+// 		Output: 2
+// Explanation:
+// 		The score of player 1 is 3 + 5 + 7 + 6 = 21.
+// 		The score of player 2 is 8 + 10 + 2*10 + 2*2 = 42.
+
+// Example 3:
+// 		Input: player1 = [2,3], player2 = [4,1]
+// 		Output: 0
+// Explanation:
+// 		The score of player1 is 2 + 3 = 5.
+// 		The score of player2 is 4 + 1 = 5.
+
+// Example 4:
+// 		Input: player1 = [1,1,1,10,10,10,10], player2 = [10,10,10,10,1,1,1]
+// 		Output: 2
+// Explanation:
+// 		The score of player1 is 1 + 1 + 1 + 10 + 2*10 + 2*10 + 2*10 = 73.
+// 		The score of player2 is 10 + 2*10 + 2*10 + 2*10 + 2*1 + 2*1 + 1 = 75.
+
+// Constraints:
+//		n == player1.length == player2.length
+//		1 <= n <= 1000
+//		0 <= player1[i], player2[i] <= 10
+
+const isWinner = (p1, p2) => {
+  const calcScore = (p) =>
+    p.reduce(
+      (acc, score, i, arr) =>
+        acc + (arr[i - 1] == 10 || arr[i - 2] == 10 ? 2 * score : score),
+      0
+    );
+
+  const s1 = calcScore(p1);
+  const s2 = calcScore(p2);
+
+  return s1 > s2 ? 1 : s1 < s2 ? 2 : 0;
+};
+
+console.log(isWinner([5, 10, 3, 2], [6, 5, 7, 3])); //  1
+console.log(isWinner([3, 5, 7, 6], [8, 10, 10, 2])); //  2
+console.log(isWinner([2, 3], [4, 1])); //  0
+console.log(isWinner([1, 1, 1, 10, 10, 10, 10], [10, 10, 10, 10, 1, 1, 1])); //  2
+
+// tried to make it concise, but turned out a bit slow
+
+var topVotedIsWinner = function (player1, player2) {
+  let p1Total = 0;
+  let p2Total = 0;
+
+  for (let i = 0; i < player1.length; i++) {
+    if (player1[i - 1] === 10 || player1[i - 2] === 10) {
+      p1Total += 2 * player1[i];
+    } else {
+      p1Total += player1[i];
+    }
+
+    if (player2[i - 1] === 10 || player2[i - 2] === 10) {
+      p2Total += 2 * player2[i];
+    } else {
+      p2Total += player2[i];
+    }
+  }
+
+  if (p1Total === p2Total) return 0;
+  return p1Total < p2Total ? 2 : 1;
+};
+
+// ah, could totally be done in 1 loop
+
+const revisedIsWinner = (p1, p2) => {
+  let s1 = 0,
+    s2 = 0;
+  for (let i = 0; i < p1.length; i++) {
+    s1 += p1[i - 1] == 10 || p1[i - 2] == 10 ? 2 * p1[i] : p1[i];
+    s2 += p2[i - 1] == 10 || p2[i - 2] == 10 ? 2 * p2[i] : p2[i];
+  }
+  return s1 > s2 ? 1 : s1 < s2 ? 2 : 0;
+};
