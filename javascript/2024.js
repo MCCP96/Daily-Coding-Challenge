@@ -4011,7 +4011,7 @@ console.log(
 // same as top voteds */
 
 // Determine the Winner of a Bowling Game					6/17/2024
-
+/* 
 // You are given two 0-indexed integer arrays player1 and player2, representing the number of pins that player 1 and player 2 hit in a bowling game, respectively.
 
 // The bowling game consists of n turns, and the number of pins in each turn is exactly 10.
@@ -4113,4 +4113,95 @@ const revisedIsWinner = (p1, p2) => {
     s2 += p2[i - 1] == 10 || p2[i - 2] == 10 ? 2 * p2[i] : p2[i];
   }
   return s1 > s2 ? 1 : s1 < s2 ? 2 : 0;
+}; */
+
+// Max Pair Sum in an Array					6/18/2024
+
+// You are given an integer array nums. You have to find the maximum sum of a pair of numbers from nums such that the largest digit in both numbers is equal.
+
+// For example, 2373 is made up of three distinct digits: 2, 3, and 7, where 7 is the largest among them.
+
+// Return the maximum sum or -1 if no such pair exists.
+
+// Example 1:
+// 		Input: nums = [112,131,411]
+// 		Output: -1
+// Explanation:
+// 		Each numbers largest digit in order is [2,3,4].
+
+// Example 2:
+// 		Input: nums = [2536,1613,3366,162]
+// 		Output: 5902
+// Explanation:
+// 		All the numbers have 6 as their largest digit, so the answer is 2536 + 3366 = 5902.
+
+// Example 3:
+// 		Input: nums = [51,71,17,24,42]
+// 		Output: 88
+// Explanation:
+// 		Each number's largest digit in order is [5,7,7,4,4].
+// 		So we have only two possible pairs, 71 + 17 = 88 and 24 + 42 = 66.
+
+// Constraints:
+//		2 <= nums.length <= 100
+//		1 <= nums[i] <= 104
+
+const maxSum = (nums) => {
+  // keep 2 largest nums for each digit
+  let digits = new Array(10).fill(null).map((_) => new Array(2));
+
+  for (const n of nums) {
+    const digit = getLargestDigit(n); // largest digit of n
+
+    if (n >= digits[digit][1] || digits[digit][1] == null) {
+      // new max found for this digit
+      digits[digit][0] = digits[digit][1];
+      digits[digit][1] = n;
+    } else if (n > digits[digit][0] || digits[digit][0] == null) {
+      // new 2nd max found for this digit
+      digits[digit][0] = n;
+    }
+  }
+
+  let res = -1;
+  for (const [a, b] of digits) {
+    if (a == null || b == null) continue; // no pairs for this digit
+    res = Math.max(res, a + b);
+  }
+  return res;
 };
+
+const getLargestDigit = (n) => {
+  let max = 0;
+  while (n > 0) {
+    const d = n % 10;
+    max = Math.max(max, d);
+    n = (n - d) / 10;
+  }
+  return max;
+};
+
+console.log(maxSum([112, 131, 411])); //  -1
+console.log(maxSum([2536, 1613, 3366, 162])); //  5902
+console.log(maxSum([51, 71, 17, 24, 42])); //  88
+
+function topVotedMaxSum(nums) {
+  const maxes = new Array(10).fill(-Infinity);
+  let max = -1;
+  for (const num of nums) {
+    const maxDigit = getMaxDigit(num);
+    max = Math.max(max, num + maxes[maxDigit]);
+    maxes[maxDigit] = Math.max(num, maxes[maxDigit]);
+  }
+  return max;
+}
+
+function getMaxDigit(n) {
+  let max = 0;
+  while (n > 0) {
+    const mod = n % 10;
+    max = Math.max(max, mod);
+    n = (n - mod) / 10;
+  }
+  return max;
+}
