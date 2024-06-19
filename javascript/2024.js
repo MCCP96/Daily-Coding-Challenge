@@ -4116,7 +4116,7 @@ const revisedIsWinner = (p1, p2) => {
 }; */
 
 // Max Pair Sum in an Array					6/18/2024
-
+/* 
 // You are given an integer array nums. You have to find the maximum sum of a pair of numbers from nums such that the largest digit in both numbers is equal.
 
 // For example, 2373 is made up of three distinct digits: 2, 3, and 7, where 7 is the largest among them.
@@ -4204,4 +4204,62 @@ function getMaxDigit(n) {
     n = (n - mod) / 10;
   }
   return max;
-}
+} */
+
+// Maximum Nesting Depth of the Parentheses					6/19/2024
+
+// Given a valid parentheses string s, return the nesting depth of s. The nesting depth is the maximum number of nested parentheses.
+
+// Example 1:
+// 		Input: s = "(1+(2*3)+((8)/4))+1"
+// 		Output: 3
+// Explanation:
+// 		Digit 8 is inside of 3 nested parentheses in the string.
+
+// Example 2:
+// 		Input: s = "(1)+((2))+(((3)))"
+// 		Output: 3
+// Explanation:
+// 		Digit 3 is inside of 3 nested parentheses in the string.
+
+// Example 3:
+// 		Input: s = "()(())((()()))"
+// 		Output: 3
+
+// Constraints:
+//		1 <= s.length <= 100
+//		s consists of digits 0-9 and characters '+', '-', '*', '/', '(', and ')'.
+//		It is guaranteed that parentheses expression s is a VPS.
+
+const maxDepth = (s) => {
+  let res = 0;
+  let depth = 0;
+  for (const c of s) {
+    c == "(" ? depth++ : c == ")" ? depth-- : null;
+    if (depth > res) res = depth;
+  }
+  return res;
+};
+
+console.log(maxDepth("(1+(2*3)+((8)/4))+1")); //  3
+console.log(maxDepth("(1)+((2))+(((3)))")); //  3
+console.log(maxDepth("()(())((()()))")); //  3
+
+// an easy one today
+// done in the context of Leetcode's content improvement feedback
+
+var topVotedMaxDepth = function (s) {
+  let count = 0;
+  let maxNum = 0;
+  for (let c of s) {
+    if (c === "(") {
+      count++;
+      if (maxNum < count) maxNum = count;
+    } else if (c === ")") {
+      count--;
+    }
+  }
+  return maxNum;
+};
+
+// nesting updating res only when count is incremented saves unnecessary checks
