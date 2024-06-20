@@ -4207,7 +4207,7 @@ function getMaxDigit(n) {
 } */
 
 // Maximum Nesting Depth of the Parentheses					6/19/2024
-
+/* 
 // Given a valid parentheses string s, return the nesting depth of s. The nesting depth is the maximum number of nested parentheses.
 
 // Example 1:
@@ -4262,4 +4262,91 @@ var topVotedMaxDepth = function (s) {
   return maxNum;
 };
 
-// nesting updating res only when count is incremented saves unnecessary checks
+// nesting updating res only when count is incremented saves unnecessary checks */
+
+// Minimum Array Length After Pair Removals					6/20/2024
+
+// Given an integer array num sorted in non-decreasing order.
+
+// You can perform the following operation any number of times:
+// - Choose two indices, i and j, where nums[i] < nums[j].
+// - Then, remove the elements at indices i and j from nums. The remaining elements retain their original order, and the array is re-indexed.
+
+// Return the minimum length of nums after applying the operation zero or more times.
+
+// Example 1:
+// 		Input: nums = [1,2,3,4]
+// 		Output: 0
+// Explanation:
+
+// Example 2:
+// 		Input: nums = [1,1,2,2,3,3]
+// 		Output: 0
+// Explanation:
+
+// Example 3:
+// 		Input: nums = [1000000000,1000000000]
+// 		Output: 2
+// Explanation:
+// 		Since both numbers are equal, they cannot be removed.
+
+// Example 4:
+// 		Input: nums = [2,3,4,4,4]
+// 		Output: 1
+// Explanation:
+
+// Constraints:
+//		1 <= nums.length <= 10^5
+//		1 <= nums[i] <= 10^9
+//		nums is sorted in non-decreasing order.
+
+const minLengthAfterRemovals = (nums) => {
+  let count = nums.reduce((a, c) => {
+    a[c] ? a[c]++ : (a[c] = 1);
+    return a;
+  }, {});
+
+  let arr = Object.values(count).sort((a, b) => b - a);
+  while (arr.length > 1) {
+    while (arr[0]) {
+      for (let i = 1; i < arr.length; i++) {
+        arr[0]--;
+        arr[i]--;
+        if (arr[0] == 0) break;
+      }
+      arr = arr.filter((x) => x != 0);
+      if (arr.length == 1) break;
+    }
+  }
+  return arr[0] || 0;
+};
+
+console.log(minLengthAfterRemovals([1, 2, 3, 4])); //  0
+console.log(minLengthAfterRemovals([1, 1, 2, 2, 3, 3])); //  0
+console.log(minLengthAfterRemovals([1000000000, 1000000000])); //  2
+console.log(minLengthAfterRemovals([2, 3, 4, 4, 4])); //  1
+
+// not great runtime complexity
+// doesn't work for all test cases
+
+var topVotedMinLengthAfterRemovals = function (a) {
+  let n = a.length;
+
+  let count = 0;
+  let half = Math.trunc(n / 2);
+  for (let i = 0, j = half; i < half && j < n; ) {
+    let L = a[i]; // left = start to mid
+    let R = a[j]; // right = mid to end
+
+    if (L < R) {
+      i++;
+      j++;
+      count += 2; // two elements matched - to be removed
+    } else {
+      j++;
+    }
+  }
+  return n - count; // remaining elements
+};
+
+// much better
