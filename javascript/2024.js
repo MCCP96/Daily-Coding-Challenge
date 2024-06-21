@@ -4265,7 +4265,7 @@ var topVotedMaxDepth = function (s) {
 // nesting updating res only when count is incremented saves unnecessary checks */
 
 // Minimum Array Length After Pair Removals					6/20/2024
-
+/* 
 // Given an integer array num sorted in non-decreasing order.
 
 // You can perform the following operation any number of times:
@@ -4349,4 +4349,99 @@ var topVotedMinLengthAfterRemovals = function (a) {
   return n - count; // remaining elements
 };
 
-// much better
+// much better */
+
+// Beautiful Towers I					6/21/2024
+
+// You are given an array heights of n integers representing the number of bricks in n consecutive towers. Your task is to remove some bricks to form a mountain-shaped tower arrangement. In this arrangement, the tower heights are non-decreasing, reaching a maximum peak value with one or multiple consecutive towers and then non-increasing.
+
+// Return the maximum possible sum of heights of a mountain-shaped tower arrangement.
+
+// Example 1:
+// 		Input: heights = [5,3,4,1,1]
+// 		Output: 13
+// Explanation:
+// 		We remove some bricks to make heights = [5,3,3,1,1], the peak is at index 0.
+
+// Example 2:
+// 		Input: heights = [6,5,3,9,2,7]
+// 		Output: 22
+// Explanation:
+// 		We remove some bricks to make heights = [3,3,3,9,2,2], the peak is at index 3.
+
+// Example 3:
+// 		Input: heights = [3,2,5,5,2,3]
+// 		Output: 18
+// Explanation:
+// 		We remove some bricks to make heights = [2,2,5,5,2,2], the peak is at index 2 or 3.
+
+// Constraints:
+//		1 <= n == heights <= 10^3
+//		1 <= heights[i] <= 10^9
+
+const maximumSumOfHeights = (heights) => {
+  let n = heights.length;
+  // maximum sum of heights is achieved by removing the least bricks possible
+  // less bricks removed means we're trying to make the least changes to the original array
+  // less changes means we need to find a peak where left and right best respects the mountain shape
+
+  let totBricks = 0;
+  let minBricksRemoved = Infinity;
+  for (let i = 0; i < n; i++) {
+    // for an given index, find changes required for mountain shape to be met
+    totBricks += heights[i];
+
+    let bricksRemoved = 0;
+    // left
+    let prev = heights[i];
+    for (let l = i - 1; l >= 0; l--) {
+      if (heights[l] > prev) {
+        bricksRemoved += heights[l] - prev; // remove bricks to match prev
+      } else {
+        prev = heights[l]; // new ceiling
+      }
+    }
+    // right
+    prev = heights[i];
+    for (let r = i + 1; r < n; r++) {
+      if (heights[r] > prev) {
+        bricksRemoved += heights[r] - prev; // remove bricks to match prev
+      } else {
+        prev = heights[r]; // new ceiling
+      }
+    }
+
+    minBricksRemoved = Math.min(minBricksRemoved, bricksRemoved);
+  }
+
+  return totBricks - minBricksRemoved;
+};
+
+console.log(maximumSumOfHeights([5, 3, 4, 1, 1])); //  13
+console.log(maximumSumOfHeights([6, 5, 3, 9, 2, 7])); //  22
+console.log(maximumSumOfHeights([3, 2, 5, 5, 2, 3])); //  18
+
+// Great Runtime
+
+var topVotedMaximumSumOfHeights = function (maxHeights) {
+  let n = maxHeights.length,
+    maxSum = 0;
+  for (let i = 0; i < n; i++) {
+    let peak = maxHeights[i],
+      currHeight = peak,
+      sum = peak;
+    for (let j = i - 1; j >= 0; j--) {
+      currHeight = Math.min(currHeight, maxHeights[j]);
+      sum += currHeight;
+    }
+    currHeight = peak;
+    for (let j = i + 1; j < n; j++) {
+      currHeight = Math.min(currHeight, maxHeights[j]);
+      sum += currHeight;
+    }
+    maxSum = Math.max(maxSum, sum);
+  }
+  return maxSum;
+};
+
+// same same
