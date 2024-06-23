@@ -4447,7 +4447,7 @@ var topVotedMaximumSumOfHeights = function (maxHeights) {
 // same same */
 
 // Clear Digits					6/22/2024
-
+/* 
 // You are given a string s.
 
 // Your task is to remove all digits by doing this operation repeatedly:
@@ -4502,4 +4502,77 @@ const topVotedClearDigits = (s) => {
 };
 
 // was at paroi elephant, poisson blanc today
-// great climbing!
+// great climbing! */
+
+// Find Common Elements Between Two Arrays					6/23/2024
+
+// You are given two integer arrays nums1 and nums2 of sizes n and m, respectively. Calculate the following values:
+
+// answer1 : the number of indices i such that nums1[i] exists in nums2.
+// answer2 : the number of indices i such that nums2[i] exists in nums1.
+
+// Return [answer1, answer2].
+
+// Example 1:
+// 		Input: nums1 = [2,3,2], nums2 = [1,2]
+// 		Output: [2,1]
+// Explanation:
+
+// Example 2:
+// 		Input: nums1 = [4,3,2,3,1], nums2 = [2,2,5,2,3,6]
+// 		Output: [3,4]
+// Explanation:
+// 		The elements at indices 1, 2, and 3 in nums1 exist in nums2 as well. So answer1 is 3.
+// 		The elements at indices 0, 1, 3, and 4 in nums2 exist in nums1. So answer2 is 4.
+
+// Example 3:
+// 		Input: nums1 = [3,4,2,3], nums2 = [1,5]
+// 		Output: [0,0]
+// Explanation:
+// 		No numbers are common between nums1 and nums2, so answer is [0,0].
+
+// Constraints:
+//		n == nums1.length
+//		m == nums2.length
+//		1 <= n, m <= 100
+//		1 <= nums1[i], nums2[i] <= 100
+
+const findIntersectionValues = (nums1, nums2) => {
+  const [set1, set2] = [new Set(nums1), new Set(nums2)];
+  let res = [0, 0];
+  for (let i = 0; i < nums1.length || i < nums2.length; i++) {
+    if (nums1[i] && set2.has(nums1[i])) res[0]++;
+    if (nums2[i] && set1.has(nums2[i])) res[1]++;
+  }
+  return res;
+};
+
+console.log(findIntersectionValues([2, 3, 2], [1, 2])); //  [2,1]
+console.log(findIntersectionValues([4, 3, 2, 3, 1], [2, 2, 5, 2, 3, 6])); //  [3,4]
+console.log(findIntersectionValues([3, 4, 2, 3], [1, 5])); //  [0,0]
+
+function findIntersectionValues(nums1, nums2) {
+  let set1 = new Set(nums1);
+  let set2 = new Set(nums2);
+
+  let count1 = 0,
+    count2 = 0;
+
+  // Find the number of elements in nums1 that are present in nums2
+  for (let num of nums1) {
+    if (set2.has(num)) {
+      count1++;
+    }
+  }
+
+  // Find the number of elements in nums2 that are present in nums1
+  for (let num of nums2) {
+    if (set1.has(num)) {
+      count2++;
+    }
+  }
+
+  return [count1, count2];
+}
+
+// same same
