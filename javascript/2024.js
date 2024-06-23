@@ -4352,7 +4352,7 @@ var topVotedMinLengthAfterRemovals = function (a) {
 // much better */
 
 // Beautiful Towers I					6/21/2024
-
+/* 
 // You are given an array heights of n integers representing the number of bricks in n consecutive towers. Your task is to remove some bricks to form a mountain-shaped tower arrangement. In this arrangement, the tower heights are non-decreasing, reaching a maximum peak value with one or multiple consecutive towers and then non-increasing.
 
 // Return the maximum possible sum of heights of a mountain-shaped tower arrangement.
@@ -4444,4 +4444,62 @@ var topVotedMaximumSumOfHeights = function (maxHeights) {
   return maxSum;
 };
 
-// same same
+// same same */
+
+// Clear Digits					6/22/2024
+
+// You are given a string s.
+
+// Your task is to remove all digits by doing this operation repeatedly:
+// Delete the first digit and the closest non-digit character to its left.
+
+// Return the resulting string after removing all digits.
+
+// Example 1:
+// 		Input: s = "abc"
+// 		Output: "abc"
+// Explanation:
+// 		There is no digit in the string.
+
+// Example 2:
+// 		Input: s = "cb34"
+// 		Output: ""
+// Explanation:
+// 		First, we apply the operation on s[2], and s becomes "c4".
+// 		Then we apply the operation on s[1], and s becomes "".
+
+// Constraints:
+//		1 <= s.length <= 100
+//		s consists only of lowercase English letters and digits.
+//		The input is generated such that it is possible to delete all digits.
+
+const clearDigits = (s) => {
+  let res = new Array(s.length);
+  let pos = 0;
+  for (const c of s) {
+    if (c >= 0 && c <= 9) {
+      pos--;
+    } else {
+      res[pos] = c;
+      pos++;
+    }
+  }
+  return res.slice(0, pos).join("");
+};
+
+console.log(clearDigits("abc")); //  "abc"
+console.log(clearDigits("cb34")); //  ""
+console.log(clearDigits("d9")); //  ""
+
+const topVotedClearDigits = (s) => {
+  let res = s;
+
+  while (/\d/g.test(res)) {
+    res = res.replace(/.\d/, "");
+  }
+
+  return res;
+};
+
+// was at paroi elephant, poisson blanc today
+// great climbing!
