@@ -4505,7 +4505,7 @@ const topVotedClearDigits = (s) => {
 // great climbing! */
 
 // Find Common Elements Between Two Arrays					6/23/2024
-
+/* 
 // You are given two integer arrays nums1 and nums2 of sizes n and m, respectively. Calculate the following values:
 
 // answer1 : the number of indices i such that nums1[i] exists in nums2.
@@ -4575,4 +4575,64 @@ function findIntersectionValues(nums1, nums2) {
   return [count1, count2];
 }
 
-// same same
+// same same */
+
+// Number of Even and Odd Bits					6/24/2024
+
+// You are given a positive integer n.
+
+// Let even denote the number of even indices in the binary representation of n with value 1.
+// Let odd denote the number of odd indices in the binary representation of n with value 1.
+// Note that bits are indexed from right to left in the binary representation of a number.
+
+// Return the array [even, odd].
+
+// Example 1:
+// 		Input: n = 50
+// 		Output: [1,2]
+// Explanation:
+// 		The binary representation of 50 is 110010.
+// 		It contains 1 on indices 1, 4, and 5.
+
+// Example 2:
+// 		Input: n = 2
+// 		Output: [0,1]
+// Explanation:
+// 		The binary representation of 2 is 10.
+// 		It contains 1 only on index 1.
+
+// Constraints:
+//		1 <= n <= 1000
+
+const evenOddBit = (n) => {
+  let even = true; // start at idx 0
+  let res = [0, 0];
+
+  while (n > 0) {
+    if (n % 2) even ? res[0]++ : res[1]++; // '1' found
+    n >>= 1;
+    even = !even; // toggle between even and odd
+  }
+
+  return res;
+};
+
+console.log(evenOddBit(50)); //  [1,2]
+console.log(evenOddBit(2)); //  [0,1]
+
+// 100% Runtime
+
+var topVotedEvenOddBit = function (n) {
+  let binaryN = n.toString(2).split("").reverse();
+  let odd = 0;
+  let even = 0;
+  for (let i = 0; i < binaryN.length; i++) {
+    if (binaryN[i] == 1) {
+      if (i % 2 == 0) even++;
+      else odd++;
+    }
+  }
+  return [even, odd];
+};
+
+// toString() really impacts runtime
