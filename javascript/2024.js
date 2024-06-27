@@ -4710,7 +4710,7 @@ const topVotedMaxDivScore = (a, b) => {
 // Not great readability */
 
 // Minimize String Length					6/26/2024
-
+/* 
 // Given a string s, you have two types of operation:
 
 // Choose an index i in the string, and let c be the character in position i. Delete the closest occurrence of c to the left of i (if exists).
@@ -4760,4 +4760,96 @@ console.log(minimizedStringLength("aaabc")); //  3
 console.log(minimizedStringLength("cbbd")); //  3
 console.log(minimizedStringLength("baadccab")); //  4
 
-// same as top voted
+// same as top voted */
+
+// Minimum Number of Coins for Fruits					6/27/2024
+
+// You are given an integer array prices where prices[i] denotes the number of coins needed to purchase the ith fruit.
+
+// The fruit market has the following reward for each fruit:
+// - If you purchase the ith fruit at prices[i] coins, you can get any number of the next (i + 1) fruits for free.
+
+// Note that even if you can take fruit j for free, you can still purchase it for prices[j] coins to receive its reward.
+
+// Return the minimum number of coins needed to acquire all the fruits.
+
+// Example 1:
+// 		Input: prices = [3,1,2]
+// 		Output: 4
+// Explanation:
+// 		Purchase the 1st fruit with prices[0] = 3 coins, you are allowed to take the 2nd fruit for free.
+// 		Purchase the 2nd fruit with prices[1] = 1 coin, you are allowed to take the 3rd fruit for free.
+// 		Take the 3rd fruit for free.
+// 		Note that even though you could take the 2nd fruit for free as a reward of buying 1st fruit, you purchase it to receive its reward, which is more optimal.
+
+// Example 2:
+// 		Input: prices = [1,10,1,1]
+// 		Output: 2
+// Explanation:
+// 		Purchase the 1st fruit with prices[0] = 1 coin, you are allowed to take the 2nd fruit for free.
+// 		Take the 2nd fruit for free.
+// 		Purchase the 3rd fruit for prices[2] = 1 coin, you are allowed to take the 4th fruit for free.
+// 		Take the 4th fruit for free.
+
+// Example 3:
+// 		Input: prices = [26,18,6,12,49,7,45,45]
+// 		Output: 39
+// Explanation:
+// 		Purchase the 1st fruit with prices[0] = 26 coin, you are allowed to take the 2nd fruit for free.
+// 		Take the 2nd fruit for free.
+// 		Purchase the 3rd fruit for prices[2] = 6 coin, you are allowed to take the 4th, 5th and 6th (the next three) fruits for free.
+// 		Take the 4th fruit for free.
+// 		Take the 5th fruit for free.
+// 		Purchase the 6th fruit with prices[5] = 7 coin, you are allowed to take the 8th and 9th fruit for free.
+// 		Take the 7th fruit for free.
+// 		Take the 8th fruit for free.
+// 		Note that even though you could take the 6th fruit for free as a reward of buying 3rd fruit, you purchase it to receive its reward, which is more optimal.
+
+// Constraints:
+//		1 <= prices.length <= 1000
+//		1 <= prices[i] <= 105
+
+const minimumCoins = (prices) => {
+  let n = prices.length;
+  let minCoins = Number.MAX_SAFE_INTEGER;
+
+  const dfs = (coins, curIdx, maxFreeIdx) => {
+    if (coins >= minCoins) return; // dead end
+    if (maxFreeIdx >= n) {
+      // end within reach of free
+      minCoins = coins; // new min
+      return;
+    }
+    for (let i = maxFreeIdx; i > curIdx; i--) {
+      dfs(coins + prices[i], i, i * 2 + 2); // work backwards
+    }
+  };
+
+  dfs(prices[0], 0, 2);
+  return minCoins;
+};
+console.log(revisedMinimumCoins([3, 1, 2])); //  4
+console.log(revisedMinimumCoins([1, 10, 1, 1])); //  2
+console.log(revisedMinimumCoins([26, 18, 6, 12, 49, 7, 45, 45])); //  39
+
+// Exceeds runtime, passes 574/578 testcases
+
+function topVotedMinimumCoins(A) {
+  let N = A.length;
+  let dp = new Array(N + 5).fill(1e9);
+
+  dp[0] = 0; // Zero coins needed to make zero sum
+
+  // Loop through each element of the array A
+  for (let i = 1; i <= N; i++) {
+    let sdp = dp[i - 1] + A[i - 1]; // Sum of current dp value and current coin value
+
+    // Loop through possible positions to update dp array
+    for (let j = 0; j <= i; j++) {
+      // Update dp array with the minimum value between current dp and calculated sdp
+      dp[Math.min(N, i + j)] = Math.min(dp[Math.min(N, i + j)], sdp);
+    }
+  }
+
+  return dp[N]; // Return the minimum coins needed for N elements
+}
