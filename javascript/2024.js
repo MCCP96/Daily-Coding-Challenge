@@ -5015,7 +5015,7 @@ const revisedMinimumCost = ([sx, sy], [tx, ty], specialRoads) => {
 }; */
 
 // Binary Search Tree Iterator					6/29/2024
-
+/* 
 // Implement the BSTIterator class that represents an iterator over the in-order traversal of a binary search tree (BST):
 
 // BSTIterator(TreeNode root) Initializes an object of the BSTIterator class. The root of the BST is given as part of the constructor. The pointer should be initialized to a non-existent number smaller than any element in the BST.
@@ -5083,4 +5083,64 @@ console.log(bSTIterator.hasNext()); // return True
 console.log(bSTIterator.next()); // return 15
 console.log(bSTIterator.hasNext()); // return True
 console.log(bSTIterator.next()); // return 20
-console.log(bSTIterator.hasNext()); // return False
+console.log(bSTIterator.hasNext()); // return False */
+
+// Largest Number					6/30/2024
+
+// Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.
+
+// Since the result may be very large, so you need to return a string instead of an integer.
+
+// Example 1:
+// 		Input: nums = [10,2]
+// 		Output: "210"
+
+// Example 2:
+// 		Input: nums = [3,30,34,5,9]
+// 		Output: "9534330"
+
+// Constraints:
+//		1 <= nums.length <= 100
+//		0 <= nums[i] <= 10^9
+
+const largestNumber = (nums) => {
+  let res = "0";
+
+  const dfs = (cur, rem) => {
+    if (rem.length == 0) {
+      if (cur > res) res = cur;
+      return;
+    }
+    for (let i = 0; i < rem.length; i++) {
+      dfs(cur + rem[i], [...rem.slice(0, i), ...rem.slice(i + 1)]);
+    }
+  };
+  dfs("", nums);
+
+  return `${res}`;
+};
+
+console.log(largestNumber([10, 2])); //  "210"
+console.log(largestNumber([3, 30, 34, 5, 9])); //  "9534330"
+
+// too slow
+
+function topVotedLargestNumber(num) {
+  return (
+    num
+      .sort(function (a, b) {
+        return b + "" + a - (a + "" + b);
+      })
+      .join("")
+      .replace(/^0*/, "") || "0"
+  );
+}
+
+// "The sorter is quite simple:
+// compare by a concatenated b with b concatenated a, for example if a is 3 and b is 4, then we compare 34 with 43."
+
+const revisedLargestNumber = (nums) =>
+  nums
+    .sort((a, b) => `${b}${a}` - `${a}${b}`)
+    .join("")
+    .replace(/^0*/, "") || "0";
