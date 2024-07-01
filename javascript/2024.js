@@ -5086,7 +5086,7 @@ console.log(bSTIterator.next()); // return 20
 console.log(bSTIterator.hasNext()); // return False */
 
 // Largest Number					6/30/2024
-
+/* 
 // Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.
 
 // Since the result may be very large, so you need to return a string instead of an integer.
@@ -5132,7 +5132,7 @@ function topVotedLargestNumber(num) {
         return b + "" + a - (a + "" + b);
       })
       .join("")
-      .replace(/^0*/, "") || "0"
+      .replace(/^0, "") || "0"
   );
 }
 
@@ -5143,4 +5143,76 @@ const revisedLargestNumber = (nums) =>
   nums
     .sort((a, b) => `${b}${a}` - `${a}${b}`)
     .join("")
-    .replace(/^0*/, "") || "0";
+    .replace(/^0, "") || "0"; */
+
+// House Robber					7/1/2024
+
+// You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+// Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+// Example 1:
+// 		Input: nums = [1,2,3,1]
+// 		Output: 4
+// Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+// 		Total amount you can rob = 1 + 3 = 4.
+
+// Example 2:
+// 		Input: nums = [2,7,9,3,1]
+// 		Output: 12
+// Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+// 		Total amount you can rob = 2 + 9 + 1 = 12.
+
+// Constraints:
+//		1 <= nums.length <= 100
+//		0 <= nums[i] <= 400
+
+const rob = (nums) => {
+  let n = nums.length;
+  let res = 0;
+
+  let map = new Array(n).fill(0);
+  const dfs = (money, i, hasRobbedNeighbor) => {
+    if (map[i] > money && hasRobbedNeighbor) return; // dead end
+
+    if (i >= n) {
+      res = Math.max(money, res); // end of street
+      return;
+    }
+    map[i] = Math.max(map[i], money);
+
+    if (!hasRobbedNeighbor) dfs(money + nums[i], i + 1, true); // rob
+    dfs(money, i + 1, false); // skip
+  };
+  dfs(0, 0, false);
+
+  return res;
+};
+
+console.log(rob([1, 2, 3, 1])); //  4
+console.log(rob([2, 7, 9, 3, 1])); //  12
+
+// dfs + map
+
+const topVotedRob = (nums) => {
+  if (nums.length == 0) return 0;
+  let prev1 = 0;
+  let prev2 = 0;
+  for (let num of nums) {
+    let tmp = prev1;
+    prev1 = Math.max(prev2 + num, prev1);
+    prev2 = tmp;
+  }
+  return prev1;
+};
+
+// Great explanation:
+// https://leetcode.com/problems/house-robber/solutions/156523/from-good-to-great-how-to-approach-most-of-dp-problems/
+
+// This particular problem and most of others can be approached using the following sequence:
+
+// Find recursive relation
+// Recursive (top-down)
+// Recursive + memo (top-down)
+// Iterative + memo (bottom-up)
+// Iterative + N variables (bottom-up)
