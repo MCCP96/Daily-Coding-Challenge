@@ -5146,7 +5146,7 @@ const revisedLargestNumber = (nums) =>
     .replace(/^0, "") || "0"; */
 
 // House Robber					7/1/2024
-
+/* 
 // You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
 
 // Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
@@ -5215,4 +5215,84 @@ const topVotedRob = (nums) => {
 // Recursive (top-down)
 // Recursive + memo (top-down)
 // Iterative + memo (bottom-up)
-// Iterative + N variables (bottom-up)
+// Iterative + N variables (bottom-up) */
+
+// Bitwise AND of Numbers Range					7/2/2024
+
+// Given two integers left and right that represent the range [left, right], return the bitwise AND of all numbers in this range, inclusive.
+
+// Example 1:
+// 		Input: left = 5, right = 7
+// 		Output: 4
+
+// Example 2:
+// 		Input: left = 0, right = 0
+// 		Output: 0
+
+// Example 3:
+// 		Input: left = 1, right = 2147483647
+// 		Output: 0
+
+// Constraints:
+//		0 <= left <= right <= 231 - 1
+
+const rangeBitwiseAnd = (l, r) => {
+  let res = l;
+  while (l < r) {
+    res &= l;
+    l++;
+  }
+  return res;
+};
+
+console.log(rangeBitwiseAnd(5, 7)); //  4
+console.log(rangeBitwiseAnd(0, 0)); //  0
+console.log(rangeBitwiseAnd(1, 2147483647)); //  0
+
+// naive approach, way too slow
+// some bitwise logic I'm missing here
+
+var topVotedRangeBitwiseAnd = function (left, right) {
+  let cnt = 0;
+  while (left !== right) {
+    left >>= 1;
+    right >>= 1;
+    cnt++;
+  }
+  return left << cnt;
+};
+
+// "we will remove last digit from binary representation of both left and right number until we reach a point where both have same element at the same position.
+// And will also keep track of how many times we removed elements by keeping a count of it.
+
+// lets apply it practically:
+
+// first loop:
+//  101 >> 1 = 10
+//  111 >> 1 = 11
+//  cnt = 1
+
+// Second loop:
+//  10 >> 1 = 1
+//  11 >> 1 = 1
+//  cnt = 2
+
+// Third loop:
+//  1 == 1
+
+// So now since they are equal we will add those many 0's at the end of the current element we have by using left shift operator.
+
+// 1 << cnt  = 1 << 2  => 100(4)
+// Result = 4"
+
+const revisedRangeBitwiseAnd = (l, r) => {
+  let count = 0;
+  while (l != r) {
+    l >>= 1;
+    r >>= 1;
+    count++;
+  }
+  return l << count;
+};
+
+// so simple once understood
