@@ -5218,7 +5218,7 @@ const topVotedRob = (nums) => {
 // Iterative + N variables (bottom-up) */
 
 // Bitwise AND of Numbers Range					7/2/2024
-
+/* 
 // Given two integers left and right that represent the range [left, right], return the bitwise AND of all numbers in this range, inclusive.
 
 // Example 1:
@@ -5295,4 +5295,97 @@ const revisedRangeBitwiseAnd = (l, r) => {
   return l << count;
 };
 
-// so simple once understood
+// so simple once understood */
+
+// Implement Trie (Prefix Tree)					7/3/2024
+
+// https://leetcode.com/problems/implement-trie-prefix-tree/description/
+
+// A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.
+
+// Implement the Trie class:
+//  - Trie() Initializes the trie object.
+//  - void insert(String word) Inserts the string word into the trie.
+//  - boolean search(String word) Returns true if the string word is in the trie (i.e., was inserted before), and false otherwise.
+//  - boolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise.
+
+// Example 1:
+// 		Input
+// 		["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
+// 		[[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
+// 		Output
+// 		[null, null, true, false, true, null, true]
+// 		Explanation
+// 		Trie trie = new Trie();
+// 		trie.insert("apple");
+// 		trie.search("apple");   // return True
+// 		trie.search("app");     // return False
+// 		trie.startsWith("app"); // return True
+// 		trie.insert("app");
+// 		trie.search("app");     // return True
+
+// Constraints:
+//		1 <= word.length, prefix.length <= 2000
+//		word and prefix consist only of lowercase English letters.
+//		At most 3 * 104 calls in total will be made to insert, search, and startsWith.
+
+class Trie {
+  constructor() {
+    this.keys = new Set();
+  }
+  insert(key) {
+    this.keys.add(key);
+  }
+  search(key) {
+    return this.keys.has(key);
+  }
+  startsWith(prefix) {
+    for (const str of this.keys) {
+      if (str.indexOf(prefix) === 0) return true;
+    }
+    return false;
+  }
+}
+
+const trie = new Trie();
+trie.insert("apple");
+console.log(trie.search("apple")); // return True
+console.log(trie.search("app")); // return False
+console.log(trie.startsWith("app")); // return True
+trie.insert("app");
+console.log(trie.search("app")); // return True
+
+class TopVotedTrie {
+  constructor() {
+    this.root = {};
+  }
+
+  insert(word) {
+    let node = this.root;
+    for (let c of word) {
+      if (node[c] == null) node[c] = {};
+      node = node[c];
+    }
+    node.isWord = true;
+  }
+
+  traverse(word) {
+    let node = this.root;
+    for (let c of word) {
+      node = node[c];
+      if (node == null) return null;
+    }
+    return node;
+  }
+
+  search(word) {
+    const node = this.traverse(word);
+    return node != null && node.isWord === true;
+  }
+
+  startsWith(prefix) {
+    return this.traverse(prefix) != null;
+  }
+}
+
+// Ah, I did not build the 'tree' structure
