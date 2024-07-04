@@ -5298,7 +5298,7 @@ const revisedRangeBitwiseAnd = (l, r) => {
 // so simple once understood */
 
 // Implement Trie (Prefix Tree)					7/3/2024
-
+/* 
 // https://leetcode.com/problems/implement-trie-prefix-tree/description/
 
 // A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.
@@ -5388,4 +5388,89 @@ class TopVotedTrie {
   }
 }
 
-// Ah, I did not build the 'tree' structure
+// Ah, I did not build the 'tree' structure */
+
+// Minimum Size Subarray Sum					7/4/2024
+
+// https://leetcode.com/problems/minimum-size-subarray-sum/description/
+
+// Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
+
+// Example 1:
+// 		Input: target = 7, nums = [2,3,1,2,4,3]
+// 		Output: 2
+// Explanation: The subarray [4,3] has the minimal length under the problem constraint.
+
+// Example 2:
+// 		Input: target = 4, nums = [1,4,4]
+// 		Output: 1
+
+// Example 3:
+// 		Input: target = 11, nums = [1,1,1,1,1,1,1,1]
+// 		Output: 0
+
+// Constraints:
+//		1 <= target <= 109
+//		1 <= nums.length <= 105
+//		1 <= nums[i] <= 104
+
+// Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log(n)).
+
+const minSubArrayLen = (t, nums) => {
+  // sliding window
+  const n = nums.length;
+  let minSize = Infinity;
+  let sum = nums[0];
+
+  for (let l = 0, r = 0; l <= r && r < n; ) {
+    if (sum >= t) {
+      minSize = Math.min(minSize, r - l + 1);
+      sum -= nums[l++];
+    } else {
+      sum += nums[++r];
+    }
+  }
+
+  return minSize < Infinity ? minSize : 0;
+};
+
+console.log(minSubArrayLen(7, [2, 3, 1, 2, 4, 3])); //  2
+console.log(minSubArrayLen(4, [1, 4, 4])); //  1
+console.log(minSubArrayLen(11, [1, 1, 1, 1, 1, 1, 1, 1])); //  0
+
+const topVotedMinSubArrayLen = (target, nums) => {
+  // initialize the start and end of the window from starting point
+  let start = 0;
+  let end = 0;
+  // consider the minValue to be infinity,
+  // just to define the variable
+  let minValue = Infinity;
+  // sum of subarray initialized to initial array value
+  let subarraySum = nums[0];
+
+  // slide the window upto array length
+  // start of the window always be less than or may be equal to end
+  while (start <= end && end < nums.length) {
+    // if sum satisfies the condition
+    if (subarraySum >= target) {
+      // extract the minimum subarray length
+      // end-start+1 => end >= start (always greater or equal)
+      // when end === start, then end - start === 0
+      // but window stays atleast on one element (+1) of array
+      minValue = Math.min(minValue, end - start + 1);
+      // move the start of window by one element
+      // and remove last start element from sub array sum
+      subarraySum -= nums[start];
+      start++;
+    } else {
+      // if sum didn't satisfies the condition, drag the window end
+      // till the sum >= target
+      end++;
+      subarraySum += nums[end];
+    }
+  }
+  // return 0, as no subarray satisfies the given condition
+  return minValue === Infinity ? 0 : minValue;
+};
+
+// same same
