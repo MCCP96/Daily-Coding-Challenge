@@ -5622,7 +5622,7 @@ console.log(accountBalanceAfterPurchase(10)); //  90
 // seems like I also did this one on Aug 10th 2023 */
 
 // Check if it is Possible to Split Array					7/7/2024
-
+/* 
 // https://leetcode.com/problems/check-if-it-is-possible-to-split-array/description/
 
 // You are given an array nums of length n and an integer m. You need to determine if it is possible to split the array into n arrays of size 1 by performing a series of steps.
@@ -5705,4 +5705,48 @@ var topVotedCanSplitArray = function (nums, m) {
   return false;
 };
 
-// so much better
+// so much better */
+
+// Find the Child Who Has the Ball After K Seconds					7/8/2024
+
+// https://leetcode.com/problems/find-the-child-who-has-the-ball-after-k-seconds/description/
+
+// You are given two positive integers n and k. There are n children numbered from 0 to n - 1 standing in a queue in order from left to right.
+
+// Initially, child 0 holds a ball and the direction of passing the ball is towards the right direction. After each second, the child holding the ball passes it to the child next to them. Once the ball reaches either end of the line, i.e. child 0 or child n - 1, the direction of passing is reversed.
+
+// Return the number of the child who receives the ball after k seconds.
+
+// Example 1:
+// 		Input: n = 3, k = 5
+// 		Output: 1
+
+// Example 2:
+// 		Input: n = 5, k = 6
+// 		Output: 2
+
+// Example 3:
+// 		Input: n = 4, k = 2
+// 		Output: 2
+
+// Constraints:
+//		2 <= n <= 50
+//		1 <= k <= 50
+
+const numberOfChild = (n, k) => {
+  let i = 0,
+    rev = false;
+  while (k-- > 0) {
+    if (i == 0) rev = false;
+    if (i == n - 1) rev = true;
+    rev ? i-- : i++;
+  }
+  return i;
+};
+
+console.log(numberOfChild(3, 5)); //  1
+console.log(numberOfChild(5, 6)); //  2
+console.log(numberOfChild(4, 2)); //  2
+
+// no time today
+// climbing in the gunks!
