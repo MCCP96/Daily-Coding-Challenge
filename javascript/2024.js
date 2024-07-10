@@ -5752,7 +5752,7 @@ console.log(numberOfChild(4, 2)); //  2
 // climbing in the gunks! */
 
 // Divide Array Into Arrays With Max Difference					7/9/2024
-
+/* 
 // https://leetcode.com/problems/divide-array-into-arrays-with-max-difference/description/
 
 // You are given an integer array nums of size n where n is a multiple of 3 and a positive integer k.
@@ -5792,7 +5792,7 @@ console.log(numberOfChild(4, 2)); //  2
 
 const divideArray = (nums, k) => {
   const n = nums.length;
-  nums = nums.sort((a, b) => a - b);
+  nums.sort((a, b) => a - b);
 
   let res = new Array(n / 3).fill(null).map((_) => []);
   let i = 0;
@@ -5830,4 +5830,122 @@ const topVotedDivideArray = (nums, k) => {
   return result;
 };
 
-// same same
+// same same */
+
+// Find the Number of Ways to Place People I					7/10/2024
+
+// https://leetcode.com/problems/find-the-number-of-ways-to-place-people-i/description/
+
+// You are given a 2D array points of size n x 2 representing integer coordinates of some points on a 2D plane, where points[i] = [xi, yi].
+
+// Count the number of pairs of points (A, B), where
+
+// A is on the upper left side of B, and
+
+// there are no other points in the rectangle (or line) they make (including the border).
+
+// Return the count.
+
+// Example 1:
+// 		Input: points = [[1,1],[2,2],[3,3]]
+// 		Output: 0
+// Explanation:
+// 		There is no way to choose A and B so A is on the upper left side of B.
+
+// Example 2:
+// 		Input: points = [[6,2],[4,4],[2,6]]
+// 		Output: 2
+// Explanation:
+// 		The left one is the pair (points[1], points[0]), where points[1] is on the upper left side of points[0] and the rectangle is empty.
+// 		The middle one is the pair (points[2], points[1]), same as the left one it is a valid pair.
+// 		The right one is the pair (points[2], points[0]), where points[2] is on the upper left side of points[0], but points[1] is inside the rectangle so it's not a valid pair.
+
+// Example 3:
+// 		Input: points = [[3,1],[1,3],[1,1]]
+// 		Output: 2
+// Explanation:
+// 		The left one is the pair (points[2], points[0]), where points[2] is on the upper left side of points[0] and there are no other points on the line they form. Note that it is a valid state when the two points form a line.
+// 		The middle one is the pair (points[1], points[2]), it is a valid pair same as the left one.
+// 		The right one is the pair (points[1], points[0]), it is not a valid pair as points[2] is on the border of the rectangle.
+
+// Constraints:
+//		2 <= n <= 50
+//		points[i].length == 2
+//		0 <= points[i][0], points[i][1] <= 50
+//		All points[i] are distinct.
+
+const noPointsInside = (points, x1, y1, x2, y2) => {
+  for (const [x, y] of points) {
+    if ((x == x1 && y == y1) || (x == x2 && y == y2)) continue;
+    if (x >= x1 && x <= x2 && y >= y2 && y <= y1) return false;
+  }
+  return true;
+};
+
+const numberOfPairs = (points) => {
+  const n = points.length;
+  let res = 0;
+  let memo = new Map();
+
+  for (let i = 0; i < n; i++) {
+    const [x1, y1] = points[i];
+
+    for (let j = 0; j < n; j++) {
+      if (i == j) continue;
+
+      const [x2, y2] = points[j];
+      res += x1 <= x2 && y1 >= y2 && noPointsInside(points, x1, y1, x2, y2);
+    }
+  }
+
+  return res;
+};
+
+console.log(
+  numberOfPairs([
+    [1, 1],
+    [2, 2],
+    [3, 3],
+  ])
+); //  0
+console.log(
+  numberOfPairs([
+    [6, 2],
+    [4, 4],
+    [2, 6],
+  ])
+); //  2
+console.log(
+  numberOfPairs([
+    [3, 1],
+    [1, 3],
+    [1, 1],
+  ])
+); //  2
+
+// not pretty, but it passes
+// memoizing noPointsInside would help runtime
+
+var topVotedNumberOfPairs = function (ps) {
+  ps.sort(([x1, y1], [x2, y2]) => x1 - x2 || y2 - y1);
+  let count = 0;
+
+  for (let i = 0; i < ps.length; i++) {
+    const [ax, ay] = ps[i];
+    let highestYBetweenAandB = -Infinity;
+
+    for (let j = i + 1; j < ps.length; j++) {
+      const [bx, by] = ps[j];
+
+      if (ay >= by) {
+        if (highestYBetweenAandB < by) {
+          count += 1;
+          highestYBetweenAandB = by;
+        }
+      }
+    }
+  }
+  return count;
+};
+
+// smart to sort
