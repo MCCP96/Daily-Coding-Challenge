@@ -5950,8 +5950,8 @@ var topVotedNumberOfPairs = function (ps) {
 
 // smart to sort */
 
-// Count Pairs That Form a Complete Day I					7/10/2024
-
+// Count Pairs That Form a Complete Day I					7/11/2024
+/* 
 // https://leetcode.com/problems/count-pairs-that-form-a-complete-day-i/
 
 // Given an integer array hours representing times in hours, return an integer denoting the number of pairs i, j where i < j and hours[i] + hours[j] forms a complete day.
@@ -6006,4 +6006,43 @@ var topVotedCountCompleteDayPairs = function (hours) {
     remainderCount[remainder] = (remainderCount[remainder] || 0) + 1;
   }
   return count;
+}; */
+
+// Find Minimum Operations to Make All Elements Divisible by Three					7/12/2024
+
+// https://leetcode.com/problems/find-minimum-operations-to-make-all-elements-divisible-by-three/description/
+
+// You are given an integer array nums. In one operation, you can add or subtract 1 from any element of nums.
+
+// Return the minimum number of operations to make all elements of nums divisible by 3.
+
+// Example 1:
+// 		Input: nums = [1,2,3,4]
+// 		Output: 3
+// Explanation:
+// 		All array elements can be made divisible by 3 using 3 operations:
+// 		Subtract 1 from 1.
+// 		Add 1 to 2.
+// 		Subtract 1 from 4.
+
+// Example 2:
+// 		Input: nums = [3,6,9]
+// 		Output: 0
+
+// Constraints:
+//		1 <= nums.length <= 50
+//		1 <= nums[i] <= 50
+
+const minimumOperations = (nums) => {
+  let ops = 0;
+  for (const n of nums) {
+    if (n % 3 != 0) ops++;
+  }
+  return ops;
 };
+
+console.log(minimumOperations([1, 2, 3, 4])); //  3
+console.log(minimumOperations([3, 6, 9])); //  0
+
+const oneLineMinimumOperations = (nums) =>
+  nums.reduce((ops, n) => ops + (n % 3 != 0), 0);
