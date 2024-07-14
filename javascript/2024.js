@@ -6009,7 +6009,7 @@ var topVotedCountCompleteDayPairs = function (hours) {
 }; */
 
 // Find Minimum Operations to Make All Elements Divisible by Three					7/12/2024
-
+/* 
 // https://leetcode.com/problems/find-minimum-operations-to-make-all-elements-divisible-by-three/description/
 
 // You are given an integer array nums. In one operation, you can add or subtract 1 from any element of nums.
@@ -6045,4 +6045,94 @@ console.log(minimumOperations([1, 2, 3, 4])); //  3
 console.log(minimumOperations([3, 6, 9])); //  0
 
 const oneLineMinimumOperations = (nums) =>
-  nums.reduce((ops, n) => ops + (n % 3 != 0), 0);
+  nums.reduce((ops, n) => ops + (n % 3 != 0), 0); */
+
+// Maximum Points Inside the Square					7/13/2024
+
+// You are given a 2D array points and a string s where, points[i] represents the coordinates of point i, and s[i] represents the tag of point i.
+
+// A valid square is a square centered at the origin (0, 0), has edges parallel to the axes, and does not contain two points with the same tag.
+
+// Return the maximum number of points contained in a valid square.
+
+// Note:
+
+// A point is considered to be inside the square if it lies on or within the square's boundaries.
+
+// The side length of the square can be zero.
+
+// Example 1:
+// 		Input: points = [[2,2],[-1,-2],[-4,4],[-3,1],[3,-3]], s = "abdca"
+// 		Output: 2
+// Explanation:
+// 		The square of side length 4 covers two points points[0] and points[1].
+
+// Example 2:
+// 		Input: points = [[1,1],[-2,-2],[-2,2]], s = "abb"
+// 		Output: 1
+// Explanation:
+// 		The square of side length 2 covers one point, which is points[0].
+
+// Example 3:
+// 		Input: points = [[1,1],[-1,-1],[2,-2]], s = "ccd"
+// 		Output: 0
+// Explanation:
+// 		It's impossible to make any valid squares centered at the origin such that it covers only one point among points[0] and points[1].
+
+// Constraints:
+//		1 <= s.length, points.length <= 105
+//		points[i].length == 2
+//		-109 <= points[i][0], points[i][1] <= 109
+//		s.length == points.length
+//		points consists of distinct coordinates.
+//		s consists only of lowercase English letters.
+
+var topVotedMaxPointsInsideSquare = function (points, s) {
+  points = points.map(([x, y]) => Math.max(Math.abs(x), Math.abs(y)));
+  const distances = {};
+  [...s].forEach((char, i) =>
+    distances[char]
+      ? distances[char].push(points[i])
+      : (distances[char] = [points[i]])
+  );
+  const maxDistToDouble =
+    Math.min(
+      ...Object.values(distances)
+        .filter(({ length }) => length > 1)
+        .map((arr) => arr.sort((x, y) => x - y)[1])
+    ) - 1;
+  return points.filter((dist) => dist <= maxDistToDouble).length;
+};
+
+console.log(
+  topVotedMaxPointsInsideSquare(
+    [
+      [2, 2],
+      [-1, -2],
+      [-4, 4],
+      [-3, 1],
+      [3, -3],
+    ],
+    "abdca"
+  )
+); //  2
+console.log(
+  topVotedMaxPointsInsideSquare(
+    [
+      [1, 1],
+      [-2, -2],
+      [-2, 2],
+    ],
+    "abb"
+  )
+); //  1
+console.log(
+  topVotedMaxPointsInsideSquare(
+    [
+      [1, 1],
+      [-1, -1],
+      [2, -2],
+    ],
+    "ccd"
+  )
+); //  0
