@@ -6218,7 +6218,7 @@ var topVotedAddMinimum = function (word) {
 }; */
 
 // Minimum Average of Smallest and Largest Elements					7/15/2024
-
+/* 
 // https://leetcode.com/problems/minimum-average-of-smallest-and-largest-elements/solutions/5356780/solution-by-dare2solve-detailed-solution/
 
 // You have an array of floating point numbers averages which is initially empty. You are given an array nums of n integers where n is even.
@@ -6288,4 +6288,102 @@ var topVotedMinimumAverage = function (nums) {
     res = Math.min(res, nums[i] + nums[nums.length - i - 1]);
   }
   return res / 2;
+}; */
+
+// Search a 2D Matrix II					7/16/2024
+
+// https://leetcode.com/problems/search-a-2d-matrix-ii/description/
+
+// Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:
+// - Integers in each row are sorted in ascending from left to right.
+// - Integers in each column are sorted in ascending from top to bottom.
+
+// Example 1:
+// 		Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5
+// 		Output: true
+
+// Example 2:
+// 		Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
+// 		Output: false
+
+// Constraints:
+//		m == matrix.length
+//		n == matrix[i].length
+//		1 <= n, m <= 300
+//		-109 <= matrix[i][j] <= 109
+//		All the integers in each row are sorted in ascending order.
+//		All the integers in each column are sorted in ascending order.
+//		-109 <= target <= 109
+
+const searchMatrix = (mat, t) => {
+  let n = mat.length,
+    m = mat[0].length;
+
+  for (const arr of mat) {
+    if (arr[0] > t || arr[m - 1] < t) continue; // not in row
+
+    // possibly in row: binary search
+    let l = 0,
+      r = m - 1;
+    while (l <= r) {
+      const m = ~~(l + (r - l) / 2);
+      if (t < arr[m]) r = m - 1;
+      else if (t > arr[m]) l = m + 1;
+      else if (t == arr[m]) return true; // target found
+    }
+  }
+  return false;
+};
+
+console.log(
+  searchMatrix(
+    [
+      [1, 4, 7, 11, 15],
+      [2, 5, 8, 12, 19],
+      [3, 6, 9, 16, 22],
+      [10, 13, 14, 17, 24],
+      [18, 21, 23, 26, 30],
+    ],
+    5
+  )
+); //  true
+console.log(
+  searchMatrix(
+    [
+      [1, 4, 7, 11, 15],
+      [2, 5, 8, 12, 19],
+      [3, 6, 9, 16, 22],
+      [10, 13, 14, 17, 24],
+      [18, 21, 23, 26, 30],
+    ],
+    20
+  )
+); //  false
+
+var topVotedSearchMatrix = function (matrix, target) {
+  if (matrix.length === 0) {
+    return false;
+  }
+  //start with top-right element
+  var i = 0;
+  var j = matrix[0].length - 1;
+
+  //loop till row and column number are within bounds
+  while (i <= matrix.length - 1 && j >= 0) {
+    if (matrix[i][j] > target) {
+      //current element is greater than target
+      //means this row might have the target element
+      //change column
+      j--;
+    } else if (matrix[i][j] === target) {
+      //element found
+      return true;
+    } else if (matrix[i][j] < target) {
+      //current element is lesser than target
+      //means this column might have the target element
+      //change rows
+      i++;
+    }
+  }
+  return false;
 };
