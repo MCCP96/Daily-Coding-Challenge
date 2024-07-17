@@ -6291,7 +6291,7 @@ var topVotedMinimumAverage = function (nums) {
 }; */
 
 // Search a 2D Matrix II					7/16/2024
-
+/* 
 // https://leetcode.com/problems/search-a-2d-matrix-ii/description/
 
 // Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:
@@ -6386,4 +6386,127 @@ var topVotedSearchMatrix = function (matrix, target) {
     }
   }
   return false;
+}; */
+
+// Available Captures for Rook					7/17/2024
+
+// https://leetcode.com/problems/available-captures-for-rook/description/
+
+// You are given an 8 x 8 matrix representing a chessboard. There is exactly one white rook represented by 'R', some number of white bishops 'B', and some number of black pawns 'p'. Empty squares are represented by '.'.
+
+// A rook can move any number of squares horizontally or vertically (up, down, left, right) until it reaches another piece or the edge of the board. A rook is attacking a pawn if it can move to the pawn's square in one move.
+
+// Note: A rook cannot move through other pieces, such as bishops or pawns. This means a rook cannot attack a pawn if there is another piece blocking the path.
+
+// Return the number of pawns the white rook is attacking.
+
+// Example 1:
+// 		Input: board = [[".",".",".",".",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".","R",".",".",".","p"],[".",".",".",".",".",".",".","."],[".",".",".",".",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".",".",".",".",".","."],[".",".",".",".",".",".",".","."]]
+// 		Output: 3
+// Explanation:
+// 		In this example, the rook is attacking all the pawns.
+
+// Example 2:
+// 		Input: board = [[".",".",".",".",".",".","."],[".","p","p","p","p","p",".","."],[".","p","p","B","p","p",".","."],[".","p","B","R","B","p",".","."],[".","p","p","B","p","p",".","."],[".","p","p","p","p","p",".","."],[".",".",".",".",".",".",".","."],[".",".",".",".",".",".",".","."]]
+// 		Output: 0
+// Explanation:
+// 		The bishops are blocking the rook from attacking any of the pawns.
+
+// Example 3:
+// 		Input: board = [[".",".",".",".",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".","p",".",".",".","."],["p","p",".","R",".","p","B","."],[".",".",".",".",".",".",".","."],[".",".",".","B",".",".",".","."],[".",".",".","p",".",".",".","."],[".",".",".",".",".",".",".","."]]
+// 		Output: 3
+// Explanation:
+// 		The rook is attacking the pawns at positions b5, d6, and f5.
+
+// Constraints:
+//		board.length == 8
+//		board[i].length == 8
+//		board[i][j] is either 'R', '.', 'B', or 'p'
+//		There is exactly one cell with board[i][j] == 'R'
+
+const numRookCaptures = (board) => {
+  let pos;
+  for (let row = 0; row < 8 && !pos; row++)
+    for (let col = 0; col < 8 && !pos; col++)
+      if (board[row][col] === "R") pos = [row, col]; // pos of rook
+
+  let res = 0;
+  // check left
+  let i = pos[1];
+  while (--i >= 0) {
+    if (board[pos[0]][i] == "B") break;
+    else if (board[pos[0]][i] == "p") {
+      res++;
+      break;
+    }
+  }
+  // check right
+  i = pos[1];
+  while (++i < 8) {
+    if (board[pos[0]][i] == "B") break;
+    else if (board[pos[0]][i] == "p") {
+      res++;
+      break;
+    }
+  }
+  // check up
+  i = pos[0];
+  while (--i >= 0) {
+    if (board[i][pos[1]] == "B") break;
+    else if (board[i][pos[1]] == "p") {
+      res++;
+      break;
+    }
+  }
+  // check down
+  i = pos[0];
+  while (++i < 8) {
+    if (board[i][pos[1]] == "B") break;
+    else if (board[i][pos[1]] == "p") {
+      res++;
+      break;
+    }
+  }
+
+  return res;
 };
+
+console.log(
+  numRookCaptures([
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    [".", ".", ".", "R", ".", ".", ".", "p"],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+  ])
+); //  3
+console.log(
+  numRookCaptures([
+    [".", ".", ".", ".", ".", ".", "."],
+    [".", "p", "p", "p", "p", "p", ".", "."],
+    [".", "p", "p", "B", "p", "p", ".", "."],
+    [".", "p", "B", "R", "B", "p", ".", "."],
+    [".", "p", "p", "B", "p", "p", ".", "."],
+    [".", "p", "p", "p", "p", "p", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+  ])
+); //  0
+console.log(
+  numRookCaptures([
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    ["p", "p", ".", "R", ".", "p", "B", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", "B", ".", ".", ".", "."],
+    [".", ".", ".", "p", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", ".", "."],
+  ])
+); //  3
+
+// bulky but fast
+// same as top voted
