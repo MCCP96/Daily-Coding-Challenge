@@ -6612,7 +6612,7 @@ var topVotedNumDecodings = function (s) {
 }; */
 
 // Product of Array Except Self					7/19/2024
-
+/* 
 // https://leetcode.com/problems/product-of-array-except-self/description/
 
 // Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
@@ -6678,4 +6678,69 @@ var topVotedProductExceptSelf = function (nums) {
   }
 
   return answer;
+}; */
+
+// Perfect Squares					7/20/2024
+
+// https://leetcode.com/problems/perfect-squares/description/
+
+// Given an integer n, return the least number of perfect square numbers that sum to n.
+
+// A perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.
+
+// Example 1:
+// 		Input: n = 12
+// 		Output: 3
+// Explanation: 12 = 4 + 4 + 4.
+
+// Example 2:
+// 		Input: n = 13
+// 		Output: 2
+// Explanation: 13 = 4 + 9.
+
+// Constraints:
+//		1 <= n <= 10^4
+
+const numSquares = (n) => {
+  let min = Number.MAX_SAFE_INTEGER;
+  let memo = new Map();
+
+  const dfs = (num, count) => {
+    if (memo.has(num) && memo.get(num) < count) return; // avoid lesser repeats
+    else memo.set(num, count);
+
+    if (num == 0) {
+      min = Math.min(count, min); // base case
+      return;
+    }
+
+    let i = ~~Math.sqrt(num); // largest perfect square
+    while (i > 0) {
+      dfs(num - i ** 2, count + 1);
+      i--;
+    }
+  };
+  dfs(n, 0);
+
+  return min;
 };
+
+console.log(numSquares(12)); //  3
+console.log(numSquares(13)); //  2
+console.log(numSquares(16)); //  1
+
+// too slow, even with memo
+
+function topVotedNumSquares(n) {
+  let dp = new Array(n + 1).fill(Number.MAX_SAFE_INTEGER);
+  dp[0] = 0;
+  let count = 1;
+  while (count * count <= n) {
+    let sq = count * count;
+    for (let i = sq; i <= n; i++) {
+      dp[i] = Math.min(dp[i - sq] + 1, dp[i]);
+    }
+    count++;
+  }
+  return dp[n];
+}
