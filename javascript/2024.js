@@ -6681,7 +6681,7 @@ var topVotedProductExceptSelf = function (nums) {
 }; */
 
 // Perfect Squares					7/20/2024
-
+/* 
 // https://leetcode.com/problems/perfect-squares/description/
 
 // Given an integer n, return the least number of perfect square numbers that sum to n.
@@ -6743,4 +6743,81 @@ function topVotedNumSquares(n) {
     count++;
   }
   return dp[n];
-}
+} */
+
+// Longest Increasing Subsequence					7/21/2024
+
+// https://leetcode.com/problems/longest-increasing-subsequence/
+
+// Given an integer array nums, return the length of the longest strictly increasing subsequence.
+
+// Example 1:
+// 		Input: nums = [10,9,2,5,3,7,101,18]
+// 		Output: 4
+// Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+
+// Example 2:
+// 		Input: nums = [0,1,0,3,2,3]
+// 		Output: 4
+
+// Example 3:
+// 		Input: nums = [7,7,7,7,7,7,7]
+// 		Output: 1
+
+// Constraints:
+//		1 <= nums.length <= 2500
+//		-104 <= nums[i] <= 104
+
+// Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
+
+const lengthOfLIS = (nums) => {
+  const n = nums.length;
+
+  let max = 0;
+  let memo = new Map();
+  const dfs = (i, count) => {
+    if (memo.has(i) && memo.get(i) > count) return; // memo
+    else memo.set(i, count);
+
+    if (i == n) {
+      max = Math.max(max, count); // end reached
+      return;
+    }
+
+    let cur = nums[i];
+    while (nums[i] <= cur) i++; // next increasing
+
+    dfs(i, count + (i != n)); // avoid counting end reached
+  };
+
+  for (let i = 0; i < n; i++) dfs(i, 1);
+
+  return max;
+};
+
+console.log(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18])); //  4
+console.log(lengthOfLIS([0, 1, 0, 3, 2, 3])); //  4
+console.log(lengthOfLIS([7, 7, 7, 7, 7, 7, 7])); //  1
+
+// not quite
+
+var topVotedLengthOfLIS = function (nums) {
+  if (!nums || nums.length === 0) {
+    return 0;
+  }
+
+  const n = nums.length;
+  const dp = new Array(n).fill(1);
+
+  for (let i = 1; i < n; ++i) {
+    for (let j = 0; j < i; ++j) {
+      if (nums[i] > nums[j]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1);
+      }
+    }
+  }
+
+  return Math.max(...dp);
+};
+
+// much better
