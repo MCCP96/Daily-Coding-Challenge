@@ -6823,7 +6823,7 @@ var topVotedLengthOfLIS = function (nums) {
 // much better */
 
 // Game of Life					7/22/2024
-
+/* 
 // https://leetcode.com/problems/game-of-life/
 
 // According to Wikipedia's article: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."
@@ -6949,4 +6949,88 @@ var topVotedGameOfLife = function (board) {
       board[r][c] = Math.ceil(board[r][c]);
     }
   }
+}; */
+
+// Bulls and Cows					7/23/2024
+
+// https://leetcode.com/problems/bulls-and-cows/description/
+
+// You are playing the Bulls and Cows game with your friend.
+
+// You write down a secret number and ask your friend to guess what the number is. When your friend makes a guess, you provide a hint with the following info:
+// - The number of "bulls", which are digits in the guess that are in the correct position.
+// - The number of "cows", which are digits in the guess that are in your secret number but are located in the wrong position. Specifically, the non-bull digits in the guess that could be rearranged such that they become bulls.
+
+// Given the secret number secret and your friend's guess guess, return the hint for your friend's guess.
+
+// The hint should be formatted as "xAyB", where x is the number of bulls and y is the number of cows. Note that both secret and guess may contain duplicate digits.
+
+// Example 1:
+// 		Input: secret = "1807", guess = "7810"
+// 		Output: "1A3B"
+// Explanation: Bulls are connected with a '|' and cows are underlined:
+// 		"1807"
+// 		|
+// 		"7810"
+
+// Example 2:
+// 		Input: secret = "1123", guess = "0111"
+// 		Output: "1A1B"
+// Explanation: Bulls are connected with a '|' and cows are underlined:
+// 		"1123"        "1123"
+// 		|      or     |
+// 		"0111"        "0111"
+// 		Note that only one of the two unmatched 1s is counted as a cow since the non-bull digits can only be rearranged to allow one 1 to be a bull.
+
+// Constraints:
+//		1 <= secret.length, guess.length <= 1000
+//		secret.length == guess.length
+//		secret and guess consist of digits only.
+
+const getHint = (secret, guess) => {
+  const n = secret.length;
+
+  let bulls = 0;
+  let remSecret = ""; // non-bull chars
+  let count = new Array(10).fill(0); // potential cow chars
+  for (let i = 0; i < n; i++) {
+    if (secret[i] === guess[i]) bulls++;
+    else {
+      // future cow testing
+      remSecret += secret[i];
+      count[guess[i]]++;
+    }
+  }
+
+  let cows = 0;
+  for (const c of remSecret) {
+    if (count[c] > 0) {
+      cows++;
+      count[c]--;
+    }
+  }
+
+  return `${bulls}A${cows}B`;
 };
+
+console.log(getHint("1807", "7810")); //  "1A3B"
+console.log(getHint("1123", "0111")); //  "1A1B"
+
+function topVotedGetHint(secret, guess) {
+  var map = {};
+  var A = 0;
+  var B = 0;
+  for (var i = 0; i < 10; i++) map[i] = 0;
+  for (i = 0; i < secret.length; i++) {
+    if (secret[i] === guess[i]) A++;
+    else {
+      map[secret[i]]++;
+      B += map[secret[i]] <= 0 ? 1 : 0;
+      map[guess[i]]--;
+      B += map[guess[i]] >= 0 ? 1 : 0;
+    }
+  }
+  return A + "A" + B + "B";
+}
+
+// same idea
