@@ -6952,7 +6952,7 @@ var topVotedGameOfLife = function (board) {
 }; */
 
 // Bulls and Cows					7/23/2024
-
+/* 
 // https://leetcode.com/problems/bulls-and-cows/description/
 
 // You are playing the Bulls and Cows game with your friend.
@@ -7033,4 +7033,96 @@ function topVotedGetHint(secret, guess) {
   return A + "A" + B + "B";
 }
 
-// same idea
+// same idea */
+
+// Range Sum Query 2D - Immutable					7/24/2024
+
+// https://leetcode.com/problems/range-sum-query-2d-immutable/description/
+
+// Given a 2D matrix matrix, handle multiple queries of the following type:
+
+// Calculate the sum of the elements of matrix inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).
+
+// Implement the NumMatrix class:
+
+// NumMatrix(int[][] matrix) Initializes the object with the integer matrix matrix.
+
+// int sumRegion(int row1, int col1, int row2, int col2) Returns the sum of the elements of matrix inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).
+
+// You must design an algorithm where sumRegion works on O(1) time complexity.
+
+// Example 1:
+// 		Input
+// 		["NumMatrix", "sumRegion", "sumRegion", "sumRegion"]
+// 		[[[[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2, 0, 1, 5], [4, 1, 0, 1, 7], [1, 0, 3, 0, 5]]], [2, 1, 4, 3], [1, 1, 2, 2], [1, 2, 2, 4]]
+// 		Output
+// 		[null, 8, 11, 12]
+// 		Explanation
+// 		NumMatrix numMatrix = new NumMatrix([[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2, 0, 1, 5], [4, 1, 0, 1, 7], [1, 0, 3, 0, 5]]);
+// 		numMatrix.sumRegion(2, 1, 4, 3); // return 8 (i.e sum of the red rectangle)
+// 		numMatrix.sumRegion(1, 1, 2, 2); // return 11 (i.e sum of the green rectangle)
+// 		numMatrix.sumRegion(1, 2, 2, 4); // return 12 (i.e sum of the blue rectangle)
+
+// Constraints:
+//		m == matrix.length
+//		n == matrix[i].length
+//		1 <= m, n <= 200
+//		-104 <= matrix[i][j] <= 104
+//		0 <= row1 <= row2 < m
+//		0 <= col1 <= col2 < n
+//		At most 104 calls will be made to sumRegion.
+
+class NumMatrix {
+  constructor(mat) {
+    this.mat = mat;
+  }
+
+  sumRegion(row1, col1, row2, col2) {
+    let sum = 0;
+    while (row1 <= row2) {
+      let col = col1;
+      while (col <= col2) {
+        sum += this.mat[row1][col++];
+      }
+      row1++;
+    }
+    return sum;
+  }
+}
+
+const numMatrix = new NumMatrix([
+  [3, 0, 1, 4, 2],
+  [5, 6, 3, 2, 1],
+  [1, 2, 0, 1, 5],
+  [4, 1, 0, 1, 7],
+  [1, 0, 3, 0, 5],
+]);
+console.log(numMatrix.sumRegion(2, 1, 4, 3)); // return 8 (i.e sum of the red rectangle)
+console.log(numMatrix.sumRegion(1, 1, 2, 2)); // return 11 (i.e sum of the green rectangle)
+console.log(numMatrix.sumRegion(1, 2, 2, 4)); // return 12 (i.e sum of the blue rectangle)
+
+// sumRegion is not O(1)
+
+class NumMatrix {
+  constructor(M) {
+    let ylen = M.length + 1,
+      xlen = M[0].length + 1;
+    this.dp = Array.from({ length: ylen }, () => new Array(xlen).fill(0));
+    for (let i = 1; i < ylen; i++)
+      for (let j = 1; j < xlen; j++)
+        this.dp[i][j] =
+          M[i - 1][j - 1] +
+          this.dp[i - 1][j] +
+          this.dp[i][j - 1] -
+          this.dp[i - 1][j - 1];
+  }
+
+  sumRegion(R1, C1, R2, C2) {
+    return (
+      this.dp[R2 + 1][C2 + 1] -
+      this.dp[R2 + 1][C1] -
+      this.dp[R1][C2 + 1] +
+      this.dp[R1][C1]
+    );
+  }
+}
