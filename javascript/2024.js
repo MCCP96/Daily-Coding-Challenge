@@ -7128,7 +7128,7 @@ class NumMatrix {
 } */
 
 // Peeking Iterator					7/25/2024
-
+/* 
 // https://leetcode.com/problems/peeking-iterator/description/
 
 // Design an iterator that supports the peek operation on an existing iterator in addition to the hasNext and the next operations.
@@ -7205,4 +7205,111 @@ class TopVotedPeekingIterator {
   }
 }
 
-// input is iterator, not array
+// input is iterator, not array */
+
+// Range Sum Query - Mutable					7/26/2024
+
+// https://leetcode.com/problems/range-sum-query-mutable/description/
+
+// Given an integer array nums, handle multiple queries of the following types:
+// 1. Update the value of an element in nums.
+// 2. Calculate the sum of the elements of nums between indices left and right inclusive where left <= right.
+
+// Implement the NumArray class:
+// - NumArray(int[] nums) Initializes the object with the integer array nums.
+// - void update(int index, int val) Updates the value of nums[index] to be val.
+// - int sumRange(int left, int right) Returns the sum of the elements of nums between indices left and right inclusive (i.e. nums[left] + nums[left + 1] + ... + nums[right]).
+
+// Example 1:
+// 		Input
+// 		["NumArray", "sumRange", "update", "sumRange"]
+// 		[[[1, 3, 5]], [0, 2], [1, 2], [0, 2]]
+// 		Output
+// 		[null, 9, null, 8]
+// 		Explanation
+// 		NumArray numArray = new NumArray([1, 3, 5]);
+// 		numArray.sumRange(0, 2); // return 1 + 3 + 5 = 9
+// 		numArray.update(1, 2);   // nums = [1, 2, 5]
+// 		numArray.sumRange(0, 2); // return 1 + 2 + 5 = 8
+
+// Constraints:
+//		1 <= nums.length <= 3 * 104
+//		-100 <= nums[i] <= 100
+//		0 <= index < nums.length
+//		-100 <= val <= 100
+//		0 <= left <= right < nums.length
+//		At most 3 * 104 calls will be made to update and sumRange.
+
+class NumArray {
+  constructor(arr) {
+    this.n = arr.length;
+    this.arr = arr;
+  }
+
+  update = (i, val) => {
+    if (i < 0 || i >= this.n) return;
+    this.arr[i] = val;
+  };
+  sumRange = (l, r) => this.arr.slice(l, r + 1).reduce((a, c) => a + c, 0);
+}
+
+const numArray = new NumArray([1, 3, 5]);
+console.log(numArray.sumRange(0, 2)); // return 1 + 3 + 5 = 9
+console.log(numArray.update(1, 2)); // nums = [1, 2, 5]
+console.log(numArray.sumRange(0, 2)); // return 1 + 2 + 5 = 8
+
+// exceeds runtime
+
+var TopVotedNumArray = function (nums) {
+  this.n = nums.length;
+  this.segTree = new Array(this.n * 2);
+  this.build(nums);
+};
+
+NumArray.prototype.build = function (nums) {
+  let n = this.n;
+  let j = 0;
+  for (var i = n; i < n * 2; i++) {
+    this.segTree[i] = nums[j];
+    j++;
+  }
+  for (i = n - 1; i > 0; i--) {
+    this.segTree[i] = this.segTree[i * 2] + this.segTree[i * 2 + 1];
+  }
+};
+
+NumArray.prototype.update = function (index, val) {
+  let n = this.n;
+  index += n;
+  this.segTree[index] = val;
+  while (index > 1) {
+    let left = index,
+      right = index;
+    if (index % 2 === 0) {
+      right = index + 1;
+    } else {
+      left = index - 1;
+    }
+    index = Math.floor(index / 2);
+    this.segTree[index] = this.segTree[left] + this.segTree[right];
+  }
+};
+
+NumArray.prototype.sumRange = function (left, right) {
+  let n = this.n;
+  (left += n), (right += n);
+  let sum = 0;
+  while (left <= right) {
+    if (left % 2 === 1) {
+      sum += this.segTree[left];
+      left++;
+    }
+    if (right % 2 === 0) {
+      sum += this.segTree[right];
+      right--;
+    }
+    left = Math.floor(left / 2);
+    right = Math.floor(right / 2);
+  }
+  return sum;
+};
