@@ -7390,7 +7390,7 @@ var topVotedNthSuperUglyNumber = function (n, primes) {
 }; */
 
 // Maximum Product of Word Lengths					7/28/2024
-
+/* 
 // https://leetcode.com/problems/maximum-product-of-word-lengths/description/
 
 // Given a string array words, return the maximum value of length(word[i]) * length(word[j]) where the two words do not share common letters. If no such two words exist, return 0.
@@ -7457,4 +7457,58 @@ var topVotedMaxProduct = function (words) {
     bitsets[i] = bitset;
   }
   return best;
+}; */
+
+// Bulb Switcher					7/29/2024
+
+// https://leetcode.com/problems/bulb-switcher/
+
+// There are n bulbs that are initially off. You first turn on all the bulbs, then you turn off every second bulb.
+
+// On the third round, you toggle every third bulb (turning on if it's off or turning off if it's on). For the ith round, you toggle every i bulb. For the nth round, you only toggle the last bulb.
+
+// Return the number of bulbs that are on after n rounds.
+
+// Example 1:
+// 		Input: n = 3
+// 		Output: 1
+// Explanation: At first, the three bulbs are [off, off, off].
+// 		After the first round, the three bulbs are [on, on, on].
+// 		After the second round, the three bulbs are [on, off, on].
+// 		After the third round, the three bulbs are [on, off, off].
+// 		So you should return 1 because there is only one bulb is on.
+
+// Example 2:
+// 		Input: n = 0
+// 		Output: 0
+
+// Example 3:
+// 		Input: n = 1
+// 		Output: 1
+
+// Constraints:
+//		0 <= n <= 109
+
+const bulbSwitch = (n) => {
+  if (n <= 1) return n;
+
+  let bulbs = new Array(n).fill(true);
+  let gap = 1;
+  while (gap < n) {
+    for (let i = gap; i < n; i += gap + 1) {
+      bulbs[i] = !bulbs[i];
+    }
+    gap++;
+  }
+
+  return bulbs.reduce((a, c) => a + c, 0);
 };
+
+// Exceeds time limit on larger test cases
+
+const topVotedBulbSwitch = (n) => ~~Math.sqrt(n);
+
+console.log(topVotedBulbSwitch(3)); //  1
+console.log(topVotedBulbSwitch(0)); //  0
+console.log(topVotedBulbSwitch(1)); //  1
+console.log(topVotedBulbSwitch(4)); //  2
