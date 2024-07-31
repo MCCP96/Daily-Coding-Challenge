@@ -7514,7 +7514,7 @@ console.log(topVotedBulbSwitch(1)); //  1
 console.log(topVotedBulbSwitch(4)); //  2 */
 
 // Coin Change					7/30/2024
-
+/* 
 // https://leetcode.com/problems/coin-change/description/
 
 // You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
@@ -7605,4 +7605,67 @@ var topVotedCoinChange = function (coins, amount) {
   return minCoins[amount] !== amount + 1 ? minCoins[amount] : -1;
 };
 
-// This same dp structure appears a lot
+// This same dp structure appears a lot */
+
+// Wiggle Sort II					7/31/2024
+
+// https://leetcode.com/problems/wiggle-sort-ii/description/
+
+// Given an integer array nums, reorder it such that nums[0] < nums[1] > nums[2] < nums[3]....
+
+// You may assume the input array always has a valid answer.
+
+// Example 1:
+// 		Input: nums = [1,5,1,1,6,4]
+// 		Output: [1,6,1,5,1,4]
+// Explanation: [1,4,1,5,1,6] is also accepted.
+
+// Example 2:
+// 		Input: nums = [1,3,2,2,3,1]
+// 		Output: [2,3,1,3,1,2]
+
+// Constraints:
+//		1 <= nums.length <= 5 * 10^4
+//		0 <= nums[i] <= 5000
+//		It is guaranteed that there will be an answer for the given input nums.
+
+// Follow Up: Can you do it in O(n) time and/or in-place with O(1) extra space?
+
+const wiggleSort = (nums) => {
+  const n = nums.length;
+  let res = new Array(n);
+  const l = nums.sort((a, b) => a - b);
+  const r = nums.splice(Math.ceil(n / 2));
+
+  let i = 0;
+  let m = l.length - 1;
+  let k = r.length - 1;
+  while (m >= 0 || k >= 0) {
+    if (m >= k) {
+      res[i++] = l[m--];
+    } else {
+      res[i++] = r[k--];
+    }
+  }
+  return res;
+};
+
+console.log(wiggleSort([1, 5, 1, 1, 6, 4])); //  [1,6,1,5,1,4]
+console.log(wiggleSort([1, 3, 2, 2, 3, 1])); //  [2,3,1,3,1,2]
+
+// Not O(n) or O(1)
+
+var topVotedWiggleSort = function (nums) {
+  nums.sort((b, a) => b - a);
+  let mid = Math.floor(nums.length / 2);
+  mid += nums.length % 2 == 0 ? 0 : 1;
+  let even = nums.slice(0, mid);
+  let odd = nums.slice(mid);
+  for (let i = 0; i < nums.length; i++) {
+    if (i % 2 == 0) {
+      nums[i] = even.pop();
+    } else {
+      nums[i] = odd.pop();
+    }
+  }
+};
