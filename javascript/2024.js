@@ -7671,7 +7671,7 @@ var topVotedWiggleSort = function (nums) {
 }; */
 
 // Increasing Triplet Subsequence					8/1/2024
-
+/* 
 // https://leetcode.com/problems/increasing-triplet-subsequence/description/
 
 // Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.
@@ -7729,4 +7729,52 @@ var topVotedIncreasingTriplet = function (nums) {
   return false;
 };
 
-// same same
+// same same */
+
+// Integer Break					8/2/2024
+
+// https://leetcode.com/problems/integer-break/description/
+
+// Given an integer n, break it into the sum of k positive integers, where k >= 2, and maximize the product of those integers.
+
+// Return the maximum product you can get.
+
+// Example 1:
+// 		Input: n = 2
+// 		Output: 1
+// Explanation: 2 = 1 + 1, 1 × 1 = 1.
+
+// Example 2:
+// 		Input: n = 10
+// 		Output: 36
+// Explanation: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36.
+
+// Constraints:
+//		2 <= n <= 58
+
+var topVotedIntegerBreak = function (n) {
+  if (n === 2) return 1;
+  if (n === 3) return 2;
+
+  let count_of_3s = Math.floor(n / 3);
+  let remainder = n % 3;
+
+  if (remainder === 0) {
+    return 3 ** count_of_3s;
+  } else if (remainder === 1) {
+    return 3 ** (count_of_3s - 1) * 4;
+  } else {
+    return 3 ** count_of_3s * 2;
+  }
+};
+console.log(topVotedIntegerBreak(2)); //  1
+console.log(topVotedIntegerBreak(10)); //  36
+
+// Approach
+// Why 3s? By testing various numbers, it becomes evident that the number 3 plays a significant role in maximizing the product. For example:
+// 4 = 2 + 2 (product = 4)
+// 5 = 2 + 3 (product = 6)
+// 6 = 3 + 3 (product = 9)
+// 7 = 3 + 2 + 2 (product = 12)
+// 8 = 3 + 3 + 2 (product = 18)
+// 9 = 3 + 3 + 3 (product = 27)
