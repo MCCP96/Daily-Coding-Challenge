@@ -7780,7 +7780,7 @@ console.log(topVotedIntegerBreak(10)); //  36
 // 9 = 3 + 3 + 3 (product = 27) */
 
 // Find the Encrypted String					8/3/2024
-
+/* 
 // https://leetcode.com/problems/find-the-encrypted-string/description/
 
 // You are given a string s and an integer k. Encrypt the string using the following algorithm:
@@ -7826,4 +7826,115 @@ var topVotedGetEncryptedString = function (s, k) {
     result[idx] = s[i];
   }
   return result.join("");
+}; */
+
+// Design Twitter					8/4/2024
+
+// https://leetcode.com/problems/design-twitter/
+
+// Design a simplified version of Twitter where users can post tweets, follow/unfollow another user, and is able to see the 10 most recent tweets in the user's news feed.
+
+// Implement the Twitter class:
+// - Twitter() Initializes your twitter object.
+// - void postTweet(int userId, int tweetId) Composes a new tweet with ID tweetId by the user userId. Each call to this function will be made with a unique tweetId.
+// - List<Integer> getNewsFeed(int userId) Retrieves the 10 most recent tweet IDs in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user themself. Tweets must be ordered from most recent to least recent.
+// - void follow(int followerId, int followeeId) The user with ID followerId started following the user with ID followeeId.
+// - void unfollow(int followerId, int followeeId) The user with ID followerId started unfollowing the user with ID followeeId.
+
+// Example 1:
+// 		Input
+// 		["Twitter", "postTweet", "getNewsFeed", "follow", "postTweet", "getNewsFeed", "unfollow", "getNewsFeed"]
+// 		[[], [1, 5], [1], [1, 2], [2, 6], [1], [1, 2], [1]]
+// 		Output
+// 		[null, null, [5], null, null, [6, 5], null, [5]]
+
+// Constraints:
+//		1 <= userId, followerId, followeeId <= 500
+//		0 <= tweetId <= 104
+//		All the tweets have unique IDs.
+//		At most 3 * 104 calls will be made to postTweet, getNewsFeed, follow, and unfollow.
+
+class Twitter {
+  constructor() {
+    this.tweetCount = 0;
+    this.allTweets = [];
+    this.db = {};
+  }
+
+  postTweet(userId, tweetId) {
+    if (!this?.db[userId])
+      this.db[userId] = { tweets: {}, following: new Set([userId]) };
+
+    this.db[userId].tweets[this.tweetCount] = tweetId;
+    this.allTweets.unshift({ userId, tweetId });
+    this.tweetCount++;
+  }
+
+  getNewsFeed(userId) {
+    let res = [];
+    let count = 10;
+    for (const tweet of this.allTweets) {
+      if (this.db[userId].following.has(tweet.userId)) {
+        res.push(tweet.tweetId);
+        if (--count <= 0) break;
+      }
+    }
+    return res;
+  }
+
+  follow(followerId, followeeId) {
+    if (!this.db[followerId])
+      this.db[followerId] = { tweets: {}, following: new Set([followerId]) };
+    this.db[followerId].following.add(followeeId);
+  }
+
+  unfollow(followerId, followeeId) {
+    this.db[followerId].following.delete(followeeId);
+  }
+}
+
+const twitter = new Twitter();
+console.log(twitter.postTweet(1, 5)); // User 1 posts a new tweet (id = 5).
+console.log(twitter.getNewsFeed(1)); // User 1's news feed should return a list with 1 tweet id -> [5]. return [5]
+console.log(twitter.follow(1, 2)); // User 1 follows user 2.
+console.log(twitter.postTweet(2, 6)); // User 2 posts a new tweet (id = 6).
+console.log(twitter.getNewsFeed(1)); // User 1's news feed should return a list with 2 tweet ids -> [6, 5]. Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5.
+console.log(twitter.unfollow(1, 2)); // User 1 unfollows user 2.
+console.log(twitter.getNewsFeed(1)); // User 1's news feed should return a list with 1 tweet id -> [5], since user 1 is no longer following user 2.
+
+// it goes
+
+var Twitter = function () {
+  this.users = new Map();
+  this.tweets = [];
+};
+
+Twitter.prototype.postTweet = function (userId, tweetId) {
+  if (!this.users.has(userId)) this.users.set(userId, new Set());
+  this.tweets.push({ userId, tweetId });
+};
+
+Twitter.prototype.getNewsFeed = function (userId) {
+  const user = this.users.get(userId);
+  const recentTweets = [];
+  for (
+    let i = this.tweets.length - 1;
+    i >= 0 && recentTweets.length < 10;
+    i--
+  ) {
+    if (user.has(this.tweets[i].userId) || this.tweets[i].userId === userId) {
+      recentTweets.push(this.tweets[i].tweetId);
+    }
+  }
+  return recentTweets;
+};
+
+Twitter.prototype.follow = function (followerId, followeeId) {
+  const user = this.users.get(followerId) || new Set();
+  user.add(followeeId);
+  this.users.set(followerId, user);
+};
+
+Twitter.prototype.unfollow = function (followerId, followeeId) {
+  this.users.get(followerId)?.delete(followeeId);
 };
