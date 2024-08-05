@@ -7829,7 +7829,7 @@ var topVotedGetEncryptedString = function (s, k) {
 }; */
 
 // Design Twitter					8/4/2024
-
+/* 
 // https://leetcode.com/problems/design-twitter/
 
 // Design a simplified version of Twitter where users can post tweets, follow/unfollow another user, and is able to see the 10 most recent tweets in the user's news feed.
@@ -7937,4 +7937,95 @@ Twitter.prototype.follow = function (followerId, followeeId) {
 
 Twitter.prototype.unfollow = function (followerId, followeeId) {
   this.users.get(followerId)?.delete(followeeId);
+}; */
+
+// Largest Divisible Subset					8/5/2024
+
+// https://leetcode.com/problems/largest-divisible-subset/description/
+
+// Given a set of distinct positive integers nums, return the largest subset answer such that every pair (answer[i], answer[j]) of elements in this subset satisfies:
+// - answer[i] % answer[j] == 0, or
+// - answer[j] % answer[i] == 0
+
+// If there are multiple solutions, return any of them.
+
+// Example 1:
+// 		Input: nums = [1,2,3]
+// 		Output: [1,2]
+// Explanation: [1,3] is also accepted.
+
+// Example 2:
+// 		Input: nums = [1,2,4,8]
+// 		Output: [1,2,4,8]
+
+// Constraints:
+//		1 <= nums.length <= 1000
+//		1 <= nums[i] <= 2 * 109
+//		All the integers in nums are unique.
+
+const largestDivisibleSubset = (nums) => {
+  nums.sort((a, b) => a - b);
+  const n = nums.length;
+  if (n == 1) return nums;
+
+  let maxLen = 1;
+  let res = [nums[0]];
+
+  const dfs = (cur, i, len) => {
+    if (i >= n) {
+      if (len > maxLen) [res, maxLen] = [cur, len];
+      return;
+    }
+    if (
+      cur[len - 1] % nums[i] == 0 ||
+      nums[i] % cur[len - 1] == 0 ||
+      len == 0
+    ) {
+      dfs([...cur, nums[i]], i + 1, len + 1);
+    }
+    dfs(cur, i + 1, len);
+  };
+  dfs([], 0, 0);
+
+  return res;
 };
+
+console.log(largestDivisibleSubset([1, 2, 3])); //  [1,2]
+console.log(largestDivisibleSubset([1, 2, 4, 8])); //  [1,2,4,8]
+console.log(largestDivisibleSubset([3, 17])); //  [1,2,4,8]
+
+// Works but exceeds runtime
+
+var topVotedLargestDivisibleSubset = function (nums) {
+  nums.sort((a, b) => a - b);
+  const n = nums.length;
+  const dp = new Array(n).fill(1);
+  let maxSize = 1,
+    maxIndex = 0;
+
+  for (let i = 1; i < n; i++) {
+    for (let j = 0; j < i; j++) {
+      if (nums[i] % nums[j] === 0) {
+        dp[i] = Math.max(dp[i], dp[j] + 1);
+        if (dp[i] > maxSize) {
+          maxSize = dp[i];
+          maxIndex = i;
+        }
+      }
+    }
+  }
+
+  const result = [];
+  let num = nums[maxIndex];
+  for (let i = maxIndex; i >= 0; i--) {
+    if (num % nums[i] === 0 && dp[i] === maxSize) {
+      result.push(nums[i]);
+      num = nums[i];
+      maxSize--;
+    }
+  }
+
+  return result;
+};
+
+// again iterative dp
