@@ -7940,7 +7940,7 @@ Twitter.prototype.unfollow = function (followerId, followeeId) {
 }; */
 
 // Largest Divisible Subset					8/5/2024
-
+/* 
 // https://leetcode.com/problems/largest-divisible-subset/description/
 
 // Given a set of distinct positive integers nums, return the largest subset answer such that every pair (answer[i], answer[j]) of elements in this subset satisfies:
@@ -8028,4 +8028,31 @@ var topVotedLargestDivisibleSubset = function (nums) {
   return result;
 };
 
-// again iterative dp
+// again iterative dp */
+
+// Sum of Two Integers					8/6/2024
+
+// https://leetcode.com/problems/sum-of-two-integers/description/
+
+// Given two integers a and b, return the sum of the two integers without using the operators + and -.
+
+// Example 1:
+// 		Input: a = 1, b = 2
+// 		Output: 3
+
+// Example 2:
+// 		Input: a = 2, b = 3
+// 		Output: 5
+
+// Constraints:
+//		-1000 <= a, b <= 1000
+
+var topVotedGetSum = function (a, b) {
+  let carry;
+  while ((a & b) !== 0) {
+    carry = (a & b) << 1;
+    a = a ^ b;
+    b = carry;
+  }
+  return a ^ b;
+};
