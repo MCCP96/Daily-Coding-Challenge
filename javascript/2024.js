@@ -8380,7 +8380,7 @@ const revisedNumberOfArithmeticSlices = (nums) => {
 }; */
 
 // Number of Bit Changes to Make Two Integers Equal					8/12/2024
-
+/* 
 // https://leetcode.com/problems/number-of-bit-changes-to-make-two-integers-equal/description/
 
 // You are given two positive integers n and k.
@@ -8449,4 +8449,57 @@ var TopVotedMinChange = function (n, k) {
 
   // Step 3: Return the number of changes needed
   return res;
+}; */
+
+// Find All Duplicates in an Array					8/13/2024
+
+// https://leetcode.com/problems/find-all-duplicates-in-an-array/description/
+
+// Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the integers that appears twice.
+
+// You must write an algorithm that runs in O(n) time and uses only constant extra space.
+
+// Example 1:
+// 		Input: nums = [4,3,2,7,8,2,3,1]
+// 		Output: [2,3]
+
+// Example 2:
+// 		Input: nums = [1,1,2]
+// 		Output: [1]
+
+// Example 3:
+// 		Input: nums = [1]
+// 		Output: []
+
+// Constraints:
+//		n == nums.length
+//		1 <= n <= 105
+//		1 <= nums[i] <= n
+//		Each element in nums appears once or twice.
+
+const findDuplicates = (nums) => {
+  const seen = new Set();
+  let res = [];
+  for (const n of nums) {
+    if (seen.has(n)) res.push(n);
+    else seen.add(n);
+  }
+  return res;
+};
+
+console.log(findDuplicates([4, 3, 2, 7, 8, 2, 3, 1])); //  [2,3]
+console.log(findDuplicates([1, 1, 2])); //  [1]
+console.log(findDuplicates([1])); //  []
+
+var topVotedFindDuplicates = function (nums) {
+  const ans = [];
+  const n = nums.length;
+  for (let i = 0; i < n; i++) {
+    const x = Math.abs(nums[i]);
+    if (nums[x - 1] < 0) {
+      ans.push(x);
+    }
+    nums[x - 1] *= -1;
+  }
+  return ans;
 };
