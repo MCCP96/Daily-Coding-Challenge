@@ -8505,7 +8505,7 @@ var topVotedFindDuplicates = function (nums) {
 }; */
 
 // Wiggle Subsequence					8/14/2024
-
+/* 
 // https://leetcode.com/problems/wiggle-subsequence/
 
 // A wiggle sequence is a sequence where the differences between successive numbers strictly alternate between positive and negative. The first difference (if one exists) may be either positive or negative. A sequence with one element and a sequence with two non-equal elements are trivially wiggle sequences.
@@ -8557,4 +8557,73 @@ console.log(wiggleMaxLength([1, 17, 5, 10, 13, 15, 10, 5, 16, 8])); //  7
 console.log(wiggleMaxLength([1, 2, 3, 4, 5, 6, 7, 8, 9])); //  2
 
 // first thought dp, but was too slow
-// same as top voted
+// same as top voted */
+
+// Kth Smallest Element in a Sorted Matrix					8/15/2024
+
+// https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
+
+// Given an n x n matrix where each of the rows and columns is sorted in ascending order, return the kth smallest element in the matrix.
+
+// Note that it is the kth smallest element in the sorted order, not the kth distinct element.
+
+// You must find a solution with a memory complexity better than O(n2).
+
+// Example 1:
+// 		Input: matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8
+// 		Output: 13
+// Explanation: The elements in the matrix are [1,5,9,10,11,12,13,13,15], and the 8th smallest number is 13
+
+// Example 2:
+// 		Input: matrix = [[-5]], k = 1
+// 		Output: -5
+
+// Constraints:
+//		n == matrix.length == matrix[i].length
+//		1 <= n <= 300
+//		-109 <= matrix[i][j] <= 109
+//		All the rows and columns of matrix are guaranteed to be sorted in non-decreasing order.
+//		1 <= k <= n2
+
+// Follow up:
+//		Could you solve the problem with a constant memory (i.e., O(1) memory complexity)?
+//		Could you solve the problem in O(n) time complexity? The solution may be too advanced for an interview but you may find reading this paper fun.
+
+var topVotedKthSmallest = function (matrix, k) {
+  let lo = matrix[0][0],
+    hi = matrix[matrix.length - 1][matrix[0].length - 1] + 1;
+  while (lo < hi) {
+    let mid = lo + Math.floor((hi - lo) / 2);
+    let count = 0;
+    for (let i = 0; i < matrix.length; i++) {
+      for (let j = 0; j < matrix.length; j++) {
+        if (matrix[i][j] <= mid) count++;
+        else break;
+      }
+    }
+    if (count < k) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+};
+
+console.log(
+  topVotedKthSmallest(
+    [
+      [1, 5, 9],
+      [10, 11, 13],
+      [12, 13, 15],
+    ],
+    8
+  )
+); //  13
+console.log(topVotedKthSmallest([[-5]], 1)); //  -5
+console.log(
+  topVotedKthSmallest(
+    [
+      [1, 2],
+      [1, 3],
+    ],
+    1
+  )
+); //  1
