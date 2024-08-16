@@ -8560,7 +8560,7 @@ console.log(wiggleMaxLength([1, 2, 3, 4, 5, 6, 7, 8, 9])); //  2
 // same as top voted */
 
 // Kth Smallest Element in a Sorted Matrix					8/15/2024
-
+/* 
 // https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
 
 // Given an n x n matrix where each of the rows and columns is sorted in ascending order, return the kth smallest element in the matrix.
@@ -8626,4 +8626,84 @@ console.log(
     ],
     1
   )
-); //  1
+); //  1 */
+
+// Construct the Longest New String					8/16/2024
+
+// https://leetcode.com/problems/construct-the-longest-new-string/description/
+
+// You are given three integers x, y, and z.
+
+// You have x strings equal to "AA", y strings equal to "BB", and z strings equal to "AB". You want to choose some (possibly all or none) of these strings and concatenate them in some order to form a new string. This new string must not contain "AAA" or "BBB" as a substring.
+
+// Return the maximum possible length of the new string.
+
+// A substring is a contiguous non-empty sequence of characters within a string.
+
+// Example 1:
+// 		Input: x = 2, y = 5, z = 1
+// 		Output: 12
+// Explanation: We can concactenate the strings "BB", "AA", "BB", "AA", "BB", and "AB" in that order. Then, our new string is "BBAABBAABBAB".
+// 		That string has length 12, and we can show that it is impossible to construct a string of longer length.
+
+// Example 2:
+// 		Input: x = 3, y = 2, z = 2
+// 		Output: 14
+// Explanation: We can concactenate the strings "AB", "AB", "AA", "BB", "AA", "BB", and "AA" in that order. Then, our new string is "ABABAABBAABBAA".
+// 		That string has length 14, and we can show that it is impossible to construct a string of longer length.
+
+// Constraints:
+//		1 <= x, y, z <= 50
+
+const longestString = (x, y, z) => {
+  // x="AA", y="BB", z="AB"
+  // cannot contain "AAA" or "BBB"
+  // avoid: xx, xz, yy, zy
+  // valid: xy, yx, yz, za, zz
+
+  let maxLen = 0;
+
+  const dfs = (len, prev, x, y, z) => {
+    if (
+      (x <= 0 && y <= 0 && z <= 0) ||
+      (prev == "x" && y <= 0) ||
+      (prev == "y" && x <= 0 && z <= 0) ||
+      (prev == "z" && x <= 0 && z <= 0)
+    ) {
+      // end case
+      maxLen = Math.max(len, maxLen);
+      return;
+    }
+
+    if (prev == "x") {
+      // avoid: xx, xz
+      if (y > 0) dfs(len + 2, "y", x, y - 1, z);
+    } else if (prev == "y") {
+      // avoid: yy
+      if (x > 0) dfs(len + 2, "x", x - 1, y, z);
+      if (z > 0) dfs(len + 2, "z", x, y, z - 1);
+    } else if (prev == "z") {
+      // avoid: zy
+      if (x > 0) dfs(len + 2, "x", x - 1, y, z);
+      if (z > 0) dfs(len + 2, "z", x, y, z - 1);
+    }
+  };
+  dfs(2, "x", x - 1, y, z); // start with x
+  dfs(2, "y", x, y - 1, z); // start with y
+  dfs(2, "z", x, y, z - 1); // start with z
+
+  return maxLen;
+};
+
+console.log(longestString(2, 5, 1)); //  12
+console.log(longestString(3, 2, 2)); //  14
+
+// Works but too slow
+
+var topVotedLongestString = function (x, y, z) {
+  if (x === y) return (x + y + z) * 2;
+  let minxy = Math.min(x, y);
+  return (minxy + minxy + 1 + z) * 2;
+};
+
+// So easy when you put it that way!
