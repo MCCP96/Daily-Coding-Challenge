@@ -8629,7 +8629,7 @@ console.log(
 ); //  1 */
 
 // Construct the Longest New String					8/16/2024
-
+/* 
 // https://leetcode.com/problems/construct-the-longest-new-string/description/
 
 // You are given three integers x, y, and z.
@@ -8706,4 +8706,84 @@ var topVotedLongestString = function (x, y, z) {
   return (minxy + minxy + 1 + z) * 2;
 };
 
-// So easy when you put it that way!
+// So easy when you put it that way! */
+
+// Minimum Number of Flips to Make Binary Grid Palindromic I					8/17/2024
+
+// https://leetcode.com/problems/minimum-number-of-flips-to-make-binary-grid-palindromic-i/description/
+
+// You are given an m x n binary matrix grid.
+
+// A row or column is considered palindromic if its values read the same forward and backward.
+
+// You can flip any number of cells in grid from 0 to 1, or from 1 to 0.
+
+// Return the minimum number of cells that need to be flipped to make either all rows palindromic or all columns palindromic.
+
+// Example 1:
+// 		Input: grid = [[1,0,0],[0,0,0],[0,0,1]]
+// 		Output: 2
+// Explanation:
+// 		Flipping the highlighted cells makes all the rows palindromic.
+
+// Example 2:
+// 		Input: grid = [[0,1],[0,1],[0,0]]
+// 		Output: 1
+// Explanation:
+// 		Flipping the highlighted cell makes all the columns palindromic.
+
+// Example 3:
+// 		Input: grid = [[1],[0]]
+// 		Output: 0
+// Explanation:
+// 		All rows are already palindromic.
+
+// Constraints:
+//		m == grid.length
+//		n == grid[i].length
+//		1 <= m * n <= 2 * 105
+//		0 <= grid[i][j] <= 1
+
+const minFlips = (grid) => {
+  const m = grid.length;
+  const n = grid[0].length;
+  let res;
+
+  // check rows
+  let rowFlips = 0;
+  for (const row of grid) {
+    for (let i = 0, j = n - 1; i < j; i++, j--) {
+      if (row[i] != row[j]) rowFlips++;
+    }
+  }
+  res = rowFlips;
+
+  // check columns
+  let colFlips = 0;
+  for (let col = 0; col < n; col++) {
+    for (let i = 0, j = m - 1; i < j; i++, j--) {
+      if (grid[i][col] != grid[j][col]) colFlips++;
+    }
+  }
+  res = Math.min(res, colFlips);
+
+  return res;
+};
+
+console.log(
+  minFlips([
+    [1, 0, 0],
+    [0, 0, 0],
+    [0, 0, 1],
+  ])
+); //  2
+console.log(
+  minFlips([
+    [0, 1],
+    [0, 1],
+    [0, 0],
+  ])
+); //  1
+console.log(minFlips([[1], [0]])); //  0
+
+// same as top voted
