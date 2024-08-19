@@ -8789,7 +8789,7 @@ console.log(minFlips([[1], [0]])); //  0
 // same as top voted */
 
 // Find the Power of K-Size Subarrays II					8/18/2024
-
+/* 
 // https://leetcode.com/problems/find-the-power-of-k-size-subarrays-ii/description/
 
 // You are given an array of integers nums of length n and a positive integer k.
@@ -8869,4 +8869,141 @@ console.log(resultsArray([3, 2, 3, 2, 3, 2], 2)); //  [-1,3,-1,3,-1]
 console.log(resultsArray([1], 1)); //  [1]
 
 // Beats 100%
-// not the most readable code I've ever written
+// not the most readable code I've ever written */
+
+// Maximum Points Inside the Square					8/19/2024
+
+// https://leetcode.com/problems/maximum-points-inside-the-square/description/
+
+// You are given a 2D array points and a string s where, points[i] represents the coordinates of point i, and s[i] represents the tag of point i.
+
+// A valid square is a square centered at the origin (0, 0), has edges parallel to the axes, and does not contain two points with the same tag.
+
+// Return the maximum number of points contained in a valid square.
+
+// Note:
+
+// A point is considered to be inside the square if it lies on or within the square's boundaries.
+
+// The side length of the square can be zero.
+
+// Example 1:
+// 		Input: points = [[2,2],[-1,-2],[-4,4],[-3,1],[3,-3]], s = "abdca"
+// 		Output: 2
+// Explanation:
+// 		The square of side length 4 covers two points points[0] and points[1].
+
+// Example 2:
+// 		Input: points = [[1,1],[-2,-2],[-2,2]], s = "abb"
+// 		Output: 1
+// Explanation:
+// 		The square of side length 2 covers one point, which is points[0].
+
+// Example 3:
+// 		Input: points = [[1,1],[-1,-1],[2,-2]], s = "ccd"
+// 		Output: 0
+// Explanation:
+// 		It's impossible to make any valid squares centered at the origin such that it covers only one point among points[0] and points[1].
+
+// Constraints:
+//		1 <= s.length, points.length <= 10^5
+//		points[i].length == 2
+//		-10^9 <= points[i][0], points[i][1] <= 10^9
+//		s.length == points.length
+//		points consists of distinct coordinates.
+//		s consists only of lowercase English letters.
+
+const maxPointsInsideSquare = (points, s) => {
+  const n = s.length;
+  if (n == new Set(s).size) return n; // all unique tags
+
+  // find two same tags and set outer bound to furthest one -1
+  // x and y can be treated the same due to nature of square expansion
+  let maxDist = Infinity;
+  let map = {};
+  for (let i = 0; i < n; i++) {
+    const tag = s[i];
+    const [x, y] = points[i];
+    const dist = Math.max(Math.abs(x), Math.abs(y));
+
+    if (map[tag] && map[tag][1] != Infinity) {
+      // >2 of this tag exist
+      if (dist < map[tag][0]) {
+        map[tag] = [dist, map[tag][0]]; // smaller than prev
+      } else if (dist < map[tag][1]) {
+        map[tag][1] = dist; // new closest 2nd occurence for this tag
+      }
+      maxDist = Math.min(maxDist, map[tag][1] - 1); // adjust outer bound
+    } else if (map[tag] && map[tag][1] == Infinity) {
+      // >1 of this tag exist
+      if (dist < map[tag][0]) {
+        map[tag] = [dist, map[tag][0]]; // smaller than prev
+      } else {
+        map[tag][1] = dist; // outer most for this tag
+      }
+      maxDist = Math.min(maxDist, map[tag][1] - 1); // adjust outer bound
+    } else {
+      // 1st occurence of this tag
+      map[tag] = [dist, Infinity];
+    }
+
+    points[i] = dist; // update for future filtering
+  }
+
+  return points.filter((dist) => dist <= maxDist).length;
+};
+
+console.log(
+  maxPointsInsideSquare(
+    [
+      [2, 2],
+      [-1, -2],
+      [-4, 4],
+      [-3, 1],
+      [3, -3],
+    ],
+    "abdca"
+  )
+); //  2
+console.log(
+  maxPointsInsideSquare(
+    [
+      [1, 1],
+      [-2, -2],
+      [-2, 2],
+    ],
+    "abb"
+  )
+); //  1
+console.log(
+  maxPointsInsideSquare(
+    [
+      [1, 1],
+      [-1, -1],
+      [2, -2],
+    ],
+    "ccd"
+  )
+); //  0
+
+var topVotedMaxPointsInsideSquare = function (points, s) {
+  points = points.map(([x, y]) => Math.max(Math.abs(x), Math.abs(y)));
+  const distances = {};
+
+  [...s].forEach((char, i) =>
+    distances[char]
+      ? distances[char].push(points[i])
+      : (distances[char] = [points[i]])
+  );
+
+  const maxDistToDouble =
+    Math.min(
+      ...Object.values(distances)
+        .filter(({ length }) => length > 1)
+        .map((arr) => arr.sort((x, y) => x - y)[1])
+    ) - 1;
+
+  return points.filter((dist) => dist <= maxDistToDouble).length;
+};
+
+// same idea
