@@ -8872,7 +8872,7 @@ console.log(resultsArray([1], 1)); //  [1]
 // not the most readable code I've ever written */
 
 // Maximum Points Inside the Square					8/19/2024
-
+/* 
 // https://leetcode.com/problems/maximum-points-inside-the-square/description/
 
 // You are given a 2D array points and a string s where, points[i] represents the coordinates of point i, and s[i] represents the tag of point i.
@@ -9006,4 +9006,61 @@ var topVotedMaxPointsInsideSquare = function (points, s) {
   return points.filter((dist) => dist <= maxDistToDouble).length;
 };
 
-// same idea
+// same idea */
+
+// Minimum Substring Partition of Equal Character Frequency					8/20/2024
+
+// https://leetcode.com/problems/minimum-substring-partition-of-equal-character-frequency/description/
+
+// Given a string s, you need to partition it into one or more balanced substrings. For example, if s == "ababcc" then ("abab", "c", "c"), ("ab", "abc", "c"), and ("ababcc") are all valid partitions, but ("a", "bab", "cc"), ("aba", "bc", "c"), and ("ab", "abcc") are not. The unbalanced substrings are bolded.
+
+// Return the minimum number of substrings that you can partition s into.
+
+// Note: A balanced string is a string where each character in the string occurs the same number of times.
+
+// Example 1:
+// 		Input: s = "fabccddg"
+// 		Output: 3
+// Explanation:
+// 		We can partition the string s into 3 substrings in one of the following ways: ("fab, "ccdd", "g"), or ("fabc", "cd", "dg").
+
+// Example 2:
+// 		Input: s = "abababaccddb"
+// 		Output: 2
+// Explanation:
+// 		We can partition the string s into 2 substrings like so: ("abab", "abaccddb").
+
+// Constraints:
+//		1 <= s.length <= 1000
+//		s consists only of English lowercase letters.
+
+const isBalanced = function (charFreq) {
+  let minFreq = 1001,
+    maxFreq = 0;
+  for (let Freq of charFreq) {
+    if (Freq > 0) {
+      minFreq = Math.min(minFreq, Freq);
+      maxFreq = Math.max(maxFreq, Freq);
+    }
+  }
+  return minFreq === maxFreq;
+};
+
+var topVotedMinimumSubstringsInPartition = function (S) {
+  const N = S.length;
+  const DP = new Array(N).fill(N);
+
+  for (let END = 0; END < N; END++) {
+    const charFreq = new Array(26).fill(0);
+
+    for (let START = END; START >= 0; START--) {
+      charFreq[S.charCodeAt(START) - "a".charCodeAt(0)]++;
+
+      if (isBalanced(charFreq)) {
+        DP[END] = START > 0 ? Math.min(DP[END], 1 + DP[START - 1]) : 1;
+      }
+    }
+  }
+
+  return DP[N - 1];
+};
