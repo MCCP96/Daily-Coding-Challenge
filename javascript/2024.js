@@ -9009,7 +9009,7 @@ var topVotedMaxPointsInsideSquare = function (points, s) {
 // same idea */
 
 // Minimum Substring Partition of Equal Character Frequency					8/20/2024
-
+/* 
 // https://leetcode.com/problems/minimum-substring-partition-of-equal-character-frequency/description/
 
 // Given a string s, you need to partition it into one or more balanced substrings. For example, if s == "ababcc" then ("abab", "c", "c"), ("ab", "abc", "c"), and ("ababcc") are all valid partitions, but ("a", "bab", "cc"), ("aba", "bc", "c"), and ("ab", "abcc") are not. The unbalanced substrings are bolded.
@@ -9063,4 +9063,72 @@ var topVotedMinimumSubstringsInPartition = function (S) {
   }
 
   return DP[N - 1];
+}; */
+
+// Taking Maximum Energy From the Mystic Dungeon					8/21/2024
+
+// https://leetcode.com/problems/taking-maximum-energy-from-the-mystic-dungeon/
+
+// In a mystic dungeon, n magicians are standing in a line. Each magician has an attribute that gives you energy. Some magicians can give you negative energy, which means taking energy from you.
+
+// You have been cursed in such a way that after absorbing energy from magician i, you will be instantly transported to magician (i + k). This process will be repeated until you reach the magician where (i + k) does not exist.
+
+// In other words, you will choose a starting point and then teleport with k jumps until you reach the end of the magicians' sequence, absorbing all the energy during the journey.
+
+// You are given an array energy and an integer k. Return the maximum possible energy you can gain.
+
+// Example 1:
+// 		Input: energy = [5,2,-10,-5,1], k = 3
+// 		Output: 3
+// Explanation: We can gain a total energy of 3 by starting from magician 1 absorbing 2 + 1 = 3.
+
+// Example 2:
+// 		Input: energy = [-2,-3,-1], k = 2
+// 		Output: -1
+// Explanation: We can gain a total energy of -1 by starting from magician 2.
+
+// Constraints:
+//		1 <= energy.length <= 105
+//		-1000 <= energy[i] <= 1000
+//		1 <= k <= energy.length - 1
+
+const maximumEnergy = (energy, k) => {
+  const n = energy.length;
+  let res = -Infinity;
+  let memo = {};
+
+  for (let i = 0; i < n; i++) {
+    let cur = 0;
+    let curMemo = {};
+    let valid = true;
+
+    for (let j = i; j < n && valid; j += k) {
+      cur += energy[j];
+
+      if (memo[j] >= cur) valid = false;
+      else curMemo[j] = cur;
+    }
+
+    if (valid) {
+      res = Math.max(res, cur);
+      memo = { ...memo, ...curMemo };
+    }
+  }
+
+  return res;
+};
+
+console.log(maximumEnergy([5, 2, -10, -5, 1], 3)); //  3
+console.log(maximumEnergy([-2, -3, -1], 2)); //  -1
+console.log(maximumEnergy([-1, -3, -3, 1, -1, 8, -9, -9], 1)); //  -9
+
+// memo merging at the end to avoid invalid pathways
+// time limit exceeded for larger test cases
+
+let topVotedMaximumEnergy = (energy, k) => {
+  const n = energy.length;
+  for (let i = n - 1 - k; 0 <= i; --i) {
+    energy[i] += energy[i + k];
+  }
+  return Math.max(...energy);
 };
