@@ -9134,7 +9134,7 @@ let topVotedMaximumEnergy = (energy, k) => {
 }; */
 
 // Find if Digit Game Can Be Won					8/22/2024
-
+/* 
 // https://leetcode.com/problems/find-if-digit-game-can-be-won/description/
 
 // You are given an array of positive integers nums.
@@ -9173,4 +9173,55 @@ const canAliceWin = (nums) => {
 
 console.log(canAliceWin([1, 2, 3, 4, 10])); //  false
 console.log(canAliceWin([1, 2, 3, 4, 5, 14])); //  true
-console.log(canAliceWin([5, 5, 5, 25])); //  true
+console.log(canAliceWin([5, 5, 5, 25])); //  true */
+
+// Find Occurrences of an Element in an Array					8/23/2024
+
+// https://leetcode.com/problems/find-occurrences-of-an-element-in-an-array/description/
+
+// You are given an integer array nums, an integer array queries, and an integer x.
+
+// For each queries[i], you need to find the index of the queries[i]th occurrence of x in the nums array. If there are fewer than queries[i] occurrences of x, the answer should be -1 for that query.
+
+// Return an integer array answer containing the answers to all queries.
+
+// Example 1:
+// 		Input: nums = [1,3,1,7], queries = [1,3,2,4], x = 1
+// 		Output: [0,-1,2,-1]
+// Explanation:
+// 		For the 1st query, the first occurrence of 1 is at index 0.
+// 		For the 2nd query, there are only two occurrences of 1 in nums, so the answer is -1.
+// 		For the 3rd query, the second occurrence of 1 is at index 2.
+// 		For the 4th query, there are only two occurrences of 1 in nums, so the answer is -1.
+
+// Example 2:
+// 		Input: nums = [1,2,3], queries = [10], x = 5
+// 		Output: [-1]
+// Explanation:
+// 		For the 1st query, 5 doesn't exist in nums, so the answer is -1.
+
+// Constraints:
+//		1 <= nums.length, queries.length <= 10^5
+//		1 <= queries[i] <= 10^5
+//		1 <= nums[i], x <= 10^4
+
+const occurrencesOfElement = (nums, queries, x) => {
+  const n = nums.length;
+
+  // incrementally find idx of each occurence
+  const occurences = new Array(n).fill(-1);
+  let idx = 0;
+  for (let i = 0; i < n; i++) {
+    if (nums[i] == x) occurences[idx++] = i;
+  }
+
+  // for each query, find occurence in occurences array
+  return queries.map((idx) => (idx > n ? -1 : occurences[idx - 1]));
+};
+
+console.log(occurrencesOfElement([1, 3, 1, 7], [1, 3, 2, 4], 1)); //  [0,-1,2,-1]
+console.log(occurrencesOfElement([1, 2, 3], [10], 5)); //  [-1]
+console.log(occurrencesOfElement([6], [3, 2, 1, 3], 6)); //  [-1, -1, 0, -1]
+console.log(occurrencesOfElement([1, 3, 3, 2, 2], [3, 3], 3)); //  [-1, -1]
+
+// same as top voted
