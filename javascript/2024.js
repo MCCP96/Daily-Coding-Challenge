@@ -9370,7 +9370,7 @@ var topVotedQueryResults = function (limit, queries) {
 // same idea, much cleaner code */
 
 // String Compression III					8/25/2024
-
+/* 
 // https://leetcode.com/problems/string-compression-iii/description/
 
 // Given a string word, compress it using the following algorithm:
@@ -9420,4 +9420,97 @@ const compressedString = (word) => {
 console.log(compressedString("abcde")); //  "1a1b1c1d1e"
 console.log(compressedString("aaaaaaaaaaaaaabb")); //  "9a5a2b"
 
-// bit too easy for a medium question
+// bit too easy for a medium question */
+
+// Find the Number of Good Pairs II					8/26/2024
+
+// https://leetcode.com/problems/find-the-number-of-good-pairs-ii/description/
+
+// You are given 2 integer arrays nums1 and nums2 of lengths n and m respectively. You are also given a positive integer k.
+
+// A pair (i, j) is called good if nums1[i] is divisible by nums2[j] * k (0 <= i <= n - 1, 0 <= j <= m - 1).
+
+// Return the total number of good pairs.
+
+// Example 1:
+// 		Input: nums1 = [1,3,4], nums2 = [1,3,4], k = 1
+// 		Output: 5
+// Explanation:
+// 		The 5 good pairs are (0, 0), (1, 0), (1, 1), (2, 0), and (2, 2).
+
+// Example 2:
+// 		Input: nums1 = [1,2,4,12], nums2 = [2,4], k = 3
+// 		Output: 2
+// Explanation:
+// 		The 2 good pairs are (3, 0) and (3, 1).
+
+// Constraints:
+//		1 <= n, m <= 105
+//		1 <= nums1[i], nums2[j] <= 106
+//		1 <= k <= 103
+
+const numberOfPairs = (nums1, nums2, k) => {
+  const n = nums1.length;
+  const m = nums2.length;
+  let res = 0;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      if (nums1[i] % (nums2[j] * k) == 0) res++;
+    }
+  }
+  return res;
+};
+
+console.log(numberOfPairs([1, 3, 4], [1, 3, 4], 1)); //  5
+console.log(numberOfPairs([1, 2, 4, 12], [2, 4], 3)); //  2
+
+// O(n^2) exceeds time limit
+
+const RevisedNumberOfPairs = (nums1, nums2, k) => {
+  const n = nums1.length;
+  const m = nums2.length;
+
+  let countNums1 = {};
+  let countNums2 = {};
+  for (const n of nums1) countNums1[n] ? countNums1[n]++ : (countNums1[n] = 1);
+  for (const n of nums2) countNums2[n] ? countNums2[n]++ : (countNums2[n] = 1);
+
+  let res = 0;
+  for (const [n1, count1] of Object.entries(countNums1)) {
+    for (const [n2, count2] of Object.entries(countNums2)) {
+      if (n1 % (n2 * k) == 0) res += count1 * count2;
+    }
+  }
+
+  return res;
+};
+
+// better but still too slow
+
+var topVotedNumberOfPairs = function (nums1, nums2, k) {
+  var map1 = new Map();
+  var map2 = new Map();
+
+  nums1.forEach((x) => {
+    if (x % k === 0) {
+      var f = x / k;
+      map1.set(f, (map1.get(f) || 0) + 1);
+    }
+  });
+
+  nums2.forEach((x) => {
+    map2.set(x, (map2.get(x) || 0) + 1);
+  });
+
+  var res = 0;
+  for (var [x, y] of map1) {
+    for (var i = 1; i <= Math.sqrt(x); ++i) {
+      if (x % i === 0) {
+        var cur = x / i;
+        if (map2.has(i)) res += map2.get(i) * y;
+        if (cur !== i && map2.has(cur)) res += map2.get(cur) * y;
+      }
+    }
+  }
+  return res;
+};
