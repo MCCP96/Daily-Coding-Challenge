@@ -9423,7 +9423,7 @@ console.log(compressedString("aaaaaaaaaaaaaabb")); //  "9a5a2b"
 // bit too easy for a medium question */
 
 // Find the Number of Good Pairs II					8/26/2024
-
+/* 
 // https://leetcode.com/problems/find-the-number-of-good-pairs-ii/description/
 
 // You are given 2 integer arrays nums1 and nums2 of lengths n and m respectively. You are also given a positive integer k.
@@ -9513,4 +9513,99 @@ var topVotedNumberOfPairs = function (nums1, nums2, k) {
     }
   }
   return res;
+}; */
+
+// Count Days Without Meetings					8/27/2024
+
+// https://leetcode.com/problems/count-days-without-meetings/
+
+// You are given a positive integer days representing the total number of days an employee is available for work (starting from day 1). You are also given a 2D array meetings of size n where, meetings[i] = [start_i, end_i] represents the starting and ending days of meeting i (inclusive).
+
+// Return the count of days when the employee is available for work but no meetings are scheduled.
+
+// Note: The meetings may overlap.
+
+// Example 1:
+// 		Input: days = 10, meetings = [[5,7],[1,3],[9,10]]
+// 		Output: 2
+// Explanation:
+// 		There is no meeting scheduled on the 4th and 8th days.
+
+// Example 2:
+// 		Input: days = 5, meetings = [[2,4],[1,3]]
+// 		Output: 1
+// Explanation:
+// 		There is no meeting scheduled on the 5th day.
+
+// Example 3:
+// 		Input: days = 6, meetings = [[1,6]]
+// 		Output: 0
+// Explanation:
+// 		Meetings are scheduled for all working days.
+
+// Constraints:
+//		1 <= days <= 10^9
+//		1 <= meetings.length <= 10^5
+//		meetings[i].length == 2
+//		1 <= meetings[i][0] <= meetings[i][1] <= days
+
+const countDays = (days, meetings) => {
+  let n = meetings.length;
+
+  meetings.sort(([s1], [s2]) => s1 - s2); // meetings in ascending order
+  let mergedMeetings = [];
+  let [s, e] = meetings[0];
+
+  // merge overlapping meetings
+  for (let i = 1; i < n; i++) {
+    if (e < meetings[i][0] - 1) {
+      // gap between meetings
+      mergedMeetings.push([s, e]);
+      [s, e] = meetings[i];
+    } else if (meetings[i][1] > e) {
+      // update end day
+      e = meetings[i][1];
+    }
+  }
+  // final meeting
+  mergedMeetings.push([s, e]);
+  n = mergedMeetings.length;
+
+  let res = mergedMeetings[0][0] - 1; // day 1 to start of first meeting
+  for (let i = 1; i < n; i++) {
+    // gap between merged meetings is no meeting days
+    res += mergedMeetings[i][0] - mergedMeetings[i - 1][1] - 1;
+  }
+  return res + days - mergedMeetings[n - 1][1]; // end of last meeting to final day
 };
+
+console.log(
+  countDays(10, [
+    [5, 7],
+    [1, 3],
+    [9, 10],
+  ])
+); //  2
+console.log(
+  countDays(5, [
+    [2, 4],
+    [1, 3],
+  ])
+); //  1
+console.log(countDays(6, [[1, 6]])); //  0
+console.log(
+  countDays(14, [
+    [6, 11],
+    [7, 13],
+    [8, 9],
+    [5, 8],
+    [3, 13],
+    [11, 13],
+    [1, 3],
+    [5, 10],
+    [8, 13],
+    [3, 9],
+  ])
+); //  1
+
+// same idea as top voted
