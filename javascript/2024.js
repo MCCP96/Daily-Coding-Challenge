@@ -9516,7 +9516,7 @@ var topVotedNumberOfPairs = function (nums1, nums2, k) {
 }; */
 
 // Count Days Without Meetings					8/27/2024
-
+/* 
 // https://leetcode.com/problems/count-days-without-meetings/
 
 // You are given a positive integer days representing the total number of days an employee is available for work (starting from day 1). You are also given a 2D array meetings of size n where, meetings[i] = [start_i, end_i] represents the starting and ending days of meeting i (inclusive).
@@ -9608,4 +9608,98 @@ console.log(
   ])
 ); //  1
 
-// same idea as top voted
+// same idea as top voted */
+
+// Lexicographically Minimum String After Removing Stars					8/28/2024
+
+// https://leetcode.com/problems/lexicographically-minimum-string-after-removing-stars/description/
+
+// You are given a string s. It may contain any number of '*' characters. Your task is to remove all '*' characters.
+
+// While there is a '*', do the following operation:
+// - Delete the leftmost '*' and the smallest non-'*' character to its left. If there are several smallest characters, you can delete any of them.
+
+// Return the lexicographically smallest resulting string after removing all '*' characters.
+
+// Example 1:
+// 		Input: s = "aaba*"
+// 		Output: "aab"
+// Explanation:
+// 		We should delete one of the 'a' characters with '*'. If we choose s[3], s becomes the lexicographically smallest.
+
+// Example 2:
+// 		Input: s = "abc"
+// 		Output: "abc"
+// Explanation:
+// 		There is no '*' in the string.
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s consists only of lowercase English letters and '*'.
+//		The input is generated such that it is possible to delete all '*' characters.
+
+const clearStars = (s) => {
+  const n = s.length;
+
+  let res = new Array(n);
+  let charIdxs = new Array(26).fill(null).map((_) => []); // track char idxs
+
+  for (let i = 0; i < n; i++) {
+    if (s[i] != "*") {
+      res[i] = s[i]; // add char to res
+      charIdxs[s[i].charCodeAt(0) - 97].push(i); // track char idx
+    } else {
+      // encountered *
+      res[i] = ""; // don't want * in final res
+
+      // shooting for lexicographical minimum string
+      // while removing smallest non-'*' character to its left
+      const minCharIdx = charIdxs.findIndex((x) => x.length != 0); // smallest char available
+      const removeIdx = charIdxs[minCharIdx].pop(); // latest occurrence of smallest char
+
+      res[removeIdx] = "";
+    }
+  }
+
+  return res.join("");
+};
+
+console.log(clearStars("aaba*")); //  "aab"
+console.log(clearStars("abc")); //  "abc"
+
+var topVotedClearStars = function (s) {
+  const mp = new Map();
+  const n = s.length;
+  const v = new Array(n).fill(0);
+
+  for (let i = 0; i < n; i++) {
+    if (s[i] !== "*") {
+      if (!mp.has(s[i])) {
+        mp.set(s[i], []);
+      }
+      mp.get(s[i]).push(i);
+    } else {
+      v[i] = 1;
+      const sortedEntries = Array.from(mp.entries()).sort((a, b) =>
+        a[0].localeCompare(b[0])
+      );
+      for (let [key, indices] of sortedEntries) {
+        const m = indices.length;
+        v[indices[m - 1]] = 1;
+        indices.pop();
+        if (indices.length === 0) {
+          mp.delete(key);
+        }
+        break;
+      }
+    }
+  }
+
+  let ans = "";
+  for (let i = 0; i < n; i++) {
+    if (v[i] !== 1) {
+      ans += s[i];
+    }
+  }
+  return ans;
+};
