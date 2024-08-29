@@ -9611,7 +9611,7 @@ console.log(
 // same idea as top voted */
 
 // Lexicographically Minimum String After Removing Stars					8/28/2024
-
+/* 
 // https://leetcode.com/problems/lexicographically-minimum-string-after-removing-stars/description/
 
 // You are given a string s. It may contain any number of '*' characters. Your task is to remove all '*' characters.
@@ -9702,4 +9702,98 @@ var topVotedClearStars = function (s) {
     }
   }
   return ans;
+}; */
+
+// Find The First Player to win K Games in a Row					8/29/2024
+
+// https://leetcode.com/problems/find-the-first-player-to-win-k-games-in-a-row/description/
+
+// A competition consists of n players numbered from 0 to n - 1.
+
+// You are given an integer array skills of size n and a positive integer k, where skills[i] is the skill level of player i. All integers in skills are unique.
+
+// All players are standing in a queue in order from player 0 to player n - 1.
+
+// The competition process is as follows:
+// - The first two players in the queue play a game, and the player with the higher skill level wins.
+// - After the game, the winner stays at the beginning of the queue, and the loser goes to the end of it.
+
+// The winner of the competition is the first player who wins k games in a row.
+// Return the initial index of the winning player.
+
+// Example 1:
+// 		Input: skills = [4,2,6,3,9], k = 2
+// 		Output: 2
+// Explanation:
+// 		Initially, the queue of players is [0,1,2,3,4]. The following process happens:
+// 		Players 0 and 1 play a game, since the skill of player 0 is higher than that of player 1, player 0 wins. The resulting queue is [0,2,3,4,1].
+// 		Players 0 and 2 play a game, since the skill of player 2 is higher than that of player 0, player 2 wins. The resulting queue is [2,3,4,1,0].
+// 		Players 2 and 3 play a game, since the skill of player 2 is higher than that of player 3, player 2 wins. The resulting queue is [2,4,1,0,3].
+// 		Player 2 won k = 2 games in a row, so the winner is player 2.
+
+// Example 2:
+// 		Input: skills = [2,5,4], k = 3
+// 		Output: 1
+// Explanation:
+// 		Initially, the queue of players is [0,1,2]. The following process happens:
+// 		Players 0 and 1 play a game, since the skill of player 1 is higher than that of player 0, player 1 wins. The resulting queue is [1,2,0].
+// 		Players 1 and 2 play a game, since the skill of player 1 is higher than that of player 2, player 1 wins. The resulting queue is [1,0,2].
+// 		Players 1 and 0 play a game, since the skill of player 1 is higher than that of player 0, player 1 wins. The resulting queue is [1,2,0].
+// 		Player 1 won k = 3 games in a row, so the winner is player 1.
+
+// Constraints:
+//		n == skills.length
+//		2 <= n <= 105
+//		1 <= k <= 109
+//		1 <= skills[i] <= 106
+//		All integers in skills are unique.
+
+const findWinningPlayer = (skills, k) => {
+  if (k > skills.length) {
+    // winner is max skill
+    const maxSkill = Math.max(...skills);
+    return skills.findIndex((x) => x == maxSkill);
+  }
+  skills = skills.map((c, i) => ({ skill: c, idx: i }));
+
+  let wins = 0;
+  while (wins < k) {
+    if (skills[0].skill > skills[1].skill) {
+      wins++; // continue win streak
+      skills.push(...skills.splice(1, 1)); // send loser to back
+    } else {
+      wins = 1; // reset win streak
+      skills.push(...skills.splice(0, 1)); // send loser to back
+    }
+  }
+
+  return skills[0].idx;
 };
+
+console.log(findWinningPlayer([4, 2, 6, 3, 9], 2)); //  2
+console.log(findWinningPlayer([2, 5, 4], 3)); //  1
+console.log(findWinningPlayer([16, 4, 7, 17], 562084119)); //  3
+
+// Too slow
+
+var topVotedFindWinningPlayer = function (skills, k) {
+  let winner = skills[0],
+    cur = 0,
+    n = skills.length,
+    res = 0;
+
+  for (let i = 1; i < n; i++) {
+    if (skills[i] > winner) {
+      winner = skills[i];
+      cur = 0;
+      res = i;
+    }
+    cur++;
+    if (cur == k) break;
+  }
+
+  return res;
+};
+
+// O(n), you either win in one pass or largest skill wins
+// much better
