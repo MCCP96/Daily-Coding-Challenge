@@ -9799,7 +9799,7 @@ var topVotedFindWinningPlayer = function (skills, k) {
 // much better */
 
 // Find the Number of Winning Players					8/30/2024
-
+/* 
 // https://leetcode.com/problems/find-the-number-of-winning-players/description/
 
 // You are given an integer n representing the number of players in a game and a 2D array pick where pick[i] = [xi, yi] represents that the player xi picked a ball of color yi.
@@ -9905,4 +9905,74 @@ var topVotedWinningPlayerCount = function (n, pick) {
   return count;
 };
 
-// winners set saves some iterations
+// winners set saves some iterations */
+
+// Maximum Total Reward Using Operations I					8/31/2024
+
+// https://leetcode.com/problems/maximum-total-reward-using-operations-i/description/
+
+// You are given an integer array rewardValues of length n, representing the values of rewards.
+
+// Initially, your total reward x is 0, and all indices are unmarked. You are allowed to perform the following operation any number of times:
+// - Choose an unmarked index i from the range [0, n - 1].
+// - If rewardValues[i] is greater than your current total reward x, then add rewardValues[i] to x (i.e., x = x + rewardValues[i]), and mark the index i.
+
+// Return an integer denoting the maximum total reward you can collect by performing the operations optimally.
+
+// Example 1:
+// 		Input: rewardValues = [1,1,3,3]
+// 		Output: 4
+// Explanation:
+// 		During the operations, we can choose to mark the indices 0 and 2 in order, and the total reward will be 4, which is the maximum.
+
+// Example 2:
+// 		Input: rewardValues = [1,6,4,3,2]
+// 		Output: 11
+// Explanation:
+// 		Mark the indices 0, 2, and 1 in order. The total reward will then be 11, which is the maximum.
+
+// Constraints:
+//		1 <= rewardValues.length <= 2000
+//		1 <= rewardValues[i] <= 2000
+
+const maxTotalReward = (rewards) => {
+  let x = 0;
+
+  const dfs = (cur, arr) => {
+    if (cur > x) x = cur;
+
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] > cur) {
+        dfs(cur + arr[i], [...arr.slice(0, i), ...arr.slice(i + 1)]);
+      }
+    }
+  };
+  dfs(0, [...rewards]);
+
+  return x;
+};
+
+console.log(maxTotalReward([1, 1, 3, 3])); //  4
+console.log(maxTotalReward([1, 6, 4, 3, 2])); //  11
+
+var topVotedMaxTotalReward = function (rewardValues) {
+  rewardValues.sort((a, b) => a - b);
+
+  const n = rewardValues.length;
+  const memo = Array.from({ length: n }, (_, i) => Array(4000).fill(-1));
+
+  return dfs(0, 0);
+
+  function dfs(i, currX) {
+    if (i == rewardValues.length) return currX;
+    if (memo[i][currX] != -1) return memo[i][currX];
+
+    const pick =
+      rewardValues[i] > currX ? dfs(i + 1, rewardValues[i] + currX) : 0;
+    const notPick = dfs(i + 1, currX);
+
+    return (memo[i][currX] = Math.max(pick, notPick));
+  }
+};
+
+// same but sorted and memo
