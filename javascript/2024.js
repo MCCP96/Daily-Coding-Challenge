@@ -9908,7 +9908,7 @@ var topVotedWinningPlayerCount = function (n, pick) {
 // winners set saves some iterations */
 
 // Maximum Total Reward Using Operations I					8/31/2024
-
+/* 
 // https://leetcode.com/problems/maximum-total-reward-using-operations-i/description/
 
 // You are given an integer array rewardValues of length n, representing the values of rewards.
@@ -9975,4 +9975,57 @@ var topVotedMaxTotalReward = function (rewardValues) {
   }
 };
 
-// same but sorted and memo
+// same but sorted and memo */
+
+// Count Pairs That Form a Complete Day II					9/1/2024
+
+// https://leetcode.com/problems/count-pairs-that-form-a-complete-day-ii/description/
+
+// Given an integer array hours representing times in hours, return an integer denoting the number of pairs i, j where i < j and hours[i] + hours[j] forms a complete day.
+
+// A complete day is defined as a time duration that is an exact multiple of 24 hours.
+
+// For example, 1 day is 24 hours, 2 days is 48 hours, 3 days is 72 hours, and so on.
+
+// Example 1:
+// 		Input: hours = [12,12,30,24,24]
+// 		Output: 2
+// Explanation: The pairs of indices that form a complete day are (0, 1) and (3, 4).
+
+// Example 2:
+// 		Input: hours = [72,48,24,3]
+// 		Output: 3
+// Explanation: The pairs of indices that form a complete day are (0, 1), (0, 2), and (1, 2).
+
+// Constraints:
+//		1 <= hours.length <= 5 * 10^5
+//		1 <= hours[i] <= 10^9
+
+const countCompleteDayPairs = (hours) => {
+  const n = hours.length;
+  let days = 0;
+  for (let i = 0; i < n - 1; i++) {
+    for (let j = i + 1; j < n; j++) {
+      if ((hours[i] + hours[j]) % 24 == 0) days++;
+    }
+  }
+  return days;
+};
+
+console.log(countCompleteDayPairs([12, 12, 30, 24, 24])); //  2
+console.log(countCompleteDayPairs([72, 48, 24, 3])); //  3
+
+// O(n^2) is too slow
+
+var topVotedCountCompleteDayPairs = function (hours) {
+  let ans = 0;
+  let count = new Array(24).fill(0);
+  for (let hour of hours) {
+    ans += count[(24 - (hour % 24)) % 24];
+    count[hour % 24]++;
+  }
+
+  return ans;
+};
+
+// "With the approach described above, we store hours[i] % 24 in our hashtable for fast look-up. To find an index j such that (hours[j] + hours[i]) % 24 = 0 where j < i, we simply check how many j satisfy (24 - hours[i] % 24) % 24 = hours[j] % 24. As hours[j] % 24 is already stored in out hashtable, this allows us to efficiently count pairs of hours that sum to a multiple of 24."
