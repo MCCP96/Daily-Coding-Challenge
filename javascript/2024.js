@@ -9978,7 +9978,7 @@ var topVotedMaxTotalReward = function (rewardValues) {
 // same but sorted and memo */
 
 // Count Pairs That Form a Complete Day II					9/1/2024
-
+/* 
 // https://leetcode.com/problems/count-pairs-that-form-a-complete-day-ii/description/
 
 // Given an integer array hours representing times in hours, return an integer denoting the number of pairs i, j where i < j and hours[i] + hours[j] forms a complete day.
@@ -10028,4 +10028,95 @@ var topVotedCountCompleteDayPairs = function (hours) {
   return ans;
 };
 
-// "With the approach described above, we store hours[i] % 24 in our hashtable for fast look-up. To find an index j such that (hours[j] + hours[i]) % 24 = 0 where j < i, we simply check how many j satisfy (24 - hours[i] % 24) % 24 = hours[j] % 24. As hours[j] % 24 is already stored in out hashtable, this allows us to efficiently count pairs of hours that sum to a multiple of 24."
+// "With the approach described above, we store hours[i] % 24 in our hashtable for fast look-up. To find an index j such that (hours[j] + hours[i]) % 24 = 0 where j < i, we simply check how many j satisfy (24 - hours[i] % 24) % 24 = hours[j] % 24. As hours[j] % 24 is already stored in out hashtable, this allows us to efficiently count pairs of hours that sum to a multiple of 24." */
+
+// Design Neighbor Sum Service					9/2/2024
+
+// https://leetcode.com/problems/design-neighbor-sum-service/description/
+
+// You are given a n x n 2D array grid containing distinct elements in the range [0, n2 - 1].
+
+// Implement the NeighborSum class:
+
+// NeighborSum(int [][]grid) initializes the object.
+
+// int adjacentSum(int value) returns the sum of elements which are adjacent neighbors of value, that is either to the top, left, right, or bottom of value in grid.
+
+// int diagonalSum(int value) returns the sum of elements which are diagonal neighbors of value, that is either to the top-left, top-right, bottom-left, or bottom-right of value in grid.
+
+// Example 1:
+// 		Input:
+// 		["NeighborSum", "adjacentSum", "adjacentSum", "diagonalSum", "diagonalSum"]
+// 		[[[[0, 1, 2], [3, 4, 5], [6, 7, 8]]], [1], [4], [4], [8]]
+// 		Output: [null, 6, 16, 16, 4]
+// Explanation:
+// 		The adjacent neighbors of 1 are 0, 2, and 4.
+// 		The adjacent neighbors of 4 are 1, 3, 5, and 7.
+// 		The diagonal neighbors of 4 are 0, 2, 6, and 8.
+// 		The diagonal neighbor of 8 is 4.
+
+// Example 2:
+// 		Input:
+// 		["NeighborSum", "adjacentSum", "diagonalSum"]
+// 		[[[[1, 2, 0, 3], [4, 7, 15, 6], [8, 9, 10, 11], [12, 13, 14, 5]]], [15], [9]]
+// 		Output: [null, 23, 45]
+// Explanation:
+// 		The adjacent neighbors of 15 are 0, 10, 7, and 6.
+// 		The diagonal neighbors of 9 are 4, 12, 14, and 15.
+
+// Constraints:
+//		3 <= n == grid.length == grid[0].length <= 10
+//		0 <= grid[i][j] <= n2 - 1
+//		All grid[i][j] are distinct.
+//		value in adjacentSum and diagonalSum will be in the range [0, n2 - 1].
+//		At most 2 * n2 calls will be made to adjacentSum and diagonalSum.
+
+class NeighborSum {
+  constructor(grid) {
+    this.n = grid.length;
+    this.m = grid[0].length;
+    this.grid = grid;
+    this.map = {}; // O(n) lookup
+
+    for (let row = 0; row < this.n; row++) {
+      for (let col = 0; col < this.m; col++) {
+        this.map[grid[row][col]] = [row, col];
+      }
+    }
+  }
+
+  adjacentSum(x) {
+    const [row, col] = this.map[x];
+
+    let sum = 0;
+    if (row > 0) sum += this.grid[row - 1][col]; // up
+    if (col < this.m - 1) sum += this.grid[row][col + 1]; // right
+    if (row < this.n - 1) sum += this.grid[row + 1][col]; // down
+    if (col > 0) sum += this.grid[row][col - 1]; // left
+
+    return sum;
+  }
+
+  diagonalSum(x) {
+    const [row, col] = this.map[x];
+
+    let sum = 0;
+    if (row > 0 && col > 0) sum += this.grid[row - 1][col - 1]; // up, left
+    if (row > 0 && col < this.m - 1) sum += this.grid[row - 1][col + 1]; // up, right
+    if (row < this.n - 1 && col > 0) sum += this.grid[row + 1][col - 1]; // down, left
+    if (row < this.n - 1 && col < this.m - 1)
+      sum += this.grid[row + 1][col + 1]; // down, right
+
+    return sum;
+  }
+}
+
+const neighborSum = new NeighborSum([
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+]);
+console.log(neighborSum.adjacentSum(1)); // 6
+console.log(neighborSum.adjacentSum(4)); // 16
+console.log(neighborSum.diagonalSum(4)); // 16
+console.log(neighborSum.diagonalSum(8)); // 4
