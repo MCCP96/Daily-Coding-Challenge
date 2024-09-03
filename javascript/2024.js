@@ -10031,7 +10031,7 @@ var topVotedCountCompleteDayPairs = function (hours) {
 // "With the approach described above, we store hours[i] % 24 in our hashtable for fast look-up. To find an index j such that (hours[j] + hours[i]) % 24 = 0 where j < i, we simply check how many j satisfy (24 - hours[i] % 24) % 24 = hours[j] % 24. As hours[j] % 24 is already stored in out hashtable, this allows us to efficiently count pairs of hours that sum to a multiple of 24." */
 
 // Design Neighbor Sum Service					9/2/2024
-
+/* 
 // https://leetcode.com/problems/design-neighbor-sum-service/description/
 
 // You are given a n x n 2D array grid containing distinct elements in the range [0, n2 - 1].
@@ -10119,4 +10119,56 @@ const neighborSum = new NeighborSum([
 console.log(neighborSum.adjacentSum(1)); // 6
 console.log(neighborSum.adjacentSum(4)); // 16
 console.log(neighborSum.diagonalSum(4)); // 16
-console.log(neighborSum.diagonalSum(8)); // 4
+console.log(neighborSum.diagonalSum(8)); // 4 */
+
+// Minimum Operations to Make Binary Array Elements Equal to One I					9/3/2024
+
+// https://leetcode.com/problems/minimum-operations-to-make-binary-array-elements-equal-to-one-i/description/
+
+// You are given a binary array nums.
+
+// You can do the following operation on the array any number of times (possibly zero):
+// - Choose any 3 consecutive elements from the array and flip all of them.
+
+// Flipping an element means changing its value from 0 to 1, and from 1 to 0.
+
+// Return the minimum number of operations required to make all elements in nums equal to 1. If it is impossible, return -1.
+
+// Example 1:
+// 		Input: nums = [0,1,1,1,0,0]
+// 		Output: 3
+// Explanation:
+// 		We can do the following operations:
+// 		Choose the elements at indices 0, 1 and 2. The resulting array is nums = [1,0,0,1,0,0].
+// 		Choose the elements at indices 1, 2 and 3. The resulting array is nums = [1,1,1,0,0,0].
+// 		Choose the elements at indices 3, 4 and 5. The resulting array is nums = [1,1,1,1,1,1].
+
+// Example 2:
+// 		Input: nums = [0,1,1,1]
+// 		Output: -1
+// Explanation:
+// 		It is impossible to make all elements equal to 1.
+
+// Constraints:
+//		3 <= nums.length <= 105
+//		0 <= nums[i] <= 1
+
+const minOperations = (nums) => {
+  const n = nums.length;
+  let res = 0;
+  for (let i = 0; i < n - 2; i++) {
+    if (nums[i] == 0) {
+      nums[i] = 1;
+      nums[i + 1] = !nums[i + 1];
+      nums[i + 2] = !nums[i + 2];
+      res++;
+    }
+  }
+  return nums[n - 1] && nums[n - 2] ? res : -1;
+};
+
+console.log(minOperations([0, 1, 1, 1, 0, 0])); //  3
+console.log(minOperations([0, 1, 1, 1])); //  -1
+
+// greedy works here
+// same as top voted
