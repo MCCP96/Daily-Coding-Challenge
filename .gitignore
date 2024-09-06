@@ -1,2 +1,4 @@
 /.vscode
 /c/*.exe
+tsconfig.json
+/TypeScript/*.js
