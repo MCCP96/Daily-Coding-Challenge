@@ -1,5 +1,5 @@
 // Two Sum					9/6/2024
-
+/* 
 // https://leetcode.com/problems/two-sum/description/
 
 // Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
@@ -60,4 +60,50 @@ function topVotedTwoSum(nums: number[], target: number): number[] {
   return [-1, -1];
 }
 
-// seems the interface wasn't needed
+// seems the interface wasn't needed */
+
+// Palindrome Number					9/7/2024
+
+// https://leetcode.com/problems/palindrome-number/description/
+
+// Given an integer x, return true if x is a palindrome, and false otherwise.
+
+// Example 1:
+// 		Input: x = 121
+// 		Output: true
+// Explanation: 121 reads as 121 from left to right and from right to left.
+
+// Example 2:
+// 		Input: x = -121
+// 		Output: false
+// Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+// Example 3:
+// 		Input: x = 10
+// 		Output: false
+// Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+// Constraints:
+//		-2^31 <= x <= 2^31 - 1
+//		Follow up: Could you solve it without converting the integer to a string?
+
+function isPalindrome(x: number): boolean {
+  if (x < 0) return false; // negatives cannot be palindromes
+
+  let num = x;
+  let flipped = 0;
+
+  while (num > 0) {
+    let tail = num % 10; // tailing digit
+    num = ~~(num / 10);
+    flipped = flipped * 10 + tail;
+  }
+
+  return flipped === x;
+}
+
+console.log(isPalindrome(121)); //  true
+console.log(isPalindrome(-121)); //  false
+console.log(isPalindrome(10)); //  false
+
+// same as top voted
