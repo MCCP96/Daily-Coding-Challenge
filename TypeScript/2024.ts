@@ -63,7 +63,7 @@ function topVotedTwoSum(nums: number[], target: number): number[] {
 // seems the interface wasn't needed */
 
 // Palindrome Number					9/7/2024
-
+/* 
 // https://leetcode.com/problems/palindrome-number/description/
 
 // Given an integer x, return true if x is a palindrome, and false otherwise.
@@ -106,4 +106,61 @@ console.log(isPalindrome(121)); //  true
 console.log(isPalindrome(-121)); //  false
 console.log(isPalindrome(10)); //  false
 
-// same as top voted
+// same as top voted */
+
+// Longest Common Prefix					9/8/2024
+
+// https://leetcode.com/problems/longest-common-prefix/
+
+// Write a function to find the longest common prefix string amongst an array of strings.
+// If there is no common prefix, return an empty string "".
+
+// Example 1:
+// 		Input: strs = ["flower","flow","flight"]
+// 		Output: "fl"
+
+// Example 2:
+// 		Input: strs = ["dog","racecar","car"]
+// 		Output: ""
+// Explanation: There is no common prefix among the input strings.
+
+// Constraints:
+//		1 <= strs.length <= 200
+//		0 <= strs[i].length <= 200
+//		strs[i] consists of only lowercase English letters.
+
+function longestCommonPrefix(strs: string[]): string {
+  const n = strs.length;
+
+  let prefix = strs[0]; // best case scenario, full match
+  for (let i = 1; i < n; i++) {
+    let idx = 0;
+    while (prefix[idx] && prefix[idx] == strs[i][idx]) {
+      // doesn't exceed prefix length and are matching chars
+      idx++;
+    }
+    prefix = prefix.substring(0, idx); // only keep matching
+  }
+  return prefix;
+}
+
+console.log(longestCommonPrefix(["flower", "flow", "flight"])); //  "fl"
+console.log(longestCommonPrefix(["dog", "racecar", "car"])); //  ""
+
+// I'll return to mediums since javascript/typescript are so similar
+
+function topVotedLongestCommonPrefix(strs: string[]): string {
+  let prefix = strs[0];
+
+  for (let i = 1; i < strs.length; i++) {
+    while (!strs[i].startsWith(prefix)) {
+      prefix = prefix.slice(0, -1);
+    }
+
+    if (prefix === "") {
+      return prefix;
+    }
+  }
+
+  return prefix;
+}
