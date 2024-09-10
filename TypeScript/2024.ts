@@ -166,7 +166,7 @@ function topVotedLongestCommonPrefix(strs: string[]): string {
 } */
 
 // Partition String Into Minimum Beautiful Substrings					9/9/2024
-
+/* 
 // https://leetcode.com/problems/partition-string-into-minimum-beautiful-substrings/description/
 
 // Given a binary string s, partition the string into one or more substrings such that each substring is beautiful.
@@ -234,4 +234,135 @@ function topVotedMinimumBeautifulSubstrings(s: string): number {
   return min === Infinity ? -1 : min;
 }
 
-// bin array is a great tool here
+// bin array is a great tool here */
+
+// Count Zero Request Servers					9/10/2024
+
+// https://leetcode.com/problems/count-zero-request-servers/description/
+
+// You are given an integer n denoting the total number of servers and a 2D 0-indexed integer array logs, where logs[i] = [server_id, time] denotes that the server with id server_id received a request at time time.
+
+// You are also given an integer x and a 0-indexed integer array queries.
+
+// Return a 0-indexed integer array arr of length queries.length where arr[i] represents the number of servers that did not receive any requests during the time interval [queries[i] - x, queries[i]].
+
+// Note that the time intervals are inclusive.
+
+// Example 1:
+// 		Input: n = 3, logs = [[1,3],[2,6],[1,5]], x = 5, queries = [10,11]
+// 		Output: [1,2]
+// Explanation:
+// 		For queries[0]: The servers with ids 1 and 2 get requests in the duration of [5, 10]. Hence, only server 3 gets zero requests.
+// 		For queries[1]: Only the server with id 2 gets a request in duration of [6,11]. Hence, the servers with ids 1 and 3 are the only servers that do not receive any requests during that time period.
+
+// Example 2:
+// 		Input: n = 3, logs = [[2,4],[2,1],[1,2],[3,1]], x = 2, queries = [3,4]
+// 		Output: [0,1]
+// Explanation:
+// 		For queries[0]: All servers get at least one request in the duration of [1, 3].
+// 		For queries[1]: Only server with id 3 gets no request in the duration [2,4].
+
+// Constraints:
+//		1 <= n <= 105
+//		1 <= logs.length <= 105
+//		1 <= queries.length <= 105
+//		logs[i].length == 2
+//		1 <= logs[i][0] <= n
+//		1 <= logs[i][1] <= 106
+//		1 <= x <= 105
+//		x < queries[i] <= 106
+
+function countServers(
+  n: number,
+  logs: number[][],
+  x: number,
+  queries: number[]
+): number[] {
+  // for every instance of time, track servers that have received a request
+  const map = new Map();
+  for (const [id, time] of logs) {
+    if (!map.has(time)) map.set(time, new Set([id]));
+    else if (!map.get(time).has(id)) map.set(time, map.get(time).add(id));
+  }
+
+  // for every query, check all servers active in that window
+  return queries.map((time) => {
+    let receivedRequests = new Set(); // unique servers active within window
+    for (let t = time - x; t <= time; t++) {
+      if (map.has(t))
+        receivedRequests = new Set([...receivedRequests, ...map.get(t)]);
+    }
+    return n - receivedRequests.size;
+  });
+}
+
+console.log(
+  countServers(
+    3,
+    [
+      [1, 3],
+      [2, 6],
+      [1, 5],
+    ],
+    5,
+    [10, 11]
+  )
+); //  [1,2]
+console.log(
+  countServers(
+    3,
+    [
+      [2, 4],
+      [2, 1],
+      [1, 2],
+      [3, 1],
+    ],
+    2,
+    [3, 4]
+  )
+); //  [0,1]
+
+var topVotedCountServers = function (
+  n: number,
+  logs: number[][],
+  x: number,
+  queries: number[]
+): number[] {
+  logs.sort((a, b) => a[1] - b[1]); // sort logs ascending by time
+  let mappedQueries = queries.map((endTime, index) => [endTime, index]); // add index to queries
+  mappedQueries.sort((a, b) => a[0] - b[0]); // sort queries by end times
+
+  const ans = new Array(mappedQueries.length).fill(0);
+  const map = new Map();
+  let uniqueServers = 0;
+  let start = 0;
+  let end = 0;
+
+  for (const [endTime, index] of mappedQueries) {
+    const startTime = endTime - x;
+
+    while (end < logs.length && logs[end][1] <= endTime) {
+      // check every logs for current query window, and map them
+      const id = logs[end][0]; // current log server id
+      map.set(id, (map.get(id) || 0) + 1); // increment occurrence of id
+      if (map.get(id) === 1) uniqueServers++; // if > 1, increment ans
+      end++;
+    }
+
+    while (start < logs.length && logs[start][1] < startTime) {
+      const prev = logs[start][0]; // current log server id
+      map.set(prev, map.get(prev) - 1); // decrement occurence of id
+      if (map.get(prev) === 0) {
+        // if < 1, remove from ans
+        map.delete(prev);
+        uniqueServers--;
+      }
+      start++;
+    }
+
+    // update ans
+    ans[index] = n - uniqueServers;
+  }
+
+  return ans;
+};
