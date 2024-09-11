@@ -237,7 +237,7 @@ function topVotedMinimumBeautifulSubstrings(s: string): number {
 // bin array is a great tool here */
 
 // Count Zero Request Servers					9/10/2024
-
+/* 
 // https://leetcode.com/problems/count-zero-request-servers/description/
 
 // You are given an integer n denoting the total number of servers and a 2D 0-indexed integer array logs, where logs[i] = [server_id, time] denotes that the server with id server_id received a request at time time.
@@ -365,4 +365,117 @@ var topVotedCountServers = function (
   }
 
   return ans;
-};
+}; */
+
+// Sort Vowels in a String					9/11/2024
+
+// https://leetcode.com/problems/sort-vowels-in-a-string/
+
+// Given a 0-indexed string s, permute s to get a new string t such that:
+
+// All consonants remain in their original places. More formally, if there is an index i with 0 <= i < s.length such that s[i] is a consonant, then t[i] = s[i].
+
+// The vowels must be sorted in the nondecreasing order of their ASCII values. More formally, for pairs of indices i, j with 0 <= i < j < s.length such that s[i] and s[j] are vowels, then t[i] must not have a higher ASCII value than t[j].
+
+// Return the resulting string.
+
+// The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in lowercase or uppercase. Consonants comprise all letters that are not vowels.
+
+// Example 1:
+// 		Input: s = "lEetcOde"
+// 		Output: "lEOtcede"
+// Explanation: 'E', 'O', and 'e' are the vowels in s; 'l', 't', 'c', and 'd' are all consonants. The vowels are sorted according to their ASCII values, and the consonants remain in the same places.
+
+// Example 2:
+// 		Input: s = "lYmpH"
+// 		Output: "lYmpH"
+// Explanation: There are no vowels in s (all characters in s are consonants), so we return "lYmpH".
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s consists only of letters of the English alphabet in uppercase and lowercase.
+
+const charToIdx = new Map([
+  ["A", 0],
+  ["E", 1],
+  ["I", 2],
+  ["O", 3],
+  ["U", 4],
+  ["a", 5],
+  ["e", 6],
+  ["i", 7],
+  ["o", 8],
+  ["u", 9],
+]);
+const idxToChar = new Map([
+  [0, "A"],
+  [1, "E"],
+  [2, "I"],
+  [3, "O"],
+  [4, "U"],
+  [5, "a"],
+  [6, "e"],
+  [7, "i"],
+  [8, "o"],
+  [9, "u"],
+]);
+
+function sortVowels(s: string): string {
+  const n = s.length;
+  let vowels = new Array(10).fill(0);
+
+  for (let c of s) {
+    if (charToIdx.has(c)) {
+      // vowel found
+      const idx = charToIdx.get(c);
+      if (idx != undefined) vowels[idx] += 1; // increment count
+    }
+  }
+
+  let res = "";
+  let availCharIdx = 0; // skip starting from beginning of vowel array everytime
+
+  for (let i = 0; i < n; i++) {
+    const c = s[i];
+
+    if (charToIdx.has(c)) {
+      // vowel found
+      for (let idx = availCharIdx; idx < 10; idx++, availCharIdx++) {
+        // find next available sorted vowel
+        if (vowels[idx] > 0) {
+          res += idxToChar.get(idx);
+          vowels[idx]--; // decrement vowel count
+          break;
+        }
+      }
+    } else {
+      // add consonant
+      res += c;
+    }
+  }
+
+  return res;
+}
+
+console.log(sortVowels("lEetcOde")); //  "lEOtcede"
+console.log(sortVowels("lYmpH")); //  "lYmpH"
+
+// 100% Runtime
+
+function topVotedSortVowels(s: string): string {
+  const vowels = new Set(["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]);
+  const sArr = s.split("");
+  const sortedVowel = sArr.filter((c) => vowels.has(c)).sort();
+
+  let result = "";
+  let vowelIndex = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (vowels.has(s[i])) {
+      result += sortedVowel[vowelIndex++];
+    } else {
+      result += s[i];
+    }
+  }
+
+  return result;
+}
