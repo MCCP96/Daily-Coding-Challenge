@@ -1,3 +1,31 @@
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+const linkedList = (arr: number[]) => {
+  let head = new ListNode();
+  let node = head;
+  for (const x of arr) {
+    node.next = new ListNode(x);
+    node = node.next;
+  }
+  return head.next;
+};
+
+const printLinkedList = (head: ListNode | null) => {
+  let els = [];
+  while (head) {
+    els.push(head.val);
+    head = head.next;
+  }
+  console.log(els);
+};
+
 // Two Sum					9/6/2024
 /* 
 // https://leetcode.com/problems/two-sum/description/
@@ -368,7 +396,7 @@ var topVotedCountServers = function (
 }; */
 
 // Sort Vowels in a String					9/11/2024
-
+/* 
 // https://leetcode.com/problems/sort-vowels-in-a-string/
 
 // Given a 0-indexed string s, permute s to get a new string t such that:
@@ -478,4 +506,97 @@ function topVotedSortVowels(s: string): string {
   }
 
   return result;
+} */
+
+// Insert Greatest Common Divisors in Linked List					9/12/2024
+
+// https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list/description/
+
+// Given the head of a linked list head, in which each node contains an integer value.
+
+// Between every pair of adjacent nodes, insert a new node with a value equal to the greatest common divisor of them.
+
+// Return the linked list after insertion.
+
+// The greatest common divisor of two numbers is the largest positive integer that evenly divides both numbers.
+
+// Example 1:
+// 		Input: head = [18,6,10,3]
+// 		Output: [18,6,6,2,10,1,3]
+// Explanation: The 1st diagram denotes the initial linked list and the 2nd diagram denotes the linked list after inserting the new nodes (nodes in blue are the inserted nodes).
+// 		- We insert the greatest common divisor of 18 and 6 = 6 between the 1st and the 2nd nodes.
+// 		- We insert the greatest common divisor of 6 and 10 = 2 between the 2nd and the 3rd nodes.
+// 		- We insert the greatest common divisor of 10 and 3 = 1 between the 3rd and the 4th nodes.
+// 		There are no more adjacent nodes, so we return the linked list.
+
+// Example 2:
+// 		Input: head = [7]
+// 		Output: [7]
+// Explanation: The 1st diagram denotes the initial linked list and the 2nd diagram denotes the linked list after inserting the new nodes.
+// 		There are no pairs of adjacent nodes, so we return the initial linked list.
+
+// Constraints:
+//		The number of nodes in the list is in the range [1, 5000].
+//		1 <= Node.val <= 1000
+
+const insertGreatestCommonDivisors = (
+  head: ListNode | null
+): ListNode | null => {
+  let node = head;
+  while (node?.next) {
+    let [a, b] = [node.val, node.next.val];
+    if (b > a) [a, b] = [b, a]; // a = largest val
+
+    let maxDiv: number;
+    if (a % b == 0) {
+      // largest is divisible by smallest
+      maxDiv = b; // smallest is highest common div
+    } else {
+      // find largest common divisor
+      for (let div = 1; div <= b; div++) {
+        if (a % div == 0 && b % div == 0) {
+          maxDiv = div; // new maxDiv found
+          if (a % (b / div) == 0) {
+            // early exit
+            // largest divisor = num / smallest divisor != 1
+            maxDiv = b / div;
+            break;
+          }
+        }
+      }
+    }
+
+    node.next = new ListNode(maxDiv, node.next);
+    node = node.next.next;
+  }
+  return head;
+};
+
+printLinkedList(insertGreatestCommonDivisors(linkedList([18, 6, 10, 3]))); // [18,6,6,2,10,1,3]
+printLinkedList(insertGreatestCommonDivisors(linkedList([7]))); // [7]
+
+function topVotedInsertGreatestCommonDivisors(
+  head: ListNode | null
+): ListNode | null {
+  let prev: ListNode | null = head;
+  let current: ListNode | null = head.next;
+  while (current) {
+    let min: number = Math.min(prev.val, current.val);
+    for (let i = min; i > 0; i--) {
+      if (prev.val % i == 0 && current.val % i == 0) {
+        min = i;
+        break;
+      }
+    }
+
+    let newNode: ListNode | null = new ListNode(min, current);
+    prev.next = newNode;
+    prev = current;
+    current = current.next;
+  }
+
+  return head;
 }
+
+// I thought this would be too slow, but it passes
+// It's only a bit slower, but more readable
