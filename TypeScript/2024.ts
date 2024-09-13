@@ -509,7 +509,7 @@ function topVotedSortVowels(s: string): string {
 } */
 
 // Insert Greatest Common Divisors in Linked List					9/12/2024
-
+/* 
 // https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list/description/
 
 // Given the head of a linked list head, in which each node contains an integer value.
@@ -599,4 +599,102 @@ function topVotedInsertGreatestCommonDivisors(
 }
 
 // I thought this would be too slow, but it passes
-// It's only a bit slower, but more readable
+// It's only a bit slower, but more readable */
+
+// Double a Number Represented as a Linked List					9/13/2024
+
+// https://leetcode.com/problems/double-a-number-represented-as-a-linked-list/description/
+
+// You are given the head of a non-empty linked list representing a non-negative integer without leading zeroes.
+
+// Return the head of the linked list after doubling it.
+
+// Example 1:
+// 		Input: head = [1,8,9]
+// 		Output: [3,7,8]
+// Explanation: The figure above corresponds to the given linked list which represents the number 189. Hence, the returned linked list represents the number 189 * 2 = 378.
+
+// Example 2:
+// 		Input: head = [9,9,9]
+// 		Output: [1,9,9,8]
+// Explanation: The figure above corresponds to the given linked list which represents the number 999. Hence, the returned linked list reprersents the number 999 * 2 = 1998.
+
+// Constraints:
+//		The number of nodes in the list is in the range [1, 10^4]
+//		0 <= Node.val <= 9
+//		The input is generated such that the list represents a number that does not have leading zeros, except the number 0 itself.
+
+const firstDoubleIt = (head: ListNode | null): ListNode | null => {
+  // find num
+  let num = 0;
+  while (head) {
+    num = num * 10 + head.val;
+    head = head.next;
+  }
+  num *= 2; // double it
+
+  // build it bottom up
+  const newHead = new ListNode(0, null);
+  while (num > 0) {
+    newHead.next = new ListNode(num % 10, newHead.next);
+    num = ~~(num / 10);
+  }
+
+  return newHead.next || new ListNode(0, null);
+};
+
+// ^ doesn't handle big ints
+
+const doubleIt = (head: ListNode | null): ListNode | null => {
+  // go to tail, while building num
+  let num = [];
+  let idx = 0; // track current digit index in num
+
+  while (head) {
+    num.push(head.val);
+    idx++;
+    head = head.next;
+  }
+
+  // build it bottom up
+  let c = 0; // carry
+  const newHead = new ListNode(0, null);
+
+  while (idx > 0 || c) {
+    let val = 0;
+    if (idx > 0) val = num[--idx]; // get tailing digit, if available
+    val = val * 2 + c; // double it, taking into account carry
+
+    if (val >= 10) {
+      // carry occurs
+      c = 1;
+      val = val % 10;
+    } else {
+      // no carry
+      c = 0;
+    }
+
+    newHead.next = new ListNode(val, newHead.next); // add node
+  }
+
+  return newHead.next || new ListNode(0, null);
+};
+
+printLinkedList(doubleIt(linkedList([1, 8, 9]))); //  [3,7,8]
+printLinkedList(doubleIt(linkedList([9, 9, 9]))); //  [1,9,9,8]
+
+function topVotedDoubleIt(head: ListNode | null): ListNode | null {
+  let carry = helper(head);
+  if (carry) return new ListNode(1, head);
+  return head;
+
+  function helper(head: ListNode | null) {
+    if (head === null) return 0;
+    let carry = helper(head.next);
+    let val = head.val * 2 + carry;
+    head.val = val % 10;
+    return val >= 10 ? 1 : 0;
+  }
+}
+
+// recursion saves the num array
