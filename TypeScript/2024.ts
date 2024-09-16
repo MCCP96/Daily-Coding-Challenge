@@ -743,7 +743,7 @@ console.log(lengthOfLastWord("   fly me   to   the moon  ")); //  4
 console.log(lengthOfLastWord("luffy is still joyboy")); //  6 */
 
 // Remove Element					9/15/2024
-
+/* 
 // https://leetcode.com/problems/remove-element/description/
 
 // Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
@@ -781,4 +781,72 @@ function removeElement(nums: number[], val: number): number {
 }
 
 console.log(removeElement([3, 2, 2, 3], 3)); //  2, nums = [2,2,_,_]
-console.log(removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2)); //  5, nums = [0,1,4,0,3,_,_,_]
+console.log(removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2)); //  5, nums = [0,1,4,0,3,_,_,_] */
+
+// Determine the Minimum Sum of a k-avoiding Array					9/16/2024
+
+// https://leetcode.com/problems/determine-the-minimum-sum-of-a-k-avoiding-array/description/
+
+// You are given two integers, n and k.
+
+// An array of distinct positive integers is called a k-avoiding array if there does not exist any pair of distinct elements that sum to k.
+
+// Return the minimum possible sum of a k-avoiding array of length n.
+
+// Example 1:
+// 		Input: n = 5, k = 4
+// 		Output: 18
+// Explanation: Consider the k-avoiding array [1,2,4,5,6], which has a sum of 18.
+// 		It can be proven that there is no k-avoiding array with a sum less than 18.
+
+// Example 2:
+// 		Input: n = 2, k = 6
+// 		Output: 3
+// Explanation: We can construct the array [1,2], which has a sum of 3.
+// 		It can be proven that there is no k-avoiding array with a sum less than 3.
+
+// Constraints:
+//		1 <= n, k <= 50
+
+function minimumSum(n: number, k: number): number {
+  let avoid = new Set();
+  let res = 0;
+  let i = 0;
+  let cur = 1;
+  while (i < n) {
+    if (avoid.has(cur)) {
+      // previously added int makes current int illegal
+      cur++;
+    } else {
+      // valid addition
+      res += cur;
+      avoid.add(k - cur);
+      cur++;
+      i++;
+    }
+  }
+  return res;
+}
+
+console.log(minimumSum(5, 4)); //  18
+console.log(minimumSum(2, 6)); //  3
+
+function topVotedMinimumSum(n: number, k: number): number {
+  let i: number = 1;
+  let arr: number[] = [];
+  while (n != 0) {
+    let flag: boolean = false;
+    arr.forEach((num) => {
+      if (num + i == k) flag = true;
+    });
+    if (!flag) {
+      arr.push(i);
+      n--;
+    }
+    i++;
+  }
+
+  return arr.reduce((a, b) => a + b, 0);
+}
+
+// mine feels more readable
