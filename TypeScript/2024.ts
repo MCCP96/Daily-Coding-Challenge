@@ -784,7 +784,7 @@ console.log(removeElement([3, 2, 2, 3], 3)); //  2, nums = [2,2,_,_]
 console.log(removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2)); //  5, nums = [0,1,4,0,3,_,_,_] */
 
 // Determine the Minimum Sum of a k-avoiding Array					9/16/2024
-
+/* 
 // https://leetcode.com/problems/determine-the-minimum-sum-of-a-k-avoiding-array/description/
 
 // You are given two integers, n and k.
@@ -849,4 +849,90 @@ function topVotedMinimumSum(n: number, k: number): number {
   return arr.reduce((a, b) => a + b, 0);
 }
 
-// mine feels more readable
+// mine feels more readable */
+
+// Smallest Number in Infinite Set					9/17/2024
+
+// https://leetcode.com/problems/smallest-number-in-infinite-set/description/
+
+// You have a set which contains all positive integers [1, 2, 3, 4, 5, ...].
+
+// Implement the SmallestInfiniteSet class:
+// - SmallestInfiniteSet() Initializes the SmallestInfiniteSet object to contain all positive integers.
+// - int popSmallest() Removes and returns the smallest integer contained in the infinite set.
+// - void addBack(int num) Adds a positive integer num back into the infinite set, if it is not already in the infinite set.
+
+// Constraints:
+//		1 <= num <= 1000
+//		At most 1000 calls will be made in total to popSmallest and addBack.
+
+class SmallestInfiniteSet {
+  addedBack: number[] = new Array();
+  idx: number = 1;
+
+  constructor() {}
+
+  popSmallest(): number {
+    // return smallest num added back, or current num in original set
+    return this.addedBack.shift() || this.idx++;
+  }
+
+  addBack(num: number): void {
+    if (num < this.idx) {
+      // not in our set, must be added back
+
+      if (this.addedBack.length == 0) {
+        // 1st num added back
+        this.addedBack.push(num);
+      } else {
+        // other nums were added back, insert in sorted order
+        for (let i = 0; i < this.addedBack.length; i++) {
+          if (this.addedBack[i] == num) {
+            // num already in set
+            return;
+          } else if (this.addedBack[i] > num) {
+            // pos found, insert in sorted order
+            this.addedBack.splice(i, 0, num);
+            return;
+          }
+        }
+        this.addedBack.push(num); // is largest num added back
+      }
+    }
+  }
+}
+
+const s1 = new SmallestInfiniteSet();
+s1.addBack(2); // 2 is already in the set, so no change is made.
+s1.popSmallest(); // return 1, since 1 is the smallest number, and remove it from the set.
+s1.popSmallest(); // return 2, and remove it from the set.
+s1.popSmallest(); // return 3, and remove it from the set.
+s1.addBack(1); // 1 is added back to the set.
+s1.popSmallest(); // return 1, since 1 was added back to the set and is the smallest number, and remove it from the set.
+s1.popSmallest(); // return 4, and remove it from the set.
+s1.popSmallest(); // return 5, and remove it from the set.
+
+class TopVotedSmallestInfiniteSet {
+  currentSmall: number = 1;
+  addedList: number[] = [];
+
+  popSmallest(): number {
+    if (this.addedList.length) {
+      return this.addedList.shift();
+    } else {
+      this.currentSmall = this.currentSmall + 1;
+      return this.currentSmall - 1;
+    }
+  }
+
+  addBack(num: number): void {
+    if (num < this.currentSmall) {
+      if (!this.addedList.includes(num)) {
+        this.addedList.push(num);
+        this.addedList = this.addedList.sort((a, b) => a - b);
+      }
+    }
+  }
+}
+
+// same same
