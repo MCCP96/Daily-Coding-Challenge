@@ -852,7 +852,7 @@ function topVotedMinimumSum(n: number, k: number): number {
 // mine feels more readable */
 
 // Smallest Number in Infinite Set					9/17/2024
-
+/* 
 // https://leetcode.com/problems/smallest-number-in-infinite-set/description/
 
 // You have a set which contains all positive integers [1, 2, 3, 4, 5, ...].
@@ -935,4 +935,81 @@ class TopVotedSmallestInfiniteSet {
   }
 }
 
-// same same
+// same same */
+
+// Count Number of Nice Subarrays					9/18/2024
+
+// https://leetcode.com/problems/count-number-of-nice-subarrays/
+
+// Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
+
+// Return the number of nice sub-arrays.
+
+// Example 1:
+// 		Input: nums = [1,1,2,1,1], k = 3
+// 		Output: 2
+// Explanation: The only sub-arrays with 3 odd numbers are [1,1,2,1] and [1,2,1,1].
+
+// Example 2:
+// 		Input: nums = [2,4,6], k = 1
+// 		Output: 0
+// Explanation: There are no odd numbers in the array.
+
+// Example 3:
+// 		Input: nums = [2,2,2,1,2,2,1,2,2,2], k = 2
+// 		Output: 16
+
+// Constraints:
+//		1 <= nums.length <= 50000
+//		1 <= nums[i] <= 10^5
+//		1 <= k <= nums.length
+
+const numberOfSubarrays = (nums: number[], k: number): number => {
+  const n = nums.length;
+
+  // find odd indexes
+  // include -1 and n for leading/tailing even nums
+  let oddIdx = [-1];
+  for (let i = 0; i < n; i++) {
+    if (nums[i] % 2) oddIdx.push(i);
+  }
+  oddIdx.push(n);
+
+  let res = 0;
+  for (let i = 1; i + k < oddIdx.length; i++) {
+    // within window of k odd nums
+    const l = oddIdx[i] - oddIdx[i - 1]; // even nums leading our first odd num
+    // i + k ensures we have k odd nums
+    const r = oddIdx[i + k] - oddIdx[i + k - 1]; // even nums tailing our last odd num
+    res += l * r; // number of nice subarrays combinations within this window
+  }
+  return res;
+};
+
+console.log(numberOfSubarrays([1, 1, 2, 1, 1], 3)); //  2
+console.log(numberOfSubarrays([2, 4, 6], 1)); //  0
+console.log(numberOfSubarrays([2, 2, 2, 1, 2, 2, 1, 2, 2, 2], 2)); //  16
+
+function TopVotedNumberOfSubarrays(nums: number[], k: number): number {
+  let res = 0;
+  let odds = 0;
+  let q = [];
+  let r = 0;
+  let l = 0;
+  while (r < nums.length) {
+    odds += nums[r] % 2 ? 1 : 0;
+    if (nums[r] % 2) q.push(r);
+
+    if (odds > k) {
+      let prev = q.shift();
+      odds--;
+      l = prev + 1;
+    }
+    if (odds === k) {
+      if (q.length) res += q[0] - l + 1;
+      else res += r - l + 1;
+    }
+    r++;
+  }
+  return res;
+}
