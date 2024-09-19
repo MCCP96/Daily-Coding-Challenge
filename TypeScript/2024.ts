@@ -938,7 +938,7 @@ class TopVotedSmallestInfiniteSet {
 // same same */
 
 // Count Number of Nice Subarrays					9/18/2024
-
+/* 
 // https://leetcode.com/problems/count-number-of-nice-subarrays/
 
 // Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.
@@ -1012,4 +1012,169 @@ function TopVotedNumberOfSubarrays(nums: number[], k: number): number {
     r++;
   }
   return res;
+} */
+
+// Minimum Adjacent Swaps to Reach the Kth Smallest Number					9/19/2024
+
+// https://leetcode.com/problems/minimum-adjacent-swaps-to-reach-the-kth-smallest-number/
+
+// You are given a string num, representing a large integer, and an integer k.
+
+// We call some integer wonderful if it is a permutation of the digits in num and is greater in value than num. There can be many wonderful integers. However, we only care about the smallest-valued ones.
+
+// For example, when num = "5489355142":
+// The 1st smallest wonderful integer is "5489355214".
+// The 2nd smallest wonderful integer is "5489355241".
+// The 3rd smallest wonderful integer is "5489355412".
+// The 4th smallest wonderful integer is "5489355421".
+
+// Return the minimum number of adjacent digit swaps that needs to be applied to num to reach the kth smallest wonderful integer.
+
+// The tests are generated in such a way that kth smallest wonderful integer exists.
+
+// Example 1:
+// 		Input: num = "5489355142", k = 4
+// 		Output: 2
+// Explanation: The 4th smallest wonderful number is "5489355421". To get this number:
+// 		- Swap index 7 with index 8: "5489355142" -> "5489355412"
+// 		- Swap index 8 with index 9: "5489355412" -> "5489355421"
+
+// Example 2:
+// 		Input: num = "11112", k = 4
+// 		Output: 4
+// Explanation: The 4th smallest wonderful number is "21111". To get this number:
+// 		- Swap index 3 with index 4: "11112" -> "11121"
+// 		- Swap index 2 with index 3: "11121" -> "11211"
+// 		- Swap index 1 with index 2: "11211" -> "12111"
+// 		- Swap index 0 with index 1: "12111" -> "21111"
+
+// Example 3:
+// 		Input: num = "00123", k = 1
+// 		Output: 1
+// Explanation: The 1st smallest wonderful number is "00132". To get this number:
+// 		- Swap index 3 with index 4: "00123" -> "00132"
+
+// Constraints:
+//		2 <= num.length <= 1000
+//		1 <= k <= 1000
+//		num only consists of digits.
+
+const getMinSwaps = (num: string, k: number): number => {
+  const n = num.length;
+
+  // find kth smallest num
+  let kth = [...num];
+  while (k-- > 0) kth = nextSmallest(kth);
+
+  // find swaps to reach kth smallest num
+  let swaps = 0;
+  for (let i = 0; i < n; i++) {
+    if (num[i] != kth[i]) {
+      // find new pos of moved digit in kth
+      for (let j = i + 1; j < n; j++) {
+        if (num[j] == kth[i]) {
+          // new pos found
+          swaps += j - i; // swaps needed
+          break;
+        }
+      }
+    }
+  }
+  return swaps;
+};
+
+const nextSmallest = (nums: string[]): string[] => {
+  let n = nums.length;
+  let i = n - 2;
+
+  while (i >= 0 && nums[i] >= nums[i + 1]) i--;
+  if (i >= 0) {
+    let j = n - 1;
+    while (j >= 0 && nums[j] <= nums[i]) j--;
+    [nums[i], nums[j]] = [nums[j], nums[i]];
+  }
+
+  i++;
+  let j = n - 1;
+  while (i < j) {
+    [nums[i], nums[j]] = [nums[j], nums[i]];
+    i++;
+    j--;
+  }
+
+  return nums;
+};
+
+console.log(getMinSwaps("5489355142", 4)); //  2
+console.log(getMinSwaps("11112", 4)); //  4
+console.log(getMinSwaps("00123", 1)); //  1
+
+// Googled nextSmallest
+// doesn't work for all test cases
+
+function TopVotedGetMinSwaps(num: string, k: number): number {
+  let nums: number[] = num.split("").map((a) => parseInt(a));
+  let permutation: number[] = [...nums];
+
+  for (let i = 0; i < k; i++) {
+    permutation = findSmallestGreater(permutation);
+  }
+
+  return findMoves(nums, permutation);
+}
+
+function findSmallestGreater(permutation: number[]): number[] {
+  let buffer: number[] = [permutation[permutation.length - 1]];
+  let index: number = permutation.length - 2;
+  let num: number;
+
+  // find the place where the sub array should be updated
+  for (; index >= 0; index--) {
+    num = permutation[index];
+
+    if (num < buffer[buffer.length - 1]) {
+      break;
+    }
+
+    buffer.push(num);
+  }
+
+  // remove the updated part
+  permutation = permutation.slice(0, index);
+
+  // arrange the updated part
+  for (let i = 0; i < buffer.length; i++) {
+    if (buffer[i] > num) {
+      permutation.push(buffer[i]);
+      buffer[i] = num;
+      break;
+    }
+  }
+
+  // append to the original array
+  permutation.push(...buffer);
+
+  return permutation;
+}
+
+function findMoves(nums: number[], permutation: number[]): number {
+  let times: number = 0;
+
+  // pop the number to the desired place
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i; j < permutation.length; j++) {
+      if (nums[i] == permutation[j]) {
+        if (i == j) {
+          break;
+        }
+
+        times += j - i;
+        permutation.splice(j, 1);
+        permutation.splice(i, 0, nums[i]);
+        break;
+      }
+    }
+  }
+
+  return times;
 }
