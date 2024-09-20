@@ -1015,7 +1015,7 @@ function TopVotedNumberOfSubarrays(nums: number[], k: number): number {
 } */
 
 // Minimum Adjacent Swaps to Reach the Kth Smallest Number					9/19/2024
-
+/* 
 // https://leetcode.com/problems/minimum-adjacent-swaps-to-reach-the-kth-smallest-number/
 
 // You are given a string num, representing a large integer, and an integer k.
@@ -1177,4 +1177,132 @@ function findMoves(nums: number[], permutation: number[]): number {
   }
 
   return times;
+} */
+
+// Apply Discount Every n Orders					9/20/2024
+
+// https://leetcode.com/problems/apply-discount-every-n-orders/description/
+
+// There is a supermarket that is frequented by many customers. The products sold at the supermarket are represented as two parallel integer arrays products and prices, where the ith product has an ID of products[i] and a price of prices[i].
+
+// When a customer is paying, their bill is represented as two parallel integer arrays product and amount, where the jth product they purchased has an ID of product[j], and amount[j] is how much of the product they bought. Their subtotal is calculated as the sum of each amount[j] * (price of the jth product).
+
+// The supermarket decided to have a sale. Every nth customer paying for their groceries will be given a percentage discount. The discount amount is given by discount, where they will be given discount percent off their subtotal. More formally, if their subtotal is bill, then they would actually pay bill * ((100 - discount) / 100).
+
+// Implement the Cashier class:
+
+// Cashier(int n, int discount, int[] products, int[] prices) Initializes the object with n, the discount, and the products and their prices.
+
+// double getBill(int[] product, int[] amount) Returns the final total of the bill with the discount applied (if any). Answers within 10-5 of the actual value will be accepted.
+
+// Constraints:
+//		1 <= n <= 104
+//		0 <= discount <= 100
+//		1 <= products.length <= 200
+//		prices.length == products.length
+//		1 <= products[i] <= 200
+//		1 <= prices[i] <= 1000
+//		The elements in products are unique.
+//		1 <= product.length <= products.length
+//		amount.length == product.length
+//		product[j] exists in products.
+//		1 <= amount[j] <= 1000
+//		The elements of product are unique.
+//		At most 1000 calls will be made to getBill.
+//		Answers within 10^-5 of the actual value will be accepted.
+
+class Cashier {
+  n: number;
+  discount: number;
+  priceLookup = new Map();
+  customerNum = 1;
+
+  constructor(
+    n: number,
+    discount: number,
+    products: number[],
+    prices: number[]
+  ) {
+    this.n = n;
+    this.discount = (100 - discount) / 100;
+    for (let i = 0; i < products.length; i++) {
+      this.priceLookup.set(products[i], prices[i]);
+    }
+  }
+
+  getBill(product: number[], amount: number[]): number {
+    let bill = product.reduce(
+      (tot, prod, i) => tot + amount[i] * this.priceLookup.get(prod),
+      0
+    );
+
+    if (this.customerNum == this.n) {
+      // apply discount
+      bill *= this.discount;
+      this.customerNum = 1;
+    } else {
+      this.customerNum++;
+    }
+
+    return bill;
+  }
 }
+
+const cashier = new Cashier(
+  3,
+  50,
+  [1, 2, 3, 4, 5, 6, 7],
+  [100, 200, 300, 400, 300, 200, 100]
+);
+console.log(cashier.getBill([1, 2], [1, 2])); // return 500.0. 1st customer, no discount.
+// bill = 1 * 100 + 2 * 200 = 500.
+console.log(cashier.getBill([3, 7], [10, 10])); // return 4000.0. 2nd customer, no discount.
+// bill = 10 * 300 + 10 * 100 = 4000.
+console.log(cashier.getBill([1, 2, 3, 4, 5, 6, 7], [1, 1, 1, 1, 1, 1, 1])); // return 800.0. 3rd customer, 50% discount.
+// Original bill = 1600
+// Actual bill = 1600 * ((100 - 50) / 100) = 800.
+console.log(cashier.getBill([4], [10])); // return 4000.0. 4th customer, no discount.
+console.log(cashier.getBill([7, 3], [10, 10])); // return 4000.0. 5th customer, no discount.
+console.log(cashier.getBill([7, 5, 3, 1, 6, 4, 2], [10, 10, 10, 9, 9, 9, 7])); // return 7350.0. 6th customer, 50% discount.
+// Original bill = 14700, but with
+// Actual bill = 14700 * ((100 - 50) / 100) = 7350.
+console.log(cashier.getBill([2, 3, 5], [5, 3, 2])); // return 2500.0.  7th customer, no discount.
+
+class TopVotedCashier {
+  // attributes
+  private n: number;
+  private discount: number;
+  private count: number;
+  private price: Map<number, number>;
+
+  constructor(
+    n: number,
+    discount: number,
+    products: number[],
+    prices: number[]
+  ) {
+    // set attrs
+    this.n = n;
+    this.discount = discount;
+    this.count = 0;
+    this.price = new Map();
+
+    // iterate thru products/prices, and set the price for each product in map
+    for (let i = 0; i < prices.length; i++)
+      this.price.set(products[i], prices[i]);
+  }
+
+  getBill(product: number[], amount: number[]): number {
+    // first, get total cost of this order (pre-discount)
+    let cost = 0;
+    for (let i = 0; i < product.length; i++)
+      cost += this.price.get(product[i])! * amount[i];
+
+    // now, determine if this customer gets a discount (they are nth customer)
+    return ++this.count % this.n === 0
+      ? cost * (1 - this.discount / 100)
+      : cost;
+  }
+}
+
+// same same
