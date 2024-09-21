@@ -26,6 +26,45 @@ const printLinkedList = (head: ListNode | null) => {
   console.log(els);
 };
 
+class TreeNode {
+  val: number;
+  left: TreeNode | null;
+  right: TreeNode | null;
+  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.left = left === undefined ? null : left;
+    this.right = right === undefined ? null : right;
+  }
+}
+
+const createBinaryTree = (arr: (number | null)[], i = 0) => {
+  const len = arr.length;
+  let root = null;
+  if (i < len) {
+    root = new TreeNode(arr[i]!);
+    root.left =
+      arr[2 * i + 1] == null ? null : createBinaryTree(arr, 2 * i + 1);
+    root.right =
+      arr[2 * i + 2] == null ? null : createBinaryTree(arr, 2 * i + 2);
+  }
+  return root;
+};
+
+const printBinaryTree = (root: TreeNode | null) => {
+  let res = [];
+  let queue = [root];
+  while (queue.length) {
+    let node = queue.shift();
+    if (node) {
+      res.push(node.val);
+      queue.push(node.left, node.right);
+    } else {
+      res.push(null);
+    }
+  }
+  console.log(res);
+};
+
 // Two Sum					9/6/2024
 /* 
 // https://leetcode.com/problems/two-sum/description/
@@ -1180,7 +1219,7 @@ function findMoves(nums: number[], permutation: number[]): number {
 } */
 
 // Apply Discount Every n Orders					9/20/2024
-
+/* 
 // https://leetcode.com/problems/apply-discount-every-n-orders/description/
 
 // There is a supermarket that is frequented by many customers. The products sold at the supermarket are represented as two parallel integer arrays products and prices, where the ith product has an ID of products[i] and a price of prices[i].
@@ -1305,4 +1344,52 @@ class TopVotedCashier {
   }
 }
 
-// same same
+// same same */
+
+// Find Bottom Left Tree Value					9/21/2024
+
+// https://leetcode.com/problems/find-bottom-left-tree-value/description/
+
+// Given the root of a binary tree, return the leftmost value in the last row of the tree.
+
+// Example 1:
+// 		Input: root = [2,1,3]
+// 		Output: 1
+
+// Example 2:
+// 		Input: root = [1,2,3,4,null,5,6,null,null,7]
+// 		Output: 7
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 104].
+//		-231 <= Node.val <= 231 - 1
+
+const findBottomLeftValue = (root: TreeNode | null): number => {
+  let maxDepth = 0;
+  let res = root!.val;
+
+  const explore = (depth: number, node: TreeNode | null) => {
+    if (node == null) return;
+    if (depth > maxDepth) {
+      // no need to check if leftmost because...
+      maxDepth = depth;
+      res = node.val;
+    }
+    explore(depth + 1, node.left); // we lead with left child
+    explore(depth + 1, node.right);
+  };
+  explore(0, root);
+
+  return res;
+};
+
+console.log(findBottomLeftValue(createBinaryTree([2, 1, 3]))); //  1
+console.log(
+  findBottomLeftValue(createBinaryTree([1, 2, 3, 4, null, 5, 6, null, null, 7]))
+); //  7
+
+// bug involving createBinaryTree's last el of array
+// will fix on next binary tree question
+// works on leetcode
+
+// same as top voted
