@@ -1347,7 +1347,7 @@ class TopVotedCashier {
 // same same */
 
 // Find Bottom Left Tree Value					9/21/2024
-
+/* 
 // https://leetcode.com/problems/find-bottom-left-tree-value/description/
 
 // Given the root of a binary tree, return the leftmost value in the last row of the tree.
@@ -1392,4 +1392,77 @@ console.log(
 // will fix on next binary tree question
 // works on leetcode
 
-// same as top voted
+// same as top voted */
+
+// Minimum Flips to Make a OR b Equal to c					9/22/2024
+
+// https://leetcode.com/problems/minimum-flips-to-make-a-or-b-equal-to-c/description/
+
+// Given 3 positives numbers a, b and c. Return the minimum flips required in some bits of a and b to make ( a OR b == c ). (bitwise OR operation).
+
+// Flip operation consists of change any single bit 1 to 0 or change the bit 0 to 1 in their binary representation.
+
+// Example 1:
+// 		Input: a = 2, b = 6, c = 5
+// 		Output: 3
+// Explanation: After flips a = 1 , b = 4 , c = 5 such that (a OR b == c)
+
+// Example 2:
+// 		Input: a = 4, b = 2, c = 7
+// 		Output: 1
+
+// Example 3:
+// 		Input: a = 1, b = 2, c = 3
+// 		Output: 0
+
+// Constraints:
+//		1 <= a <= 10^9
+//		1 <= b <= 10^9
+//		1 <= c <= 10^9
+
+const minFlips = (a: number, b: number, c: number): number => {
+  let flips = 0;
+
+  while (a > 0 || b > 0 || c > 0) {
+    const ab = (a % 2) + (b % 2); // 1s in a and b (0,1,2)
+
+    if (c % 2 == 0) {
+      flips += ab; // flip all 1s
+    } else {
+      flips += ab < 1 ? 1 : 0; // a or b must be 1
+    }
+
+    a >>= 1;
+    b >>= 1;
+    c >>= 1;
+  }
+
+  return flips;
+};
+
+console.log(minFlips(2, 6, 5)); //  3
+console.log(minFlips(4, 2, 7)); //  1
+console.log(minFlips(1, 2, 3)); //  0
+console.log(minFlips(7, 7, 7)); //  0
+
+function topVotedMinFlips(a: number, b: number, c: number): number {
+  const limit = Math.max(a, b, c);
+  let check = 1;
+  let result = 0;
+  while (check <= limit) {
+    if (check & c) {
+      if (!(check & a) && !(check & b)) {
+        result++;
+      }
+    } else {
+      if (check & a) {
+        result++;
+      }
+      if (check & b) {
+        result++;
+      }
+    }
+    check *= 2;
+  }
+  return result;
+}
