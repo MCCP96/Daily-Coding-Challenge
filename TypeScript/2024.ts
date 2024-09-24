@@ -1468,7 +1468,7 @@ function topVotedMinFlips(a: number, b: number, c: number): number {
 } */
 
 // Combination Sum III					9/23/2024
-
+/* 
 // https://leetcode.com/problems/combination-sum-iii/description/
 
 // Find all valid combinations of k numbers that sum up to n such that the following conditions are true:
@@ -1549,4 +1549,89 @@ function topVotedCombinationSum3(k: number, n: number): number[][] {
   };
   dfs(1, n);
   return ans;
+} */
+
+// Count Number of Teams					9/24/2024
+
+// https://leetcode.com/problems/count-number-of-teams/description/
+
+// There are n soldiers standing in a line. Each soldier is assigned a unique rating value.
+
+// You have to form a team of 3 soldiers amongst them under the following rules:
+// - Choose 3 soldiers with index (i, j, k) with rating (rating[i], rating[j], rating[k]).
+// - A team is valid if: (rating[i] < rating[j] < rating[k]) or (rating[i] > rating[j] > rating[k]) where (0 <= i < j < k < n).
+
+// Return the number of teams you can form given the conditions. (soldiers can be part of multiple teams).
+
+// Example 1:
+// 		Input: rating = [2,5,3,4,1]
+// 		Output: 3
+// Explanation: We can form three teams given the conditions. (2,3,4), (5,4,1), (5,3,1).
+
+// Example 2:
+// 		Input: rating = [2,1,3]
+// 		Output: 0
+// Explanation: We can't form any team given the conditions.
+
+// Example 3:
+// 		Input: rating = [1,2,3,4]
+// 		Output: 4
+
+// Constraints:
+//		n == rating.length
+//		3 <= n <= 1000
+//		1 <= rating[i] <= 105
+//		All the integers in rating are unique.
+
+function topVotedNumTeams(rating: number[]): number {
+  const dp: [number, number][] = [...new Array(rating.length)].map((_) => [
+    0, 0,
+  ]);
+  //dp[x][0] is the counts of increasing series
+  //dp[x][1] is the counts of decreasing series
+
+  let ct = 0;
+  for (let i = 0; i < rating.length; i++) {
+    for (let j = i + 1; j < rating.length; j++) {
+      if (rating[j] > rating[i]) {
+        // increaese the ct if j>i
+        dp[j][0]++;
+        //if there is already do, then i will be the middle index in a series
+        ct += dp[i][0];
+      }
+      if (rating[i] > rating[j]) {
+        dp[j][1]++;
+        ct += dp[i][1];
+      }
+    }
+  }
+
+  return ct;
 }
+
+const numTeams = (rating: number[]): number => {
+  const n = rating.length;
+
+  let res = 0;
+  let dp = new Array(n).fill(0).map((_) => [0, 0]);
+  rating.forEach((val, i) => {
+    for (let j = i + 1; j < n; j++) {
+      // increasing
+      if (rating[j] > val) {
+        dp[j][0]++;
+        res += dp[i][0];
+      }
+      // decreasing
+      if (rating[j] < val) {
+        dp[j][1]++;
+        res += dp[i][1];
+      }
+    }
+  });
+
+  return res;
+};
+
+console.log(numTeams([2, 5, 3, 4, 1])); //  3
+console.log(numTeams([2, 1, 3])); //  0
+console.log(numTeams([1, 2, 3, 4])); //  4
