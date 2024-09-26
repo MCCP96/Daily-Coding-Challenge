@@ -1637,7 +1637,7 @@ console.log(numTeams([2, 1, 3])); //  0
 console.log(numTeams([1, 2, 3, 4])); //  4 */
 
 // Queue Reconstruction by Height					9/25/2024
-
+/* 
 // https://leetcode.com/problems/queue-reconstruction-by-height/description/
 
 // You are given an array of people, people, which are the attributes of some people in a queue (not necessarily in order). Each people[i] = [hi, ki] represents the ith person of height hi with exactly ki other people in front who have a height greater than or equal to hi.
@@ -1722,4 +1722,44 @@ function topVotedReconstructQueue(people: number[][]): number[][] {
   }
 
   return result;
-}
+} */
+
+// Kth Smallest Element in a BST					9/26/2024
+
+// https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
+
+// Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+
+// Example 1:
+// 		Input: root = [3,1,4,null,2], k = 1
+// 		Output: 1
+
+// Example 2:
+// 		Input: root = [5,3,6,2,4,null,null,1], k = 3
+// 		Output: 3
+
+// Constraints:
+//		The number of nodes in the tree is n.
+//		1 <= k <= n <= 104
+//		0 <= Node.val <= 104
+
+const kthSmallest = (root: TreeNode | null, k: number): number => {
+  let idx = 1;
+  let min = Infinity;
+
+  const explore = (node: TreeNode | null) => {
+    if (!node || min !== Infinity) return;
+    explore(node.left); // go to left most (smallest)
+    if (idx === k) min = node.val;
+    idx++; // moving back up BST
+    explore(node.right); // navigate right subtree
+  };
+  explore(root);
+
+  return min;
+};
+
+console.log(kthSmallest(createBinaryTree([3, 1, 4, null, 2]), 1)); //  1
+console.log(kthSmallest(createBinaryTree([5, 3, 6, 2, 4, null, null, 1]), 3)); //  3
+
+// same as top voted
