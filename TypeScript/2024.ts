@@ -1725,7 +1725,7 @@ function topVotedReconstructQueue(people: number[][]): number[][] {
 } */
 
 // Kth Smallest Element in a BST					9/26/2024
-
+/* 
 // https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
 
 // Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
@@ -1762,4 +1762,76 @@ const kthSmallest = (root: TreeNode | null, k: number): number => {
 console.log(kthSmallest(createBinaryTree([3, 1, 4, null, 2]), 1)); //  1
 console.log(kthSmallest(createBinaryTree([5, 3, 6, 2, 4, null, null, 1]), 3)); //  3
 
-// same as top voted
+// same as top voted */
+
+// Keys and Rooms					9/27/2024
+
+// https://leetcode.com/problems/keys-and-rooms/description/
+
+// There are n rooms labeled from 0 to n - 1 and all the rooms are locked except for room 0. Your goal is to visit all the rooms. However, you cannot enter a locked room without having its key.
+
+// When you visit a room, you may find a set of distinct keys in it. Each key has a number on it, denoting which room it unlocks, and you can take all of them with you to unlock the other rooms.
+
+// Given an array rooms where rooms[i] is the set of keys that you can obtain if you visited room i, return true if you can visit all the rooms, or false otherwise.
+
+// Example 1:
+// 		Input: rooms = [[1],[2],[3],[]]
+// 		Output: true
+// Explanation:
+// 		We visit room 0 and pick up key 1.
+// 		We then visit room 1 and pick up key 2.
+// 		We then visit room 2 and pick up key 3.
+// 		We then visit room 3.
+// 		Since we were able to visit every room, we return true.
+
+// Example 2:
+// 		Input: rooms = [[1,3],[3,0,1],[2],[0]]
+// 		Output: false
+// Explanation: We can not enter room number 2 since the only key that unlocks it is in that room.
+
+// Constraints:
+//		n == rooms.length
+//		2 <= n <= 1000
+//		0 <= rooms[i].length <= 1000
+//		1 <= sum(rooms[i].length) <= 3000
+//		0 <= rooms[i][j] < n
+//		All the values of rooms[i] are unique.
+
+const canVisitAllRooms = (rooms: number[][]): boolean => {
+  const n = rooms.length;
+  let visited = new Set([0]); // room 0 is unlocked
+  let unUsedKeys = new Set(rooms[0]); // keys in room 0
+
+  while (unUsedKeys.size > 0 && visited.size !== n) {
+    for (const key of unUsedKeys) {
+      if (!visited.has(key)) {
+        // first time visiting room
+        visited.add(key); // label as visited
+        rooms[key].map((k) => unUsedKeys.add(k)); // pick up all keys
+        rooms[key] = []; // remove keys from room
+      }
+      unUsedKeys.delete(key); // remove key to this room
+    }
+  }
+
+  return visited.size === n;
+};
+
+console.log(canVisitAllRooms([[1], [2], [3], []])); //  true
+console.log(canVisitAllRooms([[1, 3], [3, 0, 1], [2], [0]])); //  false
+
+function topVotedCanVisitAllRooms(rooms: number[][]): boolean {
+  let stack: number[] = [0];
+  let visited = new Set();
+
+  while (stack.length) {
+    let curr = stack.pop()!;
+    if (visited.has(curr)) continue;
+
+    stack.push(...rooms[curr]);
+
+    visited.add(curr);
+  }
+
+  return visited.size === rooms.length;
+}
