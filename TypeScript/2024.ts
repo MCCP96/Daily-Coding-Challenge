@@ -1765,7 +1765,7 @@ console.log(kthSmallest(createBinaryTree([5, 3, 6, 2, 4, null, null, 1]), 3)); /
 // same as top voted */
 
 // Keys and Rooms					9/27/2024
-
+/* 
 // https://leetcode.com/problems/keys-and-rooms/description/
 
 // There are n rooms labeled from 0 to n - 1 and all the rooms are locked except for room 0. Your goal is to visit all the rooms. However, you cannot enter a locked room without having its key.
@@ -1834,4 +1834,43 @@ function topVotedCanVisitAllRooms(rooms: number[][]): boolean {
   }
 
   return visited.size === rooms.length;
-}
+} */
+
+// Score of a String					9/28/2024
+
+// https://leetcode.com/problems/score-of-a-string/description/
+
+// You are given a string s. The score of a string is defined as the sum of the absolute difference between the ASCII values of adjacent characters.
+
+// Return the score of s.
+
+// Example 1:
+// 		Input: s = "hello"
+// 		Output: 13
+// Explanation:
+// 		The ASCII values of the characters in s are: 'h' = 104, 'e' = 101, 'l' = 108, 'o' = 111. So, the score of s would be |104 - 101| + |101 - 108| + |108 - 108| + |108 - 111| = 3 + 7 + 0 + 3 = 13.
+
+// Example 2:
+// 		Input: s = "zaz"
+// 		Output: 50
+// Explanation:
+// 		The ASCII values of the characters in s are: 'z' = 122, 'a' = 97. So, the score of s would be |122 - 97| + |97 - 122| = 25 + 25 = 50.
+
+// Constraints:
+//		2 <= s.length <= 100
+//		s consists only of lowercase English letters.
+
+const scoreOfString = (s: string): number => {
+  const n = s.length;
+  let res = 0;
+  let prev = s.charCodeAt(0);
+  for (let i = 1; i < n; i++) {
+    const cur = s.charCodeAt(i);
+    res += Math.abs(prev - cur);
+    prev = cur;
+  }
+  return res;
+};
+
+console.log(scoreOfString("hello")); //  13
+console.log(scoreOfString("zaz")); //  50
