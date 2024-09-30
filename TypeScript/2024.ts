@@ -1876,7 +1876,7 @@ console.log(scoreOfString("hello")); //  13
 console.log(scoreOfString("zaz")); //  50 */
 
 // Find the Maximum Achievable Number					9/29/2024
-
+/* 
 // https://leetcode.com/problems/find-the-maximum-achievable-number/
 
 // Given two integers, num and t. A number is achievable if it can become equal to num after applying the following operation:
@@ -1904,4 +1904,55 @@ console.log(scoreOfString("zaz")); //  50 */
 const theMaximumAchievableX = (num: number, t: number): number => num + 2 * t;
 
 console.log(theMaximumAchievableX(4, 1)); //  6
-console.log(theMaximumAchievableX(3, 2)); //  7
+console.log(theMaximumAchievableX(3, 2)); //  7 */
+
+// Minimum Suffix Flips					9/30/2024
+
+// https://leetcode.com/problems/minimum-suffix-flips/description/
+
+// You are given a 0-indexed binary string target of length n. You have another binary string s of length n that is initially set to all zeros. You want to make s equal to target.
+
+// In one operation, you can pick an index i where 0 <= i < n and flip all bits in the inclusive range [i, n - 1]. Flip means changing '0' to '1' and '1' to '0'.
+
+// Return the minimum number of operations needed to make s equal to target.
+
+// Example 1:
+// 		Input: target = "10111"
+// 		Output: 3
+// Explanation: Initially, s = "00000".
+// 		Choose index i = 2: "00000" -> "00111"
+// 		Choose index i = 0: "00111" -> "11000"
+// 		Choose index i = 1: "11000" -> "10111"
+// 		We need at least 3 flip operations to form target.
+
+// Example 2:
+// 		Input: target = "101"
+// 		Output: 3
+// Explanation: Initially, s = "000".
+// 		Choose index i = 0: "000" -> "111"
+// 		Choose index i = 1: "111" -> "100"
+// 		Choose index i = 2: "100" -> "101"
+// 		We need at least 3 flip operations to form target.
+
+// Example 3:
+// 		Input: target = "00000"
+// 		Output: 0
+// Explanation: We do not need any operations since the initial s already equals target.
+
+// Constraints:
+//		n == target.length
+//		1 <= n <= 105
+//		target[i] is either '0' or '1'.
+
+const minFlips = (t: string): number => {
+  const n = t.length;
+  let flips = +(t[0] == "1");
+  for (let i = 1; i < n; i++) {
+    flips += +(t[i] !== t[i - 1]);
+  }
+  return flips;
+};
+
+console.log(minFlips("10111")); //  3
+console.log(minFlips("101")); //  3
+console.log(minFlips("00000")); //  0
