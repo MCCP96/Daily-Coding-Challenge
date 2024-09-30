@@ -1837,7 +1837,7 @@ function topVotedCanVisitAllRooms(rooms: number[][]): boolean {
 } */
 
 // Score of a String					9/28/2024
-
+/* 
 // https://leetcode.com/problems/score-of-a-string/description/
 
 // You are given a string s. The score of a string is defined as the sum of the absolute difference between the ASCII values of adjacent characters.
@@ -1873,4 +1873,35 @@ const scoreOfString = (s: string): number => {
 };
 
 console.log(scoreOfString("hello")); //  13
-console.log(scoreOfString("zaz")); //  50
+console.log(scoreOfString("zaz")); //  50 */
+
+// Find the Maximum Achievable Number					9/29/2024
+
+// https://leetcode.com/problems/find-the-maximum-achievable-number/
+
+// Given two integers, num and t. A number is achievable if it can become equal to num after applying the following operation:
+// - Increase or decrease the number by 1, and simultaneously increase or decrease num by 1.
+
+// Return the maximum achievable number after applying the operation at most t times.
+
+// Example 1:
+// 		Input: num = 4, t = 1
+// 		Output: 6
+// Explanation:
+// 		Apply the following operation once to make the maximum achievable number equal to num:
+// 		Decrease the maximum achievable number by 1, and increase num by 1.
+
+// Example 2:
+// 		Input: num = 3, t = 2
+// 		Output: 7
+// Explanation:
+// 		Apply the following operation twice to make the maximum achievable number equal to num:
+// 		Decrease the maximum achievable number by 1, and increase num by 1.
+
+// Constraints:
+//		1 <= num, t <= 50
+
+const theMaximumAchievableX = (num: number, t: number): number => num + 2 * t;
+
+console.log(theMaximumAchievableX(4, 1)); //  6
+console.log(theMaximumAchievableX(3, 2)); //  7
