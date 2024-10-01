@@ -1907,7 +1907,7 @@ console.log(theMaximumAchievableX(4, 1)); //  6
 console.log(theMaximumAchievableX(3, 2)); //  7 */
 
 // Minimum Suffix Flips					9/30/2024
-
+/* 
 // https://leetcode.com/problems/minimum-suffix-flips/description/
 
 // You are given a 0-indexed binary string target of length n. You have another binary string s of length n that is initially set to all zeros. You want to make s equal to target.
@@ -1955,4 +1955,76 @@ const minFlips = (t: string): number => {
 
 console.log(minFlips("10111")); //  3
 console.log(minFlips("101")); //  3
-console.log(minFlips("00000")); //  0
+console.log(minFlips("00000")); //  0 */
+
+// Iterator for Combination					10/1/2024
+
+// https://leetcode.com/problems/iterator-for-combination/description/
+
+// Design the CombinationIterator class:
+
+// CombinationIterator(string characters, int combinationLength) Initializes the object with a string characters of sorted distinct lowercase English letters and a number combinationLength as arguments.
+
+// next() Returns the next combination of length combinationLength in lexicographical order.
+
+// hasNext() Returns true if and only if there exists a next combination.
+
+// Example 1:
+// 		Input
+// 		["CombinationIterator", "next", "hasNext", "next", "hasNext", "next", "hasNext"]
+// 		[["abc", 2], [], [], [], [], [], []]
+// 		Output
+// 		[null, "ab", true, "ac", true, "bc", false]
+// 		Explanation
+// 		CombinationIterator itr = new CombinationIterator("abc", 2);
+// 		itr.next();    // return "ab"
+// 		itr.hasNext(); // return True
+// 		itr.next();    // return "ac"
+// 		itr.hasNext(); // return True
+// 		itr.next();    // return "bc"
+// 		itr.hasNext(); // return False
+
+// Constraints:
+//		1 <= combinationLength <= characters.length <= 15
+//		All the characters of characters are unique.
+//		At most 104 calls will be made to next and hasNext.
+//		It is guaranteed that all calls of the function next are valid.
+
+class CombinationIterator {
+  res: string[];
+  i: number;
+
+  constructor(private chars: string, private comboLen: number) {
+    this.res = [];
+    this.i = 0;
+
+    const dfs = (cur: string, rem: string) => {
+      if (cur.length >= comboLen) {
+        this.res.push(cur);
+        return;
+      }
+
+      // pre-build all possible combos
+      const n = rem.length;
+      for (let i = 0; i < n; i++) {
+        dfs(cur + rem[i], rem.slice(i + 1));
+      }
+    };
+    dfs("", chars);
+  }
+
+  next(): string {
+    return this.res[this.i++]; // retrieve from pre-builts
+  }
+  hasNext(): boolean {
+    return !!this.res[this.i]; // !! converts to boolean
+  }
+}
+
+const itr = new CombinationIterator("abc", 2);
+console.log(itr.next()); // "ab"
+console.log(itr.hasNext()); // True
+console.log(itr.next()); // "ac"
+console.log(itr.hasNext()); // True
+console.log(itr.next()); // "bc"
+console.log(itr.hasNext()); // False
