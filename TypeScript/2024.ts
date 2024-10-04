@@ -2112,7 +2112,7 @@ function topVotedAverageWaitingTime(customers: number[][]): number {
 } */
 
 // Append Characters to String to Make Subsequence					10/3/2024
-
+/* 
 // https://leetcode.com/problems/append-characters-to-string-to-make-subsequence
 
 // You are given two strings s and t consisting of only lowercase English letters.
@@ -2159,4 +2159,97 @@ console.log(appendCharacters("z", "abcde")); //  5
 // this shouldn't be a medium
 
 const oneLineAppendCharacters = (s: string, t: string): number =>
-  t.length - [...s].reduce((i, c) => (i += +(c == t[i])), 0);
+  t.length - [...s].reduce((i, c) => (i += +(c == t[i])), 0); */
+
+// Lowest Common Ancestor of Deepest Leaves					10/4/2024
+
+// https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/description/
+
+// Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
+
+// Recall that:
+// - The node of a binary tree is a leaf if and only if it has no children
+// - The depth of the root of the tree is 0. if the depth of a node is d, the depth of each of its children is d + 1.
+// - The lowest common ancestor of a set S of nodes, is the node A with the largest depth such that every node in S is in the subtree with root A.
+
+// Example 1:
+// 		Input: root = [3,5,1,6,2,0,8,null,null,7,4]
+// 		Output: [2,7,4]
+// Explanation: We return the node with value 2, colored in yellow in the diagram.
+// 		The nodes coloured in blue are the deepest leaf-nodes of the tree.
+// 		Note that nodes 6, 0, and 8 are also leaf nodes, but the depth of them is 2, but the depth of nodes 7 and 4 is 3.
+
+// Example 2:
+// 		Input: root = [1]
+// 		Output: [1]
+// Explanation: The root is the deepest node in the tree, and it's the lca of itself.
+
+// Example 3:
+// 		Input: root = [0,1,3,null,2]
+// 		Output: [2]
+// Explanation: The deepest leaf node in the tree is 2, the lca of one node is itself.
+
+// Constraints:
+//		The number of nodes in the tree will be in the range [1, 1000].
+//		0 <= Node.val <= 1000
+//		The values of the nodes in the tree are unique.
+
+const lcaDeepestLeaves = (root: TreeNode | null): TreeNode | null => {
+  let maxDepth = -1;
+  let res = root;
+
+  const explore = (
+    node: TreeNode | null,
+    parent: TreeNode | null,
+    d: number
+  ) => {
+    if (node == null) {
+      if (d > maxDepth) {
+        maxDepth = d;
+        res = parent;
+      }
+      return;
+    }
+
+    explore(node?.left || null, node, d + 1);
+    explore(node?.right || null, node, d + 1);
+  };
+  explore(root?.left || null, root, 1);
+  explore(root?.right || null, root, 1);
+
+  return res;
+};
+
+printBinaryTree(
+  lcaDeepestLeaves(createBinaryTree([3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]))
+); //  [2,7,4]
+printBinaryTree(lcaDeepestLeaves(createBinaryTree([1]))); //  [1]
+printBinaryTree(lcaDeepestLeaves(createBinaryTree([0, 1, 3, null, 2]))); //  [2]
+
+// doesnt pass all testcases
+
+function topVotedLcaDeepestLeaves(root: TreeNode | null): TreeNode | null {
+  let res: TreeNode | null = null;
+  let deepest: number = 0;
+
+  // helper dfs method to find deepest leaves for each ancestor
+  function dfs(root: TreeNode | null, depth: number): number {
+    deepest = Math.max(deepest, depth); // set new deepest
+    if (!root) return depth; // base case (just return current depth)
+
+    // get deepest level in left and right subtrees
+    const deepestLeft = dfs(root.left, depth + 1);
+    const deepestRight = dfs(root.right, depth + 1);
+
+    // check if deepest in both left and right ARE the deepest
+    if (deepestLeft === deepest && deepest === deepestRight) {
+      // this means this current node, has all deepest leaves, so set ancestor
+      res = root;
+    }
+
+    return Math.max(deepestLeft, deepestRight); // return the deeper subtree
+  }
+  dfs(root, 0);
+
+  return res;
+}
