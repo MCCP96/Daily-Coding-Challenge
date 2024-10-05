@@ -2162,7 +2162,7 @@ const oneLineAppendCharacters = (s: string, t: string): number =>
   t.length - [...s].reduce((i, c) => (i += +(c == t[i])), 0); */
 
 // Lowest Common Ancestor of Deepest Leaves					10/4/2024
-
+/* 
 // https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/description/
 
 // Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
@@ -2252,4 +2252,46 @@ function topVotedLcaDeepestLeaves(root: TreeNode | null): TreeNode | null {
   dfs(root, 0);
 
   return res;
+} */
+
+// Lexicographical Numbers					10/5/2024
+
+// https://leetcode.com/problems/lexicographical-numbers
+
+// Given an integer n, return all the numbers in the range [1, n] sorted in lexicographical order.
+
+// You must write an algorithm that runs in O(n) time and uses O(1) extra space.
+
+// Example 1:
+// 		Input: n = 13
+// 		Output: [1,10,11,12,13,2,3,4,5,6,7,8,9]
+
+// Example 2:
+// 		Input: n = 2
+// 		Output: [1,2]
+
+// Constraints:
+//		1 <= n <= 5 * 104
+
+function topVotedLexicalOrder(n: number): number[] {
+  const res: number[] = new Array(n);
+  let cur = 1;
+
+  for (let i = 0; i < n; i++) {
+    res[i] = cur;
+
+    if (cur * 10 <= n) cur *= 10;
+    else {
+      if (cur >= n) cur = Math.floor(cur / 10);
+      cur += 1;
+      while (cur % 10 === 0) cur /= 10;
+    }
+  }
+
+  return res;
 }
+
+console.log(topVotedLexicalOrder(13)); //  [1,10,11,12,13,2,3,4,5,6,7,8,9]
+console.log(topVotedLexicalOrder(2)); //  [1,2]
+
+// I was trying recursion while *10 and /10 was much simpler/better
