@@ -2349,7 +2349,7 @@ console.log(differenceOfSums(5, 6)); //  15
 console.log(differenceOfSums(5, 1)); //  -15 */
 
 // Groups of Special-Equivalent Strings					10/7/2024
-
+/* 
 // https://leetcode.com/problems/groups-of-special-equivalent-strings/
 
 // You are given an array of strings of the same length words.
@@ -2407,4 +2407,167 @@ console.log(
 ); //  3
 console.log(numSpecialEquivGroups(["abc", "acb", "bac", "bca", "cab", "cba"])); //  3
 
-// 100% Runtime
+// 100% Runtime */
+
+// Queens That Can Attack the King					10/8/2024
+
+// https://leetcode.com/problems/queens-that-can-attack-the-king/
+
+// On a 0-indexed 8 x 8 chessboard, there can be multiple black queens and one white king.
+
+// You are given a 2D integer array queens where queens[i] = [xQueeni, yQueeni] represents the position of the ith black queen on the chessboard. You are also given an integer array king of length 2 where king = [xKing, yKing] represents the position of the white king.
+
+// Return the coordinates of the black queens that can directly attack the king. You may return the answer in any order.
+
+// Example 1:
+// 		Input: queens = [[0,1],[1,0],[4,0],[0,4],[3,3],[2,4]], king = [0,0]
+// 		Output: [[0,1],[1,0],[3,3]]
+// Explanation: The diagram above shows the three queens that can directly attack the king and the three queens that cannot attack the king (i.e., marked with red dashes).
+
+// Example 2:
+// 		Input: queens = [[0,0],[1,1],[2,2],[3,4],[3,5],[4,4],[4,5]], king = [3,3]
+// 		Output: [[2,2],[3,4],[4,4]]
+// Explanation: The diagram above shows the three queens that can directly attack the king and the three queens that cannot attack the king (i.e., marked with red dashes).
+
+// Constraints:
+//		1 <= queens.length < 64
+//		queens[i].length == king.length == 2
+//		0 <= xQueeni, yQueeni, xKing, yKing < 8
+//		All the given positions are unique.
+
+const queensAttacktheKing = (
+  queens: number[][],
+  king: number[]
+): number[][] => {
+  // O(1) lookup
+  const queensSet = queens.reduce(
+    (dict, q) => dict.add(`${q[0]},${q[1]}`),
+    new Set()
+  );
+
+  // from king, work outwards, stopping if queen is encountered
+  const [xKing, yKing] = king;
+  let res: number[][] = [];
+
+  // straigths
+  // up
+  for (let y = yKing - 1; y >= 0; y--) {
+    if (queensSet.has(`${xKing},${y}`)) {
+      res.push([xKing, y]);
+      break;
+    }
+  }
+  // right
+  for (let x = xKing + 1; x < 8; x++) {
+    if (queensSet.has(`${x},${yKing}`)) {
+      res.push([x, yKing]);
+      break;
+    }
+  }
+  // down
+  for (let y = yKing + 1; y < 8; y++) {
+    if (queensSet.has(`${xKing},${y}`)) {
+      res.push([xKing, y]);
+      break;
+    }
+  }
+  // left
+  for (let x = xKing - 1; x >= 0; x--) {
+    if (queensSet.has(`${x},${yKing}`)) {
+      res.push([x, yKing]);
+      break;
+    }
+  }
+
+  // diagonals
+  // up + right
+  for (let y = yKing - 1, x = xKing + 1; y >= 0 && x < 8; y--, x++) {
+    if (queensSet.has(`${x},${y}`)) {
+      res.push([x, y]);
+      break;
+    }
+  }
+  // down + right
+  for (let y = yKing + 1, x = xKing + 1; y < 8 && x < 8; y++, x++) {
+    if (queensSet.has(`${x},${y}`)) {
+      res.push([x, y]);
+      break;
+    }
+  }
+  // down + left
+  for (let y = yKing + 1, x = xKing - 1; y < 8 && x >= 0; y++, x--) {
+    if (queensSet.has(`${x},${y}`)) {
+      res.push([x, y]);
+      break;
+    }
+  }
+  // up + left
+  for (let y = yKing - 1, x = xKing - 1; y >= 0 && x >= 0; y--, x--) {
+    if (queensSet.has(`${x},${y}`)) {
+      res.push([x, y]);
+      break;
+    }
+  }
+
+  return res;
+};
+
+console.log(
+  queensAttacktheKing(
+    [
+      [0, 1],
+      [1, 0],
+      [4, 0],
+      [0, 4],
+      [3, 3],
+      [2, 4],
+    ],
+    [0, 0]
+  )
+); //  [[0,1],[1,0],[3,3]]
+console.log(
+  queensAttacktheKing(
+    [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+      [3, 4],
+      [3, 5],
+      [4, 4],
+      [4, 5],
+    ],
+    [3, 3]
+  )
+); //  [[2,2],[3,4],[4,4]]
+
+// Looks terrible, but is O(n)
+// Could definitely clean it up with a function
+
+function topVotedQueensAttacktheKing(
+  queens: number[][],
+  king: number[]
+): number[][] {
+  const result: number[][] = [];
+
+  const findTheQueens = (direction: number[]) => {
+    let [x, y] = king;
+
+    while (x >= 0 && x < 8 && y >= 0 && y < 8) {
+      x += direction[0];
+      y += direction[1];
+      if (queens.some((quinn) => quinn[0] === x && quinn[1] === y)) {
+        result.push([x, y]);
+        break;
+      }
+    }
+  };
+
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      if (i !== 0 || j !== 0) {
+        findTheQueens([i, j]); //from king move 8 directions to find the queens
+      }
+    }
+  }
+  return result;
+}
