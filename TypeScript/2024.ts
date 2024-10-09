@@ -2410,7 +2410,7 @@ console.log(numSpecialEquivGroups(["abc", "acb", "bac", "bca", "cab", "cba"])); 
 // 100% Runtime */
 
 // Queens That Can Attack the King					10/8/2024
-
+/* 
 // https://leetcode.com/problems/queens-that-can-attack-the-king/
 
 // On a 0-indexed 8 x 8 chessboard, there can be multiple black queens and one white king.
@@ -2570,4 +2570,104 @@ function topVotedQueensAttacktheKing(
     }
   }
   return result;
+} */
+
+// Construct Smallest Number From DI String					10/9/2024
+
+// https://leetcode.com/problems/construct-smallest-number-from-di-string/
+
+// You are given a 0-indexed string pattern of length n consisting of the characters 'I' meaning increasing and 'D' meaning decreasing.
+
+// A 0-indexed string num of length n + 1 is created using the following conditions:
+// - num consists of the digits '1' to '9', where each digit is used at most once.
+// - If pattern[i] == 'I', then num[i] < num[i + 1].
+// - If pattern[i] == 'D', then num[i] > num[i + 1].
+
+// Return the lexicographically smallest possible string num that meets the conditions.
+
+// Example 1:
+// 		Input: pattern = "IIIDIDDD"
+// 		Output: "123549876"
+// Explanation:
+// 		At indices 0, 1, 2, and 4 we must have that num[i] < num[i+1].
+// 		At indices 3, 5, 6, and 7 we must have that num[i] > num[i+1].
+// 		Some possible values of num are "245639871", "135749862", and "123849765".
+// 		It can be proven that "123549876" is the smallest possible num that meets the conditions.
+// 		Note that "123414321" is not possible because the digit '1' is used more than once.
+
+// Example 2:
+// 		Input: pattern = "DDD"
+// 		Output: "4321"
+// Explanation:
+// 		Some possible values of num are "9876", "7321", and "8742".
+// 		It can be proven that "4321" is the smallest possible num that meets the conditions.
+
+// Constraints:
+//		1 <= pattern.length <= 8
+//		pattern consists of only the letters 'I' and 'D'.
+
+const smallestNumber = (pattern: string): string => {
+  const n = pattern.length;
+  let found: boolean = false;
+  let res: string = "";
+
+  const dfs = (cur: string, idx: number, rem: string) => {
+    // test if string is valid (idx leads cur by 1)
+    if (pattern[idx] == "I") {
+      if (cur[idx] > cur[idx + 1]) return; // increase not respected
+    } else {
+      if (cur[idx] < cur[idx + 1]) return; // decrease not respected
+    }
+
+    if (idx == n - 1) {
+      // end reached, sol found
+      found = true;
+      res = cur;
+    }
+
+    // favor smallest possible num to achieve lexicographically smallest string
+    for (let i = 0; i < rem.length && !found; i++) {
+      dfs(cur + rem[i], idx + 1, rem.substring(0, i) + rem.substring(i + 1));
+    }
+  };
+
+  // start with 2 digits
+  const digits = "123456789";
+  for (let i = 0; i < 9 && !found; i++) {
+    for (let j = 0; j < 9 && !found; j++) {
+      if (i != j) {
+        let rem = digits.replace(digits[i], "").replace(digits[j], "");
+        dfs(`${digits[i]}${digits[j]}`, 0, rem);
+      }
+    }
+  }
+
+  return res;
+};
+
+console.log(smallestNumber("IIIDIDDD")); //  "123549876"
+console.log(smallestNumber("DDD")); //  "4321"
+
+function topVotedSmallestNumber(pattern: string): string {
+  let idx = -1;
+  const { length } = pattern;
+  const nums = Array(length + 1)
+    .fill(0)
+    .map((_, i) => i + 1);
+
+  const swap = (start: number, end: number, nums: number[]) => {
+    for (let i = 0; i < (start - end) / 2; i++) {
+      [nums[start - i], nums[end + i]] = [nums[end + i], nums[start - i]];
+    }
+
+    idx = -1;
+  };
+
+  for (let i = length; i >= 0; i--) {
+    if (pattern[i] === "D" && idx === -1) idx = i;
+    if (pattern[i] === "I" && idx > -1) swap(idx + 1, i + 1, nums);
+    if (i === 0 && pattern[i] === "D" && idx > -1) swap(idx + 1, i, nums);
+  }
+
+  return nums.join("");
 }
