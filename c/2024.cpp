@@ -82,7 +82,7 @@ int main()
 */
 
 // OS Assignment: Concurrent Processes in Unix - 3         10/13/2024
-
+/* 
 // Extend the processes above once more. Use the wait system call. Process 1 starts as in 2, and when Process 2 starts, it waits for it. Process 2 displays the message 10 times and exits. When this happens, Process 1 should end too.
 
 // process1.cpp:
@@ -148,3 +148,92 @@ int main()
 // I think I was supposed to keep the fork() call similar to the structure here
 
 // also think it's supposed to be 1-9 instead of 0-10
+ */
+
+// OS Assignment: Concurrent Processes in Unix - 4         10/14/2024
+
+// Extend the processes above once more. They should now share memory. The primary functions are listed in the book and course materials. Using shmget, shmctl, shmat, and shmdt, add a common variable shared between the two processes. The variable contains the random number generated. Process 2 starts only when the random value is 9. Each of the processes should now react to the value of the shared variable, and display a message identifying themselves and the random number in shared memory. Both processes finish when the value generated is 0.
+
+// process1.cpp:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <sys/wait.h>  
+#include <time.h>
+
+int main()
+{
+  srand(time(NULL)); // fix rand
+  pid_t pid;
+
+  // shared memory
+  key_t key = ftok("shmfile",65);
+  int shmid = shmget(key, sizeof(int), 0666|IPC_CREAT);
+  int *shared_var = (int*) shmat(shmid, (void*)0, 0);
+
+  while(1){
+    int n = rand() % 11; // 0-10
+    *shared_var = n;
+
+    printf("Process 1: %d\n", n);
+
+    if(n == 9){
+      pid = fork(); // create Process 2
+
+      if (pid == 0) {
+        // child (Process 2)
+        execl("./process2", "process2", NULL);
+      } else {
+        // parent (Process 1)
+        // wait(NULL); // wait for Process 2 to finish
+      }
+    }
+
+    if (n == 0) {
+      printf("Terminating.\n");
+      break;
+    }
+
+    sleep(1);
+  }
+
+  // clean-up
+  shmdt(shared_var);
+  shmctl(shmid, IPC_RMID, NULL);
+
+  _exit(0);
+}
+
+// process2.cpp:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+int main()
+{
+  // shared memory
+  key_t key = ftok("shmfile",65);
+  int shmid = shmget(key, sizeof(int), 0666|IPC_CREAT); 
+  int *shared_var = (int*) shmat(shmid, (void*)0, 0);
+
+  while(1){
+    printf("Process 2: %d\n", *shared_var);
+
+    if (*shared_var == 0) {
+      printf("Terminating.\n");
+      break;
+    }
+
+    sleep(1);
+  }
+
+  // clean-up
+  shmdt(shared_var);
+  return 0;
+}
