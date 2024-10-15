@@ -2673,7 +2673,7 @@ function topVotedSmallestNumber(pattern: string): string {
 } */
 
 // The k-th Lexicographical String of All Happy Strings of Length n					10/10/2024
-
+/* 
 // https://leetcode.com/problems/the-k-th-lexicographical-string-of-all-happy-strings-of-length-n/description/
 
 // A happy string is a string that:
@@ -2735,4 +2735,44 @@ console.log(getHappyString(1, 3)); //  "c"
 console.log(getHappyString(1, 4)); //  ""
 console.log(getHappyString(3, 9)); //  "cab"
 
-// same as top voted
+// same as top voted */
+
+// Find Words Containing Character					10/15/2024
+
+// https://leetcode.com/problems/find-words-containing-character/description/
+
+// You are given a 0-indexed array of strings words and a character x.
+
+// Return an array of indices representing the words that contain the character x.
+
+// Note that the returned array may be in any order.
+
+// Example 1:
+// 		Input: words = ["leet","code"], x = "e"
+// 		Output: [0,1]
+// Explanation: "e" occurs in both words: "leet", and "code". Hence, we return indices 0 and 1.
+
+// Example 2:
+// 		Input: words = ["abc","bcd","aaaa","cbc"], x = "a"
+// 		Output: [0,2]
+// Explanation: "a" occurs in "abc", and "aaaa". Hence, we return indices 0 and 2.
+
+// Example 3:
+// 		Input: words = ["abc","bcd","aaaa","cbc"], x = "z"
+// 		Output: []
+// Explanation: "z" does not occur in any of the words. Hence, we return an empty array.
+
+// Constraints:
+//		1 <= words.length <= 50
+//		1 <= words[i].length <= 50
+//		x is a lowercase English letter.
+//		words[i] consists only of lowercase English letters.
+
+const findWordsContaining = (words: string[], c: string): number[] =>
+  words.reduce((res, word, i) => (word.includes(c) ? [...res, i] : res), []);
+
+console.log(findWordsContaining(["leet", "code"], "e")); //  [0,1]
+console.log(findWordsContaining(["abc", "bcd", "aaaa", "cbc"], "a")); //  [0,2]
+console.log(findWordsContaining(["abc", "bcd", "aaaa", "cbc"], "z")); //  []
+
+// easy one today, midterm week
