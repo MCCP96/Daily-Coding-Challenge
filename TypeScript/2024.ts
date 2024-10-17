@@ -2778,7 +2778,7 @@ console.log(findWordsContaining(["abc", "bcd", "aaaa", "cbc"], "z")); //  []
 // easy one today, midterm week */
 
 // The Two Sneaky Numbers of Digitville					10/16/2024
-
+/* 
 // https://leetcode.com/problems/the-two-sneaky-numbers-of-digitville/
 
 // In the town of Digitville, there was a list of numbers called nums containing integers from 0 to n - 1. Each number was supposed to appear exactly once in the list, however, two mischievous numbers sneaked in an additional time, making the list longer than usual.
@@ -2824,4 +2824,72 @@ const getSneakyNumbers = (nums: number[]): number[] => {
 
 console.log(getSneakyNumbers([0, 1, 1, 0])); //  [0,1]
 console.log(getSneakyNumbers([0, 3, 2, 1, 3, 2])); //  [2,3]
-console.log(getSneakyNumbers([7, 1, 5, 4, 3, 4, 6, 0, 9, 5, 8, 2])); //  [4,5]
+console.log(getSneakyNumbers([7, 1, 5, 4, 3, 4, 6, 0, 9, 5, 8, 2])); //  [4,5] */
+
+// Find Unique Binary String					10/17/2024
+
+// https://leetcode.com/problems/find-unique-binary-string/description/
+
+// Given an array of strings nums containing n unique binary strings each of length n, return a binary string of length n that does not appear in nums. If there are multiple answers, you may return any of them.
+
+// Example 1:
+// 		Input: nums = ["01","10"]
+// 		Output: "11"
+// Explanation: "11" does not appear in nums. "00" would also be correct.
+
+// Example 2:
+// 		Input: nums = ["00","01"]
+// 		Output: "11"
+// Explanation: "11" does not appear in nums. "10" would also be correct.
+
+// Example 3:
+// 		Input: nums = ["111","011","001"]
+// 		Output: "101"
+// Explanation: "101" does not appear in nums. "000", "010", "100", and "110" would also be correct.
+
+// Constraints:
+//		n == nums.length
+//		1 <= n <= 16
+//		nums[i].length == n
+//		nums[i] is either '0' or '1'.
+//		All the strings of nums are unique.
+
+const findDifferentBinaryString = (nums: string[]): string => {
+  const unique = new Set<number>();
+  const n = nums[0].length;
+
+  for (const num of nums) {
+    // save nums as ints for lookup
+    unique.add(parseInt(num, 2));
+  }
+
+  let res: string = "";
+  // 65535 = 2^16
+  for (let i = 0; i <= 65535; i++) {
+    if (!unique.has(i)) {
+      // n not in nums
+      res = i.toString(2); // convert to binary
+      break;
+    }
+  }
+
+  if (res.length < n) {
+    // missing leading 0s
+    res = "0".repeat(n - res.length) + res;
+  }
+
+  return res;
+};
+
+console.log(findDifferentBinaryString(["01", "10"])); //  "11"
+console.log(findDifferentBinaryString(["00", "01"])); //  "11"
+console.log(findDifferentBinaryString(["111", "011", "001"])); //  "101"
+
+function topVotedFindDifferentBinaryString(nums: string[]): string {
+  let output = "";
+  for (let i = 0; i < nums.length; i++)
+    output += nums[i][i] === "0" ? "1" : "0";
+  return output;
+}
+
+// "Since the problem constraints states that nums[i].length == n, you can use Cantor's diagonal argument to solve the problem. This would not work if nums[i].length > n."
