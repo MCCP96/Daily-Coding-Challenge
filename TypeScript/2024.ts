@@ -2895,7 +2895,7 @@ function topVotedFindDifferentBinaryString(nums: string[]): string {
 // "Since the problem constraints states that nums[i].length == n, you can use Cantor's diagonal argument to solve the problem. This would not work if nums[i].length > n." */
 
 // XOR Queries of a Subarray					10/21/2024
-
+/* 
 // https://leetcode.com/problems/xor-queries-of-a-subarray/description/
 
 // You are given an array arr of positive integers. You are also given the array queries where queries[i] = [lefti, righti].
@@ -2972,4 +2972,53 @@ function topVotedXorQueries(arr: number[], queries: number[][]): number[] {
   const prefixXor = [0];
   arr.forEach((num) => prefixXor.push(prefixXor.at(-1) ^ num));
   return queries.map(([l, r]) => prefixXor[l] ^ prefixXor[r + 1]);
-}
+} */
+
+// Letter Tile Possibilities					10/22/2024
+
+// https://leetcode.com/problems/letter-tile-possibilities/description/
+
+// You have n  tiles, where each tile has one letter tiles[i] printed on it.
+
+// Return the number of possible non-empty sequences of letters you can make using the letters printed on those tiles.
+
+// Example 1:
+// 		Input: tiles = "AAB"
+// 		Output: 8
+// Explanation: The possible sequences are "A", "B", "AA", "AB", "BA", "AAB", "ABA", "BAA".
+
+// Example 2:
+// 		Input: tiles = "AAABBC"
+// 		Output: 188
+
+// Example 3:
+// 		Input: tiles = "V"
+// 		Output: 1
+
+// Constraints:
+//		1 <= tiles.length <= 7
+//		tiles consists of uppercase English letters.
+
+const numTilePossibilities = (tiles: string): number => {
+  let res = new Set<string>();
+  const dfs = (rem: string, cur: string) => {
+    if (rem == "") {
+      res.add(cur);
+      return;
+    }
+    dfs(rem.substring(1), cur);
+    for (let i = 0; i < rem.length; i++) {
+      dfs(rem.substring(0, i) + rem.substring(i + 1), rem[i] + cur);
+      dfs(rem.substring(0, i) + rem.substring(i + 1), cur + rem[i]);
+    }
+  };
+  dfs(tiles, "");
+  return res.size - 1; // remove ''
+};
+
+console.log(numTilePossibilities("AAB")); //  8
+console.log(numTilePossibilities("AAABBC")); //  188
+console.log(numTilePossibilities("V")); //  1
+
+// surely a math solution to this
+// still good recursion practice
