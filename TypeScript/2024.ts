@@ -3024,7 +3024,7 @@ console.log(numTilePossibilities("V")); //  1
 // still good recursion practice */
 
 // Find the Longest Substring Containing Vowels in Even Counts					10/23/2024
-
+/* 
 // https://leetcode.com/problems/find-the-longest-substring-containing-vowels-in-even-counts/description/
 
 // Given the string s, return the size of the longest substring containing each vowel an even number of times. That is, 'a', 'e', 'i', 'o', and 'u' must appear an even number of times.
@@ -3081,4 +3081,106 @@ function topVotedFindTheLongestSubstring(s: string): number {
 
 console.log(topVotedFindTheLongestSubstring("eleetminicoworoep")); //  13
 console.log(topVotedFindTheLongestSubstring("leetcodeisgreat")); //  5
-console.log(topVotedFindTheLongestSubstring("bcbcbc")); //  6
+console.log(topVotedFindTheLongestSubstring("bcbcbc")); //  6 */
+
+// Matrix Block Sum					10/24/2024
+
+// https://leetcode.com/problems/matrix-block-sum/description/
+
+// Given a m x n matrix mat and an integer k, return a matrix answer where each answer[i][j] is the sum of all elements mat[r][c] for:
+// - i - k <= r <= i + k,
+// - j - k <= c <= j + k, and
+// - (r, c) is a valid position in the matrix.
+
+// Example 1:
+// 		Input: mat = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+// 		Output: [[12,21,16],[27,45,33],[24,39,28]]
+
+// Example 2:
+// 		Input: mat = [[1,2,3],[4,5,6],[7,8,9]], k = 2
+// 		Output: [[45,45,45],[45,45,45],[45,45,45]]
+
+// Constraints:
+//		m == mat.length
+//		n == mat[i].length
+//		1 <= m, n, k <= 100
+//		1 <= mat[i][j] <= 100
+
+const matrixBlockSum = (mat: number[][], k: number): number[][] => {
+  const n = mat.length;
+  const m = mat[0].length;
+
+  const withinBounds = (row: number, col: number): boolean =>
+    row >= 0 && row < n && col >= 0 && col < m;
+
+  const getBlockSum = (row: number, col: number): number => {
+    let sum = 0;
+    for (let i = row - k; i <= row + k; i++) {
+      if (withinBounds(i, col))
+        for (let j = col - k; j <= col + k; j++) {
+          if (withinBounds(i, j)) sum += mat[i][j];
+        }
+    }
+    return sum;
+  };
+
+  let res = new Array(n).fill(0).map((_) => new Array(m));
+  for (let row = 0; row < n; row++) {
+    for (let col = 0; col < m; col++) {
+      res[row][col] = getBlockSum(row, col);
+    }
+  }
+  return res;
+};
+
+console.log(
+  matrixBlockSum(
+    [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ],
+    1
+  )
+); //  [[12,21,16],[27,45,33],[24,39,28]]
+console.log(
+  matrixBlockSum(
+    [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ],
+    2
+  )
+); //  [[45,45,45],[45,45,45],[45,45,45]]
+
+// slow
+
+function topVotedMatrixBlockSum(mat: number[][], K: number): number[][] {
+  const dp: number[][] = [
+    Array(mat[0].length + 1).fill(0),
+    ...mat.map((row) => [0, ...row]),
+  ];
+
+  for (let i = 0; i < mat.length; i++) {
+    for (let j = 0; j < mat[0].length; j++) {
+      dp[i + 1][j + 1] = mat[i][j] + dp[i][j + 1] + dp[i + 1][j] - dp[i][j];
+    }
+  }
+
+  const m = mat.length;
+  const n = mat[0].length;
+
+  for (let i = 1; i < dp.length; i++) {
+    const r1 = Math.max(0, i - K - 1);
+    const r2 = Math.min(m, i + K);
+    for (let j = 1; j < dp[0].length; j++) {
+      const c1 = Math.max(0, j - K - 1);
+      const c2 = Math.min(n, j + K);
+
+      mat[i - 1][j - 1] = dp[r2][c2] - dp[r1][c2] - dp[r2][c1] + dp[r1][c1];
+    }
+  }
+
+  return mat;
+}
