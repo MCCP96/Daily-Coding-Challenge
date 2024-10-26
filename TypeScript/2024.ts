@@ -3186,7 +3186,7 @@ function topVotedMatrixBlockSum(mat: number[][], K: number): number[][] {
 } */
 
 // Display Table of Food Orders in a Restaurant					10/25/2024
-
+/* 
 // https://leetcode.com/problems/display-table-of-food-orders-in-a-restaurant/description/
 
 // Given the array orders, which represents the orders that customers have done in a restaurant. More specifically orders[i]=[customerNamei,tableNumberi,foodItemi] where customerNamei is the name of the customer, tableNumberi is the table customer sit at, and foodItemi is the item customer orders.
@@ -3353,4 +3353,102 @@ function topVotedDisplayTable(orders: string[][]): string[][] {
     .sort((a, b) => Number(a[0]) - Number(b[0]));
 
   return [columnNames, ...tableOrders];
+} */
+
+// Remove Sub-Folders from the Filesystem					10/26/2024
+
+// https://leetcode.com/problems/remove-sub-folders-from-the-filesystem/description/
+
+// Given a list of folders folder, return the folders after removing all sub-folders in those folders. You may return the answer in any order.
+
+// If a folder[i] is located within another folder[j], it is called a sub-folder of it. A sub-folder of folder[j] must start with folder[j], followed by a "/". For example, "/a/b" is a sub-folder of "/a", but "/b" is not a sub-folder of "/a/b/c".
+
+// The format of a path is one or more concatenated strings of the form: '/' followed by one or more lowercase English letters.
+
+// For example, "/leetcode" and "/leetcode/problems" are valid paths while an empty string and "/" are not.
+
+// Example 1:
+// 		Input: folder = ["/a","/a/b","/c/d","/c/d/e","/c/f"]
+// 		Output: ["/a","/c/d","/c/f"]
+// Explanation: Folders "/a/b" is a subfolder of "/a" and "/c/d/e" is inside of folder "/c/d" in our filesystem.
+
+// Example 2:
+// 		Input: folder = ["/a","/a/b/c","/a/b/d"]
+// 		Output: ["/a"]
+// Explanation: Folders "/a/b/c" and "/a/b/d" will be removed because they are subfolders of "/a".
+
+// Example 3:
+// 		Input: folder = ["/a/b/c","/a/b/ca","/a/b/d"]
+// 		Output: ["/a/b/c","/a/b/ca","/a/b/d"]
+
+// Constraints:
+//		1 <= folder.length <= 4 * 104
+//		2 <= folder[i].length <= 100
+//		folder[i] contains only lowercase letters and '/'.
+//		folder[i] always starts with the character '/'.
+//		Each folder name is unique.
+
+const removeSubfolders = (folder: string[]): string[] => {
+  const sortedFolders = folder.sort((a, b) => a.length - b.length); // parents come first
+  let parents = new Set<string>();
+
+  for (const folder of sortedFolders) {
+    let isSubfolder = false;
+
+    for (const dir of parents) {
+      if (folder.indexOf(dir + "/") == 0) {
+        // 0 for same root folder
+        isSubfolder = true;
+        break;
+      }
+    }
+    if (!isSubfolder) parents.add(folder); // not a subfolder
+  }
+
+  return [...parents.keys()];
+};
+
+console.log(removeSubfolders(["/a", "/a/b", "/c/d", "/c/d/e", "/c/f"])); //  ["/a","/c/d","/c/f"]
+console.log(removeSubfolders(["/a", "/a/b/c", "/a/b/d"])); //  ["/a"]
+console.log(removeSubfolders(["/a/b/c", "/a/b/ca", "/a/b/d"])); //  ["/a/b/c","/a/b/ca","/a/b/d"]
+
+function topVotedRemoveSubfolders(folder: string[]): string[] {
+  // Sort the folders lexicographically so parent folders come before their subfolders
+  folder.sort();
+
+  // Initialize result array with the first folder
+  const ans: string[] = [folder[0]];
+
+  // Iterate through remaining folders starting from index 1
+  for (let i = 1; i < folder.length; i++) {
+    // Get the last added folder path and add a trailing slash
+    const lastFolder = ans[ans.length - 1] + "/";
+
+    // Check if current folder starts with lastFolder
+    // If it doesn't start with lastFolder, then it's not a subfolder
+    if (!folder[i].startsWith(lastFolder)) {
+      ans.push(folder[i]);
+    }
+  }
+
+  return ans;
 }
+
+// same idea, better code
+// .sort needs to be used lexicographically instead of by length
+
+const revisedRemoveSubfolders = (folder: string[]): string[] => {
+  // Sorted lexicographically so parents come before their subfolders
+  const sortedFolders = folder.sort();
+  let parents: string[] = [];
+  let prev: string = "-1";
+
+  for (const folder of sortedFolders) {
+    if (!folder.startsWith(prev)) {
+      parents.push(folder);
+      prev = folder + "/";
+    }
+  }
+
+  return parents;
+};
