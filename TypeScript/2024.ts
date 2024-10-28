@@ -3454,7 +3454,7 @@ const revisedRemoveSubfolders = (folder: string[]): string[] => {
 }; */
 
 // Restore the Array From Adjacent Pairs					10/27/2024
-
+/* 
 // https://leetcode.com/problems/restore-the-array-from-adjacent-pairs/
 
 // There is an integer array nums that consists of n unique elements, but you have forgotten it. However, you do remember every pair of adjacent elements in nums.
@@ -3542,4 +3542,130 @@ console.log(
     [-3, 1],
   ])
 ); //  [-2,4,1,-3]
-console.log(restoreArray([[100000, -100000]])); //  [100000,-100000]
+console.log(restoreArray([[100000, -100000]])); //  [100000,-100000] */
+
+// Design Underground System					10/28/2024
+
+// https://leetcode.com/problems/design-underground-system/description/
+
+// An underground railway system is keeping track of customer travel times between different stations. They are using this data to calculate the average time it takes to travel from one station to another.
+
+// Implement the UndergroundSystem class:
+
+// void checkIn(int id, string stationName, int t)
+// - A customer with a card ID equal to id, checks in at the station stationName at time t.
+// - A customer can only be checked into one place at a time.
+
+// void checkOut(int id, string stationName, int t)
+// - A customer with a card ID equal to id, checks out from the station stationName at time t.
+// - double getAverageTime(string startStation, string endStation)
+// - Returns the average time it takes to travel from startStation to endStation.
+// - The average time is computed from all the previous traveling times from startStation to endStation that happened directly, meaning a check in at startStation followed by a check out from endStation.
+// - The time it takes to travel from startStation to endStation may be different from the time it takes to travel from endStation to startStation.
+// - There will be at least one customer that has traveled from startStation to endStation before getAverageTime is called.
+
+// You may assume all calls to the checkIn and checkOut methods are consistent. If a customer checks in at time t1 then checks out at time t2, then t1 < t2. All events happen in chronological order.
+
+// Constraints:
+//		1 <= id, t <= 106
+//		1 <= stationName.length, startStation.length, endStation.length <= 10
+//		All strings consist of uppercase and lowercase English letters and digits.
+//		There will be at most 2 * 104 calls in total to checkIn, checkOut, and getAverageTime.
+//		Answers within 10-5 of the actual value will be accepted.
+
+class UndergroundSystem {
+  private active: Map<
+    number,
+    {
+      stationName: string;
+      t: number;
+    }
+  >;
+  private tripAvg: Map<
+    string,
+    {
+      accumulateTime: number;
+      travelerCount: number;
+    }
+  >;
+
+  constructor() {
+    this.active = new Map();
+    this.tripAvg = new Map();
+  }
+
+  checkIn(id: number, stationName: string, t: number): void {
+    this.active.set(id, { stationName, t });
+  }
+  checkOut(id: number, stationName: string, t: number): void {
+    const userData = this.active.get(id);
+    const fullTrip = `${userData?.stationName}-${stationName}`;
+
+    if (!this.tripAvg.has(fullTrip))
+      this.tripAvg.set(fullTrip, { accumulateTime: 0, travelerCount: 0 });
+
+    const curTrip = this.tripAvg.get(fullTrip);
+    curTrip!.accumulateTime += t - userData!.t;
+    curTrip!.travelerCount++;
+
+    this.active.delete(id);
+  }
+  getAverageTime(startStation: string, endStation: string): number {
+    const trip = this.tripAvg.get(`${startStation}-${endStation}`);
+    return trip!.accumulateTime / trip!.travelerCount;
+  }
+}
+
+const undergroundSystem = new UndergroundSystem();
+undergroundSystem.checkIn(45, "Leyton", 3);
+undergroundSystem.checkIn(32, "Paradise", 8);
+undergroundSystem.checkIn(27, "Leyton", 10);
+undergroundSystem.checkOut(45, "Waterloo", 15); // Customer 45 "Leyton" -> "Waterloo" in 15-3 = 12
+undergroundSystem.checkOut(27, "Waterloo", 20); // Customer 27 "Leyton" -> "Waterloo" in 20-10 = 10
+undergroundSystem.checkOut(32, "Cambridge", 22); // Customer 32 "Paradise" -> "Cambridge" in 22-8 = 14
+undergroundSystem.getAverageTime("Paradise", "Cambridge"); // return 14.00000. One trip "Paradise" -> "Cambridge", (14) / 1 = 14
+undergroundSystem.getAverageTime("Leyton", "Waterloo"); // return 11.00000. Two trips "Leyton" -> "Waterloo", (10 + 12) / 2 = 11
+undergroundSystem.checkIn(10, "Leyton", 24);
+undergroundSystem.getAverageTime("Leyton", "Waterloo"); // return 11.00000
+undergroundSystem.checkOut(10, "Waterloo", 38); // Customer 10 "Leyton" -> "Waterloo" in 38-24 = 14
+undergroundSystem.getAverageTime("Leyton", "Waterloo"); // return 12.00000. Three trips "Leyton" -> "Waterloo", (10 + 12 + 14) / 3 = 12
+
+interface Trip {
+  stationName: string;
+  t: number;
+}
+
+interface AvgData {
+  sum: number;
+  count: number;
+}
+
+class TopVotedUndergroundSystem {
+  customer = new Map<number, Trip>();
+  avg = new Map<string, AvgData>();
+
+  checkIn(id: number, stationName: string, t: number): void {
+    // O(1)
+    this.customer.set(id, { stationName, t });
+  }
+
+  checkOut(id: number, stationName: string, t: number): void {
+    // O(1)
+    const checkIn = this.customer.get(id);
+    if (!checkIn) throw new Error(`Customer ${id} didn't checked in`);
+    const key = `${checkIn.stationName}-${stationName}`;
+    const { sum, count } = this.avg.get(key) ?? { sum: 0, count: 0 };
+    this.avg.set(key, { sum: sum + (t - checkIn.t), count: count + 1 });
+  }
+
+  getAverageTime(startStation: string, endStation: string): number {
+    // O(1)
+    const { sum, count } = this.avg.get(`${startStation}-${endStation}`) ?? {
+      sum: 0,
+      count: 0,
+    };
+    return sum / count;
+  }
+}
+
+// same same
