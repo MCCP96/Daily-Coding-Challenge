@@ -151,7 +151,7 @@ int main()
  */
 
 // OS Assignment: Concurrent Processes in Unix - 4         10/14/2024
-
+/* 
 // Extend the processes above once more. They should now share memory. The primary functions are listed in the book and course materials. Using shmget, shmctl, shmat, and shmdt, add a common variable shared between the two processes. The variable contains the random number generated. Process 2 starts only when the random value is 9. Each of the processes should now react to the value of the shared variable, and display a message identifying themselves and the random number in shared memory. Both processes finish when the value generated is 0.
 
 // process1.cpp:
@@ -236,4 +236,111 @@ int main()
   // clean-up
   shmdt(shared_var);
   return 0;
+} */
+
+// OS Assignment 2: Concurrent Processes in Unix - Step 5         10/30/2024
+
+// Extend the processes above once more. They should now protect concurrent access to the shared memory position. On top of the shm instructions, you should protect the shared memory access using semaphores. Use semget, semop, semctl to protect the shared memory section.
+
+// As before, you now have a common variable shared between the two processes, and it is protected from concurrent access using semaphores. The behavior is as in 4. 
+
+// Information about message passing is on Chapter 14 of the Linux reference book, and in the online materials posted.  
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>  
+#include <time.h>
+#include <sys/wait.h>
+#include <sys/shm.h>
+#include <sys/sem.h>
+
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <string>
+
+using namespace std;
+ofstream output;
+
+int main()
+{
+  remove("Part_II_Outputs_101215573_101243509.txt"); // delete previous log file
+
+  srand(time(NULL)); // fix rand
+  pid_t pid;
+
+  // setup shared memory
+  key_t shm_key = ftok("shmfile", 65); // generate unique key
+  int shmid = shmget(shm_key, sizeof(int), 0666 | IPC_CREAT); // identifier of shared memory (int shmget(key_t key, size_t size, int shmflg))
+  int *shared_var = (int*) shmat(shmid, (void*)0, 0); // reference shared memory location
+
+  // setup semaphores protecting shared memory access
+  key_t sem_key = ftok("semfile", 65); // generate unique key
+  int semid = semget(sem_key, 1, 0666 | IPC_CREAT);  // identifier of semaphore set (int semget(key_t key, int nsems, int semflg));
+  semctl(semid, 0, SETVAL, 1); // int semctl (int __semid, int __semnum, int __cmd, ...)
+
+  while(1){
+    // setup output file writing (Part_II_Outputs_101215573_101243509.txt)
+    // file must be opened/closed on every iteration to allow Process 2 to print correctly
+    output.open("Part_II_Outputs_101215573_101243509.txt", ios::app); // open file in append mode
+
+    int n = rand() % 11; // 0-10
+
+    struct sembuf sop;
+    sop.sem_num = 0;
+    sop.sem_op = -1; // lock shared memory
+    sop.sem_flg = 0;
+    semop(semid, &sop, 1);
+
+    *shared_var = n; // store in shared memory
+
+    sop.sem_op = 1; // unlock shared memory
+    semop(semid, &sop, 1);
+
+    printf("%d - ",n);
+    string str = to_string(n) + " - "; // output file text
+
+    if(n > 5){
+      printf("I am Process 1 (High Value)\n");
+      str += "I am Process 1 (High Value)\n";
+    }
+    else{
+      printf("I am Process 1 (Low Value)\n");
+      str += "I am Process 1 (Low Value)\n";
+    }
+    
+    if (n == 0) {
+      printf("Terminating Process 1.\n");  // value == 0
+      str += "Terminating Process 1.\n";
+      output << str;
+      output.close(); // close output file
+      break;
+    }
+
+    if(n == 9){
+      pid = fork(); // start process 2
+
+      if (pid == 0) {
+        // child (process 2)
+        execl("./Part_II_process2_101215573_101243509", "Part_II_process2_101215573_101243509", (char*) NULL);
+      } 
+      else {
+        // parent (process 1) no longer waits for child, now running concurrently (step 4)
+        // wait(0); // wait for process 2 to finish
+      }
+    }
+
+    output << str; // store loop execution in output file
+    output.close(); // close output file
+    sleep(1); // delay
+  }
+
+  // clean-up
+  shmdt(shared_var); // detach shared memory 
+  shmctl(shmid, IPC_RMID, NULL); // destroy shared memory
+  semctl(semid, 0, IPC_RMID); // remove semaphore set
+
+  _exit(0);
 }
+
+// process2 not shown here
