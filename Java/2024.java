@@ -216,7 +216,7 @@ public class Game {
 } */
 
 // Software Project Deliverable 1 - Scrabble          10/20/2024
-
+/* 
 // A text-based playable version of the game, i.e., players should be able to play the game via the console using the keyboard. One should be able to see the letters they have drawn, place a word (for example using the official notation mentioned in the Wiki link above), pass their turn, and see the resulting state of the board printed in text form. The main challenge of implementing correctly the logic of this game is ensuring that the word placement is legal, i.e., all the words formed after placement should be checked and added to the score. For this milestone we will accept an incomplete implementation of this, as long as you document what is left to be done. Support for blank tiles and premium squares is left for Milestone 3. 
 
 // Also required: the UML modeling of the problem domain (class diagrams with complete variable and method signatures, and sequence diagrams for important scenarios), detailed description of the choice of data structures and relevant operations: you are providing an initial design and implementation for the Model part of the MVC. Do not worry about any GUI yet. 
@@ -270,4 +270,105 @@ public class 2024 {
   }
 }
 
-// big refactoring and tile placement validation
+// big refactoring and tile placement validation */
+
+// Software Project - Midterm Study          10/31/2024
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyListener;
+
+public class View extends JFrame implements ModelView {
+    private static final int SIZE = Model.n; // saved locally for more concise code
+    private JButton[][] buttons;
+    // private JTextField text;
+    private Model model;
+    private Controller controller;
+
+
+    public View() {
+        super("BOX!");
+        // this.setLayout(new GridLayout(SIZE + 1, SIZE)); // n*n grid
+        this.setLayout(new GridLayout(SIZE, SIZE)); // n*n grid
+
+        model = new Model();
+        model.addView(this);
+        buttons = new JButton[SIZE][SIZE];
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(300, 300);
+
+        // controller = new Controller(model, this);
+        controller = new Controller(model);
+
+        // menu bar
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem saveItem = new JMenuItem("Save");
+        saveItem.addActionListener(controller);  // Set action to controller
+        fileMenu.add(saveItem);
+        menuBar.add(fileMenu);
+        this.setJMenuBar(menuBar);
+
+        // grid
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                JButton button = new JButton(" ");
+                button.setActionCommand(row + " " + col); // [row,col] sent to listener
+                button.addActionListener(controller); // trigger listener when clicked
+                this.buttons[row][col] = button;
+                this.add(button); // add to JFrame
+            }
+        }
+
+        // Input text field
+        // text = new JTextField();
+        // text.setActionCommand("enter");
+        // text.addActionListener(controller);  // Trigger input processing in controller
+        // this.add(text);
+        // text.addActionListener(controller);
+        // text.addKeyListener((KeyListener) controller);
+
+        this.setVisible(true);
+    }
+
+    // public String getText() {
+    //      return text.getText();
+    // }
+
+    @Override
+    public void handleMagicSquareStatusUpdate(Event e) {
+        int row = e.getRow();
+        int col = e.getCol();
+        int num = e.getNum();
+        this.buttons[row][col].setText(String.valueOf(num));
+
+        if (e.status == Model.Status.UNDECIDED) return; // continue playing
+
+        // game over
+        if (e.status == Model.Status.WIN) {
+            JOptionPane.showMessageDialog(this, "WIN");
+        } else {
+            JOptionPane.showMessageDialog(this, "LOSE");
+        }
+
+        int replay = (int) JOptionPane.showConfirmDialog(this, "Restart puzzle?", "", JOptionPane.YES_NO_OPTION);
+
+        if (replay == 0) {
+            // YES selected, reset game
+            model.resetGame();
+
+            for (JButton[] buttonRow : buttons) {
+                for (JButton btn : buttonRow) {
+                    btn.setText(" "); // empty button text
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new View();
+    }
+}
+
+// Happy Halloween 🎃
