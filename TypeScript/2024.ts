@@ -3671,7 +3671,7 @@ class TopVotedUndergroundSystem {
 // same same */
 
 // Find the Sequence of Strings Appeared on the Screen					10/29/2024
-
+/* 
 // https://leetcode.com/problems/find-the-sequence-of-strings-appeared-on-the-screen/description/
 
 // You are given a string target.
@@ -3734,4 +3734,75 @@ console.log(stringSequence("abc")); //  ["a","aa","ab","aba","abb","abc"]
 console.log(stringSequence("he")); //  ["a","b","c","d","e","f","g","h","ha","hb","hc","hd","he"]
 
 // 5ms runtime
-// no other submitted TypeScript solutions
+// no other submitted TypeScript solutions */
+
+// Delete Leaves With a Given Value					11/1/2024
+
+// https://leetcode.com/problems/delete-leaves-with-a-given-value/description/
+
+// Given a binary tree root and an integer target, delete all the leaf nodes with value target.
+
+// Note that once you delete a leaf node with value target, if its parent node becomes a leaf node and has the value target, it should also be deleted (you need to continue doing that until you cannot).
+
+// Example 1:
+// 		Input: root = [1,2,3,2,null,2,4], target = 2
+// 		Output: [1,null,3,null,4]
+// Explanation: Leaf nodes in green with value (target = 2) are removed (Picture in left).
+// 		After removing, new nodes become leaf nodes with value (target = 2) (Picture in center).
+
+// Example 2:
+// 		Input: root = [1,3,3,3,2], target = 3
+// 		Output: [1,3,null,null,2]
+
+// Example 3:
+// 		Input: root = [1,2,null,2,null,2], target = 2
+// 		Output: [1]
+// Explanation: Leaf nodes in green with value (target = 2) are removed at each step.
+
+// Constraints:
+//		The number of nodes in the tree is in the range [1, 3000].
+//		1 <= Node.val, target <= 1000
+
+const removeLeafNodes = (root: TreeNode | null, t: number): TreeNode | null => {
+  const explore = (node: TreeNode | null) => {
+    if (!node) return null;
+
+    node!.left = explore(node?.left!);
+    node!.right = explore(node?.right!);
+
+    if (!node?.left && !node?.right && node?.val == t) {
+      // target leaf
+      return null;
+    }
+
+    return node;
+  };
+  return explore(root);
+};
+
+printBinaryTree(removeLeafNodes(createBinaryTree([1, 2, 3, 2, null, 2, 4]), 2)); //  [1,null,3,null,4]
+printBinaryTree(removeLeafNodes(createBinaryTree([1, 3, 3, 3, 2]), 3)); //  [1,3,null,null,2]
+printBinaryTree(removeLeafNodes(createBinaryTree([1, 2, null, 2, null, 2]), 2)); //  [1]
+
+// 100% Runtime
+
+function topVotedRemoveLeafNodes(
+  root: TreeNode | null,
+  target: number
+): TreeNode | null {
+  // base case (null root)
+  if (!root) return null;
+
+  // set left and right subtrees (before bottom case)
+  root.left = removeLeafNodes(root.left, target);
+  root.right = removeLeafNodes(root.right, target);
+
+  // check if node is LEAF and TARGET
+  if (!root.left && !root.right && root.val === target) {
+    // delete this node (just by setting it null)
+    return null;
+  }
+
+  // result is stored back in root, after recursion bubbles thru tree
+  return root;
+}
