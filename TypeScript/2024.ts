@@ -3847,7 +3847,7 @@ console.log(numberOfEmployeesWhoMetTarget([0, 1, 2, 3, 4], 2)); //  3
 console.log(numberOfEmployeesWhoMetTarget([5, 1, 4, 2, 2], 6)); //  0 */
 
 // Sort the Matrix Diagonally					11/3/2024
-
+/* 
 // https://leetcode.com/problems/sort-the-matrix-diagonally/description/
 
 // A matrix diagonal is a diagonal line of cells starting from some cell in either the topmost row or leftmost column and going in the bottom-right direction until reaching the matrix's end. For example, the matrix diagonal starting from mat[2][0], where mat is a 6 x 3 matrix, includes cells mat[2][0], mat[3][1], and mat[4][2].
@@ -3887,7 +3887,6 @@ const diagonalSort = (mat: number[][]): number[][] => {
 
     // sort
     diagonalNums.sort((a, b) => a - b);
-    console.log(diagonalNums);
 
     // place in res
     let idx = 0;
@@ -3925,4 +3924,139 @@ console.log(
 //   [22,27,31,36,50,66],
 //   [84,28,75,33,55,68]]
 
-// 100% Runtime
+// 100% Runtime */
+
+// Spiral Matrix IV					11/4/2024
+
+// https://leetcode.com/problems/spiral-matrix-iv/description/
+
+// You are given two integers m and n, which represent the dimensions of a matrix.
+
+// You are also given the head of a linked list of integers.
+
+// Generate an m x n matrix that contains the integers in the linked list presented in spiral order (clockwise), starting from the top-left of the matrix. If there are remaining empty spaces, fill them with -1.
+
+// Return the generated matrix.
+
+// Example 1:
+// 		Input: m = 3, n = 5, head = [3,0,2,6,8,1,7,9,4,2,5,5,0]
+// 		Output: [[3,0,2,6,8],[5,0,-1,-1,1],[5,2,4,9,7]]
+// Explanation: The diagram above shows how the values are printed in the matrix.
+// 		Note that the remaining spaces in the matrix are filled with -1.
+
+// Example 2:
+// 		Input: m = 1, n = 4, head = [0,1,2]
+// 		Output: [[0,1,2,-1]]
+// Explanation: The diagram above shows how the values are printed from left to right in the matrix.
+// 		The last space in the matrix is set to -1.
+
+// Constraints:
+//		1 <= m, n <= 105
+//		1 <= m * n <= 105
+//		The number of nodes in the list is in the range [1, m * n].
+//		0 <= Node.val <= 1000
+
+const spiralMatrix = (
+  rows: number,
+  cols: number,
+  head: ListNode | null
+): number[][] => {
+  let res: number[][] = new Array(rows).fill(0).map((_) => new Array(cols));
+
+  let loopCount = 0;
+  let spiralIdx = 0;
+
+  const getNextVal = () => {
+    let val = -1;
+    if (head && head.val >= 0) {
+      val = head.val;
+      head = head.next;
+    }
+    spiralIdx++;
+    return val;
+  };
+
+  while (spiralIdx < rows * cols) {
+    let curRow = loopCount;
+    let curCol = loopCount;
+
+    // top, left to right
+    for (let j = curCol; j < cols - loopCount; j++) {
+      if (res[curRow][j] != undefined) return res;
+      res[curRow][j] = getNextVal();
+    }
+    // right, top-1 to bottom
+    for (let i = curRow + 1; i < rows - loopCount; i++) {
+      if (res[i][cols - loopCount - 1] != undefined) return res;
+      res[i][cols - loopCount - 1] = getNextVal();
+    }
+    // bottom, right-1 to left
+    for (let j = cols - curCol - 2; j >= loopCount; j--) {
+      if (res[rows - curRow - 1][j] != undefined) return res;
+      res[rows - curRow - 1][j] = getNextVal();
+    }
+    // left, bottom+1 to top-1
+    for (let i = rows - curRow - 2; i >= loopCount + 1; i--) {
+      if (res[i][loopCount] != undefined) return res;
+      res[i][loopCount] = getNextVal();
+    }
+
+    loopCount++;
+  }
+
+  return res;
+};
+
+console.log(
+  spiralMatrix(3, 5, linkedList([3, 0, 2, 6, 8, 1, 7, 9, 4, 2, 5, 5, 0]))
+); //  [[3,0,2,6,8],[5,0,-1,-1,1],[5,2,4,9,7]]
+console.log(spiralMatrix(1, 4, linkedList([0, 1, 2]))); //  [[0,1,2,-1]]
+
+function topVotedSpiralMatrix(
+  m: number,
+  n: number,
+  head: ListNode | null
+): number[][] {
+  // Initialize the matrix with -1
+  const matrix: number[][] = Array.from({ length: m }, () => Array(n).fill(-1));
+
+  // Directions for right, down, left, up
+  const dirX = [0, 1, 0, -1];
+  const dirY = [1, 0, -1, 0];
+
+  let x = 0,
+    y = 0,
+    dir = 0;
+  let curr = head;
+
+  while (curr) {
+    // Fill the current position
+    matrix[x][y] = curr.val;
+    curr = curr.next;
+
+    // Calculate the next position
+    let newX = x + dirX[dir];
+    let newY = y + dirY[dir];
+
+    // If the new position is out of bounds or already filled, change direction
+    if (
+      newX < 0 ||
+      newX >= m ||
+      newY < 0 ||
+      newY >= n ||
+      matrix[newX][newY] !== -1
+    ) {
+      dir = (dir + 1) % 4;
+      newX = x + dirX[dir];
+      newY = y + dirY[dir];
+    }
+
+    // Move to the next position
+    x = newX;
+    y = newY;
+  }
+
+  return matrix;
+}
+
+// much better matrix navigation
