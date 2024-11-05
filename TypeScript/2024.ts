@@ -3927,7 +3927,7 @@ console.log(
 // 100% Runtime */
 
 // Spiral Matrix IV					11/4/2024
-
+/* 
 // https://leetcode.com/problems/spiral-matrix-iv/description/
 
 // You are given two integers m and n, which represent the dimensions of a matrix.
@@ -4059,4 +4059,88 @@ function topVotedSpiralMatrix(
   return matrix;
 }
 
-// much better matrix navigation
+// much better matrix navigation */
+
+// Convert an Array Into a 2D Array With Conditions					11/5/2024
+
+// https://leetcode.com/problems/convert-an-array-into-a-2d-array-with-conditions/description/
+
+// You are given an integer array nums. You need to create a 2D array from nums satisfying the following conditions:
+// - The 2D array should contain only the elements of the array nums.
+// - Each row in the 2D array contains distinct integers.
+// - The number of rows in the 2D array should be minimal.
+
+// Return the resulting array. If there are multiple answers, return any of them.
+
+// Note that the 2D array can have a different number of elements on each row.
+
+// Example 1:
+// 		Input: nums = [1,3,4,1,2,3,1]
+// 		Output: [[1,3,4,2],[1,3],[1]]
+// Explanation: We can create a 2D array that contains the following rows:
+// 		- 1,3,4,2
+// 		- 1,3
+// 		- 1
+// 		All elements of nums were used, and each row of the 2D array contains distinct integers, so it is a valid answer.
+// 		It can be shown that we cannot have less than 3 rows in a valid array.
+
+// Example 2:
+// 		Input: nums = [1,2,3,4]
+// 		Output: [[4,3,2,1]]
+// Explanation: All elements of the array are distinct, so we can keep all of them in the first row of the 2D array.
+
+// Constraints:
+//		1 <= nums.length <= 200
+//		1 <= nums[i] <= nums.length
+
+const findMatrix = (nums: number[]): number[][] => {
+  let count = new Map<number, number>();
+  let SIZE = 1;
+  for (const n of nums) {
+    const numCount = (count.get(n) || 0) + 1;
+    if (numCount > SIZE) SIZE = numCount;
+    count.set(n, numCount);
+  }
+
+  let res: number[][] = new Array(SIZE).fill(0).map((_) => new Array());
+  for (let [n, i] of count.entries()) {
+    while (i-- > 0) {
+      res[i].push(n);
+    }
+  }
+
+  return res;
+};
+
+console.log(findMatrix([1, 3, 4, 1, 2, 3, 1])); //  [[1,3,4,2],[1,3],[1]]
+console.log(findMatrix([1, 2, 3, 4])); //  [[4,3,2,1]]
+
+function topVotedFindMatrix(nums: number[]): number[][] {
+  let result: number[][] = [];
+  let map: Map<number, number> = new Map();
+
+  for (let num of nums) {
+    let index = map.get(num) || 0;
+    if (result.length <= index) {
+      result.push([]);
+    }
+    result[index].push(num);
+    map.set(num, index + 1);
+  }
+
+  return result;
+}
+
+const revisedFindMatrix = (nums: number[]): number[][] => {
+  let res: number[][] = new Array();
+  let count = new Map<number, number>();
+
+  for (const n of nums) {
+    const i = count.get(n) || 0;
+    if (i >= res.length) res.push([]);
+    res[i].push(n);
+    count.set(n, i + 1);
+  }
+
+  return res;
+};
