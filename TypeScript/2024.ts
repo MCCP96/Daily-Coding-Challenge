@@ -4371,7 +4371,7 @@ function topVotedPairSum(head: ListNode | null): number {
 } */
 
 // Minimum Number of Pushes to Type Word II					11/9/2024
-
+/* 
 // https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-ii/description/
 
 // You are given a string word containing lowercase English letters.
@@ -4470,4 +4470,94 @@ var topVotedMinimumPushes = function (word: string): number {
   return res;
 };
 
-// same logic, much cleaner
+// same logic, much cleaner */
+
+// Design a Stack With Increment Operation					11/10/2024
+
+// https://leetcode.com/problems/design-a-stack-with-increment-operation/description/
+
+// Design a stack that supports increment operations on its elements.
+
+// Implement the CustomStack class:
+
+// CustomStack(int maxSize) Initializes the object with maxSize which is the maximum number of elements in the stack.
+
+// void push(int x) Adds x to the top of the stack if the stack has not reached the maxSize.
+
+// int pop() Pops and returns the top of the stack or -1 if the stack is empty.
+
+// void inc(int k, int val) Increments the bottom k elements of the stack by val. If there are less than k elements in the stack, increment all the elements in the stack.
+
+// Constraints:
+//		1 <= maxSize, x, k <= 1000
+//		0 <= val <= 100
+//		At most 1000 calls will be made to each method of increment, push and pop each separately.
+
+class CustomStack {
+  private size: number;
+  private stack: Array<number>;
+  private idx: number;
+
+  constructor(maxSize: number) {
+    this.size = maxSize;
+    this.stack = new Array(maxSize).fill(0);
+    this.idx = 0;
+  }
+
+  push(x: number): void {
+    if (this.idx == -1) this.idx = 0;
+    if (this.idx < this.size) this.stack[this.idx++] = x;
+  }
+
+  pop(): number {
+    if (this.idx > 0) return this.stack[this.idx-- - 1];
+    else return -1;
+  }
+
+  increment(k: number, val: number): void {
+    if (k > this.idx + 1) k = this.idx + 1;
+    while (k > 0) {
+      this.stack[k - 1] += val;
+      k--;
+    }
+  }
+}
+
+const stk = new CustomStack(3); // Stack is Empty []
+console.log(stk.push(1)); // stack becomes [1]
+console.log(stk.push(2)); // stack becomes [1, 2]
+console.log(stk.pop()); // return 2 --> Return top of the stack 2, stack becomes [1]
+console.log(stk.push(2)); // stack becomes [1, 2]
+console.log(stk.push(3)); // stack becomes [1, 2, 3]
+console.log(stk.push(4)); // stack still [1, 2, 3], Do not add another elements as size is 4
+console.log(stk.increment(5, 100)); // stack becomes [101, 102, 103]
+console.log(stk.increment(2, 100)); // stack becomes [201, 202, 103]
+console.log(stk.pop()); // return 103 --> Return top of the stack 103, stack becomes [201, 202]
+console.log(stk.pop()); // return 202 --> Return top of the stack 202, stack becomes [201]
+console.log(stk.pop()); // return 201 --> Return top of the stack 201, stack becomes []
+console.log(stk.pop()); // return -1 --> Stack is empty return -1.
+
+class TopVotedCustomStack {
+  maxSize: number;
+  stack: number[];
+  constructor(maxSize: number) {
+    this.maxSize = maxSize;
+    this.stack = [];
+  }
+
+  push(x: number): void {
+    if (this.stack.length < this.maxSize) {
+      this.stack.push(x);
+    }
+  }
+
+  pop(): number {
+    return this.stack.pop() ?? -1;
+  }
+
+  increment(k: number, val: number): void {
+    for (let i = 0; i < Math.min(this.stack.length, k); i++) {
+      this.stack[i] += val;
+    }
+  }
+}
