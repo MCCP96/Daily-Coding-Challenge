@@ -4473,7 +4473,7 @@ var topVotedMinimumPushes = function (word: string): number {
 // same logic, much cleaner */
 
 // Design a Stack With Increment Operation					11/10/2024
-
+/* 
 // https://leetcode.com/problems/design-a-stack-with-increment-operation/description/
 
 // Design a stack that supports increment operations on its elements.
@@ -4560,4 +4560,51 @@ class TopVotedCustomStack {
       this.stack[i] += val;
     }
   }
-}
+} */
+
+// Generate Binary Strings Without Adjacent Zeros					11/11/2024
+
+// https://leetcode.com/problems/generate-binary-strings-without-adjacent-zeros/description/
+
+// You are given a positive integer n.
+
+// A binary string x is valid if all substrings of x of length 2 contain at least one "1".
+
+// Return all valid strings with length n, in any order.
+
+// Example 1:
+// 		Input: n = 3
+// 		Output: ["010","011","101","110","111"]
+// Explanation:
+// 		The valid strings of length 3 are: "010", "011", "101", "110", and "111".
+
+// Example 2:
+// 		Input: n = 1
+// 		Output: ["0","1"]
+// Explanation:
+// 		The valid strings of length 1 are: "0" and "1".
+
+// Constraints:
+//		1 <= n <= 18
+
+const validStrings = (n: number): string[] => {
+  let res: string[] = [];
+
+  const dfs = (cur: string, i: number) => {
+    if (i >= n) {
+      res.push(cur);
+      return;
+    }
+    if (cur[i - 1] == "1") {
+      dfs(cur + "0", i + 1);
+    }
+    dfs(cur + "1", i + 1);
+  };
+  dfs("0", 1);
+  dfs("1", 1);
+
+  return res;
+};
+
+console.log(validStrings(3)); //  ["010","011","101","110","111"]
+console.log(validStrings(1)); //  ["0","1"]
