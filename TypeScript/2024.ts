@@ -4610,7 +4610,7 @@ console.log(validStrings(3)); //  ["010","011","101","110","111"]
 console.log(validStrings(1)); //  ["0","1"] */
 
 // Merge Nodes in Between Zeros					11/12/2024
-
+/* 
 // https://leetcode.com/problems/merge-nodes-in-between-zeros/description/
 
 // You are given the head of a linked list, which contains a series of integers separated by 0's. The beginning and end of the linked list will have Node.val == 0.
@@ -4664,4 +4664,80 @@ printLinkedList(mergeNodes(linkedList([0, 3, 1, 0, 4, 5, 2, 0]))); //  [4,11]
 printLinkedList(mergeNodes(linkedList([0, 1, 0, 3, 0, 2, 2, 0]))); //  [1,3,4]
 printLinkedList(mergeNodes(linkedList([0, 24, 14, 0]))); //  [38]
 
-// I had to merge them instead of making a new list
+// I had to merge them instead of making a new list */
+
+// Sum of Even Numbers After Queries					11/13/2024
+
+// https://leetcode.com/problems/sum-of-even-numbers-after-queries/description/
+
+// You are given an integer array nums and an array queries where queries[i] = [vali, indexi].
+
+// For each query i, first, apply nums[indexi] = nums[indexi] + vali, then print the sum of the even values of nums.
+
+// Return an integer array answer where answer[i] is the answer to the ith query.
+
+// Example 1:
+// 		Input: nums = [1,2,3,4], queries = [[1,0],[-3,1],[-4,0],[2,3]]
+// 		Output: [8,6,2,4]
+// Explanation: At the beginning, the array is [1,2,3,4].
+// 		After adding 1 to nums[0], the array is [2,2,3,4], and the sum of even values is 2 + 2 + 4 = 8.
+// 		After adding -3 to nums[1], the array is [2,-1,3,4], and the sum of even values is 2 + 4 = 6.
+// 		After adding -4 to nums[0], the array is [-2,-1,3,4], and the sum of even values is -2 + 4 = 2.
+// 		After adding 2 to nums[3], the array is [-2,-1,3,6], and the sum of even values is -2 + 6 = 4.
+
+// Example 2:
+// 		Input: nums = [1], queries = [[4,0]]
+// 		Output: [0]
+
+// Constraints:
+//		1 <= nums.length <= 104
+//		-104 <= nums[i] <= 104
+//		1 <= queries.length <= 104
+//		-104 <= vali <= 104
+//		0 <= indexi < nums.length
+
+const sumEvenAfterQueries = (nums: number[], queries: number[][]): number[] => {
+  const n = queries.length;
+  let res = new Array(n).fill(0);
+  let idx = 0;
+  let sum = nums.reduce((a, c) => a + (c % 2 ? 0 : c), 0);
+
+  for (const [val, i] of queries) {
+    if (val % 2) {
+      // odd increment
+      if (nums[i] % 2) {
+        // num was odd: now even
+        sum += nums[i] + val;
+      } else {
+        // num was even: now odd
+        sum -= nums[i];
+      }
+    } else {
+      // even increment
+      if (nums[i] % 2) {
+        // num was odd: still odd
+        // do nothing
+      } else {
+        // num was even: still even
+        sum += val;
+      }
+    }
+    nums[i] += val;
+    res[idx++] = sum;
+  }
+
+  return res;
+};
+
+console.log(
+  sumEvenAfterQueries(
+    [1, 2, 3, 4],
+    [
+      [1, 0],
+      [-3, 1],
+      [-4, 0],
+      [2, 3],
+    ]
+  )
+); //  [8,6,2,4]
+console.log(sumEvenAfterQueries([1], [[4, 0]])); //  [0]
