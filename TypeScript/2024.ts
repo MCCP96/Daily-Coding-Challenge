@@ -4667,7 +4667,7 @@ printLinkedList(mergeNodes(linkedList([0, 24, 14, 0]))); //  [38]
 // I had to merge them instead of making a new list */
 
 // Sum of Even Numbers After Queries					11/13/2024
-
+/* 
 // https://leetcode.com/problems/sum-of-even-numbers-after-queries/description/
 
 // You are given an integer array nums and an array queries where queries[i] = [vali, indexi].
@@ -4740,4 +4740,57 @@ console.log(
     ]
   )
 ); //  [8,6,2,4]
-console.log(sumEvenAfterQueries([1], [[4, 0]])); //  [0]
+console.log(sumEvenAfterQueries([1], [[4, 0]])); //  [0] */
+
+// Number of Good Ways to Split a String					11/14/2024
+
+// https://leetcode.com/problems/number-of-good-ways-to-split-a-string/description/
+
+// You are given a string s.
+
+// A split is called good if you can split s into two non-empty strings sleft and sright where their concatenation is equal to s (i.e., sleft + sright = s) and the number of distinct letters in sleft and sright is the same.
+
+// Return the number of good splits you can make in s.
+
+// Example 1:
+// 		Input: s = "aacaba"
+// 		Output: 2
+// Explanation: There are 5 ways to split "aacaba" and 2 of them are good.
+// 		("a", "acaba") Left string and right string contains 1 and 3 different letters respectively.
+// 		("aa", "caba") Left string and right string contains 1 and 3 different letters respectively.
+// 		("aac", "aba") Left string and right string contains 2 and 2 different letters respectively (good split).
+// 		("aaca", "ba") Left string and right string contains 2 and 2 different letters respectively (good split).
+// 		("aacab", "a") Left string and right string contains 3 and 1 different letters respectively.
+
+// Example 2:
+// 		Input: s = "abcd"
+// 		Output: 1
+// Explanation: Split the string as follows ("ab", "cd").
+
+// Constraints:
+//		1 <= s.length <= 105
+//		s consists of only lowercase English letters.
+
+const numSplits = (s: string): number => {
+  // track unique characters on both sides
+  let rCount = [...s].reduce(
+    (map, c) => map.set(c, (map.get(c) || 0) + 1),
+    new Map<String, number>()
+  );
+  let lCount = new Set<String>();
+
+  // compare unique characters on both sides
+  let res: number = 0;
+  for (const c of s) {
+    if (rCount.has(c)) rCount.set(c, rCount.get(c)! - 1); // decrement
+    if (rCount.get(c) == 0) rCount.delete(c); // none left, remove key
+    lCount.add(c); // add to left side
+
+    if (lCount.size == rCount.size) res++;
+  }
+
+  return res;
+};
+
+console.log(numSplits("aacaba")); //  2
+console.log(numSplits("abcd")); //  1
