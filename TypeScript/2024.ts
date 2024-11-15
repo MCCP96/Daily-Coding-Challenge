@@ -4743,7 +4743,7 @@ console.log(
 console.log(sumEvenAfterQueries([1], [[4, 0]])); //  [0] */
 
 // Number of Good Ways to Split a String					11/14/2024
-
+/* 
 // https://leetcode.com/problems/number-of-good-ways-to-split-a-string/description/
 
 // You are given a string s.
@@ -4793,4 +4793,75 @@ const numSplits = (s: string): number => {
 };
 
 console.log(numSplits("aacaba")); //  2
-console.log(numSplits("abcd")); //  1
+console.log(numSplits("abcd")); //  1 */
+
+// Split a String Into the Max Number of Unique Substrings					11/15/2024
+
+// https://leetcode.com/problems/split-a-string-into-the-max-number-of-unique-substrings/description/
+
+// Given a string s, return the maximum number of unique substrings that the given string can be split into.
+
+// You can split string s into any list of non-empty substrings, where the concatenation of the substrings forms the original string. However, you must split the substrings such that all of them are unique.
+
+// A substring is a contiguous sequence of characters within a string.
+
+// Example 1:
+// 		Input: s = "ababccc"
+// 		Output: 5
+// Explanation: One way to split maximally is ['a', 'b', 'ab', 'c', 'cc']. Splitting like ['a', 'b', 'a', 'b', 'c', 'cc'] is not valid as you have 'a' and 'b' multiple times.
+
+// Example 2:
+// 		Input: s = "aba"
+// 		Output: 2
+// Explanation: One way to split maximally is ['a', 'ba'].
+
+// Example 3:
+// 		Input: s = "aa"
+// 		Output: 1
+// Explanation: It is impossible to split the string any further.
+
+// Constraints:
+//		1 <= s.length <= 16
+//		s contains only lower case English letters.
+
+const maxUniqueSplit = (s: string): number => {
+  const n = s.length;
+  let res = new Set();
+  let cur = "";
+
+  for (const c of s) {
+    cur += c;
+    if (!res.has(cur)) {
+      res.add(cur);
+      cur = "";
+    }
+  }
+
+  return res.size;
+};
+
+console.log(maxUniqueSplit("ababccc")); //  5
+console.log(maxUniqueSplit("aba")); //  2
+console.log(maxUniqueSplit("aa")); //  1
+
+function topVotedMaxUniqueSplit(s: string): number {
+  return dfs(s, 0, 1, []);
+}
+
+function dfs(s: string, minI: number, maxI: number, arr: string[]): number {
+  // Base case: End of s reached
+  if (maxI > s.length) {
+    // Return the number of unique substrings
+    return new Set(arr).size;
+  }
+  // Continue without splitting
+  let ans = dfs(s, minI, maxI + 1, arr);
+  // Split string and collect substring
+  arr.push(s.substring(minI, maxI));
+  // Continue and track maximum
+  ans = Math.max(ans, dfs(s, maxI, maxI + 1, arr));
+  // Remove the split string
+  arr.pop();
+  // Return the answer
+  return ans;
+}
