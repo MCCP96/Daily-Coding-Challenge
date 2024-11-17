@@ -4867,7 +4867,7 @@ function dfs(s: string, minI: number, maxI: number, arr: string[]): number {
 } */
 
 // Check Balanced String					11/16/2024
-
+/* 
 // https://leetcode.com/problems/check-balanced-string/description/
 
 // You are given a string num consisting of only digits. A string of digits is called balanced if the sum of the digits at even indices is equal to the sum of digits at odd indices.
@@ -4904,4 +4904,58 @@ const isBalanced = (num: string): boolean => {
 };
 
 console.log(isBalanced("1234")); //  false
-console.log(isBalanced("24123")); //  true
+console.log(isBalanced("24123")); //  true */
+
+// Check if Number is a Sum of Powers of Three					11/17/2024
+
+// https://leetcode.com/problems/check-if-number-is-a-sum-of-powers-of-three/description/
+
+// Given an integer n, return true if it is possible to represent n as the sum of distinct powers of three. Otherwise, return false.
+
+// An integer y is a power of three if there exists an integer x such that y == 3x.
+
+// Example 1:
+// 		Input: n = 12
+// 		Output: true
+// Explanation: 12 = 31 + 32
+
+// Example 2:
+// 		Input: n = 91
+// 		Output: true
+// Explanation: 91 = 30 + 32 + 34
+
+// Example 3:
+// 		Input: n = 21
+// 		Output: false
+
+// Constraints:
+//		1 <= n <= 10^7
+
+const checkPowersOfThree = (n: number): boolean => {
+  let solFound = false;
+
+  const dfs = (rem: number, i: number) => {
+    if (rem < 0 || solFound) return;
+    if (rem == 0) solFound = true;
+
+    while (i >= 0) {
+      dfs(rem - 3 ** i, --i);
+    }
+  };
+  dfs(n, ~~Math.sqrt(n));
+
+  return solFound;
+};
+
+console.log(checkPowersOfThree(12)); //  true
+console.log(checkPowersOfThree(91)); //  true
+console.log(checkPowersOfThree(21)); //  false
+
+var topVotedCheckPowersOfThree = function (n) {
+  while (n) {
+    const r = n % 3;
+    if (r == 2) return false;
+    n = (n - r) / 3;
+  }
+  return true;
+};
