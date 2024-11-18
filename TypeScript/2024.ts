@@ -4907,7 +4907,7 @@ console.log(isBalanced("1234")); //  false
 console.log(isBalanced("24123")); //  true */
 
 // Check if Number is a Sum of Powers of Three					11/17/2024
-
+/* 
 // https://leetcode.com/problems/check-if-number-is-a-sum-of-powers-of-three/description/
 
 // Given an integer n, return true if it is possible to represent n as the sum of distinct powers of three. Otherwise, return false.
@@ -4959,3 +4959,76 @@ var topVotedCheckPowersOfThree = function (n) {
   }
   return true;
 };
+ */
+
+// Replace Words					11/18/2024
+
+// https://leetcode.com/problems/replace-words/
+
+// In English, we have a concept called root, which can be followed by some other word to form another longer word - let's call this word derivative. For example, when the root "help" is followed by the word "ful", we can form a derivative "helpful".
+
+// Given a dictionary consisting of many roots and a sentence consisting of words separated by spaces, replace all the derivatives in the sentence with the root forming it. If a derivative can be replaced by more than one root, replace it with the root that has the shortest length.
+
+// Return the sentence after the replacement.
+
+// Example 1:
+// 		Input: dictionary = ["cat","bat","rat"], sentence = "the cattle was rattled by the battery"
+// 		Output: "the cat was rat by the bat"
+
+// Example 2:
+// 		Input: dictionary = ["a","b","c"], sentence = "aadsfasf absbs bbab cadsfafs"
+// 		Output: "a a b c"
+
+// Constraints:
+//		1 <= dictionary.length <= 1000
+//		1 <= dictionary[i].length <= 100
+//		dictionary[i] consists of only lower-case letters.
+//		1 <= sentence.length <= 106
+//		sentence consists of only lower-case letters and spaces.
+//		The number of words in sentence is in the range [1, 1000]
+//		The length of each word in sentence is in the range [1, 1000]
+//		Every two consecutive words in sentence will be separated by exactly one space.
+//		sentence does not have leading or trailing spaces.
+
+const replaceWords = (dictionary: string[], sentence: string): string => {
+  // gather data
+  const dictSet = new Set();
+  let shortestLen = Infinity;
+  let longestLen = -Infinity;
+  for (const word of dictionary) {
+    dictSet.add(word); // O(1) lookup
+    if (word.length > longestLen) longestLen = word.length;
+    if (word.length < shortestLen) shortestLen = word.length;
+  }
+
+  // check every word in sentence
+  return sentence
+    .split(" ")
+    .reduce((acc, word) => {
+      let root = word.substring(0, shortestLen);
+      for (let i = shortestLen; i <= longestLen && i < word.length; i++) {
+        if (dictSet.has(root)) return acc + " " + root;
+        root += word[i];
+      }
+      return acc + " " + word;
+    }, "")
+    .trim();
+};
+
+console.log(
+  replaceWords(["cat", "bat", "rat"], "the cattle was rattled by the battery")
+); //  "the cat was rat by the bat"
+console.log(replaceWords(["a", "b", "c"], "aadsfasf absbs bbab cadsfafs")); //  "a a b c"
+
+function topVotedReplaceWords(dictionary: string[], sentence: string): string {
+  let arr = sentence.split(" ");
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < dictionary.length; j++) {
+      if (dictionary[j] && arr[i].startsWith(dictionary[j])) {
+        arr[i] = dictionary[j];
+      }
+    }
+  }
+
+  return arr.join(" ");
+}
