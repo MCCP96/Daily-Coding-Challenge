@@ -4962,7 +4962,7 @@ var topVotedCheckPowersOfThree = function (n) {
  */
 
 // Replace Words					11/18/2024
-
+/* 
 // https://leetcode.com/problems/replace-words/
 
 // In English, we have a concept called root, which can be followed by some other word to form another longer word - let's call this word derivative. For example, when the root "help" is followed by the word "ful", we can form a derivative "helpful".
@@ -5031,4 +5031,83 @@ function topVotedReplaceWords(dictionary: string[], sentence: string): string {
   }
 
   return arr.join(" ");
+} */
+
+// Maximize the Confusion of an Exam					11/19/2024
+
+// https://leetcode.com/problems/maximize-the-confusion-of-an-exam/
+
+// A teacher is writing a test with n true/false questions, with 'T' denoting true and 'F' denoting false. He wants to confuse the students by maximizing the number of consecutive questions with the same answer (multiple trues or multiple falses in a row).
+
+// You are given a string answerKey, where answerKey[i] is the original answer to the ith question. In addition, you are given an integer k, the maximum number of times you may perform the following operation:
+
+// Change the answer key for any question to 'T' or 'F' (i.e., set answerKey[i] to 'T' or 'F').
+
+// Return the maximum number of consecutive 'T's or 'F's in the answer key after performing the operation at most k times.
+
+// Example 1:
+// 		Input: answerKey = "TTFF", k = 2
+// 		Output: 4
+// Explanation: We can replace both the 'F's with 'T's to make answerKey = "TTTT".
+// 		There are four consecutive 'T's.
+
+// Example 2:
+// 		Input: answerKey = "TFFT", k = 1
+// 		Output: 3
+// Explanation: We can replace the first 'T' with an 'F' to make answerKey = "FFFT".
+// 		Alternatively, we can replace the second 'T' with an 'F' to make answerKey = "TFFF".
+// 		In both cases, there are three consecutive 'F's.
+
+// Example 3:
+// 		Input: answerKey = "TTFTTFTT", k = 1
+// 		Output: 5
+// Explanation: We can replace the first 'F' to make answerKey = "TTTTTFTT"
+// 		Alternatively, we can replace the second 'F' to make answerKey = "TTFTTTTT".
+// 		In both cases, there are five consecutive 'T's.
+
+// Constraints:
+//		n == answerKey.length
+//		1 <= n <= 5 * 104
+//		answerKey[i] is either 'T' or 'F'
+//		1 <= k <= n
+
+const maxConsecutiveAnswers = (key: string, k: number): number => {
+  const n = key.length;
+  let max = 0;
+
+  for (let i = 0; i < n; i++) {
+    let [len1, rem1] = [1, k]; // keep original
+    let [len2, rem2] = [1, k - 1]; // flip first entry
+
+    for (let j = i + 1; j < n && (rem1 >= 0 || rem2 >= 0); j++) {
+      if (key[i] != key[j]) {
+        // original
+        rem1--;
+      }
+      if (key[i] == key[j]) {
+        // flipped
+        rem2--;
+      }
+      if (rem1 >= 0) len1++;
+      if (rem2 >= 0) len2++;
+    }
+
+    max = Math.max(max, len1, len2);
+  }
+
+  return max;
+};
+
+console.log(maxConsecutiveAnswers("TTFF", 2)); //  4
+console.log(maxConsecutiveAnswers("TFFT", 1)); //  3
+console.log(maxConsecutiveAnswers("TTFTTFTT", 1)); //  5
+
+function topVotedMaxConsecutiveAnswers(answerKey: string, k: number): number {
+  let j = 0,
+    cnt = { T: 0, F: 0 },
+    n = answerKey.length;
+  for (let i = 0; i < n; i++)
+    cnt[answerKey[i]]++,
+      Math.min(cnt.T, cnt.F) <= k ? j++ : cnt[answerKey[i - j]]--;
+  return j;
 }
