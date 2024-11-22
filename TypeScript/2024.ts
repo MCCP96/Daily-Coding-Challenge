@@ -5214,7 +5214,7 @@ function topVotedFindDuplicate(paths: string[]): string[][] {
 } */
 
 // Maximum Score From Removing Stones					11/21/2024
-
+/* 
 // https://leetcode.com/problems/maximum-score-from-removing-stones/
 
 // You are playing a solitaire game with three piles of stones of sizes a​​​​​​, b,​​​​​​ and c​​​​​​ respectively. Each turn you choose two different non-empty piles, take one stone from each, and add 1 point to your score. The game stops when there are fewer than two non-empty piles (meaning there are no more available moves).
@@ -5275,4 +5275,78 @@ const maximumScore = (a: number, b: number, c: number): number => {
 
 console.log(maximumScore(2, 4, 6)); //  6
 console.log(maximumScore(4, 4, 6)); //  7
-console.log(maximumScore(1, 8, 8)); //  8
+console.log(maximumScore(1, 8, 8)); //  8 */
+
+// Simplified Fractions					11/22/2024
+
+// https://leetcode.com/problems/simplified-fractions/description/
+
+// Given an integer n, return a list of all simplified fractions between 0 and 1 (exclusive) such that the denominator is less-than-or-equal-to n. You can return the answer in any order.
+
+// Example 1:
+// 		Input: n = 2
+// 		Output: ["1/2"]
+// Explanation: "1/2" is the only unique fraction with a denominator less-than-or-equal-to 2.
+
+// Example 2:
+// 		Input: n = 3
+// 		Output: ["1/2","1/3","2/3"]
+
+// Example 3:
+// 		Input: n = 4
+// 		Output: ["1/2","1/3","1/4","2/3","3/4"]
+// Explanation: "2/4" is not a simplified fraction because it can be simplified to "1/2".
+
+// Constraints:
+//		1 <= n <= 100
+
+const simplifiedFractions = (n: number): string[] => {
+  let res: string[] = [];
+  if (n == 1) return res;
+
+  let seen = new Set<number>(); // exclusive
+
+  const recur = (denom: number) => {
+    if (denom > n) return;
+
+    for (let i = 1; i < denom; i++) {
+      const val = i / denom;
+
+      if (!seen.has(val)) {
+        res.push(i + "/" + denom);
+        seen.add(val);
+      }
+    }
+
+    recur(denom + 1);
+  };
+  recur(2);
+
+  return res;
+};
+
+console.log(simplifiedFractions(2)); //  ["1/2"]
+console.log(simplifiedFractions(3)); //  ["1/2","1/3","2/3"]
+console.log(simplifiedFractions(4)); //  ["1/2","1/3","1/4","2/3","3/4"]
+
+function topVotedSimplifiedFractions(n: number): string[] {
+  const results = [];
+
+  for (let den = 2; den <= n; den++) {
+    let factor = [];
+    for (let i = 2; i * i <= den; i++) {
+      if (Number.isInteger(den / i)) {
+        factor.push(i);
+        factor.push(den / i);
+      }
+    }
+    results.push(`1/${den}`);
+
+    for (let t = 2; t < den; t++) {
+      if (factor.every((f) => !Number.isInteger(t / f))) {
+        results.push(`${t}/${den}`);
+      }
+    }
+  }
+  return results;
+}
