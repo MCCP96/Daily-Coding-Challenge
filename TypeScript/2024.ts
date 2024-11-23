@@ -5278,7 +5278,7 @@ console.log(maximumScore(4, 4, 6)); //  7
 console.log(maximumScore(1, 8, 8)); //  8 */
 
 // Simplified Fractions					11/22/2024
-
+/* 
 // https://leetcode.com/problems/simplified-fractions/description/
 
 // Given an integer n, return a list of all simplified fractions between 0 and 1 (exclusive) such that the denominator is less-than-or-equal-to n. You can return the answer in any order.
@@ -5349,4 +5349,85 @@ function topVotedSimplifiedFractions(n: number): string[] {
     }
   }
   return results;
+} */
+
+// Maximum Bags With Full Capacity of Rocks					11/23/2024
+
+// https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/
+
+// You have n bags numbered from 0 to n - 1. You are given two 0-indexed integer arrays capacity and rocks. The ith bag can hold a maximum of capacity[i] rocks and currently contains rocks[i] rocks. You are also given an integer additionalRocks, the number of additional rocks you can place in any of the bags.
+
+// Return the maximum number of bags that could have full capacity after placing the additional rocks in some bags.
+
+// Example 1:
+// 		Input: capacity = [2,3,4,5], rocks = [1,2,4,4], additionalRocks = 2
+// 		Output: 3
+// Explanation:
+// 		Place 1 rock in bag 0 and 1 rock in bag 1.
+// 		The number of rocks in each bag are now [2,3,4,4].
+// 		Bags 0, 1, and 2 have full capacity.
+// 		There are 3 bags at full capacity, so we return 3.
+// 		It can be shown that it is not possible to have more than 3 bags at full capacity.
+// 		Note that there may be other ways of placing the rocks that result in an answer of 3.
+
+// Example 2:
+// 		Input: capacity = [10,2,2], rocks = [2,2,0], additionalRocks = 100
+// 		Output: 3
+// Explanation:
+// 		Place 8 rocks in bag 0 and 2 rocks in bag 2.
+// 		The number of rocks in each bag are now [10,2,2].
+// 		Bags 0, 1, and 2 have full capacity.
+// 		There are 3 bags at full capacity, so we return 3.
+// 		It can be shown that it is not possible to have more than 3 bags at full capacity.
+// 		Note that we did not use all of the additional rocks.
+
+// Constraints:
+//		n == capacity.length == rocks.length
+//		1 <= n <= 5 * 104
+//		1 <= capacity[i] <= 109
+//		0 <= rocks[i] <= capacity[i]
+//		1 <= additionalRocks <= 109
+
+const maximumBags = (
+  cap: number[],
+  rocks: number[],
+  addRocks: number
+): number => {
+  const bags = rocks.map((c, i) => [c, cap[i]]);
+  bags.sort(
+    ([aRocks, aCap], [bRocks, bCap]) => aCap - aRocks - (bCap - bRocks)
+  );
+  let res = 0;
+
+  for (const [rock, cap] of bags) {
+    if (cap - rock > addRocks) break;
+    addRocks -= cap - rock;
+    res++;
+  }
+  return res;
+};
+
+console.log(maximumBags([2, 3, 4, 5], [1, 2, 4, 4], 2)); //  3
+console.log(maximumBags([10, 2, 2], [2, 2, 0], 100)); //  3
+
+function topVotedMaximumBags(
+  capacity: number[],
+  rocks: number[],
+  additionalRocks: number
+): number {
+  const diff: number[] = []; // finding the spaces left in our bags
+  for (let i = 0; i < capacity.length; i += 1) {
+    diff.push(capacity[i] - rocks[i]);
+  }
+  diff.sort((a, b) => a - b); // sorting spaces left in the bags
+  let count: number = 0; // count fullBags
+  let needRocks: number = 0;
+  for (let i = 0; i < diff.length; i += 1) {
+    if (needRocks > additionalRocks) break;
+    needRocks += diff[i];
+    if (needRocks <= additionalRocks) {
+      count += 1;
+    }
+  }
+  return count;
 }
