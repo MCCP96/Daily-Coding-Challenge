@@ -5352,7 +5352,7 @@ function topVotedSimplifiedFractions(n: number): string[] {
 } */
 
 // Maximum Bags With Full Capacity of Rocks					11/23/2024
-
+/* 
 // https://leetcode.com/problems/maximum-bags-with-full-capacity-of-rocks/
 
 // You have n bags numbered from 0 to n - 1. You are given two 0-indexed integer arrays capacity and rocks. The ith bag can hold a maximum of capacity[i] rocks and currently contains rocks[i] rocks. You are also given an integer additionalRocks, the number of additional rocks you can place in any of the bags.
@@ -5430,4 +5430,117 @@ function topVotedMaximumBags(
     }
   }
   return count;
-}
+} */
+
+// Minesweeper					11/24/2024
+
+// https://leetcode.com/problems/minesweeper/description/
+
+// Let's play the minesweeper game (Wikipedia, online game)!
+
+// You are given an m x n char matrix board representing the game board where:
+// - 'M' represents an unrevealed mine,
+// - 'E' represents an unrevealed empty square,
+// - 'B' represents a revealed blank square that has no adjacent mines (i.e., above, below, left, right, and all 4 diagonals),
+// - digit ('1' to '8') represents how many mines are adjacent to this revealed square, and
+// - 'X' represents a revealed mine.
+
+// You are also given an integer array click where click = [clickr, clickc] represents the next click position among all the unrevealed squares ('M' or 'E').
+
+// Return the board after revealing this position according to the following rules:
+// - If a mine 'M' is revealed, then the game is over. You should change it to 'X'.
+// - If an empty square 'E' with no adjacent mines is revealed, then change it to a revealed blank 'B' and all of its adjacent unrevealed squares should be revealed recursively.
+// - If an empty square 'E' with at least one adjacent mine is revealed, then change it to a digit ('1' to '8') representing the number of adjacent mines.
+// - Return the board when no more squares will be revealed.
+
+// Example 1:
+// 		Input: board = [["E","E","E","E","E"],["E","E","M","E","E"],["E","E","E","E","E"],["E","E","E","E","E"]], click = [3,0]
+// 		Output: [["B","1","E","1","B"],["B","1","M","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
+
+// Example 2:
+// 		Input: board = [["B","1","E","1","B"],["B","1","M","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]], click = [1,2]
+// 		Output: [["B","1","E","1","B"],["B","1","X","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
+
+// Constraints:
+//		m == board.length
+//		n == board[i].length
+//		1 <= m, n <= 50
+//		board[i][j] is either 'M', 'E', 'B', or a digit from '1' to '8'.
+//		click.length == 2
+//		0 <= clickr < m
+//		0 <= clickc < n
+//		board[clickr][clickc] is either 'M' or 'E'.
+
+const updateBoard = (board: string[][], click: number[]): string[][] => {
+  const m = board.length;
+  const n = board[0].length;
+
+  // 'M' is revealed, game is over. change it to 'X'.
+  const [row, col] = click;
+  if (board[row][col] == "M") {
+    board[row][col] = "X";
+  }
+
+  if (board[row][col] == "E") {
+    const dfs = (row: number, col: number) => {
+      if (board[row][col] != "E") return; // already visited
+
+      // Count adjacent bombs
+      let adjBombs = 0;
+      for (let i = row - 1; i <= row + 1; i++)
+        if (i >= 0 && i < m) {
+          if (col - 1 >= 0) adjBombs += board[i][col - 1] == "M" ? 1 : 0;
+          if (i != row) adjBombs += board[i][col] == "M" ? 1 : 0;
+          if (col + 1 < n) adjBombs += board[i][col + 1] == "M" ? 1 : 0;
+        }
+
+      // 'E' with no adjacent mines:
+      // change it to 'B' and all of its adjacent unrevealed squares should be revealed recursively.
+      if (adjBombs == 0) {
+        board[row][col] = "B";
+
+        for (let i = row - 1; i <= row + 1; i++)
+          if (i >= 0 && i < m) {
+            if (col - 1 >= 0) dfs(i, col - 1);
+            if (i != row) dfs(i, col);
+            if (col + 1 < n) dfs(i, col + 1);
+          }
+      }
+
+      // 'E' with at least one adjacent mine:
+      // change it to a digit ('1' to '8') representing the number of adjacent mines.
+      if (adjBombs > 0) {
+        board[row][col] = `${adjBombs}`;
+      }
+    };
+
+    dfs(row, col);
+  }
+
+  return board;
+};
+
+console.log(
+  updateBoard(
+    [
+      ["E", "E", "E", "E", "E"],
+      ["E", "E", "M", "E", "E"],
+      ["E", "E", "E", "E", "E"],
+      ["E", "E", "E", "E", "E"],
+    ],
+    [3, 0]
+  )
+); //  [["B","1","E","1","B"],["B","1","M","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
+console.log(
+  updateBoard(
+    [
+      ["B", "1", "E", "1", "B"],
+      ["B", "1", "M", "1", "B"],
+      ["B", "1", "1", "1", "B"],
+      ["B", "B", "B", "B", "B"],
+    ],
+    [1, 2]
+  )
+); //  [["B","1","E","1","B"],["B","1","X","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
+
+// 100% Runtime
