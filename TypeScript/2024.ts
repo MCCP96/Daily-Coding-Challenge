@@ -5546,7 +5546,7 @@ console.log(
 // 100% Runtime */
 
 // Find if Array Can Be Sorted					11/25/2024
-
+/* 
 // https://leetcode.com/problems/find-if-array-can-be-sorted/
 
 // You are given a 0-indexed array of positive integers nums.
@@ -5610,4 +5610,106 @@ const canSortArray = (nums: number[]): boolean => {
 
 console.log(canSortArray([8, 4, 2, 30, 15])); //  true
 console.log(canSortArray([1, 2, 3, 4, 5])); //  true
-console.log(canSortArray([3, 16, 8, 4, 2])); //  false
+console.log(canSortArray([3, 16, 8, 4, 2])); //  false */
+
+// Number of Wonderful Substrings					11/26/2024
+
+// https://leetcode.com/problems/number-of-wonderful-substrings/description/
+
+// A wonderful string is a string where at most one letter appears an odd number of times.
+
+// For example, "ccjjc" and "abab" are wonderful, but "ab" is not.
+
+// Given a string word that consists of the first ten lowercase English letters ('a' through 'j'), return the number of wonderful non-empty substrings in word. If the same substring appears multiple times in word, then count each occurrence separately.
+
+// A substring is a contiguous sequence of characters in a string.
+
+// Example 1:
+// 		Input: word = "aba"
+// 		Output: 4
+// Explanation: The four wonderful substrings are underlined below:
+// 		- "aba" -> "a"
+// 		- "aba" -> "b"
+// 		- "aba" -> "a"
+// 		- "aba" -> "aba"
+
+// Example 2:
+// 		Input: word = "aabb"
+// 		Output: 9
+// Explanation: The nine wonderful substrings are underlined below:
+// 		- "aabb" -> "a"
+// 		- "aabb" -> "aa"
+// 		- "aabb" -> "aab"
+// 		- "aabb" -> "aabb"
+// 		- "aabb" -> "a"
+// 		- "aabb" -> "abb"
+// 		- "aabb" -> "b"
+// 		- "aabb" -> "bb"
+// 		- "aabb" -> "b"
+
+// Example 3:
+// 		Input: word = "he"
+// 		Output: 2
+// Explanation: The two wonderful substrings are underlined below:
+// 		- "he" -> "h"
+// 		- "he" -> "e"
+
+// Constraints:
+//		1 <= word.length <= 105
+//		word consists of lowercase English letters from 'a' to 'j'.
+
+const wonderfulSubstrings = (word: string): number => {
+  const n = word.length;
+  let res = 0;
+  for (let i = 0; i < n; i++) {
+    let cur = new Array(26).fill(0);
+    for (let j = i; j < n; j++) {
+      cur[word[j].charCodeAt(0) - 97]++;
+      res += Number(cur.filter((x) => x % 2 == 1).length <= 1);
+    }
+  }
+  return res;
+};
+
+console.log(wonderfulSubstrings("aba")); //  4
+console.log(wonderfulSubstrings("aabb")); //  9
+console.log(wonderfulSubstrings("he")); //  2
+
+function topVotedWonderfulSubstrings(word: string): number {
+  const countByMask: { [key: number]: number } = { 0: 1 };
+  let currentMask = 0;
+  let totalCount = 0;
+
+  for (const char of word) {
+    const index = char.charCodeAt(0) - "a".charCodeAt(0);
+
+    currentMask ^= 1 << index;
+
+    if (countByMask[currentMask]) {
+      totalCount += countByMask[currentMask];
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const toggledMask = currentMask ^ (1 << i);
+      if (countByMask[toggledMask]) {
+        totalCount += countByMask[toggledMask];
+      }
+    }
+
+    if (countByMask[currentMask]) {
+      countByMask[currentMask]++;
+    } else {
+      countByMask[currentMask] = 1;
+    }
+  }
+
+  return totalCount;
+}
+
+// Approach
+// Bit Masking: Use a bit mask of size 10 (since there are only 10 different characters) to represent the even/odd state of each character's count in the substring. For example, if the bit at position i is 1, then the character corresponding to a + i appears an odd number of times.
+// Prefix Sum with Bit Masking: As you iterate through the string, update the bitmask based on the current character. Calculate the "wonderfulness" of all substrings ending at the current character by:
+// Checking the current bitmask (currentMask).
+// Checking all bitmasks that differ from the currentMask by exactly one bit (since a wonderful substring can have at most one character that appears an odd number of times).
+// Using a hashmap to keep track of all previously seen bitmasks and their frequencies.
+// Count Substrings: For each position in the string, calculate how many substrings ending at that position are wonderful by looking up in the hashmap.
