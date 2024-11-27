@@ -239,7 +239,7 @@ int main()
 } */
 
 // OS Assignment 2: Concurrent Processes in Unix - Step 5         10/30/2024
-
+/* 
 // Extend the processes above once more. They should now protect concurrent access to the shared memory position. On top of the shm instructions, you should protect the shared memory access using semaphores. Use semget, semop, semctl to protect the shared memory section.
 
 // As before, you now have a common variable shared between the two processes, and it is protected from concurrent access using semaphores. The behavior is as in 4. 
@@ -343,4 +343,64 @@ int main()
   _exit(0);
 }
 
-// process2 not shown here
+// process2 not shown here */
+
+// OS Assignment 3: Concurrent Processes in Unix - Part 2A         11/27/2024
+
+// Problem description: 
+// There are five Teaching Assistants (TA) assigned to mark exams. They meet to mark the pile of exams, written on paper. They go to a laboratory, and sit around a circular table, on which we deposit the pile of exams. To mark, they will use the system you must develop in this assignment, which will grant access to a database of students to decide which student to mark. Each TA must mark all the exercises until they reach the last student in the list. 
+// The TAs have two tasks at hand: to pick a student from the database, mark one exercise, and save the mark for that student in an individual file. Each TA has their own file.  
+// The concurrent application will allow only 2 TAs to  mark at the same time. To do this, we will number the TAs using numbers from 1-5 and use five semaphores to access the database. The database is accessed using the following protocol: each TA needs to lock their own semaphore (TA j  locks semaphore j)  and the next in the list (semaphore (j+1) mod 5; i.e., TA 5 uses semaphores 5 and 1). When both are acquired by TA j, they can start marking. To do so, they pick the next student in the list (details later). 
+// When they finished choosing the next student, the TA releases the two locks and starts marking. When marking of the exercise is completed, the TA tries to access the database again (using the protocol above). 
+
+// Part 2.a) [1 mark] 
+// Write a solution to the problem written in C/C++ running under Linux. 
+// Your solution must have 5 processes running concurrently (one per TA). You should use five semaphores as discussed above. Each of the processes should inform what they are doing on screen (marking, accessing the database). At this point do not worry for concurrency issues.  
+// The database is a text file, containing student numbers of 4 digits long (i.e., 0001-9999; 0000 does not exist and Student 9999 is the “end of file” marker). The database contains 20 lines. With your program you must provide a “class list of students” file, built as follows: create a text file, including 20 lines (each representing a student), each line which will be a number of 4 digits from 0001 to 9999. The text file used for the program will have 20 lines with 4 numbers on each line; IMPORTANT: the last number should be 9999. Each TA starts marking the first student in the list. When the TA accesses the database, picks up the next number, saves it in a local variable, and waits between 1 and 4 seconds at random (use random numbers and a delay function). It then releases the semaphores so other TAs can access the database. 
+// Once the TA knows which student to mark, (s)he starts marking. That is, once the TA has a student number, saves the student number in a local file (called TAj.txt, with j=1...5), and a random mark between 0 and 10. The marking process is represented by adding a random delay between 1 and 10 seconds in the process. 
+// When a TA reaches number 9999, they start all over again. The system finishes when each TA has gone through the whole list of students 3 times. 
+
+// HINT: work incrementally. Start with a program with 2 TAs and 2 semaphores and build it up. You can also use extra processes for "other activities" (i.e., starting the process or ending it). 
+
+int main() {
+    string db = "database.txt";
+    ofstream db_output(db);
+    srand(time(NULL));
+
+    // class list of students
+    for (int i = 0; i < NUM_STUDENTS; i++) {
+        db_output << (rand() % 9998 + 1) << endl;  // 1-9999
+    }
+    db_output << "9999" << endl;  // end-of-file
+    db_output.close();
+
+    // setup semaphores
+    key_t sem_key = ftok("semfile", 65);
+    int semid = semget(sem_key, NUM_TAS, 0666 | IPC_CREAT);
+
+    for (int i = 0; i < NUM_TAS; i++) {
+        semctl(semid, i, SETVAL, 1);
+    }
+
+    // fork TAs
+    for (int i = 0; i < NUM_TAS; i++) {
+        pid_t pid = fork();
+
+        if (pid == 0) {
+            // child
+            TAGrading(i + 1, semid, db);
+            exit(0);
+        }
+    }
+
+    // wait for TAs to finish
+    while (wait(NULL) > 0);
+
+    // clean up semaphores
+    semctl(semid, 0, IPC_RMID, 0);
+    cout << "All TA processes completed. Exiting." << endl;
+
+    return 0;
+}
+
+// TAGrading not shown here
