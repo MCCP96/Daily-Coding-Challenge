@@ -406,7 +406,7 @@ int main() {
 // TAGrading not shown here */
 
 // OS Assignment 3: Concurrent Processes in Unix - Part 2B         11/28/2024
-
+/*
 // Part 2.b)
 // Convert Part 2.a) into a Semaphore-based solution with shared memory. Use semaphores for process coordination. Other Linux system calls may be used for process creation, termination, creation and deletion of shared memory etc.
 // Your solution must have 5 processes running concurrently, and shared memory. Your solution should use a shared array with the list of students. When the program first starts, you should load the list of students into shared memory. DO NOT WORRY ABOUT DEADLOCK/LIVELOCK. Each of the processes should inform what they are doing on screen, and work as in Part 2.a., but using shared memory instead of files.
@@ -461,4 +461,59 @@ int main()
   return 0;
 }
 
-// only grades 3-4 students, supposed to do 20
+// only grades 3-4 students, supposed to do 20 */
+
+// OS Assignment 3: Concurrent Processes in Unix - Part 2C         11/29/2024
+
+// Part 2.c)
+// Modify the program above and use a protocol to acquire/release the semaphores: if you acquire semaphore j and then j+1 is not available, release both so other process can run.
+// Your solution must have 5 processes running concurrently, and shared memory. Your solution should use a shared array with the list of students. When the program first starts, you should load the list of students into shared memory. DO NOT WORRY ABOUT DEADLOCK/LIVELOCK. Each of the processes should inform what they are doing on screen, and work as in Part 2.a., but using shared memory instead of files.
+
+void TAGrading(int TA_ID, int semid, int *shared_student_data)
+{
+  ofstream file("TA" + to_string(TA_ID) + ".txt", ios::app); // TA<n>.txt
+  srand(time(NULL) + TA_ID);                                 // ensure random
+
+  while (true)
+  {
+    semaphore_lock(semid, TA_ID - 1); // acquire semaphore (j)
+
+    // attempt to acquire next semaphore (j+1)
+    int next_semaphore = TA_ID % NUM_TAS;
+    if (!try_semaphore_lock(semid, next_semaphore))
+    {
+      semaphore_unlock(semid, TA_ID - 1); // fail, release semaphore
+      continue;                           // TA cannot grade
+    }
+
+    // get student
+    int student_idx = shared_student_data[0];
+
+    if (student_idx >= NUM_STUDENTS || shared_student_data[student_idx + 1] == 9999)
+    {
+      // end-of-file reached
+      semaphore_unlock(semid, TA_ID - 1);
+      semaphore_unlock(semid, next_semaphore);
+      break;
+    }
+
+    int student_id = shared_student_data[student_idx + 1];
+    shared_student_data[0]++; // ensure student is not graded twice
+
+    // grade student
+    sleep(1 + rand() % (4 - 1 + 1)); // choosing student process
+
+    int mark = rand() % 11; // 0-10 grade
+    file << "Student ID: " << student_id << ", Mark: " << mark << endl;
+
+    sleep(1 + rand() % (10 - 1 + 1)); // marking process
+    printf("TA%u - MARKED: %d\n", TA_ID, student_id);
+
+    semaphore_unlock(semid, TA_ID - 1); // unlock semaphore
+    semaphore_unlock(semid, next_semaphore);
+  }
+
+  file.close();
+}
+
+// Deadlock(able) Dining-Philosopher Problem
