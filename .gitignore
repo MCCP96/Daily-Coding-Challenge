@@ -2,3 +2,4 @@
 /c/*.exe
 tsconfig.json
 /TypeScript/*.js
+/TypeScript/inputs/
