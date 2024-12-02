@@ -65,23 +65,6 @@ const printBinaryTree = (root: TreeNode | null) => {
   console.log(res);
 };
 
-const getData = async (filename: string): number[][] => {
-  let arr1: number[] = [];
-  let arr2: number[] = [];
-
-  await fetch(`/TypeScript/inputs/${filename}.txt`)
-    .then((res) => res.text())
-    .then((data) => {
-      for (const line of data.split("\n")) {
-        const [n1, n2] = line.split("   ");
-        arr1.push(+n1);
-        arr2.push(+n2);
-      }
-    });
-
-  return [arr1, arr2];
-};
-
 // Two Sum					9/6/2024
 /* 
 // https://leetcode.com/problems/two-sum/description/
@@ -5840,8 +5823,8 @@ function topVotedMergeTriplets(
   ].includes(-1);
 } */
 
-// Day 1: Historian Hysteria          12/1/2024
-
+// Advent of Code Day 1: Historian Hysteria          12/1/2024
+/* 
 // https://adventofcode.com/2024/day/1
 
 // The Chief Historian is always present for the big Christmas sleigh launch, but nobody has seen him in months! Last anyone heard, he was visiting locations that are historically significant to the North Pole; a group of Senior Historians has asked you to accompany them as they check the places they think he was most likely to visit.
@@ -5882,6 +5865,23 @@ function topVotedMergeTriplets(
 
 // Your actual left and right lists contain many location IDs. What is the total distance between your lists?
 
+const getData = async (filename: string): number[][] => {
+  let arr1: number[] = [];
+  let arr2: number[] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((res) => res.text())
+    .then((data) => {
+      for (const line of data.split("\n")) {
+        const [n1, n2] = line.split("   ");
+        arr1.push(+n1);
+        arr2.push(+n2);
+      }
+    });
+
+  return [arr1, arr2];
+};
+
 const day1 = async () => {
   let [list1, list2] = await getData("1");
 
@@ -5895,4 +5895,78 @@ const day1 = async () => {
   return dif;
 };
 
-console.log(await day1());
+console.log(await day1()); */
+
+// Advent of Code Day 2: Red-Nosed Reports          12/2/2024
+
+// Fortunately, the first location The Historians want to search isn't a long walk from the Chief Historian's office.
+
+// While the Red-Nosed Reindeer nuclear fusion/fission plant appears to contain no sign of the Chief Historian, the engineers there run up to you as soon as they see you. Apparently, they still talk about the time Rudolph was saved through molecular synthesis from a single electron.
+
+// They're quick to add that - since you're already here - they'd really appreciate your help analyzing some unusual data from the Red-Nosed reactor. You turn to check if The Historians are waiting for you, but they seem to have already divided into groups that are currently searching every corner of the facility. You offer to help with the unusual data.
+
+// The unusual data (your puzzle input) consists of many reports, one report per line. Each report is a list of numbers called levels that are separated by spaces. For example:
+// 7 6 4 2 1
+// 1 2 7 8 9
+// 9 7 6 2 1
+// 1 3 2 4 5
+// 8 6 4 4 1
+// 1 3 6 7 9
+
+// This example data contains six reports each containing five levels.
+
+// The engineers are trying to figure out which reports are safe. The Red-Nosed reactor safety systems can only tolerate levels that are either gradually increasing or gradually decreasing. So, a report only counts as safe if both of the following are true:
+
+// The levels are either all increasing or all decreasing.
+// Any two adjacent levels differ by at least one and at most three.
+
+// In the example above, the reports can be found safe or unsafe by checking those rules:
+// 7 6 4 2 1: Safe because the levels are all decreasing by 1 or 2.
+// 1 2 7 8 9: Unsafe because 2 7 is an increase of 5.
+// 9 7 6 2 1: Unsafe because 6 2 is a decrease of 4.
+// 1 3 2 4 5: Unsafe because 1 3 is increasing but 3 2 is decreasing.
+// 8 6 4 4 1: Unsafe because 4 4 is neither an increase or a decrease.
+// 1 3 6 7 9: Safe because the levels are all increasing by 1, 2, or 3.
+// So, in this example, 2 reports are safe.
+
+// Analyze the unusual data from the engineers. How many reports are safe?
+
+const getData = async (filename: string): Promise<number[][]> => {
+  let res: number[][] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((res) => res.text())
+    .then((data) => {
+      for (const line of data.split("\n")) {
+        res.push(line.split(" ").map((n) => +n));
+      }
+    });
+
+  return res;
+};
+
+const day2 = async () => {
+  const data = await getData("2");
+
+  let res = 0;
+  for (const report of data) {
+    let isSafe = true;
+    const isIncreasing = report[1] > report[0];
+
+    for (let i = 1; i < report.length && isSafe; i++) {
+      // The levels are either all increasing or all decreasing.
+      if (isIncreasing && report[i] < report[i - 1]) isSafe = false;
+      else if (!isIncreasing && report[i] > report[i - 1]) isSafe = false;
+
+      // Any two adjacent levels differ by at least one and at most three.
+      const dif = Math.abs(report[i] - report[i - 1]);
+      if (!(dif >= 1 && dif <= 3)) isSafe = false;
+    }
+
+    res += +isSafe;
+  }
+
+  return res;
+};
+
+console.log(await day2());
