@@ -5972,7 +5972,7 @@ const day2 = async () => {
 console.log(await day2()); */
 
 // Advent of Code Day 3: Mull It Over          12/3/2024
-
+/* 
 // https://adventofcode.com/2024/day/3
 
 // "Our computers are having issues, so I have no idea if we have any Chief Historians in stock! You're welcome to check the warehouse, though," says the mildly flustered shopkeeper at the North Pole Toboggan Rental Shop. The Historians head out to take a look.
@@ -6022,4 +6022,148 @@ const day3 = async (): Promise<number> => {
   return res;
 };
 
-console.log(await day3()); // 183669043
+console.log(await day3()); // 183669043 */
+
+// Advent of Code Day 4: Ceres Search         12/4/2024
+
+// https://adventofcode.com/2024/day/4
+
+// "Looks like the Chief's not here. Next!" One of The Historians pulls out a device and pushes the only button on it. After a brief flash, you recognize the interior of the Ceres monitoring station!
+
+// As the search for the Chief continues, a small Elf who lives on the station tugs on your shirt; she'd like to know if you could help her with her word search (your puzzle input). She only has to find one word: XMAS.
+
+// This word search allows words to be horizontal, vertical, diagonal, written backwards, or even overlapping other words. It's a little unusual, though, as you don't merely need to find one instance of XMAS - you need to find all of them. Here are a few ways XMAS might appear, where irrelevant characters have been replaced with .:
+
+// ..X...
+// .SAMX.
+// .A..A.
+// XMAS.S
+// .X....
+// The actual word search will be full of letters instead. For example:
+
+// MMMSXXMASM
+// MSAMXMSMSA
+// AMXSXMAAMM
+// MSAMASMSMX
+// XMASAMXAMM
+// XXAMMXXAMA
+// SMSMSASXSS
+// SAXAMASAAA
+// MAMMMXMMMM
+// MXMXAXMASX
+// In this word search, XMAS occurs a total of 18 times; here's the same word search again, but where letters not involved in any XMAS have been replaced with .:
+
+// ....XXMAS.
+// .SAMXMS...
+// ...S..A...
+// ..A.A.MS.X
+// XMASAMX.MM
+// X.....XA.A
+// S.S.S.S.SS
+// .A.A.A.A.A
+// ..M.M.M.MM
+// .X.X.XMASX
+// Take a look at the little Elf's word search. How many times does XMAS appear?
+
+const getData = async (filename: string): Promise<string[]> => {
+  let res: string[] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((res) => res.text())
+    .then((data) => {
+      for (const line of data.split("\n")) {
+        res.push(line);
+      }
+    });
+
+  return res;
+};
+
+const day4 = async () => {
+  let ws = await getData("4");
+  const n = ws.length;
+  const m = ws[0].length;
+  let res = 0;
+
+  const countHorizontal = (row: number, col: number): number => {
+    let count = 0;
+    if (ws[row].substring(col, col + 4) == "XMAS") count++; // forward
+    if (ws[row].substring(col - 3, col + 1) == "SAMX") count++; // backward
+    return count;
+  };
+
+  const countVertical = (row: number, col: number): number => {
+    let count = 0;
+    // up
+    if (row - 3 >= 0)
+      count += +(
+        "X" + ws[row - 1][col] + ws[row - 2][col] + ws[row - 3][col] ==
+        "XMAS"
+      );
+    // down
+    if (row + 3 < n)
+      count += +(
+        "X" + ws[row + 1][col] + ws[row + 2][col] + ws[row + 3][col] ==
+        "XMAS"
+      );
+    return count;
+  };
+
+  const countDiagonal = (row: number, col: number): number => {
+    let count = 0;
+
+    // up left
+    if (row - 3 >= 0 && col - 3 >= 0)
+      count += +(
+        "X" +
+          ws[row - 1][col - 1] +
+          ws[row - 2][col - 2] +
+          ws[row - 3][col - 3] ==
+        "XMAS"
+      );
+
+    // up right
+    if (row - 3 >= 0 && col + 3 < m)
+      count += +(
+        "X" +
+          ws[row - 1][col + 1] +
+          ws[row - 2][col + 2] +
+          ws[row - 3][col + 3] ==
+        "XMAS"
+      );
+
+    // down right
+    if (row + 3 < n && col + 3 < m)
+      count += +(
+        "X" +
+          ws[row + 1][col + 1] +
+          ws[row + 2][col + 2] +
+          ws[row + 3][col + 3] ==
+        "XMAS"
+      );
+
+    // down left
+    if (row + 3 < n && col - 3 >= 0)
+      count += +(
+        "X" +
+          ws[row + 1][col - 1] +
+          ws[row + 2][col - 2] +
+          ws[row + 3][col - 3] ==
+        "XMAS"
+      );
+
+    return count;
+  };
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      if (ws[i][j] == "X")
+        res +=
+          countHorizontal(i, j) + countVertical(i, j) + countDiagonal(i, j);
+    }
+  }
+
+  return res;
+};
+
+console.log(await day4()); // 2517
