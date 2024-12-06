@@ -6169,7 +6169,7 @@ const day4 = async () => {
 console.log(await day4()); // 2517 */
 
 // Advent of Code Day 5: Print Queue          12/5/2024
-
+/* 
 // https://adventofcode.com/2024/day/5
 
 // Satisfied with their search on Ceres, the squadron of scholars suggests subsequently scanning the stationery stacks of sub-basement 17.
@@ -6301,4 +6301,169 @@ const day5 = async (): Promise<number> => {
   return res;
 };
 
-console.log(await day5()); // 4905
+console.log(await day5()); // 4905 */
+
+// Advent of Code Day 6: Guard Gallivant          12/6/2024
+
+// https://adventofcode.com/2024/day/6
+
+// The Historians use their fancy device again, this time to whisk you all away to the North Pole prototype suit manufacturing lab... in the year 1518! It turns out that having direct access to history is very convenient for a group of historians.
+
+// You still have to be careful of time paradoxes, and so it will be important to avoid anyone from 1518 while The Historians search for the Chief. Unfortunately, a single guard is patrolling this part of the lab.
+
+// Maybe you can work out where the guard will go ahead of time so that The Historians can search safely?
+
+// You start by making a map (your puzzle input) of the situation. For example:
+
+// ....#.....
+// .........#
+// ..........
+// ..#.......
+// .......#..
+// ..........
+// .#..^.....
+// ........#.
+// #.........
+// ......#...
+// The map shows the current position of the guard with ^ (to indicate the guard is currently facing up from the perspective of the map). Any obstructions - crates, desks, alchemical reactors, etc. - are shown as #.
+
+// Lab guards in 1518 follow a very strict patrol protocol which involves repeatedly following these steps:
+
+// If there is something directly in front of you, turn right 90 degrees.
+// Otherwise, take a step forward.
+// Following the above protocol, the guard moves up several times until she reaches an obstacle (in this case, a pile of failed suit prototypes):
+
+// ....#.....
+// ....^....#
+// ..........
+// ..#.......
+// .......#..
+// ..........
+// .#........
+// ........#.
+// #.........
+// ......#...
+// Because there is now an obstacle in front of the guard, she turns right before continuing straight in her new facing direction:
+
+// ....#.....
+// ........>#
+// ..........
+// ..#.......
+// .......#..
+// ..........
+// .#........
+// ........#.
+// #.........
+// ......#...
+// Reaching another obstacle (a spool of several very long polymers), she turns right again and continues downward:
+
+// ....#.....
+// .........#
+// ..........
+// ..#.......
+// .......#..
+// ..........
+// .#......v.
+// ........#.
+// #.........
+// ......#...
+// This process continues for a while, but the guard eventually leaves the mapped area (after walking past a tank of universal solvent):
+
+// ....#.....
+// .........#
+// ..........
+// ..#.......
+// .......#..
+// ..........
+// .#........
+// ........#.
+// #.........
+// ......#v..
+// By predicting the guard's route, you can determine which specific positions in the lab will be in the patrol path. Including the guard's starting position, the positions visited by the guard before leaving the area are marked with an X:
+
+// ....#.....
+// ....XXXXX#
+// ....X...X.
+// ..#.X...X.
+// ..XXXXX#X.
+// ..X.X.X.X.
+// .#XXXXXXX.
+// .XXXXXXX#.
+// #XXXXXXX..
+// ......#X..
+// In this example, the guard will visit 41 distinct positions on your map.
+
+// Predict the path of the guard. How many distinct positions will the guard visit before leaving the mapped area?
+
+const getData = async (filename: string): Promise<string[]> => {
+  let res: string[] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((res) => res.text())
+    .then((data) => {
+      res = data.split("\n").map((c) => c.replace("\r", ""));
+    });
+
+  return res;
+};
+
+const day6 = async (): Promise<number> => {
+  const map = await getData("6");
+  const n = map.length;
+  const m = map[0].length;
+
+  // find start pos
+  let [x, y] = [-1, -1];
+  for (y = 0; y < n && x == -1; y++) {
+    x = map[y].indexOf("^");
+  }
+
+  // count distinct positions
+  let dir = "N";
+  let visited = new Set();
+  while (x >= 0 && x < m && y >= 0 && y < n) {
+    visited.add(`${x},${y}`);
+
+    switch (dir) {
+      case "N":
+        if (y - 1 >= 0) {
+          if (map[y - 1][x] != "#") y--; // go up
+          else dir = "E"; // change dir
+        } else {
+          y--; // off map
+        }
+        break;
+
+      case "E":
+        if (x + 1 < m) {
+          if (map[y][x + 1] != "#") x++; // go right
+          else dir = "S"; // change dir
+        } else {
+          x++; // off map
+        }
+        break;
+
+      case "S":
+        if (y + 1 < n) {
+          if (map[y + 1][x] != "#") y++; // go down
+          else dir = "W"; // change dir
+        } else {
+          y++; // off map
+        }
+        break;
+
+      case "W":
+        if (x - 1 >= 0) {
+          if (map[y][x - 1] != "#") x--; // go left
+          else dir = "N"; // change dir
+        } else {
+          x--; // off map
+        }
+        break;
+    }
+  }
+
+  return visited.size - 1; // exclude guard's starting position
+};
+
+console.log(await day6()); // 5242
