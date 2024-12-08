@@ -6469,7 +6469,7 @@ const day6 = async (): Promise<number> => {
 console.log(await day6()); // 5242 */
 
 // Advent of Cose Day 7: Bridge Repair          12/7/2024
-
+/* 
 // https://adventofcode.com/2024/day/7
 
 // The Historians take you to a familiar rope bridge over a river in the middle of a jungle. The Chief isn't on this side of the bridge, though; maybe he's on the other side?
@@ -6587,4 +6587,165 @@ const day7 = async (precedence: boolean) => {
 console.log(await day7(false)); // 2664460013123
 
 // oops built with precedence
-// could've saved a lot of runtime without it
+// could've saved a lot of runtime without it */
+
+// Advent of Code Day 8: Resonant Collinearity          12/8/2024
+
+// https://adventofcode.com/2024/day/8
+
+// You find yourselves on the roof of a top-secret Easter Bunny installation.
+
+// While The Historians do their thing, you take a look at the familiar huge antenna. Much to your surprise, it seems to have been reconfigured to emit a signal that makes people 0.1% more likely to buy Easter Bunny brand Imitation Mediocre Chocolate as a Christmas gift! Unthinkable!
+
+// Scanning across the city, you find that there are actually many such antennas. Each antenna is tuned to a specific frequency indicated by a single lowercase letter, uppercase letter, or digit. You create a map (your puzzle input) of these antennas. For example:
+
+// ............
+// ........0...
+// .....0......
+// .......0....
+// ....0.......
+// ......A.....
+// ............
+// ............
+// ........A...
+// .........A..
+// ............
+// ............
+// The signal only applies its nefarious effect at specific antinodes based on the resonant frequencies of the antennas. In particular, an antinode occurs at any point that is perfectly in line with two antennas of the same frequency - but only when one of the antennas is twice as far away as the other. This means that for any pair of antennas with the same frequency, there are two antinodes, one on either side of them.
+
+// So, for these two antennas with frequency a, they create the two antinodes marked with #:
+
+// ..........
+// ...#......
+// ..........
+// ....a.....
+// ..........
+// .....a....
+// ..........
+// ......#...
+// ..........
+// ..........
+// Adding a third antenna with the same frequency creates several more antinodes. It would ideally add four antinodes, but two are off the right side of the map, so instead it adds only two:
+
+// ..........
+// ...#......
+// #.........
+// ....a.....
+// ........a.
+// .....a....
+// ..#.......
+// ......#...
+// ..........
+// ..........
+// Antennas with different frequencies don't create antinodes; A and a count as different frequencies. However, antinodes can occur at locations that contain antennas. In this diagram, the lone antenna with frequency capital A creates no antinodes but has a lowercase-a-frequency antinode at its location:
+
+// ..........
+// ...#......
+// #.........
+// ....a.....
+// ........a.
+// .....a....
+// ..#.......
+// ......A...
+// ..........
+// ..........
+// The first example has antennas with two different frequencies, so the antinodes they create look like this, plus an antinode overlapping the topmost A-frequency antenna:
+
+// ......#....#
+// ...#....0...
+// ....#0....#.
+// ..#....0....
+// ....0....#..
+// .#....A.....
+// ...#........
+// #......#....
+// ........A...
+// .........A..
+// ..........#.
+// ..........#.
+// Because the topmost A-frequency antenna overlaps with a 0-frequency antinode, there are 14 total unique locations that contain an antinode within the bounds of the map.
+
+// Calculate the impact of the signal. How many unique locations within the bounds of the map contain an antinode?
+
+const getData = async (filename: string): Promise<string[]> => {
+  let res: string[] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((res) => res.text())
+    .then((data) => {
+      for (const line of data.split("\n")) {
+        res.push(line.substring(0, line.length - 1)); // "\r"
+      }
+    });
+
+  return res;
+};
+
+const findAntinodes = (
+  a: { row: number; col: number },
+  b: { row: number; col: number }
+): { x: number; y: number }[] => {
+  // sort by col
+  [a, b] = [a, b].sort((a, b) => a.col - b.col);
+
+  // find space between (horizontal and vertical)
+  let hGap = b.col - a.col;
+  let vGap = Math.abs(a.row - b.row);
+
+  // locate antinodes
+  let aAntinode = { x: a.col - hGap, y: 0 };
+  let bAntinode = { x: b.col + hGap, y: 0 };
+
+  if (a.row < b.row) {
+    aAntinode.y = a.row - vGap;
+    bAntinode.y = b.row + vGap;
+  } else {
+    aAntinode.y = a.row + vGap;
+    bAntinode.y = b.row - vGap;
+  }
+
+  return [aAntinode, bAntinode];
+};
+
+const day8 = async (): Promise<number> => {
+  const map = await getData("8");
+  console.log(map);
+  const n = map.length;
+  const m = map[0].length;
+
+  // group locations of different antenna frequencies
+  const antennas = new Map<string, { row: number; col: number }[]>();
+
+  for (let row = 0; row < n; row++) {
+    for (let col = 0; col < m; col++) {
+      if (map[row][col] != ".") {
+        const label = map[row][col];
+        if (!antennas.has(label)) antennas.set(label, []);
+        antennas.get(label)?.push({ row, col });
+      }
+    }
+  }
+
+  // for each group, find unique antinodes
+  const antinodes = new Set<string>();
+
+  for (const [label, locations] of antennas.entries()) {
+    const count = locations.length;
+
+    for (let i = 0; i < count - 1; i++) {
+      for (let j = i + 1; j < count; j++) {
+        const foundAntinodes = findAntinodes(locations[i], locations[j]);
+
+        for (const { x, y } of foundAntinodes) {
+          if (x >= 0 && x < m && y >= 0 && y < n) {
+            antinodes.add(`${x},${y}`); // within bounds
+          }
+        }
+      }
+    }
+  }
+
+  return antinodes.size;
+};
+
+console.log(await day8()); // 303
