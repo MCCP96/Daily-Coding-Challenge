@@ -273,7 +273,7 @@ public class 2024 {
 // big refactoring and tile placement validation */
 
 // Software Project - Midterm Study          10/31/2024
-
+/* 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -371,4 +371,143 @@ public class View extends JFrame implements ModelView {
     }
 }
 
-// Happy Halloween 🎃
+// Happy Halloween 🎃 */
+
+
+// Study: Software Design Project         12/10/2024
+
+// You have received a sorting application code that presently implements sorting algorithms directly into the Sorter class. This application sorts an array using diverse algorithms based on user preference. Users create an array containing elements to sort and invoke the sort method, specifying a preferred sorting strategy. For instance, invoking sorter.sort(arrayToSort, "bubble") directs the code to call the bubbleSort method, and choosing "insertion" triggers the insertionSort method. The focus here lies in the application's logic, disregarding the graphical interface. Below is the minimal code handling this logic:
+
+// As the variety of sorting strategies within the Sorter class grows, maintaining a single method handling all strategies becomes unmanageable. To address this, the code needs refactoring using the Strategy Pattern. Each sorting strategy will be encapsulated within its own class.
+
+// UML class diagram outlining the revised design.
+// Complete code representing the revised design.
+// Provide a couple of unit tests, one for each sorting strategy. You can use either JUnit 1.3 or 1.4 syntax
+
+// STARTER CODE:
+public class OLDSorter {
+  // Bubble Sort implementation
+  public void bubbleSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (arr[j] > arr[j + 1]) {
+          // Swap arr[j] and arr[j+1] int temp = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = temp;
+        }
+      }
+    }
+  }
+
+  // Insertion Sort implementation
+  public void insertionSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 1; i < n; ++i) {
+      int key = arr[i];
+      int j = i - 1;
+      while (j >= 0 && arr[j] > key) {
+        arr[j + 1] = arr[j];
+        j = j - 1;
+      }
+      arr[j + 1] = key;
+    }
+  }
+
+  public void sort(int[] arr, String type) {
+    if (type.equals("bubble")) {
+      this.bubbleSort(arr);
+    } else if (type.equals("insertion")) {
+      this.insertionSort(arr);
+    }
+  }
+
+  public static void main(String[] args) {
+    int[] arrayToSort = { 64, 25, 12, 22, 11 };
+    Sorter sorter = new Sorter();
+    // Sorting using Bubble Sort
+    sorter.sort(arrayToSort, "bubble");
+    // Sorting using Insertion Sort
+    int[] arrayToSortAgain = { 64, 25, 12, 22, 11 }; // Resetting the array
+    sorter.sort(arrayToSortAgain, "insertion");
+  }
+}
+
+// IMPLEMENTED STRATEGY PATTERN:
+public class Sorter {
+  private Strategy strategy;
+
+  public void setStrategy(Strategy strategy) {
+    this.strategy = strategy;
+  }
+
+  public int[] sort(int[] arr) {
+    return strategy.sort(arr);
+  }
+}
+
+public interface Strategy {
+  public int[] sort(int[] arr);
+}
+
+public class BubbleSort implements Strategy {
+  public int[] sort(int[] arr) {
+    int n = arr.length;
+
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = 0; j < n - i - 1; j++) {
+        if (arr[j] > arr[j + 1]) {
+          // Swap arr[j] and arr[j+1] int temp = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = temp;
+        }
+      }
+    }
+  }
+}
+
+public class InsertionSort implements Strategy {
+  public int[] sort(int[] arr) {
+    int n = arr.length;
+
+    for (int i = 1; i < n; ++i) {
+      int key = arr[i];
+      int j = i - 1;
+      while (j >= 0 && arr[j] > key) {
+        arr[j + 1] = arr[j];
+        j = j - 1;
+      }
+      arr[j + 1] = key;
+    }
+  }
+
+}
+
+public static void main(String[] args) {
+  int[] arrayToSort1 = { 64, 25, 12, 22, 11 };
+
+  Sorter sorter1 = new Sorter();
+  sorter1.setStrategy(new BubbleSort());
+  sorter1.sort(arrayToSort1);
+
+  int[] arrayToSort2 = { 3, 4, 1, 2, 5 };
+
+  Sorter sorter2 = new Sorter();
+  sorter2.setStrategy(new InsertionSort());
+  sorter2.sort(arrayToSort2);
+}
+
+public class SorterTest {
+  @Test
+  public void testBubbleSort() {
+    int[] arrayToSort1 = { 64, 25, 12, 22, 11 };
+
+    Sorter sorter1 = new Sorter();
+    sorter1.setStrategy(new BubbleSort());
+
+    int[] expectedResult = { 11, 12, 22, 25, 64 };
+    Assert.assertArrayEquals(expectedResult, sorter1.sort(arrayToSort1));
+  }
+}
+
+// final today, resuming advent of code tomorrow
