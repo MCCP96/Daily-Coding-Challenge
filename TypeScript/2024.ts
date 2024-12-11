@@ -6751,7 +6751,7 @@ const day8 = async (): Promise<number> => {
 console.log(await day8()); // 303 */
 
 // Advent of Code Day 9: Disk Fragmenter          12/9/2024
-
+/* 
 // https://adventofcode.com/2024/day/9
 
 // Another push of the button leaves you in the familiar hallways of some friendly amphipods! Good thing you each somehow got your own personal mini submarine. The Historians jet away in search of the Chief, mostly by driving directly into walls.
@@ -6850,4 +6850,220 @@ const day9 = async (): Promise<number> => {
   return checksum;
 };
 
-console.log(await day9()); // 6519155389266
+console.log(await day9()); // 6519155389266 */
+
+// Advent of Code Day 10: Hoof It         12/11/2024
+
+// https://adventofcode.com/2024/day/10
+
+// You all arrive at a Lava Production Facility on a floating island in the sky. As the others begin to search the massive industrial complex, you feel a small nose boop your leg and look down to discover a reindeer wearing a hard hat.
+
+// The reindeer is holding a book titled "Lava Island Hiking Guide". However, when you open the book, you discover that most of it seems to have been scorched by lava! As you're about to ask how you can help, the reindeer brings you a blank topographic map of the surrounding area (your puzzle input) and looks up at you excitedly.
+
+// Perhaps you can help fill in the missing hiking trails?
+
+// The topographic map indicates the height at each position using a scale from 0 (lowest) to 9 (highest). For example:
+
+// 0123
+// 1234
+// 8765
+// 9876
+// Based on un-scorched scraps of the book, you determine that a good hiking trail is as long as possible and has an even, gradual, uphill slope. For all practical purposes, this means that a hiking trail is any path that starts at height 0, ends at height 9, and always increases by a height of exactly 1 at each step. Hiking trails never include diagonal steps - only up, down, left, or right (from the perspective of the map).
+
+// You look up from the map and notice that the reindeer has helpfully begun to construct a small pile of pencils, markers, rulers, compasses, stickers, and other equipment you might need to update the map with hiking trails.
+
+// A trailhead is any position that starts one or more hiking trails - here, these positions will always have height 0. Assembling more fragments of pages, you establish that a trailhead's score is the number of 9-height positions reachable from that trailhead via a hiking trail. In the above example, the single trailhead in the top left corner has a score of 1 because it can reach a single 9 (the one in the bottom left).
+
+// This trailhead has a score of 2:
+
+// ...0...
+// ...1...
+// ...2...
+// 6543456
+// 7.....7
+// 8.....8
+// 9.....9
+// (The positions marked . are impassable tiles to simplify these examples; they do not appear on your actual topographic map.)
+
+// This trailhead has a score of 4 because every 9 is reachable via a hiking trail except the one immediately to the left of the trailhead:
+
+// ..90..9
+// ...1.98
+// ...2..7
+// 6543456
+// 765.987
+// 876....
+// 987....
+// This topographic map contains two trailheads; the trailhead at the top has a score of 1, while the trailhead at the bottom has a score of 2:
+
+// 10..9..
+// 2...8..
+// 3...7..
+// 4567654
+// ...8..3
+// ...9..2
+// .....01
+// Here's a larger example:
+
+// 89010123
+// 78121874
+// 87430965
+// 96549874
+// 45678903
+// 32019012
+// 01329801
+// 10456732
+// This larger example has 9 trailheads. Considering the trailheads in reading order, they have scores of 5, 6, 5, 3, 1, 3, 5, 3, and 5. Adding these scores together, the sum of the scores of all trailheads is 36.
+
+// The reindeer gleefully carries over a protractor and adds it to the pile. What is the sum of the scores of all trailheads on your topographic map?
+
+const getData = async (filename: string): Promise<string[]> => {
+  let res: string[] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((response) => response.text())
+    .then((data) => {
+      res = data.split("\r\n");
+    });
+
+  return res;
+};
+
+let map: string[]; // map data
+let n: number;
+let m: number;
+
+const isTrailValid = (
+  curHeight = 0,
+  row: number,
+  col: number,
+  peaks: Set<string>
+) => {
+  if (map[row][col] == "9") {
+    peaks.add(`${row},${col}`);
+  } else {
+    const nextHeight = curHeight + 1;
+
+    if (row - 1 >= 0 && +map[row - 1][col] == nextHeight)
+      isTrailValid(nextHeight, row - 1, col, peaks); // up
+    if (col + 1 < m && +map[row][col + 1] == nextHeight)
+      isTrailValid(nextHeight, row, col + 1, peaks); // right
+    if (row + 1 < n && +map[row + 1][col] == nextHeight)
+      isTrailValid(nextHeight, row + 1, col, peaks); // down
+    if (col - 1 >= 0 && +map[row][col - 1] == nextHeight)
+      isTrailValid(nextHeight, row, col - 1, peaks); // left
+  }
+
+  return peaks.size; // count unique peaks
+  // could save cycles by counting how many peaks a given point reaches and exiting early
+};
+
+const day10 = async () => {
+  map = await getData("10");
+  n = map.length;
+  m = map[0].length;
+
+  // find trailheads
+  let trailheads = new Set<{ row: number; col: number }>();
+
+  for (let row = 0; row < n; row++) {
+    for (let col = 0; col < m; col++) {
+      if (map[row][col] == "0") {
+        trailheads.add({ row, col });
+      }
+    }
+  }
+
+  // count valid hiking trails
+  let hikingTrails = 0;
+
+  for (let { row, col } of trailheads) {
+    hikingTrails += isTrailValid(0, row, col, new Set());
+  }
+
+  return hikingTrails;
+};
+
+console.log(await day10()); // 496
+
+// Advent of Code Day 11: Plutonian Pebbles
+
+// https://adventofcode.com/2024/day/11
+
+// The ancient civilization on Pluto was known for its ability to manipulate spacetime, and while The Historians explore their infinite corridors, you've noticed a strange set of physics-defying stones.
+
+// At first glance, they seem like normal stones: they're arranged in a perfectly straight line, and each stone has a number engraved on it.
+
+// The strange part is that every time you blink, the stones change.
+
+// Sometimes, the number engraved on a stone changes. Other times, a stone might split in two, causing all the other stones to shift over a bit to make room in their perfectly straight line.
+
+// As you observe them for a while, you find that the stones have a consistent behavior. Every time you blink, the stones each simultaneously change according to the first applicable rule in this list:
+
+// If the stone is engraved with the number 0, it is replaced by a stone engraved with the number 1.
+// If the stone is engraved with a number that has an even number of digits, it is replaced by two stones. The left half of the digits are engraved on the new left stone, and the right half of the digits are engraved on the new right stone. (The new numbers don't keep extra leading zeroes: 1000 would become stones 10 and 0.)
+// If none of the other rules apply, the stone is replaced by a new stone; the old stone's number multiplied by 2024 is engraved on the new stone.
+// No matter how the stones change, their order is preserved, and they stay on their perfectly straight line.
+
+// How will the stones evolve if you keep blinking at them? You take a note of the number engraved on each stone in the line (your puzzle input).
+
+// If you have an arrangement of five stones engraved with the numbers 0 1 10 99 999 and you blink once, the stones transform as follows:
+
+// The first stone, 0, becomes a stone marked 1.
+// The second stone, 1, is multiplied by 2024 to become 2024.
+// The third stone, 10, is split into a stone marked 1 followed by a stone marked 0.
+// The fourth stone, 99, is split into two stones marked 9.
+// The fifth stone, 999, is replaced by a stone marked 2021976.
+// So, after blinking once, your five stones would become an arrangement of seven stones engraved with the numbers 1 2024 1 0 9 9 2021976.
+
+// Here is a longer example:
+
+// Initial arrangement:
+//    125 17
+// After 1 blink:
+//    253000 1 7
+// After 2 blinks:
+//    253 0 2024 14168
+// After 3 blinks:
+//    512072 1 20 24 28676032
+// After 4 blinks:
+//    512 72 2024 2 0 2 4 2867 6032
+// After 5 blinks:
+//    1036288 7 2 20 24 4048 1 4048 8096 28 67 60 32
+// After 6 blinks:
+//    2097446912 14168 4048 2 0 2 4 40 48 2024 40 48 80 96 2 8 6 7 6 0 3 2
+
+// In this example, after blinking six times, you would have 22 stones. After blinking 25 times, you would have 55312 stones!
+
+// Consider the arrangement of stones in front of you. How many stones will you have after blinking 25 times?
+
+const day11 = (stones: number[], blinks: number) => {
+  while (blinks-- > 0) {
+    stones = stones.reduce((newStones: number[], stone) => {
+      if (stone == 0) {
+        // number 0: replaced by a stone engraved with the number 1.
+        newStones.push(1);
+      } else if (String(stone).length % 2 == 0) {
+        // even number of digits: replaced by two stones.
+        // left half of the digits are engraved on the new left stone
+        // right half of the digits are engraved on the new right stone.
+        const strStone = String(stone);
+        const m = ~~(strStone.length / 2);
+        newStones.push(+strStone.substring(0, m)); // left
+        newStones.push(+strStone.substring(m)); // right
+      } else {
+        // none of the other rules apply: number multiplied by 2024.
+        newStones.push(stone * 2024);
+      }
+      return newStones;
+    }, []);
+  }
+  return stones.length;
+};
+
+console.log(
+  day11(
+    "5178527 8525 22 376299 3 69312 0 275".split(" ").map((c) => +c),
+    25
+  )
+); // 189547
