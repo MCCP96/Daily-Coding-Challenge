@@ -6853,7 +6853,7 @@ const day9 = async (): Promise<number> => {
 console.log(await day9()); // 6519155389266 */
 
 // Advent of Code Day 10: Hoof It         12/11/2024
-
+/* 
 // https://adventofcode.com/2024/day/10
 
 // You all arrive at a Lava Production Facility on a floating island in the sky. As the others begin to search the massive industrial complex, you feel a small nose boop your leg and look down to discover a reindeer wearing a hard hat.
@@ -7066,4 +7066,154 @@ console.log(
     "5178527 8525 22 376299 3 69312 0 275".split(" ").map((c) => +c),
     25
   )
-); // 189547
+); // 189547 */
+
+// Advent of Code Day 12: Garden Groups
+
+// https://adventofcode.com/2024/day/12
+
+// Why not search for the Chief Historian near the gardener and his massive farm? There's plenty of food, so The Historians grab something to eat while they search.
+
+// You're about to settle near a complex arrangement of garden plots when some Elves ask if you can lend a hand. They'd like to set up fences around each region of garden plots, but they can't figure out how much fence they need to order or how much it will cost. They hand you a map (your puzzle input) of the garden plots.
+
+// Each garden plot grows only a single type of plant and is indicated by a single letter on your map. When multiple garden plots are growing the same type of plant and are touching (horizontally or vertically), they form a region. For example:
+
+// AAAA
+// BBCD
+// BBCC
+// EEEC
+// This 4x4 arrangement includes garden plots growing five different types of plants (labeled A, B, C, D, and E), each grouped into their own region.
+
+// In order to accurately calculate the cost of the fence around a single region, you need to know that region's area and perimeter.
+
+// The area of a region is simply the number of garden plots the region contains. The above map's type A, B, and C plants are each in a region of area 4. The type E plants are in a region of area 3; the type D plants are in a region of area 1.
+
+// Each garden plot is a square and so has four sides. The perimeter of a region is the number of sides of garden plots in the region that do not touch another garden plot in the same region. The type A and C plants are each in a region with perimeter 10. The type B and E plants are each in a region with perimeter 8. The lone D plot forms its own region with perimeter 4.
+
+// Visually indicating the sides of plots in each region that contribute to the perimeter using - and |, the above map's regions' perimeters are measured as follows:
+
+// +-+-+-+-+
+// |A A A A|
+// +-+-+-+-+     +-+
+//               |D|
+// +-+-+   +-+   +-+
+// |B B|   |C|
+// +   +   + +-+
+// |B B|   |C C|
+// +-+-+   +-+ +
+//           |C|
+// +-+-+-+   +-+
+// |E E E|
+// +-+-+-+
+// Plants of the same type can appear in multiple separate regions, and regions can even appear within other regions. For example:
+
+// OOOOO
+// OXOXO
+// OOOOO
+// OXOXO
+// OOOOO
+// The above map contains five regions, one containing all of the O garden plots, and the other four each containing a single X plot.
+
+// The four X regions each have area 1 and perimeter 4. The region containing 21 type O plants is more complicated; in addition to its outer edge contributing a perimeter of 20, its boundary with each X region contributes an additional 4 to its perimeter, for a total perimeter of 36.
+
+// Due to "modern" business practices, the price of fence required for a region is found by multiplying that region's area by its perimeter. The total price of fencing all regions on a map is found by adding together the price of fence for every region on the map.
+
+// In the first example, region A has price 4 * 10 = 40, region B has price 4 * 8 = 32, region C has price 4 * 10 = 40, region D has price 1 * 4 = 4, and region E has price 3 * 8 = 24. So, the total price for the first example is 140.
+
+// In the second example, the region with all of the O plants has price 21 * 36 = 756, and each of the four smaller X regions has price 1 * 4 = 4, for a total price of 772 (756 + 4 + 4 + 4 + 4).
+
+// Here's a larger example:
+
+// RRRRIICCFF
+// RRRRIICCCF
+// VVRRRCCFFF
+// VVRCCCJFFF
+// VVVVCJJCFE
+// VVIVCCJJEE
+// VVIIICJJEE
+// MIIIIIJJEE
+// MIIISIJEEE
+// MMMISSJEEE
+// It contains:
+
+// A region of R plants with price 12 * 18 = 216.
+// A region of I plants with price 4 * 8 = 32.
+// A region of C plants with price 14 * 28 = 392.
+// A region of F plants with price 10 * 18 = 180.
+// A region of V plants with price 13 * 20 = 260.
+// A region of J plants with price 11 * 20 = 220.
+// A region of C plants with price 1 * 4 = 4.
+// A region of E plants with price 13 * 18 = 234.
+// A region of I plants with price 14 * 22 = 308.
+// A region of M plants with price 5 * 12 = 60.
+// A region of S plants with price 3 * 8 = 24.
+// So, it has a total price of 1930.
+
+// What is the total price of fencing all regions on your map?
+
+const getData = async (filename: string): Promise<string[][]> => {
+  let res: string[][] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((response) => response.text())
+    .then((data) => {
+      res = data.split("\r\n").map((row) => row.split(""));
+    });
+
+  return res;
+};
+
+const day12 = async () => {
+  let map = await getData("12");
+  const n = map.length;
+  const m = map[0].length;
+
+  // recusively find area and perimeter of a region
+  let explored = new Set<string>();
+
+  const exploreRegion = (
+    label: String,
+    row: number,
+    col: number,
+    data: { a: number; p: number }
+  ) => {
+    explored.add(`${row},${col}`); // mark as explored
+    data.a++; // update area
+
+    // up
+    if (row - 1 < 0 || map[row - 1][col] != label) data.p++;
+    else if (!explored.has(`${row - 1},${col}`))
+      exploreRegion(label, row - 1, col, data);
+    // right
+    if (col + 1 >= m || map[row][col + 1] != label) data.p++;
+    else if (!explored.has(`${row},${col + 1}`))
+      exploreRegion(label, row, col + 1, data);
+    // down
+    if (row + 1 >= n || map[row + 1][col] != label) data.p++;
+    else if (!explored.has(`${row + 1},${col}`))
+      exploreRegion(label, row + 1, col, data);
+    // left
+    if (col - 1 < 0 || map[row][col - 1] != label) data.p++;
+    else if (!explored.has(`${row},${col - 1}`))
+      exploreRegion(label, row, col - 1, data);
+
+    return data;
+  };
+
+  // explore unique regions
+  let totalFencePrice = 0;
+
+  for (let row = 0; row < n; row++) {
+    for (let col = 0; col < m; col++) {
+      if (!explored.has(`${row},${col}`)) {
+        // unexplored region
+        const { a, p } = exploreRegion(map[row][col], row, col, { a: 0, p: 0 });
+        totalFencePrice += a * p;
+      }
+    }
+  }
+
+  return totalFencePrice;
+};
+
+console.log(await day12()); // 1461806
