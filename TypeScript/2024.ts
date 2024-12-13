@@ -7068,7 +7068,7 @@ console.log(
   )
 ); // 189547 */
 
-// Advent of Code Day 12: Garden Groups
+// Advent of Code Day 12: Garden Groups         12/12/2024
 /* 
 // https://adventofcode.com/2024/day/12
 
@@ -7218,7 +7218,7 @@ const day12 = async () => {
 
 console.log(await day12()); // 1461806 */
 
-// Advent of Code Day 13: Claw Contraption
+// Advent of Code Day 13: Claw Contraption          12/13/2024
 
 // https://adventofcode.com/2024/day/13
 
@@ -7341,4 +7341,4 @@ const day13 = (data: ClawMachine[]) => {
   return tokens;
 };
 
-console.log(day13(await getData("13")));
+console.log(day13(await getData("13"))); // 36758
