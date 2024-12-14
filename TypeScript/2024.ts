@@ -7219,7 +7219,7 @@ const day12 = async () => {
 console.log(await day12()); // 1461806 */
 
 // Advent of Code Day 13: Claw Contraption          12/13/2024
-
+/* 
 // https://adventofcode.com/2024/day/13
 
 // Next up: the lobby of a resort on a tropical island. The Historians take a moment to admire the hexagonal floor tiles before spreading out.
@@ -7333,7 +7333,6 @@ const analyzeMachine = ({ a, b, t }: ClawMachine) => {
 };
 
 const day13 = (data: ClawMachine[]) => {
-  console.log(data);
   let tokens = 0;
   for (const machineData of data) {
     tokens += analyzeMachine(machineData);
@@ -7341,4 +7340,195 @@ const day13 = (data: ClawMachine[]) => {
   return tokens;
 };
 
-console.log(day13(await getData("13"))); // 36758
+console.log(day13(await getData("13"))); // 36758 */
+
+// Advent of Code Day 14: Restroom Redoubt          12/14/2024
+
+// https://adventofcode.com/2024/day/14
+
+// One of The Historians needs to use the bathroom; fortunately, you know there's a bathroom near an unvisited location on their list, and so you're all quickly teleported directly to the lobby of Easter Bunny Headquarters.
+
+// Unfortunately, EBHQ seems to have "improved" bathroom security again after your last visit. The area outside the bathroom is swarming with robots!
+
+// To get The Historian safely to the bathroom, you'll need a way to predict where the robots will be in the future. Fortunately, they all seem to be moving on the tile floor in predictable straight lines.
+
+// You make a list (your puzzle input) of all of the robots' current positions (p) and velocities (v), one robot per line. For example:
+
+// p=0,4 v=3,-3
+// p=6,3 v=-1,-3
+// p=10,3 v=-1,2
+// p=2,0 v=2,-1
+// p=0,0 v=1,3
+// p=3,0 v=-2,-2
+// p=7,6 v=-1,-3
+// p=3,0 v=-1,-2
+// p=9,3 v=2,3
+// p=7,3 v=-1,2
+// p=2,4 v=2,-3
+// p=9,5 v=-3,-3
+// Each robot's position is given as p=x,y where x represents the number of tiles the robot is from the left wall and y represents the number of tiles from the top wall (when viewed from above). So, a position of p=0,0 means the robot is all the way in the top-left corner.
+
+// Each robot's velocity is given as v=x,y where x and y are given in tiles per second. Positive x means the robot is moving to the right, and positive y means the robot is moving down. So, a velocity of v=1,-2 means that each second, the robot moves 1 tile to the right and 2 tiles up.
+
+// The robots outside the actual bathroom are in a space which is 101 tiles wide and 103 tiles tall (when viewed from above). However, in this example, the robots are in a space which is only 11 tiles wide and 7 tiles tall.
+
+// The robots are good at navigating over/under each other (due to a combination of springs, extendable legs, and quadcopters), so they can share the same tile and don't interact with each other. Visually, the number of robots on each tile in this example looks like this:
+
+// 1.12.......
+// ...........
+// ...........
+// ......11.11
+// 1.1........
+// .........1.
+// .......1...
+// These robots have a unique feature for maximum bathroom security: they can teleport. When a robot would run into an edge of the space they're in, they instead teleport to the other side, effectively wrapping around the edges. Here is what robot p=2,4 v=2,-3 does for the first few seconds:
+
+// Initial state:
+// ...........
+// ...........
+// ...........
+// ...........
+// ..1........
+// ...........
+// ...........
+
+// After 1 second:
+// ...........
+// ....1......
+// ...........
+// ...........
+// ...........
+// ...........
+// ...........
+
+// After 2 seconds:
+// ...........
+// ...........
+// ...........
+// ...........
+// ...........
+// ......1....
+// ...........
+
+// After 3 seconds:
+// ...........
+// ...........
+// ........1..
+// ...........
+// ...........
+// ...........
+// ...........
+
+// After 4 seconds:
+// ...........
+// ...........
+// ...........
+// ...........
+// ...........
+// ...........
+// ..........1
+
+// After 5 seconds:
+// ...........
+// ...........
+// ...........
+// .1.........
+// ...........
+// ...........
+// ...........
+// The Historian can't wait much longer, so you don't have to simulate the robots for very long. Where will the robots be after 100 seconds?
+
+// In the above example, the number of robots on each tile after 100 seconds has elapsed looks like this:
+
+// ......2..1.
+// ...........
+// 1..........
+// .11........
+// .....1.....
+// ...12......
+// .1....1....
+// To determine the safest area, count the number of robots in each quadrant after 100 seconds. Robots that are exactly in the middle (horizontally or vertically) don't count as being in any quadrant, so the only relevant robots are:
+
+// ..... 2..1.
+// ..... .....
+// 1.... .....
+
+// ..... .....
+// ...12 .....
+// .1... 1....
+// In this example, the quadrants contain 1, 3, 4, and 1 robot. Multiplying these together gives a total safety factor of 12.
+
+// Predict the motion of the robots in your list within a space which is 101 tiles wide and 103 tiles tall. What will the safety factor be after exactly 100 seconds have elapsed?
+
+type Robot = {
+  p: { x: number; y: number };
+  v: { x: number; y: number };
+};
+
+const getData = async (filename: string): Promise<Robot[]> => {
+  let res: Robot[] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((response) => response.text())
+    .then((data) => {
+      const robots = data.split("\r\n").map((c) => c.split(" "));
+
+      for (const [p, v] of robots) {
+        let robot: Robot = { p: { x: 0, y: 0 }, v: { x: 0, y: 0 } };
+
+        robot.p.x = Number(p.substring(2, p.indexOf(",")));
+        robot.p.y = Number(p.substring(p.indexOf(",") + 1));
+        robot.v.x = Number(v.substring(2, v.indexOf(",")));
+        robot.v.y = Number(v.substring(v.indexOf(",") + 1));
+
+        res.push(robot);
+      }
+    });
+
+  return res;
+};
+
+const bounds = { x: 101, y: 103 };
+const xMiddle = ~~(bounds.x / 2);
+const yMiddle = ~~(bounds.y / 2);
+
+const getFinalQuadrant = ({ p, v }: Robot): number => {
+  // find final pos
+  let t = 0;
+
+  while (t++ < 100) {
+    // move robot
+    p.x += v.x;
+    p.y += v.y;
+
+    // wrap around
+    while (p.x < 0) p.x += bounds.x;
+    if (p.x >= bounds.x) p.x = p.x % bounds.x;
+    while (p.y < 0) p.y += bounds.y;
+    if (p.y >= bounds.y) p.y = p.y % bounds.y;
+
+    // *could avoid looping by using something like: p=(p+100*v)%bound
+  }
+
+  // return quadrant number (0-3)
+  if (p.x < xMiddle && p.y < yMiddle) return 0;
+  if (p.x > xMiddle && p.y < yMiddle) return 1;
+  if (p.x < xMiddle && p.y > yMiddle) return 2;
+  if (p.x > xMiddle && p.y > yMiddle) return 3;
+  return 4; // on x or y middle
+};
+
+const day14 = (robots: Robot[]) => {
+  // count robots in quadrants after movement
+  let quadrants = new Array(5).fill(0);
+
+  for (const robot of robots) {
+    quadrants[getFinalQuadrant(robot)]++;
+  }
+
+  // calc final safety factory
+  quadrants.pop(); // remove robots on middles
+  return quadrants.reduce((a, c) => a * c, 1);
+};
+
+console.log(day14(await getData("14"))); // 226548000
