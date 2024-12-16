@@ -7534,7 +7534,7 @@ const day14 = (robots: Robot[]) => {
 console.log(day14(await getData("14"))); // 226548000 */
 
 // Advent of Code Day 15: Warehouse Woes          12/15/2024
-
+/* 
 // https://adventofcode.com/2024/day/15
 
 // You appear back inside your own mini submarine! Each Historian drives their mini submarine in a different direction; maybe the Chief has his own submarine down here somewhere as well?
@@ -7912,4 +7912,185 @@ const day15 = ([mapData, moves]: [string[][], string]): number => {
   return sum;
 };
 
-console.log(day15(await getData("15"))); // 1463512
+console.log(day15(await getData("15"))); // 1463512 */
+
+// Advent of Code Day 16: Reindeer Maze         12/16/2024
+
+// https://adventofcode.com/2024/day/16
+
+// It's time again for the Reindeer Olympics! This year, the big event is the Reindeer Maze, where the Reindeer compete for the lowest score.
+
+// You and The Historians arrive to search for the Chief right as the event is about to start. It wouldn't hurt to watch a little, right?
+
+// The Reindeer start on the Start Tile (marked S) facing East and need to reach the End Tile (marked E). They can move forward one tile at a time (increasing their score by 1 point), but never into a wall (#). They can also rotate clockwise or counterclockwise 90 degrees at a time (increasing their score by 1000 points).
+
+// To figure out the best place to sit, you start by grabbing a map (your puzzle input) from a nearby kiosk. For example:
+
+// ###############
+// #.......#....E#
+// #.#.###.#.###.#
+// #.....#.#...#.#
+// #.###.#####.#.#
+// #.#.#.......#.#
+// #.#.#####.###.#
+// #...........#.#
+// ###.#.#####.#.#
+// #...#.....#.#.#
+// #.#.#.###.#.#.#
+// #.....#...#.#.#
+// #.###.#.#.#.#.#
+// #S..#.....#...#
+// ###############
+// There are many paths through this maze, but taking any of the best paths would incur a score of only 7036. This can be achieved by taking a total of 36 steps forward and turning 90 degrees a total of 7 times:
+
+// ###############
+// #.......#....E#
+// #.#.###.#.###^#
+// #.....#.#...#^#
+// #.###.#####.#^#
+// #.#.#.......#^#
+// #.#.#####.###^#
+// #..>>>>>>>>v#^#
+// ###^#.#####v#^#
+// #>>^#.....#v#^#
+// #^#.#.###.#v#^#
+// #^....#...#v#^#
+// #^###.#.#.#v#^#
+// #S..#.....#>>^#
+// ###############
+// Here's a second example:
+
+// #################
+// #...#...#...#..E#
+// #.#.#.#.#.#.#.#.#
+// #.#.#.#...#...#.#
+// #.#.#.#.###.#.#.#
+// #...#.#.#.....#.#
+// #.#.#.#.#.#####.#
+// #.#...#.#.#.....#
+// #.#.#####.#.###.#
+// #.#.#.......#...#
+// #.#.###.#####.###
+// #.#.#...#.....#.#
+// #.#.#.#####.###.#
+// #.#.#.........#.#
+// #.#.#.#########.#
+// #S#.............#
+// #################
+// In this maze, the best paths cost 11048 points; following one such path would look like this:
+
+// #################
+// #...#...#...#..E#
+// #.#.#.#.#.#.#.#^#
+// #.#.#.#...#...#^#
+// #.#.#.#.###.#.#^#
+// #>>v#.#.#.....#^#
+// #^#v#.#.#.#####^#
+// #^#v..#.#.#>>>>^#
+// #^#v#####.#^###.#
+// #^#v#..>>>>^#...#
+// #^#v###^#####.###
+// #^#v#>>^#.....#.#
+// #^#v#^#####.###.#
+// #^#v#^........#.#
+// #^#v#^#########.#
+// #S#>>^..........#
+// #################
+// Note that the path shown above includes one 90 degree turn as the very first move, rotating the Reindeer from facing East to facing North.
+
+// Analyze your map carefully. What is the lowest score a Reindeer could possibly get?
+
+const getData = async (filename: string): Promise<string[]> => {
+  let res: string[] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((response) => response.text())
+    .then((data) => {
+      res = data.split("\r\n");
+    });
+
+  return res;
+};
+
+const day16 = (map: string[]) => {
+  // find starting pos
+  let [x, y] = [-1, 0];
+  while (x == -1) {
+    y++;
+    x = map[y].indexOf("S");
+  }
+
+  // recursively explore
+  let minScore = Infinity;
+  const dir = new Map<string, { dx: number; dy: number }>();
+  dir.set("U", { dx: 0, dy: -1 });
+  dir.set("R", { dx: 1, dy: 0 });
+  dir.set("D", { dx: 0, dy: 1 });
+  dir.set("L", { dx: -1, dy: 0 });
+
+  let coordMinScore = new Map<string, number>(); // track lowest score to reach a point
+
+  const explore = (
+    x: number,
+    y: number,
+    curDir: string,
+    score: number,
+    explored: Set<string>
+  ) => {
+    if (minScore <= score) return; // shorter path exists
+
+    if (map[y][x] == "E") {
+      minScore = score; // new shortest path found
+      return;
+    }
+
+    const coordStr = `${x},${y}`;
+    explored.add(coordStr); // prevent looping
+
+    if (coordMinScore.has(coordStr) && coordMinScore.get(coordStr)! < score)
+      return; // shorter path exists to this point
+    else coordMinScore.set(coordStr, score); // shortest path for this point
+
+    // check adjacent moves
+    for (const [d, { dx, dy }] of dir.entries()) {
+      if (
+        !explored.has(`${x + dx},${y + dy}`) &&
+        (map[y + dy][x + dx] == "." || map[y + dy][x + dx] == "E")
+      ) {
+        let newScore = score + 1; // move
+
+        if (d != curDir) {
+          newScore += 1000; // rotate >= 90deg
+
+          if (
+            (curDir == "U" && d == "D") ||
+            (curDir == "R" && d == "L") ||
+            (curDir == "D" && d == "U") ||
+            (curDir == "L" && d == "R")
+          )
+            newScore += 1000; // rotate 180deg
+        }
+
+        explore(x + dx, y + dy, d, newScore, new Set([...explored]));
+      }
+    }
+  };
+
+  // Start exploration
+  for (const [d, { dx, dy }] of dir.entries()) {
+    if (map[y + dy][x + dx] == "." || map[y + dy][x + dx] == "E") {
+      let startScore = 1;
+      if (d == "U" || d == "D") startScore += 1000;
+      if (d == "L") startScore += 2000;
+
+      explore(x + dx, y + dy, d, startScore, new Set(`${x},${y}`));
+    }
+  }
+
+  // return shortest path
+  return minScore;
+};
+
+console.log(day16(await getData("16"))); // 85432
+
+// could've probably learnt Dijkstra's in the time it took to run this
