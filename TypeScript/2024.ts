@@ -8363,7 +8363,7 @@ const day18 = (bytes: number[][]) => {
 console.log(day18(await getData("18"))); // 364 */
 
 // Advent of Code Day 19: Linen Layout          12/19/2024
-
+/* 
 // https://adventofcode.com/2024/day/19
 
 // Today, The Historians take you up to the hot springs on Gear Island! Very suspiciously, absolutely nothing goes wrong as they begin their careful search of the vast field of helixes.
@@ -8435,39 +8435,250 @@ const day19 = ([patterns, designs]: [string[], string[]]) => {
       const len = pattern.length;
 
       let idx = design.indexOf(pattern);
-      let pos = 1;
 
       while (idx != -1) {
         if (!idxData.has(idx)) idxData.set(idx, []);
         idxData.get(idx)?.push(len);
 
-        idx = design.indexOf(pattern, pos++);
+        idx = design.indexOf(pattern, idx + 1);
       }
     }
 
     // recursively build different pattern combinations, trying to build design
     let impossibleIdx = new Set(); // avoid repeated checking of idxs (deadend)
+    let isValid = false;
 
-    const buildCombo = (idx: number, sol: { isValid: boolean }) => {
-      if (sol.isValid || impossibleIdx.has(idx)) return; // deadend
+    const buildCombo = (idx: number) => {
+      if (isValid || impossibleIdx.has(idx)) return; // solved or deadend
 
       if (idx == n) {
-        sol.isValid = true; // valid combo found
+        isValid = true; // valid combo found
         possibleDesigns++;
         return;
       }
 
       for (const patternLen of idxData.get(idx) ?? []) {
-        buildCombo(idx + patternLen, sol);
+        buildCombo(idx + patternLen);
       }
 
       impossibleIdx.add(idx); // no solution for this idx (deadend)
     };
 
-    buildCombo(0, { isValid: false });
+    buildCombo(0);
   }
 
   return possibleDesigns;
 };
 
-console.log(day19(await getData("19"))); // 226
+console.log(day19(await getData("19"))); // 226 */
+
+// Advent of Code Day 20: Race Condition          12/20/2024
+
+// https://adventofcode.com/2024/day/20
+
+// The Historians are quite pixelated again. This time, a massive, black building looms over you - you're right outside the CPU!
+
+// While The Historians get to work, a nearby program sees that you're idle and challenges you to a race. Apparently, you've arrived just in time for the frequently-held race condition festival!
+
+// The race takes place on a particularly long and twisting code path; programs compete to see who can finish in the fewest picoseconds. The winner even gets their very own mutex!
+
+// They hand you a map of the racetrack (your puzzle input). For example:
+
+// ###############
+// #...#...#.....#
+// #.#.#.#.#.###.#
+// #S#...#.#.#...#
+// #######.#.#.###
+// #######.#.#...#
+// #######.#.###.#
+// ###..E#...#...#
+// ###.#######.###
+// #...###...#...#
+// #.#####.#.###.#
+// #.#...#.#.#...#
+// #.#.#.#.#.#.###
+// #...#...#...###
+// ###############
+
+// The map consists of track (.) - including the start (S) and end (E) positions (both of which also count as track) - and walls (#).
+
+// When a program runs through the racetrack, it starts at the start position. Then, it is allowed to move up, down, left, or right; each such move takes 1 picosecond. The goal is to reach the end position as quickly as possible. In this example racetrack, the fastest time is 84 picoseconds.
+
+// Because there is only a single path from the start to the end and the programs all go the same speed, the races used to be pretty boring. To make things more interesting, they introduced a new rule to the races: programs are allowed to cheat.
+
+// The rules for cheating are very strict. Exactly once during a race, a program may disable collision for up to 2 picoseconds. This allows the program to pass through walls as if they were regular track. At the end of the cheat, the program must be back on normal track again; otherwise, it will receive a segmentation fault and get disqualified.
+
+// So, a program could complete the course in 72 picoseconds (saving 12 picoseconds) by cheating for the two moves marked 1 and 2:
+
+// ###############
+// #...#...12....#
+// #.#.#.#.#.###.#
+// #S#...#.#.#...#
+// #######.#.#.###
+// #######.#.#...#
+// #######.#.###.#
+// ###..E#...#...#
+// ###.#######.###
+// #...###...#...#
+// #.#####.#.###.#
+// #.#...#.#.#...#
+// #.#.#.#.#.#.###
+// #...#...#...###
+// ###############
+// Or, a program could complete the course in 64 picoseconds (saving 20 picoseconds) by cheating for the two moves marked 1 and 2:
+
+// ###############
+// #...#...#.....#
+// #.#.#.#.#.###.#
+// #S#...#.#.#...#
+// #######.#.#.###
+// #######.#.#...#
+// #######.#.###.#
+// ###..E#...12..#
+// ###.#######.###
+// #...###...#...#
+// #.#####.#.###.#
+// #.#...#.#.#...#
+// #.#.#.#.#.#.###
+// #...#...#...###
+// ###############
+// This cheat saves 38 picoseconds:
+
+// ###############
+// #...#...#.....#
+// #.#.#.#.#.###.#
+// #S#...#.#.#...#
+// #######.#.#.###
+// #######.#.#...#
+// #######.#.###.#
+// ###..E#...#...#
+// ###.####1##.###
+// #...###.2.#...#
+// #.#####.#.###.#
+// #.#...#.#.#...#
+// #.#.#.#.#.#.###
+// #...#...#...###
+// ###############
+// This cheat saves 64 picoseconds and takes the program directly to the end:
+
+// ###############
+// #...#...#.....#
+// #.#.#.#.#.###.#
+// #S#...#.#.#...#
+// #######.#.#.###
+// #######.#.#...#
+// #######.#.###.#
+// ###..21...#...#
+// ###.#######.###
+// #...###...#...#
+// #.#####.#.###.#
+// #.#...#.#.#...#
+// #.#.#.#.#.#.###
+// #...#...#...###
+// ###############
+// Each cheat has a distinct start position (the position where the cheat is activated, just before the first move that is allowed to go through walls) and end position; cheats are uniquely identified by their start position and end position.
+
+// In this example, the total number of cheats (grouped by the amount of time they save) are as follows:
+
+// There are 14 cheats that save 2 picoseconds.
+// There are 14 cheats that save 4 picoseconds.
+// There are 2 cheats that save 6 picoseconds.
+// There are 4 cheats that save 8 picoseconds.
+// There are 2 cheats that save 10 picoseconds.
+// There are 3 cheats that save 12 picoseconds.
+// There is one cheat that saves 20 picoseconds.
+// There is one cheat that saves 36 picoseconds.
+// There is one cheat that saves 38 picoseconds.
+// There is one cheat that saves 40 picoseconds.
+// There is one cheat that saves 64 picoseconds.
+
+// You aren't sure what the conditions of the racetrack will be like, so to give yourself as many options as possible, you'll need a list of the best cheats. How many cheats would save you at least 100 picoseconds?
+
+const getData = async (filename: string): Promise<(string | number)[][]> => {
+  let res: string[][] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((response) => response.text())
+    .then((data) => {
+      res = data.split("\r\n").map((c) => c.split(""));
+    });
+
+  return res;
+};
+
+const day20 = (map: (string | number)[][]): number => {
+  const n = map.length;
+  const m = map[0].length;
+
+  // find starting pos
+  let [sx, sy] = [-1, 0];
+  while (sx == -1) {
+    sy++;
+    sx = map[sy].indexOf("S");
+  }
+
+  // label time required to get to points on the path
+  let [x, y] = [sx, sy];
+  let time = 1;
+
+  const dir = [
+    { dx: 0, dy: -1 }, // up
+    { dx: 1, dy: 0 }, // right
+    { dx: 0, dy: 1 }, // down
+    { dx: -1, dy: 0 }, // left
+  ];
+
+  while (map[y][x] != "E") {
+    map[y][x] = time++;
+
+    for (const { dx, dy } of dir) {
+      if (map[y + dy][x + dx] == "." || map[y + dy][x + dx] == "E") {
+        y += dy;
+        x += dx;
+        break; // only 1 path available
+      }
+    }
+  }
+  map[y][x] = time; // "E" time
+
+  // navigate path, attempting cheats
+  let bestCheats = 0; // > 100ps saved
+  [x, y] = [sx, sy]; // return to starting pos
+  const end = time; // end
+  time = 0; // start
+
+  while (time++ != end) {
+    // find walls to cheat
+    for (const { dx, dy } of dir) {
+      if (y + dy > 0 && y + dy < n - 1 && x + dx > 0 && x + dx < m - 1) {
+        // avoiding edges of map
+
+        if (map[y + dy][x + dx] == "#") {
+          // inside wall found, attempting cheating
+
+          if (map[y + 2 * dy][x + 2 * dx] != "#") {
+            // cheat found, back on path
+            const timeSave = Number(map[y + 2 * dy][x + 2 * dx]) - time;
+
+            if (timeSave > 100) {
+              bestCheats++; // saved > 100ps
+            }
+          }
+        }
+      }
+    }
+
+    // next move on path
+    for (const { dx, dy } of dir) {
+      if (map[y + dy][x + dx] == time + 1) {
+        y += dy;
+        x += dx;
+        break; // only 1 path available
+      }
+    }
+  }
+
+  return bestCheats;
+};
+
+console.log(day20(await getData("20"))); // 1441
