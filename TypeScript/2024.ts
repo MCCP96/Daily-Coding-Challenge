@@ -8898,7 +8898,7 @@ console.log(day21(await getData("21"))); // 165062 (too high)
 // couldnt seem to hit the example either */
 
 // Advent of Code Day 22: Monkey Market         12/22/2024
-
+/* 
 // https://adventofcode.com/2024/day/22
 
 // As you're all teleported deep into the jungle, a monkey steals The Historians' device! You'll need get it back while The Historians are looking for the Chief.
@@ -9001,4 +9001,135 @@ const day22 = (secretNums: bigint[]): bigint => {
 
 console.log(day22(await getData("22"))); // 17577894908
 
-// so much easier than yesterday's!
+// so much easier than yesterday's! */
+
+// Advent of Code Day 23: LAN Party         12/23/2024
+
+// https://adventofcode.com/2024/day/23
+
+// As The Historians wander around a secure area at Easter Bunny HQ, you come across posters for a LAN party scheduled for today! Maybe you can find it; you connect to a nearby datalink port and download a map of the local network (your puzzle input).
+
+// The network map provides a list of every connection between two computers. For example:
+
+// kh-tc
+// qp-kh
+// de-cg
+// ka-co
+// yn-aq
+// qp-ub
+// cg-tb
+// vc-aq
+// tb-ka
+// wh-tc
+// yn-cg
+// kh-ub
+// ta-co
+// de-co
+// tc-td
+// tb-wq
+// wh-td
+// ta-ka
+// td-qp
+// aq-cg
+// wq-ub
+// ub-vc
+// de-ta
+// wq-aq
+// wq-vc
+// wh-yn
+// ka-de
+// kh-ta
+// co-tc
+// wh-qp
+// tb-vc
+// td-yn
+// Each line of text in the network map represents a single connection; the line kh-tc represents a connection between the computer named kh and the computer named tc. Connections aren't directional; tc-kh would mean exactly the same thing.
+
+// LAN parties typically involve multiplayer games, so maybe you can locate it by finding groups of connected computers. Start by looking for sets of three computers where each computer in the set is connected to the other two computers.
+
+// In this example, there are 12 such sets of three inter-connected computers:
+
+// aq,cg,yn
+// aq,vc,wq
+// co,de,ka
+// co,de,ta
+// co,ka,ta
+// de,ka,ta
+// kh,qp,ub
+// qp,td,wh
+// tb,vc,wq
+// tc,td,wh
+// td,wh,yn
+// ub,vc,wq
+// If the Chief Historian is here, and he's at the LAN party, it would be best to know that right away. You're pretty sure his computer's name starts with t, so consider only sets of three computers where at least one computer's name starts with t. That narrows the list down to 7 sets of three inter-connected computers:
+
+// co,de,ta
+// co,ka,ta
+// de,ka,ta
+// qp,td,wh
+// tb,vc,wq
+// tc,td,wh
+// td,wh,yn
+// Find all the sets of three inter-connected computers. How many contain at least one computer with a name that starts with t?
+
+const getData = async (filename: string): Promise<string[]> => {
+  let res: string[] = [];
+
+  await fetch(`/TypeScript/inputs/${filename}.txt`)
+    .then((response) => response.text())
+    .then((data) => {
+      res = data.split("\r\n");
+    });
+
+  return res;
+};
+
+const day23 = (connections: string[]): number => {
+  // map all connections
+  const map = new Map<string, Set<string>>();
+
+  for (const data of connections) {
+    const [a, b] = data.split("-");
+
+    if (!map.has(a)) map.set(a, new Set());
+    map.get(a)?.add(b);
+    if (!map.has(b)) map.set(b, new Set());
+    map.get(b)?.add(a);
+  }
+
+  // find sets of 3 inter-connections
+  let sets: Set<string> = new Set();
+
+  for (const [a, aSet] of map.entries()) {
+    for (const b of aSet) {
+      const bSet = map.get(b)!;
+
+      for (const c of bSet) {
+        const cSet = map.get(c)!;
+
+        if (
+          aSet.has(b) &&
+          aSet.has(c) &&
+          bSet.has(a) &&
+          bSet.has(c) &&
+          cSet.has(a) &&
+          cSet.has(b)
+        )
+          sets.add([a, b, c].sort().join(",")); // prevent duplicates
+      }
+    }
+  }
+
+  // count those containing "t"s
+  let count = 0;
+
+  for (const str of sets) {
+    if (str[0] == "t" || str[3] == "t" || str[6] == "t") {
+      count++;
+    }
+  }
+
+  return count;
+};
+
+console.log(day23(await getData("23"))); // 1423
