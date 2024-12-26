@@ -9325,7 +9325,7 @@ const day24 = ([states, ops]: [State, Operations]): number => {
 console.log(day24(await getData("24"))); // 48063513640678 */
 
 // Advent of Code Day 25: Code Chronicle          12/25/2024
-
+/* 
 // https://adventofcode.com/2024/day/25
 
 // Out of ideas and time, The Historians agree that they should go back to check the Chief Historian's office one last time, just in case he went back there without you noticing.
@@ -9500,4 +9500,92 @@ const day25 = (schematics: string[][]): number => {
 
 console.log(day25(await getData("25"))); // 3360
 
-// 🎅🎄
+// 🎅🎄 */
+
+// Fraction Addition and Subtraction					12/26/2024
+
+// https://leetcode.com/problems/fraction-addition-and-subtraction/
+
+// Given a string expression representing an expression of fraction addition and subtraction, return the calculation result in string format.
+
+// The final result should be an irreducible fraction. If your final result is an integer, change it to the format of a fraction that has a denominator 1. So in this case, 2 should be converted to 2/1.
+
+// Example 1:
+// 		Input: expression = "-1/2+1/2"
+// 		Output: "0/1"
+
+// Example 2:
+// 		Input: expression = "-1/2+1/2+1/3"
+// 		Output: "1/3"
+
+// Example 3:
+// 		Input: expression = "1/3-1/2"
+// 		Output: "-1/6"
+
+// Constraints:
+//		The input string only contains '0' to '9', '/', '+' and '-'. So does the output.
+//		Each fraction (input and output) has the format ±numerator/denominator. If the first input fraction or the output is positive, then '+' will be omitted.
+//		The input only contains valid irreducible fractions, where the numerator and denominator of each fraction will always be in the range [1, 10]. If the denominator is 1, it means this fraction is actually an integer in a fraction format defined above.
+//		The number of given fractions will be in the range [1, 10].
+//		The numerator and denominator of the final result are guaranteed to be valid and in the range of 32-bit int.
+
+const fractionAddition = (exp: string): string => {
+  // get fractions
+  let fractions: string[] = [];
+  let idx = 0;
+
+  while (idx != -1) {
+    const nextIdx = idx + exp.slice(idx + 1).search(/\+|-/) + 1;
+
+    let frac = "";
+    if (idx != nextIdx) {
+      frac = exp.substring(idx, nextIdx);
+      idx = nextIdx;
+    } else {
+      frac = exp.substring(idx);
+      idx = -1;
+    }
+
+    if (frac[0] == "+") frac = frac.substring(1);
+    fractions.push(frac);
+  }
+
+  // find common denominator
+  let commonDenom = 1;
+  let commonFound = false;
+
+  while (!commonFound) {
+    commonFound = true;
+
+    for (const frac of fractions) {
+      const denom = Number(frac.substring(frac.indexOf("/") + 1));
+
+      while (commonDenom % denom != 0) {
+        commonFound = false;
+        commonDenom++;
+      }
+    }
+  }
+
+  // sum
+  let sumNumerator: number = fractions.reduce((acc, frac, i) => {
+    let num = Number(frac.substring(0, frac.indexOf("/")));
+    num *= commonDenom / Number(frac.substring(frac.indexOf("/") + 1));
+    return acc + num;
+  }, 0);
+
+  // irreducible fraction
+  if (sumNumerator == 0) return `0/1`;
+
+  for (let d = commonDenom; d > 0; d--) {
+    if (sumNumerator % d == 0 && commonDenom % d == 0) {
+      sumNumerator = sumNumerator / d;
+      commonDenom = commonDenom / d;
+    }
+  }
+  return `${sumNumerator}/${commonDenom}`;
+};
+
+console.log(fractionAddition("-1/2+1/2")); //  "0/1"
+console.log(fractionAddition("-1/2+1/2+1/3")); //  "1/3"
+console.log(fractionAddition("1/3-1/2")); //  "-1/6"
