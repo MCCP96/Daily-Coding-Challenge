@@ -9591,7 +9591,7 @@ console.log(fractionAddition("-1/2+1/2+1/3")); //  "1/3"
 console.log(fractionAddition("1/3-1/2")); //  "-1/6" */
 
 // Find the Peaks					12/27/2024
-
+/* 
 // https://leetcode.com/problems/find-the-peaks/description/
 
 // You are given a 0-indexed array mountain. Your task is to find all the peaks in the mountain array.
@@ -9635,4 +9635,68 @@ const findPeaks = (mountains: number[]): number[] => {
 console.log(findPeaks([2, 4, 4])); //  []
 console.log(findPeaks([1, 4, 3, 8, 5])); //  [1,3]
 
-// doing easys til the end of the year
+// doing easys til the end of the year */
+
+// Find the Distinct Difference Array					12/28/2024
+
+// https://leetcode.com/problems/find-the-distinct-difference-array/description/
+
+// You are given a 0-indexed array nums of length n.
+
+// The distinct difference array of nums is an array diff of length n such that diff[i] is equal to the number of distinct elements in the suffix nums[i + 1, ..., n - 1] subtracted from the number of distinct elements in the prefix nums[0, ..., i].
+
+// Return the distinct difference array of nums.
+
+// Note that nums[i, ..., j] denotes the subarray of nums starting at index i and ending at index j inclusive. Particularly, if i > j then nums[i, ..., j] denotes an empty subarray.
+
+// Example 1:
+// 		Input: nums = [1,2,3,4,5]
+// 		Output: [-3,-1,1,3,5]
+// Explanation: For index i = 0, there is 1 element in the prefix and 4 distinct elements in the suffix. Thus, diff[0] = 1 - 4 = -3.
+// 		For index i = 1, there are 2 distinct elements in the prefix and 3 distinct elements in the suffix. Thus, diff[1] = 2 - 3 = -1.
+// 		For index i = 2, there are 3 distinct elements in the prefix and 2 distinct elements in the suffix. Thus, diff[2] = 3 - 2 = 1.
+// 		For index i = 3, there are 4 distinct elements in the prefix and 1 distinct element in the suffix. Thus, diff[3] = 4 - 1 = 3.
+// 		For index i = 4, there are 5 distinct elements in the prefix and no elements in the suffix. Thus, diff[4] = 5 - 0 = 5.
+
+// Example 2:
+// 		Input: nums = [3,2,3,4,2]
+// 		Output: [-2,-1,0,2,3]
+// Explanation: For index i = 0, there is 1 element in the prefix and 3 distinct elements in the suffix. Thus, diff[0] = 1 - 3 = -2.
+// 		For index i = 1, there are 2 distinct elements in the prefix and 3 distinct elements in the suffix. Thus, diff[1] = 2 - 3 = -1.
+// 		For index i = 2, there are 2 distinct elements in the prefix and 2 distinct elements in the suffix. Thus, diff[2] = 2 - 2 = 0.
+// 		For index i = 3, there are 3 distinct elements in the prefix and 1 distinct element in the suffix. Thus, diff[3] = 3 - 1 = 2.
+// 		For index i = 4, there are 3 distinct elements in the prefix and no elements in the suffix. Thus, diff[4] = 3 - 0 = 3.
+
+// Constraints:
+//		1 <= n == nums.length <= 50
+//		1 <= nums[i] <= 50
+
+const distinctDifferenceArray = (nums: number[]): number[] => {
+  const n = nums.length;
+
+  // count distinct nums
+  let suffix = new Map<number, number>();
+
+  for (const num of nums) {
+    if (!suffix.has(num)) suffix.set(num, 1);
+    else suffix.set(num, suffix.get(num)! + 1);
+  }
+
+  // build diff
+  let diff = new Array(n);
+  let prefix = new Set();
+
+  for (let i = 0; i < n; i++) {
+    prefix.add(nums[i]);
+
+    if (suffix.get(nums[i]) == 1) suffix.delete(nums[i]);
+    else suffix.set(nums[i], suffix.get(nums[i])! - 1);
+
+    diff[i] = prefix.size - suffix.size;
+  }
+
+  return diff;
+};
+
+console.log(distinctDifferenceArray([1, 2, 3, 4, 5])); //  [-3,-1,1,3,5]
+console.log(distinctDifferenceArray([3, 2, 3, 4, 2])); //  [-2,-1,0,2,3]
