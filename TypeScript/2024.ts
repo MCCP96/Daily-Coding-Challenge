@@ -9702,7 +9702,7 @@ console.log(distinctDifferenceArray([1, 2, 3, 4, 5])); //  [-3,-1,1,3,5]
 console.log(distinctDifferenceArray([3, 2, 3, 4, 2])); //  [-2,-1,0,2,3] */
 
 // Find the Key of the Numbers					12/29/2024
-
+/* 
 // https://leetcode.com/problems/find-the-key-of-the-numbers/description/
 
 // You are given three positive integers num1, num2, and num3.
@@ -9753,4 +9753,50 @@ const generateKey = (num1: number, num2: number, num3: number): number => {
 
 console.log(generateKey(1, 10, 1000)); //  0
 console.log(generateKey(987, 879, 798)); //  777
-console.log(generateKey(1, 2, 3)); //  1
+console.log(generateKey(1, 2, 3)); //  1 */
+
+// Smallest Number With All Set Bits					12/30/2024
+
+// https://leetcode.com/problems/smallest-number-with-all-set-bits/description/
+
+// You are given a positive number n.
+
+// Return the smallest number x greater than or equal to n, such that the binary representation of x contains only
+
+// set bits
+
+// Example 1:
+// 		Input: n = 5
+// 		Output: 7
+// Explanation:
+// 		The binary representation of 7 is "111".
+
+// Example 2:
+// 		Input: n = 10
+// 		Output: 15
+// Explanation:
+// 		The binary representation of 15 is "1111".
+
+// Example 3:
+// 		Input: n = 3
+// 		Output: 3
+// Explanation:
+// 		The binary representation of 3 is "11".
+
+// Constraints:
+//		1 <= n <= 1000
+
+const smallestNumber = (n: number): number => {
+  let x = 0;
+  let pow = 0;
+
+  while (x < n) {
+    x += 2 ** pow++;
+  }
+
+  return x;
+};
+
+console.log(smallestNumber(5)); //  7
+console.log(smallestNumber(10)); //  15
+console.log(smallestNumber(3)); //  3
