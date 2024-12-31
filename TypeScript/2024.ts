@@ -9756,7 +9756,7 @@ console.log(generateKey(987, 879, 798)); //  777
 console.log(generateKey(1, 2, 3)); //  1 */
 
 // Smallest Number With All Set Bits					12/30/2024
-
+/* 
 // https://leetcode.com/problems/smallest-number-with-all-set-bits/description/
 
 // You are given a positive number n.
@@ -9799,4 +9799,44 @@ const smallestNumber = (n: number): number => {
 
 console.log(smallestNumber(5)); //  7
 console.log(smallestNumber(10)); //  15
-console.log(smallestNumber(3)); //  3
+console.log(smallestNumber(3)); //  3 */
+
+// Special Array I					12/31/2024
+
+// https://leetcode.com/problems/special-array-i/description/
+
+// An array is considered special if every pair of its adjacent elements contains two numbers with different parity.
+
+// You are given an array of integers nums. Return true if nums is a special array, otherwise, return false.
+
+// Example 1:
+// 		Input: nums = [1]
+// 		Output: true
+// Explanation:
+// 		There is only one element. So the answer is true.
+
+// Example 2:
+// 		Input: nums = [2,1,4]
+// 		Output: true
+// Explanation:
+// 		There is only two pairs: (2,1) and (1,4), and both of them contain numbers with different parity. So the answer is true.
+
+// Example 3:
+// 		Input: nums = [4,3,1,6]
+// 		Output: false
+// Explanation:
+// 		nums[1] and nums[2] are both odd. So the answer is false.
+
+// Constraints:
+//		1 <= nums.length <= 100
+//		1 <= nums[i] <= 100
+
+const isArraySpecial = (nums: number[]): boolean => {
+  const n = nums.length;
+  for (let i = 1; i < n; i++) if (nums[i] % 2 == nums[i - 1] % 2) return false;
+  return true;
+};
+
+console.log(isArraySpecial([1])); //  true
+console.log(isArraySpecial([2, 1, 4])); //  true
+console.log(isArraySpecial([4, 3, 1, 6])); //  false
