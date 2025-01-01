@@ -3,3 +3,11 @@
 tsconfig.json
 /TypeScript/*.js
 /TypeScript/inputs/
+
+/React/2025/node_modules
+/React/2025/public
+/React/2025/next*
+/React/2025/.next
+/React/2025/package*
+/React/2025/src/app/favicon*
+/React/2025/src/app/*.css
