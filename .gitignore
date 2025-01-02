@@ -10,4 +10,4 @@ tsconfig.json
 /React/2025/.next
 /React/2025/package*
 /React/2025/src/app/favicon*
-/React/2025/src/app/*.css
+# /React/2025/src/app/*.css
