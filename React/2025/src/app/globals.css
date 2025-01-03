@@ -1,5 +1,6 @@
 :root {
   --background: #f0f0f0;
+  --hover-background: #e0e0e0;
   --foreground: #202020;
 }
 
@@ -7,6 +8,7 @@
   :root {
     --background: #1a1a1a;
     --foreground: #f5f5f5;
+    --hover-background: #2a2a2a;
   }
 }
 
