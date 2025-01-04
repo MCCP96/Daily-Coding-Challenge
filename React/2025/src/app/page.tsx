@@ -1,23 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { ExpenseItem } from "./components/ExpenseItem";
+import { ExpenseList } from "./components/ExpenseList";
 import { NewExpenseForm } from "./components/NewExpenseForm";
 import styles from "./page.module.css";
+import { formatNumberWithCommas } from "./utils/numberUtils";
 
-type ExpenseItem = {
-  id: number;
-  title: string;
-  cost: number;
-};
+// Total cost          01/04/2025
 
-// Expense Tracker App          01/03/2025
-
-// changed from todo to expense tracker
-// implemented adding expenses
+// Add total to top of list
+// Refactor into ExpenseList component
 
 export default function Home() {
-  const [expenses, setExpenses] = useState<{ [key: string]: ExpenseItem }>({
+  const [expenses, setExpenses] = useState<{ [key: string]: Expense }>({
     1: { id: 1, title: "Groceries", cost: 106 },
     2: { id: 2, title: "Gym", cost: 87 },
     3: { id: 3, title: "Gas", cost: 75 },
@@ -43,13 +38,16 @@ export default function Home() {
     <div className={styles.page}>
       <h1>Expenses</h1>
 
-      {Object.entries(expenses).map(([k, expense]) => (
-        <ExpenseItem
-          key={expense.id}
-          expense={expense}
-          onDelete={handleExpenseDelete}
-        />
-      ))}
+      <div className={styles.totalCost}>
+        <h2>
+          $
+          {formatNumberWithCommas(
+            Object.values(expenses).reduce((acc, e) => acc + e.cost, 0)
+          )}
+        </h2>
+      </div>
+
+      <ExpenseList expenses={expenses} onDelete={handleExpenseDelete} />
 
       <div className={styles.newExpenseForm}>
         <NewExpenseForm onAddExpense={handleAddExpense} />

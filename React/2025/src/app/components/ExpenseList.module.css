@@ -1,0 +1,16 @@
+.expenseList {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 30rem;
+  gap: 0.4rem;
+}
+
+.expenseItem {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
