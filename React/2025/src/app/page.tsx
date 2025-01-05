@@ -6,10 +6,9 @@ import { NewExpenseForm } from "./components/NewExpenseForm";
 import styles from "./page.module.css";
 import { formatNumberWithCommas } from "./utils/numberUtils";
 
-// Total cost          01/04/2025
+// Navbar          01/05/2025
 
-// Add total to top of list
-// Refactor into ExpenseList component
+// Added a basic navigation bar
 
 export default function Home() {
   const [expenses, setExpenses] = useState<{ [key: string]: Expense }>({
