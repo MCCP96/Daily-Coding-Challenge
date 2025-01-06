@@ -4,3 +4,11 @@
   align-items: center;
   padding: 2rem;
 }
+
+.totalCost {
+  margin-bottom: 2rem;
+}
+
+.newExpenseForm {
+  margin-top: 2rem;
+}
