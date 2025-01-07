@@ -3,3 +3,10 @@ type Expense = {
   title: string;
   cost: number;
 };
+
+type Income = {
+  id: number;
+  name: string;
+  value: number;
+  frequency: string;
+};

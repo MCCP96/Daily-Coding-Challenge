@@ -3,9 +3,9 @@
 import styles from "./page.module.css";
 
 export default function Home() {
-  // Refactoring          01/06/2025
+  // Income Form          01/07/2025
 
-  // minor refactoring and code cleanuo
+  // added form for reoccuring incomes
 
   return (
     <div className={styles.page}>
