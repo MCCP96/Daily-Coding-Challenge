@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ExpenseList } from "../components/ExpenseList";
+import { BudgetList } from "../components/BudgetList";
 import { NewExpenseForm } from "../components/NewExpenseForm";
 import styles from "./page.module.css";
 import { formatNumberWithCommas } from "../utils/numberUtils";
@@ -42,7 +42,7 @@ export default function Expenses() {
         </h2>
       </div>
 
-      <ExpenseList expenses={expenses} onDelete={handleExpenseDelete} />
+      <BudgetList items={expenses} onDelete={handleExpenseDelete} />
 
       <div className={styles.newExpenseForm}>
         <NewExpenseForm onAddExpense={handleAddExpense} />

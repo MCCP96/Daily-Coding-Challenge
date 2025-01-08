@@ -3,9 +3,9 @@
 import styles from "./page.module.css";
 
 export default function Home() {
-  // Income Form          01/07/2025
+  // Budget List/Item          01/08/2025
 
-  // added form for reoccuring incomes
+  // Refactored code to use the BudgetList and BudgetItem components
 
   return (
     <div className={styles.page}>

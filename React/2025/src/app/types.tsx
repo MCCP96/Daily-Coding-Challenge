@@ -6,7 +6,7 @@ type Expense = {
 
 type Income = {
   id: number;
-  name: string;
+  title: string;
   value: number;
   frequency: string;
 };
