@@ -3,9 +3,9 @@
 import styles from "./page.module.css";
 
 export default function Home() {
-  // Budget List/Item          01/08/2025
+  // Income total          01/09/2025
 
-  // Refactored code to use the BudgetList and BudgetItem components
+  // Added a weekly total of income to top of incomes page
 
   return (
     <div className={styles.page}>

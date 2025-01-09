@@ -13,20 +13,20 @@ export default function Expenses() {
     3: { id: 3, title: "Gas", cost: 75 },
   });
 
-  const handleExpenseDelete = (id: number) => {
-    setExpenses((prev) => {
-      const state = { ...prev };
-      delete state[id];
-      return state;
-    });
-  };
-
   const handleAddExpense = (title: string, cost: number) => {
     const id = Date.now();
     setExpenses((prev) => ({
       ...prev,
       [id]: { id, title, cost },
     }));
+  };
+
+  const handleExpenseDelete = (id: number) => {
+    setExpenses((prev) => {
+      const state = { ...prev };
+      delete state[id];
+      return state;
+    });
   };
 
   return (
