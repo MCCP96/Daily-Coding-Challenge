@@ -4,3 +4,17 @@
   align-items: center;
   padding: 2rem;
 }
+
+.totalBudget {
+  margin-bottom: 2rem;
+}
+
+.section {
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 30rem;
+}
+
+.section h2 {
+  margin-bottom: 1rem;
+}
