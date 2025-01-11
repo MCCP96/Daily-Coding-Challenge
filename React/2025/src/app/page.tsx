@@ -1,56 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { BudgetList } from "./components/BudgetList";
 import styles from "./page.module.css";
 import { calculateTotalBudget } from "./utils/incomeUtils";
 import { formatNumberWithCommas } from "./utils/numberUtils";
+import { RootState, AppDispatch } from "./store";
+import {
+  deleteExpense,
+  deleteRecurringExpense,
+  deleteIncome,
+} from "./budgetSlice";
 
 export default function Home() {
-  // Overview page          01/10/2025
+  // Budget App - React Redux          01/11/2025
 
-  // filled out the overview page with the expenses, recurring expenses, and income
+  // implemented react-redux, will ensure data changes persist across the app tomorrow using localstorage
 
-  const [expenses, setExpenses] = useState<{ [key: string]: Expense }>({
-    1: { id: 1, title: "Groceries", cost: 106 },
-    2: { id: 2, title: "Gym", cost: 87 },
-    3: { id: 3, title: "Gas", cost: 75 },
-  });
-
-  const [recurringExpenses, setRecurringExpenses] = useState<{
-    [key: string]: Expense;
-  }>({
-    4: { id: 4, title: "Rent", cost: 1200 },
-    5: { id: 5, title: "Internet", cost: 60 },
-  });
-
-  const [incomes, setIncomes] = useState<{ [key: string]: Income }>({
-    6: { id: 6, title: "Salary", value: 3000, frequency: "monthly" },
-    7: { id: 7, title: "Freelance", value: 500, frequency: "bi-weekly" },
-  });
+  const dispatch = useDispatch<AppDispatch>();
+  const expenses = useSelector((state: RootState) => state.budget.expenses);
+  const recurringExpenses = useSelector(
+    (state: RootState) => state.budget.recurringExpenses
+  );
+  const incomes = useSelector((state: RootState) => state.budget.incomes);
 
   const handleDeleteExpense = (id: number) => {
-    setExpenses((prev) => {
-      const state = { ...prev };
-      delete state[id];
-      return state;
-    });
+    dispatch(deleteExpense(id));
   };
 
   const handleDeleteRecurringExpense = (id: number) => {
-    setRecurringExpenses((prev) => {
-      const state = { ...prev };
-      delete state[id];
-      return state;
-    });
+    dispatch(deleteRecurringExpense(id));
   };
 
   const handleDeleteIncome = (id: number) => {
-    setIncomes((prev) => {
-      const state = { ...prev };
-      delete state[id];
-      return state;
-    });
+    dispatch(deleteIncome(id));
   };
 
   const totalBudget = calculateTotalBudget(
