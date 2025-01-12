@@ -13,9 +13,10 @@ import {
 } from "./budgetSlice";
 
 export default function Home() {
-  // Budget App - React Redux          01/11/2025
+  // Budget App - LocalStorage          01/12/2025
 
-  // implemented react-redux, will ensure data changes persist across the app tomorrow using localstorage
+  // persisting react redux state using local storage.
+  // bugs remaining, but data is at least saved.
 
   const dispatch = useDispatch<AppDispatch>();
   const expenses = useSelector((state: RootState) => state.budget.expenses);

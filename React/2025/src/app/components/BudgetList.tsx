@@ -1,12 +1,13 @@
-import { BudgetItem } from "./BudgetItem";
+import React from "react";
 import styles from "./BudgetList.module.css";
+import { BudgetItem } from "./BudgetItem";
 
-type Props = {
-  items: { [key: string]: Expense | Income };
+interface Props {
+  items: { [key: string]: any };
   onDelete: (id: number) => void;
-};
+}
 
-export const BudgetList = ({ items, onDelete }: Props) => {
+export const BudgetList: React.FC<Props> = ({ items = {}, onDelete }) => {
   return (
     <ul className={styles.budgetList}>
       {Object.entries(items).map(([k, item]) => (

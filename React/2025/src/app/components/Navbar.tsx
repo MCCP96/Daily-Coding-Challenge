@@ -1,10 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styles from "./Navbar.module.css";
+import { loadState } from "../store";
+import { initialState, loadData } from "../budgetSlice";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const preloadedState = loadState();
+    if (preloadedState) {
+      dispatch(loadData(preloadedState));
+    } else {
+      dispatch(loadData(initialState)); // default
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
