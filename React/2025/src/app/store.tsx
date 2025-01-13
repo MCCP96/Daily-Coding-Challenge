@@ -1,11 +1,36 @@
 import { configureStore } from "@reduxjs/toolkit";
-import budgetReducer from "./budgetSlice";
+import budgetReducer, { emptyState, initialState } from "./budgetSlice";
 
-export const store = configureStore({
+const saveState = (state: State) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem("budget-data", serializedState);
+  } catch (err) {
+    // Ignore errors
+  }
+};
+
+export const loadState = (): State => {
+  try {
+    const serializedState = localStorage.getItem("budget-data");
+    if (serializedState === null) return initialState;
+    return JSON.parse(serializedState);
+  } catch (err) {
+    return emptyState;
+  }
+};
+
+const store = configureStore({
   reducer: {
     budget: budgetReducer,
   },
+  preloadedState: loadState(),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+store.subscribe(() => {
+  saveState(store.getState());
+});
+
 export type AppDispatch = typeof store.dispatch;
+
+export default store;

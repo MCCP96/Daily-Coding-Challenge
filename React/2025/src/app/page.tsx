@@ -2,50 +2,64 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { BudgetList } from "./components/BudgetList";
+import { TimeFrameSelector } from "./components/TimeFrameSelector";
 import styles from "./page.module.css";
 import { calculateTotalBudget } from "./utils/incomeUtils";
 import { formatNumberWithCommas } from "./utils/numberUtils";
-import { RootState, AppDispatch } from "./store";
+import { AppDispatch } from "./store";
 import {
   deleteExpense,
   deleteRecurringExpense,
   deleteIncome,
 } from "./budgetSlice";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  // Budget App - LocalStorage          01/12/2025
+  // Budget App - Time Frame Selector         01/13/2025
 
-  // persisting react redux state using local storage.
-  // bugs remaining, but data is at least saved.
+  // yesterday's push was partial. Added time frame selector today.
+  // need to resolve state management bugs this week.
 
   const dispatch = useDispatch<AppDispatch>();
-  const expenses = useSelector((state: RootState) => state.budget.expenses);
-  const recurringExpenses = useSelector(
-    (state: RootState) => state.budget.recurringExpenses
-  );
-  const incomes = useSelector((state: RootState) => state.budget.incomes);
+  const budget = useSelector((state: State) => state.budget);
+
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState("Monthly");
 
   const handleDeleteExpense = (id: number) => {
     dispatch(deleteExpense(id));
   };
-
   const handleDeleteRecurringExpense = (id: number) => {
     dispatch(deleteRecurringExpense(id));
   };
-
   const handleDeleteIncome = (id: number) => {
     dispatch(deleteIncome(id));
   };
 
-  const totalBudget = calculateTotalBudget(
-    Object.values(expenses),
-    Object.values(recurringExpenses),
-    Object.values(incomes)
-  );
+  const [totalBudget, setTotalBudget] = useState(0);
+
+  useEffect(() => {
+    setTotalBudget(
+      calculateTotalBudget(
+        Object.values(budget.expenses),
+        Object.values(budget.recurringExpenses),
+        Object.values(budget.incomes),
+        selectedTimeFrame
+      )
+    );
+  }, [budget, selectedTimeFrame]);
+
+  const handleTimeFrameChange = (timeFrame: string) => {
+    setSelectedTimeFrame(timeFrame);
+  };
 
   return (
     <div className={styles.page}>
       <h1>Budget Tracker</h1>
+
+      <TimeFrameSelector
+        selectedTimeFrame={selectedTimeFrame}
+        onChange={handleTimeFrameChange}
+      />
 
       <div className={styles.totalBudget}>
         <h2>Total Budget: ${formatNumberWithCommas(totalBudget)}</h2>
@@ -53,20 +67,20 @@ export default function Home() {
 
       <section className={styles.section}>
         <h2>Expenses</h2>
-        <BudgetList items={expenses} onDelete={handleDeleteExpense} />
+        <BudgetList items={budget.expenses} onDelete={handleDeleteExpense} />
       </section>
 
       <section className={styles.section}>
         <h2>Recurring Expenses</h2>
         <BudgetList
-          items={recurringExpenses}
+          items={budget.recurringExpenses}
           onDelete={handleDeleteRecurringExpense}
         />
       </section>
 
       <section className={styles.section}>
         <h2>Income</h2>
-        <BudgetList items={incomes} onDelete={handleDeleteIncome} />
+        <BudgetList items={budget.incomes} onDelete={handleDeleteIncome} />
       </section>
     </div>
   );
