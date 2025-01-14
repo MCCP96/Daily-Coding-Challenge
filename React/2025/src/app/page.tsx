@@ -15,10 +15,9 @@ import {
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  // Budget App - Time Frame Selector         01/13/2025
+  // Budget App - NavBar styling         01/14/2025
 
-  // yesterday's push was partial. Added time frame selector today.
-  // need to resolve state management bugs this week.
+  // minor styling fixes
 
   const dispatch = useDispatch<AppDispatch>();
   const budget = useSelector((state: State) => state.budget);
