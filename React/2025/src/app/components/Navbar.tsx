@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import styles from "./Navbar.module.css";
 import { loadState } from "../store";
 import { initialState, loadData } from "../budgetSlice";
+import { Calendar } from "../Icons";
+import Link from "next/link";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +44,10 @@ export const Navbar = () => {
           <a href="/income">Income</a>
         </li>
       </ul>
+
+      <Link href="/calendar">
+        <Calendar color="var(--foreground)" />
+      </Link>
     </nav>
   );
 };

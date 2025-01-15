@@ -15,9 +15,9 @@ import {
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  // Budget App - NavBar styling         01/14/2025
+  // Budget App - Calendar         01/15/2025
 
-  // minor styling fixes
+  // added calendar button and page
 
   const dispatch = useDispatch<AppDispatch>();
   const budget = useSelector((state: State) => state.budget);
