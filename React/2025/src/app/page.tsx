@@ -1,37 +1,33 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
 import { BudgetList } from "./components/BudgetList";
 import { TimeFrameSelector } from "./components/TimeFrameSelector";
 import styles from "./page.module.css";
 import { calculateTotalBudget } from "./utils/incomeUtils";
 import { formatNumberWithCommas } from "./utils/numberUtils";
-import { AppDispatch } from "./store";
-import {
-  deleteExpense,
-  deleteRecurringExpense,
-  deleteIncome,
-} from "./budgetSlice";
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { budgetActions } from "@/lib/budget/budgetSlice";
 
 export default function Home() {
-  // Budget App - Calendar         01/15/2025
+  // Budget App - Persisting Redux state         01/16/2025
 
-  // added calendar button and page
+  // fixed state management bugs
+  // still an issue with server-side trying to access localStorage, but choosing to ignore that for now
 
-  const dispatch = useDispatch<AppDispatch>();
-  const budget = useSelector((state: State) => state.budget);
+  const dispatch = useAppDispatch();
+  const budget = useAppSelector((state: State) => state.budget);
 
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("Monthly");
 
-  const handleDeleteExpense = (id: number) => {
-    dispatch(deleteExpense(id));
+  const handleDeleteExpense = (id: string) => {
+    dispatch(budgetActions.deleteExpense(id));
   };
-  const handleDeleteRecurringExpense = (id: number) => {
-    dispatch(deleteRecurringExpense(id));
+  const handleDeleteRecurringExpense = (id: string) => {
+    dispatch(budgetActions.deleteRecurringExpense(id));
   };
-  const handleDeleteIncome = (id: number) => {
-    dispatch(deleteIncome(id));
+  const handleDeleteIncome = (id: string) => {
+    dispatch(budgetActions.deleteIncome(id));
   };
 
   const [totalBudget, setTotalBudget] = useState(0);

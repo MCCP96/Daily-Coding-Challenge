@@ -1,24 +1,23 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
 import { BudgetList } from "../components/BudgetList";
 import { NewExpenseForm } from "../components/NewExpenseForm";
 import styles from "./page.module.css";
 import { formatNumberWithCommas } from "../utils/numberUtils";
-import { RootState, AppDispatch } from "../store";
-import { addExpense, deleteExpense } from "../budgetSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { budgetActions } from "@/lib/budget/budgetSlice";
 
 export default function Expenses() {
-  const dispatch = useDispatch<AppDispatch>();
-  const expenses = useSelector((state: RootState) => state.budget.expenses);
+  const dispatch = useAppDispatch();
+  const expenses = useAppSelector((state) => state.budget.expenses);
 
   const handleAddExpense = (title: string, cost: number) => {
-    const id = Date.now();
-    dispatch(addExpense({ id, title, cost }));
+    const id = `title@${Date.now()}`;
+    dispatch(budgetActions.addExpense({ id, title, cost }));
   };
 
-  const handleExpenseDelete = (id: number) => {
-    dispatch(deleteExpense(id));
+  const handleExpenseDelete = (id: string) => {
+    dispatch(budgetActions.deleteExpense(id));
   };
 
   return (

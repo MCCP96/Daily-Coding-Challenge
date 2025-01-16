@@ -1,25 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 import styles from "./Navbar.module.css";
-import { loadState } from "../store";
-import { initialState, loadData } from "../budgetSlice";
 import { Calendar } from "../Icons";
 import Link from "next/link";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const preloadedState = loadState();
-    if (preloadedState) {
-      dispatch(loadData(preloadedState));
-    } else {
-      dispatch(loadData(initialState)); // default
-    }
-  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);

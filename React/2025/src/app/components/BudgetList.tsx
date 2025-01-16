@@ -4,7 +4,7 @@ import { BudgetItem } from "./BudgetItem";
 
 interface Props {
   items: { [key: string]: any };
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void;
 }
 
 export const BudgetList: React.FC<Props> = ({ items = {}, onDelete }) => {

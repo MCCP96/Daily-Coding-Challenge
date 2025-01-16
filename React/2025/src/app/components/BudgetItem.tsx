@@ -5,7 +5,7 @@ import styles from "./BudgetItem.module.css";
 
 type Props = {
   item: Income | Expense;
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void;
 };
 
 export const BudgetItem = ({ item, onDelete }: Props) => {
@@ -31,7 +31,7 @@ export const BudgetItem = ({ item, onDelete }: Props) => {
         <span>{item.title}</span>
         <span>
           ${formatNumberWithCommas(item.value)}{" "}
-          {item.frequency && `(${item.frequency})`}
+          {/* {item.frequency && `(${item.frequency})`} */}
         </span>
 
         <button

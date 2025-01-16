@@ -1,25 +1,25 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
 import { IncomeForm } from "../components/IncomeForm";
 import { BudgetList } from "../components/BudgetList";
 import styles from "./page.module.css";
 import { calculateWeeklyIncome } from "../utils/incomeUtils";
 import { formatNumberWithCommas } from "../utils/numberUtils";
-import { RootState, AppDispatch } from "../store";
 import { addIncome, deleteIncome } from "../budgetSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { budgetActions } from "@/lib/budget/budgetSlice";
 
 export default function Income() {
-  const dispatch = useDispatch<AppDispatch>();
-  const incomes = useSelector((state: RootState) => state.budget.incomes);
+  const dispatch = useAppDispatch();
+  const incomes = useAppSelector((state) => state.budget.incomes);
 
-  const handleAddIncome = (title: string, value: number, frequency: string) => {
-    const id = Date.now();
-    dispatch(addIncome({ id, title, value, frequency }));
+  const handleAddIncome = (title: string, value: number) => {
+    const id = `title@${Date.now()}`;
+    dispatch(budgetActions.addIncome({ id, title, value }));
   };
 
-  const handleIncomeDelete = (id: number) => {
-    dispatch(deleteIncome(id));
+  const handleIncomeDelete = (id: string) => {
+    dispatch(budgetActions.deleteIncome(id));
   };
 
   const weeklyIncome = calculateWeeklyIncome(Object.values(incomes));

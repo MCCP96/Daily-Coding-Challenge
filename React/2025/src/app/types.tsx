@@ -1,11 +1,24 @@
 type Expense = {
-  id: number;
+  id: string;
   title: string;
   cost: number;
 };
 
+type RecurringExpense = {
+  id: string;
+  title: string;
+  cost: number;
+  frequency: string;
+};
+
 type Income = {
-  id: number;
+  id: string;
+  title: string;
+  value: number;
+};
+
+type RecurringIncome = {
+  id: string;
   title: string;
   value: number;
   frequency: string;
@@ -16,8 +29,8 @@ type State = {
 };
 
 type Budget = {
-  expenses: { [key: number]: Expense };
-  recurringExpenses: { [key: number]: Expense };
-  incomes: { [key: number]: Income };
-  recurringIncomes: { [key: number]: Income };
+  expenses: { [key: string]: Expense };
+  recurringExpenses: { [key: string]: RecurringExpense };
+  incomes: { [key: string]: Income };
+  recurringIncomes: { [key: string]: RecurringIncome };
 };
