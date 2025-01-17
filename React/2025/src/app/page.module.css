@@ -15,6 +15,22 @@
   max-width: 30rem;
 }
 
-.section h2 {
-  margin-bottom: 1rem;
+.controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls button {
+  border: none;
+  /* position: fixed;
+  bottom: 0; */
+  background: none;
+  padding: 0 0.4rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.controls button:hover {
+  cursor: pointer;
+  scale: 1.1;
 }
