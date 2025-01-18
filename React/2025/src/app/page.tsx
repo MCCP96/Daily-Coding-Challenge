@@ -9,17 +9,15 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { budgetActions } from "@/lib/budget/budgetSlice";
 import { Add, Minus } from "./Icons";
+import { Modal } from "./components/Modal";
+import { BudgetItemForm } from "./components/BudgetItemForm";
+import { BudgetItem, BudgetItemType, State } from "./types";
 
 export default function Home() {
-  // Budget App - minus & add buttons         01/17/2025
-
-  // added minus & add buttons to the budget tracker page
-  // they will open a modal to all expenses and/or incomes
+  // Budget App - Modal and Refactoring         01/18/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
-
-  const [selectedTimeFrame, setSelectedTimeFrame] = useState("Monthly");
 
   const handleDeleteExpense = (id: string) => {
     dispatch(budgetActions.deleteExpense(id));
@@ -42,36 +40,59 @@ export default function Home() {
         Object.values(budget.expenses),
         Object.values(budget.recurringExpenses),
         Object.values(budget.incomes),
-        selectedTimeFrame
+        Object.values(budget.recurringIncomes)
       )
     );
-  }, [budget, selectedTimeFrame]);
+  }, [budget]);
 
-  const handleTimeFrameChange = (timeFrame: string) => {
-    setSelectedTimeFrame(timeFrame);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"add" | "minus" | null>(null);
+
+  const handleOpenModal = (type: "add" | "minus") => {
+    setModalType(type);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalType(null);
+  };
+
+  const handleSaveBudgetItem = (item: BudgetItem) => {
+    if (modalType === "add") {
+      dispatch(
+        budgetActions.addIncome({
+          ...item,
+          type: BudgetItemType.Income,
+          recurring: item.type === BudgetItemType.RecurringIncome,
+        })
+      );
+    } else if (modalType === "minus") {
+      dispatch(
+        budgetActions.addExpense({
+          ...item,
+          type: BudgetItemType.Expense,
+          recurring: item.type === BudgetItemType.RecurringExpense,
+        })
+      );
+    }
+
+    handleCloseModal();
   };
 
   return (
     <div className={styles.page}>
       <h1>Budget Tracker</h1>
 
-      {/* <TimeFrameSelector
-        selectedTimeFrame={selectedTimeFrame}
-        onChange={handleTimeFrameChange}
-      /> */}
-
       <div className={styles.totalBudget}>
         <h2>Total Budget: ${formatNumberWithCommas(totalBudget)}</h2>
       </div>
 
-      {/* {budget.expenses.length && ( */}
       <div className={styles.section}>
         <h2>Expenses</h2>
         <BudgetList items={budget.expenses} onDelete={handleDeleteExpense} />
       </div>
-      {/* )} */}
 
-      {/* {budget.recurringExpenses.length && ( */}
       <div className={styles.section}>
         <h2>Recurring Expenses</h2>
         <BudgetList
@@ -79,16 +100,12 @@ export default function Home() {
           onDelete={handleDeleteRecurringExpense}
         />
       </div>
-      {/* )} */}
 
-      {/* {budget.incomes.length && ( */}
       <div className={styles.section}>
         <h2>Income</h2>
         <BudgetList items={budget.incomes} onDelete={handleDeleteIncome} />
       </div>
-      {/* )} */}
 
-      {/* {budget.recurringIncomes.length && ( */}
       <div className={styles.section}>
         <h2>Recurring Income</h2>
         <BudgetList
@@ -96,16 +113,24 @@ export default function Home() {
           onDelete={handleDeleteRecurringIncome}
         />
       </div>
-      {/* )} */}
 
       <div className={styles.controls}>
-        <button>
+        <button onClick={() => handleOpenModal("minus")}>
           <Minus color="red" />
         </button>
-        <button>
+        <button onClick={() => handleOpenModal("add")}>
           <Add color="green" />
         </button>
       </div>
+
+      {isModalOpen && (
+        <Modal onClose={handleCloseModal}>
+          <BudgetItemForm
+            onClose={handleCloseModal}
+            onSave={handleSaveBudgetItem}
+          />
+        </Modal>
+      )}
     </div>
   );
 }

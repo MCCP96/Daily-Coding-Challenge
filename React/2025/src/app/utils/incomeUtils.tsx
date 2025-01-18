@@ -1,19 +1,25 @@
-export const calculateWeeklyIncome = (incomes: Income[]): number => {
+import { BudgetItem } from "../types";
+
+export const calculateWeeklyIncome = (incomes: BudgetItem[]): number => {
   const totalWeeklyIncome = incomes.reduce((total, income) => {
     let weeklyValue = 0;
 
-    switch (income.frequency) {
-      case "monthly":
-        weeklyValue = income.value / 4.345; // Average weeks in a month
-        break;
-      case "bi-weekly":
-        weeklyValue = income.value / 2;
-        break;
-      case "weekly":
-        weeklyValue = income.value;
-        break;
-      default:
-        break;
+    if (income.recurring) {
+      switch (income.frequency) {
+        case "monthly":
+          weeklyValue = income.amount / 4.345; // Average weeks in a month
+          break;
+        case "bi-weekly":
+          weeklyValue = income.amount / 2;
+          break;
+        case "weekly":
+          weeklyValue = income.amount;
+          break;
+        default:
+          break;
+      }
+    } else {
+      weeklyValue = income.amount / 7; // Convert one-time income to daily value
     }
 
     return total + weeklyValue;
@@ -23,46 +29,34 @@ export const calculateWeeklyIncome = (incomes: Income[]): number => {
 };
 
 export const calculateTotalBudget = (
-  expenses: Expense[],
-  recurringExpenses: Expense[],
-  incomes: Income[],
-  timeFrame: string
+  expenses: BudgetItem[],
+  recurringExpenses: BudgetItem[],
+  incomes: BudgetItem[],
+  recurringIncomes: BudgetItem[]
 ): number => {
-  // adjust to work based on windows of time
-
-  const getTimeFrameMultiplier = (frequency: string) => {
-    switch (frequency) {
-      case "daily":
-        return 1;
-      case "weekly":
-        return 7;
-      case "bi-weekly":
-        return 14;
-      case "monthly":
-        return 30;
-      default:
-        return 1;
-    }
-  };
-
-  const timeFrameMultiplier = getTimeFrameMultiplier(timeFrame.toLowerCase());
-
   const totalExpenses = expenses.reduce(
-    (total, expense) => total + expense.cost,
+    (total, expense) => total + expense.amount,
     0
   );
 
   const totalRecurringExpenses = recurringExpenses.reduce((total, expense) => {
-    const expenseMultiplier = getTimeFrameMultiplier(expense.frequency);
-    return total + (expense.cost / expenseMultiplier) * timeFrameMultiplier;
+    return total + expense.amount;
   }, 0);
 
-  const totalIncomes = incomes.reduce((total, income) => {
-    const incomeMultiplier = getTimeFrameMultiplier(income.frequency);
-    return total + (income.value / incomeMultiplier) * timeFrameMultiplier;
+  const totalIncomes = incomes.reduce(
+    (total, income) => total + income.amount,
+    0
+  );
+
+  const totalRecurringIncomes = recurringIncomes.reduce((total, income) => {
+    return total + income.amount;
   }, 0);
 
   return parseFloat(
-    (totalIncomes - (totalExpenses + totalRecurringExpenses)).toFixed(2)
+    (
+      totalIncomes +
+      totalRecurringIncomes -
+      (totalExpenses + totalRecurringExpenses)
+    ).toFixed(2)
   );
 };

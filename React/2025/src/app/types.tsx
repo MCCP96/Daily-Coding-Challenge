@@ -1,36 +1,26 @@
-type Expense = {
+export type BudgetItem = {
   id: string;
   title: string;
-  cost: number;
+  amount: number;
+  type: BudgetItemType;
+  recurring: boolean;
+  frequency?: string;
 };
 
-type RecurringExpense = {
-  id: string;
-  title: string;
-  cost: number;
-  frequency: string;
-};
+export enum BudgetItemType {
+  Expense = "expense",
+  RecurringExpense = "recurringExpense",
+  Income = "income",
+  RecurringIncome = "recurringIncome",
+}
 
-type Income = {
-  id: string;
-  title: string;
-  value: number;
-};
-
-type RecurringIncome = {
-  id: string;
-  title: string;
-  value: number;
-  frequency: string;
-};
-
-type State = {
+export type State = {
   budget: Budget;
 };
 
-type Budget = {
-  expenses: { [key: string]: Expense };
-  recurringExpenses: { [key: string]: RecurringExpense };
-  incomes: { [key: string]: Income };
-  recurringIncomes: { [key: string]: RecurringIncome };
+export type Budget = {
+  expenses: { [key: string]: BudgetItem };
+  recurringExpenses: { [key: string]: BudgetItem };
+  incomes: { [key: string]: BudgetItem };
+  recurringIncomes: { [key: string]: BudgetItem };
 };

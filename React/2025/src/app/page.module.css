@@ -16,17 +16,18 @@
 }
 
 .controls {
+  position: fixed;
+  bottom: 0;
   width: 100%;
+  max-width: 30rem;
   display: flex;
   justify-content: space-between;
+  padding-bottom: 1rem;
 }
 
 .controls button {
   border: none;
-  /* position: fixed;
-  bottom: 0; */
   background: none;
-  padding: 0 0.4rem;
   transition: all 0.3s ease-in-out;
 }
 

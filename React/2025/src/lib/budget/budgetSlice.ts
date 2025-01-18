@@ -1,17 +1,44 @@
+import { Budget, BudgetItem, BudgetItemType } from "@/app/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const initialBudgetState: Budget = {
   expenses: {
-    1: { id: "1", title: "Groceries", cost: 106 },
+    1: {
+      id: "1",
+      title: "Groceries",
+      amount: 106,
+      type: BudgetItemType.Expense,
+      recurring: false,
+    },
   },
   recurringExpenses: {
-    4: { id: "4", title: "Rent", cost: 1200, frequency: "bi-weekly" },
+    4: {
+      id: "4",
+      title: "Rent",
+      amount: 1200,
+      type: BudgetItemType.RecurringExpense,
+      recurring: true,
+      frequency: "bi-weekly",
+    },
   },
   incomes: {
-    7: { id: "7", title: "Freelance", value: 500 },
+    7: {
+      id: "7",
+      title: "Freelance",
+      amount: 500,
+      type: BudgetItemType.Income,
+      recurring: false,
+    },
   },
   recurringIncomes: {
-    6: { id: "6", title: "Salary", value: 3000, frequency: "monthly" },
+    6: {
+      id: "6",
+      title: "Salary",
+      amount: 3000,
+      type: BudgetItemType.RecurringIncome,
+      recurring: true,
+      frequency: "monthly",
+    },
   },
 };
 
@@ -44,16 +71,16 @@ const budgetSlice = createSlice({
     deleteRecurringIncome(state, action: { payload: string }) {
       delete state.recurringIncomes[action.payload];
     },
-    addExpense(state, action: { payload: Expense }) {
+    addExpense(state, action: { payload: BudgetItem }) {
       state.expenses[action.payload.id] = action.payload;
     },
-    addRecurringExpense(state, action: { payload: RecurringExpense }) {
+    addRecurringExpense(state, action: { payload: BudgetItem }) {
       state.recurringExpenses[action.payload.id] = action.payload;
     },
-    addIncome(state, action: { payload: Income }) {
+    addIncome(state, action: { payload: BudgetItem }) {
       state.incomes[action.payload.id] = action.payload;
     },
-    addRecurringIncome(state, action: { payload: RecurringIncome }) {
+    addRecurringIncome(state, action: { payload: BudgetItem }) {
       state.recurringIncomes[action.payload.id] = action.payload;
     },
   },
