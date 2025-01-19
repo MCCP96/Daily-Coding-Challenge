@@ -14,22 +14,26 @@ import { BudgetItemForm } from "./components/BudgetItemForm";
 import { BudgetItem, BudgetItemType, State } from "./types";
 
 export default function Home() {
-  // Budget App - Modal and Refactoring         01/18/2025
+  // Budget App - BudgetItemForm & Refactoring         01/19/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
 
-  const handleDeleteExpense = (id: string) => {
-    dispatch(budgetActions.deleteExpense(id));
-  };
-  const handleDeleteRecurringExpense = (id: string) => {
-    dispatch(budgetActions.deleteRecurringExpense(id));
-  };
-  const handleDeleteIncome = (id: string) => {
-    dispatch(budgetActions.deleteIncome(id));
-  };
-  const handleDeleteRecurringIncome = (id: string) => {
-    dispatch(budgetActions.deleteRecurringIncome(id));
+  const handleDelete = (id: string, type: BudgetItemType) => {
+    switch (type) {
+      case BudgetItemType.Expense:
+        dispatch(budgetActions.deleteExpense(id));
+        break;
+      case BudgetItemType.RecurringExpense:
+        dispatch(budgetActions.deleteRecurringExpense(id));
+        break;
+      case BudgetItemType.Income:
+        dispatch(budgetActions.deleteIncome(id));
+        break;
+      case BudgetItemType.RecurringIncome:
+        dispatch(budgetActions.deleteRecurringIncome(id));
+        break;
+    }
   };
 
   const [totalBudget, setTotalBudget] = useState(0);
@@ -46,35 +50,57 @@ export default function Home() {
   }, [budget]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<"add" | "minus" | null>(null);
+  const [modalType, setModalType] = useState<BudgetItemType>(
+    BudgetItemType.Expense
+  );
 
-  const handleOpenModal = (type: "add" | "minus") => {
+  const handleOpenModal = (type: BudgetItemType) => {
     setModalType(type);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setModalType(null);
+    setModalType(BudgetItemType.Expense);
   };
 
   const handleSaveBudgetItem = (item: BudgetItem) => {
-    if (modalType === "add") {
-      dispatch(
-        budgetActions.addIncome({
-          ...item,
-          type: BudgetItemType.Income,
-          recurring: item.type === BudgetItemType.RecurringIncome,
-        })
-      );
-    } else if (modalType === "minus") {
-      dispatch(
-        budgetActions.addExpense({
-          ...item,
-          type: BudgetItemType.Expense,
-          recurring: item.type === BudgetItemType.RecurringExpense,
-        })
-      );
+    if (modalType === BudgetItemType.Expense) {
+      if (item.recurring) {
+        dispatch(
+          budgetActions.addRecurringExpense({
+            ...item,
+            type: BudgetItemType.RecurringExpense,
+            recurring: true,
+          })
+        );
+      } else {
+        dispatch(
+          budgetActions.addExpense({
+            ...item,
+            type: BudgetItemType.Expense,
+            recurring: false,
+          })
+        );
+      }
+    } else if (modalType === BudgetItemType.Income) {
+      if (item.recurring) {
+        dispatch(
+          budgetActions.addRecurringIncome({
+            ...item,
+            type: BudgetItemType.RecurringIncome,
+            recurring: true,
+          })
+        );
+      } else {
+        dispatch(
+          budgetActions.addIncome({
+            ...item,
+            type: BudgetItemType.Income,
+            recurring: false,
+          })
+        );
+      }
     }
 
     handleCloseModal();
@@ -90,35 +116,41 @@ export default function Home() {
 
       <div className={styles.section}>
         <h2>Expenses</h2>
-        <BudgetList items={budget.expenses} onDelete={handleDeleteExpense} />
+        <BudgetList
+          items={budget.expenses}
+          onDelete={(id) => handleDelete(id, BudgetItemType.Expense)}
+        />
       </div>
 
       <div className={styles.section}>
         <h2>Recurring Expenses</h2>
         <BudgetList
           items={budget.recurringExpenses}
-          onDelete={handleDeleteRecurringExpense}
+          onDelete={(id) => handleDelete(id, BudgetItemType.RecurringExpense)}
         />
       </div>
 
       <div className={styles.section}>
         <h2>Income</h2>
-        <BudgetList items={budget.incomes} onDelete={handleDeleteIncome} />
+        <BudgetList
+          items={budget.incomes}
+          onDelete={(id) => handleDelete(id, BudgetItemType.Income)}
+        />
       </div>
 
       <div className={styles.section}>
         <h2>Recurring Income</h2>
         <BudgetList
           items={budget.recurringIncomes}
-          onDelete={handleDeleteRecurringIncome}
+          onDelete={(id) => handleDelete(id, BudgetItemType.RecurringIncome)}
         />
       </div>
 
       <div className={styles.controls}>
-        <button onClick={() => handleOpenModal("minus")}>
+        <button onClick={() => handleOpenModal(BudgetItemType.Expense)}>
           <Minus color="red" />
         </button>
-        <button onClick={() => handleOpenModal("add")}>
+        <button onClick={() => handleOpenModal(BudgetItemType.Income)}>
           <Add color="green" />
         </button>
       </div>
@@ -126,6 +158,7 @@ export default function Home() {
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
           <BudgetItemForm
+            type={modalType}
             onClose={handleCloseModal}
             onSave={handleSaveBudgetItem}
           />

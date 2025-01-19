@@ -7,14 +7,16 @@ interface Props {
 }
 
 export const Modal = ({ onClose, children }: Props) => {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    console.log(e.target, e.currentTarget, e.target);
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
-        {children}
-        <button onClick={onClose} className={styles.closeButton}>
-          Close
-        </button>
-      </div>
+    <div className={styles.overlay} onClick={handleOverlayClick}>
+      <div className={styles.modal}>{children}</div>
     </div>
   );
 };
