@@ -19,47 +19,45 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.modal}>
+      <form className={styles.form}>
         <h2>Add {type}</h2>
+        <div className={styles.formGroup}>
+          <label>Name:</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
 
-        <form className={styles.form}>
-          <div className={styles.formGroup}>
-            <label>Name:</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
+        <div className={styles.formGroup}>
+          <label>Amount:</label>
+          <input
+            type="number"
+            placeholder="0"
+            value={amount}
+            onChange={(e) => setAmount(Number(e.target.value))}
+          />
+        </div>
 
-          <div className={styles.formGroup}>
-            <label>Amount:</label>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
-            />
-          </div>
+        <div className={styles.formGroup}>
+          <label>Recurring:</label>
+          <input
+            type="checkbox"
+            checked={recurring}
+            onChange={(e) => setRecurring(e.target.checked)}
+          />
+        </div>
 
-          <div className={styles.formGroup}>
-            <label>Recurring:</label>
-            <input
-              type="checkbox"
-              checked={recurring}
-              onChange={(e) => setRecurring(e.target.checked)}
-            />
-          </div>
-
-          <div className={styles.actions}>
-            <button type="button" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="button" onClick={handleSave}>
-              Save
-            </button>
-          </div>
-        </form>
-      </div>
+        <div className={styles.actions}>
+          <button type="button" onClick={onClose}>
+            Cancel
+          </button>
+          <button type="button" onClick={handleSave}>
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

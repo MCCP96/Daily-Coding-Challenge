@@ -4,7 +4,6 @@ import { BudgetList } from "./components/BudgetList";
 import { TimeFrameSelector } from "./components/TimeFrameSelector";
 import styles from "./page.module.css";
 import { calculateTotalBudget } from "./utils/incomeUtils";
-import { formatNumberWithCommas } from "./utils/numberUtils";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { budgetActions } from "@/lib/budget/budgetSlice";
@@ -12,9 +11,10 @@ import { Add, Minus } from "./Icons";
 import { Modal } from "./components/Modal";
 import { BudgetItemForm } from "./components/BudgetItemForm";
 import { BudgetItem, BudgetItemType, State } from "./types";
+import { Total } from "./components/Total";
 
 export default function Home() {
-  // Budget App - BudgetItemForm & Refactoring         01/19/2025
+  // Budget App - Light mode and more         01/19/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
@@ -108,11 +108,7 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <h1>Budget Tracker</h1>
-
-      <div className={styles.totalBudget}>
-        <h2>Total Budget: ${formatNumberWithCommas(totalBudget)}</h2>
-      </div>
+      <Total date={new Date()} amount={totalBudget} />
 
       <div className={styles.section}>
         <h2>Expenses</h2>

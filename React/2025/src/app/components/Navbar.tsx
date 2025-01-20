@@ -15,10 +15,11 @@ export const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.hamburger} onClick={toggleMenu}>
-        <div className={styles.line}></div>
-        <div className={styles.line}></div>
-        <div className={styles.line}></div>
+        ☰
       </div>
+      <Link href="/">
+        <h1>budgetapp</h1>
+      </Link>
 
       <ul className={`${styles.navLinks} ${isOpen ? styles.open : ""}`}>
         <li className={styles.navItem}>

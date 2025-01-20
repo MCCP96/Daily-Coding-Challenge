@@ -3,20 +3,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #333;
+  background-color: var(--hover-background);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .hamburger {
   display: flex;
   flex-direction: column;
   cursor: pointer;
-}
-
-.line {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  margin: 4px 0;
 }
 
 .navLinks {
@@ -38,14 +32,14 @@
   top: 60px; /* Adjust based on your navbar height */
   left: 0;
   right: 0;
-  background-color: #333;
+  background-color: var(--hover-background);
   z-index: 1;
   max-height: 300px; /* Adjust based on the number of items */
   transition: max-height 0.3s ease-in;
 }
 
 .navItem a {
-  color: white;
+  color: var(--foreground);
   text-decoration: none;
   font-size: 1.2rem;
   transition: all 0.3s ease-in;
