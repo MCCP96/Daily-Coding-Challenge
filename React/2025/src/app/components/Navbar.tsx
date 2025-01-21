@@ -6,36 +6,37 @@ import { Calendar } from "../Icons";
 import Link from "next/link";
 
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.hamburger} onClick={toggleMenu}>
-        ☰
-      </div>
-      <Link href="/">
-        <h1>budgetapp</h1>
-      </Link>
+    <>
+      <nav className={styles.navbar}>
+        <div className={styles.hamburger} onClick={toggleMenu}>
+          ☰
+        </div>
+        <Link href="/">
+          <h1>budgetapp</h1>
+        </Link>
+        <Link href="/calendar">
+          <Calendar color="var(--foreground)" />
+        </Link>
+      </nav>
 
       <ul className={`${styles.navLinks} ${isOpen ? styles.open : ""}`}>
         <li className={styles.navItem}>
-          <a href="/">Overview</a>
+          <Link href="/">Overview</Link>
         </li>
         <li className={styles.navItem}>
-          <a href="/expenses">Expenses</a>
+          <Link href="/expenses">Expenses</Link>
         </li>
         <li className={styles.navItem}>
-          <a href="/income">Income</a>
+          <Link href="/income">Income</Link>
         </li>
       </ul>
-
-      <Link href="/calendar">
-        <Calendar color="var(--foreground)" />
-      </Link>
-    </nav>
+    </>
   );
 };

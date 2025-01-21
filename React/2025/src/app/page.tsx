@@ -14,7 +14,7 @@ import { BudgetItem, BudgetItemType, State } from "./types";
 import { Total } from "./components/Total";
 
 export default function Home() {
-  // Budget App - Light mode and more         01/19/2025
+  // Budget App - BudgetItem and navlinks         01/21/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
@@ -144,10 +144,10 @@ export default function Home() {
 
       <div className={styles.controls}>
         <button onClick={() => handleOpenModal(BudgetItemType.Expense)}>
-          <Minus color="red" />
+          <Minus color="var(--red)" />
         </button>
         <button onClick={() => handleOpenModal(BudgetItemType.Income)}>
-          <Add color="green" />
+          <Add color="var(--green)" />
         </button>
       </div>
 

@@ -2,17 +2,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
-  border: 1px solid var(--foreground-light);
+  background-color: var(--hover-background);
   border-radius: 4px;
+  padding: 0.5rem;
+  padding-left: 1rem;
   gap: 1rem;
   width: 100%;
   max-width: 30rem;
   transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .container:hover {
-  background-color: var(--hover-background);
+  transform: translateY(-2px);
 }
 
 .amount {
@@ -22,7 +25,26 @@
 .deleteButton {
   background: none;
   border: none;
-  color: red;
+  color: var(--red);
   cursor: pointer;
   font-size: 1.2rem;
+}
+
+.expense::before,
+.income::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.4rem;
+  border-radius: 4px 0 0 4px;
+}
+
+.expense::before {
+  background-color: var(--red);
+}
+
+.income::before {
+  background-color: var(--green);
 }

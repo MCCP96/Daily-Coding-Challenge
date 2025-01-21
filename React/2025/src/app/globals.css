@@ -2,7 +2,9 @@
   --background: #edf1f7;
   --hover-background: #ffffff;
   --foreground: #222b45;
-  --foreground-light: #ccc;
+  --foreground-light: #c0c5d4;
+  --green: green;
+  --red: red;
 }
 
 /* @media (prefers-color-scheme: dark) {
