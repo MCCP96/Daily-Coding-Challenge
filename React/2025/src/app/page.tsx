@@ -14,7 +14,7 @@ import { BudgetItem, BudgetItemType, State } from "./types";
 import { Total } from "./components/Total";
 
 export default function Home() {
-  // Budget App - BudgetItem and navlinks         01/21/2025
+  // Budget App - navlinks dropdown and styling         01/22/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);

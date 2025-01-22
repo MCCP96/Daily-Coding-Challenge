@@ -5,6 +5,7 @@
   --foreground-light: #c0c5d4;
   --green: green;
   --red: red;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -17,8 +18,11 @@
 
 html,
 body {
-  max-width: 100vw;
+  max-width: 40rem;
+  height: 100%;
   overflow-x: hidden;
+  margin: 0 auto;
+  /* box-shadow: var(--shadow); */
 }
 
 body {

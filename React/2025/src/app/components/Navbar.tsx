@@ -1,19 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, FocusEvent } from "react";
 import styles from "./Navbar.module.css";
 import { Calendar } from "../Icons";
 import Link from "next/link";
 
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
+    if (navRef.current && !navRef.current.contains(event.relatedTarget)) {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <>
+    <div ref={navRef} onBlur={handleBlur} tabIndex={-1}>
       <nav className={styles.navbar}>
         <div className={styles.hamburger} onClick={toggleMenu}>
           ☰
@@ -28,7 +35,7 @@ export const Navbar = () => {
 
       <ul className={`${styles.navLinks} ${isOpen ? styles.open : ""}`}>
         <li className={styles.navItem}>
-          <Link href="/">Overview</Link>
+          <Link href="/">Home</Link>
         </li>
         <li className={styles.navItem}>
           <Link href="/expenses">Expenses</Link>
@@ -37,6 +44,6 @@ export const Navbar = () => {
           <Link href="/income">Income</Link>
         </li>
       </ul>
-    </>
+    </div>
   );
 };

@@ -10,7 +10,7 @@
   width: 100%;
   max-width: 30rem;
   transition: all 0.3s ease-in-out;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   position: relative;
 }
 
