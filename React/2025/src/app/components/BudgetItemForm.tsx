@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./BudgetItemForm.module.css";
 import { BudgetItem, BudgetItemType } from "../types";
+import { TimeFrameSelector } from "./TimeFrameSelector";
 
 interface Props {
   onClose: () => void;
@@ -12,6 +13,7 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
   const [recurring, setRecurring] = useState(false);
+  const [timeframe, setTimeframe] = useState("Bi-Weekly");
 
   const handleSave = () => {
     onSave({ id: Date.now().toString(), title: name, amount, type, recurring });
@@ -22,7 +24,7 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
       <form className={styles.form}>
         <h2>Add {type}</h2>
         <div className={styles.formGroup}>
-          <label>Name:</label>
+          <label>Name</label>
           <input
             type="text"
             value={name}
@@ -31,7 +33,7 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>Amount:</label>
+          <label>Amount</label>
           <input
             type="number"
             placeholder="0"
@@ -40,14 +42,20 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
           />
         </div>
 
-        <div className={styles.formGroup}>
-          <label>Recurring:</label>
+        <div className={`${styles.formGroup} ${styles.Horizontal}`}>
+          <label>Recurring</label>
           <input
             type="checkbox"
             checked={recurring}
             onChange={(e) => setRecurring(e.target.checked)}
           />
         </div>
+
+        {recurring && (
+          <TimeFrameSelector
+            onChange={(timeframe) => setTimeframe(timeframe)}
+          />
+        )}
 
         <div className={styles.actions}>
           <button type="button" onClick={onClose}>

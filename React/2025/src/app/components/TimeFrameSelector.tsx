@@ -1,16 +1,12 @@
 import React from "react";
 
 interface Props {
-  selectedTimeFrame: string;
   onChange: (timeFrame: string) => void;
 }
 
-const timeFrames = ["Daily", "Weekly", "Bi-Weekly", "Monthly"];
+const timeFrames = ["Daily", "Weekly", "Bi-Weekly", "Monthly", "Yearly"];
 
-export const TimeFrameSelector: React.FC<Props> = ({
-  selectedTimeFrame,
-  onChange,
-}) => {
+export const TimeFrameSelector: React.FC<Props> = ({ onChange }) => {
   return (
     <div>
       <select

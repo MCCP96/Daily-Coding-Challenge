@@ -6,6 +6,7 @@
   --green: green;
   --red: red;
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -42,6 +43,26 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  font-size: 1rem;
+  color: var(--foreground);
+  background-color: var(--hover-background);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
 }
 
 /* @media (prefers-color-scheme: dark) {

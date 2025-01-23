@@ -1,7 +1,6 @@
 "use client";
 
 import { BudgetList } from "./components/BudgetList";
-import { TimeFrameSelector } from "./components/TimeFrameSelector";
 import styles from "./page.module.css";
 import { calculateTotalBudget } from "./utils/incomeUtils";
 import { useEffect, useState } from "react";
@@ -14,7 +13,7 @@ import { BudgetItem, BudgetItemType, State } from "./types";
 import { Total } from "./components/Total";
 
 export default function Home() {
-  // Budget App - navlinks dropdown and styling         01/22/2025
+  // Budget App - BudgetItemForm         01/23/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
