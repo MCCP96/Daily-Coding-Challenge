@@ -16,7 +16,14 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
   const [timeframe, setTimeframe] = useState("Bi-Weekly");
 
   const handleSave = () => {
-    onSave({ id: Date.now().toString(), title: name, amount, type, recurring });
+    onSave({
+      id: Date.now().toString(),
+      title: name,
+      amount,
+      type,
+      recurring,
+      frequency: recurring ? timeframe.toLowerCase() : undefined,
+    });
   };
 
   return (
@@ -42,20 +49,24 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
           />
         </div>
 
-        <div className={`${styles.formGroup} ${styles.Horizontal}`}>
-          <label>Recurring</label>
-          <input
-            type="checkbox"
-            checked={recurring}
-            onChange={(e) => setRecurring(e.target.checked)}
-          />
-        </div>
+        <div className={styles.recurringGroup}>
+          <div className={`${styles.formGroup} ${styles.horizontal}`}>
+            <label>Recurring</label>
+            <div>
+              <input
+                type="checkbox"
+                checked={recurring}
+                onChange={(e) => setRecurring(e.target.checked)}
+              />
+            </div>
+          </div>
 
-        {recurring && (
-          <TimeFrameSelector
-            onChange={(timeframe) => setTimeframe(timeframe)}
-          />
-        )}
+          {recurring && (
+            <TimeFrameSelector
+              onChange={(timeframe) => setTimeframe(timeframe)}
+            />
+          )}
+        </div>
 
         <div className={styles.actions}>
           <button type="button" onClick={onClose}>

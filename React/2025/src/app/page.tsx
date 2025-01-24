@@ -13,7 +13,7 @@ import { BudgetItem, BudgetItemType, State } from "./types";
 import { Total } from "./components/Total";
 
 export default function Home() {
-  // Budget App - BudgetItemForm         01/23/2025
+  // Budget App - Recurring BudgetItems         01/24/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);

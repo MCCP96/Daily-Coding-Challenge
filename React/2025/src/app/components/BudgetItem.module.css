@@ -48,3 +48,7 @@
 .income::before {
   background-color: var(--green);
 }
+
+.recurring {
+  color: var(--foreground-light);
+}
