@@ -26,7 +26,7 @@ export const Navbar = () => {
           ☰
         </div>
         <Link href="/">
-          <h1>budgetapp</h1>
+          <h1>prix</h1>
         </Link>
         <Link href="/calendar">
           <Calendar color="var(--foreground)" />

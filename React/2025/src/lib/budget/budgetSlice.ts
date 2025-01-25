@@ -59,29 +59,36 @@ const budgetSlice = createSlice({
       state.incomes = action.payload.budget.incomes;
       state.recurringIncomes = action.payload.budget.recurringIncomes;
     },
-    deleteExpense(state, action: { payload: string }) {
-      delete state.expenses[action.payload];
+    deleteBudgetItem(state, action: { payload: BudgetItem }) {
+      switch (action.payload.type) {
+        case BudgetItemType.Expense:
+          delete state.expenses[action.payload.id];
+          break;
+        case BudgetItemType.RecurringExpense:
+          delete state.recurringExpenses[action.payload.id];
+          break;
+        case BudgetItemType.Income:
+          delete state.incomes[action.payload.id];
+          break;
+        case BudgetItemType.RecurringIncome:
+          delete state.recurringIncomes[action.payload.id];
+          break;
+      }
     },
-    deleteRecurringExpense(state, action: { payload: string }) {
-      delete state.recurringExpenses[action.payload];
-    },
-    deleteIncome(state, action: { payload: string }) {
-      delete state.incomes[action.payload];
-    },
-    deleteRecurringIncome(state, action: { payload: string }) {
-      delete state.recurringIncomes[action.payload];
-    },
-    addExpense(state, action: { payload: BudgetItem }) {
-      state.expenses[action.payload.id] = action.payload;
-    },
-    addRecurringExpense(state, action: { payload: BudgetItem }) {
-      state.recurringExpenses[action.payload.id] = action.payload;
-    },
-    addIncome(state, action: { payload: BudgetItem }) {
-      state.incomes[action.payload.id] = action.payload;
-    },
-    addRecurringIncome(state, action: { payload: BudgetItem }) {
-      state.recurringIncomes[action.payload.id] = action.payload;
+    saveBudgetItem(state, action: { payload: BudgetItem }) {
+      if (action.payload.recurring) {
+        if (action.payload.type === BudgetItemType.Expense) {
+          state.recurringExpenses[action.payload.id] = action.payload;
+        } else {
+          state.recurringIncomes[action.payload.id] = action.payload;
+        }
+      } else {
+        if (action.payload.type === BudgetItemType.Expense) {
+          state.expenses[action.payload.id] = action.payload;
+        } else {
+          state.incomes[action.payload.id] = action.payload;
+        }
+      }
     },
   },
 });

@@ -1,4 +1,4 @@
-.budgetList {
+.list {
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -7,6 +7,7 @@
   width: 100%;
   max-width: 30rem;
   gap: 0.4rem;
+  padding-bottom: 0.4rem;
 }
 
 .budgetItem {
