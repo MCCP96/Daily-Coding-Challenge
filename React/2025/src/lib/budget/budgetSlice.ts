@@ -1,7 +1,10 @@
 import { Budget, BudgetItem, BudgetItemType } from "@/app/types";
+import { formatDate } from "@/app/utils/dateUtils";
 import { createSlice } from "@reduxjs/toolkit";
+import { historyActions } from "./historySlice";
 
 export const initialBudgetState: Budget = {
+  date: formatDate(new Date()),
   expenses: {
     1: {
       id: "1",
@@ -42,7 +45,8 @@ export const initialBudgetState: Budget = {
   },
 };
 
-export const emptyBudgetState = {
+export const emptyBudgetState: Budget = {
+  date: formatDate(new Date()),
   expenses: {},
   recurringExpenses: {},
   incomes: {},
@@ -54,10 +58,28 @@ const budgetSlice = createSlice({
   initialState: initialBudgetState,
   reducers: {
     initializeData(state, action) {
-      state.expenses = action.payload.budget.expenses;
-      state.recurringExpenses = action.payload.budget.recurringExpenses;
-      state.incomes = action.payload.budget.incomes;
-      state.recurringIncomes = action.payload.budget.recurringIncomes;
+      const { budget, history } = action.payload;
+
+      const currentDate = formatDate(new Date());
+
+      if (budget.date !== currentDate) {
+        // Save the old budget to history
+        historyActions.saveHistoryItem(budget);
+
+        // Initialize a new empty budget
+        state.date = currentDate;
+        state.expenses = {};
+        state.recurringExpenses = {};
+        state.incomes = {};
+        state.recurringIncomes = {};
+      } else {
+        // Restore today's budget
+        state.date = budget.date;
+        state.expenses = budget.expenses;
+        state.recurringExpenses = budget.recurringExpenses;
+        state.incomes = budget.incomes;
+        state.recurringIncomes = budget.recurringIncomes;
+      }
     },
     deleteBudgetItem(state, action: { payload: BudgetItem }) {
       switch (action.payload.type) {

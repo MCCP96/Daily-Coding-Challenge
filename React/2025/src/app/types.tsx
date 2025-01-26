@@ -1,3 +1,16 @@
+export type State = {
+  budget: Budget;
+  history: History;
+};
+
+export type Budget = {
+  date: string;
+  expenses: { [key: string]: BudgetItem };
+  recurringExpenses: { [key: string]: BudgetItem };
+  incomes: { [key: string]: BudgetItem };
+  recurringIncomes: { [key: string]: BudgetItem };
+};
+
 export type BudgetItem = {
   id: string;
   title: string;
@@ -14,13 +27,10 @@ export enum BudgetItemType {
   RecurringIncome = "recurringIncome",
 }
 
-export type State = {
-  budget: Budget;
-};
-
-export type Budget = {
-  expenses: { [key: string]: BudgetItem };
-  recurringExpenses: { [key: string]: BudgetItem };
-  incomes: { [key: string]: BudgetItem };
-  recurringIncomes: { [key: string]: BudgetItem };
+export type History = {
+  [key: string]: {
+    date: string;
+    budget: Budget;
+    madeProfit: boolean;
+  };
 };

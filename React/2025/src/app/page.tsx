@@ -13,7 +13,7 @@ import { Total } from "./components/Total";
 import { calculateTotalBudget } from "./utils/budgetUtils";
 
 export default function Home() {
-  // BudgetApp - Total Budget and Budget Lists          01/25/2025
+  // BudgetApp - History          01/26/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <Total date={new Date()} amount={totalBudget} />
+      <Total date={budget.date} amount={totalBudget} />
 
       <div className={styles.section}>
         <h2>Today</h2>
