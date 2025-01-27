@@ -28,7 +28,7 @@ export const Navbar = () => {
         <Link href="/">
           <h1>prix</h1>
         </Link>
-        <Link href="/calendar">
+        <Link href="/history">
           <Calendar color="var(--foreground)" />
         </Link>
       </nav>
