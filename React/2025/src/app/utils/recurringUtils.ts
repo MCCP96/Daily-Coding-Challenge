@@ -2,7 +2,6 @@ import { BudgetItem } from "../types";
 
 export const calcDailyValue = (item: BudgetItem): number => {
   const { amount, frequency } = item;
-  console.log(amount, frequency);
 
   let dailyValue: number;
   switch (frequency) {

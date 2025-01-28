@@ -5,107 +5,50 @@ import { BudgetList } from "../components/BudgetList";
 import styles from "./page.module.css";
 import { useAppSelector } from "@/lib/hooks";
 import { formatDate } from "../utils/dateUtils";
+import { initialBudgetState } from "@/lib/budget/budgetSlice";
+import { calculateTotals } from "../utils/budgetUtils";
+import { useEffect, useState } from "react";
 
 const dummyHistory = {
-  day1: {
+  "2025-01-01": {
     date: "2025-01-01",
-    budget: {
-      expenses: {
-        e1: {
-          id: "e1",
-          title: "Groceries",
-          amount: 50,
-          type: "expense",
-          recurring: false,
-        },
-        e2: {
-          id: "e2",
-          title: "Transport",
-          amount: 20,
-          type: "expense",
-          recurring: false,
-        },
-      },
-      recurringExpenses: {},
-      incomes: {
-        i1: {
-          id: "i1",
-          title: "Salary",
-          amount: 1000,
-          type: "income",
-          recurring: false,
-        },
-      },
-      recurringIncomes: {},
-    },
+    budget: initialBudgetState,
     madeProfit: true,
   },
-  day2: {
+  "2025-01-02": {
     date: "2025-01-02",
-    budget: {
-      expenses: {
-        e1: {
-          id: "e1",
-          title: "Utilities",
-          amount: 100,
-          type: "expense",
-          recurring: false,
-        },
-      },
-      recurringExpenses: {},
-      incomes: {
-        i1: {
-          id: "i1",
-          title: "Freelance",
-          amount: 200,
-          type: "income",
-          recurring: false,
-        },
-      },
-      recurringIncomes: {},
-    },
+    budget: initialBudgetState,
     madeProfit: true,
   },
-  day3: {
+  "2025-01-03": {
     date: "2025-01-03",
-    budget: {
-      expenses: {
-        e1: {
-          id: "e1",
-          title: "Dining",
-          amount: 70,
-          type: "expense",
-          recurring: false,
-        },
-      },
-      recurringExpenses: {},
-      incomes: {
-        i1: {
-          id: "i1",
-          title: "Investment",
-          amount: 300,
-          type: "income",
-          recurring: false,
-        },
-      },
-      recurringIncomes: {},
-    },
+    budget: initialBudgetState,
     madeProfit: true,
   },
 };
 
 const Page = () => {
-  const history = useAppSelector((state) => state.history) || dummyHistory;
+  // const history = useAppSelector((state) => state.history) || dummyHistory;
+  const history = dummyHistory;
+  const [totalIncomes, setTotalIncomes] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
+
+  useEffect(() => {
+    const { totalIncomes, totalExpenses } = calculateTotals(history);
+    setTotalIncomes(totalIncomes);
+    setTotalExpenses(totalExpenses);
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.totals}>
-        <Total title="Incomes" amount={0} />
-        <Total title="Expenses" amount={0} />
+        <Total title="Incomes" amount={totalIncomes} />
+        <Total title="Expenses" amount={totalExpenses} />
       </div>
-      {Object.entries(dummyHistory).map(([key, value]) => (
+      {Object.entries(history).map(([key, value]) => (
         <div key={key}>
           <h2>{formatDate(new Date(value.date))}</h2>
+          {/* add checkmark icon if madeProfit */}
           <BudgetList items={value.budget.expenses} />
           <BudgetList items={value.budget.recurringExpenses} />
           <BudgetList items={value.budget.incomes} />
