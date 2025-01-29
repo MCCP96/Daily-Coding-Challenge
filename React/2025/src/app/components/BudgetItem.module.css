@@ -31,7 +31,8 @@
 }
 
 .expense::before,
-.income::before {
+.income::before,
+.goal::before {
   content: "";
   position: absolute;
   left: 0;
@@ -39,6 +40,10 @@
   bottom: 0;
   width: 0.4rem;
   border-radius: 4px 0 0 4px;
+}
+
+.goal::before {
+  background-color: "gold";
 }
 
 .expense::before {

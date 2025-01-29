@@ -2,6 +2,7 @@ import { Budget, BudgetItem, BudgetItemType } from "@/app/types";
 import { formatDate } from "@/app/utils/dateUtils";
 import { createSlice } from "@reduxjs/toolkit";
 import { historyActions } from "./historySlice";
+import { useAppDispatch } from "../hooks";
 
 export const initialBudgetState: Budget = {
   date: formatDate(new Date()),
@@ -63,9 +64,6 @@ const budgetSlice = createSlice({
       const currentDate = formatDate(new Date());
 
       if (budget.date !== currentDate) {
-        // Save the old budget to history
-        historyActions.saveHistoryItem(budget);
-
         // Initialize a new empty budget
         state.date = currentDate;
         state.expenses = {};
@@ -73,6 +71,7 @@ const budgetSlice = createSlice({
         state.incomes = {};
         state.recurringIncomes = {};
       } else {
+        console.log("new");
         // Restore today's budget
         state.date = budget.date;
         state.expenses = budget.expenses;

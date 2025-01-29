@@ -8,7 +8,6 @@ interface Props {
 
 export const Modal = ({ onClose, children }: Props) => {
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e.target, e.currentTarget, e.target);
     if (e.target === e.currentTarget) {
       onClose();
     }

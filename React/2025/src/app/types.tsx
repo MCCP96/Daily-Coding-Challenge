@@ -25,6 +25,15 @@ export enum BudgetItemType {
   RecurringExpense = "recurringExpense",
   Income = "income",
   RecurringIncome = "recurringIncome",
+  Goal = "goal",
+}
+
+export enum Frequency {
+  Daily = "daily",
+  Weekly = "weekly",
+  BiWeekly = "bi-weekly",
+  Monthly = "monthly",
+  Yearly = "yearly",
 }
 
 export type History = {

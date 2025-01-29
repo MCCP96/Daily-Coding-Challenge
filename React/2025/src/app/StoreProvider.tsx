@@ -39,6 +39,7 @@ export default function StoreProvider({children}: {children: React.ReactNode}) {
     const state = loadState();
     storeRef.current.dispatch(historyActions.initializeData(state))
     storeRef.current.dispatch(budgetActions.initializeData(state))
+    // need to dispatch new day related queries here
 
     storeRef.current.subscribe(() => {
       saveState(storeRef.current!.getState());

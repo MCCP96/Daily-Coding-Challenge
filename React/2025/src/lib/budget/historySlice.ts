@@ -17,6 +17,7 @@ const historySlice = createSlice({
       }
     },
     saveHistoryItem(state, action: { payload: Budget }) {
+      console.log("in save history");
       const date = action.payload.date;
 
       state[date] = {

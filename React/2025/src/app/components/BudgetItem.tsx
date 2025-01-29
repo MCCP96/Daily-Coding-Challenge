@@ -1,25 +1,23 @@
 "use client";
 
 import { useAppDispatch } from "@/lib/hooks";
-import {
-  BudgetItem as BudgetItemType,
-  BudgetItemType as ItemType,
-} from "../types";
+import { BudgetItem as BudgetItemT, BudgetItemType } from "../types";
 import { formatNumberWithCommas } from "../utils/numberUtils";
 import { calcDailyValue } from "../utils/recurringUtils";
 import styles from "./BudgetItem.module.css";
 import { budgetActions } from "@/lib/budget/budgetSlice";
 
 type Props = {
-  item: BudgetItemType;
+  item: BudgetItemT;
 };
 
 export const BudgetItem = ({ item }: Props) => {
   const isExpense =
-    item.type === ItemType.Expense || item.type === ItemType.RecurringExpense;
+    item.type === BudgetItemType.Expense ||
+    item.type === BudgetItemType.RecurringExpense;
   const isRecurring =
-    item.type === ItemType.RecurringExpense ||
-    item.type === ItemType.RecurringIncome;
+    item.type === BudgetItemType.RecurringExpense ||
+    item.type === BudgetItemType.RecurringIncome;
 
   const dispatch = useAppDispatch();
 
@@ -30,8 +28,12 @@ export const BudgetItem = ({ item }: Props) => {
   return (
     <div
       className={`${styles.container} ${
-        isExpense ? styles.expense : styles.income
-      }`}
+        isExpense
+          ? styles.expense
+          : item.type === BudgetItemType.Goal
+          ? styles.goal
+          : styles.income
+      } `}
     >
       <span>{item.title}</span>
       <div className={styles.amount}>

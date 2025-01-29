@@ -1,20 +1,19 @@
 import React from "react";
+import { Frequency } from "../types";
 
 interface Props {
   onChange: (timeFrame: string) => void;
 }
-
-const timeFrames = ["Daily", "Weekly", "Bi-Weekly", "Monthly", "Yearly"];
 
 export const TimeFrameSelector: React.FC<Props> = ({ onChange }) => {
   return (
     <div>
       <select
         id="timeFrame"
-        defaultValue={"Bi-Weekly"}
+        defaultValue={Frequency.BiWeekly}
         onChange={(e) => onChange(e.target.value)}
       >
-        {timeFrames.map((timeFrame) => (
+        {Object.values(Frequency).map((timeFrame) => (
           <option key={timeFrame} value={timeFrame}>
             {timeFrame}
           </option>

@@ -35,8 +35,6 @@ export const calculateTotals = (history: History) => {
   let totalIncomes = 0;
   let totalExpenses = 0;
 
-  console.log("history", history);
-
   Object.values(history).forEach((value) => {
     const { incomes, recurringIncomes, expenses, recurringExpenses } =
       value.budget;
@@ -58,7 +56,6 @@ export const calculateTotals = (history: History) => {
       0
     );
   });
-  console.log(totalIncomes, totalExpenses);
 
   return { totalIncomes, totalExpenses };
 };

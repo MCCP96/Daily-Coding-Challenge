@@ -13,7 +13,7 @@ import { Total } from "./components/Total";
 import { calculateTotalBudget } from "./utils/budgetUtils";
 
 export default function Home() {
-  // BudgetApp - History Totals          01/28/2025
+  // BudgetApp - Profile Page          01/29/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
