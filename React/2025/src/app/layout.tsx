@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <StoreProvider>
           <Navbar />
-          {children}
+          <div style={{ padding: "1.5rem" }}>{children}</div>
         </StoreProvider>
       </body>
     </html>

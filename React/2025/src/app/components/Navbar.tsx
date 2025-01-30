@@ -33,7 +33,7 @@ export const Navbar = () => {
           <Calendar color="var(--foreground)" />
         </Link>
         <Link href="/">
-          <h1>prix</h1>
+          <h1>budget</h1>
         </Link>
         <Link href="/profile">
           <User color="var(--foreground)" />

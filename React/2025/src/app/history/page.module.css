@@ -1,7 +1,3 @@
-.container {
-  padding: 1rem;
-}
-
 .totals {
   display: flex;
   flex-direction: row;

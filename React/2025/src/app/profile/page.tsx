@@ -4,57 +4,85 @@ import { useState } from "react";
 import styles from "./profile.module.css";
 import { BudgetList } from "../components/BudgetList";
 import { BudgetItem, BudgetItemType, Frequency } from "../types";
+import { Add } from "../Icons";
 
-const dummyBudgetItems: { [key: string]: BudgetItem } = {
-  item1: {
+const financialGoals: { [key: string]: BudgetItem } = {
+  goal1: {
     id: "1",
-    title: "Budget Item 1",
-    amount: 100,
+    title: "Emergency Fund",
+    amount: 1000,
     type: BudgetItemType.Goal,
-    recurring: true,
+    recurring: false,
     frequency: Frequency.Monthly,
   },
-  item2: {
+  goal2: {
     id: "2",
-    title: "Budget Item 2",
+    title: "Vacation Fund",
     amount: 200,
     type: BudgetItemType.Goal,
-    recurring: true,
-    frequency: Frequency.Weekly,
+    recurring: false,
+    frequency: Frequency.BiWeekly,
   },
-  item3: {
+  goal3: {
     id: "3",
-    title: "Budget Item 3",
-    amount: 300,
+    title: "Retirement Fund",
+    amount: 5000,
     type: BudgetItemType.Goal,
-    recurring: true,
+    recurring: false,
     frequency: Frequency.Yearly,
   },
 };
 
 const ProfilePage = () => {
   const [showRecurring, setShowRecurring] = useState(false);
-  const [goals, setGoals] = useState("");
+  const [hideDailyBudget, setHideDailyBudget] = useState(false);
 
-  const handleToggle = () => {
+  const handleToggleRecurring = () => {
     setShowRecurring(!showRecurring);
   };
 
-  return (
-    <div className={styles.profilePage}>
-      <h2>Goals</h2>
-      <BudgetList items={dummyBudgetItems} />
+  const handleToggleDailyBudget = () => {
+    setHideDailyBudget(!hideDailyBudget);
+  };
 
-      <h2>Settings</h2>
-      <div className={styles.formGroup}>
-        <label htmlFor="showRecurring">Show Recurring Budget Items:</label>
-        <input
-          type="checkbox"
-          id="showRecurring"
-          checked={showRecurring}
-          onChange={handleToggle}
-          className={styles.checkbox}
-        />
+  return (
+    <div className={styles.page}>
+      <div>
+        <h2 className={styles.header}>
+          Goals
+          <div style={{ marginRight: "0.1rem" }}>
+            <Add color="green" width={28} height={28} />
+          </div>
+        </h2>
+        <BudgetList items={financialGoals} />
+      </div>
+
+      <div>
+        <h2>Settings</h2>
+
+        <div className={styles.formGroup}>
+          <div className={styles.formEntry}>
+            <label htmlFor="showRecurring">Show Recurring Budget Items:</label>
+            <input
+              type="checkbox"
+              id="showRecurring"
+              checked={showRecurring}
+              onChange={handleToggleRecurring}
+              className={styles.checkbox}
+            />
+          </div>
+
+          <div className={styles.formEntry}>
+            <label htmlFor="hideDailyBudget">Hide Daily Budget:</label>
+            <input
+              type="checkbox"
+              id="hideDailyBudget"
+              checked={hideDailyBudget}
+              onChange={handleToggleDailyBudget}
+              className={styles.checkbox}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

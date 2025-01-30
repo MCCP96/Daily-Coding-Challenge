@@ -40,11 +40,12 @@ const Page = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div>
       <div className={styles.totals}>
         <Total title="Incomes" amount={totalIncomes} />
         <Total title="Expenses" amount={totalExpenses} />
       </div>
+
       {Object.entries(history).map(([key, value]) => (
         <div key={key}>
           <h2>{formatDate(new Date(value.date))}</h2>

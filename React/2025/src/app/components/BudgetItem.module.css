@@ -43,7 +43,7 @@
 }
 
 .goal::before {
-  background-color: "gold";
+  background-color: gold;
 }
 
 .expense::before {

@@ -17,7 +17,8 @@ export const BudgetItem = ({ item }: Props) => {
     item.type === BudgetItemType.RecurringExpense;
   const isRecurring =
     item.type === BudgetItemType.RecurringExpense ||
-    item.type === BudgetItemType.RecurringIncome;
+    item.type === BudgetItemType.RecurringIncome ||
+    item.type === BudgetItemType.Goal;
 
   const dispatch = useAppDispatch();
 
@@ -30,7 +31,7 @@ export const BudgetItem = ({ item }: Props) => {
       className={`${styles.container} ${
         isExpense
           ? styles.expense
-          : item.type === BudgetItemType.Goal
+          : item.type == BudgetItemType.Goal
           ? styles.goal
           : styles.income
       } `}
