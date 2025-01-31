@@ -5,6 +5,7 @@ import styles from "./profile.module.css";
 import { BudgetList } from "../components/BudgetList";
 import { BudgetItem, BudgetItemType, Frequency } from "../types";
 import { Add } from "../Icons";
+import { AddButton } from "../components/AddButton";
 
 const financialGoals: { [key: string]: BudgetItem } = {
   goal1: {
@@ -48,12 +49,8 @@ const ProfilePage = () => {
   return (
     <div className={styles.page}>
       <div>
-        <h2 className={styles.header}>
-          Goals
-          <div style={{ marginRight: "0.1rem" }}>
-            <Add color="green" width={28} height={28} />
-          </div>
-        </h2>
+        <h2 className={styles.header}>Goals</h2>
+        <AddButton />
         <BudgetList items={financialGoals} />
       </div>
 
