@@ -33,6 +33,8 @@ const Page = () => {
   const [totalIncomes, setTotalIncomes] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
 
+  const hideRecurring = useAppSelector((state) => state.ui.hideRecurring);
+
   useEffect(() => {
     const { totalIncomes, totalExpenses } = calculateTotals(history);
     setTotalIncomes(totalIncomes);
@@ -51,9 +53,16 @@ const Page = () => {
           <h2>{formatDate(new Date(value.date))}</h2>
           {/* add checkmark icon if madeProfit */}
           <BudgetList items={value.budget.expenses} />
-          <BudgetList items={value.budget.recurringExpenses} />
+
+          {!hideRecurring && (
+            <BudgetList items={value.budget.recurringExpenses} />
+          )}
+
           <BudgetList items={value.budget.incomes} />
-          <BudgetList items={value.budget.recurringIncomes} />
+
+          {!hideRecurring && (
+            <BudgetList items={value.budget.recurringIncomes} />
+          )}
         </div>
       ))}
     </div>

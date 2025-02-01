@@ -9,4 +9,10 @@
   box-shadow: var(--shadow);
   border-radius: 4px;
   margin-bottom: 0.5rem;
+  transition: var(--transition);
+}
+
+.container:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
 }

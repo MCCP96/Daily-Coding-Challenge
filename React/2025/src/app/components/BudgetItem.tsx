@@ -15,6 +15,9 @@ export const BudgetItem = ({ item }: Props) => {
   const isExpense =
     item.type === BudgetItemType.Expense ||
     item.type === BudgetItemType.RecurringExpense;
+
+  const isGoal = item.type === BudgetItemType.Goal;
+
   const isRecurring =
     item.type === BudgetItemType.RecurringExpense ||
     item.type === BudgetItemType.RecurringIncome ||
@@ -29,11 +32,7 @@ export const BudgetItem = ({ item }: Props) => {
   return (
     <div
       className={`${styles.container} ${
-        isExpense
-          ? styles.expense
-          : item.type == BudgetItemType.Goal
-          ? styles.goal
-          : styles.income
+        isExpense ? styles.expense : isGoal ? styles.goal : styles.income
       } `}
     >
       <span>{item.title}</span>
@@ -44,13 +43,14 @@ export const BudgetItem = ({ item }: Props) => {
               ${formatNumberWithCommas(item.amount)} {item.frequency} ={" "}
             </span>
             <span>
-              {isExpense ? "−" : ""}$
+              {isExpense || isGoal ? "−" : ""}$
               {formatNumberWithCommas(calcDailyValue(item))}
             </span>
           </>
         ) : (
           <span>
-            {isExpense ? "−" : ""}${formatNumberWithCommas(item.amount)}
+            {isExpense || isGoal ? "−" : ""}$
+            {formatNumberWithCommas(item.amount)}
           </span>
         )}
       </div>

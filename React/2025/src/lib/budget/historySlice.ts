@@ -1,6 +1,14 @@
-import { Budget, History, State } from "@/app/types";
+import { Budget, State } from "@/app/types";
 import { calculateTotalBudget } from "@/app/utils/budgetUtils";
 import { createSlice } from "@reduxjs/toolkit";
+
+export type History = {
+  [key: string]: {
+    date: string;
+    budget: Budget;
+    madeProfit: boolean;
+  };
+};
 
 export const emptyHistoryState: History = {};
 
@@ -9,7 +17,7 @@ const historySlice = createSlice({
   initialState: emptyHistoryState,
   reducers: {
     initializeData(state, action: { payload: State }) {
-      const { budget, history } = action.payload;
+      const { budget, history, ui } = action.payload;
 
       for (const key in history) {
         const item = history[key];

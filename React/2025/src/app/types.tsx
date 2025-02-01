@@ -1,6 +1,7 @@
 export type State = {
   budget: Budget;
   history: History;
+  ui: UIState;
 };
 
 export type Budget = {
@@ -42,4 +43,10 @@ export type History = {
     budget: Budget;
     madeProfit: boolean;
   };
+};
+
+export type UIState = {
+  hideRecurring: boolean;
+  hideDaily: boolean;
+  theme: "light" | "dark";
 };

@@ -1,4 +1,4 @@
-export const Calendar = ({
+export const CalendarIcon = ({
   color,
   width = 24,
   height = 24,
@@ -22,7 +22,7 @@ export const Calendar = ({
   );
 };
 
-export const Add = ({
+export const AddIcon = ({
   color,
   width = 48,
   height = 48,
@@ -46,7 +46,7 @@ export const Add = ({
   );
 };
 
-export const Minus = ({
+export const MinusIcon = ({
   color,
   width = 48,
   height = 48,
@@ -70,7 +70,7 @@ export const Minus = ({
   );
 };
 
-export const Check = ({
+export const CheckIcon = ({
   color,
   width = 24,
   height = 24,
@@ -94,7 +94,7 @@ export const Check = ({
   );
 };
 
-export const User = ({
+export const UserIcon = ({
   color,
   width = 24,
   height = 24,
@@ -113,6 +113,30 @@ export const User = ({
       <path
         fill={color}
         d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"
+      />
+    </svg>
+  );
+};
+
+export const LoadingIcon = ({
+  color,
+  width = 24,
+  height = 24,
+}: {
+  color: string;
+  width?: number;
+  height?: number;
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 512 512"
+      width={width}
+      height={height}
+    >
+      <path
+        fill={color}
+        d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
       />
     </svg>
   );

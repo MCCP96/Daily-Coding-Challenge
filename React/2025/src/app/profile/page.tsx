@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./profile.module.css";
 import { BudgetList } from "../components/BudgetList";
-import { BudgetItem, BudgetItemType, Frequency } from "../types";
-import { Add } from "../Icons";
+import { BudgetItem, BudgetItemType, Frequency, State } from "../types";
 import { AddButton } from "../components/AddButton";
+import { uiActions } from "@/lib/ui/uiSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-const financialGoals: { [key: string]: BudgetItem } = {
+const dummyGoals: { [key: string]: BudgetItem } = {
   goal1: {
     id: "1",
     title: "Emergency Fund",
@@ -35,15 +36,18 @@ const financialGoals: { [key: string]: BudgetItem } = {
 };
 
 const ProfilePage = () => {
-  const [showRecurring, setShowRecurring] = useState(false);
-  const [hideDailyBudget, setHideDailyBudget] = useState(false);
+  const dispatch = useAppDispatch();
+  const hideRecurring = useAppSelector(
+    (state: State) => state.ui.hideRecurring
+  );
+  const hideDailyBudget = useAppSelector((state: State) => state.ui.hideDaily);
 
   const handleToggleRecurring = () => {
-    setShowRecurring(!showRecurring);
+    dispatch(uiActions.toggleShowRecurring());
   };
 
   const handleToggleDailyBudget = () => {
-    setHideDailyBudget(!hideDailyBudget);
+    dispatch(uiActions.toggleHideDaily());
   };
 
   return (
@@ -51,7 +55,7 @@ const ProfilePage = () => {
       <div>
         <h2 className={styles.header}>Goals</h2>
         <AddButton />
-        <BudgetList items={financialGoals} />
+        <BudgetList items={dummyGoals} />
       </div>
 
       <div>
@@ -59,11 +63,11 @@ const ProfilePage = () => {
 
         <div className={styles.formGroup}>
           <div className={styles.formEntry}>
-            <label htmlFor="showRecurring">Show Recurring Budget Items:</label>
+            <label htmlFor="hideRecurring">Hide Recurring Items:</label>
             <input
               type="checkbox"
-              id="showRecurring"
-              checked={showRecurring}
+              id="hideRecurring"
+              checked={hideRecurring}
               onChange={handleToggleRecurring}
               className={styles.checkbox}
             />

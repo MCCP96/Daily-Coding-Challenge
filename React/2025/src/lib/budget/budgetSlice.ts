@@ -1,8 +1,6 @@
 import { Budget, BudgetItem, BudgetItemType } from "@/app/types";
 import { formatDate } from "@/app/utils/dateUtils";
 import { createSlice } from "@reduxjs/toolkit";
-import { historyActions } from "./historySlice";
-import { useAppDispatch } from "../hooks";
 
 export const initialBudgetState: Budget = {
   date: formatDate(new Date()),

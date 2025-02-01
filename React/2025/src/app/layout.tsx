@@ -3,7 +3,11 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "./components/Navbar";
-import StoreProvider from "./StoreProvider";
+import dynamic from "next/dynamic";
+import React, { Suspense } from "react";
+import Loading from "./loading";
+
+const StoreProvider = dynamic(() => import("./StoreProvider"), { ssr: false });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,10 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <StoreProvider>
-          <Navbar />
-          <div style={{ padding: "1.5rem" }}>{children}</div>
-        </StoreProvider>
+        <Suspense fallback={<Loading />}>
+          <StoreProvider>
+            <Navbar />
+            <div style={{ padding: "1.5rem" }}>{children}</div>
+          </StoreProvider>
+        </Suspense>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { budgetActions } from "@/lib/budget/budgetSlice";
-import { Add, Minus } from "./Icons";
+import { AddIcon, MinusIcon } from "./Icons";
 import { Modal } from "./components/Modal";
 import { BudgetItemForm } from "./components/BudgetItemForm";
 import { BudgetItem, BudgetItemType, State } from "./types";
@@ -13,7 +13,7 @@ import { Total } from "./components/Total";
 import { calculateTotalBudget } from "./utils/budgetUtils";
 
 export default function Home() {
-  // BudgetApp - Profile add goals button          01/31/2025
+  // BudgetApp - Loading and UIState          02/01/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
@@ -62,10 +62,10 @@ export default function Home() {
 
       <div className={styles.controls}>
         <button onClick={() => handleOpenModal(BudgetItemType.Expense)}>
-          <Minus color="var(--red)" />
+          <MinusIcon color="var(--red)" />
         </button>
         <button onClick={() => handleOpenModal(BudgetItemType.Income)}>
-          <Add color="var(--green)" />
+          <AddIcon color="var(--green)" />
         </button>
       </div>
 

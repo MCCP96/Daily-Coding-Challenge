@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, FocusEvent } from "react";
+import { useState, useRef, FocusEvent, useEffect } from "react";
 import styles from "./Navbar.module.css";
-import { Calendar, User } from "../Icons";
+import { CalendarIcon, UserIcon } from "../Icons";
 import Link from "next/link";
 
 export const Navbar = () => {
@@ -30,13 +30,13 @@ export const Navbar = () => {
           ☰
         </div> */}
         <Link href="/history">
-          <Calendar color="var(--foreground)" />
+          <CalendarIcon color="var(--foreground)" />
         </Link>
         <Link href="/">
           <h1>budget</h1>
         </Link>
         <Link href="/profile">
-          <User color="var(--foreground)" />
+          <UserIcon color="var(--foreground)" />
         </Link>
       </nav>
 

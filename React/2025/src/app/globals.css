@@ -34,6 +34,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Custom skinny scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--foreground);
+  border-radius: 10px;
+  border: 2px solid var(--background);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -70,3 +85,12 @@ select:focus {
     color-scheme: dark;
   }
 } */
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

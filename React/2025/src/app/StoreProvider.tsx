@@ -3,6 +3,7 @@
 import { budgetActions } from "@/lib/budget/budgetSlice";
 import { historyActions } from "@/lib/budget/historySlice";
 import { AppStore, defaultState, makeStore, RootState } from "@/lib/store";
+import { uiActions } from "@/lib/ui/uiSlice";
 import { useRef } from "react";
 import { Provider } from "react-redux";
 
@@ -39,6 +40,7 @@ export default function StoreProvider({children}: {children: React.ReactNode}) {
     const state = loadState();
     storeRef.current.dispatch(historyActions.initializeData(state))
     storeRef.current.dispatch(budgetActions.initializeData(state))
+    storeRef.current.dispatch(uiActions.initializeData(state))
     // need to dispatch new day related queries here
 
     storeRef.current.subscribe(() => {
