@@ -1,8 +1,7 @@
 .totalBudget {
   width: 100%;
-  max-width: 30rem;
   text-align: center;
-  background-color: var(--hover-background);
+  background-color: var(--background-light);
   padding: 1rem;
   border-radius: 8px;
   box-shadow: var(--shadow);

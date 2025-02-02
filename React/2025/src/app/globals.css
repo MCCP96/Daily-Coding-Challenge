@@ -1,8 +1,10 @@
 :root {
+  --background-light: #ffffff;
   --background: #edf1f7;
-  --hover-background: #ffffff;
+  --background-dark: #d0d3d8;
+  --foreground-light: #0056b3;
   --foreground: #222b45;
-  --foreground-light: #c0c5d4;
+
   --green: green;
   --red: red;
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -69,7 +71,7 @@ select {
   border-radius: 0.2rem;
   font-size: 1rem;
   color: var(--foreground);
-  background-color: var(--hover-background);
+  background-color: var(--background-light);
   box-shadow: var(--shadow);
   transition: var(--transition);
 }

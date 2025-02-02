@@ -2,13 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import budgetReducer, { initialBudgetState } from "./budget/budgetSlice";
 import historyReducer, { emptyHistoryState } from "./budget/historySlice";
 import uiReducer, { initialUIState } from "./ui/uiSlice";
-import { Budget, UIState } from "@/app/types";
-
-export type State = {
-  budget: Budget;
-  history: History;
-  ui: UIState;
-};
 
 export const defaultState = {
   budget: initialBudgetState,

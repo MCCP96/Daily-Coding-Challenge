@@ -4,11 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./profile.module.css";
 import { BudgetList } from "../components/BudgetList";
 import { BudgetItem, BudgetItemType, Frequency, State } from "../types";
-import { AddButton } from "../components/AddButton";
 import { uiActions } from "@/lib/ui/uiSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { AddIcon, MinusIcon } from "../Icons";
+import { Modal } from "../components/Modal";
+import { BudgetItemForm } from "../components/BudgetItemForm";
+import { useState } from "react";
 
-const dummyGoals: { [key: string]: BudgetItem } = {
+export const dummyGoals: { [key: string]: BudgetItem } = {
   goal1: {
     id: "1",
     title: "Emergency Fund",
@@ -41,6 +44,7 @@ const ProfilePage = () => {
     (state: State) => state.ui.hideRecurring
   );
   const hideDailyBudget = useAppSelector((state: State) => state.ui.hideDaily);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleToggleRecurring = () => {
     dispatch(uiActions.toggleShowRecurring());
@@ -50,11 +54,29 @@ const ProfilePage = () => {
     dispatch(uiActions.toggleHideDaily());
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSaveBudgetItem = (item: BudgetItem) => {
+    // Implement save logic here
+    console.log("Saved item:", item);
+    handleCloseModal();
+  };
+
   return (
     <div className={styles.page}>
       <div>
         <h2 className={styles.header}>Goals</h2>
-        <AddButton />
+
+        <button className={styles.modalButton} onClick={handleOpenModal}>
+          <AddIcon color="var(--green)" width={36} height={36} />
+        </button>
+
         <BudgetList items={dummyGoals} />
       </div>
 
@@ -85,6 +107,17 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <Modal onClose={handleCloseModal}>
+          <BudgetItemForm
+            type={BudgetItemType.Goal}
+            onClose={handleCloseModal}
+            onSave={handleSaveBudgetItem}
+            isReccuring={true}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

@@ -13,10 +13,13 @@ import { Total } from "./components/Total";
 import { calculateTotalBudget } from "./utils/budgetUtils";
 
 export default function Home() {
-  // BudgetApp - Loading and UIState          02/01/2025
+  // BudgetApp - Refactoring          02/02/2025
 
   const dispatch = useAppDispatch();
   const budget = useAppSelector((state: State) => state.budget);
+  const hidereccuring = useAppSelector(
+    (state: State) => state.ui.hideRecurring
+  );
 
   const [totalBudget, setTotalBudget] = useState(0);
 
@@ -54,11 +57,13 @@ export default function Home() {
         <BudgetList items={budget.incomes} />
       </div>
 
-      <div className={styles.section}>
-        <h2>Recurring</h2>
-        <BudgetList items={budget.recurringExpenses} />
-        <BudgetList items={budget.recurringIncomes} />
-      </div>
+      {!hidereccuring && (
+        <div className={styles.section}>
+          <h2>Recurring</h2>
+          <BudgetList items={budget.recurringExpenses} />
+          <BudgetList items={budget.recurringIncomes} />
+        </div>
+      )}
 
       <div className={styles.controls}>
         <button onClick={() => handleOpenModal(BudgetItemType.Expense)}>

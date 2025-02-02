@@ -26,7 +26,9 @@ export const BudgetItem = ({ item }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleDelete = () => {
-    dispatch(budgetActions.deleteBudgetItem(item));
+    if (confirm("Are you sure?")) {
+      dispatch(budgetActions.deleteBudgetItem(item));
+    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./BudgetItemForm.module.css";
 import { BudgetItem, BudgetItemType } from "../types";
 import { TimeFrameSelector } from "./TimeFrameSelector";
@@ -7,13 +7,25 @@ interface Props {
   onClose: () => void;
   onSave: (item: BudgetItem) => void;
   type: BudgetItemType;
+  isReccuring?: boolean;
 }
 
-export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
+export const BudgetItemForm = ({
+  onClose,
+  onSave,
+  type,
+  isReccuring = false,
+}: Props) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
-  const [recurring, setRecurring] = useState(false);
+  const [recurring, setRecurring] = useState(isReccuring);
   const [timeframe, setTimeframe] = useState("Bi-Weekly");
+
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    nameInputRef.current?.focus();
+  }, []);
 
   const handleSave = () => {
     onSave({
@@ -28,7 +40,7 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
 
   return (
     <div className={styles.overlay}>
-      <form className={styles.form}>
+      <form className={`${styles.form} ${styles[type.toLowerCase()]}`}>
         <h2>Add {type}</h2>
         <div className={styles.formGroup}>
           <label>Name</label>
@@ -36,6 +48,7 @@ export const BudgetItemForm = ({ onClose, onSave, type }: Props) => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            ref={nameInputRef}
           />
         </div>
 

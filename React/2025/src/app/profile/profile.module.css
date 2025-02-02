@@ -21,3 +21,23 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.modalButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-light);
+  border: none;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 0.4rem;
+  width: 100%;
+  box-shadow: var(--shadow);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.modalButton:hover {
+  transform: translateY(-2px);
+}

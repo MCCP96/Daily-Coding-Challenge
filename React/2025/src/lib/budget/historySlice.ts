@@ -1,20 +1,31 @@
-import { Budget, State } from "@/app/types";
+import { BudgetState, HistoryState, State } from "@/app/types";
 import { calculateTotalBudget } from "@/app/utils/budgetUtils";
 import { createSlice } from "@reduxjs/toolkit";
+import { initialBudgetState } from "./budgetSlice";
 
-export type History = {
-  [key: string]: {
-    date: string;
-    budget: Budget;
-    madeProfit: boolean;
-  };
+const dummyHistory = {
+  "2025-01-01": {
+    date: "2025-01-01",
+    budget: initialBudgetState,
+    madeProfit: true,
+  },
+  "2025-01-02": {
+    date: "2025-01-02",
+    budget: initialBudgetState,
+    madeProfit: true,
+  },
+  "2025-01-03": {
+    date: "2025-01-03",
+    budget: initialBudgetState,
+    madeProfit: true,
+  },
 };
 
-export const emptyHistoryState: History = {};
+export const emptyHistoryState: HistoryState = {};
 
 const historySlice = createSlice({
   name: "history",
-  initialState: emptyHistoryState,
+  initialState: dummyHistory,
   reducers: {
     initializeData(state, action: { payload: State }) {
       const { budget, history, ui } = action.payload;
@@ -24,7 +35,7 @@ const historySlice = createSlice({
         state[key] = item;
       }
     },
-    saveHistoryItem(state, action: { payload: Budget }) {
+    saveHistoryItem(state, action: { payload: BudgetState }) {
       console.log("in save history");
       const date = action.payload.date;
 

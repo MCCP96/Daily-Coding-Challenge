@@ -1,6 +1,5 @@
-import { UIState } from "@/app/types";
+import { State, UIState } from "@/app/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { State } from "../store";
 
 export const initialUIState: UIState = {
   hideRecurring: false,
@@ -12,8 +11,8 @@ const uiSlice = createSlice({
   name: "ui",
   initialState: initialUIState,
   reducers: {
-    initializeData(state, action) {
-      const { budget, history, ui } = action.payload;
+    initializeData(state, action: PayloadAction<State>) {
+      const { ui } = action.payload;
 
       for (const key in ui) {
         const item = ui[key];

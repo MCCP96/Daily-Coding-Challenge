@@ -1,8 +1,9 @@
-import { Budget, BudgetItem, BudgetItemType } from "@/app/types";
+import { dummyGoals } from "@/app/profile/page";
+import { BudgetState, BudgetItem, BudgetItemType } from "@/app/types";
 import { formatDate } from "@/app/utils/dateUtils";
 import { createSlice } from "@reduxjs/toolkit";
 
-export const initialBudgetState: Budget = {
+export const initialBudgetState: BudgetState = {
   date: formatDate(new Date()),
   expenses: {
     1: {
@@ -42,14 +43,16 @@ export const initialBudgetState: Budget = {
       frequency: "monthly",
     },
   },
+  goals: {},
 };
 
-export const emptyBudgetState: Budget = {
+export const emptyBudgetState: BudgetState = {
   date: formatDate(new Date()),
   expenses: {},
   recurringExpenses: {},
   incomes: {},
   recurringIncomes: {},
+  goals: {},
 };
 
 const budgetSlice = createSlice({
@@ -69,7 +72,6 @@ const budgetSlice = createSlice({
         state.incomes = {};
         state.recurringIncomes = {};
       } else {
-        console.log("new");
         // Restore today's budget
         state.date = budget.date;
         state.expenses = budget.expenses;
@@ -79,6 +81,8 @@ const budgetSlice = createSlice({
       }
     },
     deleteBudgetItem(state, action: { payload: BudgetItem }) {
+      console.log("delete", action.payload.type);
+
       switch (action.payload.type) {
         case BudgetItemType.Expense:
           delete state.expenses[action.payload.id];
@@ -97,8 +101,10 @@ const budgetSlice = createSlice({
     saveBudgetItem(state, action: { payload: BudgetItem }) {
       if (action.payload.recurring) {
         if (action.payload.type === BudgetItemType.Expense) {
+          action.payload.type = BudgetItemType.RecurringExpense;
           state.recurringExpenses[action.payload.id] = action.payload;
         } else {
+          action.payload.type = BudgetItemType.RecurringIncome;
           state.recurringIncomes[action.payload.id] = action.payload;
         }
       } else {

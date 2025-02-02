@@ -1,7 +1,7 @@
-import { Budget, History } from "../types";
+import { BudgetState, HistoryState } from "../types";
 import { calcDailyValue } from "./recurringUtils";
 
-export const calculateTotalBudget = (budget: Budget): number => {
+export const calculateTotalBudget = (budget: BudgetState): number => {
   const totalIncomes = Object.values(budget.incomes).reduce(
     (total, item) => total + item.amount,
     0
@@ -31,7 +31,7 @@ export const calculateTotalBudget = (budget: Budget): number => {
   );
 };
 
-export const calculateTotals = (history: History) => {
+export const calculateTotals = (history: HistoryState) => {
   let totalIncomes = 0;
   let totalExpenses = 0;
 

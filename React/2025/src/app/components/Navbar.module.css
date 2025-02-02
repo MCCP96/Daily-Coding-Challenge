@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: var(--hover-background);
+  background-color: var(--background-light);
   box-shadow: var(--shadow);
 }
 
@@ -18,7 +18,7 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  background-color: var(--hover-background);
+  background-color: var(--background-light);
   list-style: none;
   padding: 1rem;
   overflow: hidden;

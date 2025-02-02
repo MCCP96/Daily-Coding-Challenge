@@ -5,35 +5,15 @@ import { BudgetList } from "../components/BudgetList";
 import styles from "./page.module.css";
 import { useAppSelector } from "@/lib/hooks";
 import { formatDate } from "../utils/dateUtils";
-import { initialBudgetState } from "@/lib/budget/budgetSlice";
 import { calculateTotals } from "../utils/budgetUtils";
 import { useEffect, useState } from "react";
 
-const dummyHistory = {
-  "2025-01-01": {
-    date: "2025-01-01",
-    budget: initialBudgetState,
-    madeProfit: true,
-  },
-  "2025-01-02": {
-    date: "2025-01-02",
-    budget: initialBudgetState,
-    madeProfit: true,
-  },
-  "2025-01-03": {
-    date: "2025-01-03",
-    budget: initialBudgetState,
-    madeProfit: true,
-  },
-};
-
 const Page = () => {
-  // const history = useAppSelector((state) => state.history) || dummyHistory;
-  const history = dummyHistory;
+  const history = useAppSelector((state) => state.history);
+  const hideRecurring = useAppSelector((state) => state.ui.hideRecurring);
+
   const [totalIncomes, setTotalIncomes] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
-
-  const hideRecurring = useAppSelector((state) => state.ui.hideRecurring);
 
   useEffect(() => {
     const { totalIncomes, totalExpenses } = calculateTotals(history);
