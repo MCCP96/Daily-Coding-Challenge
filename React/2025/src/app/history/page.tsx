@@ -1,50 +1,64 @@
 "use client";
 
 import { Total } from "../components/Total";
-import { BudgetList } from "../components/BudgetList";
 import styles from "./page.module.css";
 import { useAppSelector } from "@/lib/hooks";
-import { formatDate } from "../utils/dateUtils";
-import { calculateTotals } from "../utils/budgetUtils";
+import { displayLongDate } from "../utils/dateUtils";
+import {
+  calculateHistoryTotals,
+  calculateTotal,
+  calculateTotalBudget,
+} from "../utils/budgetUtils";
 import { useEffect, useState } from "react";
+import { ItemList } from "../components/ItemList";
 
 const Page = () => {
-  const history = useAppSelector((state) => state.history);
+  const history = useAppSelector((state) => state.budget.history);
   const hideRecurring = useAppSelector((state) => state.ui.hideRecurring);
+  const hideGoals = useAppSelector((state) => state.ui.hideGoals);
 
-  const [totalIncomes, setTotalIncomes] = useState(0);
-  const [totalExpenses, setTotalExpenses] = useState(0);
+  const [totals, setTotals] = useState({ incomes: 0, expenses: 0, goals: 0 });
 
   useEffect(() => {
-    const { totalIncomes, totalExpenses } = calculateTotals(history);
-    setTotalIncomes(totalIncomes);
-    setTotalExpenses(totalExpenses);
-  }, []);
+    const { totalIncomes, totalExpenses, totalGoals } =
+      calculateHistoryTotals(history);
+    setTotals({
+      incomes: totalIncomes,
+      expenses: totalExpenses,
+      goals: totalGoals,
+    });
+  }, [history]);
+
+  const sortedHistory = Object.entries(history).sort(
+    ([_, a], [__, b]) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return (
     <div>
       <div className={styles.totals}>
-        <Total title="Incomes" amount={totalIncomes} />
-        <Total title="Expenses" amount={totalExpenses} />
+        <Total title="Goals" amount={totals.goals} />
+        <Total title="Incomes" amount={totals.incomes} />
+        <Total title="Expenses" amount={-totals.expenses} />
       </div>
 
-      {Object.entries(history).map(([key, value]) => (
-        <div key={key}>
-          <h2>{formatDate(new Date(value.date))}</h2>
-          {/* add checkmark icon if madeProfit */}
-          <BudgetList items={value.budget.expenses} />
+      {sortedHistory.map(([key, value]) => {
+        return (
+          <div key={key} style={{ marginBottom: "1rem" }}>
+            <h2>{displayLongDate(new Date(value.date))}</h2>
 
-          {!hideRecurring && (
-            <BudgetList items={value.budget.recurringExpenses} />
-          )}
+            {/* add checkmark icon if madeProfit */}
+            {!hideRecurring && <ItemList items={value.recurringIncomes} />}
+            <ItemList items={value.incomes} />
+            {!hideGoals && <ItemList items={value.goals} />}
+            {!hideRecurring && <ItemList items={value.recurringExpenses} />}
+            <ItemList items={value.expenses} />
 
-          <BudgetList items={value.budget.incomes} />
-
-          {!hideRecurring && (
-            <BudgetList items={value.budget.recurringIncomes} />
-          )}
-        </div>
-      ))}
+            <div>
+              <Total amount={calculateTotalBudget(value)} />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

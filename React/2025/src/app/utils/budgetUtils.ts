@@ -1,27 +1,23 @@
-import { BudgetState, HistoryState } from "../types";
+import { Budget, BudgetItem } from "../types";
 import { calcDailyValue } from "./recurringUtils";
 
-export const calculateTotalBudget = (budget: BudgetState): number => {
+export const calculateTotalBudget = (budget: Budget): number => {
   const totalIncomes = Object.values(budget.incomes).reduce(
     (total, item) => total + item.amount,
     0
   );
-
   const totalRecurringIncomes = Object.values(budget.recurringIncomes).reduce(
     (total, item) => total + calcDailyValue(item),
     0
   );
-
   const totalExpenses = Object.values(budget.expenses).reduce(
     (total, item) => total + item.amount,
     0
   );
-
   const totalRecurringExpenses = Object.values(budget.recurringExpenses).reduce(
     (total, item) => total + calcDailyValue(item),
     0
   );
-
   return parseFloat(
     (
       totalIncomes +
@@ -31,31 +27,33 @@ export const calculateTotalBudget = (budget: BudgetState): number => {
   );
 };
 
-export const calculateTotals = (history: HistoryState) => {
+export const calculateTotal = (items: {
+  [key: string]: BudgetItem;
+}): number => {
+  const totalItems = Object.values(items).reduce(
+    (total, item) =>
+      total + (item.recurring ? calcDailyValue(item) : item.amount),
+    0
+  );
+
+  return totalItems;
+};
+
+export const calculateHistoryTotals = (history: { [key: string]: Budget }) => {
   let totalIncomes = 0;
   let totalExpenses = 0;
+  let totalGoals = 0;
 
   Object.values(history).forEach((value) => {
-    const { incomes, recurringIncomes, expenses, recurringExpenses } =
-      value.budget;
+    const { incomes, recurringIncomes, expenses, recurringExpenses, goals } =
+      value;
 
-    totalIncomes += Object.values(incomes).reduce(
-      (a, { amount }) => a + amount,
-      0
-    );
-    totalIncomes += Object.values(recurringIncomes).reduce(
-      (a, item) => a + calcDailyValue(item),
-      0
-    );
-    totalExpenses += Object.values(expenses).reduce(
-      (a, { amount }) => a + amount,
-      0
-    );
-    totalExpenses += Object.values(recurringExpenses).reduce(
-      (a, item) => a + calcDailyValue(item),
-      0
-    );
+    totalIncomes += calculateTotal(incomes);
+    totalIncomes += calculateTotal(recurringIncomes);
+    totalExpenses += calculateTotal(expenses);
+    totalExpenses += calculateTotal(recurringExpenses);
+    totalGoals += calculateTotal(goals);
   });
 
-  return { totalIncomes, totalExpenses };
+  return { totalIncomes, totalExpenses, totalGoals };
 };

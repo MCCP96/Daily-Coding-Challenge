@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import styles from "./BudgetItemForm.module.css";
+import styles from "./ItemForm.module.css";
 import { BudgetItem, BudgetItemType } from "../types";
 import { TimeFrameSelector } from "./TimeFrameSelector";
+import { formatDate } from "../utils/dateUtils";
 
 interface Props {
   onClose: () => void;
@@ -10,7 +11,7 @@ interface Props {
   isReccuring?: boolean;
 }
 
-export const BudgetItemForm = ({
+export const ItemForm = ({
   onClose,
   onSave,
   type,
@@ -27,11 +28,22 @@ export const BudgetItemForm = ({
     nameInputRef.current?.focus();
   }, []);
 
+  useEffect(() => {
+    const h2Element = document.querySelector(`.${styles.form} h2`);
+    if (h2Element) {
+      const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
+      h2Element.textContent = `Add ${
+        recurring && type != BudgetItemType.Goal ? "Recurring " : ""
+      }${capitalizedType}`;
+    }
+  }, [recurring, type]);
+
   const handleSave = () => {
     onSave({
+      date: formatDate(new Date()),
       id: Date.now().toString(),
       title: name,
-      amount,
+      amount: +amount.toFixed(2),
       type,
       recurring,
       frequency: recurring ? timeframe.toLowerCase() : undefined,

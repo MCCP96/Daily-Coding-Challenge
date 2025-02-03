@@ -1,11 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import budgetReducer, { initialBudgetState } from "./budget/budgetSlice";
-import historyReducer, { emptyHistoryState } from "./budget/historySlice";
+import budgetReducer, {
+  emptyBudgetState,
+  initialBudgetState,
+} from "./budget/budgetSlice";
+// import historyReducer, { emptyHistoryState } from "./budget/historySlice";
 import uiReducer, { initialUIState } from "./ui/uiSlice";
 
 export const defaultState = {
-  budget: initialBudgetState,
-  history: emptyHistoryState,
+  budget: emptyBudgetState,
+  // history: emptyHistoryState,
   ui: initialUIState,
 };
 
@@ -13,7 +16,7 @@ export const makeStore = () => {
   const store = configureStore({
     reducer: {
       budget: budgetReducer,
-      history: historyReducer,
+      // history: historyReducer,
       ui: uiReducer,
     },
   });

@@ -26,6 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Budget App</title>
+        <link rel="icon" href="/favicon2.ico" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Suspense fallback={<Loading />}>
           <StoreProvider>

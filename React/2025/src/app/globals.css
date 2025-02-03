@@ -7,19 +7,28 @@
 
   --green: green;
   --red: red;
+  --gold: gold;
+
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1a1a1a;
-    --foreground: #f5f5f5;
-    --hover-background: #2a2a2a;
-  }
-} */
+html {
+  font-size: 16px; /* Default rem value */
+}
 
-html,
+@media (max-width: 600px) {
+  html {
+    font-size: 14px; /* rem value for small screens */
+  }
+}
+
+@media (max-width: 400px) {
+  html {
+    font-size: 13px; /* rem value for very small screens */
+  }
+}
+
 body {
   max-width: 40rem;
   height: 100%;

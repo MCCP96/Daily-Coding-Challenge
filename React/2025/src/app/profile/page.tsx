@@ -1,60 +1,30 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
 import styles from "./profile.module.css";
-import { BudgetList } from "../components/BudgetList";
 import { BudgetItem, BudgetItemType, Frequency, State } from "../types";
 import { uiActions } from "@/lib/ui/uiSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { AddIcon, MinusIcon } from "../Icons";
 import { Modal } from "../components/Modal";
-import { BudgetItemForm } from "../components/BudgetItemForm";
 import { useState } from "react";
-
-export const dummyGoals: { [key: string]: BudgetItem } = {
-  goal1: {
-    id: "1",
-    title: "Emergency Fund",
-    amount: 1000,
-    type: BudgetItemType.Goal,
-    recurring: false,
-    frequency: Frequency.Monthly,
-  },
-  goal2: {
-    id: "2",
-    title: "Vacation Fund",
-    amount: 200,
-    type: BudgetItemType.Goal,
-    recurring: false,
-    frequency: Frequency.BiWeekly,
-  },
-  goal3: {
-    id: "3",
-    title: "Retirement Fund",
-    amount: 5000,
-    type: BudgetItemType.Goal,
-    recurring: false,
-    frequency: Frequency.Yearly,
-  },
-};
+import { ItemList } from "../components/ItemList";
+import { ItemForm } from "../components/ItemForm";
+import { budgetActions } from "@/lib/budget/budgetSlice";
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
-  const hideRecurring = useAppSelector(
-    (state: State) => state.ui.hideRecurring
-  );
-  const hideDailyBudget = useAppSelector((state: State) => state.ui.hideDaily);
+
+  const recurrings = useAppSelector((state: State) => state.budget.recurrings);
+  const { goals, recurringExpenses, recurringIncomes } = recurrings;
+
+  const ui = useAppSelector((state: State) => state.ui);
+  const { hideRecurring, hideGoals, hideDailyTotal, hideAllTimeTotal } = ui;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formType, setFormType] = useState<BudgetItemType>(BudgetItemType.Goal);
 
-  const handleToggleRecurring = () => {
-    dispatch(uiActions.toggleShowRecurring());
-  };
-
-  const handleToggleDailyBudget = () => {
-    dispatch(uiActions.toggleHideDaily());
-  };
-
-  const handleOpenModal = () => {
+  const handleOpenModal = (type: BudgetItemType) => {
+    setFormType(type);
     setIsModalOpen(true);
   };
 
@@ -63,8 +33,8 @@ const ProfilePage = () => {
   };
 
   const handleSaveBudgetItem = (item: BudgetItem) => {
-    // Implement save logic here
-    console.log("Saved item:", item);
+    console.log(item);
+    dispatch(budgetActions.saveBudgetItem(item));
     handleCloseModal();
   };
 
@@ -72,12 +42,35 @@ const ProfilePage = () => {
     <div className={styles.page}>
       <div>
         <h2 className={styles.header}>Goals</h2>
+        <button
+          className={styles.modalButton}
+          onClick={() => handleOpenModal(BudgetItemType.Goal)}
+        >
+          <AddIcon color="var(--gold)" width={36} height={36} />
+        </button>
+        <ItemList items={goals} recurring={true} />
+      </div>
 
-        <button className={styles.modalButton} onClick={handleOpenModal}>
+      <div>
+        <h2 className={styles.header}>Recurring Incomes</h2>
+        <button
+          className={styles.modalButton}
+          onClick={() => handleOpenModal(BudgetItemType.Income)}
+        >
           <AddIcon color="var(--green)" width={36} height={36} />
         </button>
+        <ItemList items={recurringIncomes} recurring={true} />
+      </div>
 
-        <BudgetList items={dummyGoals} />
+      <div>
+        <h2 className={styles.header}>Recurring Expenses</h2>
+        <button
+          className={styles.modalButton}
+          onClick={() => handleOpenModal(BudgetItemType.Expense)}
+        >
+          <MinusIcon color="var(--red)" width={36} height={36} />
+        </button>
+        <ItemList items={recurringExpenses} recurring={true} />
       </div>
 
       <div>
@@ -90,18 +83,39 @@ const ProfilePage = () => {
               type="checkbox"
               id="hideRecurring"
               checked={hideRecurring}
-              onChange={handleToggleRecurring}
+              onChange={() => dispatch(uiActions.toggleShowRecurring())}
               className={styles.checkbox}
             />
           </div>
 
           <div className={styles.formEntry}>
-            <label htmlFor="hideDailyBudget">Hide Daily Budget:</label>
+            <label htmlFor="hideGoals">Hide Goals:</label>
+            <input
+              type="checkbox"
+              id="hideGoals"
+              checked={hideGoals}
+              onChange={() => dispatch(uiActions.toggleHideGoals())}
+              className={styles.checkbox}
+            />
+          </div>
+
+          <div className={styles.formEntry}>
+            <label htmlFor="hideDailyBudget">Hide Daily Total:</label>
             <input
               type="checkbox"
               id="hideDailyBudget"
-              checked={hideDailyBudget}
-              onChange={handleToggleDailyBudget}
+              checked={hideDailyTotal}
+              onChange={() => dispatch(uiActions.toggleHideDaily())}
+              className={styles.checkbox}
+            />
+          </div>
+          <div className={styles.formEntry}>
+            <label htmlFor="hideAllTimeBudget">Hide All-Time Total:</label>
+            <input
+              type="checkbox"
+              id="hideAllTimeBudget"
+              checked={hideAllTimeTotal}
+              onChange={() => dispatch(uiActions.toggleHideAllTime())}
               className={styles.checkbox}
             />
           </div>
@@ -110,8 +124,8 @@ const ProfilePage = () => {
 
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-          <BudgetItemForm
-            type={BudgetItemType.Goal}
+          <ItemForm
+            type={formType}
             onClose={handleCloseModal}
             onSave={handleSaveBudgetItem}
             isReccuring={true}

@@ -1,10 +1,26 @@
 export type State = {
   budget: BudgetState;
-  history: HistoryState;
   ui: UIState;
 };
 
 export type BudgetState = {
+  history: { [key: string]: Budget };
+  recurrings: {
+    recurringExpenses: { [key: string]: BudgetItem };
+    recurringIncomes: { [key: string]: BudgetItem };
+    goals: { [key: string]: BudgetItem };
+  };
+};
+
+export type UIState = {
+  hideRecurring: boolean;
+  hideGoals: boolean;
+  hideDailyTotal: boolean;
+  hideAllTimeTotal: boolean;
+  theme: "light" | "dark";
+};
+
+export type Budget = {
   date: string;
   expenses: { [key: string]: BudgetItem };
   recurringExpenses: { [key: string]: BudgetItem };
@@ -13,21 +29,8 @@ export type BudgetState = {
   goals: { [key: string]: BudgetItem };
 };
 
-export type HistoryState = {
-  [key: string]: {
-    date: string;
-    budget: BudgetState;
-    madeProfit: boolean;
-  };
-};
-
-export type UIState = {
-  hideRecurring: boolean;
-  hideDaily: boolean;
-  theme: "light" | "dark";
-};
-
 export type BudgetItem = {
+  date: string;
   id: string;
   title: string;
   amount: number;

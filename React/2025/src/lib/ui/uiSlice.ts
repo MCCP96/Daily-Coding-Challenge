@@ -3,7 +3,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const initialUIState: UIState = {
   hideRecurring: false,
-  hideDaily: false,
+  hideGoals: false,
+  hideDailyTotal: false,
+  hideAllTimeTotal: false,
   theme: "light",
 };
 
@@ -11,7 +13,7 @@ const uiSlice = createSlice({
   name: "ui",
   initialState: initialUIState,
   reducers: {
-    initializeData(state, action: PayloadAction<State>) {
+    initializeData(state, action) {
       const { ui } = action.payload;
 
       for (const key in ui) {
@@ -22,8 +24,14 @@ const uiSlice = createSlice({
     toggleShowRecurring(state) {
       state.hideRecurring = !state.hideRecurring;
     },
+    toggleHideGoals(state) {
+      state.hideGoals = !state.hideGoals;
+    },
     toggleHideDaily(state) {
-      state.hideDaily = !state.hideDaily;
+      state.hideDailyTotal = !state.hideDailyTotal;
+    },
+    toggleHideAllTime(state) {
+      state.hideAllTimeTotal = !state.hideAllTimeTotal;
     },
     setTheme(state, action: PayloadAction<"light" | "dark">) {
       state.theme = action.payload;
