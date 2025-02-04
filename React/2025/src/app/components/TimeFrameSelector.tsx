@@ -2,7 +2,7 @@ import React from "react";
 import { Frequency } from "../types";
 
 interface Props {
-  onChange: (timeFrame: string) => void;
+  onChange: (timeFrame: Frequency) => void;
 }
 
 export const TimeFrameSelector: React.FC<Props> = ({ onChange }) => {
@@ -10,8 +10,8 @@ export const TimeFrameSelector: React.FC<Props> = ({ onChange }) => {
     <div>
       <select
         id="timeFrame"
-        defaultValue={Frequency.BiWeekly}
-        onChange={(e) => onChange(e.target.value)}
+        defaultValue={Frequency.Monthly}
+        onChange={(e) => onChange(e.target.value as Frequency)}
       >
         {Object.values(Frequency).map((timeFrame) => (
           <option key={timeFrame} value={timeFrame}>

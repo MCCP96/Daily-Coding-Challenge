@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./ItemForm.module.css";
-import { BudgetItem, BudgetItemType } from "../types";
+import { BudgetItem, BudgetItemType, Frequency } from "../types";
 import { TimeFrameSelector } from "./TimeFrameSelector";
 import { formatDate } from "../utils/dateUtils";
 
@@ -18,9 +18,9 @@ export const ItemForm = ({
   isReccuring = false,
 }: Props) => {
   const [name, setName] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState<number>(0);
   const [recurring, setRecurring] = useState(isReccuring);
-  const [timeframe, setTimeframe] = useState("Bi-Weekly");
+  const [timeframe, setTimeframe] = useState<Frequency>(Frequency.Monthly);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
 
@@ -50,6 +50,11 @@ export const ItemForm = ({
     });
   };
 
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAmount(value === "" ? 0 : +value);
+  };
+
   return (
     <div className={styles.overlay}>
       <form className={`${styles.form} ${styles[type.toLowerCase()]}`}>
@@ -68,9 +73,10 @@ export const ItemForm = ({
           <label>Amount</label>
           <input
             type="number"
-            placeholder="0"
             value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
+            onChange={handleAmountChange}
+            onFocus={(e) => (e.target.value = "")}
+            onBlur={(e) => (e.target.placeholder = "0")}
           />
         </div>
 

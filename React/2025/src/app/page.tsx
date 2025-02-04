@@ -14,10 +14,7 @@ import { calculateTotalBudget } from "./utils/budgetUtils";
 import { formatDate } from "./utils/dateUtils";
 
 export default function Home() {
-  // BudgetApp - Final Clean up          02/03/2025
-
-  // a ton of refactoring to achieve the final version of the BudgetApp.
-  // going to bring it to its own repo and get it online.
+  // BudgetApp - itemForm bugs          02/04/2025
 
   const dispatch = useAppDispatch();
   const today = formatDate(new Date());
